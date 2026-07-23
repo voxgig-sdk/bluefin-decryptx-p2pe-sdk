@@ -37,17 +37,17 @@ network, and no credentials:
 
 ```ts
 const client = BluefinDecryptxP2peSDK.test()
-const attestations = await client.Attestation().list()
-// attestations is an array of bare Attestation records populated with mock data
-console.log(attestations)
+const devicetypes = await client.DeviceType().list()
+// devicetypes is an array of bare DeviceType records populated with mock data
+console.log(devicetypes)
 ```
 
 ### Python
 
 ```python
 client = BluefinDecryptxP2peSDK.test()
-attestations = client.Attestation().list()
-print(attestations)
+devicetypes = client.DeviceType().list()
+print(devicetypes)
 ```
 
 ### PHP
@@ -55,16 +55,16 @@ print(attestations)
 ```php
 // Seed fixture data so offline calls resolve without a live server.
 $client = BluefinDecryptxP2peSDK::test([
-    "entity" => ["attestation" => ["test01" => ["id" => "test01"]]],
+    "entity" => ["devicetype" => ["test01" => ["id" => "test01"]]],
 ]);
-$attestations = $client->Attestation()->list();
+$devicetypes = $client->DeviceType()->list();
 ```
 
 ### Golang
 
 ```go
 client := sdk.Test()
-result, err := client.Attestation(nil).List(
+result, err := client.DeviceType(nil).List(
     nil, nil,
 )
 ```
@@ -74,16 +74,16 @@ result, err := client.Attestation(nil).List(
 ```ruby
 # Seed fixture data so offline calls resolve without a live server.
 client = BluefinDecryptxP2peSDK.test({
-  "entity" => { "attestation" => { "test01" => { "id" => "test01" } } },
+  "entity" => { "devicetype" => { "test01" => { "id" => "test01" } } },
 })
-attestations = client.Attestation.list()
+devicetypes = client.DeviceType.list()
 ```
 
 ### Lua
 
 ```lua
 local client = sdk.test()
-local results, err = client:Attestation():list()
+local results, err = client:DeviceType():list()
 ```
 
 ## Packages

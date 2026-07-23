@@ -81,8 +81,8 @@ Entity operations raise on failure, so wrap them in `try` / `except`:
 
 ```python
 try:
-    attestations = client.Attestation().list()
-    print(attestations)
+    devicetypes = client.DeviceType().list()
+    print(devicetypes)
 except Exception as err:
     print(f"list failed: {err}")
 ```
@@ -149,8 +149,8 @@ Create a mock client for unit testing — no server required:
 client = BluefinDecryptxP2peSDK.test()
 
 # Entity ops return the bare record and raise on error.
-attestation = client.Attestation().list()
-# attestation contains the mock response record
+devicetype = client.DeviceType().list()
+# devicetype contains the mock response record
 ```
 
 ### Use a custom fetch function
@@ -1639,11 +1639,11 @@ Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```python
-attestation = client.Attestation()
-attestation.list()
+devicetype = client.DeviceType()
+devicetype.list()
 
-# attestation.data_get() now returns the attestation data from the last list
-# attestation.match_get() returns the last match criteria
+# devicetype.data_get() now returns the devicetype data from the last list
+# devicetype.match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

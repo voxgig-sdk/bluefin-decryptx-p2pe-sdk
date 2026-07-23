@@ -75,7 +75,7 @@ Entity operations return `(value, err)`. Check `err` before using
 the value:
 
 ```lua
-local attestations, err = client:Attestation():list()
+local devicetypes, err = client:DeviceType():list()
 if err then error(err) end
 ```
 
@@ -133,7 +133,7 @@ Create a mock client for unit testing — no server required:
 ```lua
 local client = sdk.test()
 
-local result, err = client:Attestation():list()
+local result, err = client:DeviceType():list()
 -- result is the returned data; err is set on failure
 ```
 
@@ -1627,11 +1627,11 @@ Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```lua
-local attestation = client:Attestation()
-attestation:list()
+local devicetype = client:DeviceType()
+devicetype:list()
 
--- attestation:data_get() now returns the attestation data from the last list
--- attestation:match_get() returns the last match criteria
+-- devicetype:data_get() now returns the devicetype data from the last list
+-- devicetype:match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

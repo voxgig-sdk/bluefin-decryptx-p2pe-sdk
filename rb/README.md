@@ -75,7 +75,7 @@ Entity operations raise on failure, so rescue them:
 
 ```ruby
 begin
-  attestations = client.Attestation.list()
+  devicetypes = client.DeviceType.list()
 rescue => err
   warn "list failed: #{err}"
 end
@@ -143,12 +143,12 @@ data via the `entity` option so offline calls resolve without a live server:
 
 ```ruby
 client = BluefinDecryptxP2peSDK.test({
-  "entity" => { "attestation" => { "test01" => { "id" => "test01" } } },
+  "entity" => { "devicetype" => { "test01" => { "id" => "test01" } } },
 })
 
 # Entity ops return the bare mock record (raises on error).
-attestation = client.Attestation.list()
-puts attestation
+devicetype = client.DeviceType.list()
+puts devicetype
 ```
 
 ### Use a custom fetch function
@@ -1664,11 +1664,11 @@ Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```ruby
-attestation = client.Attestation
-attestation.list()
+devicetype = client.DeviceType
+devicetype.list()
 
-# attestation.data_get now returns the attestation data from the last list
-# attestation.match_get returns the last match criteria
+# devicetype.data_get now returns the devicetype data from the last list
+# devicetype.match_get returns the last match criteria
 ```
 
 Call `make` to create a fresh instance with the same configuration

@@ -85,12 +85,12 @@ Every entity operation returns `(value, error)`. Check `err` before
 using the value — there is no exception to catch:
 
 ```go
-attestations, err := client.Attestation(nil).List(nil, nil)
+devicetypes, err := client.DeviceType(nil).List(nil, nil)
 if err != nil {
     // handle err
     return
 }
-_ = attestations
+_ = devicetypes
 ```
 
 `Direct` follows the same `(value, error)` convention:
@@ -154,13 +154,13 @@ Create a mock client for unit testing — no server required:
 ```go
 client := sdk.Test()
 
-attestation, err := client.Attestation(nil).List(
+deviceType, err := client.DeviceType(nil).List(
     nil, nil,
 )
 if err != nil {
     panic(err)
 }
-fmt.Println(attestation) // the returned mock data
+fmt.Println(deviceType) // the returned mock data
 ```
 
 ### Use a custom fetch function
@@ -1809,11 +1809,11 @@ Entity instances are stateful. After a successful `List`, the entity
 stores the returned data and match criteria internally.
 
 ```go
-attestation := client.Attestation(nil)
-attestation.List(nil, nil)
+devicetype := client.DeviceType(nil)
+devicetype.List(nil, nil)
 
-// attestation.Data() now returns the attestation data from the last list
-// attestation.Match() returns the last match criteria
+// devicetype.Data() now returns the devicetype data from the last list
+// devicetype.Match() returns the last match criteria
 ```
 
 Call `Make()` to create a fresh instance with the same configuration

@@ -83,8 +83,8 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const attestations = await client.Attestation().list()
-  console.log(attestations)
+  const devicetypes = await client.DeviceType().list()
+  console.log(devicetypes)
 } catch (err) {
   console.error('list failed:', err)
 }
@@ -150,9 +150,9 @@ Create a mock client for unit testing — no server required:
 ```ts
 const client = BluefinDecryptxP2peSDK.test()
 
-const attestation = await client.Attestation().list()
-// attestation is a bare entity populated with mock response data
-console.log(attestation)
+const devicetype = await client.DeviceType().list()
+// devicetype is a bare entity populated with mock response data
+console.log(devicetype)
 ```
 
 You can also use the instance method:
@@ -167,7 +167,7 @@ const testClient = client.tester()
 Entity instances remember their last match and data:
 
 ```ts
-const entity = client.Attestation()
+const entity = client.DeviceType()
 
 // First call runs the operation and stores its result
 await entity.list()
@@ -1686,11 +1686,11 @@ stores the returned data and match criteria internally. Subsequent
 calls on the same instance can rely on this state.
 
 ```ts
-const attestation = client.Attestation()
-await attestation.list()
+const devicetype = client.DeviceType()
+await devicetype.list()
 
-// attestation.data() now returns the attestation data from the last `list`
-// attestation.match() returns the last match criteria
+// devicetype.data() now returns the devicetype data from the last `list`
+// devicetype.match() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

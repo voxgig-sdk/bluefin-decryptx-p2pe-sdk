@@ -77,7 +77,7 @@ Entity operations throw a `\Throwable` on failure, so wrap them in
 
 ```php
 try {
-    $attestations = $client->Attestation()->list();
+    $devicetypes = $client->DeviceType()->list();
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
 }
@@ -149,12 +149,12 @@ data via the `entity` option so offline calls resolve without a live server:
 
 ```php
 $client = BluefinDecryptxP2peSDK::test([
-    "entity" => ["attestation" => ["test01" => ["id" => "test01"]]],
+    "entity" => ["devicetype" => ["test01" => ["id" => "test01"]]],
 ]);
 
 // Entity ops return the bare mock record (throws on error).
-$attestation = $client->Attestation()->list();
-print_r($attestation);
+$devicetype = $client->DeviceType()->list();
+print_r($devicetype);
 ```
 
 ### Use a custom fetch function
@@ -1674,11 +1674,11 @@ Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```php
-$attestation = $client->Attestation();
-$attestation->list();
+$devicetype = $client->DeviceType();
+$devicetype->list();
 
-// $attestation->data_get() now returns the attestation data from the last list
-// $attestation->match_get() returns the last match criteria
+// $devicetype->data_get() now returns the devicetype data from the last list
+// $devicetype->match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration
