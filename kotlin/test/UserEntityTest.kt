@@ -1,0 +1,130 @@
+package voxgig.bluefindecryptxp2pesdk.sdktest
+
+import java.nio.file.Files
+import java.nio.file.Paths
+
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assumptions
+import org.junit.jupiter.api.Test
+
+import voxgig.bluefindecryptxp2pesdk.core.Helpers
+import voxgig.bluefindecryptxp2pesdk.core.SdkEntity
+import voxgig.bluefindecryptxp2pesdk.core.BluefinDecryptxP2peSDK
+import voxgig.bluefindecryptxp2pesdk.utility.Json
+import voxgig.bluefindecryptxp2pesdk.utility.struct.Struct
+
+@Suppress("UNCHECKED_CAST", "UNUSED_VARIABLE", "UNUSED_VALUE")
+class UserEntityTest {
+
+  @Test
+  fun instance() {
+    val testsdk = BluefinDecryptxP2peSDK.testSDK()
+    val ent = testsdk.user(null)
+    assertNotNull(ent, "expected non-null user entity")
+  }
+
+  @Test
+  fun basic() {
+    val setup = userBasicSetup(null)
+    // Per-op sdk-test-control.json skip.
+    val mode = if (setup.live) "live" else "unit"
+    for (op in arrayOf("load")) {
+      val reason = RunnerSupport.skipReason("entityOp", "user.$op", mode)
+      Assumptions.assumeTrue(
+        reason == null,
+        if (reason == null || "" == reason) "skipped via sdk-test-control.json" else reason,
+      )
+    }
+    Assumptions.assumeFalse(
+      setup.syntheticOnly,
+      "live entity test uses synthetic IDs from fixture — set BLUEFINDECRYPTXP_PE_TEST_USER_ENTID JSON to run live",
+    )
+    val client = setup.client
+
+    // Bootstrap entity data from existing test data (no create step in flow).
+    val userRef01DataRaw = Struct.items(Helpers.toMapAny(
+        Struct.getpath(setup.data, "existing.user")))
+    val userRef01Data: MutableMap<String, Any?> = if (userRef01DataRaw.isEmpty())
+        linkedMapOf() else (Helpers.toMapAny(userRef01DataRaw[0][1]) ?: linkedMapOf())
+
+    // LOAD
+    val userRef01Ent = client.user(null)
+    val userRef01MatchDt0 = linkedMapOf<String, Any?>()
+    userRef01MatchDt0["id"] = userRef01Data["id"]
+    val userRef01DataDt0Loaded = userRef01Ent.load(userRef01MatchDt0, null)
+    val userRef01DataDt0LoadResult = Helpers.toMapAny(userRef01DataDt0Loaded) ?: linkedMapOf()
+    assertNotNull(userRef01DataDt0LoadResult, "expected load result to be a map")
+    assertEquals(userRef01Data["id"], userRef01DataDt0LoadResult["id"],
+        "expected load result id to match")
+
+  }
+
+  companion object {
+    fun userBasicSetup(extra: MutableMap<String, Any?>?): RunnerSupport.EntityTestSetup {
+      RunnerSupport.loadEnvLocal()
+
+      val entityData: MutableMap<String, Any?>
+      try {
+        val entityDataSource = Files.readString(Paths.get(
+            "..", ".sdk", "test", "entity", "user", "UserTestData.json"))
+        entityData = Helpers.toMapAny(Json.parse(entityDataSource)) ?: linkedMapOf()
+      } catch (e: Exception) {
+        throw AssertionError("failed to read user test data: " + e.message, e)
+      }
+
+      val options = linkedMapOf<String, Any?>()
+      options["entity"] = entityData["existing"]
+
+      var client = BluefinDecryptxP2peSDK.testSDK(options, extra)
+
+      // Generate idmap via transform, matching TS pattern.
+      val idnames = mutableListOf<Any?>()
+      idnames.add("user01")
+      idnames.add("user02")
+      idnames.add("user03")
+      val idmap = Struct.transform(idnames, Json.parse(
+          "{\"`\$PACK`\": [\"\", {" +
+          "\"`\$KEY`\": \"`\$COPY`\"," +
+          "\"`\$VAL`\": [\"`\$FORMAT`\", \"upper\", \"`\$COPY`\"]" +
+          "}]}"))
+
+      // Detect ENTID env override before envOverride consumes it.
+      val entidEnvRaw = RunnerSupport.getenv("BLUEFINDECRYPTXP_PE_TEST_USER_ENTID")
+      val idmapOverridden = entidEnvRaw != null && entidEnvRaw.trim().startsWith("{")
+
+      val envm = linkedMapOf<String, Any?>()
+      envm["BLUEFINDECRYPTXP_PE_TEST_USER_ENTID"] = idmap
+      envm["BLUEFINDECRYPTXP_PE_TEST_LIVE"] = "FALSE"
+      envm["BLUEFINDECRYPTXP_PE_TEST_EXPLAIN"] = "FALSE"
+      envm["BLUEFINDECRYPTXP_PE_APIKEY"] = "NONE"
+      val env = RunnerSupport.envOverride(envm)
+
+      var idmapResolved = Helpers.toMapAny(env["BLUEFINDECRYPTXP_PE_TEST_USER_ENTID"])
+      if (idmapResolved == null) {
+        idmapResolved = Helpers.toMapAny(idmap) ?: linkedMapOf()
+      }
+
+      val live = "TRUE" == env["BLUEFINDECRYPTXP_PE_TEST_LIVE"]
+      if (live) {
+        val liveOpts = linkedMapOf<String, Any?>()
+        liveOpts["apikey"] = env["BLUEFINDECRYPTXP_PE_APIKEY"]
+        val mergedOpts = Struct.merge(Struct.jt(liveOpts, extra))
+        client = BluefinDecryptxP2peSDK(Helpers.toMapAny(mergedOpts))
+      }
+
+      val setup = RunnerSupport.EntityTestSetup()
+      setup.client = client
+      setup.data = entityData
+      setup.idmap = idmapResolved
+      setup.env = env
+      setup.explain = "TRUE" == env["BLUEFINDECRYPTXP_PE_TEST_EXPLAIN"]
+      setup.live = live
+      setup.syntheticOnly = live && !idmapOverridden
+      setup.now = System.currentTimeMillis()
+      return setup
+    }
+  }
+}
