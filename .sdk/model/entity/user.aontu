@@ -1,0 +1,157 @@
+# Entity: user
+
+main: kit: entity: user: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "client"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "created"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "email"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "first_name"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "is_active"
+      req: false
+      type: "`$BOOLEAN`"
+    }
+    {
+      name: "kif"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "last_name"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "modified"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "partner"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "phone"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "user_name"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "user_role"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "version"
+      req: false
+      type: "`$INTEGER`"
+    }
+  ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "user"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/users/{id}"
+          parts: [
+            "users"
+            "{id}"
+          ]
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    remove: {
+      name: "remove"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "DELETE"
+          orig: "/users/{id}"
+          parts: [
+            "users"
+            "{id}"
+          ]
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

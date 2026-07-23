@@ -1,0 +1,34 @@
+# BasicDeviceCustodyDetailFlow
+
+main: kit: flow: BasicDeviceCustodyDetailFlow:
+{
+  entity: "device_custody_detail",
+  kind: "basic",
+  name: "BasicDeviceCustodyDetailFlow",
+  step: [
+    {
+      input: {
+        ref: "device_custody_detail_ref01",
+        srcdatavar: "device_custody_detail_ref01_data",
+        suffix: "_dt0"
+      }
+
+      match: {
+        device_type: "device_type01",
+        id: "device_custody_detail01",
+        serial_number: "serial_number01"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-device_custody_detail_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicDeviceCustodyDetailFlow"
+}

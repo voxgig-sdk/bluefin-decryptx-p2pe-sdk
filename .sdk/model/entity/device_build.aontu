@@ -1,0 +1,179 @@
+# Entity: device_build
+
+main: kit: entity: device_build: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "app_version"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "build_number"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "config_file_name"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "created"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "device_type"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "firmware_version"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "hardware_version"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "id"
+      req: false
+      type: "`$INTEGER`"
+    }
+    {
+      name: "is_active"
+      req: false
+      type: "`$BOOLEAN`"
+    }
+    {
+      name: "modified"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "name"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "note"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "version"
+      req: false
+      type: "`$INTEGER`"
+    }
+    {
+      name: "white_listing_bin_range"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "white_listing_used"
+      req: false
+      type: "`$BOOLEAN`"
+    }
+  ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "device_build"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            query: [
+              {
+                kind: "query"
+                name: "device_type"
+                orig: "device_type"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                example: 0
+                kind: "query"
+                name: "skip"
+                orig: "skip"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+              {
+                example: 10
+                kind: "query"
+                name: "take"
+                orig: "take"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/deviceBuilds"
+          parts: [
+            "deviceBuilds"
+          ]
+          select: {
+            exist: [
+              "device_type"
+              "skip"
+              "take"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/deviceBuilds/{id}"
+          parts: [
+            "deviceBuilds"
+            "{id}"
+          ]
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

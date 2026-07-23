@@ -1,1 +1,5307 @@
-{"name":"bluefin-decryptx-p2pe"}
+{
+  "def": "decryptx-p2pe-openapi.json",
+  "main": {
+    "def": {
+      "desc": ""
+    },
+    "kit": {
+      "config": {
+        "docs_order": [
+          "ts",
+          "py",
+          "php",
+          "go",
+          "rb",
+          "lua"
+        ],
+        "headers": {
+          "content-type": "application/json"
+        }
+      },
+      "entity": {
+        "attestation": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "client",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "complete_date",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "created",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "device",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "id",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "name",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "note",
+              "req": false,
+              "type": "`$STRING`"
+            }
+          ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
+          "name": "attestation",
+          "op": {
+            "create": {
+              "input": "data",
+              "name": "create",
+              "points": [
+                {
+                  "active": true,
+                  "args": {},
+                  "method": "POST",
+                  "orig": "/attestations",
+                  "parts": [
+                    "attestations"
+                  ],
+                  "select": {},
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "query": [
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "client",
+                        "orig": "client",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "example": 0,
+                        "kind": "query",
+                        "name": "skip",
+                        "orig": "skip",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "example": 10,
+                        "kind": "query",
+                        "name": "take",
+                        "orig": "take",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/attestations",
+                  "parts": [
+                    "attestations"
+                  ],
+                  "select": {
+                    "exist": [
+                      "client",
+                      "skip",
+                      "take"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/attestations/{id}",
+                  "parts": [
+                    "attestations",
+                    "{id}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "client": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "contact",
+              "op": {
+                "list": {
+                  "req": true,
+                  "type": "`$OBJECT`"
+                }
+              },
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "created",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "direct_partner",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "id",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "is_active",
+              "req": false,
+              "type": "`$BOOLEAN`"
+            },
+            {
+              "active": true,
+              "name": "location",
+              "req": true,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "mid",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "modified",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "name",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "partner",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "version",
+              "req": false,
+              "type": "`$INTEGER`"
+            }
+          ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
+          "name": "client",
+          "op": {
+            "create": {
+              "input": "data",
+              "name": "create",
+              "points": [
+                {
+                  "active": true,
+                  "args": {},
+                  "method": "POST",
+                  "orig": "/clients",
+                  "parts": [
+                    "clients"
+                  ],
+                  "select": {},
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "query": [
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "partner",
+                        "orig": "partner",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "example": 0,
+                        "kind": "query",
+                        "name": "skip",
+                        "orig": "skip",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "example": 10,
+                        "kind": "query",
+                        "name": "take",
+                        "orig": "take",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/clients",
+                  "parts": [
+                    "clients"
+                  ],
+                  "select": {
+                    "exist": [
+                      "partner",
+                      "skip",
+                      "take"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/clients/{id}",
+                  "parts": [
+                    "clients",
+                    "{id}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "remove": {
+              "input": "data",
+              "name": "remove",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "DELETE",
+                  "orig": "/clients/{id}",
+                  "parts": [
+                    "clients",
+                    "{id}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "create_result": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [],
+          "name": "create_result",
+          "op": {
+            "create": {
+              "input": "data",
+              "name": "create",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "device_type",
+                        "orig": "device_type",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "serial_number",
+                        "orig": "serial_number",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "POST",
+                  "orig": "/devices/{serialNumber}/{deviceType}/custody",
+                  "parts": [
+                    "devices",
+                    "{serial_number}",
+                    "{device_type}",
+                    "custody"
+                  ],
+                  "rename": {
+                    "param": {
+                      "deviceType": "device_type",
+                      "serialNumber": "serial_number"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "device_type",
+                      "serial_number"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": [
+              [
+                "device"
+              ]
+            ]
+          }
+        },
+        "decryption": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "success",
+              "req": false,
+              "type": "`$BOOLEAN`"
+            }
+          ],
+          "name": "decryption",
+          "op": {
+            "create": {
+              "input": "data",
+              "name": "create",
+              "points": [
+                {
+                  "active": true,
+                  "args": {},
+                  "method": "POST",
+                  "orig": "/decryption",
+                  "parts": [
+                    "decryption"
+                  ],
+                  "select": {},
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "device": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "activated_by",
+              "req": true,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "activation_date",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "alternate_key",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "audit_next_date",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "audit_notification_date",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "client",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "created",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "created_by",
+              "req": true,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "device_build",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "device_state",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "device_type",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "error_counter",
+              "req": false,
+              "type": "`$INTEGER`"
+            },
+            {
+              "active": true,
+              "name": "error_last_date",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "id",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "initialized_by",
+              "req": true,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "initialized_date",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "inject_key",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "is_virtual",
+              "req": false,
+              "type": "`$BOOLEAN`"
+            },
+            {
+              "active": true,
+              "name": "kif",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "last_activity_date",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "location",
+              "req": true,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "modified",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "modified_by",
+              "req": true,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "name",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "note",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "partner",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "serial_number",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "version",
+              "req": false,
+              "type": "`$INTEGER`"
+            }
+          ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
+          "name": "device",
+          "op": {
+            "create": {
+              "input": "data",
+              "name": "create",
+              "points": [
+                {
+                  "active": true,
+                  "args": {},
+                  "method": "POST",
+                  "orig": "/devices",
+                  "parts": [
+                    "devices"
+                  ],
+                  "select": {},
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "query": [
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "client",
+                        "orig": "client",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "device_state",
+                        "orig": "device_state",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "kif",
+                        "orig": "kif",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "partner",
+                        "orig": "partner",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "serial_number",
+                        "orig": "serial_number",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "example": 0,
+                        "kind": "query",
+                        "name": "skip",
+                        "orig": "skip",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "example": "asc",
+                        "kind": "query",
+                        "name": "sorting_direction",
+                        "orig": "sorting_direction",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "example": "serialnumber",
+                        "kind": "query",
+                        "name": "sorting_field",
+                        "orig": "sorting_field",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "example": 10,
+                        "kind": "query",
+                        "name": "take",
+                        "orig": "take",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/devices",
+                  "parts": [
+                    "devices"
+                  ],
+                  "select": {
+                    "exist": [
+                      "client",
+                      "device_state",
+                      "kif",
+                      "partner",
+                      "serial_number",
+                      "skip",
+                      "sorting_direction",
+                      "sorting_field",
+                      "take"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "device_type",
+                        "orig": "device_type",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "serial_number",
+                        "orig": "serial_number",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/devices/{serialNumber}/{deviceType}",
+                  "parts": [
+                    "devices",
+                    "{serial_number}",
+                    "{device_type}"
+                  ],
+                  "rename": {
+                    "param": {
+                      "deviceType": "device_type",
+                      "serialNumber": "serial_number"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "device_type",
+                      "serial_number"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/devices/{id}",
+                  "parts": [
+                    "devices",
+                    "{id}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": [
+              [
+                "device"
+              ]
+            ]
+          }
+        },
+        "device_build": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "app_version",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "build_number",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "config_file_name",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "created",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "device_type",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "firmware_version",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "hardware_version",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "id",
+              "req": false,
+              "type": "`$INTEGER`"
+            },
+            {
+              "active": true,
+              "name": "is_active",
+              "req": false,
+              "type": "`$BOOLEAN`"
+            },
+            {
+              "active": true,
+              "name": "modified",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "name",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "note",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "version",
+              "req": false,
+              "type": "`$INTEGER`"
+            },
+            {
+              "active": true,
+              "name": "white_listing_bin_range",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "white_listing_used",
+              "req": false,
+              "type": "`$BOOLEAN`"
+            }
+          ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
+          "name": "device_build",
+          "op": {
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "query": [
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "device_type",
+                        "orig": "device_type",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "example": 0,
+                        "kind": "query",
+                        "name": "skip",
+                        "orig": "skip",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "example": 10,
+                        "kind": "query",
+                        "name": "take",
+                        "orig": "take",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/deviceBuilds",
+                  "parts": [
+                    "deviceBuilds"
+                  ],
+                  "select": {
+                    "exist": [
+                      "device_type",
+                      "skip",
+                      "take"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/deviceBuilds/{id}",
+                  "parts": [
+                    "deviceBuilds",
+                    "{id}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "device_custody_detail": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "complete_date",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "created",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "created_by",
+              "req": true,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "custodian",
+              "req": true,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "device",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "id",
+              "req": false,
+              "type": "`$INTEGER`"
+            },
+            {
+              "active": true,
+              "name": "location",
+              "req": true,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "modified",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "modified_by",
+              "req": true,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "note",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "status",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "transfer_method",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "version",
+              "req": false,
+              "type": "`$INTEGER`"
+            }
+          ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
+          "name": "device_custody_detail",
+          "op": {
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "device_type",
+                        "orig": "device_type",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "serial_number",
+                        "orig": "serial_number",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/devices/{serialNumber}/{deviceType}/custody/{id}",
+                  "parts": [
+                    "devices",
+                    "{serial_number}",
+                    "{device_type}",
+                    "custody",
+                    "{id}"
+                  ],
+                  "rename": {
+                    "param": {
+                      "deviceType": "device_type",
+                      "serialNumber": "serial_number"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "device_type",
+                      "id",
+                      "serial_number"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": [
+              [
+                "device"
+              ]
+            ]
+          }
+        },
+        "device_custody_list": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "complete_date",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "created",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "created_by",
+              "req": true,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "custodian",
+              "req": true,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "device",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "id",
+              "req": false,
+              "type": "`$INTEGER`"
+            },
+            {
+              "active": true,
+              "name": "location",
+              "req": true,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "modified",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "modified_by",
+              "req": true,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "note",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "status",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "transfer_method",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "version",
+              "req": false,
+              "type": "`$INTEGER`"
+            }
+          ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
+          "name": "device_custody_list",
+          "op": {
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "device_type",
+                        "orig": "device_type",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "serial_number",
+                        "orig": "serial_number",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ],
+                    "query": [
+                      {
+                        "active": true,
+                        "example": 0,
+                        "kind": "query",
+                        "name": "skip",
+                        "orig": "skip",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "example": 10,
+                        "kind": "query",
+                        "name": "take",
+                        "orig": "take",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/devices/{serialNumber}/{deviceType}/custody",
+                  "parts": [
+                    "devices",
+                    "{serial_number}",
+                    "{device_type}",
+                    "custody"
+                  ],
+                  "rename": {
+                    "param": {
+                      "deviceType": "device_type",
+                      "serialNumber": "serial_number"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "device_type",
+                      "serial_number",
+                      "skip",
+                      "take"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": [
+              [
+                "device"
+              ]
+            ]
+          }
+        },
+        "device_list": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "data",
+              "req": false,
+              "type": "`$ARRAY`"
+            },
+            {
+              "active": true,
+              "name": "total",
+              "req": false,
+              "type": "`$INTEGER`"
+            }
+          ],
+          "name": "device_list",
+          "op": {
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "share_partner_to",
+                        "orig": "share_partner_to",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ],
+                    "query": [
+                      {
+                        "active": true,
+                        "example": 0,
+                        "kind": "query",
+                        "name": "skip",
+                        "orig": "skip",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "example": "asc",
+                        "kind": "query",
+                        "name": "sorting_direction",
+                        "orig": "sorting_direction",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "example": "serialnumber",
+                        "kind": "query",
+                        "name": "sorting_field",
+                        "orig": "sorting_field",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "example": 10,
+                        "kind": "query",
+                        "name": "take",
+                        "orig": "take",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/virtualDevices/{sharePartnerTo}",
+                  "parts": [
+                    "virtualDevices",
+                    "{share_partner_to}"
+                  ],
+                  "rename": {
+                    "param": {
+                      "sharePartnerTo": "share_partner_to"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "share_partner_to",
+                      "skip",
+                      "sorting_direction",
+                      "sorting_field",
+                      "take"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": [
+              [
+                "virtual_device"
+              ]
+            ]
+          }
+        },
+        "device_receive_result": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "success",
+              "req": true,
+              "type": "`$BOOLEAN`"
+            }
+          ],
+          "name": "device_receive_result",
+          "op": {
+            "create": {
+              "input": "data",
+              "name": "create",
+              "points": [
+                {
+                  "active": true,
+                  "args": {},
+                  "method": "POST",
+                  "orig": "/devices/receive",
+                  "parts": [
+                    "devices",
+                    "receive"
+                  ],
+                  "select": {},
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "device_rki_activate_result": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "success",
+              "req": true,
+              "type": "`$BOOLEAN`"
+            }
+          ],
+          "name": "device_rki_activate_result",
+          "op": {
+            "create": {
+              "input": "data",
+              "name": "create",
+              "points": [
+                {
+                  "active": true,
+                  "args": {},
+                  "method": "POST",
+                  "orig": "/devices/rki/activate",
+                  "parts": [
+                    "devices",
+                    "rki",
+                    "activate"
+                  ],
+                  "select": {},
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "device_state": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "id",
+              "req": false,
+              "type": "`$INTEGER`"
+            },
+            {
+              "active": true,
+              "name": "name",
+              "req": false,
+              "type": "`$STRING`"
+            }
+          ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
+          "name": "device_state",
+          "op": {
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "active": true,
+                  "args": {},
+                  "method": "GET",
+                  "orig": "/deviceStates",
+                  "parts": [
+                    "deviceStates"
+                  ],
+                  "select": {},
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "device_type": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "created",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "device_type_mode",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "hardware_version",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "id",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "is_active",
+              "req": false,
+              "type": "`$BOOLEAN`"
+            },
+            {
+              "active": true,
+              "name": "manufacturer",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "model",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "modified",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "name",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "photo_url",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "product_name",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "version",
+              "req": false,
+              "type": "`$INTEGER`"
+            }
+          ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
+          "name": "device_type",
+          "op": {
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "active": true,
+                  "args": {},
+                  "method": "GET",
+                  "orig": "/deviceTypes",
+                  "parts": [
+                    "deviceTypes"
+                  ],
+                  "select": {},
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/deviceTypes/{id}",
+                  "parts": [
+                    "deviceTypes",
+                    "{id}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "inject_key": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "created",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "id",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "is_active",
+              "req": false,
+              "type": "`$BOOLEAN`"
+            },
+            {
+              "active": true,
+              "name": "is_p2_pe",
+              "req": false,
+              "type": "`$BOOLEAN`"
+            },
+            {
+              "active": true,
+              "name": "key_type",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "modified",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "name",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "version",
+              "req": false,
+              "type": "`$INTEGER`"
+            }
+          ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
+          "name": "inject_key",
+          "op": {
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "active": true,
+                  "args": {},
+                  "method": "GET",
+                  "orig": "/injectKeys",
+                  "parts": [
+                    "injectKeys"
+                  ],
+                  "select": {},
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/injectKeys/{id}",
+                  "parts": [
+                    "injectKeys",
+                    "{id}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "kif": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "id",
+              "req": false,
+              "type": "`$INTEGER`"
+            },
+            {
+              "active": true,
+              "name": "name",
+              "req": false,
+              "type": "`$STRING`"
+            }
+          ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
+          "name": "kif",
+          "op": {
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "active": true,
+                  "args": {},
+                  "method": "GET",
+                  "orig": "/kifs",
+                  "parts": [
+                    "kifs"
+                  ],
+                  "select": {},
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "location": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "address1",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "address2",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "billing_id",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "city",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "country",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "created",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "custom_reference",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "id",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "location_type",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "mail_address1",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "mail_address2",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "mail_city",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "mail_country",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "mail_postal_code",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "mail_state_province",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "modified",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "name",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "name_of_business",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "note",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "postal_code",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "state_province",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "unique_id",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "version",
+              "req": false,
+              "type": "`$INTEGER`"
+            }
+          ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
+          "name": "location",
+          "op": {
+            "create": {
+              "input": "data",
+              "name": "create",
+              "points": [
+                {
+                  "active": true,
+                  "args": {},
+                  "method": "POST",
+                  "orig": "/locations",
+                  "parts": [
+                    "locations"
+                  ],
+                  "select": {},
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "query": [
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "client",
+                        "orig": "client",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "example": 0,
+                        "kind": "query",
+                        "name": "skip",
+                        "orig": "skip",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "example": 10,
+                        "kind": "query",
+                        "name": "take",
+                        "orig": "take",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/locations",
+                  "parts": [
+                    "locations"
+                  ],
+                  "select": {
+                    "exist": [
+                      "client",
+                      "skip",
+                      "take"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/locations/{id}",
+                  "parts": [
+                    "locations",
+                    "{id}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "remove": {
+              "input": "data",
+              "name": "remove",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "DELETE",
+                  "orig": "/locations/{id}",
+                  "parts": [
+                    "locations",
+                    "{id}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "partner": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "billing_id",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "client_can_order_equipment",
+              "req": false,
+              "type": "`$BOOLEAN`"
+            },
+            {
+              "active": true,
+              "name": "contact",
+              "op": {
+                "list": {
+                  "req": true,
+                  "type": "`$OBJECT`"
+                }
+              },
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "created",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "id",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "is_active",
+              "req": false,
+              "type": "`$BOOLEAN`"
+            },
+            {
+              "active": true,
+              "name": "location",
+              "req": true,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "modified",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "name",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "parent",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "partner_id",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "reference",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "verification_phrase",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "version",
+              "req": false,
+              "type": "`$INTEGER`"
+            }
+          ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
+          "name": "partner",
+          "op": {
+            "create": {
+              "input": "data",
+              "name": "create",
+              "points": [
+                {
+                  "active": true,
+                  "args": {},
+                  "method": "POST",
+                  "orig": "/partners",
+                  "parts": [
+                    "partners"
+                  ],
+                  "select": {},
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "query": [
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "partner",
+                        "orig": "partner",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "example": 0,
+                        "kind": "query",
+                        "name": "skip",
+                        "orig": "skip",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "example": 10,
+                        "kind": "query",
+                        "name": "take",
+                        "orig": "take",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/partners",
+                  "parts": [
+                    "partners"
+                  ],
+                  "select": {
+                    "exist": [
+                      "partner",
+                      "skip",
+                      "take"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/partners/{id}",
+                  "parts": [
+                    "partners",
+                    "{id}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "shipment": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "carrier",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "client",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "created",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "date_received",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "date_shipped",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "dc_kif",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "id",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "item",
+              "req": false,
+              "type": "`$ARRAY`"
+            },
+            {
+              "active": true,
+              "name": "kif",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "modified",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "partner",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "shipment_type",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "tracking",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "version",
+              "req": false,
+              "type": "`$INTEGER`"
+            }
+          ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
+          "name": "shipment",
+          "op": {
+            "create": {
+              "input": "data",
+              "name": "create",
+              "points": [
+                {
+                  "active": true,
+                  "args": {},
+                  "method": "POST",
+                  "orig": "/shipments",
+                  "parts": [
+                    "shipments"
+                  ],
+                  "select": {},
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "query": [
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "kif",
+                        "orig": "kif",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "mode",
+                        "orig": "mode",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "example": 0,
+                        "kind": "query",
+                        "name": "skip",
+                        "orig": "skip",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "example": 10,
+                        "kind": "query",
+                        "name": "take",
+                        "orig": "take",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/shipments",
+                  "parts": [
+                    "shipments"
+                  ],
+                  "select": {
+                    "exist": [
+                      "kif",
+                      "mode",
+                      "skip",
+                      "take"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/shipments/{id}",
+                  "parts": [
+                    "shipments",
+                    "{id}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "success": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "success",
+              "req": false,
+              "type": "`$BOOLEAN`"
+            }
+          ],
+          "name": "success",
+          "op": {
+            "create": {
+              "input": "data",
+              "name": "create",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "share_partner_to",
+                        "orig": "share_partner_to",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "POST",
+                  "orig": "/virtualDevices/{sharePartnerTo}",
+                  "parts": [
+                    "virtualDevices",
+                    "{share_partner_to}"
+                  ],
+                  "rename": {
+                    "param": {
+                      "sharePartnerTo": "share_partner_to"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "share_partner_to"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "remove": {
+              "input": "data",
+              "name": "remove",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "share_partner_to",
+                        "orig": "share_partner_to",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "DELETE",
+                  "orig": "/virtualDevices/{sharePartnerTo}",
+                  "parts": [
+                    "virtualDevices",
+                    "{share_partner_to}"
+                  ],
+                  "rename": {
+                    "param": {
+                      "sharePartnerTo": "share_partner_to"
+                    }
+                  },
+                  "select": {
+                    "exist": [
+                      "share_partner_to"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": [
+              [
+                "virtual_device"
+              ]
+            ]
+          }
+        },
+        "transaction": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "alternate_key",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "client",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "client_ref",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "created",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "decrypted",
+              "req": false,
+              "type": "`$INTEGER`"
+            },
+            {
+              "active": true,
+              "name": "device_name",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "direct_partner",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "encrypted",
+              "req": false,
+              "type": "`$INTEGER`"
+            },
+            {
+              "active": true,
+              "name": "end_date",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "err_code",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "err_message",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "id",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "ip_address",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "is_virtual",
+              "req": false,
+              "type": "`$BOOLEAN`"
+            },
+            {
+              "active": true,
+              "name": "key_type",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "location",
+              "req": true,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "message_id",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "method",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "partner",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "reference",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "serial_number",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "start_date",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "success",
+              "req": false,
+              "type": "`$BOOLEAN`"
+            },
+            {
+              "active": true,
+              "name": "transaction_source",
+              "req": false,
+              "type": "`$STRING`"
+            }
+          ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
+          "name": "transaction",
+          "op": {
+            "create": {
+              "input": "data",
+              "name": "create",
+              "points": [
+                {
+                  "active": true,
+                  "args": {},
+                  "method": "POST",
+                  "orig": "/transactions",
+                  "parts": [
+                    "transactions"
+                  ],
+                  "select": {},
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "query": [
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "client",
+                        "orig": "client",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "client_ref",
+                        "orig": "client_ref",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "date_from",
+                        "orig": "date_from",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "date_to",
+                        "orig": "date_to",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "location",
+                        "orig": "location",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "message_id",
+                        "orig": "message_id",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "example": "nocount",
+                        "kind": "query",
+                        "name": "paging_mode",
+                        "orig": "paging_mode",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "partner",
+                        "orig": "partner",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "reference",
+                        "orig": "reference",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "serial_number",
+                        "orig": "serial_number",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "example": 0,
+                        "kind": "query",
+                        "name": "skip",
+                        "orig": "skip",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "success",
+                        "orig": "success",
+                        "reqd": false,
+                        "type": "`$BOOLEAN`"
+                      },
+                      {
+                        "active": true,
+                        "example": 10,
+                        "kind": "query",
+                        "name": "take",
+                        "orig": "take",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/transactions",
+                  "parts": [
+                    "transactions"
+                  ],
+                  "select": {
+                    "exist": [
+                      "client",
+                      "client_ref",
+                      "date_from",
+                      "date_to",
+                      "location",
+                      "message_id",
+                      "paging_mode",
+                      "partner",
+                      "reference",
+                      "serial_number",
+                      "skip",
+                      "success",
+                      "take"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/transactions/{id}",
+                  "parts": [
+                    "transactions",
+                    "{id}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "update_result": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "client",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "email",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "first_name",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "id",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "is_active",
+              "req": false,
+              "type": "`$BOOLEAN`"
+            },
+            {
+              "active": true,
+              "name": "kif",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "last_name",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "partner",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "phone",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "user_name",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "user_role",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "version",
+              "req": false,
+              "type": "`$INTEGER`"
+            }
+          ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
+          "name": "update_result",
+          "op": {
+            "create": {
+              "input": "data",
+              "name": "create",
+              "points": [
+                {
+                  "active": true,
+                  "args": {},
+                  "method": "POST",
+                  "orig": "/users",
+                  "parts": [
+                    "users"
+                  ],
+                  "select": {},
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "query": [
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "client",
+                        "orig": "client",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "kif",
+                        "orig": "kif",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "partner",
+                        "orig": "partner",
+                        "reqd": false,
+                        "type": "`$ANY`"
+                      },
+                      {
+                        "active": true,
+                        "example": 0,
+                        "kind": "query",
+                        "name": "skip",
+                        "orig": "skip",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "example": 10,
+                        "kind": "query",
+                        "name": "take",
+                        "orig": "take",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/users",
+                  "parts": [
+                    "users"
+                  ],
+                  "select": {
+                    "exist": [
+                      "client",
+                      "kif",
+                      "partner",
+                      "skip",
+                      "take"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "update": {
+              "input": "data",
+              "name": "update",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "PATCH",
+                  "orig": "/clients/{id}",
+                  "parts": [
+                    "clients",
+                    "{id}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "PATCH",
+                  "orig": "/devices/{id}",
+                  "parts": [
+                    "devices",
+                    "{id}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "PATCH",
+                  "orig": "/locations/{id}",
+                  "parts": [
+                    "locations",
+                    "{id}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "PATCH",
+                  "orig": "/partners/{id}",
+                  "parts": [
+                    "partners",
+                    "{id}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "PATCH",
+                  "orig": "/shipments/{id}",
+                  "parts": [
+                    "shipments",
+                    "{id}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "PATCH",
+                  "orig": "/transactions/{id}",
+                  "parts": [
+                    "transactions",
+                    "{id}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "PATCH",
+                  "orig": "/users/{id}",
+                  "parts": [
+                    "users",
+                    "{id}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "user": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "client",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "created",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "email",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "first_name",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "id",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "is_active",
+              "req": false,
+              "type": "`$BOOLEAN`"
+            },
+            {
+              "active": true,
+              "name": "kif",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "last_name",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "modified",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "partner",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "phone",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "user_name",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "user_role",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "version",
+              "req": false,
+              "type": "`$INTEGER`"
+            }
+          ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
+          "name": "user",
+          "op": {
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "GET",
+                  "orig": "/users/{id}",
+                  "parts": [
+                    "users",
+                    "{id}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "remove": {
+              "input": "data",
+              "name": "remove",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "id",
+                        "orig": "id",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "method": "DELETE",
+                  "orig": "/users/{id}",
+                  "parts": [
+                    "users",
+                    "{id}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        }
+      },
+      "feature": {
+        "test": {
+          "active": true,
+          "config": {
+            "options": {
+              "active": false
+            }
+          },
+          "hook": {
+            "GetData": {
+              "active": true,
+              "await": false
+            },
+            "GetMatch": {
+              "active": true,
+              "await": false
+            },
+            "PostConstruct": {
+              "active": true,
+              "await": false
+            },
+            "PostConstructEntity": {
+              "active": true,
+              "await": false
+            },
+            "PostOperation": {
+              "active": false,
+              "await": false
+            },
+            "PrePoint": {
+              "active": true,
+              "await": false
+            },
+            "PreRequest": {
+              "active": true,
+              "await": false
+            },
+            "PreResponse": {
+              "active": true,
+              "await": false
+            },
+            "PreResult": {
+              "active": true,
+              "await": false
+            },
+            "PreSpec": {
+              "active": true,
+              "await": false
+            },
+            "PreTarget": {
+              "active": false,
+              "await": false
+            },
+            "SetData": {
+              "active": true,
+              "await": false
+            },
+            "SetMatch": {
+              "active": true,
+              "await": false
+            }
+          },
+          "name": "test",
+          "target": {
+            "go": {
+              "deps": {}
+            },
+            "go-cli": {
+              "deps": {}
+            },
+            "go-mcp": {
+              "deps": {}
+            },
+            "lua": {
+              "deps": {}
+            },
+            "php": {
+              "deps": {}
+            },
+            "py": {
+              "deps": {}
+            },
+            "rb": {
+              "deps": {}
+            },
+            "ts": {
+              "deps": {}
+            }
+          },
+          "title": "In-memory mock transport for testing without a live server",
+          "version": "0.0.1"
+        }
+      },
+      "flow": {
+        "BasicAttestationFlow": {
+          "active": true,
+          "entity": "attestation",
+          "key$": "BasicAttestationFlow",
+          "kind": "basic",
+          "name": "BasicAttestationFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "attestation_ref01"
+              },
+              "match": {},
+              "op": "create",
+              "spec": [],
+              "valid": []
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {},
+              "match": {},
+              "op": "list",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "attestation_ref01"
+                  }
+                }
+              ]
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "attestation_ref01",
+                "srcdatavar": "attestation_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {
+                "id": "attestation01"
+              },
+              "op": "load",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-attestation_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicClientFlow": {
+          "active": true,
+          "entity": "client",
+          "key$": "BasicClientFlow",
+          "kind": "basic",
+          "name": "BasicClientFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "client_ref01"
+              },
+              "match": {},
+              "op": "create",
+              "spec": [],
+              "valid": []
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {},
+              "match": {},
+              "op": "list",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "client_ref01"
+                  }
+                }
+              ]
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "client_ref01",
+                "srcdatavar": "client_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {
+                "id": "client01"
+              },
+              "op": "load",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-client_ref01"
+                  }
+                }
+              ]
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "client_ref01",
+                "suffix": "_rm0"
+              },
+              "match": {
+                "id": "client01"
+              },
+              "op": "remove",
+              "spec": [],
+              "valid": []
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "suffix": "_rt0"
+              },
+              "match": {},
+              "op": "list",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "ItemNotExists",
+                  "def": {
+                    "ref": "client_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicCreateResultFlow": {
+          "active": true,
+          "entity": "create_result",
+          "key$": "BasicCreateResultFlow",
+          "kind": "basic",
+          "name": "BasicCreateResultFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "create_result_ref01"
+              },
+              "match": {
+                "device_type": "device_type01",
+                "serial_number": "serial_number01"
+              },
+              "op": "create",
+              "spec": [],
+              "valid": []
+            }
+          ]
+        },
+        "BasicDecryptionFlow": {
+          "active": true,
+          "entity": "decryption",
+          "key$": "BasicDecryptionFlow",
+          "kind": "basic",
+          "name": "BasicDecryptionFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "decryption_ref01"
+              },
+              "match": {},
+              "op": "create",
+              "spec": [],
+              "valid": []
+            }
+          ]
+        },
+        "BasicDeviceBuildFlow": {
+          "active": true,
+          "entity": "device_build",
+          "key$": "BasicDeviceBuildFlow",
+          "kind": "basic",
+          "name": "BasicDeviceBuildFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {},
+              "match": {},
+              "op": "list",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "device_build_ref01"
+                  }
+                }
+              ]
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "device_build_ref01",
+                "srcdatavar": "device_build_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {
+                "id": "device_build01"
+              },
+              "op": "load",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-device_build_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicDeviceCustodyDetailFlow": {
+          "active": true,
+          "entity": "device_custody_detail",
+          "key$": "BasicDeviceCustodyDetailFlow",
+          "kind": "basic",
+          "name": "BasicDeviceCustodyDetailFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "device_custody_detail_ref01",
+                "srcdatavar": "device_custody_detail_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {
+                "device_type": "device_type01",
+                "id": "device_custody_detail01",
+                "serial_number": "serial_number01"
+              },
+              "op": "load",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-device_custody_detail_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicDeviceCustodyListFlow": {
+          "active": true,
+          "entity": "device_custody_list",
+          "key$": "BasicDeviceCustodyListFlow",
+          "kind": "basic",
+          "name": "BasicDeviceCustodyListFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {},
+              "match": {
+                "device_type": "device_type01",
+                "serial_number": "serial_number01"
+              },
+              "op": "list",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "device_custody_list_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicDeviceFlow": {
+          "active": true,
+          "entity": "device",
+          "key$": "BasicDeviceFlow",
+          "kind": "basic",
+          "name": "BasicDeviceFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "device_ref01"
+              },
+              "match": {
+                "serial_number": "serial_number01"
+              },
+              "op": "create",
+              "spec": [],
+              "valid": []
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {},
+              "match": {},
+              "op": "list",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "device_ref01"
+                  }
+                }
+              ]
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "device_ref01",
+                "srcdatavar": "device_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {
+                "id": "device01"
+              },
+              "op": "load",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-device_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicDeviceListFlow": {
+          "active": true,
+          "entity": "device_list",
+          "key$": "BasicDeviceListFlow",
+          "kind": "basic",
+          "name": "BasicDeviceListFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "device_list_ref01",
+                "srcdatavar": "device_list_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {
+                "id": "device_list01"
+              },
+              "op": "load",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-device_list_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicDeviceReceiveResultFlow": {
+          "active": true,
+          "entity": "device_receive_result",
+          "key$": "BasicDeviceReceiveResultFlow",
+          "kind": "basic",
+          "name": "BasicDeviceReceiveResultFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "device_receive_result_ref01"
+              },
+              "match": {},
+              "op": "create",
+              "spec": [],
+              "valid": []
+            }
+          ]
+        },
+        "BasicDeviceRkiActivateResultFlow": {
+          "active": true,
+          "entity": "device_rki_activate_result",
+          "key$": "BasicDeviceRkiActivateResultFlow",
+          "kind": "basic",
+          "name": "BasicDeviceRkiActivateResultFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "device_rki_activate_result_ref01"
+              },
+              "match": {},
+              "op": "create",
+              "spec": [],
+              "valid": []
+            }
+          ]
+        },
+        "BasicDeviceStateFlow": {
+          "active": true,
+          "entity": "device_state",
+          "key$": "BasicDeviceStateFlow",
+          "kind": "basic",
+          "name": "BasicDeviceStateFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {},
+              "match": {},
+              "op": "list",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "device_state_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicDeviceTypeFlow": {
+          "active": true,
+          "entity": "device_type",
+          "key$": "BasicDeviceTypeFlow",
+          "kind": "basic",
+          "name": "BasicDeviceTypeFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {},
+              "match": {},
+              "op": "list",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "device_type_ref01"
+                  }
+                }
+              ]
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "device_type_ref01",
+                "srcdatavar": "device_type_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {
+                "id": "device_type01"
+              },
+              "op": "load",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-device_type_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicInjectKeyFlow": {
+          "active": true,
+          "entity": "inject_key",
+          "key$": "BasicInjectKeyFlow",
+          "kind": "basic",
+          "name": "BasicInjectKeyFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {},
+              "match": {},
+              "op": "list",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "inject_key_ref01"
+                  }
+                }
+              ]
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "inject_key_ref01",
+                "srcdatavar": "inject_key_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {
+                "id": "inject_key01"
+              },
+              "op": "load",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-inject_key_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicKifFlow": {
+          "active": true,
+          "entity": "kif",
+          "key$": "BasicKifFlow",
+          "kind": "basic",
+          "name": "BasicKifFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {},
+              "match": {},
+              "op": "list",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "kif_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicLocationFlow": {
+          "active": true,
+          "entity": "location",
+          "key$": "BasicLocationFlow",
+          "kind": "basic",
+          "name": "BasicLocationFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "location_ref01"
+              },
+              "match": {},
+              "op": "create",
+              "spec": [],
+              "valid": []
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {},
+              "match": {},
+              "op": "list",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "location_ref01"
+                  }
+                }
+              ]
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "location_ref01",
+                "srcdatavar": "location_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {
+                "id": "location01"
+              },
+              "op": "load",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-location_ref01"
+                  }
+                }
+              ]
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "location_ref01",
+                "suffix": "_rm0"
+              },
+              "match": {
+                "id": "location01"
+              },
+              "op": "remove",
+              "spec": [],
+              "valid": []
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "suffix": "_rt0"
+              },
+              "match": {},
+              "op": "list",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "ItemNotExists",
+                  "def": {
+                    "ref": "location_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicPartnerFlow": {
+          "active": true,
+          "entity": "partner",
+          "key$": "BasicPartnerFlow",
+          "kind": "basic",
+          "name": "BasicPartnerFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "partner_ref01"
+              },
+              "match": {},
+              "op": "create",
+              "spec": [],
+              "valid": []
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {},
+              "match": {},
+              "op": "list",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "partner_ref01"
+                  }
+                }
+              ]
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "partner_ref01",
+                "srcdatavar": "partner_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {
+                "id": "partner01"
+              },
+              "op": "load",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-partner_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicShipmentFlow": {
+          "active": true,
+          "entity": "shipment",
+          "key$": "BasicShipmentFlow",
+          "kind": "basic",
+          "name": "BasicShipmentFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "shipment_ref01"
+              },
+              "match": {},
+              "op": "create",
+              "spec": [],
+              "valid": []
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {},
+              "match": {},
+              "op": "list",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "shipment_ref01"
+                  }
+                }
+              ]
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "shipment_ref01",
+                "srcdatavar": "shipment_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {
+                "id": "shipment01"
+              },
+              "op": "load",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-shipment_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicSuccessFlow": {
+          "active": true,
+          "entity": "success",
+          "key$": "BasicSuccessFlow",
+          "kind": "basic",
+          "name": "BasicSuccessFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "success_ref01"
+              },
+              "match": {
+                "share_partner_to": "share_partner_to01"
+              },
+              "op": "create",
+              "spec": [],
+              "valid": []
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "success_ref01",
+                "suffix": "_rm0"
+              },
+              "match": {
+                "id": "success01"
+              },
+              "op": "remove",
+              "spec": [],
+              "valid": []
+            }
+          ]
+        },
+        "BasicTransactionFlow": {
+          "active": true,
+          "entity": "transaction",
+          "key$": "BasicTransactionFlow",
+          "kind": "basic",
+          "name": "BasicTransactionFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "transaction_ref01"
+              },
+              "match": {},
+              "op": "create",
+              "spec": [],
+              "valid": []
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {},
+              "match": {},
+              "op": "list",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "transaction_ref01"
+                  }
+                }
+              ]
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "transaction_ref01",
+                "srcdatavar": "transaction_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {
+                "id": "transaction01"
+              },
+              "op": "load",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-transaction_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicUpdateResultFlow": {
+          "active": true,
+          "entity": "update_result",
+          "key$": "BasicUpdateResultFlow",
+          "kind": "basic",
+          "name": "BasicUpdateResultFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "update_result_ref01"
+              },
+              "match": {},
+              "op": "create",
+              "spec": [],
+              "valid": []
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {},
+              "match": {},
+              "op": "list",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "update_result_ref01"
+                  }
+                }
+              ]
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "update_result_ref01",
+                "srcdatavar": "update_result_ref01_data",
+                "suffix": "_up0",
+                "textfield": "email"
+              },
+              "match": {},
+              "op": "update",
+              "spec": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-update_result_ref01"
+                  }
+                }
+              ],
+              "valid": []
+            }
+          ]
+        },
+        "BasicUserFlow": {
+          "active": true,
+          "entity": "user",
+          "key$": "BasicUserFlow",
+          "kind": "basic",
+          "name": "BasicUserFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "user_ref01",
+                "srcdatavar": "user_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {
+                "id": "user01"
+              },
+              "op": "load",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-user_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "info": {
+        "description": "# Overview\nThe purpose of the Decryptx management APIs are to provide Decryptx\nPartners and Key Injection Facilities (KIFs) a way to integrate their services\nto the Decryptx Platform. These APIs allow them to integrate P2PE Manager functionality into\ntheir own services, therefore providing their merchants an alternative to\nthe P2PE Manager for common tasks.\n\n### Deleting Resource\nWith the Management APIs, as with the P2PE Manager, once a resource has been utilized it cannot be deleted. For example, if a user has logged into the system even once they cannot be deleted. Instead of deleting resources that have been deleted, they shhould be set to inactive.\n\n### Transactions endpoints\nThe transaction endpoints are included in the Management APIs for Partners that have their own (Domain 5) P2PE compliant decryption environment and who wish to use our platform to manage their partners, merchants and devices. Our transactions endpoints allow Partners journal their decryption activity into the P2PE Manager, allowing the Partner to utilize the device management and chain-of-custody functionality of the P2PE Manager. Even when decryptions occur outside of the Decryptx system, the Partner's Client can still benefit from the P2PE Manager's device management, chain of custody, and historical decryption activity logs functionality.\n\n# Authentication\nAll calls to our Management APIs support basic and HMAC authentication. For instruction of how to implement HMAC please refer to the guide on our developer portal (https://developers.bluefin.com/p2pe-manager/apiguides/hmac).\n\nBasic authentication is a simple authentication scheme built into the HTTP protocol, the client sends HTTP requests with an Authorization header that contains the word *'Basic'*, followed by a space and a base64-encoded string username:password. For example, for the username and password, user and password, the authentication header is as follows:\n~~~\n//Authorization: Basic base64(user:pasword)\n~~~\nOutput:\n~~~\nAuthorization: Basic dXNlcjpwYXNzd29yZA==\n~~~\nThe Management accept the same usernames and passwords from the P2PEManager; importantly, access to respourse are limited based on the user role. A KIF user can access number of API endpoints that the Patner user cannot and vice versa. On the other hand, there are a number of APIs that are common to both types of Users.\n\n\n### Partner User Access\nThe following table outlines the REST operations that a Partner user can access. Client level users are not allowed to integrate with theses APIs, instead these APIs are designed so that the Client's Partner would integrate functionality to their service. That design decision has resulted in the Partners having increased access to P2PE resources on the APIs when compared to the P2PEManager GUI. For example, a Partner can alter a device's state with the Management APIs, whereas they cannot on the P2PE Manager GUI.\n\n| EndPoint             | GET (all) | POST | GET (Single) | PATCH | DELETE |\n|----------------------|:---------:|:----:|:------------:|:-----:|:------:|\n| /api/v1/users        |     ✔     |   ✔  |       ✔      |   ✔   |   ✔*   |\n| /api/v1/partners     |     ✔     |   ✔  |       ✔      |   ✔   |        |\n| /api/v1/clients      |     ✔     |   ✔  |       ✔      |   ✔   |        |\n| /api/v1/decryption   |           |   ✔  |              |       |        |\n| /api/v1/devices      |     ✔     |   ✔  |       ✔      |   ✔   |   ✔*   |\n| /api/v1/deviceBuilds |     ✔     |      |       ✔      |       |        |\n| /api/v1/deviceTypes  |     ✔     |      |       ✔      |       |        |\n| /api/v1/deviceStates |     ✔     |      |              |       |        |\n| /api/v1/devices/{serial}/{type}/custody  |     ✔     |   ✔   |       ✔      |       |        |\n| /api/v1/locations    |     ✔     |   ✔  |       ✔      |   ✔   |   ✔*   |\n| /api/v1/shipments    |           |      |              |       |        |\n| /api/v1/attestations |     ✔     |   ✔  |       ✔      |       |        |\n| /api/v1/transactions |     ✔     |   ✔  |       ✔      |   ✔   |        |\n| /api/v1/kifs         |     ✔     |      |              |       |        |\n| /api/v1/injectkeys   |           |      |              |       |        |\n| /api/v1/virtualDevices/{partner}   |           |   ✔   |       ✔       |       |    ✔    |\n* A resource that has been used one or more times cannot be deleted.\n\n\n### KIF User Access\nThe following table outlines the subset of Management APIs that a KIF user can access. Within this subset, some resources will only appear if they are in a particular state. For example, a Device will appear in the GET all endpoint if its deviceState is set to Unassigned, Assigned, or Injected. Once it is received by the merchant and set to *'stored'* or *'activating'* it will no longer appear on the GET all devices response for the originating KIF.\n\n\n| Endpoint             | GET (all) | POST | GET (Single) | PATCH | DELETE |\n|----------------------|:---------:|:----:|:------------:|:-----:|:------:|\n| /api/v1/users        |     ✔     |   ✔  |       ✔      |   ✔   |   ✔*   |\n| /api/v1/partners     |     ✔     |      |       ✔      |       |        |\n| /api/v1/clients      |     ✔     |      |       ✔      |       |        |\n| /api/v1/decryption   |           |   ✔  |              |       |        |\n| /api/v1/devices      |     ✔     |   ✔  |       ✔      |       |        |\n| /api/v1/deviceBuilds |     ✔     |      |       ✔      |       |        |\n| /api/v1/deviceTypes  |     ✔     |      |       ✔      |       |        |\n| /api/v1/deviceStates |     ✔     |      |              |       |        |\n| /api/v1/devices/{serial}/{type}/custody  |           |       |              |       |        |\n| /api/v1/locations    |     ✔     |   ✔  |       ✔      |   ✔   |   ✔*   |\n| /api/v1/shipments    |     ✔     |   ✔  |       ✔      |   ✔   |        |\n| /api/v1/attestations |           |      |              |       |        |\n| /api/v1/transactions |           |      |              |       |        |\n| /api/v1/kifs         |     ✔     |      |              |       |        |\n| /api/v1/injectkeys   |     ✔     |      |       ✔      |       |        |\n| /api/v1/virtualDevices/{partner}   |           |       |               |       |         |\n* A resource that has been used one or more times it cannot be deleted.\n",
+        "security": {
+          "in": "header",
+          "name": "Authorization",
+          "prefix": "Basic",
+          "scheme": "basic",
+          "type": "http"
+        },
+        "servers": [
+          {
+            "url": "https://apis.p2pemanager.com/api/v1"
+          },
+          {
+            "url": "http://apis.p2pemanager.com/api/v1"
+          }
+        ],
+        "summary": "The purpose of the Decryptx management APIs are to provide Decryptx Partners and Key Injection Facilities (KIFs) a way to integrate their services to the Decryptx Platform.",
+        "title": "Decryptx External Api",
+        "version": "1.0.0",
+        "website": "https://p2pemanager.com"
+      },
+      "option": {},
+      "target": {
+        "go": {
+          "active": true,
+          "comment": {
+            "line": "//"
+          },
+          "deps": {},
+          "ext": "go",
+          "module": {
+            "name": "bluefin-decryptx-p2pe"
+          },
+          "name": "go",
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "",
+              "package": "",
+              "state": "pending",
+              "url": "",
+              "vault": {
+                "alias": "",
+                "env": "",
+                "recipe": ""
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "port"
+            }
+          },
+          "srcfeature": false,
+          "title": "Golang"
+        },
+        "go-cli": {
+          "active": true,
+          "comment": {
+            "line": "//"
+          },
+          "deps": {},
+          "ext": "go",
+          "module": {
+            "name": "bluefin-decryptx-p2pe"
+          },
+          "name": "go-cli",
+          "phase": {
+            "agentguide": {
+              "active": false
+            },
+            "entity": {
+              "active": false
+            },
+            "feature": {
+              "active": false
+            },
+            "readme": {
+              "active": false
+            },
+            "test": {
+              "active": false
+            }
+          },
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "",
+              "package": "",
+              "state": "pending",
+              "url": "",
+              "vault": {
+                "alias": "",
+                "env": "",
+                "recipe": ""
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "root"
+            }
+          },
+          "title": "Go CLI"
+        },
+        "go-mcp": {
+          "active": true,
+          "comment": {
+            "line": "//"
+          },
+          "deps": {},
+          "ext": "go",
+          "module": {
+            "name": "bluefin-decryptx-p2pe"
+          },
+          "name": "go-mcp",
+          "phase": {
+            "agentguide": {
+              "active": false
+            },
+            "entity": {
+              "active": false
+            },
+            "feature": {
+              "active": false
+            },
+            "readme": {
+              "active": false
+            },
+            "test": {
+              "active": false
+            }
+          },
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "",
+              "package": "",
+              "state": "pending",
+              "url": "",
+              "vault": {
+                "alias": "",
+                "env": "",
+                "recipe": ""
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "root"
+            }
+          },
+          "title": "Go MCP server"
+        },
+        "lua": {
+          "active": true,
+          "comment": {
+            "line": "--"
+          },
+          "deps": {
+            "dkjson": {
+              "active": true,
+              "kind": "prod",
+              "version": "2.5"
+            }
+          },
+          "ext": "lua",
+          "module": {
+            "name": "bluefin-decryptx-p2pe"
+          },
+          "name": "lua",
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "luarocks",
+              "package": "",
+              "state": "pending",
+              "url": "https://luarocks.org",
+              "vault": {
+                "alias": "luarocks",
+                "env": "LUAROCKS_API_KEY",
+                "recipe": ""
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "port"
+            }
+          },
+          "srcfeature": false,
+          "title": "Lua"
+        },
+        "php": {
+          "active": true,
+          "comment": {
+            "line": "//"
+          },
+          "deps": {},
+          "ext": "php",
+          "module": {
+            "name": "bluefin-decryptx-p2pe"
+          },
+          "name": "php",
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "packagist",
+              "package": "",
+              "state": "pending",
+              "url": "https://packagist.org",
+              "vault": {
+                "alias": "packagist",
+                "env": "PACKAGIST_API_TOKEN",
+                "recipe": ""
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "port"
+            }
+          },
+          "srcfeature": false,
+          "title": "PHP"
+        },
+        "py": {
+          "active": true,
+          "comment": {
+            "line": "#"
+          },
+          "deps": {
+            "requests": {
+              "active": true,
+              "kind": "prod",
+              "version": "2.33"
+            }
+          },
+          "ext": "py",
+          "module": {
+            "name": "bluefin-decryptx-p2pe"
+          },
+          "name": "py",
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "pypi",
+              "package": "",
+              "state": "pending",
+              "url": "https://pypi.org",
+              "vault": {
+                "alias": "pypi",
+                "env": "",
+                "recipe": "pypi"
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "port"
+            }
+          },
+          "srcfeature": false,
+          "title": "Python"
+        },
+        "rb": {
+          "active": true,
+          "comment": {
+            "line": "#"
+          },
+          "deps": {
+            "json": {
+              "active": true,
+              "kind": "prod",
+              "version": "0"
+            },
+            "voxgig-struct": {
+              "active": true,
+              "kind": "prod",
+              "version": "0.0.10"
+            }
+          },
+          "ext": "rb",
+          "module": {
+            "name": "bluefin-decryptx-p2pe"
+          },
+          "name": "rb",
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "rubygems",
+              "package": "",
+              "state": "pending",
+              "url": "https://rubygems.org",
+              "vault": {
+                "alias": "gem",
+                "env": "",
+                "recipe": "gem"
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "port"
+            }
+          },
+          "srcfeature": false,
+          "title": "Ruby"
+        },
+        "ts": {
+          "active": true,
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
+          "comment": {
+            "line": "//"
+          },
+          "deps": {
+            "@types/node": {
+              "active": true,
+              "kind": "dev",
+              "version": "^25.6.0"
+            },
+            "dotenv": {
+              "active": true,
+              "kind": "dev",
+              "version": "^17.4.2"
+            },
+            "typescript": {
+              "active": true,
+              "kind": "dev",
+              "version": "^5.9.3"
+            }
+          },
+          "ext": "ts",
+          "module": {
+            "name": "bluefin-decryptx-p2pe"
+          },
+          "name": "ts",
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "npm",
+              "package": "",
+              "state": "pending",
+              "url": "https://registry.npmjs.org",
+              "vault": {
+                "alias": "npm",
+                "env": "",
+                "recipe": "npm"
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "port"
+            }
+          },
+          "title": "TypeScript"
+        }
+      }
+    }
+  },
+  "name": "bluefin-decryptx-p2pe",
+  "origin": "voxgig-sdk"
+}

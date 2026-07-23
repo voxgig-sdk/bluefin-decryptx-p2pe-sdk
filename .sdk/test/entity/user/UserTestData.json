@@ -1,0 +1,73 @@
+{
+  "existing": {
+    "user": {
+      "USER00": {
+        "client": {},
+        "created": "s8d",
+        "email": "s8e",
+        "first_name": "s8f",
+        "id": "USER00",
+        "is_active": false,
+        "kif": {},
+        "last_name": "s93",
+        "modified": "s94",
+        "partner": {},
+        "phone": "s96",
+        "user_name": "s97",
+        "user_role": {},
+        "version": "s99"
+      },
+      "USER01": {
+        "client": {},
+        "created": "s119",
+        "email": "s11a",
+        "first_name": "s11b",
+        "id": "USER01",
+        "is_active": false,
+        "kif": {},
+        "last_name": "s11f",
+        "modified": "s120",
+        "partner": {},
+        "phone": "s122",
+        "user_name": "s123",
+        "user_role": {},
+        "version": "s125"
+      },
+      "USER02": {
+        "client": {},
+        "created": "s1a5",
+        "email": "s1a6",
+        "first_name": "s1a7",
+        "id": "USER02",
+        "is_active": false,
+        "kif": {},
+        "last_name": "s1ab",
+        "modified": "s1ac",
+        "partner": {},
+        "phone": "s1ae",
+        "user_name": "s1af",
+        "user_role": {},
+        "version": "s1b1"
+      }
+    }
+  },
+  "new": {
+    "user": {
+      "user_ref01": {
+        "client": {},
+        "created": "s231",
+        "email": "s232",
+        "first_name": "s233",
+        "is_active": false,
+        "kif": {},
+        "last_name": "s237",
+        "modified": "s238",
+        "partner": {},
+        "phone": "s23a",
+        "user_name": "s23b",
+        "user_role": {},
+        "version": "s23d"
+      }
+    }
+  }
+}

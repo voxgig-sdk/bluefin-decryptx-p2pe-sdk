@@ -1,0 +1,77 @@
+{
+  "existing": {
+    "device_build": {
+      "DEVICE_BUILD00": {
+        "app_version": "s96",
+        "build_number": "s97",
+        "config_file_name": "s98",
+        "created": "s99",
+        "device_type": "s9a",
+        "firmware_version": "s9b",
+        "hardware_version": "s9c",
+        "id": "DEVICE_BUILD00",
+        "is_active": true,
+        "modified": "s9f",
+        "name": "sa0",
+        "note": "sa1",
+        "version": "sa2",
+        "white_listing_bin_range": "sa3",
+        "white_listing_used": true
+      },
+      "DEVICE_BUILD01": {
+        "app_version": "s12c",
+        "build_number": "s12d",
+        "config_file_name": "s12e",
+        "created": "s12f",
+        "device_type": "s130",
+        "firmware_version": "s131",
+        "hardware_version": "s132",
+        "id": "DEVICE_BUILD01",
+        "is_active": true,
+        "modified": "s135",
+        "name": "s136",
+        "note": "s137",
+        "version": "s138",
+        "white_listing_bin_range": "s139",
+        "white_listing_used": true
+      },
+      "DEVICE_BUILD02": {
+        "app_version": "s1c2",
+        "build_number": "s1c3",
+        "config_file_name": "s1c4",
+        "created": "s1c5",
+        "device_type": "s1c6",
+        "firmware_version": "s1c7",
+        "hardware_version": "s1c8",
+        "id": "DEVICE_BUILD02",
+        "is_active": true,
+        "modified": "s1cb",
+        "name": "s1cc",
+        "note": "s1cd",
+        "version": "s1ce",
+        "white_listing_bin_range": "s1cf",
+        "white_listing_used": true
+      }
+    }
+  },
+  "new": {
+    "device_build": {
+      "device_build_ref01": {
+        "app_version": "s258",
+        "build_number": "s259",
+        "config_file_name": "s25a",
+        "created": "s25b",
+        "device_type": "s25c",
+        "firmware_version": "s25d",
+        "hardware_version": "s25e",
+        "is_active": true,
+        "modified": "s261",
+        "name": "s262",
+        "note": "s263",
+        "version": "s264",
+        "white_listing_bin_range": "s265",
+        "white_listing_used": true
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+# BasicDeviceRkiActivateResultFlow
+
+main: kit: flow: BasicDeviceRkiActivateResultFlow:
+{
+  entity: "device_rki_activate_result",
+  kind: "basic",
+  name: "BasicDeviceRkiActivateResultFlow",
+  step: [
+    {
+      input: {
+        ref: "device_rki_activate_result_ref01"
+      }
+
+      op: "create"
+    }
+  ],
+  "key$": "BasicDeviceRkiActivateResultFlow"
+}

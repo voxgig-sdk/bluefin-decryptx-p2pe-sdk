@@ -1,0 +1,110 @@
+# Entity: device_list
+
+main: kit: entity: device_list: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "data"
+      req: false
+      type: "`$ARRAY`"
+    }
+    {
+      name: "total"
+      req: false
+      type: "`$INTEGER`"
+    }
+  ]
+
+  name: "device_list"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "share_partner_to"
+                orig: "share_partner_to"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                example: 0
+                kind: "query"
+                name: "skip"
+                orig: "skip"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+              {
+                example: "asc"
+                kind: "query"
+                name: "sorting_direction"
+                orig: "sorting_direction"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                example: "serialnumber"
+                kind: "query"
+                name: "sorting_field"
+                orig: "sorting_field"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                example: 10
+                kind: "query"
+                name: "take"
+                orig: "take"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/virtualDevices/{sharePartnerTo}"
+          parts: [
+            "virtualDevices"
+            "{share_partner_to}"
+          ]
+          rename: {
+            param: {
+              sharePartnerTo: "share_partner_to"
+            }
+          }
+          select: {
+            exist: [
+              "share_partner_to"
+              "skip"
+              "sorting_direction"
+              "sorting_field"
+              "take"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  relations: {
+    ancestors: [
+      [
+        "virtual_device"
+      ]
+    ]
+  }
+
+
+
+}

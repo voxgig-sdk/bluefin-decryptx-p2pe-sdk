@@ -1,0 +1,214 @@
+# Entity: client
+
+main: kit: entity: client: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "contact"
+      op: {
+        list: {
+          req: true
+          type: "`$OBJECT`"
+        }
+      }
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "created"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "direct_partner"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "is_active"
+      req: false
+      type: "`$BOOLEAN`"
+    }
+    {
+      name: "location"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "mid"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "modified"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "name"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "partner"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "version"
+      req: false
+      type: "`$INTEGER`"
+    }
+  ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "client"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          method: "POST"
+          orig: "/clients"
+          parts: [
+            "clients"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            query: [
+              {
+                kind: "query"
+                name: "partner"
+                orig: "partner"
+                reqd: true
+                type: "`$STRING`"
+              }
+              {
+                example: 0
+                kind: "query"
+                name: "skip"
+                orig: "skip"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+              {
+                example: 10
+                kind: "query"
+                name: "take"
+                orig: "take"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/clients"
+          parts: [
+            "clients"
+          ]
+          select: {
+            exist: [
+              "partner"
+              "skip"
+              "take"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/clients/{id}"
+          parts: [
+            "clients"
+            "{id}"
+          ]
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    remove: {
+      name: "remove"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "DELETE"
+          orig: "/clients/{id}"
+          parts: [
+            "clients"
+            "{id}"
+          ]
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

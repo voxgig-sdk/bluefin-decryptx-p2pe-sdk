@@ -1,0 +1,45 @@
+{
+  "existing": {
+    "attestation": {
+      "ATTESTATION00": {
+        "client": {},
+        "complete_date": "s47",
+        "created": "s48",
+        "device": {},
+        "id": "ATTESTATION00",
+        "name": "s4b",
+        "note": "s4c"
+      },
+      "ATTESTATION01": {
+        "client": {},
+        "complete_date": "s8d",
+        "created": "s8e",
+        "device": {},
+        "id": "ATTESTATION01",
+        "name": "s91",
+        "note": "s92"
+      },
+      "ATTESTATION02": {
+        "client": {},
+        "complete_date": "sd3",
+        "created": "sd4",
+        "device": {},
+        "id": "ATTESTATION02",
+        "name": "sd7",
+        "note": "sd8"
+      }
+    }
+  },
+  "new": {
+    "attestation": {
+      "attestation_ref01": {
+        "client": {},
+        "complete_date": "s119",
+        "created": "s11a",
+        "device": {},
+        "name": "s11d",
+        "note": "s11e"
+      }
+    }
+  }
+}

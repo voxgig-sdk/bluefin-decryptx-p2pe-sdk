@@ -1,0 +1,44 @@
+# BasicInjectKeyFlow
+
+main: kit: flow: BasicInjectKeyFlow:
+{
+  entity: "inject_key",
+  kind: "basic",
+  name: "BasicInjectKeyFlow",
+  step: [
+    {
+      op: "list",
+      valid: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "inject_key_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      input: {
+        ref: "inject_key_ref01",
+        srcdatavar: "inject_key_ref01_data",
+        suffix: "_dt0"
+      }
+
+      match: {
+        id: "inject_key01"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-inject_key_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicInjectKeyFlow"
+}

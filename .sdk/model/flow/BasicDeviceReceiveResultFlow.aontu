@@ -1,0 +1,18 @@
+# BasicDeviceReceiveResultFlow
+
+main: kit: flow: BasicDeviceReceiveResultFlow:
+{
+  entity: "device_receive_result",
+  kind: "basic",
+  name: "BasicDeviceReceiveResultFlow",
+  step: [
+    {
+      input: {
+        ref: "device_receive_result_ref01"
+      }
+
+      op: "create"
+    }
+  ],
+  "key$": "BasicDeviceReceiveResultFlow"
+}

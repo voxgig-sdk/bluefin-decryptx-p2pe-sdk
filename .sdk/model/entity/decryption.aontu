@@ -1,0 +1,37 @@
+# Entity: decryption
+
+main: kit: entity: decryption: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "success"
+      req: false
+      type: "`$BOOLEAN`"
+    }
+  ]
+
+  name: "decryption"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          method: "POST"
+          orig: "/decryption"
+          parts: [
+            "decryption"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

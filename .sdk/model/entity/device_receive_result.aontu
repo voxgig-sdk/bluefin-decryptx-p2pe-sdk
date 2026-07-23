@@ -1,0 +1,38 @@
+# Entity: device_receive_result
+
+main: kit: entity: device_receive_result: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "success"
+      req: true
+      type: "`$BOOLEAN`"
+    }
+  ]
+
+  name: "device_receive_result"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          method: "POST"
+          orig: "/devices/receive"
+          parts: [
+            "devices"
+            "receive"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

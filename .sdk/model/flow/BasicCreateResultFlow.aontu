@@ -1,0 +1,23 @@
+# BasicCreateResultFlow
+
+main: kit: flow: BasicCreateResultFlow:
+{
+  entity: "create_result",
+  kind: "basic",
+  name: "BasicCreateResultFlow",
+  step: [
+    {
+      input: {
+        ref: "create_result_ref01"
+      }
+
+      match: {
+        device_type: "device_type01",
+        serial_number: "serial_number01"
+      }
+
+      op: "create"
+    }
+  ],
+  "key$": "BasicCreateResultFlow"
+}

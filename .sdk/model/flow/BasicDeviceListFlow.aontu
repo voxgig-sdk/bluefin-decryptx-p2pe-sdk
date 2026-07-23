@@ -1,0 +1,32 @@
+# BasicDeviceListFlow
+
+main: kit: flow: BasicDeviceListFlow:
+{
+  entity: "device_list",
+  kind: "basic",
+  name: "BasicDeviceListFlow",
+  step: [
+    {
+      input: {
+        ref: "device_list_ref01",
+        srcdatavar: "device_list_ref01_data",
+        suffix: "_dt0"
+      }
+
+      match: {
+        id: "device_list01"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-device_list_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicDeviceListFlow"
+}

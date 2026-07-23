@@ -1,0 +1,73 @@
+{
+  "existing": {
+    "shipment": {
+      "SHIPMENT00": {
+        "carrier": "s8c",
+        "client": {},
+        "created": "s8e",
+        "date_received": "s8f",
+        "date_shipped": "s90",
+        "dc_kif": {},
+        "id": "SHIPMENT00",
+        "item": [],
+        "kif": {},
+        "modified": "s95",
+        "partner": {},
+        "shipment_type": "s97",
+        "tracking": "s98",
+        "version": "s99"
+      },
+      "SHIPMENT01": {
+        "carrier": "s118",
+        "client": {},
+        "created": "s11a",
+        "date_received": "s11b",
+        "date_shipped": "s11c",
+        "dc_kif": {},
+        "id": "SHIPMENT01",
+        "item": [],
+        "kif": {},
+        "modified": "s121",
+        "partner": {},
+        "shipment_type": "s123",
+        "tracking": "s124",
+        "version": "s125"
+      },
+      "SHIPMENT02": {
+        "carrier": "s1a4",
+        "client": {},
+        "created": "s1a6",
+        "date_received": "s1a7",
+        "date_shipped": "s1a8",
+        "dc_kif": {},
+        "id": "SHIPMENT02",
+        "item": [],
+        "kif": {},
+        "modified": "s1ad",
+        "partner": {},
+        "shipment_type": "s1af",
+        "tracking": "s1b0",
+        "version": "s1b1"
+      }
+    }
+  },
+  "new": {
+    "shipment": {
+      "shipment_ref01": {
+        "carrier": "s230",
+        "client": {},
+        "created": "s232",
+        "date_received": "s233",
+        "date_shipped": "s234",
+        "dc_kif": {},
+        "item": [],
+        "kif": {},
+        "modified": "s239",
+        "partner": {},
+        "shipment_type": "s23b",
+        "tracking": "s23c",
+        "version": "s23d"
+      }
+    }
+  }
+}

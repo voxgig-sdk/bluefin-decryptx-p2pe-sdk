@@ -1,0 +1,81 @@
+# BasicClientFlow
+
+main: kit: flow: BasicClientFlow:
+{
+  entity: "client",
+  kind: "basic",
+  name: "BasicClientFlow",
+  step: [
+    {
+      input: {
+        ref: "client_ref01"
+      }
+
+      op: "create"
+    }
+
+    {
+      op: "list",
+      valid: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "client_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      input: {
+        ref: "client_ref01",
+        srcdatavar: "client_ref01_data",
+        suffix: "_dt0"
+      }
+
+      match: {
+        id: "client01"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-client_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      input: {
+        ref: "client_ref01",
+        suffix: "_rm0"
+      }
+
+      match: {
+        id: "client01"
+      }
+
+      op: "remove"
+    }
+
+    {
+      input: {
+        suffix: "_rt0"
+      }
+
+      op: "list",
+      valid: [
+        {
+          apply: "ItemNotExists",
+          def: {
+            ref: "client_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicClientFlow"
+}

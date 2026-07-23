@@ -1,0 +1,44 @@
+# BasicDeviceTypeFlow
+
+main: kit: flow: BasicDeviceTypeFlow:
+{
+  entity: "device_type",
+  kind: "basic",
+  name: "BasicDeviceTypeFlow",
+  step: [
+    {
+      op: "list",
+      valid: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "device_type_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      input: {
+        ref: "device_type_ref01",
+        srcdatavar: "device_type_ref01_data",
+        suffix: "_dt0"
+      }
+
+      match: {
+        id: "device_type01"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-device_type_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicDeviceTypeFlow"
+}

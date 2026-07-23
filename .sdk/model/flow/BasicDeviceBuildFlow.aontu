@@ -1,0 +1,44 @@
+# BasicDeviceBuildFlow
+
+main: kit: flow: BasicDeviceBuildFlow:
+{
+  entity: "device_build",
+  kind: "basic",
+  name: "BasicDeviceBuildFlow",
+  step: [
+    {
+      op: "list",
+      valid: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "device_build_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      input: {
+        ref: "device_build_ref01",
+        srcdatavar: "device_build_ref01_data",
+        suffix: "_dt0"
+      }
+
+      match: {
+        id: "device_build01"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-device_build_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicDeviceBuildFlow"
+}

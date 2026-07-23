@@ -1,0 +1,25 @@
+{
+  "existing": {
+    "decryption": {
+      "DECRYPTION00": {
+        "success": true,
+        "id": "DECRYPTION00"
+      },
+      "DECRYPTION01": {
+        "success": true,
+        "id": "DECRYPTION01"
+      },
+      "DECRYPTION02": {
+        "success": true,
+        "id": "DECRYPTION02"
+      }
+    }
+  },
+  "new": {
+    "decryption": {
+      "decryption_ref01": {
+        "success": true
+      }
+    }
+  }
+}

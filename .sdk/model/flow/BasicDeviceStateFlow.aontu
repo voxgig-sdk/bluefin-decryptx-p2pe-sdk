@@ -1,0 +1,22 @@
+# BasicDeviceStateFlow
+
+main: kit: flow: BasicDeviceStateFlow:
+{
+  entity: "device_state",
+  kind: "basic",
+  name: "BasicDeviceStateFlow",
+  step: [
+    {
+      op: "list",
+      valid: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "device_state_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicDeviceStateFlow"
+}

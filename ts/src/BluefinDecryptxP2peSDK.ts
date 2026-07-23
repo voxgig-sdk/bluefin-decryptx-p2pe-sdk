@@ -1,0 +1,487 @@
+// BluefinDecryptxP2pe Ts SDK
+
+import { AttestationEntity } from './entity/AttestationEntity'
+import { ClientEntity } from './entity/ClientEntity'
+import { CreateResultEntity } from './entity/CreateResultEntity'
+import { DecryptionEntity } from './entity/DecryptionEntity'
+import { DeviceEntity } from './entity/DeviceEntity'
+import { DeviceBuildEntity } from './entity/DeviceBuildEntity'
+import { DeviceCustodyDetailEntity } from './entity/DeviceCustodyDetailEntity'
+import { DeviceCustodyListEntity } from './entity/DeviceCustodyListEntity'
+import { DeviceListEntity } from './entity/DeviceListEntity'
+import { DeviceReceiveResultEntity } from './entity/DeviceReceiveResultEntity'
+import { DeviceRkiActivateResultEntity } from './entity/DeviceRkiActivateResultEntity'
+import { DeviceStateEntity } from './entity/DeviceStateEntity'
+import { DeviceTypeEntity } from './entity/DeviceTypeEntity'
+import { InjectKeyEntity } from './entity/InjectKeyEntity'
+import { KifEntity } from './entity/KifEntity'
+import { LocationEntity } from './entity/LocationEntity'
+import { PartnerEntity } from './entity/PartnerEntity'
+import { ShipmentEntity } from './entity/ShipmentEntity'
+import { SuccessEntity } from './entity/SuccessEntity'
+import { TransactionEntity } from './entity/TransactionEntity'
+import { UpdateResultEntity } from './entity/UpdateResultEntity'
+import { UserEntity } from './entity/UserEntity'
+
+export type * from './BluefinDecryptxP2peTypes'
+
+
+import { inspect } from 'node:util'
+
+import type { Context, Feature } from './types'
+
+import { config } from './Config'
+import { BluefinDecryptxP2peEntityBase } from './BluefinDecryptxP2peEntityBase'
+import { Utility } from './utility/Utility'
+
+
+import { BaseFeature } from './feature/base/BaseFeature'
+
+
+const stdutil = new Utility()
+
+
+class BluefinDecryptxP2peSDK {
+  _mode: string = 'live'
+  _options: any
+  _utility = new Utility()
+  _features: Feature[]
+  _rootctx: Context
+
+  constructor(options?: any) {
+
+    this._rootctx = this._utility.makeContext({
+      client: this,
+      utility: this._utility,
+      config,
+      options,
+      shared: new WeakMap()
+    })
+
+    this._options = this._utility.makeOptions(this._rootctx)
+
+    const struct = this._utility.struct
+    const getpath = struct.getpath
+
+    if (true === getpath(this._options.feature, 'test.active')) {
+      this._mode = 'test'
+    }
+
+    this._rootctx.options = this._options
+
+    this._features = []
+
+    const featureAdd = this._utility.featureAdd
+    const featureInit = this._utility.featureInit
+
+    // Add features in the resolved order (makeOptions puts an explicit
+    // array order first, else defaults to test-first). Ordering matters:
+    // the `test` feature installs the base mock transport and the transport
+    // features (retry/cache/netsim/proxy/ratelimit) wrap whatever is current,
+    // so `test` must be added before them to sit at the base of the chain.
+    const featureorder = getpath(this._options, '__derived__.featureorder') || []
+    for (const fname of featureorder) {
+      const fopts = this._options.feature[fname] || {}
+      if (fopts.active) {
+        featureAdd(this._rootctx, this._rootctx.config.makeFeature(fname))
+      }
+    }
+
+    if (null != this._options.extend) {
+      for (let f of this._options.extend) {
+        featureAdd(this._rootctx, f)
+      }
+    }
+
+    for (let f of this._features) {
+      featureInit(this._rootctx, f)
+    }
+
+    const featureHook = this._utility.featureHook
+    featureHook(this._rootctx, 'PostConstruct')
+  }
+
+
+  options() {
+    return this._utility.struct.clone(this._options)
+  }
+
+
+  utility() {
+    return this._utility.struct.clone(this._utility)
+  }
+
+
+  async prepare(fetchargs?: any) {
+    const utility = this._utility
+    const struct = utility.struct
+    const clone = struct.clone
+
+    const {
+      makeContext,
+      makeFetchDef,
+      prepareHeaders,
+      prepareAuth,
+    } = utility
+
+    fetchargs = fetchargs || {}
+
+    let ctx: Context = makeContext({
+      opname: 'prepare',
+      ctrl: fetchargs.ctrl || {},
+    }, this._rootctx)
+
+    const options = this._options
+
+    // Build spec directly from SDK options + user-provided fetch args.
+    const spec: any = {
+      base: options.base,
+      prefix: options.prefix,
+      suffix: options.suffix,
+      path: fetchargs.path || '',
+      method: fetchargs.method || 'GET',
+      params: fetchargs.params || {},
+      query: fetchargs.query || {},
+      headers: prepareHeaders(ctx),
+      body: fetchargs.body,
+      step: 'start',
+    }
+
+    ctx.spec = spec
+
+    // Merge user-provided headers over SDK defaults.
+    if (fetchargs.headers) {
+      const uheaders = fetchargs.headers
+      for (let key in uheaders) {
+        spec.headers[key] = uheaders[key]
+      }
+    }
+
+    // Apply SDK auth (apikey, auth prefix, etc.)
+    const authResult = prepareAuth(ctx)
+    if (authResult instanceof Error) {
+      return authResult
+    }
+
+    return makeFetchDef(ctx)
+  }
+
+
+  async direct(fetchargs?: any) {
+    const utility = this._utility
+    const fetcher = utility.fetcher
+    const makeContext = utility.makeContext
+
+    const fetchdef = await this.prepare(fetchargs)
+    if (fetchdef instanceof Error) {
+      return fetchdef
+    }
+
+    let ctx: Context = makeContext({
+      opname: 'direct',
+      ctrl: (fetchargs || {}).ctrl || {},
+    }, this._rootctx)
+
+    try {
+      const fetched = await fetcher(ctx, fetchdef.url, fetchdef)
+
+      if (null == fetched) {
+        return { ok: false, err: ctx.error('direct_no_response', 'response: undefined') }
+      }
+      else if (fetched instanceof Error) {
+        return { ok: false, err: fetched }
+      }
+
+      const status = fetched.status
+
+      // No body responses (204 No Content, 304 Not Modified) and explicit
+      // zero content-length must skip JSON parsing — fetched.json() would
+      // throw `Unexpected end of JSON input` on an empty body.
+      const headers = fetched.headers
+      const contentLength = headers && 'function' === typeof headers.get
+        ? headers.get('content-length')
+        : (headers || {})['content-length']
+      const noBody = 204 === status || 304 === status || '0' === String(contentLength)
+
+      let json: any = undefined
+      if (!noBody) {
+        try {
+          json = 'function' === typeof fetched.json ? await fetched.json() : fetched.json
+        }
+        catch (parseErr) {
+          // Body wasn't valid JSON — surface the raw response rather than
+          // throwing. data stays undefined; callers can inspect status/headers.
+          json = undefined
+        }
+      }
+
+      return {
+        ok: status >= 200 && status < 300,
+        status,
+        headers: fetched.headers,
+        data: json,
+      }
+    }
+    catch (err: any) {
+      return { ok: false, err }
+    }
+  }
+
+
+
+  // Entity access: `client.Attestation().list()` / `client.Attestation().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Attestation(entopts?: Record<string, any>) {
+    const self = this
+    return new AttestationEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.Client().list()` / `client.Client().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Client(entopts?: Record<string, any>) {
+    const self = this
+    return new ClientEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.CreateResult().list()` / `client.CreateResult().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  CreateResult(entopts?: Record<string, any>) {
+    const self = this
+    return new CreateResultEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.Decryption().list()` / `client.Decryption().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Decryption(entopts?: Record<string, any>) {
+    const self = this
+    return new DecryptionEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.Device().list()` / `client.Device().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Device(entopts?: Record<string, any>) {
+    const self = this
+    return new DeviceEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.DeviceBuild().list()` / `client.DeviceBuild().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  DeviceBuild(entopts?: Record<string, any>) {
+    const self = this
+    return new DeviceBuildEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.DeviceCustodyDetail().list()` / `client.DeviceCustodyDetail().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  DeviceCustodyDetail(entopts?: Record<string, any>) {
+    const self = this
+    return new DeviceCustodyDetailEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.DeviceCustodyList().list()` / `client.DeviceCustodyList().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  DeviceCustodyList(entopts?: Record<string, any>) {
+    const self = this
+    return new DeviceCustodyListEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.DeviceList().list()` / `client.DeviceList().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  DeviceList(entopts?: Record<string, any>) {
+    const self = this
+    return new DeviceListEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.DeviceReceiveResult().list()` / `client.DeviceReceiveResult().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  DeviceReceiveResult(entopts?: Record<string, any>) {
+    const self = this
+    return new DeviceReceiveResultEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.DeviceRkiActivateResult().list()` / `client.DeviceRkiActivateResult().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  DeviceRkiActivateResult(entopts?: Record<string, any>) {
+    const self = this
+    return new DeviceRkiActivateResultEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.DeviceState().list()` / `client.DeviceState().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  DeviceState(entopts?: Record<string, any>) {
+    const self = this
+    return new DeviceStateEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.DeviceType().list()` / `client.DeviceType().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  DeviceType(entopts?: Record<string, any>) {
+    const self = this
+    return new DeviceTypeEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.InjectKey().list()` / `client.InjectKey().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  InjectKey(entopts?: Record<string, any>) {
+    const self = this
+    return new InjectKeyEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.Kif().list()` / `client.Kif().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Kif(entopts?: Record<string, any>) {
+    const self = this
+    return new KifEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.Location().list()` / `client.Location().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Location(entopts?: Record<string, any>) {
+    const self = this
+    return new LocationEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.Partner().list()` / `client.Partner().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Partner(entopts?: Record<string, any>) {
+    const self = this
+    return new PartnerEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.Shipment().list()` / `client.Shipment().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Shipment(entopts?: Record<string, any>) {
+    const self = this
+    return new ShipmentEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.Success().list()` / `client.Success().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Success(entopts?: Record<string, any>) {
+    const self = this
+    return new SuccessEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.Transaction().list()` / `client.Transaction().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Transaction(entopts?: Record<string, any>) {
+    const self = this
+    return new TransactionEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.UpdateResult().list()` / `client.UpdateResult().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  UpdateResult(entopts?: Record<string, any>) {
+    const self = this
+    return new UpdateResultEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.User().list()` / `client.User().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  User(entopts?: Record<string, any>) {
+    const self = this
+    return new UserEntity(self, entopts)
+  }
+
+
+
+
+  static test(testoptsarg?: any, sdkoptsarg?: any) {
+    const struct = stdutil.struct
+    const setpath = struct.setpath
+    const getdef = struct.getdef
+    const clone = struct.clone
+    const setprop = struct.setprop
+
+    const sdkopts = getdef(clone(sdkoptsarg), {})
+    const testopts = getdef(clone(testoptsarg), {})
+    setprop(testopts, 'active', true)
+    setpath(sdkopts, 'feature.test', testopts)
+
+    const testsdk = new BluefinDecryptxP2peSDK(sdkopts)
+    testsdk._mode = 'test'
+
+    return testsdk
+  }
+
+
+  tester(testopts?: any, sdkopts?: any) {
+    return BluefinDecryptxP2peSDK.test(testopts, sdkopts)
+  }
+
+
+  toJSON() {
+    return { name: 'BluefinDecryptxP2pe' }
+  }
+
+  toString() {
+    return 'BluefinDecryptxP2pe ' + this._utility.struct.jsonify(this.toJSON())
+  }
+
+  [inspect.custom]() {
+    return this.toString()
+  }
+
+}
+
+
+
+
+const SDK = BluefinDecryptxP2peSDK
+
+
+export {
+  stdutil,
+  config,
+
+  BaseFeature,
+  BluefinDecryptxP2peEntityBase,
+
+  BluefinDecryptxP2peSDK,
+  SDK,
+}
+
+

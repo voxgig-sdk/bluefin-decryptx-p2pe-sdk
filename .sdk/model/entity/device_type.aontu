@@ -1,0 +1,130 @@
+# Entity: device_type
+
+main: kit: entity: device_type: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "created"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "device_type_mode"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "hardware_version"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "is_active"
+      req: false
+      type: "`$BOOLEAN`"
+    }
+    {
+      name: "manufacturer"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "model"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "modified"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "name"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "photo_url"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "product_name"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "version"
+      req: false
+      type: "`$INTEGER`"
+    }
+  ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "device_type"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          method: "GET"
+          orig: "/deviceTypes"
+          parts: [
+            "deviceTypes"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/deviceTypes/{id}"
+          parts: [
+            "deviceTypes"
+            "{id}"
+          ]
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

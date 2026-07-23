@@ -1,0 +1,28 @@
+{
+  "existing": {
+    "success": {
+      "SUCCESS00": {
+        "success": true,
+        "share_partner_to": "SHARE_PARTNER_TO01",
+        "id": "SUCCESS00"
+      },
+      "SUCCESS01": {
+        "success": true,
+        "share_partner_to": "SHARE_PARTNER_TO01",
+        "id": "SUCCESS01"
+      },
+      "SUCCESS02": {
+        "success": true,
+        "share_partner_to": "SHARE_PARTNER_TO01",
+        "id": "SUCCESS02"
+      }
+    }
+  },
+  "new": {
+    "success": {
+      "success_ref01": {
+        "success": true
+      }
+    }
+  }
+}

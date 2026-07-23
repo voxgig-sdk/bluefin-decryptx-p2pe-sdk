@@ -1,0 +1,25 @@
+{
+  "existing": {
+    "device_rki_activate_result": {
+      "DEVICE_RKI_ACTIVATE_RESULT00": {
+        "success": true,
+        "id": "DEVICE_RKI_ACTIVATE_RESULT00"
+      },
+      "DEVICE_RKI_ACTIVATE_RESULT01": {
+        "success": true,
+        "id": "DEVICE_RKI_ACTIVATE_RESULT01"
+      },
+      "DEVICE_RKI_ACTIVATE_RESULT02": {
+        "success": true,
+        "id": "DEVICE_RKI_ACTIVATE_RESULT02"
+      }
+    }
+  },
+  "new": {
+    "device_rki_activate_result": {
+      "device_rki_activate_result_ref01": {
+        "success": true
+      }
+    }
+  }
+}

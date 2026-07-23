@@ -1,0 +1,39 @@
+# Entity: device_rki_activate_result
+
+main: kit: entity: device_rki_activate_result: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "success"
+      req: true
+      type: "`$BOOLEAN`"
+    }
+  ]
+
+  name: "device_rki_activate_result"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          method: "POST"
+          orig: "/devices/rki/activate"
+          parts: [
+            "devices"
+            "rki"
+            "activate"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

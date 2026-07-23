@@ -1,0 +1,32 @@
+{
+  "existing": {
+    "device_list": {
+      "DEVICE_LIST00": {
+        "data": [],
+        "total": "s15",
+        "share_partner_to": "SHARE_PARTNER_TO01",
+        "id": "DEVICE_LIST00"
+      },
+      "DEVICE_LIST01": {
+        "data": [],
+        "total": "s29",
+        "share_partner_to": "SHARE_PARTNER_TO01",
+        "id": "DEVICE_LIST01"
+      },
+      "DEVICE_LIST02": {
+        "data": [],
+        "total": "s3d",
+        "share_partner_to": "SHARE_PARTNER_TO01",
+        "id": "DEVICE_LIST02"
+      }
+    }
+  },
+  "new": {
+    "device_list": {
+      "device_list_ref01": {
+        "data": [],
+        "total": "s51"
+      }
+    }
+  }
+}

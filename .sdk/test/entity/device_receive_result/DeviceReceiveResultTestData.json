@@ -1,0 +1,25 @@
+{
+  "existing": {
+    "device_receive_result": {
+      "DEVICE_RECEIVE_RESULT00": {
+        "success": true,
+        "id": "DEVICE_RECEIVE_RESULT00"
+      },
+      "DEVICE_RECEIVE_RESULT01": {
+        "success": true,
+        "id": "DEVICE_RECEIVE_RESULT01"
+      },
+      "DEVICE_RECEIVE_RESULT02": {
+        "success": true,
+        "id": "DEVICE_RECEIVE_RESULT02"
+      }
+    }
+  },
+  "new": {
+    "device_receive_result": {
+      "device_receive_result_ref01": {
+        "success": true
+      }
+    }
+  }
+}

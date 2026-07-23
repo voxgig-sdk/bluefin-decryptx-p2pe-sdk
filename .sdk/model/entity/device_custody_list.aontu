@@ -1,0 +1,163 @@
+# Entity: device_custody_list
+
+main: kit: entity: device_custody_list: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "complete_date"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "created"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "created_by"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "custodian"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "device"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "id"
+      req: false
+      type: "`$INTEGER`"
+    }
+    {
+      name: "location"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "modified"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "modified_by"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "note"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "status"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "transfer_method"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "version"
+      req: false
+      type: "`$INTEGER`"
+    }
+  ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "device_custody_list"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "device_type"
+                orig: "device_type"
+                reqd: true
+                type: "`$STRING`"
+              }
+              {
+                kind: "param"
+                name: "serial_number"
+                orig: "serial_number"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                example: 0
+                kind: "query"
+                name: "skip"
+                orig: "skip"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+              {
+                example: 10
+                kind: "query"
+                name: "take"
+                orig: "take"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/devices/{serialNumber}/{deviceType}/custody"
+          parts: [
+            "devices"
+            "{serial_number}"
+            "{device_type}"
+            "custody"
+          ]
+          rename: {
+            param: {
+              deviceType: "device_type"
+              serialNumber: "serial_number"
+            }
+          }
+          select: {
+            exist: [
+              "device_type"
+              "serial_number"
+              "skip"
+              "take"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  relations: {
+    ancestors: [
+      [
+        "device"
+      ]
+    ]
+  }
+
+
+
+}

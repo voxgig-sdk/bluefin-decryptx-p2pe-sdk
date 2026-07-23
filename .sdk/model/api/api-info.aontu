@@ -1,0 +1,104 @@
+# API Information
+
+
+main: {
+  kit: {
+    info: {
+      description: `# Overview
+The purpose of the Decryptx management APIs are to provide Decryptx
+Partners and Key Injection Facilities (KIFs) a way to integrate their services
+to the Decryptx Platform. These APIs allow them to integrate P2PE Manager functionality into
+their own services, therefore providing their merchants an alternative to
+the P2PE Manager for common tasks.
+
+### Deleting Resource
+With the Management APIs, as with the P2PE Manager, once a resource has been utilized it cannot be deleted. For example, if a user has logged into the system even once they cannot be deleted. Instead of deleting resources that have been deleted, they shhould be set to inactive.
+
+### Transactions endpoints
+The transaction endpoints are included in the Management APIs for Partners that have their own (Domain 5) P2PE compliant decryption environment and who wish to use our platform to manage their partners, merchants and devices. Our transactions endpoints allow Partners journal their decryption activity into the P2PE Manager, allowing the Partner to utilize the device management and chain-of-custody functionality of the P2PE Manager. Even when decryptions occur outside of the Decryptx system, the Partner's Client can still benefit from the P2PE Manager's device management, chain of custody, and historical decryption activity logs functionality.
+
+# Authentication
+All calls to our Management APIs support basic and HMAC authentication. For instruction of how to implement HMAC please refer to the guide on our developer portal (https://developers.bluefin.com/p2pe-manager/apiguides/hmac).
+
+Basic authentication is a simple authentication scheme built into the HTTP protocol, the client sends HTTP requests with an Authorization header that contains the word *'Basic'*, followed by a space and a base64-encoded string username:password. For example, for the username and password, user and password, the authentication header is as follows:
+~~~
+//Authorization: Basic base64(user:pasword)
+~~~
+Output:
+~~~
+Authorization: Basic dXNlcjpwYXNzd29yZA==
+~~~
+The Management accept the same usernames and passwords from the P2PEManager; importantly, access to respourse are limited based on the user role. A KIF user can access number of API endpoints that the Patner user cannot and vice versa. On the other hand, there are a number of APIs that are common to both types of Users.
+
+
+### Partner User Access
+The following table outlines the REST operations that a Partner user can access. Client level users are not allowed to integrate with theses APIs, instead these APIs are designed so that the Client's Partner would integrate functionality to their service. That design decision has resulted in the Partners having increased access to P2PE resources on the APIs when compared to the P2PEManager GUI. For example, a Partner can alter a device's state with the Management APIs, whereas they cannot on the P2PE Manager GUI.
+
+| EndPoint             | GET (all) | POST | GET (Single) | PATCH | DELETE |
+|----------------------|:---------:|:----:|:------------:|:-----:|:------:|
+| /api/v1/users        |     ✔     |   ✔  |       ✔      |   ✔   |   ✔*   |
+| /api/v1/partners     |     ✔     |   ✔  |       ✔      |   ✔   |        |
+| /api/v1/clients      |     ✔     |   ✔  |       ✔      |   ✔   |        |
+| /api/v1/decryption   |           |   ✔  |              |       |        |
+| /api/v1/devices      |     ✔     |   ✔  |       ✔      |   ✔   |   ✔*   |
+| /api/v1/deviceBuilds |     ✔     |      |       ✔      |       |        |
+| /api/v1/deviceTypes  |     ✔     |      |       ✔      |       |        |
+| /api/v1/deviceStates |     ✔     |      |              |       |        |
+| /api/v1/devices/{serial}/{type}/custody  |     ✔     |   ✔   |       ✔      |       |        |
+| /api/v1/locations    |     ✔     |   ✔  |       ✔      |   ✔   |   ✔*   |
+| /api/v1/shipments    |           |      |              |       |        |
+| /api/v1/attestations |     ✔     |   ✔  |       ✔      |       |        |
+| /api/v1/transactions |     ✔     |   ✔  |       ✔      |   ✔   |        |
+| /api/v1/kifs         |     ✔     |      |              |       |        |
+| /api/v1/injectkeys   |           |      |              |       |        |
+| /api/v1/virtualDevices/{partner}   |           |   ✔   |       ✔       |       |    ✔    |
+* A resource that has been used one or more times cannot be deleted.
+
+
+### KIF User Access
+The following table outlines the subset of Management APIs that a KIF user can access. Within this subset, some resources will only appear if they are in a particular state. For example, a Device will appear in the GET all endpoint if its deviceState is set to Unassigned, Assigned, or Injected. Once it is received by the merchant and set to *'stored'* or *'activating'* it will no longer appear on the GET all devices response for the originating KIF.
+
+
+| Endpoint             | GET (all) | POST | GET (Single) | PATCH | DELETE |
+|----------------------|:---------:|:----:|:------------:|:-----:|:------:|
+| /api/v1/users        |     ✔     |   ✔  |       ✔      |   ✔   |   ✔*   |
+| /api/v1/partners     |     ✔     |      |       ✔      |       |        |
+| /api/v1/clients      |     ✔     |      |       ✔      |       |        |
+| /api/v1/decryption   |           |   ✔  |              |       |        |
+| /api/v1/devices      |     ✔     |   ✔  |       ✔      |       |        |
+| /api/v1/deviceBuilds |     ✔     |      |       ✔      |       |        |
+| /api/v1/deviceTypes  |     ✔     |      |       ✔      |       |        |
+| /api/v1/deviceStates |     ✔     |      |              |       |        |
+| /api/v1/devices/{serial}/{type}/custody  |           |       |              |       |        |
+| /api/v1/locations    |     ✔     |   ✔  |       ✔      |   ✔   |   ✔*   |
+| /api/v1/shipments    |     ✔     |   ✔  |       ✔      |   ✔   |        |
+| /api/v1/attestations |           |      |              |       |        |
+| /api/v1/transactions |           |      |              |       |        |
+| /api/v1/kifs         |     ✔     |      |              |       |        |
+| /api/v1/injectkeys   |     ✔     |      |       ✔      |       |        |
+| /api/v1/virtualDevices/{partner}   |           |       |               |       |         |
+* A resource that has been used one or more times it cannot be deleted.
+`
+      security: {
+        in: "header"
+        name: "Authorization"
+        prefix: "Basic"
+        scheme: "basic"
+        type: "http"
+      }
+      servers: [
+        {
+          url: "https://apis.p2pemanager.com/api/v1"
+        }
+        {
+          url: "http://apis.p2pemanager.com/api/v1"
+        }
+      ]
+      summary: "The purpose of the Decryptx management APIs are to provide Decryptx Partners and Key Injection Facilities (KIFs) a way to integrate their services to the Decryptx Platform."
+      title: "Decryptx External Api"
+      version: "1.0.0"
+      website: "https://p2pemanager.com"
+    }
+  }
+}
+

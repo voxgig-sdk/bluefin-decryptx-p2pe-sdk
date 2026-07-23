@@ -1,0 +1,196 @@
+# Entity: partner
+
+main: kit: entity: partner: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "billing_id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "client_can_order_equipment"
+      req: false
+      type: "`$BOOLEAN`"
+    }
+    {
+      name: "contact"
+      op: {
+        list: {
+          req: true
+          type: "`$OBJECT`"
+        }
+      }
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "created"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "is_active"
+      req: false
+      type: "`$BOOLEAN`"
+    }
+    {
+      name: "location"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "modified"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "name"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "parent"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "partner_id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "reference"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "verification_phrase"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "version"
+      req: false
+      type: "`$INTEGER`"
+    }
+  ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "partner"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          method: "POST"
+          orig: "/partners"
+          parts: [
+            "partners"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            query: [
+              {
+                kind: "query"
+                name: "partner"
+                orig: "partner"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                example: 0
+                kind: "query"
+                name: "skip"
+                orig: "skip"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+              {
+                example: 10
+                kind: "query"
+                name: "take"
+                orig: "take"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/partners"
+          parts: [
+            "partners"
+          ]
+          select: {
+            exist: [
+              "partner"
+              "skip"
+              "take"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/partners/{id}"
+          parts: [
+            "partners"
+            "{id}"
+          ]
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

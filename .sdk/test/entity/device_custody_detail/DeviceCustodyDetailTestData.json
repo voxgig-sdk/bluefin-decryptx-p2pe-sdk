@@ -1,0 +1,75 @@
+{
+  "existing": {
+    "device_custody_detail": {
+      "DEVICE_CUSTODY_DETAIL00": {
+        "complete_date": "s82",
+        "created": "s83",
+        "created_by": {},
+        "custodian": {},
+        "device": {},
+        "id": "DEVICE_CUSTODY_DETAIL00",
+        "location": {},
+        "modified": "s89",
+        "modified_by": {},
+        "note": "s8b",
+        "status": {},
+        "transfer_method": {},
+        "version": "s8e",
+        "device_type": "DEVICE_TYPE01",
+        "serial_number": "SERIAL_NUMBER01"
+      },
+      "DEVICE_CUSTODY_DETAIL01": {
+        "complete_date": "s104",
+        "created": "s105",
+        "created_by": {},
+        "custodian": {},
+        "device": {},
+        "id": "DEVICE_CUSTODY_DETAIL01",
+        "location": {},
+        "modified": "s10b",
+        "modified_by": {},
+        "note": "s10d",
+        "status": {},
+        "transfer_method": {},
+        "version": "s110",
+        "device_type": "DEVICE_TYPE01",
+        "serial_number": "SERIAL_NUMBER01"
+      },
+      "DEVICE_CUSTODY_DETAIL02": {
+        "complete_date": "s186",
+        "created": "s187",
+        "created_by": {},
+        "custodian": {},
+        "device": {},
+        "id": "DEVICE_CUSTODY_DETAIL02",
+        "location": {},
+        "modified": "s18d",
+        "modified_by": {},
+        "note": "s18f",
+        "status": {},
+        "transfer_method": {},
+        "version": "s192",
+        "device_type": "DEVICE_TYPE01",
+        "serial_number": "SERIAL_NUMBER01"
+      }
+    }
+  },
+  "new": {
+    "device_custody_detail": {
+      "device_custody_detail_ref01": {
+        "complete_date": "s208",
+        "created": "s209",
+        "created_by": {},
+        "custodian": {},
+        "device": {},
+        "location": {},
+        "modified": "s20f",
+        "modified_by": {},
+        "note": "s211",
+        "status": {},
+        "transfer_method": {},
+        "version": "s214"
+      }
+    }
+  }
+}

@@ -1,0 +1,49 @@
+# BasicUpdateResultFlow
+
+main: kit: flow: BasicUpdateResultFlow:
+{
+  entity: "update_result",
+  kind: "basic",
+  name: "BasicUpdateResultFlow",
+  step: [
+    {
+      input: {
+        ref: "update_result_ref01"
+      }
+
+      op: "create"
+    }
+
+    {
+      op: "list",
+      valid: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "update_result_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      input: {
+        ref: "update_result_ref01",
+        srcdatavar: "update_result_ref01_data",
+        suffix: "_up0",
+        textfield: "email"
+      }
+
+      op: "update",
+      spec: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-update_result_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicUpdateResultFlow"
+}

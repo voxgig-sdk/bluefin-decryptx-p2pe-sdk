@@ -1,0 +1,61 @@
+{
+  "existing": {
+    "client": {
+      "CLIENT00": {
+        "contact": {},
+        "created": "s6f",
+        "direct_partner": {},
+        "id": "CLIENT00",
+        "is_active": true,
+        "location": {},
+        "mid": "s74",
+        "modified": "s75",
+        "name": "s76",
+        "partner": {},
+        "version": "s78"
+      },
+      "CLIENT01": {
+        "contact": {},
+        "created": "sdd",
+        "direct_partner": {},
+        "id": "CLIENT01",
+        "is_active": true,
+        "location": {},
+        "mid": "se2",
+        "modified": "se3",
+        "name": "se4",
+        "partner": {},
+        "version": "se6"
+      },
+      "CLIENT02": {
+        "contact": {},
+        "created": "s14b",
+        "direct_partner": {},
+        "id": "CLIENT02",
+        "is_active": true,
+        "location": {},
+        "mid": "s150",
+        "modified": "s151",
+        "name": "s152",
+        "partner": {},
+        "version": "s154"
+      }
+    }
+  },
+  "new": {
+    "client": {
+      "client_ref01": {
+        "contact": {},
+        "created": "s1b9",
+        "direct_partner": {},
+        "is_active": true,
+        "location": {},
+        "mid": "s1be",
+        "modified": "s1bf",
+        "name": "s1c0",
+        "partner": {},
+        "version": "s1c2"
+      }
+    }
+  }
+}

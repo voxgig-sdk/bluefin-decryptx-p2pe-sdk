@@ -1,0 +1,52 @@
+# BasicPartnerFlow
+
+main: kit: flow: BasicPartnerFlow:
+{
+  entity: "partner",
+  kind: "basic",
+  name: "BasicPartnerFlow",
+  step: [
+    {
+      input: {
+        ref: "partner_ref01"
+      }
+
+      op: "create"
+    }
+
+    {
+      op: "list",
+      valid: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "partner_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      input: {
+        ref: "partner_ref01",
+        srcdatavar: "partner_ref01_data",
+        suffix: "_dt0"
+      }
+
+      match: {
+        id: "partner01"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-partner_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicPartnerFlow"
+}

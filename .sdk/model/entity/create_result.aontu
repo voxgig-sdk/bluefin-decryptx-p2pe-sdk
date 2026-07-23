@@ -1,0 +1,70 @@
+# Entity: create_result
+
+main: kit: entity: create_result: {
+
+  alias: field: {}
+
+  name: "create_result"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "device_type"
+                orig: "device_type"
+                reqd: true
+                type: "`$STRING`"
+              }
+              {
+                kind: "param"
+                name: "serial_number"
+                orig: "serial_number"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "POST"
+          orig: "/devices/{serialNumber}/{deviceType}/custody"
+          parts: [
+            "devices"
+            "{serial_number}"
+            "{device_type}"
+            "custody"
+          ]
+          rename: {
+            param: {
+              deviceType: "device_type"
+              serialNumber: "serial_number"
+            }
+          }
+          select: {
+            exist: [
+              "device_type"
+              "serial_number"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  relations: {
+    ancestors: [
+      [
+        "device"
+      ]
+    ]
+  }
+
+
+
+}

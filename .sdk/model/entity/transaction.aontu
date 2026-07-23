@@ -1,0 +1,321 @@
+# Entity: transaction
+
+main: kit: entity: transaction: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "alternate_key"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "client"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "client_ref"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "created"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "decrypted"
+      req: false
+      type: "`$INTEGER`"
+    }
+    {
+      name: "device_name"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "direct_partner"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "encrypted"
+      req: false
+      type: "`$INTEGER`"
+    }
+    {
+      name: "end_date"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "err_code"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "err_message"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "ip_address"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "is_virtual"
+      req: false
+      type: "`$BOOLEAN`"
+    }
+    {
+      name: "key_type"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "location"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "message_id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "method"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "partner"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "reference"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "serial_number"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "start_date"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "success"
+      req: false
+      type: "`$BOOLEAN`"
+    }
+    {
+      name: "transaction_source"
+      req: false
+      type: "`$STRING`"
+    }
+  ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "transaction"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          method: "POST"
+          orig: "/transactions"
+          parts: [
+            "transactions"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            query: [
+              {
+                kind: "query"
+                name: "client"
+                orig: "client"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "client_ref"
+                orig: "client_ref"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "date_from"
+                orig: "date_from"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "date_to"
+                orig: "date_to"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "location"
+                orig: "location"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "message_id"
+                orig: "message_id"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                example: "nocount"
+                kind: "query"
+                name: "paging_mode"
+                orig: "paging_mode"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "partner"
+                orig: "partner"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "reference"
+                orig: "reference"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "serial_number"
+                orig: "serial_number"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                example: 0
+                kind: "query"
+                name: "skip"
+                orig: "skip"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+              {
+                kind: "query"
+                name: "success"
+                orig: "success"
+                reqd: false
+                type: "`$BOOLEAN`"
+              }
+              {
+                example: 10
+                kind: "query"
+                name: "take"
+                orig: "take"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/transactions"
+          parts: [
+            "transactions"
+          ]
+          select: {
+            exist: [
+              "client"
+              "client_ref"
+              "date_from"
+              "date_to"
+              "location"
+              "message_id"
+              "paging_mode"
+              "partner"
+              "reference"
+              "serial_number"
+              "skip"
+              "success"
+              "take"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/transactions/{id}"
+          parts: [
+            "transactions"
+            "{id}"
+          ]
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

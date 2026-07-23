@@ -1,0 +1,26 @@
+{
+  "existing": {
+    "create_result": {
+      "CREATE_RESULT00": {
+        "device_type": "DEVICE_TYPE01",
+        "serial_number": "SERIAL_NUMBER01",
+        "id": "CREATE_RESULT00"
+      },
+      "CREATE_RESULT01": {
+        "device_type": "DEVICE_TYPE01",
+        "serial_number": "SERIAL_NUMBER01",
+        "id": "CREATE_RESULT01"
+      },
+      "CREATE_RESULT02": {
+        "device_type": "DEVICE_TYPE01",
+        "serial_number": "SERIAL_NUMBER01",
+        "id": "CREATE_RESULT02"
+      }
+    }
+  },
+  "new": {
+    "create_result": {
+      "create_result_ref01": {}
+    }
+  }
+}

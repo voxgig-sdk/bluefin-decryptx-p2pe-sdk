@@ -1,0 +1,152 @@
+# Entity: device_custody_detail
+
+main: kit: entity: device_custody_detail: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "complete_date"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "created"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "created_by"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "custodian"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "device"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "id"
+      req: false
+      type: "`$INTEGER`"
+    }
+    {
+      name: "location"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "modified"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "modified_by"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "note"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "status"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "transfer_method"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "version"
+      req: false
+      type: "`$INTEGER`"
+    }
+  ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "device_custody_detail"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "device_type"
+                orig: "device_type"
+                reqd: true
+                type: "`$STRING`"
+              }
+              {
+                kind: "param"
+                name: "id"
+                orig: "id"
+                reqd: true
+                type: "`$STRING`"
+              }
+              {
+                kind: "param"
+                name: "serial_number"
+                orig: "serial_number"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/devices/{serialNumber}/{deviceType}/custody/{id}"
+          parts: [
+            "devices"
+            "{serial_number}"
+            "{device_type}"
+            "custody"
+            "{id}"
+          ]
+          rename: {
+            param: {
+              deviceType: "device_type"
+              serialNumber: "serial_number"
+            }
+          }
+          select: {
+            exist: [
+              "device_type"
+              "id"
+              "serial_number"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  relations: {
+    ancestors: [
+      [
+        "device"
+      ]
+    ]
+  }
+
+
+
+}

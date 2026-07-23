@@ -1,0 +1,49 @@
+{
+  "existing": {
+    "inject_key": {
+      "INJECT_KEY00": {
+        "created": "s50",
+        "id": "INJECT_KEY00",
+        "is_active": true,
+        "is_p2_pe": false,
+        "key_type": "s54",
+        "modified": "s55",
+        "name": "s56",
+        "version": "s57"
+      },
+      "INJECT_KEY01": {
+        "created": "sa0",
+        "id": "INJECT_KEY01",
+        "is_active": true,
+        "is_p2_pe": false,
+        "key_type": "sa4",
+        "modified": "sa5",
+        "name": "sa6",
+        "version": "sa7"
+      },
+      "INJECT_KEY02": {
+        "created": "sf0",
+        "id": "INJECT_KEY02",
+        "is_active": true,
+        "is_p2_pe": false,
+        "key_type": "sf4",
+        "modified": "sf5",
+        "name": "sf6",
+        "version": "sf7"
+      }
+    }
+  },
+  "new": {
+    "inject_key": {
+      "inject_key_ref01": {
+        "created": "s140",
+        "is_active": true,
+        "is_p2_pe": false,
+        "key_type": "s144",
+        "modified": "s145",
+        "name": "s146",
+        "version": "s147"
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "existing": {
+    "kif": {
+      "KIF00": {
+        "id": "KIF00",
+        "name": "s15"
+      },
+      "KIF01": {
+        "id": "KIF01",
+        "name": "s29"
+      },
+      "KIF02": {
+        "id": "KIF02",
+        "name": "s3d"
+      }
+    }
+  },
+  "new": {
+    "kif": {
+      "kif_ref01": {
+        "name": "s51"
+      }
+    }
+  }
+}

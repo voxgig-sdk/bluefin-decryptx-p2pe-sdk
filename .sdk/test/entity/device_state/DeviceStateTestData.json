@@ -1,0 +1,25 @@
+{
+  "existing": {
+    "device_state": {
+      "DEVICE_STATE00": {
+        "id": "DEVICE_STATE00",
+        "name": "s15"
+      },
+      "DEVICE_STATE01": {
+        "id": "DEVICE_STATE01",
+        "name": "s29"
+      },
+      "DEVICE_STATE02": {
+        "id": "DEVICE_STATE02",
+        "name": "s3d"
+      }
+    }
+  },
+  "new": {
+    "device_state": {
+      "device_state_ref01": {
+        "name": "s51"
+      }
+    }
+  }
+}
