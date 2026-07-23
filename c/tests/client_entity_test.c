@@ -6,7 +6,7 @@ int main(void) {
   BluefinDecryptxP2peSDK* sdk = test_sdk(NULL, NULL);
   CHECK(sdk != NULL, "sdk constructed");
 
-  Entity* e = bluefin_decryptx_p2pe_client(sdk, NULL);
+  Entity* e = bluefindecryptxp2pe_client(sdk, NULL);
   CHECK(e != NULL, "entity instance");
   CHECK_STR_EQ(e->vt->get_name(e), "client", "entity get_name");
 
@@ -24,7 +24,7 @@ int main(void) {
       cmap(1, "streaming", cmap(1, "active", v_bool(true))));
 
     BluefinDecryptxP2peSDK* strsdk = test_sdk(seed, sdkopts);
-    Entity* se = bluefin_decryptx_p2pe_client(strsdk, NULL);
+    Entity* se = bluefindecryptxp2pe_client(strsdk, NULL);
     PNError* serr = NULL;
     voxgig_value* items = client_stream(se, "list", NULL, NULL, &serr);
     CHECK(serr == NULL, "stream: no error");
@@ -33,7 +33,7 @@ int main(void) {
 
     // Fallback: streaming inactive still yields both materialised items.
     BluefinDecryptxP2peSDK* plainsdk = test_sdk(seed, NULL);
-    Entity* pe = bluefin_decryptx_p2pe_client(plainsdk, NULL);
+    Entity* pe = bluefindecryptxp2pe_client(plainsdk, NULL);
     PNError* perr = NULL;
     voxgig_value* pitems = client_stream(pe, "list", NULL, NULL, &perr);
     CHECK(perr == NULL, "stream fallback: no error");

@@ -29,6 +29,9 @@ object InjectKeyEntityTest {
       idmap.put("inject_key02", "INJECT_KEY02")
       idmap.put("inject_key03", "INJECT_KEY03")
       val now = System.currentTimeMillis()
+      val injectKeyRef01DataRaw = Struct.items(Helpers.toMapAny(
+          Struct.getpath(entityData, "existing.inject_key")))
+      val injectKeyRef01Data = Helpers.toMapAny(injectKeyRef01DataRaw.get(0).get(1))
 
       // LIST
       val injectKeyRef01Ent = client.injectKey(null)

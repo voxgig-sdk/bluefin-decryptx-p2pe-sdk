@@ -93,7 +93,7 @@ local results, err = client:DeviceType():list()
 
 BluefinDecryptxP2peSDK* client = test_sdk(NULL, NULL);
 PNError* err = NULL;
-Entity* device_type = bluefin_decryptx_p2pe_device_type(client, NULL);
+Entity* device_type = bluefindecryptxp2pe_device_type(client, NULL);
 voxgig_value* device_types = device_type->vt->list(device_type, NULL, NULL, &err);
 printf("%s\n", voxgig_to_json(device_types));
 ```
@@ -478,11 +478,11 @@ print(attestation)
 ```c
 #include "core/api.h"
 
-BluefinDecryptxP2peSDK* client = bluefin_decryptx_p2pe_sdk_new(cmap(1,
+BluefinDecryptxP2peSDK* client = bluefindecryptxp2pe_sdk_new(cmap(1,
     "apikey", v_str(getenv("BLUEFIN_DECRYPTX_P2PE_APIKEY"))));
 PNError* err = NULL;
 
-Entity* attestation = bluefin_decryptx_p2pe_attestation(client, NULL);
+Entity* attestation = bluefindecryptxp2pe_attestation(client, NULL);
 
 // List all attestations (returns a List, sets *err on failure)
 voxgig_value* attestations = attestation->vt->list(attestation, NULL, NULL, &err);

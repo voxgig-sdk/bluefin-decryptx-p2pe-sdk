@@ -43,10 +43,6 @@ object SuccessEntityTest {
       successRef01Data = Helpers.toMapAny(successRef01DataResult)
       rep.check("success.create.map", successRef01Data != null, "expected create result to be a map")
 
-      // REMOVE
-      val successRef01MatchRm0 = new LinkedHashMap[String, Object]()
-      successRef01MatchRm0.put("id", successRef01Data.get("id"))
-      successRef01Ent.remove(successRef01MatchRm0, null)
     }
   }
 }

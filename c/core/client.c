@@ -204,112 +204,112 @@ voxgig_value* sdk_direct(BluefinDecryptxP2peSDK* sdk, voxgig_value* fetchargs, P
 
 
 // Attestation entity bound to this client.
-Entity* bluefin_decryptx_p2pe_attestation(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
+Entity* bluefindecryptxp2pe_attestation(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
   return attestation_entity_new(client, entopts);
 }
 
 // Client entity bound to this client.
-Entity* bluefin_decryptx_p2pe_client(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
+Entity* bluefindecryptxp2pe_client(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
   return client_entity_new(client, entopts);
 }
 
 // CreateResult entity bound to this client.
-Entity* bluefin_decryptx_p2pe_create_result(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
+Entity* bluefindecryptxp2pe_create_result(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
   return create_result_entity_new(client, entopts);
 }
 
 // Decryption entity bound to this client.
-Entity* bluefin_decryptx_p2pe_decryption(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
+Entity* bluefindecryptxp2pe_decryption(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
   return decryption_entity_new(client, entopts);
 }
 
 // Device entity bound to this client.
-Entity* bluefin_decryptx_p2pe_device(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
+Entity* bluefindecryptxp2pe_device(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
   return device_entity_new(client, entopts);
 }
 
 // DeviceBuild entity bound to this client.
-Entity* bluefin_decryptx_p2pe_device_build(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
+Entity* bluefindecryptxp2pe_device_build(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
   return device_build_entity_new(client, entopts);
 }
 
 // DeviceCustodyDetail entity bound to this client.
-Entity* bluefin_decryptx_p2pe_device_custody_detail(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
+Entity* bluefindecryptxp2pe_device_custody_detail(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
   return device_custody_detail_entity_new(client, entopts);
 }
 
 // DeviceCustodyList entity bound to this client.
-Entity* bluefin_decryptx_p2pe_device_custody_list(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
+Entity* bluefindecryptxp2pe_device_custody_list(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
   return device_custody_list_entity_new(client, entopts);
 }
 
 // DeviceList entity bound to this client.
-Entity* bluefin_decryptx_p2pe_device_list(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
+Entity* bluefindecryptxp2pe_device_list(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
   return device_list_entity_new(client, entopts);
 }
 
 // DeviceReceiveResult entity bound to this client.
-Entity* bluefin_decryptx_p2pe_device_receive_result(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
+Entity* bluefindecryptxp2pe_device_receive_result(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
   return device_receive_result_entity_new(client, entopts);
 }
 
 // DeviceRkiActivateResult entity bound to this client.
-Entity* bluefin_decryptx_p2pe_device_rki_activate_result(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
+Entity* bluefindecryptxp2pe_device_rki_activate_result(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
   return device_rki_activate_result_entity_new(client, entopts);
 }
 
 // DeviceState entity bound to this client.
-Entity* bluefin_decryptx_p2pe_device_state(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
+Entity* bluefindecryptxp2pe_device_state(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
   return device_state_entity_new(client, entopts);
 }
 
 // DeviceType entity bound to this client.
-Entity* bluefin_decryptx_p2pe_device_type(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
+Entity* bluefindecryptxp2pe_device_type(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
   return device_type_entity_new(client, entopts);
 }
 
 // InjectKey entity bound to this client.
-Entity* bluefin_decryptx_p2pe_inject_key(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
+Entity* bluefindecryptxp2pe_inject_key(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
   return inject_key_entity_new(client, entopts);
 }
 
 // Kif entity bound to this client.
-Entity* bluefin_decryptx_p2pe_kif(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
+Entity* bluefindecryptxp2pe_kif(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
   return kif_entity_new(client, entopts);
 }
 
 // Location entity bound to this client.
-Entity* bluefin_decryptx_p2pe_location(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
+Entity* bluefindecryptxp2pe_location(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
   return location_entity_new(client, entopts);
 }
 
 // Partner entity bound to this client.
-Entity* bluefin_decryptx_p2pe_partner(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
+Entity* bluefindecryptxp2pe_partner(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
   return partner_entity_new(client, entopts);
 }
 
 // Shipment entity bound to this client.
-Entity* bluefin_decryptx_p2pe_shipment(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
+Entity* bluefindecryptxp2pe_shipment(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
   return shipment_entity_new(client, entopts);
 }
 
 // Success entity bound to this client.
-Entity* bluefin_decryptx_p2pe_success(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
+Entity* bluefindecryptxp2pe_success(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
   return success_entity_new(client, entopts);
 }
 
 // Transaction entity bound to this client.
-Entity* bluefin_decryptx_p2pe_transaction(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
+Entity* bluefindecryptxp2pe_transaction(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
   return transaction_entity_new(client, entopts);
 }
 
 // UpdateResult entity bound to this client.
-Entity* bluefin_decryptx_p2pe_update_result(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
+Entity* bluefindecryptxp2pe_update_result(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
   return update_result_entity_new(client, entopts);
 }
 
 // User entity bound to this client.
-Entity* bluefin_decryptx_p2pe_user(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
+Entity* bluefindecryptxp2pe_user(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
   return user_entity_new(client, entopts);
 }
 

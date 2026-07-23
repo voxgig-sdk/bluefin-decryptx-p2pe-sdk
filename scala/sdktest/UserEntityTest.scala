@@ -29,6 +29,9 @@ object UserEntityTest {
       idmap.put("user02", "USER02")
       idmap.put("user03", "USER03")
       val now = System.currentTimeMillis()
+      val userRef01DataRaw = Struct.items(Helpers.toMapAny(
+          Struct.getpath(entityData, "existing.user")))
+      val userRef01Data = Helpers.toMapAny(userRef01DataRaw.get(0).get(1))
 
       // LOAD
       val userRef01Ent = client.user(null)

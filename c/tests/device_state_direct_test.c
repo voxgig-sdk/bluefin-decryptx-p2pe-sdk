@@ -28,7 +28,7 @@ static BluefinDecryptxP2peSDK* device_state_direct_setup(voxgig_value* mockres) 
   voxgig_value* opts = cmap(2,
     "base", v_str("http://localhost:8080"),
     "system", cmap(1, "fetch", vfn(device_state_mock, mockres)));
-  return bluefin_decryptx_p2pe_sdk_new(opts);
+  return bluefindecryptxp2pe_sdk_new(opts);
 }
 
 int main(void) {
@@ -56,5 +56,5 @@ int main(void) {
     CHECK_INT_EQ(CALLS, 1, "list: one call");
   }
 
-  TEST_SUMMARY("bluefin_decryptx_p2pe_device_state_direct");
+  TEST_SUMMARY("bluefindecryptxp2pe_device_state_direct");
 }

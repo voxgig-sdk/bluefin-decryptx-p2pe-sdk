@@ -29,6 +29,9 @@ object DeviceBuildEntityTest {
       idmap.put("device_build02", "DEVICE_BUILD02")
       idmap.put("device_build03", "DEVICE_BUILD03")
       val now = System.currentTimeMillis()
+      val deviceBuildRef01DataRaw = Struct.items(Helpers.toMapAny(
+          Struct.getpath(entityData, "existing.device_build")))
+      val deviceBuildRef01Data = Helpers.toMapAny(deviceBuildRef01DataRaw.get(0).get(1))
 
       // LIST
       val deviceBuildRef01Ent = client.deviceBuild(null)

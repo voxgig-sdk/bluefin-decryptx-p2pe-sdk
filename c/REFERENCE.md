@@ -10,7 +10,7 @@ Complete API reference for the BluefinDecryptxP2pe C SDK.
 ```c
 #include "core/api.h"
 
-BluefinDecryptxP2peSDK* client = bluefin_decryptx_p2pe_sdk_new(options);
+BluefinDecryptxP2peSDK* client = bluefindecryptxp2pe_sdk_new(options);
 ```
 
 Create a new SDK client instance. `options` is a `voxgig_value*` map
@@ -43,112 +43,112 @@ BluefinDecryptxP2peSDK* client = test_sdk(NULL, NULL);
 
 ### Entity Accessors
 
-#### `Entity* bluefin_decryptx_p2pe_attestation(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
+#### `Entity* bluefindecryptxp2pe_attestation(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
 
 Create a new `Attestation` entity instance. Pass `NULL` for no initial
 options.
 
-#### `Entity* bluefin_decryptx_p2pe_client(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
+#### `Entity* bluefindecryptxp2pe_client(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
 
 Create a new `Client` entity instance. Pass `NULL` for no initial
 options.
 
-#### `Entity* bluefin_decryptx_p2pe_create_result(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
+#### `Entity* bluefindecryptxp2pe_create_result(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
 
 Create a new `CreateResult` entity instance. Pass `NULL` for no initial
 options.
 
-#### `Entity* bluefin_decryptx_p2pe_decryption(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
+#### `Entity* bluefindecryptxp2pe_decryption(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
 
 Create a new `Decryption` entity instance. Pass `NULL` for no initial
 options.
 
-#### `Entity* bluefin_decryptx_p2pe_device(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
+#### `Entity* bluefindecryptxp2pe_device(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
 
 Create a new `Device` entity instance. Pass `NULL` for no initial
 options.
 
-#### `Entity* bluefin_decryptx_p2pe_device_build(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
+#### `Entity* bluefindecryptxp2pe_device_build(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
 
 Create a new `DeviceBuild` entity instance. Pass `NULL` for no initial
 options.
 
-#### `Entity* bluefin_decryptx_p2pe_device_custody_detail(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
+#### `Entity* bluefindecryptxp2pe_device_custody_detail(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
 
 Create a new `DeviceCustodyDetail` entity instance. Pass `NULL` for no initial
 options.
 
-#### `Entity* bluefin_decryptx_p2pe_device_custody_list(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
+#### `Entity* bluefindecryptxp2pe_device_custody_list(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
 
 Create a new `DeviceCustodyList` entity instance. Pass `NULL` for no initial
 options.
 
-#### `Entity* bluefin_decryptx_p2pe_device_list(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
+#### `Entity* bluefindecryptxp2pe_device_list(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
 
 Create a new `DeviceList` entity instance. Pass `NULL` for no initial
 options.
 
-#### `Entity* bluefin_decryptx_p2pe_device_receive_result(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
+#### `Entity* bluefindecryptxp2pe_device_receive_result(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
 
 Create a new `DeviceReceiveResult` entity instance. Pass `NULL` for no initial
 options.
 
-#### `Entity* bluefin_decryptx_p2pe_device_rki_activate_result(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
+#### `Entity* bluefindecryptxp2pe_device_rki_activate_result(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
 
 Create a new `DeviceRkiActivateResult` entity instance. Pass `NULL` for no initial
 options.
 
-#### `Entity* bluefin_decryptx_p2pe_device_state(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
+#### `Entity* bluefindecryptxp2pe_device_state(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
 
 Create a new `DeviceState` entity instance. Pass `NULL` for no initial
 options.
 
-#### `Entity* bluefin_decryptx_p2pe_device_type(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
+#### `Entity* bluefindecryptxp2pe_device_type(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
 
 Create a new `DeviceType` entity instance. Pass `NULL` for no initial
 options.
 
-#### `Entity* bluefin_decryptx_p2pe_inject_key(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
+#### `Entity* bluefindecryptxp2pe_inject_key(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
 
 Create a new `InjectKey` entity instance. Pass `NULL` for no initial
 options.
 
-#### `Entity* bluefin_decryptx_p2pe_kif(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
+#### `Entity* bluefindecryptxp2pe_kif(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
 
 Create a new `Kif` entity instance. Pass `NULL` for no initial
 options.
 
-#### `Entity* bluefin_decryptx_p2pe_location(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
+#### `Entity* bluefindecryptxp2pe_location(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
 
 Create a new `Location` entity instance. Pass `NULL` for no initial
 options.
 
-#### `Entity* bluefin_decryptx_p2pe_partner(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
+#### `Entity* bluefindecryptxp2pe_partner(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
 
 Create a new `Partner` entity instance. Pass `NULL` for no initial
 options.
 
-#### `Entity* bluefin_decryptx_p2pe_shipment(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
+#### `Entity* bluefindecryptxp2pe_shipment(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
 
 Create a new `Shipment` entity instance. Pass `NULL` for no initial
 options.
 
-#### `Entity* bluefin_decryptx_p2pe_success(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
+#### `Entity* bluefindecryptxp2pe_success(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
 
 Create a new `Success` entity instance. Pass `NULL` for no initial
 options.
 
-#### `Entity* bluefin_decryptx_p2pe_transaction(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
+#### `Entity* bluefindecryptxp2pe_transaction(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
 
 Create a new `Transaction` entity instance. Pass `NULL` for no initial
 options.
 
-#### `Entity* bluefin_decryptx_p2pe_update_result(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
+#### `Entity* bluefindecryptxp2pe_update_result(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
 
 Create a new `UpdateResult` entity instance. Pass `NULL` for no initial
 options.
 
-#### `Entity* bluefin_decryptx_p2pe_user(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
+#### `Entity* bluefindecryptxp2pe_user(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
 
 Create a new `User` entity instance. Pass `NULL` for no initial
 options.
@@ -182,7 +182,7 @@ Prepare a fetch definition without sending. Returns the fetchdef and sets
 ## Attestation
 
 ```c
-Entity* attestation = bluefin_decryptx_p2pe_attestation(client, NULL);
+Entity* attestation = bluefindecryptxp2pe_attestation(client, NULL);
 ```
 
 ### Fields
@@ -204,7 +204,7 @@ Entity* attestation = bluefin_decryptx_p2pe_attestation(client, NULL);
 Create a new entity with the given data. Returns the created entity data and sets `*err` on failure.
 
 ```c
-Entity* attestation = bluefin_decryptx_p2pe_attestation(client, NULL);
+Entity* attestation = bluefindecryptxp2pe_attestation(client, NULL);
 voxgig_value* result = attestation->vt->create(attestation, NULL, NULL, &err);
 ```
 
@@ -213,7 +213,7 @@ voxgig_value* result = attestation->vt->create(attestation, NULL, NULL, &err);
 List entities matching the given criteria. The match is optional — pass `NULL` to list all records. Returns a List.
 
 ```c
-Entity* attestation = bluefin_decryptx_p2pe_attestation(client, NULL);
+Entity* attestation = bluefindecryptxp2pe_attestation(client, NULL);
 voxgig_value* results = attestation->vt->list(attestation, NULL, NULL, &err);
 for (size_t i = 0; i < (size_t)voxgig_size(results); i++) {
     printf("%s\n", voxgig_to_json(voxgig_getelem(results, v_int(i), NULL)));
@@ -225,7 +225,7 @@ for (size_t i = 0; i < (size_t)voxgig_size(results); i++) {
 Load a single entity matching the given criteria. Returns the entity data and sets `*err` on failure.
 
 ```c
-Entity* attestation = bluefin_decryptx_p2pe_attestation(client, NULL);
+Entity* attestation = bluefindecryptxp2pe_attestation(client, NULL);
 voxgig_value* result = attestation->vt->load(attestation, cmap(1, "id", v_str("attestation_id")), NULL, &err);
 ```
 
@@ -253,7 +253,7 @@ Return the entity name.
 ## Client
 
 ```c
-Entity* client = bluefin_decryptx_p2pe_client(client, NULL);
+Entity* client = bluefindecryptxp2pe_client(client, NULL);
 ```
 
 ### Fields
@@ -295,7 +295,7 @@ Entity* client = bluefin_decryptx_p2pe_client(client, NULL);
 Create a new entity with the given data. Returns the created entity data and sets `*err` on failure.
 
 ```c
-Entity* client = bluefin_decryptx_p2pe_client(client, NULL);
+Entity* client = bluefindecryptxp2pe_client(client, NULL);
 voxgig_value* result = client->vt->create(client, cmap(1,
     "location", v_map())  // voxgig_value* (map)
 , NULL, &err);
@@ -306,7 +306,7 @@ voxgig_value* result = client->vt->create(client, cmap(1,
 List entities matching the given criteria. The match is optional — pass `NULL` to list all records. Returns a List.
 
 ```c
-Entity* client = bluefin_decryptx_p2pe_client(client, NULL);
+Entity* client = bluefindecryptxp2pe_client(client, NULL);
 voxgig_value* results = client->vt->list(client, NULL, NULL, &err);
 for (size_t i = 0; i < (size_t)voxgig_size(results); i++) {
     printf("%s\n", voxgig_to_json(voxgig_getelem(results, v_int(i), NULL)));
@@ -318,7 +318,7 @@ for (size_t i = 0; i < (size_t)voxgig_size(results); i++) {
 Load a single entity matching the given criteria. Returns the entity data and sets `*err` on failure.
 
 ```c
-Entity* client = bluefin_decryptx_p2pe_client(client, NULL);
+Entity* client = bluefindecryptxp2pe_client(client, NULL);
 voxgig_value* result = client->vt->load(client, cmap(1, "id", v_str("client_id")), NULL, &err);
 ```
 
@@ -327,7 +327,7 @@ voxgig_value* result = client->vt->load(client, cmap(1, "id", v_str("client_id")
 Remove the entity matching the given criteria. Sets `*err` on failure.
 
 ```c
-Entity* client = bluefin_decryptx_p2pe_client(client, NULL);
+Entity* client = bluefindecryptxp2pe_client(client, NULL);
 voxgig_value* result = client->vt->remove(client, cmap(1, "id", v_str("client_id")), NULL, &err);
 ```
 
@@ -355,7 +355,7 @@ Return the entity name.
 ## CreateResult
 
 ```c
-Entity* create_result = bluefin_decryptx_p2pe_create_result(client, NULL);
+Entity* create_result = bluefindecryptxp2pe_create_result(client, NULL);
 ```
 
 ### Operations
@@ -365,7 +365,7 @@ Entity* create_result = bluefin_decryptx_p2pe_create_result(client, NULL);
 Create a new entity with the given data. Returns the created entity data and sets `*err` on failure.
 
 ```c
-Entity* create_result = bluefin_decryptx_p2pe_create_result(client, NULL);
+Entity* create_result = bluefindecryptxp2pe_create_result(client, NULL);
 voxgig_value* result = create_result->vt->create(create_result, cmap(2,
     "device_type", v_str("example_device_type"),  // char*
     "serial_number", v_str("example_serial_number"))  // char*
@@ -396,7 +396,7 @@ Return the entity name.
 ## Decryption
 
 ```c
-Entity* decryption = bluefin_decryptx_p2pe_decryption(client, NULL);
+Entity* decryption = bluefindecryptxp2pe_decryption(client, NULL);
 ```
 
 ### Fields
@@ -412,7 +412,7 @@ Entity* decryption = bluefin_decryptx_p2pe_decryption(client, NULL);
 Create a new entity with the given data. Returns the created entity data and sets `*err` on failure.
 
 ```c
-Entity* decryption = bluefin_decryptx_p2pe_decryption(client, NULL);
+Entity* decryption = bluefindecryptxp2pe_decryption(client, NULL);
 voxgig_value* result = decryption->vt->create(decryption, NULL, NULL, &err);
 ```
 
@@ -440,7 +440,7 @@ Return the entity name.
 ## Device
 
 ```c
-Entity* device = bluefin_decryptx_p2pe_device(client, NULL);
+Entity* device = bluefindecryptxp2pe_device(client, NULL);
 ```
 
 ### Fields
@@ -483,7 +483,7 @@ Entity* device = bluefin_decryptx_p2pe_device(client, NULL);
 Create a new entity with the given data. Returns the created entity data and sets `*err` on failure.
 
 ```c
-Entity* device = bluefin_decryptx_p2pe_device(client, NULL);
+Entity* device = bluefindecryptxp2pe_device(client, NULL);
 voxgig_value* result = device->vt->create(device, cmap(5,
     "activated_by", v_map(),  // voxgig_value* (map)
     "created_by", v_map(),  // voxgig_value* (map)
@@ -498,7 +498,7 @@ voxgig_value* result = device->vt->create(device, cmap(5,
 List entities matching the given criteria. The match is optional — pass `NULL` to list all records. Returns a List.
 
 ```c
-Entity* device = bluefin_decryptx_p2pe_device(client, NULL);
+Entity* device = bluefindecryptxp2pe_device(client, NULL);
 voxgig_value* results = device->vt->list(device, NULL, NULL, &err);
 for (size_t i = 0; i < (size_t)voxgig_size(results); i++) {
     printf("%s\n", voxgig_to_json(voxgig_getelem(results, v_int(i), NULL)));
@@ -510,7 +510,7 @@ for (size_t i = 0; i < (size_t)voxgig_size(results); i++) {
 Load a single entity matching the given criteria. Returns the entity data and sets `*err` on failure.
 
 ```c
-Entity* device = bluefin_decryptx_p2pe_device(client, NULL);
+Entity* device = bluefindecryptxp2pe_device(client, NULL);
 voxgig_value* result = device->vt->load(device, cmap(1, "id", v_str("device_id")), NULL, &err);
 ```
 
@@ -538,7 +538,7 @@ Return the entity name.
 ## DeviceBuild
 
 ```c
-Entity* device_build = bluefin_decryptx_p2pe_device_build(client, NULL);
+Entity* device_build = bluefindecryptxp2pe_device_build(client, NULL);
 ```
 
 ### Fields
@@ -568,7 +568,7 @@ Entity* device_build = bluefin_decryptx_p2pe_device_build(client, NULL);
 List entities matching the given criteria. The match is optional — pass `NULL` to list all records. Returns a List.
 
 ```c
-Entity* device_build = bluefin_decryptx_p2pe_device_build(client, NULL);
+Entity* device_build = bluefindecryptxp2pe_device_build(client, NULL);
 voxgig_value* results = device_build->vt->list(device_build, NULL, NULL, &err);
 for (size_t i = 0; i < (size_t)voxgig_size(results); i++) {
     printf("%s\n", voxgig_to_json(voxgig_getelem(results, v_int(i), NULL)));
@@ -580,7 +580,7 @@ for (size_t i = 0; i < (size_t)voxgig_size(results); i++) {
 Load a single entity matching the given criteria. Returns the entity data and sets `*err` on failure.
 
 ```c
-Entity* device_build = bluefin_decryptx_p2pe_device_build(client, NULL);
+Entity* device_build = bluefindecryptxp2pe_device_build(client, NULL);
 voxgig_value* result = device_build->vt->load(device_build, cmap(1, "id", v_str("device_build_id")), NULL, &err);
 ```
 
@@ -608,7 +608,7 @@ Return the entity name.
 ## DeviceCustodyDetail
 
 ```c
-Entity* device_custody_detail = bluefin_decryptx_p2pe_device_custody_detail(client, NULL);
+Entity* device_custody_detail = bluefindecryptxp2pe_device_custody_detail(client, NULL);
 ```
 
 ### Fields
@@ -636,7 +636,7 @@ Entity* device_custody_detail = bluefin_decryptx_p2pe_device_custody_detail(clie
 Load a single entity matching the given criteria. Returns the entity data and sets `*err` on failure.
 
 ```c
-Entity* device_custody_detail = bluefin_decryptx_p2pe_device_custody_detail(client, NULL);
+Entity* device_custody_detail = bluefindecryptxp2pe_device_custody_detail(client, NULL);
 voxgig_value* result = device_custody_detail->vt->load(device_custody_detail, cmap(3, "id", v_str("device_custody_detail_id"), "device_type", v_str("device_type"), "serial_number", v_str("serial_number")), NULL, &err);
 ```
 
@@ -664,7 +664,7 @@ Return the entity name.
 ## DeviceCustodyList
 
 ```c
-Entity* device_custody_list = bluefin_decryptx_p2pe_device_custody_list(client, NULL);
+Entity* device_custody_list = bluefindecryptxp2pe_device_custody_list(client, NULL);
 ```
 
 ### Fields
@@ -692,7 +692,7 @@ Entity* device_custody_list = bluefin_decryptx_p2pe_device_custody_list(client, 
 List entities matching the given criteria. The match is optional — pass `NULL` to list all records. Returns a List.
 
 ```c
-Entity* device_custody_list = bluefin_decryptx_p2pe_device_custody_list(client, NULL);
+Entity* device_custody_list = bluefindecryptxp2pe_device_custody_list(client, NULL);
 voxgig_value* results = device_custody_list->vt->list(device_custody_list, NULL, NULL, &err);
 for (size_t i = 0; i < (size_t)voxgig_size(results); i++) {
     printf("%s\n", voxgig_to_json(voxgig_getelem(results, v_int(i), NULL)));
@@ -723,7 +723,7 @@ Return the entity name.
 ## DeviceList
 
 ```c
-Entity* device_list = bluefin_decryptx_p2pe_device_list(client, NULL);
+Entity* device_list = bluefindecryptxp2pe_device_list(client, NULL);
 ```
 
 ### Fields
@@ -740,7 +740,7 @@ Entity* device_list = bluefin_decryptx_p2pe_device_list(client, NULL);
 Load a single entity matching the given criteria. Returns the entity data and sets `*err` on failure.
 
 ```c
-Entity* device_list = bluefin_decryptx_p2pe_device_list(client, NULL);
+Entity* device_list = bluefindecryptxp2pe_device_list(client, NULL);
 voxgig_value* result = device_list->vt->load(device_list, cmap(1, "share_partner_to", v_str("share_partner_to")), NULL, &err);
 ```
 
@@ -768,7 +768,7 @@ Return the entity name.
 ## DeviceReceiveResult
 
 ```c
-Entity* device_receive_result = bluefin_decryptx_p2pe_device_receive_result(client, NULL);
+Entity* device_receive_result = bluefindecryptxp2pe_device_receive_result(client, NULL);
 ```
 
 ### Fields
@@ -784,7 +784,7 @@ Entity* device_receive_result = bluefin_decryptx_p2pe_device_receive_result(clie
 Create a new entity with the given data. Returns the created entity data and sets `*err` on failure.
 
 ```c
-Entity* device_receive_result = bluefin_decryptx_p2pe_device_receive_result(client, NULL);
+Entity* device_receive_result = bluefindecryptxp2pe_device_receive_result(client, NULL);
 voxgig_value* result = device_receive_result->vt->create(device_receive_result, cmap(1,
     "success", v_bool(true))  // bool
 , NULL, &err);
@@ -814,7 +814,7 @@ Return the entity name.
 ## DeviceRkiActivateResult
 
 ```c
-Entity* device_rki_activate_result = bluefin_decryptx_p2pe_device_rki_activate_result(client, NULL);
+Entity* device_rki_activate_result = bluefindecryptxp2pe_device_rki_activate_result(client, NULL);
 ```
 
 ### Fields
@@ -830,7 +830,7 @@ Entity* device_rki_activate_result = bluefin_decryptx_p2pe_device_rki_activate_r
 Create a new entity with the given data. Returns the created entity data and sets `*err` on failure.
 
 ```c
-Entity* device_rki_activate_result = bluefin_decryptx_p2pe_device_rki_activate_result(client, NULL);
+Entity* device_rki_activate_result = bluefindecryptxp2pe_device_rki_activate_result(client, NULL);
 voxgig_value* result = device_rki_activate_result->vt->create(device_rki_activate_result, cmap(1,
     "success", v_bool(true))  // bool
 , NULL, &err);
@@ -860,7 +860,7 @@ Return the entity name.
 ## DeviceState
 
 ```c
-Entity* device_state = bluefin_decryptx_p2pe_device_state(client, NULL);
+Entity* device_state = bluefindecryptxp2pe_device_state(client, NULL);
 ```
 
 ### Fields
@@ -877,7 +877,7 @@ Entity* device_state = bluefin_decryptx_p2pe_device_state(client, NULL);
 List entities matching the given criteria. The match is optional — pass `NULL` to list all records. Returns a List.
 
 ```c
-Entity* device_state = bluefin_decryptx_p2pe_device_state(client, NULL);
+Entity* device_state = bluefindecryptxp2pe_device_state(client, NULL);
 voxgig_value* results = device_state->vt->list(device_state, NULL, NULL, &err);
 for (size_t i = 0; i < (size_t)voxgig_size(results); i++) {
     printf("%s\n", voxgig_to_json(voxgig_getelem(results, v_int(i), NULL)));
@@ -908,7 +908,7 @@ Return the entity name.
 ## DeviceType
 
 ```c
-Entity* device_type = bluefin_decryptx_p2pe_device_type(client, NULL);
+Entity* device_type = bluefindecryptxp2pe_device_type(client, NULL);
 ```
 
 ### Fields
@@ -935,7 +935,7 @@ Entity* device_type = bluefin_decryptx_p2pe_device_type(client, NULL);
 List entities matching the given criteria. The match is optional — pass `NULL` to list all records. Returns a List.
 
 ```c
-Entity* device_type = bluefin_decryptx_p2pe_device_type(client, NULL);
+Entity* device_type = bluefindecryptxp2pe_device_type(client, NULL);
 voxgig_value* results = device_type->vt->list(device_type, NULL, NULL, &err);
 for (size_t i = 0; i < (size_t)voxgig_size(results); i++) {
     printf("%s\n", voxgig_to_json(voxgig_getelem(results, v_int(i), NULL)));
@@ -947,7 +947,7 @@ for (size_t i = 0; i < (size_t)voxgig_size(results); i++) {
 Load a single entity matching the given criteria. Returns the entity data and sets `*err` on failure.
 
 ```c
-Entity* device_type = bluefin_decryptx_p2pe_device_type(client, NULL);
+Entity* device_type = bluefindecryptxp2pe_device_type(client, NULL);
 voxgig_value* result = device_type->vt->load(device_type, cmap(1, "id", v_str("device_type_id")), NULL, &err);
 ```
 
@@ -975,7 +975,7 @@ Return the entity name.
 ## InjectKey
 
 ```c
-Entity* inject_key = bluefin_decryptx_p2pe_inject_key(client, NULL);
+Entity* inject_key = bluefindecryptxp2pe_inject_key(client, NULL);
 ```
 
 ### Fields
@@ -998,7 +998,7 @@ Entity* inject_key = bluefin_decryptx_p2pe_inject_key(client, NULL);
 List entities matching the given criteria. The match is optional — pass `NULL` to list all records. Returns a List.
 
 ```c
-Entity* inject_key = bluefin_decryptx_p2pe_inject_key(client, NULL);
+Entity* inject_key = bluefindecryptxp2pe_inject_key(client, NULL);
 voxgig_value* results = inject_key->vt->list(inject_key, NULL, NULL, &err);
 for (size_t i = 0; i < (size_t)voxgig_size(results); i++) {
     printf("%s\n", voxgig_to_json(voxgig_getelem(results, v_int(i), NULL)));
@@ -1010,7 +1010,7 @@ for (size_t i = 0; i < (size_t)voxgig_size(results); i++) {
 Load a single entity matching the given criteria. Returns the entity data and sets `*err` on failure.
 
 ```c
-Entity* inject_key = bluefin_decryptx_p2pe_inject_key(client, NULL);
+Entity* inject_key = bluefindecryptxp2pe_inject_key(client, NULL);
 voxgig_value* result = inject_key->vt->load(inject_key, cmap(1, "id", v_str("inject_key_id")), NULL, &err);
 ```
 
@@ -1038,7 +1038,7 @@ Return the entity name.
 ## Kif
 
 ```c
-Entity* kif = bluefin_decryptx_p2pe_kif(client, NULL);
+Entity* kif = bluefindecryptxp2pe_kif(client, NULL);
 ```
 
 ### Fields
@@ -1055,7 +1055,7 @@ Entity* kif = bluefin_decryptx_p2pe_kif(client, NULL);
 List entities matching the given criteria. The match is optional — pass `NULL` to list all records. Returns a List.
 
 ```c
-Entity* kif = bluefin_decryptx_p2pe_kif(client, NULL);
+Entity* kif = bluefindecryptxp2pe_kif(client, NULL);
 voxgig_value* results = kif->vt->list(kif, NULL, NULL, &err);
 for (size_t i = 0; i < (size_t)voxgig_size(results); i++) {
     printf("%s\n", voxgig_to_json(voxgig_getelem(results, v_int(i), NULL)));
@@ -1086,7 +1086,7 @@ Return the entity name.
 ## Location
 
 ```c
-Entity* location = bluefin_decryptx_p2pe_location(client, NULL);
+Entity* location = bluefindecryptxp2pe_location(client, NULL);
 ```
 
 ### Fields
@@ -1124,7 +1124,7 @@ Entity* location = bluefin_decryptx_p2pe_location(client, NULL);
 Create a new entity with the given data. Returns the created entity data and sets `*err` on failure.
 
 ```c
-Entity* location = bluefin_decryptx_p2pe_location(client, NULL);
+Entity* location = bluefindecryptxp2pe_location(client, NULL);
 voxgig_value* result = location->vt->create(location, NULL, NULL, &err);
 ```
 
@@ -1133,7 +1133,7 @@ voxgig_value* result = location->vt->create(location, NULL, NULL, &err);
 List entities matching the given criteria. The match is optional — pass `NULL` to list all records. Returns a List.
 
 ```c
-Entity* location = bluefin_decryptx_p2pe_location(client, NULL);
+Entity* location = bluefindecryptxp2pe_location(client, NULL);
 voxgig_value* results = location->vt->list(location, NULL, NULL, &err);
 for (size_t i = 0; i < (size_t)voxgig_size(results); i++) {
     printf("%s\n", voxgig_to_json(voxgig_getelem(results, v_int(i), NULL)));
@@ -1145,7 +1145,7 @@ for (size_t i = 0; i < (size_t)voxgig_size(results); i++) {
 Load a single entity matching the given criteria. Returns the entity data and sets `*err` on failure.
 
 ```c
-Entity* location = bluefin_decryptx_p2pe_location(client, NULL);
+Entity* location = bluefindecryptxp2pe_location(client, NULL);
 voxgig_value* result = location->vt->load(location, cmap(1, "id", v_str("location_id")), NULL, &err);
 ```
 
@@ -1154,7 +1154,7 @@ voxgig_value* result = location->vt->load(location, cmap(1, "id", v_str("locatio
 Remove the entity matching the given criteria. Sets `*err` on failure.
 
 ```c
-Entity* location = bluefin_decryptx_p2pe_location(client, NULL);
+Entity* location = bluefindecryptxp2pe_location(client, NULL);
 voxgig_value* result = location->vt->remove(location, cmap(1, "id", v_str("location_id")), NULL, &err);
 ```
 
@@ -1182,7 +1182,7 @@ Return the entity name.
 ## Partner
 
 ```c
-Entity* partner = bluefin_decryptx_p2pe_partner(client, NULL);
+Entity* partner = bluefindecryptxp2pe_partner(client, NULL);
 ```
 
 ### Fields
@@ -1230,7 +1230,7 @@ Entity* partner = bluefin_decryptx_p2pe_partner(client, NULL);
 Create a new entity with the given data. Returns the created entity data and sets `*err` on failure.
 
 ```c
-Entity* partner = bluefin_decryptx_p2pe_partner(client, NULL);
+Entity* partner = bluefindecryptxp2pe_partner(client, NULL);
 voxgig_value* result = partner->vt->create(partner, cmap(1,
     "location", v_map())  // voxgig_value* (map)
 , NULL, &err);
@@ -1241,7 +1241,7 @@ voxgig_value* result = partner->vt->create(partner, cmap(1,
 List entities matching the given criteria. The match is optional — pass `NULL` to list all records. Returns a List.
 
 ```c
-Entity* partner = bluefin_decryptx_p2pe_partner(client, NULL);
+Entity* partner = bluefindecryptxp2pe_partner(client, NULL);
 voxgig_value* results = partner->vt->list(partner, NULL, NULL, &err);
 for (size_t i = 0; i < (size_t)voxgig_size(results); i++) {
     printf("%s\n", voxgig_to_json(voxgig_getelem(results, v_int(i), NULL)));
@@ -1253,7 +1253,7 @@ for (size_t i = 0; i < (size_t)voxgig_size(results); i++) {
 Load a single entity matching the given criteria. Returns the entity data and sets `*err` on failure.
 
 ```c
-Entity* partner = bluefin_decryptx_p2pe_partner(client, NULL);
+Entity* partner = bluefindecryptxp2pe_partner(client, NULL);
 voxgig_value* result = partner->vt->load(partner, cmap(1, "id", v_str("partner_id")), NULL, &err);
 ```
 
@@ -1281,7 +1281,7 @@ Return the entity name.
 ## Shipment
 
 ```c
-Entity* shipment = bluefin_decryptx_p2pe_shipment(client, NULL);
+Entity* shipment = bluefindecryptxp2pe_shipment(client, NULL);
 ```
 
 ### Fields
@@ -1310,7 +1310,7 @@ Entity* shipment = bluefin_decryptx_p2pe_shipment(client, NULL);
 Create a new entity with the given data. Returns the created entity data and sets `*err` on failure.
 
 ```c
-Entity* shipment = bluefin_decryptx_p2pe_shipment(client, NULL);
+Entity* shipment = bluefindecryptxp2pe_shipment(client, NULL);
 voxgig_value* result = shipment->vt->create(shipment, NULL, NULL, &err);
 ```
 
@@ -1319,7 +1319,7 @@ voxgig_value* result = shipment->vt->create(shipment, NULL, NULL, &err);
 List entities matching the given criteria. The match is optional — pass `NULL` to list all records. Returns a List.
 
 ```c
-Entity* shipment = bluefin_decryptx_p2pe_shipment(client, NULL);
+Entity* shipment = bluefindecryptxp2pe_shipment(client, NULL);
 voxgig_value* results = shipment->vt->list(shipment, NULL, NULL, &err);
 for (size_t i = 0; i < (size_t)voxgig_size(results); i++) {
     printf("%s\n", voxgig_to_json(voxgig_getelem(results, v_int(i), NULL)));
@@ -1331,7 +1331,7 @@ for (size_t i = 0; i < (size_t)voxgig_size(results); i++) {
 Load a single entity matching the given criteria. Returns the entity data and sets `*err` on failure.
 
 ```c
-Entity* shipment = bluefin_decryptx_p2pe_shipment(client, NULL);
+Entity* shipment = bluefindecryptxp2pe_shipment(client, NULL);
 voxgig_value* result = shipment->vt->load(shipment, cmap(1, "id", v_str("shipment_id")), NULL, &err);
 ```
 
@@ -1359,7 +1359,7 @@ Return the entity name.
 ## Success
 
 ```c
-Entity* success = bluefin_decryptx_p2pe_success(client, NULL);
+Entity* success = bluefindecryptxp2pe_success(client, NULL);
 ```
 
 ### Fields
@@ -1375,7 +1375,7 @@ Entity* success = bluefin_decryptx_p2pe_success(client, NULL);
 Create a new entity with the given data. Returns the created entity data and sets `*err` on failure.
 
 ```c
-Entity* success = bluefin_decryptx_p2pe_success(client, NULL);
+Entity* success = bluefindecryptxp2pe_success(client, NULL);
 voxgig_value* result = success->vt->create(success, cmap(1,
     "share_partner_to", v_str("example_share_partner_to"))  // char*
 , NULL, &err);
@@ -1386,7 +1386,7 @@ voxgig_value* result = success->vt->create(success, cmap(1,
 Remove the entity matching the given criteria. Sets `*err` on failure.
 
 ```c
-Entity* success = bluefin_decryptx_p2pe_success(client, NULL);
+Entity* success = bluefindecryptxp2pe_success(client, NULL);
 voxgig_value* result = success->vt->remove(success, cmap(1, "share_partner_to", v_str("share_partner_to")), NULL, &err);
 ```
 
@@ -1414,7 +1414,7 @@ Return the entity name.
 ## Transaction
 
 ```c
-Entity* transaction = bluefin_decryptx_p2pe_transaction(client, NULL);
+Entity* transaction = bluefindecryptxp2pe_transaction(client, NULL);
 ```
 
 ### Fields
@@ -1453,7 +1453,7 @@ Entity* transaction = bluefin_decryptx_p2pe_transaction(client, NULL);
 Create a new entity with the given data. Returns the created entity data and sets `*err` on failure.
 
 ```c
-Entity* transaction = bluefin_decryptx_p2pe_transaction(client, NULL);
+Entity* transaction = bluefindecryptxp2pe_transaction(client, NULL);
 voxgig_value* result = transaction->vt->create(transaction, cmap(1,
     "location", v_map())  // voxgig_value* (map)
 , NULL, &err);
@@ -1464,7 +1464,7 @@ voxgig_value* result = transaction->vt->create(transaction, cmap(1,
 List entities matching the given criteria. The match is optional — pass `NULL` to list all records. Returns a List.
 
 ```c
-Entity* transaction = bluefin_decryptx_p2pe_transaction(client, NULL);
+Entity* transaction = bluefindecryptxp2pe_transaction(client, NULL);
 voxgig_value* results = transaction->vt->list(transaction, NULL, NULL, &err);
 for (size_t i = 0; i < (size_t)voxgig_size(results); i++) {
     printf("%s\n", voxgig_to_json(voxgig_getelem(results, v_int(i), NULL)));
@@ -1476,7 +1476,7 @@ for (size_t i = 0; i < (size_t)voxgig_size(results); i++) {
 Load a single entity matching the given criteria. Returns the entity data and sets `*err` on failure.
 
 ```c
-Entity* transaction = bluefin_decryptx_p2pe_transaction(client, NULL);
+Entity* transaction = bluefindecryptxp2pe_transaction(client, NULL);
 voxgig_value* result = transaction->vt->load(transaction, cmap(1, "id", v_str("transaction_id")), NULL, &err);
 ```
 
@@ -1504,7 +1504,7 @@ Return the entity name.
 ## UpdateResult
 
 ```c
-Entity* update_result = bluefin_decryptx_p2pe_update_result(client, NULL);
+Entity* update_result = bluefindecryptxp2pe_update_result(client, NULL);
 ```
 
 ### Fields
@@ -1531,7 +1531,7 @@ Entity* update_result = bluefin_decryptx_p2pe_update_result(client, NULL);
 Create a new entity with the given data. Returns the created entity data and sets `*err` on failure.
 
 ```c
-Entity* update_result = bluefin_decryptx_p2pe_update_result(client, NULL);
+Entity* update_result = bluefindecryptxp2pe_update_result(client, NULL);
 voxgig_value* result = update_result->vt->create(update_result, NULL, NULL, &err);
 ```
 
@@ -1540,7 +1540,7 @@ voxgig_value* result = update_result->vt->create(update_result, NULL, NULL, &err
 List entities matching the given criteria. The match is optional — pass `NULL` to list all records. Returns a List.
 
 ```c
-Entity* update_result = bluefin_decryptx_p2pe_update_result(client, NULL);
+Entity* update_result = bluefindecryptxp2pe_update_result(client, NULL);
 voxgig_value* results = update_result->vt->list(update_result, NULL, NULL, &err);
 for (size_t i = 0; i < (size_t)voxgig_size(results); i++) {
     printf("%s\n", voxgig_to_json(voxgig_getelem(results, v_int(i), NULL)));
@@ -1552,7 +1552,7 @@ for (size_t i = 0; i < (size_t)voxgig_size(results); i++) {
 Update an existing entity. The data must include the entity id. Returns the updated entity data.
 
 ```c
-Entity* update_result = bluefin_decryptx_p2pe_update_result(client, NULL);
+Entity* update_result = bluefindecryptxp2pe_update_result(client, NULL);
 voxgig_value* result = update_result->vt->update(update_result, cmap(1, "id", v_str("id")), NULL, &err);
 ```
 
@@ -1580,7 +1580,7 @@ Return the entity name.
 ## User
 
 ```c
-Entity* user = bluefin_decryptx_p2pe_user(client, NULL);
+Entity* user = bluefindecryptxp2pe_user(client, NULL);
 ```
 
 ### Fields
@@ -1609,7 +1609,7 @@ Entity* user = bluefin_decryptx_p2pe_user(client, NULL);
 Load a single entity matching the given criteria. Returns the entity data and sets `*err` on failure.
 
 ```c
-Entity* user = bluefin_decryptx_p2pe_user(client, NULL);
+Entity* user = bluefindecryptxp2pe_user(client, NULL);
 voxgig_value* result = user->vt->load(user, cmap(1, "id", v_str("user_id")), NULL, &err);
 ```
 
@@ -1618,7 +1618,7 @@ voxgig_value* result = user->vt->load(user, cmap(1, "id", v_str("user_id")), NUL
 Remove the entity matching the given criteria. Sets `*err` on failure.
 
 ```c
-Entity* user = bluefin_decryptx_p2pe_user(client, NULL);
+Entity* user = bluefindecryptxp2pe_user(client, NULL);
 voxgig_value* result = user->vt->remove(user, cmap(1, "id", v_str("user_id")), NULL, &err);
 ```
 
@@ -1653,7 +1653,7 @@ Return the entity name.
 Features are activated via the `feature` option:
 
 ```c
-BluefinDecryptxP2peSDK* client = bluefin_decryptx_p2pe_sdk_new(cmap(1,
+BluefinDecryptxP2peSDK* client = bluefindecryptxp2pe_sdk_new(cmap(1,
     "feature", cmap(1,
         "test", cmap(1, "active", v_bool(true)))
 ));

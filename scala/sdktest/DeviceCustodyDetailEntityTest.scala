@@ -34,6 +34,9 @@ object DeviceCustodyDetailEntityTest {
       idmap.put("device_type01", "DEVICE_TYPE01")
       idmap.put("serial_number01", "SERIAL_NUMBER01")
       val now = System.currentTimeMillis()
+      val deviceCustodyDetailRef01DataRaw = Struct.items(Helpers.toMapAny(
+          Struct.getpath(entityData, "existing.device_custody_detail")))
+      val deviceCustodyDetailRef01Data = Helpers.toMapAny(deviceCustodyDetailRef01DataRaw.get(0).get(1))
 
       // LOAD
       val deviceCustodyDetailRef01Ent = client.deviceCustodyDetail(null)

@@ -29,6 +29,9 @@ object DeviceTypeEntityTest {
       idmap.put("device_type02", "DEVICE_TYPE02")
       idmap.put("device_type03", "DEVICE_TYPE03")
       val now = System.currentTimeMillis()
+      val deviceTypeRef01DataRaw = Struct.items(Helpers.toMapAny(
+          Struct.getpath(entityData, "existing.device_type")))
+      val deviceTypeRef01Data = Helpers.toMapAny(deviceTypeRef01DataRaw.get(0).get(1))
 
       // LIST
       val deviceTypeRef01Ent = client.deviceType(null)

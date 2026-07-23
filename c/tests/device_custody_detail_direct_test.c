@@ -28,7 +28,7 @@ static BluefinDecryptxP2peSDK* device_custody_detail_direct_setup(voxgig_value* 
   voxgig_value* opts = cmap(2,
     "base", v_str("http://localhost:8080"),
     "system", cmap(1, "fetch", vfn(device_custody_detail_mock, mockres)));
-  return bluefin_decryptx_p2pe_sdk_new(opts);
+  return bluefindecryptxp2pe_sdk_new(opts);
 }
 
 int main(void) {
@@ -62,5 +62,5 @@ int main(void) {
     CHECK(strstr(LAST_URL, "direct03") != NULL, "load: url has direct03");
   }
 
-  TEST_SUMMARY("bluefin_decryptx_p2pe_device_custody_detail_direct");
+  TEST_SUMMARY("bluefindecryptxp2pe_device_custody_detail_direct");
 }

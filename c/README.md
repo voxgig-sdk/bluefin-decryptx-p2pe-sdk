@@ -4,7 +4,7 @@
 
 The C SDK for the BluefinDecryptxP2pe API — an entity-oriented client following idiomatic C conventions (explicit structs, function-pointer vtables, and a trailing `PNError**` out-param for errors).
 
-The SDK exposes the API as capitalised, semantic **Entities** — for example `bluefin_decryptx_p2pe_attestation(client, NULL)` — each
+The SDK exposes the API as capitalised, semantic **Entities** — for example `bluefindecryptxp2pe_attestation(client, NULL)` — each
 carrying a small, uniform set of operations (`list`, `load`, `create`, `update`, `remove`) instead of raw URL
 paths and query strings. You work with named resources and verbs, which
 keeps the cognitive load low.
@@ -43,7 +43,7 @@ loading a specific record.
 ```c
 #include "core/api.h"
 
-BluefinDecryptxP2peSDK* client = bluefin_decryptx_p2pe_sdk_new(cmap(1,
+BluefinDecryptxP2peSDK* client = bluefindecryptxp2pe_sdk_new(cmap(1,
     "apikey", v_str(getenv("BLUEFIN_DECRYPTX_P2PE_APIKEY"))));
 PNError* err = NULL;
 ```
@@ -54,7 +54,7 @@ PNError* err = NULL;
 `err` after the call.
 
 ```c
-Entity* attestation = bluefin_decryptx_p2pe_attestation(client, NULL);
+Entity* attestation = bluefindecryptxp2pe_attestation(client, NULL);
 voxgig_value* attestations = attestation->vt->list(attestation, NULL, NULL, &err);
 if (err) {
     fprintf(stderr, "list failed: %s\n", err->msg);
@@ -71,7 +71,7 @@ DeviceCustodyDetail is nested under device_type, so provide the `device_type`.
 `load()` returns the bare record and sets `*err` on failure.
 
 ```c
-Entity* device_custody_detail = bluefin_decryptx_p2pe_device_custody_detail(client, NULL);
+Entity* device_custody_detail = bluefindecryptxp2pe_device_custody_detail(client, NULL);
 voxgig_value* device_custody_detail_rec = device_custody_detail->vt->load(device_custody_detail, cmap(3, "device_type", v_str("example_device_type"), "serial_number", v_str("example_serial_number"), "id", v_str("example_id")), NULL, &err);
 if (err) {
     fprintf(stderr, "load failed: %s\n", err->msg);
@@ -167,7 +167,7 @@ BluefinDecryptxP2peSDK* client = test_sdk(NULL, NULL);
 PNError* err = NULL;
 
 // Entity ops return the bare record and set *err on failure.
-Entity* device_type = bluefin_decryptx_p2pe_device_type(client, NULL);
+Entity* device_type = bluefindecryptxp2pe_device_type(client, NULL);
 voxgig_value* device_type_rec = device_type->vt->list(device_type, NULL, NULL, &err);
 // device_type_rec contains the mock response record
 ```
@@ -187,7 +187,7 @@ static voxgig_value* mock_fetch(void* ud, voxgig_value* args) {
         "json", json_thunk(cmap(1, "id", v_str("mock01"))));
 }
 
-BluefinDecryptxP2peSDK* client = bluefin_decryptx_p2pe_sdk_new(cmap(2,
+BluefinDecryptxP2peSDK* client = bluefindecryptxp2pe_sdk_new(cmap(2,
     "base", v_str("http://localhost:8080"),
     "system", cmap(1, "fetch", vfn(mock_fetch, NULL))));
 ```
@@ -197,7 +197,7 @@ BluefinDecryptxP2peSDK* client = bluefin_decryptx_p2pe_sdk_new(cmap(2,
 Override the base URL to reach a local or staging server:
 
 ```c
-BluefinDecryptxP2peSDK* client = bluefin_decryptx_p2pe_sdk_new(cmap(1,
+BluefinDecryptxP2peSDK* client = bluefindecryptxp2pe_sdk_new(cmap(1,
     "base", v_str("http://localhost:8080")));
 ```
 
@@ -224,7 +224,7 @@ cd c && make test
 ```c
 #include "core/api.h"
 
-BluefinDecryptxP2peSDK* client = bluefin_decryptx_p2pe_sdk_new(options);
+BluefinDecryptxP2peSDK* client = bluefindecryptxp2pe_sdk_new(options);
 ```
 
 Creates a new SDK client. `options` is a `voxgig_value*` map (`NULL` for
@@ -254,28 +254,28 @@ Creates a test-mode client with mock transport. Both arguments may be
 | --- | --- | --- |
 | `sdk_prepare` | `(BluefinDecryptxP2peSDK*, fetchargs, PNError**) -> voxgig_value*` | Build an HTTP request definition without sending. |
 | `sdk_direct` | `(BluefinDecryptxP2peSDK*, fetchargs, PNError**) -> voxgig_value*` | Build and send an HTTP request. Returns a result map (branch on `ok`). |
-| `bluefin_decryptx_p2pe_attestation` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create an Attestation entity instance. |
-| `bluefin_decryptx_p2pe_client` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create a Client entity instance. |
-| `bluefin_decryptx_p2pe_create_result` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create a CreateResult entity instance. |
-| `bluefin_decryptx_p2pe_decryption` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create a Decryption entity instance. |
-| `bluefin_decryptx_p2pe_device` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create a Device entity instance. |
-| `bluefin_decryptx_p2pe_device_build` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create a DeviceBuild entity instance. |
-| `bluefin_decryptx_p2pe_device_custody_detail` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create a DeviceCustodyDetail entity instance. |
-| `bluefin_decryptx_p2pe_device_custody_list` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create a DeviceCustodyList entity instance. |
-| `bluefin_decryptx_p2pe_device_list` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create a DeviceList entity instance. |
-| `bluefin_decryptx_p2pe_device_receive_result` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create a DeviceReceiveResult entity instance. |
-| `bluefin_decryptx_p2pe_device_rki_activate_result` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create a DeviceRkiActivateResult entity instance. |
-| `bluefin_decryptx_p2pe_device_state` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create a DeviceState entity instance. |
-| `bluefin_decryptx_p2pe_device_type` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create a DeviceType entity instance. |
-| `bluefin_decryptx_p2pe_inject_key` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create an InjectKey entity instance. |
-| `bluefin_decryptx_p2pe_kif` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create a Kif entity instance. |
-| `bluefin_decryptx_p2pe_location` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create a Location entity instance. |
-| `bluefin_decryptx_p2pe_partner` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create a Partner entity instance. |
-| `bluefin_decryptx_p2pe_shipment` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create a Shipment entity instance. |
-| `bluefin_decryptx_p2pe_success` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create a Success entity instance. |
-| `bluefin_decryptx_p2pe_transaction` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create a Transaction entity instance. |
-| `bluefin_decryptx_p2pe_update_result` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create an UpdateResult entity instance. |
-| `bluefin_decryptx_p2pe_user` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create an User entity instance. |
+| `bluefindecryptxp2pe_attestation` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create an Attestation entity instance. |
+| `bluefindecryptxp2pe_client` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create a Client entity instance. |
+| `bluefindecryptxp2pe_create_result` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create a CreateResult entity instance. |
+| `bluefindecryptxp2pe_decryption` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create a Decryption entity instance. |
+| `bluefindecryptxp2pe_device` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create a Device entity instance. |
+| `bluefindecryptxp2pe_device_build` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create a DeviceBuild entity instance. |
+| `bluefindecryptxp2pe_device_custody_detail` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create a DeviceCustodyDetail entity instance. |
+| `bluefindecryptxp2pe_device_custody_list` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create a DeviceCustodyList entity instance. |
+| `bluefindecryptxp2pe_device_list` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create a DeviceList entity instance. |
+| `bluefindecryptxp2pe_device_receive_result` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create a DeviceReceiveResult entity instance. |
+| `bluefindecryptxp2pe_device_rki_activate_result` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create a DeviceRkiActivateResult entity instance. |
+| `bluefindecryptxp2pe_device_state` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create a DeviceState entity instance. |
+| `bluefindecryptxp2pe_device_type` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create a DeviceType entity instance. |
+| `bluefindecryptxp2pe_inject_key` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create an InjectKey entity instance. |
+| `bluefindecryptxp2pe_kif` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create a Kif entity instance. |
+| `bluefindecryptxp2pe_location` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create a Location entity instance. |
+| `bluefindecryptxp2pe_partner` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create a Partner entity instance. |
+| `bluefindecryptxp2pe_shipment` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create a Shipment entity instance. |
+| `bluefindecryptxp2pe_success` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create a Success entity instance. |
+| `bluefindecryptxp2pe_transaction` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create a Transaction entity instance. |
+| `bluefindecryptxp2pe_update_result` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create an UpdateResult entity instance. |
+| `bluefindecryptxp2pe_user` | `(BluefinDecryptxP2peSDK*, entopts) -> Entity*` | Create an User entity instance. |
 
 ### Entity interface (vtable)
 
@@ -737,7 +737,7 @@ API path: `/users/{id}`
 
 ### Attestation
 
-Create an instance: `Entity* attestation = bluefin_decryptx_p2pe_attestation(client, NULL);`
+Create an instance: `Entity* attestation = bluefindecryptxp2pe_attestation(client, NULL);`
 
 #### Operations
 
@@ -762,28 +762,28 @@ Create an instance: `Entity* attestation = bluefin_decryptx_p2pe_attestation(cli
 #### Example: Load
 
 ```c
-Entity* attestation = bluefin_decryptx_p2pe_attestation(client, NULL);
+Entity* attestation = bluefindecryptxp2pe_attestation(client, NULL);
 voxgig_value* attestation_rec = attestation->vt->load(attestation, cmap(1, "id", v_str("attestation_id")), NULL, &err);
 ```
 
 #### Example: List
 
 ```c
-Entity* attestation = bluefin_decryptx_p2pe_attestation(client, NULL);
+Entity* attestation = bluefindecryptxp2pe_attestation(client, NULL);
 voxgig_value* attestations = attestation->vt->list(attestation, NULL, NULL, &err);
 ```
 
 #### Example: Create
 
 ```c
-Entity* attestation = bluefin_decryptx_p2pe_attestation(client, NULL);
+Entity* attestation = bluefindecryptxp2pe_attestation(client, NULL);
 voxgig_value* attestation_rec = attestation->vt->create(attestation, NULL, NULL, &err);
 ```
 
 
 ### Client
 
-Create an instance: `Entity* client = bluefin_decryptx_p2pe_client(client, NULL);`
+Create an instance: `Entity* client = bluefindecryptxp2pe_client(client, NULL);`
 
 #### Operations
 
@@ -813,21 +813,21 @@ Create an instance: `Entity* client = bluefin_decryptx_p2pe_client(client, NULL)
 #### Example: Load
 
 ```c
-Entity* client = bluefin_decryptx_p2pe_client(client, NULL);
+Entity* client = bluefindecryptxp2pe_client(client, NULL);
 voxgig_value* client_rec = client->vt->load(client, cmap(1, "id", v_str("client_id")), NULL, &err);
 ```
 
 #### Example: List
 
 ```c
-Entity* client = bluefin_decryptx_p2pe_client(client, NULL);
+Entity* client = bluefindecryptxp2pe_client(client, NULL);
 voxgig_value* clients = client->vt->list(client, NULL, NULL, &err);
 ```
 
 #### Example: Create
 
 ```c
-Entity* client = bluefin_decryptx_p2pe_client(client, NULL);
+Entity* client = bluefindecryptxp2pe_client(client, NULL);
 voxgig_value* client_rec = client->vt->create(client, cmap(1,
     "location", v_map())  // voxgig_value* (map)
 , NULL, &err);
@@ -836,7 +836,7 @@ voxgig_value* client_rec = client->vt->create(client, cmap(1,
 
 ### CreateResult
 
-Create an instance: `Entity* create_result = bluefin_decryptx_p2pe_create_result(client, NULL);`
+Create an instance: `Entity* create_result = bluefindecryptxp2pe_create_result(client, NULL);`
 
 #### Operations
 
@@ -847,7 +847,7 @@ Create an instance: `Entity* create_result = bluefin_decryptx_p2pe_create_result
 #### Example: Create
 
 ```c
-Entity* create_result = bluefin_decryptx_p2pe_create_result(client, NULL);
+Entity* create_result = bluefindecryptxp2pe_create_result(client, NULL);
 voxgig_value* create_result_rec = create_result->vt->create(create_result, cmap(2,
     "device_type", v_str("example_device_type"),  // char*
     "serial_number", v_str("example_serial_number"))  // char*
@@ -857,7 +857,7 @@ voxgig_value* create_result_rec = create_result->vt->create(create_result, cmap(
 
 ### Decryption
 
-Create an instance: `Entity* decryption = bluefin_decryptx_p2pe_decryption(client, NULL);`
+Create an instance: `Entity* decryption = bluefindecryptxp2pe_decryption(client, NULL);`
 
 #### Operations
 
@@ -874,14 +874,14 @@ Create an instance: `Entity* decryption = bluefin_decryptx_p2pe_decryption(clien
 #### Example: Create
 
 ```c
-Entity* decryption = bluefin_decryptx_p2pe_decryption(client, NULL);
+Entity* decryption = bluefindecryptxp2pe_decryption(client, NULL);
 voxgig_value* decryption_rec = decryption->vt->create(decryption, NULL, NULL, &err);
 ```
 
 
 ### Device
 
-Create an instance: `Entity* device = bluefin_decryptx_p2pe_device(client, NULL);`
+Create an instance: `Entity* device = bluefindecryptxp2pe_device(client, NULL);`
 
 #### Operations
 
@@ -927,21 +927,21 @@ Create an instance: `Entity* device = bluefin_decryptx_p2pe_device(client, NULL)
 #### Example: Load
 
 ```c
-Entity* device = bluefin_decryptx_p2pe_device(client, NULL);
+Entity* device = bluefindecryptxp2pe_device(client, NULL);
 voxgig_value* device_rec = device->vt->load(device, cmap(1, "id", v_str("device_id")), NULL, &err);
 ```
 
 #### Example: List
 
 ```c
-Entity* device = bluefin_decryptx_p2pe_device(client, NULL);
+Entity* device = bluefindecryptxp2pe_device(client, NULL);
 voxgig_value* devices = device->vt->list(device, NULL, NULL, &err);
 ```
 
 #### Example: Create
 
 ```c
-Entity* device = bluefin_decryptx_p2pe_device(client, NULL);
+Entity* device = bluefindecryptxp2pe_device(client, NULL);
 voxgig_value* device_rec = device->vt->create(device, cmap(5,
     "activated_by", v_map(),  // voxgig_value* (map)
     "created_by", v_map(),  // voxgig_value* (map)
@@ -954,7 +954,7 @@ voxgig_value* device_rec = device->vt->create(device, cmap(5,
 
 ### DeviceBuild
 
-Create an instance: `Entity* device_build = bluefin_decryptx_p2pe_device_build(client, NULL);`
+Create an instance: `Entity* device_build = bluefindecryptxp2pe_device_build(client, NULL);`
 
 #### Operations
 
@@ -986,21 +986,21 @@ Create an instance: `Entity* device_build = bluefin_decryptx_p2pe_device_build(c
 #### Example: Load
 
 ```c
-Entity* device_build = bluefin_decryptx_p2pe_device_build(client, NULL);
+Entity* device_build = bluefindecryptxp2pe_device_build(client, NULL);
 voxgig_value* device_build_rec = device_build->vt->load(device_build, cmap(1, "id", v_str("device_build_id")), NULL, &err);
 ```
 
 #### Example: List
 
 ```c
-Entity* device_build = bluefin_decryptx_p2pe_device_build(client, NULL);
+Entity* device_build = bluefindecryptxp2pe_device_build(client, NULL);
 voxgig_value* device_builds = device_build->vt->list(device_build, NULL, NULL, &err);
 ```
 
 
 ### DeviceCustodyDetail
 
-Create an instance: `Entity* device_custody_detail = bluefin_decryptx_p2pe_device_custody_detail(client, NULL);`
+Create an instance: `Entity* device_custody_detail = bluefindecryptxp2pe_device_custody_detail(client, NULL);`
 
 #### Operations
 
@@ -1029,14 +1029,14 @@ Create an instance: `Entity* device_custody_detail = bluefin_decryptx_p2pe_devic
 #### Example: Load
 
 ```c
-Entity* device_custody_detail = bluefin_decryptx_p2pe_device_custody_detail(client, NULL);
+Entity* device_custody_detail = bluefindecryptxp2pe_device_custody_detail(client, NULL);
 voxgig_value* device_custody_detail_rec = device_custody_detail->vt->load(device_custody_detail, cmap(3, "id", v_str("device_custody_detail_id"), "device_type", v_str("device_type"), "serial_number", v_str("serial_number")), NULL, &err);
 ```
 
 
 ### DeviceCustodyList
 
-Create an instance: `Entity* device_custody_list = bluefin_decryptx_p2pe_device_custody_list(client, NULL);`
+Create an instance: `Entity* device_custody_list = bluefindecryptxp2pe_device_custody_list(client, NULL);`
 
 #### Operations
 
@@ -1065,14 +1065,14 @@ Create an instance: `Entity* device_custody_list = bluefin_decryptx_p2pe_device_
 #### Example: List
 
 ```c
-Entity* device_custody_list = bluefin_decryptx_p2pe_device_custody_list(client, NULL);
+Entity* device_custody_list = bluefindecryptxp2pe_device_custody_list(client, NULL);
 voxgig_value* device_custody_lists = device_custody_list->vt->list(device_custody_list, NULL, NULL, &err);
 ```
 
 
 ### DeviceList
 
-Create an instance: `Entity* device_list = bluefin_decryptx_p2pe_device_list(client, NULL);`
+Create an instance: `Entity* device_list = bluefindecryptxp2pe_device_list(client, NULL);`
 
 #### Operations
 
@@ -1090,14 +1090,14 @@ Create an instance: `Entity* device_list = bluefin_decryptx_p2pe_device_list(cli
 #### Example: Load
 
 ```c
-Entity* device_list = bluefin_decryptx_p2pe_device_list(client, NULL);
+Entity* device_list = bluefindecryptxp2pe_device_list(client, NULL);
 voxgig_value* device_list_rec = device_list->vt->load(device_list, cmap(1, "share_partner_to", v_str("share_partner_to")), NULL, &err);
 ```
 
 
 ### DeviceReceiveResult
 
-Create an instance: `Entity* device_receive_result = bluefin_decryptx_p2pe_device_receive_result(client, NULL);`
+Create an instance: `Entity* device_receive_result = bluefindecryptxp2pe_device_receive_result(client, NULL);`
 
 #### Operations
 
@@ -1114,7 +1114,7 @@ Create an instance: `Entity* device_receive_result = bluefin_decryptx_p2pe_devic
 #### Example: Create
 
 ```c
-Entity* device_receive_result = bluefin_decryptx_p2pe_device_receive_result(client, NULL);
+Entity* device_receive_result = bluefindecryptxp2pe_device_receive_result(client, NULL);
 voxgig_value* device_receive_result_rec = device_receive_result->vt->create(device_receive_result, cmap(1,
     "success", v_bool(true))  // bool
 , NULL, &err);
@@ -1123,7 +1123,7 @@ voxgig_value* device_receive_result_rec = device_receive_result->vt->create(devi
 
 ### DeviceRkiActivateResult
 
-Create an instance: `Entity* device_rki_activate_result = bluefin_decryptx_p2pe_device_rki_activate_result(client, NULL);`
+Create an instance: `Entity* device_rki_activate_result = bluefindecryptxp2pe_device_rki_activate_result(client, NULL);`
 
 #### Operations
 
@@ -1140,7 +1140,7 @@ Create an instance: `Entity* device_rki_activate_result = bluefin_decryptx_p2pe_
 #### Example: Create
 
 ```c
-Entity* device_rki_activate_result = bluefin_decryptx_p2pe_device_rki_activate_result(client, NULL);
+Entity* device_rki_activate_result = bluefindecryptxp2pe_device_rki_activate_result(client, NULL);
 voxgig_value* device_rki_activate_result_rec = device_rki_activate_result->vt->create(device_rki_activate_result, cmap(1,
     "success", v_bool(true))  // bool
 , NULL, &err);
@@ -1149,7 +1149,7 @@ voxgig_value* device_rki_activate_result_rec = device_rki_activate_result->vt->c
 
 ### DeviceState
 
-Create an instance: `Entity* device_state = bluefin_decryptx_p2pe_device_state(client, NULL);`
+Create an instance: `Entity* device_state = bluefindecryptxp2pe_device_state(client, NULL);`
 
 #### Operations
 
@@ -1167,14 +1167,14 @@ Create an instance: `Entity* device_state = bluefin_decryptx_p2pe_device_state(c
 #### Example: List
 
 ```c
-Entity* device_state = bluefin_decryptx_p2pe_device_state(client, NULL);
+Entity* device_state = bluefindecryptxp2pe_device_state(client, NULL);
 voxgig_value* device_states = device_state->vt->list(device_state, NULL, NULL, &err);
 ```
 
 
 ### DeviceType
 
-Create an instance: `Entity* device_type = bluefin_decryptx_p2pe_device_type(client, NULL);`
+Create an instance: `Entity* device_type = bluefindecryptxp2pe_device_type(client, NULL);`
 
 #### Operations
 
@@ -1203,21 +1203,21 @@ Create an instance: `Entity* device_type = bluefin_decryptx_p2pe_device_type(cli
 #### Example: Load
 
 ```c
-Entity* device_type = bluefin_decryptx_p2pe_device_type(client, NULL);
+Entity* device_type = bluefindecryptxp2pe_device_type(client, NULL);
 voxgig_value* device_type_rec = device_type->vt->load(device_type, cmap(1, "id", v_str("device_type_id")), NULL, &err);
 ```
 
 #### Example: List
 
 ```c
-Entity* device_type = bluefin_decryptx_p2pe_device_type(client, NULL);
+Entity* device_type = bluefindecryptxp2pe_device_type(client, NULL);
 voxgig_value* device_types = device_type->vt->list(device_type, NULL, NULL, &err);
 ```
 
 
 ### InjectKey
 
-Create an instance: `Entity* inject_key = bluefin_decryptx_p2pe_inject_key(client, NULL);`
+Create an instance: `Entity* inject_key = bluefindecryptxp2pe_inject_key(client, NULL);`
 
 #### Operations
 
@@ -1242,21 +1242,21 @@ Create an instance: `Entity* inject_key = bluefin_decryptx_p2pe_inject_key(clien
 #### Example: Load
 
 ```c
-Entity* inject_key = bluefin_decryptx_p2pe_inject_key(client, NULL);
+Entity* inject_key = bluefindecryptxp2pe_inject_key(client, NULL);
 voxgig_value* inject_key_rec = inject_key->vt->load(inject_key, cmap(1, "id", v_str("inject_key_id")), NULL, &err);
 ```
 
 #### Example: List
 
 ```c
-Entity* inject_key = bluefin_decryptx_p2pe_inject_key(client, NULL);
+Entity* inject_key = bluefindecryptxp2pe_inject_key(client, NULL);
 voxgig_value* inject_keys = inject_key->vt->list(inject_key, NULL, NULL, &err);
 ```
 
 
 ### Kif
 
-Create an instance: `Entity* kif = bluefin_decryptx_p2pe_kif(client, NULL);`
+Create an instance: `Entity* kif = bluefindecryptxp2pe_kif(client, NULL);`
 
 #### Operations
 
@@ -1274,14 +1274,14 @@ Create an instance: `Entity* kif = bluefin_decryptx_p2pe_kif(client, NULL);`
 #### Example: List
 
 ```c
-Entity* kif = bluefin_decryptx_p2pe_kif(client, NULL);
+Entity* kif = bluefindecryptxp2pe_kif(client, NULL);
 voxgig_value* kifs = kif->vt->list(kif, NULL, NULL, &err);
 ```
 
 
 ### Location
 
-Create an instance: `Entity* location = bluefin_decryptx_p2pe_location(client, NULL);`
+Create an instance: `Entity* location = bluefindecryptxp2pe_location(client, NULL);`
 
 #### Operations
 
@@ -1323,28 +1323,28 @@ Create an instance: `Entity* location = bluefin_decryptx_p2pe_location(client, N
 #### Example: Load
 
 ```c
-Entity* location = bluefin_decryptx_p2pe_location(client, NULL);
+Entity* location = bluefindecryptxp2pe_location(client, NULL);
 voxgig_value* location_rec = location->vt->load(location, cmap(1, "id", v_str("location_id")), NULL, &err);
 ```
 
 #### Example: List
 
 ```c
-Entity* location = bluefin_decryptx_p2pe_location(client, NULL);
+Entity* location = bluefindecryptxp2pe_location(client, NULL);
 voxgig_value* locations = location->vt->list(location, NULL, NULL, &err);
 ```
 
 #### Example: Create
 
 ```c
-Entity* location = bluefin_decryptx_p2pe_location(client, NULL);
+Entity* location = bluefindecryptxp2pe_location(client, NULL);
 voxgig_value* location_rec = location->vt->create(location, NULL, NULL, &err);
 ```
 
 
 ### Partner
 
-Create an instance: `Entity* partner = bluefin_decryptx_p2pe_partner(client, NULL);`
+Create an instance: `Entity* partner = bluefindecryptxp2pe_partner(client, NULL);`
 
 #### Operations
 
@@ -1376,21 +1376,21 @@ Create an instance: `Entity* partner = bluefin_decryptx_p2pe_partner(client, NUL
 #### Example: Load
 
 ```c
-Entity* partner = bluefin_decryptx_p2pe_partner(client, NULL);
+Entity* partner = bluefindecryptxp2pe_partner(client, NULL);
 voxgig_value* partner_rec = partner->vt->load(partner, cmap(1, "id", v_str("partner_id")), NULL, &err);
 ```
 
 #### Example: List
 
 ```c
-Entity* partner = bluefin_decryptx_p2pe_partner(client, NULL);
+Entity* partner = bluefindecryptxp2pe_partner(client, NULL);
 voxgig_value* partners = partner->vt->list(partner, NULL, NULL, &err);
 ```
 
 #### Example: Create
 
 ```c
-Entity* partner = bluefin_decryptx_p2pe_partner(client, NULL);
+Entity* partner = bluefindecryptxp2pe_partner(client, NULL);
 voxgig_value* partner_rec = partner->vt->create(partner, cmap(1,
     "location", v_map())  // voxgig_value* (map)
 , NULL, &err);
@@ -1399,7 +1399,7 @@ voxgig_value* partner_rec = partner->vt->create(partner, cmap(1,
 
 ### Shipment
 
-Create an instance: `Entity* shipment = bluefin_decryptx_p2pe_shipment(client, NULL);`
+Create an instance: `Entity* shipment = bluefindecryptxp2pe_shipment(client, NULL);`
 
 #### Operations
 
@@ -1431,28 +1431,28 @@ Create an instance: `Entity* shipment = bluefin_decryptx_p2pe_shipment(client, N
 #### Example: Load
 
 ```c
-Entity* shipment = bluefin_decryptx_p2pe_shipment(client, NULL);
+Entity* shipment = bluefindecryptxp2pe_shipment(client, NULL);
 voxgig_value* shipment_rec = shipment->vt->load(shipment, cmap(1, "id", v_str("shipment_id")), NULL, &err);
 ```
 
 #### Example: List
 
 ```c
-Entity* shipment = bluefin_decryptx_p2pe_shipment(client, NULL);
+Entity* shipment = bluefindecryptxp2pe_shipment(client, NULL);
 voxgig_value* shipments = shipment->vt->list(shipment, NULL, NULL, &err);
 ```
 
 #### Example: Create
 
 ```c
-Entity* shipment = bluefin_decryptx_p2pe_shipment(client, NULL);
+Entity* shipment = bluefindecryptxp2pe_shipment(client, NULL);
 voxgig_value* shipment_rec = shipment->vt->create(shipment, NULL, NULL, &err);
 ```
 
 
 ### Success
 
-Create an instance: `Entity* success = bluefin_decryptx_p2pe_success(client, NULL);`
+Create an instance: `Entity* success = bluefindecryptxp2pe_success(client, NULL);`
 
 #### Operations
 
@@ -1470,7 +1470,7 @@ Create an instance: `Entity* success = bluefin_decryptx_p2pe_success(client, NUL
 #### Example: Create
 
 ```c
-Entity* success = bluefin_decryptx_p2pe_success(client, NULL);
+Entity* success = bluefindecryptxp2pe_success(client, NULL);
 voxgig_value* success_rec = success->vt->create(success, cmap(1,
     "share_partner_to", v_str("example_share_partner_to"))  // char*
 , NULL, &err);
@@ -1479,7 +1479,7 @@ voxgig_value* success_rec = success->vt->create(success, cmap(1,
 
 ### Transaction
 
-Create an instance: `Entity* transaction = bluefin_decryptx_p2pe_transaction(client, NULL);`
+Create an instance: `Entity* transaction = bluefindecryptxp2pe_transaction(client, NULL);`
 
 #### Operations
 
@@ -1521,21 +1521,21 @@ Create an instance: `Entity* transaction = bluefin_decryptx_p2pe_transaction(cli
 #### Example: Load
 
 ```c
-Entity* transaction = bluefin_decryptx_p2pe_transaction(client, NULL);
+Entity* transaction = bluefindecryptxp2pe_transaction(client, NULL);
 voxgig_value* transaction_rec = transaction->vt->load(transaction, cmap(1, "id", v_str("transaction_id")), NULL, &err);
 ```
 
 #### Example: List
 
 ```c
-Entity* transaction = bluefin_decryptx_p2pe_transaction(client, NULL);
+Entity* transaction = bluefindecryptxp2pe_transaction(client, NULL);
 voxgig_value* transactions = transaction->vt->list(transaction, NULL, NULL, &err);
 ```
 
 #### Example: Create
 
 ```c
-Entity* transaction = bluefin_decryptx_p2pe_transaction(client, NULL);
+Entity* transaction = bluefindecryptxp2pe_transaction(client, NULL);
 voxgig_value* transaction_rec = transaction->vt->create(transaction, cmap(1,
     "location", v_map())  // voxgig_value* (map)
 , NULL, &err);
@@ -1544,7 +1544,7 @@ voxgig_value* transaction_rec = transaction->vt->create(transaction, cmap(1,
 
 ### UpdateResult
 
-Create an instance: `Entity* update_result = bluefin_decryptx_p2pe_update_result(client, NULL);`
+Create an instance: `Entity* update_result = bluefindecryptxp2pe_update_result(client, NULL);`
 
 #### Operations
 
@@ -1574,21 +1574,21 @@ Create an instance: `Entity* update_result = bluefin_decryptx_p2pe_update_result
 #### Example: List
 
 ```c
-Entity* update_result = bluefin_decryptx_p2pe_update_result(client, NULL);
+Entity* update_result = bluefindecryptxp2pe_update_result(client, NULL);
 voxgig_value* update_results = update_result->vt->list(update_result, NULL, NULL, &err);
 ```
 
 #### Example: Create
 
 ```c
-Entity* update_result = bluefin_decryptx_p2pe_update_result(client, NULL);
+Entity* update_result = bluefindecryptxp2pe_update_result(client, NULL);
 voxgig_value* update_result_rec = update_result->vt->create(update_result, NULL, NULL, &err);
 ```
 
 
 ### User
 
-Create an instance: `Entity* user = bluefin_decryptx_p2pe_user(client, NULL);`
+Create an instance: `Entity* user = bluefindecryptxp2pe_user(client, NULL);`
 
 #### Operations
 
@@ -1619,7 +1619,7 @@ Create an instance: `Entity* user = bluefin_decryptx_p2pe_user(client, NULL);`
 #### Example: Load
 
 ```c
-Entity* user = bluefin_decryptx_p2pe_user(client, NULL);
+Entity* user = bluefindecryptxp2pe_user(client, NULL);
 voxgig_value* user_rec = user->vt->load(user, cmap(1, "id", v_str("user_id")), NULL, &err);
 ```
 
