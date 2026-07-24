@@ -305,19 +305,19 @@ pub const InjectKeyEntity = struct {
     }
     
 
-    pub fn create(self: *EntyClass, _reqdata: Value, _ctrl: Value) OpResult {
+    pub fn create(self: *InjectKeyEntity, _reqdata: Value, _ctrl: Value) OpResult {
         _ = _reqdata;
         _ = _ctrl;
         return .{ .err = h.unsupported_op("create", self.name) };
     }
 
-    pub fn update(self: *EntyClass, _reqdata: Value, _ctrl: Value) OpResult {
+    pub fn update(self: *InjectKeyEntity, _reqdata: Value, _ctrl: Value) OpResult {
         _ = _reqdata;
         _ = _ctrl;
         return .{ .err = h.unsupported_op("update", self.name) };
     }
 
-    pub fn remove(self: *EntyClass, _reqmatch: Value, _ctrl: Value) OpResult {
+    pub fn remove(self: *InjectKeyEntity, _reqmatch: Value, _ctrl: Value) OpResult {
         _ = _reqmatch;
         _ = _ctrl;
         return .{ .err = h.unsupported_op("remove", self.name) };

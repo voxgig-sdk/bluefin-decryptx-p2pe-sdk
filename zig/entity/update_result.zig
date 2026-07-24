@@ -260,7 +260,7 @@ pub const UpdateResultEntity = struct {
 
     // ---- CRUD operations ----
 
-    pub fn load(self: *EntyClass, _reqmatch: Value, _ctrl: Value) OpResult {
+    pub fn load(self: *UpdateResultEntity, _reqmatch: Value, _ctrl: Value) OpResult {
         _ = _reqmatch;
         _ = _ctrl;
         return .{ .err = h.unsupported_op("load", self.name) };
@@ -334,7 +334,7 @@ pub const UpdateResultEntity = struct {
     }
     
 
-    pub fn remove(self: *EntyClass, _reqmatch: Value, _ctrl: Value) OpResult {
+    pub fn remove(self: *UpdateResultEntity, _reqmatch: Value, _ctrl: Value) OpResult {
         _ = _reqmatch;
         _ = _ctrl;
         return .{ .err = h.unsupported_op("remove", self.name) };
