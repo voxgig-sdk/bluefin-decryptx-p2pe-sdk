@@ -31,8 +31,15 @@ defmodule BluefinDecryptxP2pe.DeviceBuildEntityTest do
   test "should list records" do
     sdk = mk_sdk()
     ent = BluefinDecryptxP2pe.device_build(sdk)
+    # The op resolves to one ENTITY per record; the record is reached with
+    # data_get. See AGENTS.md "Entity operations return ENTITIES".
     result = BluefinDecryptxP2pe.Entity.DeviceBuild.list(ent, S.jm([]))
     assert S.islist(result)
+    if S.size(result) > 0 do
+      Enum.each(0..(S.size(result) - 1), fn i ->
+        assert S.ismap(BluefinDecryptxP2pe.EntityBase.data_get(S.getelem(result, i)))
+      end)
+    end
   end
 
   test "should load an existing record" do
@@ -41,7 +48,8 @@ defmodule BluefinDecryptxP2pe.DeviceBuildEntityTest do
     if id != nil do
       sdk = mk_sdk()
       ent = BluefinDecryptxP2pe.device_build(sdk)
-      rec = BluefinDecryptxP2pe.Entity.DeviceBuild.load(ent, S.jm(["id", id]))
+      loaded = BluefinDecryptxP2pe.Entity.DeviceBuild.load(ent, S.jm(["id", id]))
+      rec = BluefinDecryptxP2pe.EntityBase.data_get(loaded)
       assert S.ismap(rec)
       assert S.getprop(rec, "id") == id
     end

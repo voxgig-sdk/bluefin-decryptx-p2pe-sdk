@@ -6,17 +6,17 @@ main: kit: entity: device_build: {
 
   fields: [
     {
-      name: "app_version"
+      name: "appVersion"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "build_number"
+      name: "buildNumber"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "config_file_name"
+      name: "configFileName"
       req: false
       type: "`$STRING`"
     }
@@ -26,17 +26,17 @@ main: kit: entity: device_build: {
       type: "`$STRING`"
     }
     {
-      name: "device_type"
+      name: "deviceType"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "firmware_version"
+      name: "firmwareVersion"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "hardware_version"
+      name: "hardwareVersion"
       req: false
       type: "`$STRING`"
     }
@@ -46,7 +46,7 @@ main: kit: entity: device_build: {
       type: "`$INTEGER`"
     }
     {
-      name: "is_active"
+      name: "isActive"
       req: false
       type: "`$BOOLEAN`"
     }
@@ -61,7 +61,7 @@ main: kit: entity: device_build: {
       type: "`$STRING`"
     }
     {
-      name: "note"
+      name: "notes"
       req: false
       type: "`$STRING`"
     }
@@ -71,12 +71,12 @@ main: kit: entity: device_build: {
       type: "`$INTEGER`"
     }
     {
-      name: "white_listing_bin_range"
+      name: "whiteListingBinRanges"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "white_listing_used"
+      name: "whiteListingUsed"
       req: false
       type: "`$BOOLEAN`"
     }

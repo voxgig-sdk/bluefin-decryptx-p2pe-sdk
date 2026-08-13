@@ -33,7 +33,7 @@ BASIC_FLOW: {
   # The basic flow consumes synthetic IDs from the fixture. In live mode
   # without an *_ENTID env override, those IDs hit the live API and 4xx.
   if ($setup->{synthetic_only}) {
-    note('live entity test uses synthetic IDs from fixture - set BLUEFINDECRYPTXP_PE_TEST_DEVICE_CUSTODY_LIST_ENTID JSON to run live');
+    note('live entity test uses synthetic IDs from fixture - set BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_CUSTODY_LIST_ENTID JSON to run live');
     pass('device_custody_list: basic flow skipped (synthetic IDs only)');
     last BASIC_FLOW;
   }
@@ -92,38 +92,38 @@ sub device_custody_list_basic_setup {
   # mode is on without a real override, the basic test runs against
   # synthetic IDs from the fixture and 4xx's. Surface this so the test can
   # skip.
-  my $entid_env_raw = $ENV{'BLUEFINDECRYPTXP_PE_TEST_DEVICE_CUSTODY_LIST_ENTID'};
+  my $entid_env_raw = $ENV{'BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_CUSTODY_LIST_ENTID'};
   my $idmap_overridden = (defined $entid_env_raw && $entid_env_raw =~ /^\s*\{/) ? 1 : 0;
 
   my $env = BluefinDecryptxP2peTestRunner::env_override({
-    'BLUEFINDECRYPTXP_PE_TEST_DEVICE_CUSTODY_LIST_ENTID' => $idmap,
-    'BLUEFINDECRYPTXP_PE_TEST_LIVE' => 'FALSE',
-    'BLUEFINDECRYPTXP_PE_TEST_EXPLAIN' => 'FALSE',
-    'BLUEFINDECRYPTXP_PE_APIKEY' => 'NONE',
+    'BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_CUSTODY_LIST_ENTID' => $idmap,
+    'BLUEFIN_DECRYPTX_P2PE_TEST_LIVE' => 'FALSE',
+    'BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN' => 'FALSE',
+    'BLUEFIN_DECRYPTX_P2PE_APIKEY' => 'NONE',
   });
 
-  my $idmap_resolved = BluefinDecryptxP2peHelpers::to_map($env->{'BLUEFINDECRYPTXP_PE_TEST_DEVICE_CUSTODY_LIST_ENTID'});
+  my $idmap_resolved = BluefinDecryptxP2peHelpers::to_map($env->{'BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_CUSTODY_LIST_ENTID'});
   if (!defined $idmap_resolved) {
     $idmap_resolved = BluefinDecryptxP2peHelpers::to_map($idmap);
   }
 
-  if ((($env->{'BLUEFINDECRYPTXP_PE_TEST_LIVE'}) || '') eq 'TRUE') {
+  if ((($env->{'BLUEFIN_DECRYPTX_P2PE_TEST_LIVE'}) || '') eq 'TRUE') {
     my $merged_opts = Voxgig::Struct::merge([
       {
-        'apikey' => $env->{'BLUEFINDECRYPTXP_PE_APIKEY'},
+        'apikey' => $env->{'BLUEFIN_DECRYPTX_P2PE_APIKEY'},
       },
       (Voxgig::Struct::ismap($extra) ? $extra : {}),
     ]);
     $client = BluefinDecryptxP2peSDK->new(BluefinDecryptxP2peHelpers::to_map($merged_opts));
   }
 
-  my $live = ((($env->{'BLUEFINDECRYPTXP_PE_TEST_LIVE'}) || '') eq 'TRUE') ? 1 : 0;
+  my $live = ((($env->{'BLUEFIN_DECRYPTX_P2PE_TEST_LIVE'}) || '') eq 'TRUE') ? 1 : 0;
   return {
     'client' => $client,
     'data' => $entity_data,
     'idmap' => $idmap_resolved,
     'env' => $env,
-    'explain' => ((($env->{'BLUEFINDECRYPTXP_PE_TEST_EXPLAIN'}) || '') eq 'TRUE') ? 1 : 0,
+    'explain' => ((($env->{'BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN'}) || '') eq 'TRUE') ? 1 : 0,
     'live' => $live,
     'synthetic_only' => ($live && !$idmap_overridden) ? 1 : 0,
     'now' => BluefinDecryptxP2peHelpers::now_ms(),

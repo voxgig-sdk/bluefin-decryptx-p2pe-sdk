@@ -370,12 +370,12 @@ const attestation = client.Attestation()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `client` | `Record<string, any>` | No |  |
-| `complete_date` | `string` | No |  |
+| `completeDate` | `string` | No |  |
 | `created` | `string` | No |  |
 | `device` | `Record<string, any>` | No |  |
 | `id` | `string` | No |  |
 | `name` | `string` | No |  |
-| `note` | `string` | No |  |
+| `notes` | `string` | No |  |
 
 ### Operations
 
@@ -444,9 +444,9 @@ const client_ = client.Client()
 | --- | --- | --- | --- |
 | `contact` | `Record<string, any>` | No |  |
 | `created` | `string` | No |  |
-| `direct_partner` | `Record<string, any>` | No |  |
+| `directPartner` | `Record<string, any>` | No |  |
 | `id` | `string` | No |  |
-| `is_active` | `boolean` | No |  |
+| `isActive` | `boolean` | No |  |
 | `location` | `Record<string, any>` | Yes |  |
 | `mid` | `string` | No |  |
 | `modified` | `string` | No |  |
@@ -460,9 +460,9 @@ const client_ = client.Client()
 | --- | --- | --- | --- | --- |
 | `contact` | - | Yes | - | - |
 | `created` | - | - | - | - |
-| `direct_partner` | - | - | - | - |
+| `directPartner` | - | - | - | - |
 | `id` | - | - | - | - |
-| `is_active` | - | - | - | - |
+| `isActive` | - | - | - | - |
 | `location` | - | - | - | - |
 | `mid` | - | - | - | - |
 | `modified` | - | - | - | - |
@@ -642,33 +642,33 @@ const device = client.Device()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `activated_by` | `Record<string, any>` | Yes |  |
-| `activation_date` | `string` | No |  |
-| `alternate_key` | `string` | No |  |
-| `audit_next_date` | `string` | No |  |
-| `audit_notification_date` | `string` | No |  |
+| `activatedBy` | `Record<string, any>` | Yes |  |
+| `activationDate` | `string` | No |  |
+| `alternateKey` | `string` | No |  |
+| `auditNextDate` | `string` | No |  |
+| `auditNotificationDate` | `string` | No |  |
 | `client` | `Record<string, any>` | No |  |
 | `created` | `string` | No |  |
-| `created_by` | `Record<string, any>` | Yes |  |
-| `device_build` | `Record<string, any>` | No |  |
-| `device_state` | `Record<string, any>` | No |  |
-| `device_type` | `Record<string, any>` | No |  |
-| `error_counter` | `number` | No |  |
-| `error_last_date` | `string` | No |  |
+| `createdBy` | `Record<string, any>` | Yes |  |
+| `deviceBuild` | `Record<string, any>` | No |  |
+| `deviceState` | `Record<string, any>` | No |  |
+| `deviceType` | `Record<string, any>` | No |  |
+| `errorCounter` | `number` | No |  |
+| `errorLastDate` | `string` | No |  |
 | `id` | `string` | No |  |
-| `initialized_by` | `Record<string, any>` | Yes |  |
-| `initialized_date` | `string` | No |  |
-| `inject_key` | `Record<string, any>` | No |  |
-| `is_virtual` | `boolean` | No |  |
+| `initializedBy` | `Record<string, any>` | Yes |  |
+| `initializedDate` | `string` | No |  |
+| `injectKey` | `Record<string, any>` | No |  |
+| `isVirtual` | `boolean` | No |  |
 | `kif` | `Record<string, any>` | No |  |
-| `last_activity_date` | `string` | No |  |
+| `lastActivityDate` | `string` | No |  |
 | `location` | `Record<string, any>` | Yes |  |
 | `modified` | `string` | No |  |
-| `modified_by` | `Record<string, any>` | Yes |  |
+| `modifiedBy` | `Record<string, any>` | Yes |  |
 | `name` | `string` | No |  |
-| `note` | `string` | No |  |
+| `notes` | `string` | No |  |
 | `partner` | `Record<string, any>` | No |  |
-| `serial_number` | `string` | No |  |
+| `serialNumber` | `string` | No |  |
 | `version` | `number` | No |  |
 
 ### Operations
@@ -679,11 +679,11 @@ Create a new entity with the given data.
 
 ```ts
 const result = await client.Device().create({
-  activated_by: {},
-  created_by: {},
-  initialized_by: {},
+  activatedBy: {},
+  createdBy: {},
+  initializedBy: {},
   location: {},
-  modified_by: {},
+  modifiedBy: {},
 })
 ```
 
@@ -741,21 +741,21 @@ const device_build = client.DeviceBuild()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `app_version` | `string` | No |  |
-| `build_number` | `string` | No |  |
-| `config_file_name` | `string` | No |  |
+| `appVersion` | `string` | No |  |
+| `buildNumber` | `string` | No |  |
+| `configFileName` | `string` | No |  |
 | `created` | `string` | No |  |
-| `device_type` | `string` | No |  |
-| `firmware_version` | `string` | No |  |
-| `hardware_version` | `string` | No |  |
+| `deviceType` | `string` | No |  |
+| `firmwareVersion` | `string` | No |  |
+| `hardwareVersion` | `string` | No |  |
 | `id` | `number` | No |  |
-| `is_active` | `boolean` | No |  |
+| `isActive` | `boolean` | No |  |
 | `modified` | `string` | No |  |
 | `name` | `string` | No |  |
-| `note` | `string` | No |  |
+| `notes` | `string` | No |  |
 | `version` | `number` | No |  |
-| `white_listing_bin_range` | `string` | No |  |
-| `white_listing_used` | `boolean` | No |  |
+| `whiteListingBinRanges` | `string` | No |  |
+| `whiteListingUsed` | `boolean` | No |  |
 
 ### Operations
 
@@ -813,18 +813,18 @@ const device_custody_detail = client.DeviceCustodyDetail()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `complete_date` | `string` | No |  |
+| `completeDate` | `string` | No |  |
 | `created` | `string` | No |  |
-| `created_by` | `Record<string, any>` | Yes |  |
+| `createdBy` | `Record<string, any>` | Yes |  |
 | `custodian` | `Record<string, any>` | Yes |  |
 | `device` | `Record<string, any>` | No |  |
 | `id` | `number` | No |  |
 | `location` | `Record<string, any>` | Yes |  |
 | `modified` | `string` | No |  |
-| `modified_by` | `Record<string, any>` | Yes |  |
-| `note` | `string` | No |  |
+| `modifiedBy` | `Record<string, any>` | Yes |  |
+| `notes` | `string` | No |  |
 | `status` | `Record<string, any>` | No |  |
-| `transfer_method` | `Record<string, any>` | No |  |
+| `transferMethod` | `Record<string, any>` | No |  |
 | `version` | `number` | No |  |
 
 ### Operations
@@ -875,18 +875,18 @@ const device_custody_list = client.DeviceCustodyList()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `complete_date` | `string` | No |  |
+| `completeDate` | `string` | No |  |
 | `created` | `string` | No |  |
-| `created_by` | `Record<string, any>` | Yes |  |
+| `createdBy` | `Record<string, any>` | Yes |  |
 | `custodian` | `Record<string, any>` | Yes |  |
 | `device` | `Record<string, any>` | No |  |
 | `id` | `number` | No |  |
 | `location` | `Record<string, any>` | Yes |  |
 | `modified` | `string` | No |  |
-| `modified_by` | `Record<string, any>` | Yes |  |
-| `note` | `string` | No |  |
+| `modifiedBy` | `Record<string, any>` | Yes |  |
+| `notes` | `string` | No |  |
 | `status` | `Record<string, any>` | No |  |
-| `transfer_method` | `Record<string, any>` | No |  |
+| `transferMethod` | `Record<string, any>` | No |  |
 | `version` | `number` | No |  |
 
 ### Operations
@@ -896,7 +896,7 @@ const device_custody_list = client.DeviceCustodyList()
 List entities matching the given criteria. Returns an array.
 
 ```ts
-const results = await client.DeviceCustodyList().list()
+const results = await client.DeviceCustodyList().list({ device_type: "example", serial_number: "example" })
 ```
 
 ### Common Methods
@@ -1144,16 +1144,16 @@ const device_type = client.DeviceType()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `created` | `string` | No |  |
-| `device_type_mode` | `string` | No |  |
-| `hardware_version` | `string` | No |  |
+| `deviceTypeMode` | `string` | No |  |
+| `hardwareVersion` | `string` | No |  |
 | `id` | `string` | No |  |
-| `is_active` | `boolean` | No |  |
+| `isActive` | `boolean` | No |  |
 | `manufacturer` | `string` | No |  |
 | `model` | `string` | No |  |
 | `modified` | `string` | No |  |
 | `name` | `string` | No |  |
-| `photo_url` | `string` | No |  |
-| `product_name` | `string` | No |  |
+| `photoUrl` | `string` | No |  |
+| `productName` | `string` | No |  |
 | `version` | `number` | No |  |
 
 ### Operations
@@ -1214,9 +1214,9 @@ const inject_key = client.InjectKey()
 | --- | --- | --- | --- |
 | `created` | `string` | No |  |
 | `id` | `string` | No |  |
-| `is_active` | `boolean` | No |  |
-| `is_p2_pe` | `boolean` | No |  |
-| `key_type` | `string` | No |  |
+| `isActive` | `boolean` | No |  |
+| `isP2PE` | `boolean` | No |  |
+| `keyType` | `string` | No |  |
 | `modified` | `string` | No |  |
 | `name` | `string` | No |  |
 | `version` | `number` | No |  |
@@ -1330,26 +1330,26 @@ const location = client.Location()
 | --- | --- | --- | --- |
 | `address1` | `string` | No |  |
 | `address2` | `string` | No |  |
-| `billing_id` | `string` | No |  |
+| `billingId` | `string` | No |  |
 | `city` | `string` | No |  |
 | `country` | `string` | No |  |
 | `created` | `string` | No |  |
-| `custom_reference` | `string` | No |  |
+| `customReference` | `string` | No |  |
 | `id` | `string` | No |  |
-| `location_type` | `string` | No |  |
-| `mail_address1` | `string` | No |  |
-| `mail_address2` | `string` | No |  |
-| `mail_city` | `string` | No |  |
-| `mail_country` | `string` | No |  |
-| `mail_postal_code` | `string` | No |  |
-| `mail_state_province` | `string` | No |  |
+| `locationType` | `string` | No |  |
+| `mailAddress1` | `string` | No |  |
+| `mailAddress2` | `string` | No |  |
+| `mailCity` | `string` | No |  |
+| `mailCountry` | `string` | No |  |
+| `mailPostalCode` | `string` | No |  |
+| `mailStateProvince` | `string` | No |  |
 | `modified` | `string` | No |  |
 | `name` | `string` | No |  |
-| `name_of_business` | `string` | No |  |
-| `note` | `string` | No |  |
-| `postal_code` | `string` | No |  |
-| `state_province` | `string` | No |  |
-| `unique_id` | `string` | No |  |
+| `nameOfBusiness` | `string` | No |  |
+| `notes` | `string` | No |  |
+| `postalCode` | `string` | No |  |
+| `stateProvince` | `string` | No |  |
+| `uniqueId` | `string` | No |  |
 | `version` | `number` | No |  |
 
 ### Operations
@@ -1425,38 +1425,38 @@ const partner = client.Partner()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `billing_id` | `string` | No |  |
-| `client_can_order_equipment` | `boolean` | No |  |
+| `billingId` | `string` | No |  |
+| `clientCanOrderEquipment` | `boolean` | No |  |
 | `contact` | `Record<string, any>` | No |  |
 | `created` | `string` | No |  |
 | `id` | `string` | No |  |
-| `is_active` | `boolean` | No |  |
+| `isActive` | `boolean` | No |  |
 | `location` | `Record<string, any>` | Yes |  |
 | `modified` | `string` | No |  |
 | `name` | `string` | No |  |
 | `parent` | `Record<string, any>` | No |  |
-| `partner_id` | `string` | No |  |
+| `partnerId` | `string` | No |  |
 | `reference` | `string` | No |  |
-| `verification_phrase` | `string` | No |  |
+| `verificationPhrase` | `string` | No |  |
 | `version` | `number` | No |  |
 
 ### Field Usage by Operation
 
 | Field | load | list | create |
 | --- | --- | --- | --- |
-| `billing_id` | - | - | - |
-| `client_can_order_equipment` | - | - | - |
+| `billingId` | - | - | - |
+| `clientCanOrderEquipment` | - | - | - |
 | `contact` | - | Yes | - |
 | `created` | - | - | - |
 | `id` | - | - | - |
-| `is_active` | - | - | - |
+| `isActive` | - | - | - |
 | `location` | - | - | - |
 | `modified` | - | - | - |
 | `name` | - | - | - |
 | `parent` | - | - | - |
-| `partner_id` | - | - | - |
+| `partnerId` | - | - | - |
 | `reference` | - | - | - |
-| `verification_phrase` | - | - | - |
+| `verificationPhrase` | - | - | - |
 | `version` | - | - | - |
 
 ### Operations
@@ -1528,15 +1528,15 @@ const shipment = client.Shipment()
 | `carrier` | `string` | No |  |
 | `client` | `Record<string, any>` | No |  |
 | `created` | `string` | No |  |
-| `date_received` | `string` | No |  |
-| `date_shipped` | `string` | No |  |
-| `dc_kif` | `Record<string, any>` | No |  |
+| `dateReceived` | `string` | No |  |
+| `dateShipped` | `string` | No |  |
+| `dcKif` | `Record<string, any>` | No |  |
 | `id` | `string` | No |  |
-| `item` | `any[]` | No |  |
+| `items` | `any[]` | No |  |
 | `kif` | `Record<string, any>` | No |  |
 | `modified` | `string` | No |  |
 | `partner` | `Record<string, any>` | No |  |
-| `shipment_type` | `string` | No |  |
+| `shipmentType` | `string` | No |  |
 | `tracking` | `string` | No |  |
 | `version` | `number` | No |  |
 
@@ -1665,30 +1665,30 @@ const transaction = client.Transaction()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `alternate_key` | `string` | No |  |
+| `alternateKey` | `string` | No |  |
 | `client` | `Record<string, any>` | No |  |
-| `client_ref` | `string` | No |  |
+| `clientRef` | `string` | No |  |
 | `created` | `string` | No |  |
 | `decrypted` | `number` | No |  |
-| `device_name` | `string` | No |  |
-| `direct_partner` | `Record<string, any>` | No |  |
+| `deviceName` | `string` | No |  |
+| `directPartner` | `Record<string, any>` | No |  |
 | `encrypted` | `number` | No |  |
-| `end_date` | `string` | No |  |
-| `err_code` | `string` | No |  |
-| `err_message` | `string` | No |  |
+| `endDate` | `string` | No |  |
+| `errCode` | `string` | No |  |
+| `errMessage` | `string` | No |  |
 | `id` | `string` | No |  |
-| `ip_address` | `string` | No |  |
-| `is_virtual` | `boolean` | No |  |
-| `key_type` | `string` | No |  |
+| `ipAddress` | `string` | No |  |
+| `isVirtual` | `boolean` | No |  |
+| `keyType` | `string` | No |  |
 | `location` | `Record<string, any>` | Yes |  |
-| `message_id` | `string` | No |  |
+| `messageId` | `string` | No |  |
 | `method` | `string` | No |  |
 | `partner` | `Record<string, any>` | No |  |
 | `reference` | `string` | No |  |
-| `serial_number` | `string` | No |  |
-| `start_date` | `string` | No |  |
+| `serialNumber` | `string` | No |  |
+| `startDate` | `string` | No |  |
 | `success` | `boolean` | No |  |
-| `transaction_source` | `string` | No |  |
+| `transactionSource` | `string` | No |  |
 
 ### Operations
 
@@ -1758,15 +1758,15 @@ const update_result = client.UpdateResult()
 | --- | --- | --- | --- |
 | `client` | `Record<string, any>` | No |  |
 | `email` | `string` | No |  |
-| `first_name` | `string` | No |  |
+| `firstName` | `string` | No |  |
 | `id` | `string` | No |  |
-| `is_active` | `boolean` | No |  |
+| `isActive` | `boolean` | No |  |
 | `kif` | `Record<string, any>` | No |  |
-| `last_name` | `string` | No |  |
+| `lastName` | `string` | No |  |
 | `partner` | `Record<string, any>` | No |  |
 | `phone` | `string` | No |  |
-| `user_name` | `string` | No |  |
-| `user_role` | `Record<string, any>` | No |  |
+| `userName` | `string` | No |  |
+| `userRole` | `Record<string, any>` | No |  |
 | `version` | `number` | No |  |
 
 ### Operations
@@ -1840,16 +1840,16 @@ const user = client.User()
 | `client` | `Record<string, any>` | No |  |
 | `created` | `string` | No |  |
 | `email` | `string` | No |  |
-| `first_name` | `string` | No |  |
+| `firstName` | `string` | No |  |
 | `id` | `string` | No |  |
-| `is_active` | `boolean` | No |  |
+| `isActive` | `boolean` | No |  |
 | `kif` | `Record<string, any>` | No |  |
-| `last_name` | `string` | No |  |
+| `lastName` | `string` | No |  |
 | `modified` | `string` | No |  |
 | `partner` | `Record<string, any>` | No |  |
 | `phone` | `string` | No |  |
-| `user_name` | `string` | No |  |
-| `user_role` | `Record<string, any>` | No |  |
+| `userName` | `string` | No |  |
+| `userRole` | `Record<string, any>` | No |  |
 | `version` | `number` | No |  |
 
 ### Operations

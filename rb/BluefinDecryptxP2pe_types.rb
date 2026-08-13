@@ -13,7 +13,7 @@
 # @!attribute [rw] client
 #   @return [Hash, nil]
 #
-# @!attribute [rw] complete_date
+# @!attribute [rw] completeDate
 #   @return [String, nil]
 #
 # @!attribute [rw] created
@@ -28,16 +28,16 @@
 # @!attribute [rw] name
 #   @return [String, nil]
 #
-# @!attribute [rw] note
+# @!attribute [rw] notes
 #   @return [String, nil]
 Attestation = Struct.new(
   :client,
-  :complete_date,
+  :completeDate,
   :created,
   :device,
   :id,
   :name,
-  :note,
+  :notes,
   keyword_init: true
 )
 
@@ -55,7 +55,7 @@ AttestationLoadMatch = Struct.new(
 # @!attribute [rw] client
 #   @return [Hash, nil]
 #
-# @!attribute [rw] complete_date
+# @!attribute [rw] completeDate
 #   @return [String, nil]
 #
 # @!attribute [rw] created
@@ -70,16 +70,16 @@ AttestationLoadMatch = Struct.new(
 # @!attribute [rw] name
 #   @return [String, nil]
 #
-# @!attribute [rw] note
+# @!attribute [rw] notes
 #   @return [String, nil]
 AttestationListMatch = Struct.new(
   :client,
-  :complete_date,
+  :completeDate,
   :created,
   :device,
   :id,
   :name,
-  :note,
+  :notes,
   keyword_init: true
 )
 
@@ -88,7 +88,7 @@ AttestationListMatch = Struct.new(
 # @!attribute [rw] client
 #   @return [Hash, nil]
 #
-# @!attribute [rw] complete_date
+# @!attribute [rw] completeDate
 #   @return [String, nil]
 #
 # @!attribute [rw] created
@@ -103,16 +103,16 @@ AttestationListMatch = Struct.new(
 # @!attribute [rw] name
 #   @return [String, nil]
 #
-# @!attribute [rw] note
+# @!attribute [rw] notes
 #   @return [String, nil]
 AttestationCreateData = Struct.new(
   :client,
-  :complete_date,
+  :completeDate,
   :created,
   :device,
   :id,
   :name,
-  :note,
+  :notes,
   keyword_init: true
 )
 
@@ -124,13 +124,13 @@ AttestationCreateData = Struct.new(
 # @!attribute [rw] created
 #   @return [String, nil]
 #
-# @!attribute [rw] direct_partner
+# @!attribute [rw] directPartner
 #   @return [Hash, nil]
 #
 # @!attribute [rw] id
 #   @return [String, nil]
 #
-# @!attribute [rw] is_active
+# @!attribute [rw] isActive
 #   @return [Boolean, nil]
 #
 # @!attribute [rw] location
@@ -153,9 +153,9 @@ AttestationCreateData = Struct.new(
 Client = Struct.new(
   :contact,
   :created,
-  :direct_partner,
+  :directPartner,
   :id,
-  :is_active,
+  :isActive,
   :location,
   :mid,
   :modified,
@@ -182,13 +182,13 @@ ClientLoadMatch = Struct.new(
 # @!attribute [rw] created
 #   @return [String, nil]
 #
-# @!attribute [rw] direct_partner
+# @!attribute [rw] directPartner
 #   @return [Hash, nil]
 #
 # @!attribute [rw] id
 #   @return [String, nil]
 #
-# @!attribute [rw] is_active
+# @!attribute [rw] isActive
 #   @return [Boolean, nil]
 #
 # @!attribute [rw] location
@@ -211,9 +211,9 @@ ClientLoadMatch = Struct.new(
 ClientListMatch = Struct.new(
   :contact,
   :created,
-  :direct_partner,
+  :directPartner,
   :id,
-  :is_active,
+  :isActive,
   :location,
   :mid,
   :modified,
@@ -231,13 +231,13 @@ ClientListMatch = Struct.new(
 # @!attribute [rw] created
 #   @return [String, nil]
 #
-# @!attribute [rw] direct_partner
+# @!attribute [rw] directPartner
 #   @return [Hash, nil]
 #
 # @!attribute [rw] id
 #   @return [String, nil]
 #
-# @!attribute [rw] is_active
+# @!attribute [rw] isActive
 #   @return [Boolean, nil]
 #
 # @!attribute [rw] location
@@ -260,9 +260,9 @@ ClientListMatch = Struct.new(
 ClientCreateData = Struct.new(
   :contact,
   :created,
-  :direct_partner,
+  :directPartner,
   :id,
-  :is_active,
+  :isActive,
   :location,
   :mid,
   :modified,
@@ -318,19 +318,19 @@ DecryptionCreateData = Struct.new(
 
 # Device entity data model.
 #
-# @!attribute [rw] activated_by
+# @!attribute [rw] activatedBy
 #   @return [Hash]
 #
-# @!attribute [rw] activation_date
+# @!attribute [rw] activationDate
 #   @return [String, nil]
 #
-# @!attribute [rw] alternate_key
+# @!attribute [rw] alternateKey
 #   @return [String, nil]
 #
-# @!attribute [rw] audit_next_date
+# @!attribute [rw] auditNextDate
 #   @return [String, nil]
 #
-# @!attribute [rw] audit_notification_date
+# @!attribute [rw] auditNotificationDate
 #   @return [String, nil]
 #
 # @!attribute [rw] client
@@ -339,43 +339,43 @@ DecryptionCreateData = Struct.new(
 # @!attribute [rw] created
 #   @return [String, nil]
 #
-# @!attribute [rw] created_by
+# @!attribute [rw] createdBy
 #   @return [Hash]
 #
-# @!attribute [rw] device_build
+# @!attribute [rw] deviceBuild
 #   @return [Hash, nil]
 #
-# @!attribute [rw] device_state
+# @!attribute [rw] deviceState
 #   @return [Hash, nil]
 #
-# @!attribute [rw] device_type
+# @!attribute [rw] deviceType
 #   @return [Hash, nil]
 #
-# @!attribute [rw] error_counter
+# @!attribute [rw] errorCounter
 #   @return [Integer, nil]
 #
-# @!attribute [rw] error_last_date
+# @!attribute [rw] errorLastDate
 #   @return [String, nil]
 #
 # @!attribute [rw] id
 #   @return [String, nil]
 #
-# @!attribute [rw] initialized_by
+# @!attribute [rw] initializedBy
 #   @return [Hash]
 #
-# @!attribute [rw] initialized_date
+# @!attribute [rw] initializedDate
 #   @return [String, nil]
 #
-# @!attribute [rw] inject_key
+# @!attribute [rw] injectKey
 #   @return [Hash, nil]
 #
-# @!attribute [rw] is_virtual
+# @!attribute [rw] isVirtual
 #   @return [Boolean, nil]
 #
 # @!attribute [rw] kif
 #   @return [Hash, nil]
 #
-# @!attribute [rw] last_activity_date
+# @!attribute [rw] lastActivityDate
 #   @return [String, nil]
 #
 # @!attribute [rw] location
@@ -384,51 +384,51 @@ DecryptionCreateData = Struct.new(
 # @!attribute [rw] modified
 #   @return [String, nil]
 #
-# @!attribute [rw] modified_by
+# @!attribute [rw] modifiedBy
 #   @return [Hash]
 #
 # @!attribute [rw] name
 #   @return [String, nil]
 #
-# @!attribute [rw] note
+# @!attribute [rw] notes
 #   @return [String, nil]
 #
 # @!attribute [rw] partner
 #   @return [Hash, nil]
 #
-# @!attribute [rw] serial_number
+# @!attribute [rw] serialNumber
 #   @return [String, nil]
 #
 # @!attribute [rw] version
 #   @return [Integer, nil]
 Device = Struct.new(
-  :activated_by,
-  :activation_date,
-  :alternate_key,
-  :audit_next_date,
-  :audit_notification_date,
+  :activatedBy,
+  :activationDate,
+  :alternateKey,
+  :auditNextDate,
+  :auditNotificationDate,
   :client,
   :created,
-  :created_by,
-  :device_build,
-  :device_state,
-  :device_type,
-  :error_counter,
-  :error_last_date,
+  :createdBy,
+  :deviceBuild,
+  :deviceState,
+  :deviceType,
+  :errorCounter,
+  :errorLastDate,
   :id,
-  :initialized_by,
-  :initialized_date,
-  :inject_key,
-  :is_virtual,
+  :initializedBy,
+  :initializedDate,
+  :injectKey,
+  :isVirtual,
   :kif,
-  :last_activity_date,
+  :lastActivityDate,
   :location,
   :modified,
-  :modified_by,
+  :modifiedBy,
   :name,
-  :note,
+  :notes,
   :partner,
-  :serial_number,
+  :serialNumber,
   :version,
   keyword_init: true
 )
@@ -452,19 +452,19 @@ DeviceLoadMatch = Struct.new(
 
 # Request payload for Device#list.
 #
-# @!attribute [rw] activated_by
+# @!attribute [rw] activatedBy
 #   @return [Hash, nil]
 #
-# @!attribute [rw] activation_date
+# @!attribute [rw] activationDate
 #   @return [String, nil]
 #
-# @!attribute [rw] alternate_key
+# @!attribute [rw] alternateKey
 #   @return [String, nil]
 #
-# @!attribute [rw] audit_next_date
+# @!attribute [rw] auditNextDate
 #   @return [String, nil]
 #
-# @!attribute [rw] audit_notification_date
+# @!attribute [rw] auditNotificationDate
 #   @return [String, nil]
 #
 # @!attribute [rw] client
@@ -473,43 +473,43 @@ DeviceLoadMatch = Struct.new(
 # @!attribute [rw] created
 #   @return [String, nil]
 #
-# @!attribute [rw] created_by
+# @!attribute [rw] createdBy
 #   @return [Hash, nil]
 #
-# @!attribute [rw] device_build
+# @!attribute [rw] deviceBuild
 #   @return [Hash, nil]
 #
-# @!attribute [rw] device_state
+# @!attribute [rw] deviceState
 #   @return [Hash, nil]
 #
-# @!attribute [rw] device_type
+# @!attribute [rw] deviceType
 #   @return [Hash, nil]
 #
-# @!attribute [rw] error_counter
+# @!attribute [rw] errorCounter
 #   @return [Integer, nil]
 #
-# @!attribute [rw] error_last_date
+# @!attribute [rw] errorLastDate
 #   @return [String, nil]
 #
 # @!attribute [rw] id
 #   @return [String, nil]
 #
-# @!attribute [rw] initialized_by
+# @!attribute [rw] initializedBy
 #   @return [Hash, nil]
 #
-# @!attribute [rw] initialized_date
+# @!attribute [rw] initializedDate
 #   @return [String, nil]
 #
-# @!attribute [rw] inject_key
+# @!attribute [rw] injectKey
 #   @return [Hash, nil]
 #
-# @!attribute [rw] is_virtual
+# @!attribute [rw] isVirtual
 #   @return [Boolean, nil]
 #
 # @!attribute [rw] kif
 #   @return [Hash, nil]
 #
-# @!attribute [rw] last_activity_date
+# @!attribute [rw] lastActivityDate
 #   @return [String, nil]
 #
 # @!attribute [rw] location
@@ -518,70 +518,70 @@ DeviceLoadMatch = Struct.new(
 # @!attribute [rw] modified
 #   @return [String, nil]
 #
-# @!attribute [rw] modified_by
+# @!attribute [rw] modifiedBy
 #   @return [Hash, nil]
 #
 # @!attribute [rw] name
 #   @return [String, nil]
 #
-# @!attribute [rw] note
+# @!attribute [rw] notes
 #   @return [String, nil]
 #
 # @!attribute [rw] partner
 #   @return [Hash, nil]
 #
-# @!attribute [rw] serial_number
+# @!attribute [rw] serialNumber
 #   @return [String, nil]
 #
 # @!attribute [rw] version
 #   @return [Integer, nil]
 DeviceListMatch = Struct.new(
-  :activated_by,
-  :activation_date,
-  :alternate_key,
-  :audit_next_date,
-  :audit_notification_date,
+  :activatedBy,
+  :activationDate,
+  :alternateKey,
+  :auditNextDate,
+  :auditNotificationDate,
   :client,
   :created,
-  :created_by,
-  :device_build,
-  :device_state,
-  :device_type,
-  :error_counter,
-  :error_last_date,
+  :createdBy,
+  :deviceBuild,
+  :deviceState,
+  :deviceType,
+  :errorCounter,
+  :errorLastDate,
   :id,
-  :initialized_by,
-  :initialized_date,
-  :inject_key,
-  :is_virtual,
+  :initializedBy,
+  :initializedDate,
+  :injectKey,
+  :isVirtual,
   :kif,
-  :last_activity_date,
+  :lastActivityDate,
   :location,
   :modified,
-  :modified_by,
+  :modifiedBy,
   :name,
-  :note,
+  :notes,
   :partner,
-  :serial_number,
+  :serialNumber,
   :version,
   keyword_init: true
 )
 
 # Request payload for Device#create.
 #
-# @!attribute [rw] activated_by
+# @!attribute [rw] activatedBy
 #   @return [Hash]
 #
-# @!attribute [rw] activation_date
+# @!attribute [rw] activationDate
 #   @return [String, nil]
 #
-# @!attribute [rw] alternate_key
+# @!attribute [rw] alternateKey
 #   @return [String, nil]
 #
-# @!attribute [rw] audit_next_date
+# @!attribute [rw] auditNextDate
 #   @return [String, nil]
 #
-# @!attribute [rw] audit_notification_date
+# @!attribute [rw] auditNotificationDate
 #   @return [String, nil]
 #
 # @!attribute [rw] client
@@ -590,43 +590,43 @@ DeviceListMatch = Struct.new(
 # @!attribute [rw] created
 #   @return [String, nil]
 #
-# @!attribute [rw] created_by
+# @!attribute [rw] createdBy
 #   @return [Hash]
 #
-# @!attribute [rw] device_build
+# @!attribute [rw] deviceBuild
 #   @return [Hash, nil]
 #
-# @!attribute [rw] device_state
+# @!attribute [rw] deviceState
 #   @return [Hash, nil]
 #
-# @!attribute [rw] device_type
+# @!attribute [rw] deviceType
 #   @return [Hash, nil]
 #
-# @!attribute [rw] error_counter
+# @!attribute [rw] errorCounter
 #   @return [Integer, nil]
 #
-# @!attribute [rw] error_last_date
+# @!attribute [rw] errorLastDate
 #   @return [String, nil]
 #
 # @!attribute [rw] id
 #   @return [String, nil]
 #
-# @!attribute [rw] initialized_by
+# @!attribute [rw] initializedBy
 #   @return [Hash]
 #
-# @!attribute [rw] initialized_date
+# @!attribute [rw] initializedDate
 #   @return [String, nil]
 #
-# @!attribute [rw] inject_key
+# @!attribute [rw] injectKey
 #   @return [Hash, nil]
 #
-# @!attribute [rw] is_virtual
+# @!attribute [rw] isVirtual
 #   @return [Boolean, nil]
 #
 # @!attribute [rw] kif
 #   @return [Hash, nil]
 #
-# @!attribute [rw] last_activity_date
+# @!attribute [rw] lastActivityDate
 #   @return [String, nil]
 #
 # @!attribute [rw] location
@@ -635,82 +635,82 @@ DeviceListMatch = Struct.new(
 # @!attribute [rw] modified
 #   @return [String, nil]
 #
-# @!attribute [rw] modified_by
+# @!attribute [rw] modifiedBy
 #   @return [Hash]
 #
 # @!attribute [rw] name
 #   @return [String, nil]
 #
-# @!attribute [rw] note
+# @!attribute [rw] notes
 #   @return [String, nil]
 #
 # @!attribute [rw] partner
 #   @return [Hash, nil]
 #
-# @!attribute [rw] serial_number
+# @!attribute [rw] serialNumber
 #   @return [String, nil]
 #
 # @!attribute [rw] version
 #   @return [Integer, nil]
 DeviceCreateData = Struct.new(
-  :activated_by,
-  :activation_date,
-  :alternate_key,
-  :audit_next_date,
-  :audit_notification_date,
+  :activatedBy,
+  :activationDate,
+  :alternateKey,
+  :auditNextDate,
+  :auditNotificationDate,
   :client,
   :created,
-  :created_by,
-  :device_build,
-  :device_state,
-  :device_type,
-  :error_counter,
-  :error_last_date,
+  :createdBy,
+  :deviceBuild,
+  :deviceState,
+  :deviceType,
+  :errorCounter,
+  :errorLastDate,
   :id,
-  :initialized_by,
-  :initialized_date,
-  :inject_key,
-  :is_virtual,
+  :initializedBy,
+  :initializedDate,
+  :injectKey,
+  :isVirtual,
   :kif,
-  :last_activity_date,
+  :lastActivityDate,
   :location,
   :modified,
-  :modified_by,
+  :modifiedBy,
   :name,
-  :note,
+  :notes,
   :partner,
-  :serial_number,
+  :serialNumber,
   :version,
   keyword_init: true
 )
 
 # DeviceBuild entity data model.
 #
-# @!attribute [rw] app_version
+# @!attribute [rw] appVersion
 #   @return [String, nil]
 #
-# @!attribute [rw] build_number
+# @!attribute [rw] buildNumber
 #   @return [String, nil]
 #
-# @!attribute [rw] config_file_name
+# @!attribute [rw] configFileName
 #   @return [String, nil]
 #
 # @!attribute [rw] created
 #   @return [String, nil]
 #
-# @!attribute [rw] device_type
+# @!attribute [rw] deviceType
 #   @return [String, nil]
 #
-# @!attribute [rw] firmware_version
+# @!attribute [rw] firmwareVersion
 #   @return [String, nil]
 #
-# @!attribute [rw] hardware_version
+# @!attribute [rw] hardwareVersion
 #   @return [String, nil]
 #
 # @!attribute [rw] id
 #   @return [Integer, nil]
 #
-# @!attribute [rw] is_active
+# @!attribute [rw] isActive
 #   @return [Boolean, nil]
 #
 # @!attribute [rw] modified
@@ -719,33 +719,33 @@ DeviceCreateData = Struct.new(
 # @!attribute [rw] name
 #   @return [String, nil]
 #
-# @!attribute [rw] note
+# @!attribute [rw] notes
 #   @return [String, nil]
 #
 # @!attribute [rw] version
 #   @return [Integer, nil]
 #
-# @!attribute [rw] white_listing_bin_range
+# @!attribute [rw] whiteListingBinRanges
 #   @return [String, nil]
 #
-# @!attribute [rw] white_listing_used
+# @!attribute [rw] whiteListingUsed
 #   @return [Boolean, nil]
 DeviceBuild = Struct.new(
-  :app_version,
-  :build_number,
-  :config_file_name,
+  :appVersion,
+  :buildNumber,
+  :configFileName,
   :created,
-  :device_type,
-  :firmware_version,
-  :hardware_version,
+  :deviceType,
+  :firmwareVersion,
+  :hardwareVersion,
   :id,
-  :is_active,
+  :isActive,
   :modified,
   :name,
-  :note,
+  :notes,
   :version,
-  :white_listing_bin_range,
-  :white_listing_used,
+  :whiteListingBinRanges,
+  :whiteListingUsed,
   keyword_init: true
 )
 
@@ -760,31 +760,31 @@ DeviceBuildLoadMatch = Struct.new(
 
 # Request payload for DeviceBuild#list.
 #
-# @!attribute [rw] app_version
+# @!attribute [rw] appVersion
 #   @return [String, nil]
 #
-# @!attribute [rw] build_number
+# @!attribute [rw] buildNumber
 #   @return [String, nil]
 #
-# @!attribute [rw] config_file_name
+# @!attribute [rw] configFileName
 #   @return [String, nil]
 #
 # @!attribute [rw] created
 #   @return [String, nil]
 #
-# @!attribute [rw] device_type
+# @!attribute [rw] deviceType
 #   @return [String, nil]
 #
-# @!attribute [rw] firmware_version
+# @!attribute [rw] firmwareVersion
 #   @return [String, nil]
 #
-# @!attribute [rw] hardware_version
+# @!attribute [rw] hardwareVersion
 #   @return [String, nil]
 #
 # @!attribute [rw] id
 #   @return [Integer, nil]
 #
-# @!attribute [rw] is_active
+# @!attribute [rw] isActive
 #   @return [Boolean, nil]
 #
 # @!attribute [rw] modified
@@ -793,45 +793,45 @@ DeviceBuildLoadMatch = Struct.new(
 # @!attribute [rw] name
 #   @return [String, nil]
 #
-# @!attribute [rw] note
+# @!attribute [rw] notes
 #   @return [String, nil]
 #
 # @!attribute [rw] version
 #   @return [Integer, nil]
 #
-# @!attribute [rw] white_listing_bin_range
+# @!attribute [rw] whiteListingBinRanges
 #   @return [String, nil]
 #
-# @!attribute [rw] white_listing_used
+# @!attribute [rw] whiteListingUsed
 #   @return [Boolean, nil]
 DeviceBuildListMatch = Struct.new(
-  :app_version,
-  :build_number,
-  :config_file_name,
+  :appVersion,
+  :buildNumber,
+  :configFileName,
   :created,
-  :device_type,
-  :firmware_version,
-  :hardware_version,
+  :deviceType,
+  :firmwareVersion,
+  :hardwareVersion,
   :id,
-  :is_active,
+  :isActive,
   :modified,
   :name,
-  :note,
+  :notes,
   :version,
-  :white_listing_bin_range,
-  :white_listing_used,
+  :whiteListingBinRanges,
+  :whiteListingUsed,
   keyword_init: true
 )
 
 # DeviceCustodyDetail entity data model.
 #
-# @!attribute [rw] complete_date
+# @!attribute [rw] completeDate
 #   @return [String, nil]
 #
 # @!attribute [rw] created
 #   @return [String, nil]
 #
-# @!attribute [rw] created_by
+# @!attribute [rw] createdBy
 #   @return [Hash]
 #
 # @!attribute [rw] custodian
@@ -849,33 +849,33 @@ DeviceBuildListMatch = Struct.new(
 # @!attribute [rw] modified
 #   @return [String, nil]
 #
-# @!attribute [rw] modified_by
+# @!attribute [rw] modifiedBy
 #   @return [Hash]
 #
-# @!attribute [rw] note
+# @!attribute [rw] notes
 #   @return [String, nil]
 #
 # @!attribute [rw] status
 #   @return [Hash, nil]
 #
-# @!attribute [rw] transfer_method
+# @!attribute [rw] transferMethod
 #   @return [Hash, nil]
 #
 # @!attribute [rw] version
 #   @return [Integer, nil]
 DeviceCustodyDetail = Struct.new(
-  :complete_date,
+  :completeDate,
   :created,
-  :created_by,
+  :createdBy,
   :custodian,
   :device,
   :id,
   :location,
   :modified,
-  :modified_by,
-  :note,
+  :modifiedBy,
+  :notes,
   :status,
-  :transfer_method,
+  :transferMethod,
   :version,
   keyword_init: true
 )
@@ -899,13 +899,13 @@ DeviceCustodyDetailLoadMatch = Struct.new(
 
 # DeviceCustodyList entity data model.
 #
-# @!attribute [rw] complete_date
+# @!attribute [rw] completeDate
 #   @return [String, nil]
 #
 # @!attribute [rw] created
 #   @return [String, nil]
 #
-# @!attribute [rw] created_by
+# @!attribute [rw] createdBy
 #   @return [Hash]
 #
 # @!attribute [rw] custodian
@@ -923,33 +923,33 @@ DeviceCustodyDetailLoadMatch = Struct.new(
 # @!attribute [rw] modified
 #   @return [String, nil]
 #
-# @!attribute [rw] modified_by
+# @!attribute [rw] modifiedBy
 #   @return [Hash]
 #
-# @!attribute [rw] note
+# @!attribute [rw] notes
 #   @return [String, nil]
 #
 # @!attribute [rw] status
 #   @return [Hash, nil]
 #
-# @!attribute [rw] transfer_method
+# @!attribute [rw] transferMethod
 #   @return [Hash, nil]
 #
 # @!attribute [rw] version
 #   @return [Integer, nil]
 DeviceCustodyList = Struct.new(
-  :complete_date,
+  :completeDate,
   :created,
-  :created_by,
+  :createdBy,
   :custodian,
   :device,
   :id,
   :location,
   :modified,
-  :modified_by,
-  :note,
+  :modifiedBy,
+  :notes,
   :status,
-  :transfer_method,
+  :transferMethod,
   :version,
   keyword_init: true
 )
@@ -1056,16 +1056,16 @@ DeviceStateListMatch = Struct.new(
 # @!attribute [rw] created
 #   @return [String, nil]
 #
-# @!attribute [rw] device_type_mode
+# @!attribute [rw] deviceTypeMode
 #   @return [String, nil]
 #
-# @!attribute [rw] hardware_version
+# @!attribute [rw] hardwareVersion
 #   @return [String, nil]
 #
 # @!attribute [rw] id
 #   @return [String, nil]
 #
-# @!attribute [rw] is_active
+# @!attribute [rw] isActive
 #   @return [Boolean, nil]
 #
 # @!attribute [rw] manufacturer
@@ -1080,26 +1080,26 @@ DeviceStateListMatch = Struct.new(
 # @!attribute [rw] name
 #   @return [String, nil]
 #
-# @!attribute [rw] photo_url
+# @!attribute [rw] photoUrl
 #   @return [String, nil]
 #
-# @!attribute [rw] product_name
+# @!attribute [rw] productName
 #   @return [String, nil]
 #
 # @!attribute [rw] version
 #   @return [Integer, nil]
 DeviceType = Struct.new(
   :created,
-  :device_type_mode,
-  :hardware_version,
+  :deviceTypeMode,
+  :hardwareVersion,
   :id,
-  :is_active,
+  :isActive,
   :manufacturer,
   :model,
   :modified,
   :name,
-  :photo_url,
-  :product_name,
+  :photoUrl,
+  :productName,
   :version,
   keyword_init: true
 )
@@ -1118,16 +1118,16 @@ DeviceTypeLoadMatch = Struct.new(
 # @!attribute [rw] created
 #   @return [String, nil]
 #
-# @!attribute [rw] device_type_mode
+# @!attribute [rw] deviceTypeMode
 #   @return [String, nil]
 #
-# @!attribute [rw] hardware_version
+# @!attribute [rw] hardwareVersion
 #   @return [String, nil]
 #
 # @!attribute [rw] id
 #   @return [String, nil]
 #
-# @!attribute [rw] is_active
+# @!attribute [rw] isActive
 #   @return [Boolean, nil]
 #
 # @!attribute [rw] manufacturer
@@ -1142,26 +1142,26 @@ DeviceTypeLoadMatch = Struct.new(
 # @!attribute [rw] name
 #   @return [String, nil]
 #
-# @!attribute [rw] photo_url
+# @!attribute [rw] photoUrl
 #   @return [String, nil]
 #
-# @!attribute [rw] product_name
+# @!attribute [rw] productName
 #   @return [String, nil]
 #
 # @!attribute [rw] version
 #   @return [Integer, nil]
 DeviceTypeListMatch = Struct.new(
   :created,
-  :device_type_mode,
-  :hardware_version,
+  :deviceTypeMode,
+  :hardwareVersion,
   :id,
-  :is_active,
+  :isActive,
   :manufacturer,
   :model,
   :modified,
   :name,
-  :photo_url,
-  :product_name,
+  :photoUrl,
+  :productName,
   :version,
   keyword_init: true
 )
@@ -1174,13 +1174,13 @@ DeviceTypeListMatch = Struct.new(
 # @!attribute [rw] id
 #   @return [String, nil]
 #
-# @!attribute [rw] is_active
+# @!attribute [rw] isActive
 #   @return [Boolean, nil]
 #
-# @!attribute [rw] is_p2_pe
+# @!attribute [rw] isP2PE
 #   @return [Boolean, nil]
 #
-# @!attribute [rw] key_type
+# @!attribute [rw] keyType
 #   @return [String, nil]
 #
 # @!attribute [rw] modified
@@ -1194,9 +1194,9 @@ DeviceTypeListMatch = Struct.new(
 InjectKey = Struct.new(
   :created,
   :id,
-  :is_active,
-  :is_p2_pe,
-  :key_type,
+  :isActive,
+  :isP2PE,
+  :keyType,
   :modified,
   :name,
   :version,
@@ -1220,13 +1220,13 @@ InjectKeyLoadMatch = Struct.new(
 # @!attribute [rw] id
 #   @return [String, nil]
 #
-# @!attribute [rw] is_active
+# @!attribute [rw] isActive
 #   @return [Boolean, nil]
 #
-# @!attribute [rw] is_p2_pe
+# @!attribute [rw] isP2PE
 #   @return [Boolean, nil]
 #
-# @!attribute [rw] key_type
+# @!attribute [rw] keyType
 #   @return [String, nil]
 #
 # @!attribute [rw] modified
@@ -1240,9 +1240,9 @@ InjectKeyLoadMatch = Struct.new(
 InjectKeyListMatch = Struct.new(
   :created,
   :id,
-  :is_active,
-  :is_p2_pe,
-  :key_type,
+  :isActive,
+  :isP2PE,
+  :keyType,
   :modified,
   :name,
   :version,
@@ -1283,7 +1283,7 @@ KifListMatch = Struct.new(
 # @!attribute [rw] address2
 #   @return [String, nil]
 #
-# @!attribute [rw] billing_id
+# @!attribute [rw] billingId
 #   @return [String, nil]
 #
 # @!attribute [rw] city
@@ -1295,31 +1295,31 @@ KifListMatch = Struct.new(
 # @!attribute [rw] created
 #   @return [String, nil]
 #
-# @!attribute [rw] custom_reference
+# @!attribute [rw] customReference
 #   @return [String, nil]
 #
 # @!attribute [rw] id
 #   @return [String, nil]
 #
-# @!attribute [rw] location_type
+# @!attribute [rw] locationType
 #   @return [String, nil]
 #
-# @!attribute [rw] mail_address1
+# @!attribute [rw] mailAddress1
 #   @return [String, nil]
 #
-# @!attribute [rw] mail_address2
+# @!attribute [rw] mailAddress2
 #   @return [String, nil]
 #
-# @!attribute [rw] mail_city
+# @!attribute [rw] mailCity
 #   @return [String, nil]
 #
-# @!attribute [rw] mail_country
+# @!attribute [rw] mailCountry
 #   @return [String, nil]
 #
-# @!attribute [rw] mail_postal_code
+# @!attribute [rw] mailPostalCode
 #   @return [String, nil]
 #
-# @!attribute [rw] mail_state_province
+# @!attribute [rw] mailStateProvince
 #   @return [String, nil]
 #
 # @!attribute [rw] modified
@@ -1328,19 +1328,19 @@ KifListMatch = Struct.new(
 # @!attribute [rw] name
 #   @return [String, nil]
 #
-# @!attribute [rw] name_of_business
+# @!attribute [rw] nameOfBusiness
 #   @return [String, nil]
 #
-# @!attribute [rw] note
+# @!attribute [rw] notes
 #   @return [String, nil]
 #
-# @!attribute [rw] postal_code
+# @!attribute [rw] postalCode
 #   @return [String, nil]
 #
-# @!attribute [rw] state_province
+# @!attribute [rw] stateProvince
 #   @return [String, nil]
 #
-# @!attribute [rw] unique_id
+# @!attribute [rw] uniqueId
 #   @return [String, nil]
 #
 # @!attribute [rw] version
@@ -1348,26 +1348,26 @@ KifListMatch = Struct.new(
 Location = Struct.new(
   :address1,
   :address2,
-  :billing_id,
+  :billingId,
   :city,
   :country,
   :created,
-  :custom_reference,
+  :customReference,
   :id,
-  :location_type,
-  :mail_address1,
-  :mail_address2,
-  :mail_city,
-  :mail_country,
-  :mail_postal_code,
-  :mail_state_province,
+  :locationType,
+  :mailAddress1,
+  :mailAddress2,
+  :mailCity,
+  :mailCountry,
+  :mailPostalCode,
+  :mailStateProvince,
   :modified,
   :name,
-  :name_of_business,
-  :note,
-  :postal_code,
-  :state_province,
-  :unique_id,
+  :nameOfBusiness,
+  :notes,
+  :postalCode,
+  :stateProvince,
+  :uniqueId,
   :version,
   keyword_init: true
 )
@@ -1389,7 +1389,7 @@ LocationLoadMatch = Struct.new(
 # @!attribute [rw] address2
 #   @return [String, nil]
 #
-# @!attribute [rw] billing_id
+# @!attribute [rw] billingId
 #   @return [String, nil]
 #
 # @!attribute [rw] city
@@ -1401,31 +1401,31 @@ LocationLoadMatch = Struct.new(
 # @!attribute [rw] created
 #   @return [String, nil]
 #
-# @!attribute [rw] custom_reference
+# @!attribute [rw] customReference
 #   @return [String, nil]
 #
 # @!attribute [rw] id
 #   @return [String, nil]
 #
-# @!attribute [rw] location_type
+# @!attribute [rw] locationType
 #   @return [String, nil]
 #
-# @!attribute [rw] mail_address1
+# @!attribute [rw] mailAddress1
 #   @return [String, nil]
 #
-# @!attribute [rw] mail_address2
+# @!attribute [rw] mailAddress2
 #   @return [String, nil]
 #
-# @!attribute [rw] mail_city
+# @!attribute [rw] mailCity
 #   @return [String, nil]
 #
-# @!attribute [rw] mail_country
+# @!attribute [rw] mailCountry
 #   @return [String, nil]
 #
-# @!attribute [rw] mail_postal_code
+# @!attribute [rw] mailPostalCode
 #   @return [String, nil]
 #
-# @!attribute [rw] mail_state_province
+# @!attribute [rw] mailStateProvince
 #   @return [String, nil]
 #
 # @!attribute [rw] modified
@@ -1434,19 +1434,19 @@ LocationLoadMatch = Struct.new(
 # @!attribute [rw] name
 #   @return [String, nil]
 #
-# @!attribute [rw] name_of_business
+# @!attribute [rw] nameOfBusiness
 #   @return [String, nil]
 #
-# @!attribute [rw] note
+# @!attribute [rw] notes
 #   @return [String, nil]
 #
-# @!attribute [rw] postal_code
+# @!attribute [rw] postalCode
 #   @return [String, nil]
 #
-# @!attribute [rw] state_province
+# @!attribute [rw] stateProvince
 #   @return [String, nil]
 #
-# @!attribute [rw] unique_id
+# @!attribute [rw] uniqueId
 #   @return [String, nil]
 #
 # @!attribute [rw] version
@@ -1454,26 +1454,26 @@ LocationLoadMatch = Struct.new(
 LocationListMatch = Struct.new(
   :address1,
   :address2,
-  :billing_id,
+  :billingId,
   :city,
   :country,
   :created,
-  :custom_reference,
+  :customReference,
   :id,
-  :location_type,
-  :mail_address1,
-  :mail_address2,
-  :mail_city,
-  :mail_country,
-  :mail_postal_code,
-  :mail_state_province,
+  :locationType,
+  :mailAddress1,
+  :mailAddress2,
+  :mailCity,
+  :mailCountry,
+  :mailPostalCode,
+  :mailStateProvince,
   :modified,
   :name,
-  :name_of_business,
-  :note,
-  :postal_code,
-  :state_province,
-  :unique_id,
+  :nameOfBusiness,
+  :notes,
+  :postalCode,
+  :stateProvince,
+  :uniqueId,
   :version,
   keyword_init: true
 )
@@ -1486,7 +1486,7 @@ LocationListMatch = Struct.new(
 # @!attribute [rw] address2
 #   @return [String, nil]
 #
-# @!attribute [rw] billing_id
+# @!attribute [rw] billingId
 #   @return [String, nil]
 #
 # @!attribute [rw] city
@@ -1498,31 +1498,31 @@ LocationListMatch = Struct.new(
 # @!attribute [rw] created
 #   @return [String, nil]
 #
-# @!attribute [rw] custom_reference
+# @!attribute [rw] customReference
 #   @return [String, nil]
 #
 # @!attribute [rw] id
 #   @return [String, nil]
 #
-# @!attribute [rw] location_type
+# @!attribute [rw] locationType
 #   @return [String, nil]
 #
-# @!attribute [rw] mail_address1
+# @!attribute [rw] mailAddress1
 #   @return [String, nil]
 #
-# @!attribute [rw] mail_address2
+# @!attribute [rw] mailAddress2
 #   @return [String, nil]
 #
-# @!attribute [rw] mail_city
+# @!attribute [rw] mailCity
 #   @return [String, nil]
 #
-# @!attribute [rw] mail_country
+# @!attribute [rw] mailCountry
 #   @return [String, nil]
 #
-# @!attribute [rw] mail_postal_code
+# @!attribute [rw] mailPostalCode
 #   @return [String, nil]
 #
-# @!attribute [rw] mail_state_province
+# @!attribute [rw] mailStateProvince
 #   @return [String, nil]
 #
 # @!attribute [rw] modified
@@ -1531,19 +1531,19 @@ LocationListMatch = Struct.new(
 # @!attribute [rw] name
 #   @return [String, nil]
 #
-# @!attribute [rw] name_of_business
+# @!attribute [rw] nameOfBusiness
 #   @return [String, nil]
 #
-# @!attribute [rw] note
+# @!attribute [rw] notes
 #   @return [String, nil]
 #
-# @!attribute [rw] postal_code
+# @!attribute [rw] postalCode
 #   @return [String, nil]
 #
-# @!attribute [rw] state_province
+# @!attribute [rw] stateProvince
 #   @return [String, nil]
 #
-# @!attribute [rw] unique_id
+# @!attribute [rw] uniqueId
 #   @return [String, nil]
 #
 # @!attribute [rw] version
@@ -1551,26 +1551,26 @@ LocationListMatch = Struct.new(
 LocationCreateData = Struct.new(
   :address1,
   :address2,
-  :billing_id,
+  :billingId,
   :city,
   :country,
   :created,
-  :custom_reference,
+  :customReference,
   :id,
-  :location_type,
-  :mail_address1,
-  :mail_address2,
-  :mail_city,
-  :mail_country,
-  :mail_postal_code,
-  :mail_state_province,
+  :locationType,
+  :mailAddress1,
+  :mailAddress2,
+  :mailCity,
+  :mailCountry,
+  :mailPostalCode,
+  :mailStateProvince,
   :modified,
   :name,
-  :name_of_business,
-  :note,
-  :postal_code,
-  :state_province,
-  :unique_id,
+  :nameOfBusiness,
+  :notes,
+  :postalCode,
+  :stateProvince,
+  :uniqueId,
   :version,
   keyword_init: true
 )
@@ -1586,10 +1586,10 @@ LocationRemoveMatch = Struct.new(
 
 # Partner entity data model.
 #
-# @!attribute [rw] billing_id
+# @!attribute [rw] billingId
 #   @return [String, nil]
 #
-# @!attribute [rw] client_can_order_equipment
+# @!attribute [rw] clientCanOrderEquipment
 #   @return [Boolean, nil]
 #
 # @!attribute [rw] contact
@@ -1601,7 +1601,7 @@ LocationRemoveMatch = Struct.new(
 # @!attribute [rw] id
 #   @return [String, nil]
 #
-# @!attribute [rw] is_active
+# @!attribute [rw] isActive
 #   @return [Boolean, nil]
 #
 # @!attribute [rw] location
@@ -1616,31 +1616,31 @@ LocationRemoveMatch = Struct.new(
 # @!attribute [rw] parent
 #   @return [Hash, nil]
 #
-# @!attribute [rw] partner_id
+# @!attribute [rw] partnerId
 #   @return [String, nil]
 #
 # @!attribute [rw] reference
 #   @return [String, nil]
 #
-# @!attribute [rw] verification_phrase
+# @!attribute [rw] verificationPhrase
 #   @return [String, nil]
 #
 # @!attribute [rw] version
 #   @return [Integer, nil]
 Partner = Struct.new(
-  :billing_id,
-  :client_can_order_equipment,
+  :billingId,
+  :clientCanOrderEquipment,
   :contact,
   :created,
   :id,
-  :is_active,
+  :isActive,
   :location,
   :modified,
   :name,
   :parent,
-  :partner_id,
+  :partnerId,
   :reference,
-  :verification_phrase,
+  :verificationPhrase,
   :version,
   keyword_init: true
 )
@@ -1656,10 +1656,10 @@ PartnerLoadMatch = Struct.new(
 
 # Request payload for Partner#list.
 #
-# @!attribute [rw] billing_id
+# @!attribute [rw] billingId
 #   @return [String, nil]
 #
-# @!attribute [rw] client_can_order_equipment
+# @!attribute [rw] clientCanOrderEquipment
 #   @return [Boolean, nil]
 #
 # @!attribute [rw] contact
@@ -1671,7 +1671,7 @@ PartnerLoadMatch = Struct.new(
 # @!attribute [rw] id
 #   @return [String, nil]
 #
-# @!attribute [rw] is_active
+# @!attribute [rw] isActive
 #   @return [Boolean, nil]
 #
 # @!attribute [rw] location
@@ -1686,41 +1686,41 @@ PartnerLoadMatch = Struct.new(
 # @!attribute [rw] parent
 #   @return [Hash, nil]
 #
-# @!attribute [rw] partner_id
+# @!attribute [rw] partnerId
 #   @return [String, nil]
 #
 # @!attribute [rw] reference
 #   @return [String, nil]
 #
-# @!attribute [rw] verification_phrase
+# @!attribute [rw] verificationPhrase
 #   @return [String, nil]
 #
 # @!attribute [rw] version
 #   @return [Integer, nil]
 PartnerListMatch = Struct.new(
-  :billing_id,
-  :client_can_order_equipment,
+  :billingId,
+  :clientCanOrderEquipment,
   :contact,
   :created,
   :id,
-  :is_active,
+  :isActive,
   :location,
   :modified,
   :name,
   :parent,
-  :partner_id,
+  :partnerId,
   :reference,
-  :verification_phrase,
+  :verificationPhrase,
   :version,
   keyword_init: true
 )
 
 # Request payload for Partner#create.
 #
-# @!attribute [rw] billing_id
+# @!attribute [rw] billingId
 #   @return [String, nil]
 #
-# @!attribute [rw] client_can_order_equipment
+# @!attribute [rw] clientCanOrderEquipment
 #   @return [Boolean, nil]
 #
 # @!attribute [rw] contact
@@ -1732,7 +1732,7 @@ PartnerListMatch = Struct.new(
 # @!attribute [rw] id
 #   @return [String, nil]
 #
-# @!attribute [rw] is_active
+# @!attribute [rw] isActive
 #   @return [Boolean, nil]
 #
 # @!attribute [rw] location
@@ -1747,31 +1747,31 @@ PartnerListMatch = Struct.new(
 # @!attribute [rw] parent
 #   @return [Hash, nil]
 #
-# @!attribute [rw] partner_id
+# @!attribute [rw] partnerId
 #   @return [String, nil]
 #
 # @!attribute [rw] reference
 #   @return [String, nil]
 #
-# @!attribute [rw] verification_phrase
+# @!attribute [rw] verificationPhrase
 #   @return [String, nil]
 #
 # @!attribute [rw] version
 #   @return [Integer, nil]
 PartnerCreateData = Struct.new(
-  :billing_id,
-  :client_can_order_equipment,
+  :billingId,
+  :clientCanOrderEquipment,
   :contact,
   :created,
   :id,
-  :is_active,
+  :isActive,
   :location,
   :modified,
   :name,
   :parent,
-  :partner_id,
+  :partnerId,
   :reference,
-  :verification_phrase,
+  :verificationPhrase,
   :version,
   keyword_init: true
 )
@@ -1787,19 +1787,19 @@ PartnerCreateData = Struct.new(
 # @!attribute [rw] created
 #   @return [String, nil]
 #
-# @!attribute [rw] date_received
+# @!attribute [rw] dateReceived
 #   @return [String, nil]
 #
-# @!attribute [rw] date_shipped
+# @!attribute [rw] dateShipped
 #   @return [String, nil]
 #
-# @!attribute [rw] dc_kif
+# @!attribute [rw] dcKif
 #   @return [Hash, nil]
 #
 # @!attribute [rw] id
 #   @return [String, nil]
 #
-# @!attribute [rw] item
+# @!attribute [rw] items
 #   @return [Array, nil]
 #
 # @!attribute [rw] kif
@@ -1811,7 +1811,7 @@ PartnerCreateData = Struct.new(
 # @!attribute [rw] partner
 #   @return [Hash, nil]
 #
-# @!attribute [rw] shipment_type
+# @!attribute [rw] shipmentType
 #   @return [String, nil]
 #
 # @!attribute [rw] tracking
@@ -1823,15 +1823,15 @@ Shipment = Struct.new(
   :carrier,
   :client,
   :created,
-  :date_received,
-  :date_shipped,
-  :dc_kif,
+  :dateReceived,
+  :dateShipped,
+  :dcKif,
   :id,
-  :item,
+  :items,
   :kif,
   :modified,
   :partner,
-  :shipment_type,
+  :shipmentType,
   :tracking,
   :version,
   keyword_init: true
@@ -1857,19 +1857,19 @@ ShipmentLoadMatch = Struct.new(
 # @!attribute [rw] created
 #   @return [String, nil]
 #
-# @!attribute [rw] date_received
+# @!attribute [rw] dateReceived
 #   @return [String, nil]
 #
-# @!attribute [rw] date_shipped
+# @!attribute [rw] dateShipped
 #   @return [String, nil]
 #
-# @!attribute [rw] dc_kif
+# @!attribute [rw] dcKif
 #   @return [Hash, nil]
 #
 # @!attribute [rw] id
 #   @return [String, nil]
 #
-# @!attribute [rw] item
+# @!attribute [rw] items
 #   @return [Array, nil]
 #
 # @!attribute [rw] kif
@@ -1881,7 +1881,7 @@ ShipmentLoadMatch = Struct.new(
 # @!attribute [rw] partner
 #   @return [Hash, nil]
 #
-# @!attribute [rw] shipment_type
+# @!attribute [rw] shipmentType
 #   @return [String, nil]
 #
 # @!attribute [rw] tracking
@@ -1893,15 +1893,15 @@ ShipmentListMatch = Struct.new(
   :carrier,
   :client,
   :created,
-  :date_received,
-  :date_shipped,
-  :dc_kif,
+  :dateReceived,
+  :dateShipped,
+  :dcKif,
   :id,
-  :item,
+  :items,
   :kif,
   :modified,
   :partner,
-  :shipment_type,
+  :shipmentType,
   :tracking,
   :version,
   keyword_init: true
@@ -1918,19 +1918,19 @@ ShipmentListMatch = Struct.new(
 # @!attribute [rw] created
 #   @return [String, nil]
 #
-# @!attribute [rw] date_received
+# @!attribute [rw] dateReceived
 #   @return [String, nil]
 #
-# @!attribute [rw] date_shipped
+# @!attribute [rw] dateShipped
 #   @return [String, nil]
 #
-# @!attribute [rw] dc_kif
+# @!attribute [rw] dcKif
 #   @return [Hash, nil]
 #
 # @!attribute [rw] id
 #   @return [String, nil]
 #
-# @!attribute [rw] item
+# @!attribute [rw] items
 #   @return [Array, nil]
 #
 # @!attribute [rw] kif
@@ -1942,7 +1942,7 @@ ShipmentListMatch = Struct.new(
 # @!attribute [rw] partner
 #   @return [Hash, nil]
 #
-# @!attribute [rw] shipment_type
+# @!attribute [rw] shipmentType
 #   @return [String, nil]
 #
 # @!attribute [rw] tracking
@@ -1954,15 +1954,15 @@ ShipmentCreateData = Struct.new(
   :carrier,
   :client,
   :created,
-  :date_received,
-  :date_shipped,
-  :dc_kif,
+  :dateReceived,
+  :dateShipped,
+  :dcKif,
   :id,
-  :item,
+  :items,
   :kif,
   :modified,
   :partner,
-  :shipment_type,
+  :shipmentType,
   :tracking,
   :version,
   keyword_init: true
@@ -1981,8 +1981,12 @@ Success = Struct.new(
 #
 # @!attribute [rw] share_partner_to
 #   @return [String]
+#
+# @!attribute [rw] success
+#   @return [Boolean, nil]
 SuccessCreateData = Struct.new(
   :share_partner_to,
+  :success,
   keyword_init: true
 )
 
@@ -1997,13 +2001,13 @@ SuccessRemoveMatch = Struct.new(
 
 # Transaction entity data model.
 #
-# @!attribute [rw] alternate_key
+# @!attribute [rw] alternateKey
 #   @return [String, nil]
 #
 # @!attribute [rw] client
 #   @return [Hash, nil]
 #
-# @!attribute [rw] client_ref
+# @!attribute [rw] clientRef
 #   @return [String, nil]
 #
 # @!attribute [rw] created
@@ -2012,40 +2016,40 @@ SuccessRemoveMatch = Struct.new(
 # @!attribute [rw] decrypted
 #   @return [Integer, nil]
 #
-# @!attribute [rw] device_name
+# @!attribute [rw] deviceName
 #   @return [String, nil]
 #
-# @!attribute [rw] direct_partner
+# @!attribute [rw] directPartner
 #   @return [Hash, nil]
 #
 # @!attribute [rw] encrypted
 #   @return [Integer, nil]
 #
-# @!attribute [rw] end_date
+# @!attribute [rw] endDate
 #   @return [String, nil]
 #
-# @!attribute [rw] err_code
+# @!attribute [rw] errCode
 #   @return [String, nil]
 #
-# @!attribute [rw] err_message
+# @!attribute [rw] errMessage
 #   @return [String, nil]
 #
 # @!attribute [rw] id
 #   @return [String, nil]
 #
-# @!attribute [rw] ip_address
+# @!attribute [rw] ipAddress
 #   @return [String, nil]
 #
-# @!attribute [rw] is_virtual
+# @!attribute [rw] isVirtual
 #   @return [Boolean, nil]
 #
-# @!attribute [rw] key_type
+# @!attribute [rw] keyType
 #   @return [String, nil]
 #
 # @!attribute [rw] location
 #   @return [Hash]
 #
-# @!attribute [rw] message_id
+# @!attribute [rw] messageId
 #   @return [String, nil]
 #
 # @!attribute [rw] method
@@ -2057,42 +2061,42 @@ SuccessRemoveMatch = Struct.new(
 # @!attribute [rw] reference
 #   @return [String, nil]
 #
-# @!attribute [rw] serial_number
+# @!attribute [rw] serialNumber
 #   @return [String, nil]
 #
-# @!attribute [rw] start_date
+# @!attribute [rw] startDate
 #   @return [String, nil]
 #
 # @!attribute [rw] success
 #   @return [Boolean, nil]
 #
-# @!attribute [rw] transaction_source
+# @!attribute [rw] transactionSource
 #   @return [String, nil]
 Transaction = Struct.new(
-  :alternate_key,
+  :alternateKey,
   :client,
-  :client_ref,
+  :clientRef,
   :created,
   :decrypted,
-  :device_name,
-  :direct_partner,
+  :deviceName,
+  :directPartner,
   :encrypted,
-  :end_date,
-  :err_code,
-  :err_message,
+  :endDate,
+  :errCode,
+  :errMessage,
   :id,
-  :ip_address,
-  :is_virtual,
-  :key_type,
+  :ipAddress,
+  :isVirtual,
+  :keyType,
   :location,
-  :message_id,
+  :messageId,
   :method,
   :partner,
   :reference,
-  :serial_number,
-  :start_date,
+  :serialNumber,
+  :startDate,
   :success,
-  :transaction_source,
+  :transactionSource,
   keyword_init: true
 )
 
@@ -2107,13 +2111,13 @@ TransactionLoadMatch = Struct.new(
 
 # Request payload for Transaction#list.
 #
-# @!attribute [rw] alternate_key
+# @!attribute [rw] alternateKey
 #   @return [String, nil]
 #
 # @!attribute [rw] client
 #   @return [Hash, nil]
 #
-# @!attribute [rw] client_ref
+# @!attribute [rw] clientRef
 #   @return [String, nil]
 #
 # @!attribute [rw] created
@@ -2122,40 +2126,40 @@ TransactionLoadMatch = Struct.new(
 # @!attribute [rw] decrypted
 #   @return [Integer, nil]
 #
-# @!attribute [rw] device_name
+# @!attribute [rw] deviceName
 #   @return [String, nil]
 #
-# @!attribute [rw] direct_partner
+# @!attribute [rw] directPartner
 #   @return [Hash, nil]
 #
 # @!attribute [rw] encrypted
 #   @return [Integer, nil]
 #
-# @!attribute [rw] end_date
+# @!attribute [rw] endDate
 #   @return [String, nil]
 #
-# @!attribute [rw] err_code
+# @!attribute [rw] errCode
 #   @return [String, nil]
 #
-# @!attribute [rw] err_message
+# @!attribute [rw] errMessage
 #   @return [String, nil]
 #
 # @!attribute [rw] id
 #   @return [String, nil]
 #
-# @!attribute [rw] ip_address
+# @!attribute [rw] ipAddress
 #   @return [String, nil]
 #
-# @!attribute [rw] is_virtual
+# @!attribute [rw] isVirtual
 #   @return [Boolean, nil]
 #
-# @!attribute [rw] key_type
+# @!attribute [rw] keyType
 #   @return [String, nil]
 #
 # @!attribute [rw] location
 #   @return [Hash, nil]
 #
-# @!attribute [rw] message_id
+# @!attribute [rw] messageId
 #   @return [String, nil]
 #
 # @!attribute [rw] method
@@ -2167,54 +2171,54 @@ TransactionLoadMatch = Struct.new(
 # @!attribute [rw] reference
 #   @return [String, nil]
 #
-# @!attribute [rw] serial_number
+# @!attribute [rw] serialNumber
 #   @return [String, nil]
 #
-# @!attribute [rw] start_date
+# @!attribute [rw] startDate
 #   @return [String, nil]
 #
 # @!attribute [rw] success
 #   @return [Boolean, nil]
 #
-# @!attribute [rw] transaction_source
+# @!attribute [rw] transactionSource
 #   @return [String, nil]
 TransactionListMatch = Struct.new(
-  :alternate_key,
+  :alternateKey,
   :client,
-  :client_ref,
+  :clientRef,
   :created,
   :decrypted,
-  :device_name,
-  :direct_partner,
+  :deviceName,
+  :directPartner,
   :encrypted,
-  :end_date,
-  :err_code,
-  :err_message,
+  :endDate,
+  :errCode,
+  :errMessage,
   :id,
-  :ip_address,
-  :is_virtual,
-  :key_type,
+  :ipAddress,
+  :isVirtual,
+  :keyType,
   :location,
-  :message_id,
+  :messageId,
   :method,
   :partner,
   :reference,
-  :serial_number,
-  :start_date,
+  :serialNumber,
+  :startDate,
   :success,
-  :transaction_source,
+  :transactionSource,
   keyword_init: true
 )
 
 # Request payload for Transaction#create.
 #
-# @!attribute [rw] alternate_key
+# @!attribute [rw] alternateKey
 #   @return [String, nil]
 #
 # @!attribute [rw] client
 #   @return [Hash, nil]
 #
-# @!attribute [rw] client_ref
+# @!attribute [rw] clientRef
 #   @return [String, nil]
 #
 # @!attribute [rw] created
@@ -2223,40 +2227,40 @@ TransactionListMatch = Struct.new(
 # @!attribute [rw] decrypted
 #   @return [Integer, nil]
 #
-# @!attribute [rw] device_name
+# @!attribute [rw] deviceName
 #   @return [String, nil]
 #
-# @!attribute [rw] direct_partner
+# @!attribute [rw] directPartner
 #   @return [Hash, nil]
 #
 # @!attribute [rw] encrypted
 #   @return [Integer, nil]
 #
-# @!attribute [rw] end_date
+# @!attribute [rw] endDate
 #   @return [String, nil]
 #
-# @!attribute [rw] err_code
+# @!attribute [rw] errCode
 #   @return [String, nil]
 #
-# @!attribute [rw] err_message
+# @!attribute [rw] errMessage
 #   @return [String, nil]
 #
 # @!attribute [rw] id
 #   @return [String, nil]
 #
-# @!attribute [rw] ip_address
+# @!attribute [rw] ipAddress
 #   @return [String, nil]
 #
-# @!attribute [rw] is_virtual
+# @!attribute [rw] isVirtual
 #   @return [Boolean, nil]
 #
-# @!attribute [rw] key_type
+# @!attribute [rw] keyType
 #   @return [String, nil]
 #
 # @!attribute [rw] location
 #   @return [Hash]
 #
-# @!attribute [rw] message_id
+# @!attribute [rw] messageId
 #   @return [String, nil]
 #
 # @!attribute [rw] method
@@ -2268,42 +2272,42 @@ TransactionListMatch = Struct.new(
 # @!attribute [rw] reference
 #   @return [String, nil]
 #
-# @!attribute [rw] serial_number
+# @!attribute [rw] serialNumber
 #   @return [String, nil]
 #
-# @!attribute [rw] start_date
+# @!attribute [rw] startDate
 #   @return [String, nil]
 #
 # @!attribute [rw] success
 #   @return [Boolean, nil]
 #
-# @!attribute [rw] transaction_source
+# @!attribute [rw] transactionSource
 #   @return [String, nil]
 TransactionCreateData = Struct.new(
-  :alternate_key,
+  :alternateKey,
   :client,
-  :client_ref,
+  :clientRef,
   :created,
   :decrypted,
-  :device_name,
-  :direct_partner,
+  :deviceName,
+  :directPartner,
   :encrypted,
-  :end_date,
-  :err_code,
-  :err_message,
+  :endDate,
+  :errCode,
+  :errMessage,
   :id,
-  :ip_address,
-  :is_virtual,
-  :key_type,
+  :ipAddress,
+  :isVirtual,
+  :keyType,
   :location,
-  :message_id,
+  :messageId,
   :method,
   :partner,
   :reference,
-  :serial_number,
-  :start_date,
+  :serialNumber,
+  :startDate,
   :success,
-  :transaction_source,
+  :transactionSource,
   keyword_init: true
 )
 
@@ -2315,19 +2319,19 @@ TransactionCreateData = Struct.new(
 # @!attribute [rw] email
 #   @return [String, nil]
 #
-# @!attribute [rw] first_name
+# @!attribute [rw] firstName
 #   @return [String, nil]
 #
 # @!attribute [rw] id
 #   @return [String, nil]
 #
-# @!attribute [rw] is_active
+# @!attribute [rw] isActive
 #   @return [Boolean, nil]
 #
 # @!attribute [rw] kif
 #   @return [Hash, nil]
 #
-# @!attribute [rw] last_name
+# @!attribute [rw] lastName
 #   @return [String, nil]
 #
 # @!attribute [rw] partner
@@ -2336,10 +2340,10 @@ TransactionCreateData = Struct.new(
 # @!attribute [rw] phone
 #   @return [String, nil]
 #
-# @!attribute [rw] user_name
+# @!attribute [rw] userName
 #   @return [String, nil]
 #
-# @!attribute [rw] user_role
+# @!attribute [rw] userRole
 #   @return [Hash, nil]
 #
 # @!attribute [rw] version
@@ -2347,15 +2351,15 @@ TransactionCreateData = Struct.new(
 UpdateResult = Struct.new(
   :client,
   :email,
-  :first_name,
+  :firstName,
   :id,
-  :is_active,
+  :isActive,
   :kif,
-  :last_name,
+  :lastName,
   :partner,
   :phone,
-  :user_name,
-  :user_role,
+  :userName,
+  :userRole,
   :version,
   keyword_init: true
 )
@@ -2368,19 +2372,19 @@ UpdateResult = Struct.new(
 # @!attribute [rw] email
 #   @return [String, nil]
 #
-# @!attribute [rw] first_name
+# @!attribute [rw] firstName
 #   @return [String, nil]
 #
 # @!attribute [rw] id
 #   @return [String, nil]
 #
-# @!attribute [rw] is_active
+# @!attribute [rw] isActive
 #   @return [Boolean, nil]
 #
 # @!attribute [rw] kif
 #   @return [Hash, nil]
 #
-# @!attribute [rw] last_name
+# @!attribute [rw] lastName
 #   @return [String, nil]
 #
 # @!attribute [rw] partner
@@ -2389,10 +2393,10 @@ UpdateResult = Struct.new(
 # @!attribute [rw] phone
 #   @return [String, nil]
 #
-# @!attribute [rw] user_name
+# @!attribute [rw] userName
 #   @return [String, nil]
 #
-# @!attribute [rw] user_role
+# @!attribute [rw] userRole
 #   @return [Hash, nil]
 #
 # @!attribute [rw] version
@@ -2400,15 +2404,15 @@ UpdateResult = Struct.new(
 UpdateResultListMatch = Struct.new(
   :client,
   :email,
-  :first_name,
+  :firstName,
   :id,
-  :is_active,
+  :isActive,
   :kif,
-  :last_name,
+  :lastName,
   :partner,
   :phone,
-  :user_name,
-  :user_role,
+  :userName,
+  :userRole,
   :version,
   keyword_init: true
 )
@@ -2421,19 +2425,19 @@ UpdateResultListMatch = Struct.new(
 # @!attribute [rw] email
 #   @return [String, nil]
 #
-# @!attribute [rw] first_name
+# @!attribute [rw] firstName
 #   @return [String, nil]
 #
 # @!attribute [rw] id
 #   @return [String, nil]
 #
-# @!attribute [rw] is_active
+# @!attribute [rw] isActive
 #   @return [Boolean, nil]
 #
 # @!attribute [rw] kif
 #   @return [Hash, nil]
 #
-# @!attribute [rw] last_name
+# @!attribute [rw] lastName
 #   @return [String, nil]
 #
 # @!attribute [rw] partner
@@ -2442,10 +2446,10 @@ UpdateResultListMatch = Struct.new(
 # @!attribute [rw] phone
 #   @return [String, nil]
 #
-# @!attribute [rw] user_name
+# @!attribute [rw] userName
 #   @return [String, nil]
 #
-# @!attribute [rw] user_role
+# @!attribute [rw] userRole
 #   @return [Hash, nil]
 #
 # @!attribute [rw] version
@@ -2453,15 +2457,15 @@ UpdateResultListMatch = Struct.new(
 UpdateResultCreateData = Struct.new(
   :client,
   :email,
-  :first_name,
+  :firstName,
   :id,
-  :is_active,
+  :isActive,
   :kif,
-  :last_name,
+  :lastName,
   :partner,
   :phone,
-  :user_name,
-  :user_role,
+  :userName,
+  :userRole,
   :version,
   keyword_init: true
 )
@@ -2470,8 +2474,52 @@ UpdateResultCreateData = Struct.new(
 #
 # @!attribute [rw] id
 #   @return [String]
+#
+# @!attribute [rw] client
+#   @return [Hash, nil]
+#
+# @!attribute [rw] email
+#   @return [String, nil]
+#
+# @!attribute [rw] firstName
+#   @return [String, nil]
+#
+# @!attribute [rw] isActive
+#   @return [Boolean, nil]
+#
+# @!attribute [rw] kif
+#   @return [Hash, nil]
+#
+# @!attribute [rw] lastName
+#   @return [String, nil]
+#
+# @!attribute [rw] partner
+#   @return [Hash, nil]
+#
+# @!attribute [rw] phone
+#   @return [String, nil]
+#
+# @!attribute [rw] userName
+#   @return [String, nil]
+#
+# @!attribute [rw] userRole
+#   @return [Hash, nil]
+#
+# @!attribute [rw] version
+#   @return [Integer, nil]
 UpdateResultUpdateData = Struct.new(
   :id,
+  :client,
+  :email,
+  :firstName,
+  :isActive,
+  :kif,
+  :lastName,
+  :partner,
+  :phone,
+  :userName,
+  :userRole,
+  :version,
   keyword_init: true
 )
 
@@ -2486,19 +2534,19 @@ UpdateResultUpdateData = Struct.new(
 # @!attribute [rw] email
 #   @return [String, nil]
 #
-# @!attribute [rw] first_name
+# @!attribute [rw] firstName
 #   @return [String, nil]
 #
 # @!attribute [rw] id
 #   @return [String, nil]
 #
-# @!attribute [rw] is_active
+# @!attribute [rw] isActive
 #   @return [Boolean, nil]
 #
 # @!attribute [rw] kif
 #   @return [Hash, nil]
 #
-# @!attribute [rw] last_name
+# @!attribute [rw] lastName
 #   @return [String, nil]
 #
 # @!attribute [rw] modified
@@ -2510,10 +2558,10 @@ UpdateResultUpdateData = Struct.new(
 # @!attribute [rw] phone
 #   @return [String, nil]
 #
-# @!attribute [rw] user_name
+# @!attribute [rw] userName
 #   @return [String, nil]
 #
-# @!attribute [rw] user_role
+# @!attribute [rw] userRole
 #   @return [Hash, nil]
 #
 # @!attribute [rw] version
@@ -2522,16 +2570,16 @@ User = Struct.new(
   :client,
   :created,
   :email,
-  :first_name,
+  :firstName,
   :id,
-  :is_active,
+  :isActive,
   :kif,
-  :last_name,
+  :lastName,
   :modified,
   :partner,
   :phone,
-  :user_name,
-  :user_role,
+  :userName,
+  :userRole,
   :version,
   keyword_init: true
 )

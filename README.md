@@ -36,9 +36,18 @@ network, and no credentials:
 ### TypeScript
 
 ```ts
-const client = BluefinDecryptxP2peSDK.test()
+// The offline mock starts EMPTY — seed it with the records the test needs.
+// Shape: { entity: { <entity-name>: { <id>: <record> } } }
+const client = BluefinDecryptxP2peSDK.test({
+  entity: {
+    device_type: {
+      test01: { id: 'test01' },
+    },
+  },
+})
 const devicetypes = await client.DeviceType().list()
-// devicetypes is an array of bare DeviceType records populated with mock data
+// devicetypes is an array of DeviceType entities, populated with mock data
+// — call devicetypes[0].data() for the record itself
 console.log(devicetypes)
 ```
 
@@ -179,7 +188,8 @@ System.out.println(deviceTypeList);
 ```js
 const client = BluefinDecryptxP2peSDK.test()
 const devicetypes = await client.DeviceType().list()
-// devicetypes is an array of bare entities populated with mock data
+// devicetypes is an array of entities, populated with mock data
+// — call devicetypes[0].data() for the record itself
 console.log(devicetypes)
 ```
 
@@ -196,8 +206,8 @@ println(deviceTypeList)
 ```ocaml
 let () =
   let client = Sdk_client.test () in
-  let result = (Sdk_client.device_type client Noval).e_list (empty_map ()) Noval in
-  print_endline (stringify result)
+  let results = (Sdk_client.device_type client Noval).e_list (empty_map ()) Noval in
+  List.iter (fun e -> print_endline (stringify (e.e_data_get ()))) results
 ```
 
 ### Perl
@@ -291,7 +301,7 @@ const client = new BluefinDecryptxP2peSDK({
   apikey: process.env.BLUEFIN_DECRYPTX_P2PE_APIKEY,
 })
 
-// List all attestations (returns Attestation[])
+// List all attestations (returns AttestationEntity[] — .data() for the record)
 const attestations = await client.Attestation().list()
 for (const attestation of attestations) {
   console.log(attestation)
@@ -406,7 +416,7 @@ $client = new BluefinDecryptxP2peSDK([
 $attestations = $client->Attestation()->list();
 print_r($attestations);
 
-// Load a specific attestation (returns the bare record; throws on error)
+// Load a specific attestation (returns the ENTITY; call data_get() for the record; throws on error)
 $attestation = $client->Attestation()->load(["id" => "example_id"]);
 print_r($attestation);
 ```
@@ -450,7 +460,7 @@ client = BluefinDecryptxP2peSDK.new({
 attestations = client.Attestation.list
 puts attestations
 
-# Load a specific attestation (returns the bare record; raises on error)
+# Load a specific attestation (returns the ENTITY; call data_get for the record)
 attestation = client.Attestation.load({ "id" => "example_id" })
 puts attestation
 ```
@@ -611,19 +621,19 @@ main = do
   opts <- jo [("apikey", maybe VNoval VStr mkey)]
   sdk <- Sdk.newSdk opts
 
-  -- List all attestations (returns a list Value, raises on error)
+  -- List all attestations (one ENTITY per record, raises on error)
   ent <- Sdk.attestation sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
   attestations <- Sdk.eList ent match ctrl
-  print attestations
+  mapM_ (\en -> print =<< Sdk.eDataGet en) attestations
 
-  -- Load a specific attestation (returns the record, raises on error)
+  -- Load a specific attestation (returns the ENTITY, raises on error)
   ent2 <- Sdk.attestation sdk VNoval
   m <- jo [("id", VStr "example_id")]
   ctrl2 <- emptyMap
   attestation <- Sdk.eLoad ent2 m ctrl2
-  print attestation
+  print =<< Sdk.eDataGet attestation
 ```
 
 ### Java
@@ -694,12 +704,12 @@ open Sdk_helpers
 
 let () =
   let client = Sdk_client.make (jo [("apikey", Str (Sys.getenv "BLUEFIN_DECRYPTX_P2PE_APIKEY"))]) in
-  (* List all attestation records (returns a List value; raises on error) *)
+  (* List all attestation records (one ENTITY per record; raises on error) *)
   let attestations = (Sdk_client.attestation client Noval).e_list (empty_map ()) Noval in
-  (match attestations with List items -> List.iter (fun r -> print_endline (stringify r)) !items | _ -> ());
-  (* Load a specific attestation (returns the record; raises on error) *)
+  List.iter (fun e -> print_endline (stringify (e.e_data_get ()))) attestations;
+  (* Load a specific attestation (returns the ENTITY; raises on error) *)
   let attestation = (Sdk_client.attestation client Noval).e_load (jo [("id", (Str "example_id"))]) Noval in
-  print_endline (stringify attestation)
+  print_endline (stringify (attestation.e_data_get ()))
 ```
 
 ### Perl
@@ -718,7 +728,7 @@ for my $attestation (@$attestations) {
     print "$attestation->{id}\n";
 }
 
-# Load a specific attestation (returns the bare record; dies on error)
+# Load a specific attestation (returns the ENTITY; call data_get for the record; dies on error)
 my $attestation = $client->Attestation->load({ 'id' => 'example_id' });
 print "$attestation->{id}\n";
 ```
@@ -1094,6 +1104,9 @@ Pass custom features via the `extend` option at construction time.
 
 This SDK is generated from the upstream OpenAPI specification. It is an
 unofficial client and is not affiliated with the API provider.
+
+The OpenAPI spec(s) this SDK was generated from are kept in the
+[`.sdk/def/`](.sdk/def/) folder.
 
 - Upstream API: [https://apis.p2pemanager.com/api/v1](https://apis.p2pemanager.com/api/v1)
 

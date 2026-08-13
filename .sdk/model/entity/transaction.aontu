@@ -6,7 +6,7 @@ main: kit: entity: transaction: {
 
   fields: [
     {
-      name: "alternate_key"
+      name: "alternateKey"
       req: false
       type: "`$STRING`"
     }
@@ -16,7 +16,7 @@ main: kit: entity: transaction: {
       type: "`$OBJECT`"
     }
     {
-      name: "client_ref"
+      name: "clientRef"
       req: false
       type: "`$STRING`"
     }
@@ -31,12 +31,12 @@ main: kit: entity: transaction: {
       type: "`$INTEGER`"
     }
     {
-      name: "device_name"
+      name: "deviceName"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "direct_partner"
+      name: "directPartner"
       req: false
       type: "`$OBJECT`"
     }
@@ -46,17 +46,17 @@ main: kit: entity: transaction: {
       type: "`$INTEGER`"
     }
     {
-      name: "end_date"
+      name: "endDate"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "err_code"
+      name: "errCode"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "err_message"
+      name: "errMessage"
       req: false
       type: "`$STRING`"
     }
@@ -66,17 +66,17 @@ main: kit: entity: transaction: {
       type: "`$STRING`"
     }
     {
-      name: "ip_address"
+      name: "ipAddress"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "is_virtual"
+      name: "isVirtual"
       req: false
       type: "`$BOOLEAN`"
     }
     {
-      name: "key_type"
+      name: "keyType"
       req: false
       type: "`$STRING`"
     }
@@ -86,7 +86,7 @@ main: kit: entity: transaction: {
       type: "`$OBJECT`"
     }
     {
-      name: "message_id"
+      name: "messageId"
       req: false
       type: "`$STRING`"
     }
@@ -106,12 +106,12 @@ main: kit: entity: transaction: {
       type: "`$STRING`"
     }
     {
-      name: "serial_number"
+      name: "serialNumber"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "start_date"
+      name: "startDate"
       req: false
       type: "`$STRING`"
     }
@@ -121,7 +121,7 @@ main: kit: entity: transaction: {
       type: "`$BOOLEAN`"
     }
     {
-      name: "transaction_source"
+      name: "transactionSource"
       req: false
       type: "`$STRING`"
     }

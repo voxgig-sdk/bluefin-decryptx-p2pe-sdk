@@ -196,12 +196,12 @@ SdkEntity attestation = client.attestation(null);
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `client` | `Map<String, Object>` | No |  |
-| `complete_date` | `String` | No |  |
+| `completeDate` | `String` | No |  |
 | `created` | `String` | No |  |
 | `device` | `Map<String, Object>` | No |  |
 | `id` | `String` | No |  |
 | `name` | `String` | No |  |
-| `note` | `String` | No |  |
+| `notes` | `String` | No |  |
 
 ### Operations
 
@@ -264,9 +264,9 @@ SdkEntity client = client.client(null);
 | --- | --- | --- | --- |
 | `contact` | `Map<String, Object>` | No |  |
 | `created` | `String` | No |  |
-| `direct_partner` | `Map<String, Object>` | No |  |
+| `directPartner` | `Map<String, Object>` | No |  |
 | `id` | `String` | No |  |
-| `is_active` | `Boolean` | No |  |
+| `isActive` | `Boolean` | No |  |
 | `location` | `Map<String, Object>` | Yes |  |
 | `mid` | `String` | No |  |
 | `modified` | `String` | No |  |
@@ -280,9 +280,9 @@ SdkEntity client = client.client(null);
 | --- | --- | --- | --- | --- |
 | `contact` | - | Yes | - | - |
 | `created` | - | - | - | - |
-| `direct_partner` | - | - | - | - |
+| `directPartner` | - | - | - | - |
 | `id` | - | - | - | - |
-| `is_active` | - | - | - | - |
+| `isActive` | - | - | - | - |
 | `location` | - | - | - | - |
 | `mid` | - | - | - | - |
 | `modified` | - | - | - | - |
@@ -442,33 +442,33 @@ SdkEntity device = client.device(null);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `activated_by` | `Map<String, Object>` | Yes |  |
-| `activation_date` | `String` | No |  |
-| `alternate_key` | `String` | No |  |
-| `audit_next_date` | `String` | No |  |
-| `audit_notification_date` | `String` | No |  |
+| `activatedBy` | `Map<String, Object>` | Yes |  |
+| `activationDate` | `String` | No |  |
+| `alternateKey` | `String` | No |  |
+| `auditNextDate` | `String` | No |  |
+| `auditNotificationDate` | `String` | No |  |
 | `client` | `Map<String, Object>` | No |  |
 | `created` | `String` | No |  |
-| `created_by` | `Map<String, Object>` | Yes |  |
-| `device_build` | `Map<String, Object>` | No |  |
-| `device_state` | `Map<String, Object>` | No |  |
-| `device_type` | `Map<String, Object>` | No |  |
-| `error_counter` | `Long` | No |  |
-| `error_last_date` | `String` | No |  |
+| `createdBy` | `Map<String, Object>` | Yes |  |
+| `deviceBuild` | `Map<String, Object>` | No |  |
+| `deviceState` | `Map<String, Object>` | No |  |
+| `deviceType` | `Map<String, Object>` | No |  |
+| `errorCounter` | `Long` | No |  |
+| `errorLastDate` | `String` | No |  |
 | `id` | `String` | No |  |
-| `initialized_by` | `Map<String, Object>` | Yes |  |
-| `initialized_date` | `String` | No |  |
-| `inject_key` | `Map<String, Object>` | No |  |
-| `is_virtual` | `Boolean` | No |  |
+| `initializedBy` | `Map<String, Object>` | Yes |  |
+| `initializedDate` | `String` | No |  |
+| `injectKey` | `Map<String, Object>` | No |  |
+| `isVirtual` | `Boolean` | No |  |
 | `kif` | `Map<String, Object>` | No |  |
-| `last_activity_date` | `String` | No |  |
+| `lastActivityDate` | `String` | No |  |
 | `location` | `Map<String, Object>` | Yes |  |
 | `modified` | `String` | No |  |
-| `modified_by` | `Map<String, Object>` | Yes |  |
+| `modifiedBy` | `Map<String, Object>` | Yes |  |
 | `name` | `String` | No |  |
-| `note` | `String` | No |  |
+| `notes` | `String` | No |  |
 | `partner` | `Map<String, Object>` | No |  |
-| `serial_number` | `String` | No |  |
+| `serialNumber` | `String` | No |  |
 | `version` | `Long` | No |  |
 
 ### Operations
@@ -479,11 +479,11 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```java
 Object result = client.device(null).create(Map.of(
-    "activated_by", Map.of(),  // Map<String, Object>
-    "created_by", Map.of(),  // Map<String, Object>
-    "initialized_by", Map.of(),  // Map<String, Object>
+    "activatedBy", Map.of(),  // Map<String, Object>
+    "createdBy", Map.of(),  // Map<String, Object>
+    "initializedBy", Map.of(),  // Map<String, Object>
     "location", Map.of(),  // Map<String, Object>
-    "modified_by", Map.of()  // Map<String, Object>
+    "modifiedBy", Map.of()  // Map<String, Object>
 ), null);
 ```
 
@@ -535,21 +535,21 @@ SdkEntity deviceBuild = client.deviceBuild(null);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `app_version` | `String` | No |  |
-| `build_number` | `String` | No |  |
-| `config_file_name` | `String` | No |  |
+| `appVersion` | `String` | No |  |
+| `buildNumber` | `String` | No |  |
+| `configFileName` | `String` | No |  |
 | `created` | `String` | No |  |
-| `device_type` | `String` | No |  |
-| `firmware_version` | `String` | No |  |
-| `hardware_version` | `String` | No |  |
+| `deviceType` | `String` | No |  |
+| `firmwareVersion` | `String` | No |  |
+| `hardwareVersion` | `String` | No |  |
 | `id` | `Long` | No |  |
-| `is_active` | `Boolean` | No |  |
+| `isActive` | `Boolean` | No |  |
 | `modified` | `String` | No |  |
 | `name` | `String` | No |  |
-| `note` | `String` | No |  |
+| `notes` | `String` | No |  |
 | `version` | `Long` | No |  |
-| `white_listing_bin_range` | `String` | No |  |
-| `white_listing_used` | `Boolean` | No |  |
+| `whiteListingBinRanges` | `String` | No |  |
+| `whiteListingUsed` | `Boolean` | No |  |
 
 ### Operations
 
@@ -601,18 +601,18 @@ SdkEntity deviceCustodyDetail = client.deviceCustodyDetail(null);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `complete_date` | `String` | No |  |
+| `completeDate` | `String` | No |  |
 | `created` | `String` | No |  |
-| `created_by` | `Map<String, Object>` | Yes |  |
+| `createdBy` | `Map<String, Object>` | Yes |  |
 | `custodian` | `Map<String, Object>` | Yes |  |
 | `device` | `Map<String, Object>` | No |  |
 | `id` | `Long` | No |  |
 | `location` | `Map<String, Object>` | Yes |  |
 | `modified` | `String` | No |  |
-| `modified_by` | `Map<String, Object>` | Yes |  |
-| `note` | `String` | No |  |
+| `modifiedBy` | `Map<String, Object>` | Yes |  |
+| `notes` | `String` | No |  |
 | `status` | `Map<String, Object>` | No |  |
-| `transfer_method` | `Map<String, Object>` | No |  |
+| `transferMethod` | `Map<String, Object>` | No |  |
 | `version` | `Long` | No |  |
 
 ### Operations
@@ -656,18 +656,18 @@ SdkEntity deviceCustodyList = client.deviceCustodyList(null);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `complete_date` | `String` | No |  |
+| `completeDate` | `String` | No |  |
 | `created` | `String` | No |  |
-| `created_by` | `Map<String, Object>` | Yes |  |
+| `createdBy` | `Map<String, Object>` | Yes |  |
 | `custodian` | `Map<String, Object>` | Yes |  |
 | `device` | `Map<String, Object>` | No |  |
 | `id` | `Long` | No |  |
 | `location` | `Map<String, Object>` | Yes |  |
 | `modified` | `String` | No |  |
-| `modified_by` | `Map<String, Object>` | Yes |  |
-| `note` | `String` | No |  |
+| `modifiedBy` | `Map<String, Object>` | Yes |  |
+| `notes` | `String` | No |  |
 | `status` | `Map<String, Object>` | No |  |
-| `transfer_method` | `Map<String, Object>` | No |  |
+| `transferMethod` | `Map<String, Object>` | No |  |
 | `version` | `Long` | No |  |
 
 ### Operations
@@ -892,16 +892,16 @@ SdkEntity deviceType = client.deviceType(null);
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `created` | `String` | No |  |
-| `device_type_mode` | `String` | No |  |
-| `hardware_version` | `String` | No |  |
+| `deviceTypeMode` | `String` | No |  |
+| `hardwareVersion` | `String` | No |  |
 | `id` | `String` | No |  |
-| `is_active` | `Boolean` | No |  |
+| `isActive` | `Boolean` | No |  |
 | `manufacturer` | `String` | No |  |
 | `model` | `String` | No |  |
 | `modified` | `String` | No |  |
 | `name` | `String` | No |  |
-| `photo_url` | `String` | No |  |
-| `product_name` | `String` | No |  |
+| `photoUrl` | `String` | No |  |
+| `productName` | `String` | No |  |
 | `version` | `Long` | No |  |
 
 ### Operations
@@ -956,9 +956,9 @@ SdkEntity injectKey = client.injectKey(null);
 | --- | --- | --- | --- |
 | `created` | `String` | No |  |
 | `id` | `String` | No |  |
-| `is_active` | `Boolean` | No |  |
-| `is_p2_pe` | `Boolean` | No |  |
-| `key_type` | `String` | No |  |
+| `isActive` | `Boolean` | No |  |
+| `isP2PE` | `Boolean` | No |  |
+| `keyType` | `String` | No |  |
 | `modified` | `String` | No |  |
 | `name` | `String` | No |  |
 | `version` | `Long` | No |  |
@@ -1060,26 +1060,26 @@ SdkEntity location = client.location(null);
 | --- | --- | --- | --- |
 | `address1` | `String` | No |  |
 | `address2` | `String` | No |  |
-| `billing_id` | `String` | No |  |
+| `billingId` | `String` | No |  |
 | `city` | `String` | No |  |
 | `country` | `String` | No |  |
 | `created` | `String` | No |  |
-| `custom_reference` | `String` | No |  |
+| `customReference` | `String` | No |  |
 | `id` | `String` | No |  |
-| `location_type` | `String` | No |  |
-| `mail_address1` | `String` | No |  |
-| `mail_address2` | `String` | No |  |
-| `mail_city` | `String` | No |  |
-| `mail_country` | `String` | No |  |
-| `mail_postal_code` | `String` | No |  |
-| `mail_state_province` | `String` | No |  |
+| `locationType` | `String` | No |  |
+| `mailAddress1` | `String` | No |  |
+| `mailAddress2` | `String` | No |  |
+| `mailCity` | `String` | No |  |
+| `mailCountry` | `String` | No |  |
+| `mailPostalCode` | `String` | No |  |
+| `mailStateProvince` | `String` | No |  |
 | `modified` | `String` | No |  |
 | `name` | `String` | No |  |
-| `name_of_business` | `String` | No |  |
-| `note` | `String` | No |  |
-| `postal_code` | `String` | No |  |
-| `state_province` | `String` | No |  |
-| `unique_id` | `String` | No |  |
+| `nameOfBusiness` | `String` | No |  |
+| `notes` | `String` | No |  |
+| `postalCode` | `String` | No |  |
+| `stateProvince` | `String` | No |  |
+| `uniqueId` | `String` | No |  |
 | `version` | `Long` | No |  |
 
 ### Operations
@@ -1149,38 +1149,38 @@ SdkEntity partner = client.partner(null);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `billing_id` | `String` | No |  |
-| `client_can_order_equipment` | `Boolean` | No |  |
+| `billingId` | `String` | No |  |
+| `clientCanOrderEquipment` | `Boolean` | No |  |
 | `contact` | `Map<String, Object>` | No |  |
 | `created` | `String` | No |  |
 | `id` | `String` | No |  |
-| `is_active` | `Boolean` | No |  |
+| `isActive` | `Boolean` | No |  |
 | `location` | `Map<String, Object>` | Yes |  |
 | `modified` | `String` | No |  |
 | `name` | `String` | No |  |
 | `parent` | `Map<String, Object>` | No |  |
-| `partner_id` | `String` | No |  |
+| `partnerId` | `String` | No |  |
 | `reference` | `String` | No |  |
-| `verification_phrase` | `String` | No |  |
+| `verificationPhrase` | `String` | No |  |
 | `version` | `Long` | No |  |
 
 ### Field Usage by Operation
 
 | Field | load | list | create |
 | --- | --- | --- | --- |
-| `billing_id` | - | - | - |
-| `client_can_order_equipment` | - | - | - |
+| `billingId` | - | - | - |
+| `clientCanOrderEquipment` | - | - | - |
 | `contact` | - | Yes | - |
 | `created` | - | - | - |
 | `id` | - | - | - |
-| `is_active` | - | - | - |
+| `isActive` | - | - | - |
 | `location` | - | - | - |
 | `modified` | - | - | - |
 | `name` | - | - | - |
 | `parent` | - | - | - |
-| `partner_id` | - | - | - |
+| `partnerId` | - | - | - |
 | `reference` | - | - | - |
-| `verification_phrase` | - | - | - |
+| `verificationPhrase` | - | - | - |
 | `version` | - | - | - |
 
 ### Operations
@@ -1246,15 +1246,15 @@ SdkEntity shipment = client.shipment(null);
 | `carrier` | `String` | No |  |
 | `client` | `Map<String, Object>` | No |  |
 | `created` | `String` | No |  |
-| `date_received` | `String` | No |  |
-| `date_shipped` | `String` | No |  |
-| `dc_kif` | `Map<String, Object>` | No |  |
+| `dateReceived` | `String` | No |  |
+| `dateShipped` | `String` | No |  |
+| `dcKif` | `Map<String, Object>` | No |  |
 | `id` | `String` | No |  |
-| `item` | `List<Object>` | No |  |
+| `items` | `List<Object>` | No |  |
 | `kif` | `Map<String, Object>` | No |  |
 | `modified` | `String` | No |  |
 | `partner` | `Map<String, Object>` | No |  |
-| `shipment_type` | `String` | No |  |
+| `shipmentType` | `String` | No |  |
 | `tracking` | `String` | No |  |
 | `version` | `Long` | No |  |
 
@@ -1370,30 +1370,30 @@ SdkEntity transaction = client.transaction(null);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `alternate_key` | `String` | No |  |
+| `alternateKey` | `String` | No |  |
 | `client` | `Map<String, Object>` | No |  |
-| `client_ref` | `String` | No |  |
+| `clientRef` | `String` | No |  |
 | `created` | `String` | No |  |
 | `decrypted` | `Long` | No |  |
-| `device_name` | `String` | No |  |
-| `direct_partner` | `Map<String, Object>` | No |  |
+| `deviceName` | `String` | No |  |
+| `directPartner` | `Map<String, Object>` | No |  |
 | `encrypted` | `Long` | No |  |
-| `end_date` | `String` | No |  |
-| `err_code` | `String` | No |  |
-| `err_message` | `String` | No |  |
+| `endDate` | `String` | No |  |
+| `errCode` | `String` | No |  |
+| `errMessage` | `String` | No |  |
 | `id` | `String` | No |  |
-| `ip_address` | `String` | No |  |
-| `is_virtual` | `Boolean` | No |  |
-| `key_type` | `String` | No |  |
+| `ipAddress` | `String` | No |  |
+| `isVirtual` | `Boolean` | No |  |
+| `keyType` | `String` | No |  |
 | `location` | `Map<String, Object>` | Yes |  |
-| `message_id` | `String` | No |  |
+| `messageId` | `String` | No |  |
 | `method` | `String` | No |  |
 | `partner` | `Map<String, Object>` | No |  |
 | `reference` | `String` | No |  |
-| `serial_number` | `String` | No |  |
-| `start_date` | `String` | No |  |
+| `serialNumber` | `String` | No |  |
+| `startDate` | `String` | No |  |
 | `success` | `Boolean` | No |  |
-| `transaction_source` | `String` | No |  |
+| `transactionSource` | `String` | No |  |
 
 ### Operations
 
@@ -1457,15 +1457,15 @@ SdkEntity updateResult = client.updateResult(null);
 | --- | --- | --- | --- |
 | `client` | `Map<String, Object>` | No |  |
 | `email` | `String` | No |  |
-| `first_name` | `String` | No |  |
+| `firstName` | `String` | No |  |
 | `id` | `String` | No |  |
-| `is_active` | `Boolean` | No |  |
+| `isActive` | `Boolean` | No |  |
 | `kif` | `Map<String, Object>` | No |  |
-| `last_name` | `String` | No |  |
+| `lastName` | `String` | No |  |
 | `partner` | `Map<String, Object>` | No |  |
 | `phone` | `String` | No |  |
-| `user_name` | `String` | No |  |
-| `user_role` | `Map<String, Object>` | No |  |
+| `userName` | `String` | No |  |
+| `userRole` | `Map<String, Object>` | No |  |
 | `version` | `Long` | No |  |
 
 ### Operations
@@ -1532,16 +1532,16 @@ SdkEntity user = client.user(null);
 | `client` | `Map<String, Object>` | No |  |
 | `created` | `String` | No |  |
 | `email` | `String` | No |  |
-| `first_name` | `String` | No |  |
+| `firstName` | `String` | No |  |
 | `id` | `String` | No |  |
-| `is_active` | `Boolean` | No |  |
+| `isActive` | `Boolean` | No |  |
 | `kif` | `Map<String, Object>` | No |  |
-| `last_name` | `String` | No |  |
+| `lastName` | `String` | No |  |
 | `modified` | `String` | No |  |
 | `partner` | `Map<String, Object>` | No |  |
 | `phone` | `String` | No |  |
-| `user_name` | `String` | No |  |
-| `user_role` | `Map<String, Object>` | No |  |
+| `userName` | `String` | No |  |
+| `userRole` | `Map<String, Object>` | No |  |
 | `version` | `Long` | No |  |
 
 ### Operations

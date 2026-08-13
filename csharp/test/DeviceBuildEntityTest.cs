@@ -35,7 +35,7 @@ public class DeviceBuildEntityTest
         }
         // The basic flow consumes synthetic IDs from the fixture. In live
         // mode without an *_ENTID env override, those IDs hit the live API
-        // and 4xx; set BLUEFINDECRYPTXP_PE_TEST_DEVICE_BUILD_ENTID JSON to run live.
+        // and 4xx; set BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_BUILD_ENTID JSON to run live.
         if (setup.SyntheticOnly)
         {
             return;
@@ -64,7 +64,7 @@ public class DeviceBuildEntityTest
             ["id"] = deviceBuildRef01Data!["id"],
         };
         var deviceBuildRef01DataDt0Loaded = deviceBuildRef01Ent.Load(deviceBuildRef01MatchDt0, null);
-        var deviceBuildRef01DataDt0LoadResult = Helpers.ToMapAny(deviceBuildRef01DataDt0Loaded);
+        var deviceBuildRef01DataDt0LoadResult = Helpers.ToMapAny(deviceBuildRef01DataDt0Loaded is IEntity le ? le.Data() : deviceBuildRef01DataDt0Loaded);
         Assert.True(deviceBuildRef01DataDt0LoadResult != null, "expected load result to be a map");
         Assert.True(StructRunner.DeepEqual(deviceBuildRef01DataDt0LoadResult!["id"], deviceBuildRef01Data["id"]),
             "expected load result id to match");
@@ -156,43 +156,43 @@ public class DeviceBuildEntityTest
         // live mode is on without a real override, the basic test runs
         // against synthetic IDs from the fixture and 4xx's.
         var entidEnvRaw = Environment.GetEnvironmentVariable(
-            "BLUEFINDECRYPTXP_PE_TEST_DEVICE_BUILD_ENTID") ?? "";
+            "BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_BUILD_ENTID") ?? "";
         var idmapOverridden = entidEnvRaw != "" &&
             entidEnvRaw.Trim().StartsWith("{");
 
         var env = TestRunner.EnvOverride(new Dictionary<string, object?>
         {
-            ["BLUEFINDECRYPTXP_PE_TEST_DEVICE_BUILD_ENTID"] = idmap,
-            ["BLUEFINDECRYPTXP_PE_TEST_LIVE"] = "FALSE",
-            ["BLUEFINDECRYPTXP_PE_TEST_EXPLAIN"] = "FALSE",
-            ["BLUEFINDECRYPTXP_PE_APIKEY"] = "NONE",
+            ["BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_BUILD_ENTID"] = idmap,
+            ["BLUEFIN_DECRYPTX_P2PE_TEST_LIVE"] = "FALSE",
+            ["BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN"] = "FALSE",
+            ["BLUEFIN_DECRYPTX_P2PE_APIKEY"] = "NONE",
         });
 
-        var idmapResolved = Helpers.ToMapAny(env["BLUEFINDECRYPTXP_PE_TEST_DEVICE_BUILD_ENTID"])
+        var idmapResolved = Helpers.ToMapAny(env["BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_BUILD_ENTID"])
             ?? Helpers.ToMapAny(idmap)
             ?? new Dictionary<string, object?>();
 
-        if (Equals(env["BLUEFINDECRYPTXP_PE_TEST_LIVE"], "TRUE"))
+        if (Equals(env["BLUEFIN_DECRYPTX_P2PE_TEST_LIVE"], "TRUE"))
         {
             var mergedOpts = StructUtils.Merge(new List<object?>
             {
                 new Dictionary<string, object?>
                 {
-                    ["apikey"] = env["BLUEFINDECRYPTXP_PE_APIKEY"],
+                    ["apikey"] = env["BLUEFIN_DECRYPTX_P2PE_APIKEY"],
                 },
                 extra,
             });
             client = new BluefinDecryptxP2peSDK(Helpers.ToMapAny(mergedOpts));
         }
 
-        var live = Equals(env["BLUEFINDECRYPTXP_PE_TEST_LIVE"], "TRUE");
+        var live = Equals(env["BLUEFIN_DECRYPTX_P2PE_TEST_LIVE"], "TRUE");
         return new EntityTestSetup
         {
             Client = client,
             Data = entityData,
             Idmap = idmapResolved,
             Env = env,
-            Explain = Equals(env["BLUEFINDECRYPTXP_PE_TEST_EXPLAIN"], "TRUE"),
+            Explain = Equals(env["BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN"], "TRUE"),
             Live = live,
             SyntheticOnly = live && !idmapOverridden,
             Now = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),

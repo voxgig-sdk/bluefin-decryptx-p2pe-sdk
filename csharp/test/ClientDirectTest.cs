@@ -174,22 +174,22 @@ public class ClientDirectTest
 
         var env = TestRunner.EnvOverride(new Dictionary<string, object?>
         {
-            ["BLUEFINDECRYPTXP_PE_TEST_CLIENT_ENTID"] = new Dictionary<string, object?>(),
-            ["BLUEFINDECRYPTXP_PE_TEST_LIVE"] = "FALSE",
-            ["BLUEFINDECRYPTXP_PE_APIKEY"] = "NONE",
+            ["BLUEFIN_DECRYPTX_P2PE_TEST_CLIENT_ENTID"] = new Dictionary<string, object?>(),
+            ["BLUEFIN_DECRYPTX_P2PE_TEST_LIVE"] = "FALSE",
+            ["BLUEFIN_DECRYPTX_P2PE_APIKEY"] = "NONE",
         });
 
-        var live = Equals(env["BLUEFINDECRYPTXP_PE_TEST_LIVE"], "TRUE");
+        var live = Equals(env["BLUEFIN_DECRYPTX_P2PE_TEST_LIVE"], "TRUE");
 
         if (live)
         {
             var liveClient = new BluefinDecryptxP2peSDK(new Dictionary<string, object?>
             {
-                ["apikey"] = env["BLUEFINDECRYPTXP_PE_APIKEY"],
+                ["apikey"] = env["BLUEFIN_DECRYPTX_P2PE_APIKEY"],
             });
 
             var idmap = new Dictionary<string, object?>();
-            var entidRaw = env["BLUEFINDECRYPTXP_PE_TEST_CLIENT_ENTID"];
+            var entidRaw = env["BLUEFIN_DECRYPTX_P2PE_TEST_CLIENT_ENTID"];
             if (entidRaw is string entidStr && entidStr.StartsWith("{"))
             {
                 try

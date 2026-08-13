@@ -16,7 +16,7 @@ main: kit: entity: update_result: {
       type: "`$STRING`"
     }
     {
-      name: "first_name"
+      name: "firstName"
       req: false
       type: "`$STRING`"
     }
@@ -26,7 +26,7 @@ main: kit: entity: update_result: {
       type: "`$STRING`"
     }
     {
-      name: "is_active"
+      name: "isActive"
       req: false
       type: "`$BOOLEAN`"
     }
@@ -36,7 +36,7 @@ main: kit: entity: update_result: {
       type: "`$OBJECT`"
     }
     {
-      name: "last_name"
+      name: "lastName"
       req: false
       type: "`$STRING`"
     }
@@ -51,12 +51,12 @@ main: kit: entity: update_result: {
       type: "`$STRING`"
     }
     {
-      name: "user_name"
+      name: "userName"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "user_role"
+      name: "userRole"
       req: false
       type: "`$OBJECT`"
     }

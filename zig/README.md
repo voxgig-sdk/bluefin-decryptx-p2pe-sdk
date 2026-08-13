@@ -80,7 +80,7 @@ switch (client.device_custody_detail(h.vnull()).load(h.jo(&.{.{ "device_type", h
 
 ```zig
 // Create — .ok carries the created record
-switch (client.attestation(h.vnull()).create(h.jo(&.{.{ "client", h.omap() }, .{ "complete_date", h.vstr("example_complete_date") }}), h.vnull())) {
+switch (client.attestation(h.vnull()).create(h.jo(&.{.{ "client", h.omap() }, .{ "completeDate", h.vstr("example_completeDate") }}), h.vnull())) {
     .ok => |created| std.debug.print("{s}\n", .{h.stringify(created)}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
 }
@@ -300,12 +300,12 @@ On error, `ok` is `false` and `err` carries the error message.
 | Field | Description |
 | --- | --- |
 | `client` |  |
-| `complete_date` |  |
+| `completeDate` |  |
 | `created` |  |
 | `device` |  |
 | `id` |  |
 | `name` |  |
-| `note` |  |
+| `notes` |  |
 
 Operations: Create, List, Load.
 
@@ -317,9 +317,9 @@ API path: `/attestations`
 | --- | --- |
 | `contact` |  |
 | `created` |  |
-| `direct_partner` |  |
+| `directPartner` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `location` |  |
 | `mid` |  |
 | `modified` |  |
@@ -354,33 +354,33 @@ API path: `/decryption`
 
 | Field | Description |
 | --- | --- |
-| `activated_by` |  |
-| `activation_date` |  |
-| `alternate_key` |  |
-| `audit_next_date` |  |
-| `audit_notification_date` |  |
+| `activatedBy` |  |
+| `activationDate` |  |
+| `alternateKey` |  |
+| `auditNextDate` |  |
+| `auditNotificationDate` |  |
 | `client` |  |
 | `created` |  |
-| `created_by` |  |
-| `device_build` |  |
-| `device_state` |  |
-| `device_type` |  |
-| `error_counter` |  |
-| `error_last_date` |  |
+| `createdBy` |  |
+| `deviceBuild` |  |
+| `deviceState` |  |
+| `deviceType` |  |
+| `errorCounter` |  |
+| `errorLastDate` |  |
 | `id` |  |
-| `initialized_by` |  |
-| `initialized_date` |  |
-| `inject_key` |  |
-| `is_virtual` |  |
+| `initializedBy` |  |
+| `initializedDate` |  |
+| `injectKey` |  |
+| `isVirtual` |  |
 | `kif` |  |
-| `last_activity_date` |  |
+| `lastActivityDate` |  |
 | `location` |  |
 | `modified` |  |
-| `modified_by` |  |
+| `modifiedBy` |  |
 | `name` |  |
-| `note` |  |
+| `notes` |  |
 | `partner` |  |
-| `serial_number` |  |
+| `serialNumber` |  |
 | `version` |  |
 
 Operations: Create, List, Load.
@@ -391,21 +391,21 @@ API path: `/devices`
 
 | Field | Description |
 | --- | --- |
-| `app_version` |  |
-| `build_number` |  |
-| `config_file_name` |  |
+| `appVersion` |  |
+| `buildNumber` |  |
+| `configFileName` |  |
 | `created` |  |
-| `device_type` |  |
-| `firmware_version` |  |
-| `hardware_version` |  |
+| `deviceType` |  |
+| `firmwareVersion` |  |
+| `hardwareVersion` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `modified` |  |
 | `name` |  |
-| `note` |  |
+| `notes` |  |
 | `version` |  |
-| `white_listing_bin_range` |  |
-| `white_listing_used` |  |
+| `whiteListingBinRanges` |  |
+| `whiteListingUsed` |  |
 
 Operations: List, Load.
 
@@ -415,18 +415,18 @@ API path: `/deviceBuilds`
 
 | Field | Description |
 | --- | --- |
-| `complete_date` |  |
+| `completeDate` |  |
 | `created` |  |
-| `created_by` |  |
+| `createdBy` |  |
 | `custodian` |  |
 | `device` |  |
 | `id` |  |
 | `location` |  |
 | `modified` |  |
-| `modified_by` |  |
-| `note` |  |
+| `modifiedBy` |  |
+| `notes` |  |
 | `status` |  |
-| `transfer_method` |  |
+| `transferMethod` |  |
 | `version` |  |
 
 Operations: Load.
@@ -437,18 +437,18 @@ API path: `/devices/{serialNumber}/{deviceType}/custody/{id}`
 
 | Field | Description |
 | --- | --- |
-| `complete_date` |  |
+| `completeDate` |  |
 | `created` |  |
-| `created_by` |  |
+| `createdBy` |  |
 | `custodian` |  |
 | `device` |  |
 | `id` |  |
 | `location` |  |
 | `modified` |  |
-| `modified_by` |  |
-| `note` |  |
+| `modifiedBy` |  |
+| `notes` |  |
 | `status` |  |
-| `transfer_method` |  |
+| `transferMethod` |  |
 | `version` |  |
 
 Operations: List.
@@ -502,16 +502,16 @@ API path: `/deviceStates`
 | Field | Description |
 | --- | --- |
 | `created` |  |
-| `device_type_mode` |  |
-| `hardware_version` |  |
+| `deviceTypeMode` |  |
+| `hardwareVersion` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `manufacturer` |  |
 | `model` |  |
 | `modified` |  |
 | `name` |  |
-| `photo_url` |  |
-| `product_name` |  |
+| `photoUrl` |  |
+| `productName` |  |
 | `version` |  |
 
 Operations: List, Load.
@@ -524,9 +524,9 @@ API path: `/deviceTypes`
 | --- | --- |
 | `created` |  |
 | `id` |  |
-| `is_active` |  |
-| `is_p2_pe` |  |
-| `key_type` |  |
+| `isActive` |  |
+| `isP2PE` |  |
+| `keyType` |  |
 | `modified` |  |
 | `name` |  |
 | `version` |  |
@@ -552,26 +552,26 @@ API path: `/kifs`
 | --- | --- |
 | `address1` |  |
 | `address2` |  |
-| `billing_id` |  |
+| `billingId` |  |
 | `city` |  |
 | `country` |  |
 | `created` |  |
-| `custom_reference` |  |
+| `customReference` |  |
 | `id` |  |
-| `location_type` |  |
-| `mail_address1` |  |
-| `mail_address2` |  |
-| `mail_city` |  |
-| `mail_country` |  |
-| `mail_postal_code` |  |
-| `mail_state_province` |  |
+| `locationType` |  |
+| `mailAddress1` |  |
+| `mailAddress2` |  |
+| `mailCity` |  |
+| `mailCountry` |  |
+| `mailPostalCode` |  |
+| `mailStateProvince` |  |
 | `modified` |  |
 | `name` |  |
-| `name_of_business` |  |
-| `note` |  |
-| `postal_code` |  |
-| `state_province` |  |
-| `unique_id` |  |
+| `nameOfBusiness` |  |
+| `notes` |  |
+| `postalCode` |  |
+| `stateProvince` |  |
+| `uniqueId` |  |
 | `version` |  |
 
 Operations: Create, List, Load, Remove.
@@ -582,19 +582,19 @@ API path: `/locations`
 
 | Field | Description |
 | --- | --- |
-| `billing_id` |  |
-| `client_can_order_equipment` |  |
+| `billingId` |  |
+| `clientCanOrderEquipment` |  |
 | `contact` |  |
 | `created` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `location` |  |
 | `modified` |  |
 | `name` |  |
 | `parent` |  |
-| `partner_id` |  |
+| `partnerId` |  |
 | `reference` |  |
-| `verification_phrase` |  |
+| `verificationPhrase` |  |
 | `version` |  |
 
 Operations: Create, List, Load.
@@ -608,15 +608,15 @@ API path: `/partners`
 | `carrier` |  |
 | `client` |  |
 | `created` |  |
-| `date_received` |  |
-| `date_shipped` |  |
-| `dc_kif` |  |
+| `dateReceived` |  |
+| `dateShipped` |  |
+| `dcKif` |  |
 | `id` |  |
-| `item` |  |
+| `items` |  |
 | `kif` |  |
 | `modified` |  |
 | `partner` |  |
-| `shipment_type` |  |
+| `shipmentType` |  |
 | `tracking` |  |
 | `version` |  |
 
@@ -638,30 +638,30 @@ API path: `/virtualDevices/{sharePartnerTo}`
 
 | Field | Description |
 | --- | --- |
-| `alternate_key` |  |
+| `alternateKey` |  |
 | `client` |  |
-| `client_ref` |  |
+| `clientRef` |  |
 | `created` |  |
 | `decrypted` |  |
-| `device_name` |  |
-| `direct_partner` |  |
+| `deviceName` |  |
+| `directPartner` |  |
 | `encrypted` |  |
-| `end_date` |  |
-| `err_code` |  |
-| `err_message` |  |
+| `endDate` |  |
+| `errCode` |  |
+| `errMessage` |  |
 | `id` |  |
-| `ip_address` |  |
-| `is_virtual` |  |
-| `key_type` |  |
+| `ipAddress` |  |
+| `isVirtual` |  |
+| `keyType` |  |
 | `location` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `method` |  |
 | `partner` |  |
 | `reference` |  |
-| `serial_number` |  |
-| `start_date` |  |
+| `serialNumber` |  |
+| `startDate` |  |
 | `success` |  |
-| `transaction_source` |  |
+| `transactionSource` |  |
 
 Operations: Create, List, Load.
 
@@ -673,15 +673,15 @@ API path: `/transactions`
 | --- | --- |
 | `client` |  |
 | `email` |  |
-| `first_name` |  |
+| `firstName` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `kif` |  |
-| `last_name` |  |
+| `lastName` |  |
 | `partner` |  |
 | `phone` |  |
-| `user_name` |  |
-| `user_role` |  |
+| `userName` |  |
+| `userRole` |  |
 | `version` |  |
 
 Operations: Create, List, Update.
@@ -695,16 +695,16 @@ API path: `/users`
 | `client` |  |
 | `created` |  |
 | `email` |  |
-| `first_name` |  |
+| `firstName` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `kif` |  |
-| `last_name` |  |
+| `lastName` |  |
 | `modified` |  |
 | `partner` |  |
 | `phone` |  |
-| `user_name` |  |
-| `user_role` |  |
+| `userName` |  |
+| `userRole` |  |
 | `version` |  |
 
 Operations: Load, Remove.
@@ -736,12 +736,12 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 | Field | Type | Description |
 | --- | --- | --- |
 | `client` | `Value (object)` |  |
-| `complete_date` | `[]const u8` |  |
+| `completeDate` | `[]const u8` |  |
 | `created` | `[]const u8` |  |
 | `device` | `Value (object)` |  |
 | `id` | `[]const u8` |  |
 | `name` | `[]const u8` |  |
-| `note` | `[]const u8` |  |
+| `notes` | `[]const u8` |  |
 
 #### Example: Load
 
@@ -794,9 +794,9 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 | --- | --- | --- |
 | `contact` | `Value (object)` |  |
 | `created` | `[]const u8` |  |
-| `direct_partner` | `Value (object)` |  |
+| `directPartner` | `Value (object)` |  |
 | `id` | `[]const u8` |  |
-| `is_active` | `bool` |  |
+| `isActive` | `bool` |  |
 | `location` | `Value (object)` |  |
 | `mid` | `[]const u8` |  |
 | `modified` | `[]const u8` |  |
@@ -909,33 +909,33 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `activated_by` | `Value (object)` |  |
-| `activation_date` | `[]const u8` |  |
-| `alternate_key` | `[]const u8` |  |
-| `audit_next_date` | `[]const u8` |  |
-| `audit_notification_date` | `[]const u8` |  |
+| `activatedBy` | `Value (object)` |  |
+| `activationDate` | `[]const u8` |  |
+| `alternateKey` | `[]const u8` |  |
+| `auditNextDate` | `[]const u8` |  |
+| `auditNotificationDate` | `[]const u8` |  |
 | `client` | `Value (object)` |  |
 | `created` | `[]const u8` |  |
-| `created_by` | `Value (object)` |  |
-| `device_build` | `Value (object)` |  |
-| `device_state` | `Value (object)` |  |
-| `device_type` | `Value (object)` |  |
-| `error_counter` | `i64` |  |
-| `error_last_date` | `[]const u8` |  |
+| `createdBy` | `Value (object)` |  |
+| `deviceBuild` | `Value (object)` |  |
+| `deviceState` | `Value (object)` |  |
+| `deviceType` | `Value (object)` |  |
+| `errorCounter` | `i64` |  |
+| `errorLastDate` | `[]const u8` |  |
 | `id` | `[]const u8` |  |
-| `initialized_by` | `Value (object)` |  |
-| `initialized_date` | `[]const u8` |  |
-| `inject_key` | `Value (object)` |  |
-| `is_virtual` | `bool` |  |
+| `initializedBy` | `Value (object)` |  |
+| `initializedDate` | `[]const u8` |  |
+| `injectKey` | `Value (object)` |  |
+| `isVirtual` | `bool` |  |
 | `kif` | `Value (object)` |  |
-| `last_activity_date` | `[]const u8` |  |
+| `lastActivityDate` | `[]const u8` |  |
 | `location` | `Value (object)` |  |
 | `modified` | `[]const u8` |  |
-| `modified_by` | `Value (object)` |  |
+| `modifiedBy` | `Value (object)` |  |
 | `name` | `[]const u8` |  |
-| `note` | `[]const u8` |  |
+| `notes` | `[]const u8` |  |
 | `partner` | `Value (object)` |  |
-| `serial_number` | `[]const u8` |  |
+| `serialNumber` | `[]const u8` |  |
 | `version` | `i64` |  |
 
 #### Example: Load
@@ -960,11 +960,11 @@ switch (client.device(h.vnull()).list(h.vnull(), h.vnull())) {
 
 ```zig
 switch (client.device(h.vnull()).create(h.jo(&.{
-    .{ "activated_by", h.omap() }, // Value (object)
-    .{ "created_by", h.omap() }, // Value (object)
-    .{ "initialized_by", h.omap() }, // Value (object)
+    .{ "activatedBy", h.omap() }, // Value (object)
+    .{ "createdBy", h.omap() }, // Value (object)
+    .{ "initializedBy", h.omap() }, // Value (object)
     .{ "location", h.omap() }, // Value (object)
-    .{ "modified_by", h.omap() }, // Value (object)
+    .{ "modifiedBy", h.omap() }, // Value (object)
 }), h.vnull())) {
     .ok => |device| std.debug.print("{s}\n", .{h.stringify(device)}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
@@ -990,21 +990,21 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `app_version` | `[]const u8` |  |
-| `build_number` | `[]const u8` |  |
-| `config_file_name` | `[]const u8` |  |
+| `appVersion` | `[]const u8` |  |
+| `buildNumber` | `[]const u8` |  |
+| `configFileName` | `[]const u8` |  |
 | `created` | `[]const u8` |  |
-| `device_type` | `[]const u8` |  |
-| `firmware_version` | `[]const u8` |  |
-| `hardware_version` | `[]const u8` |  |
+| `deviceType` | `[]const u8` |  |
+| `firmwareVersion` | `[]const u8` |  |
+| `hardwareVersion` | `[]const u8` |  |
 | `id` | `i64` |  |
-| `is_active` | `bool` |  |
+| `isActive` | `bool` |  |
 | `modified` | `[]const u8` |  |
 | `name` | `[]const u8` |  |
-| `note` | `[]const u8` |  |
+| `notes` | `[]const u8` |  |
 | `version` | `i64` |  |
-| `white_listing_bin_range` | `[]const u8` |  |
-| `white_listing_used` | `bool` |  |
+| `whiteListingBinRanges` | `[]const u8` |  |
+| `whiteListingUsed` | `bool` |  |
 
 #### Example: Load
 
@@ -1042,18 +1042,18 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `complete_date` | `[]const u8` |  |
+| `completeDate` | `[]const u8` |  |
 | `created` | `[]const u8` |  |
-| `created_by` | `Value (object)` |  |
+| `createdBy` | `Value (object)` |  |
 | `custodian` | `Value (object)` |  |
 | `device` | `Value (object)` |  |
 | `id` | `i64` |  |
 | `location` | `Value (object)` |  |
 | `modified` | `[]const u8` |  |
-| `modified_by` | `Value (object)` |  |
-| `note` | `[]const u8` |  |
+| `modifiedBy` | `Value (object)` |  |
+| `notes` | `[]const u8` |  |
 | `status` | `Value (object)` |  |
-| `transfer_method` | `Value (object)` |  |
+| `transferMethod` | `Value (object)` |  |
 | `version` | `i64` |  |
 
 #### Example: Load
@@ -1083,18 +1083,18 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `complete_date` | `[]const u8` |  |
+| `completeDate` | `[]const u8` |  |
 | `created` | `[]const u8` |  |
-| `created_by` | `Value (object)` |  |
+| `createdBy` | `Value (object)` |  |
 | `custodian` | `Value (object)` |  |
 | `device` | `Value (object)` |  |
 | `id` | `i64` |  |
 | `location` | `Value (object)` |  |
 | `modified` | `[]const u8` |  |
-| `modified_by` | `Value (object)` |  |
-| `note` | `[]const u8` |  |
+| `modifiedBy` | `Value (object)` |  |
+| `notes` | `[]const u8` |  |
 | `status` | `Value (object)` |  |
-| `transfer_method` | `Value (object)` |  |
+| `transferMethod` | `Value (object)` |  |
 | `version` | `i64` |  |
 
 #### Example: List
@@ -1248,16 +1248,16 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 | Field | Type | Description |
 | --- | --- | --- |
 | `created` | `[]const u8` |  |
-| `device_type_mode` | `[]const u8` |  |
-| `hardware_version` | `[]const u8` |  |
+| `deviceTypeMode` | `[]const u8` |  |
+| `hardwareVersion` | `[]const u8` |  |
 | `id` | `[]const u8` |  |
-| `is_active` | `bool` |  |
+| `isActive` | `bool` |  |
 | `manufacturer` | `[]const u8` |  |
 | `model` | `[]const u8` |  |
 | `modified` | `[]const u8` |  |
 | `name` | `[]const u8` |  |
-| `photo_url` | `[]const u8` |  |
-| `product_name` | `[]const u8` |  |
+| `photoUrl` | `[]const u8` |  |
+| `productName` | `[]const u8` |  |
 | `version` | `i64` |  |
 
 #### Example: Load
@@ -1299,9 +1299,9 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 | --- | --- | --- |
 | `created` | `[]const u8` |  |
 | `id` | `[]const u8` |  |
-| `is_active` | `bool` |  |
-| `is_p2_pe` | `bool` |  |
-| `key_type` | `[]const u8` |  |
+| `isActive` | `bool` |  |
+| `isP2PE` | `bool` |  |
+| `keyType` | `[]const u8` |  |
 | `modified` | `[]const u8` |  |
 | `name` | `[]const u8` |  |
 | `version` | `i64` |  |
@@ -1377,26 +1377,26 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 | --- | --- | --- |
 | `address1` | `[]const u8` |  |
 | `address2` | `[]const u8` |  |
-| `billing_id` | `[]const u8` |  |
+| `billingId` | `[]const u8` |  |
 | `city` | `[]const u8` |  |
 | `country` | `[]const u8` |  |
 | `created` | `[]const u8` |  |
-| `custom_reference` | `[]const u8` |  |
+| `customReference` | `[]const u8` |  |
 | `id` | `[]const u8` |  |
-| `location_type` | `[]const u8` |  |
-| `mail_address1` | `[]const u8` |  |
-| `mail_address2` | `[]const u8` |  |
-| `mail_city` | `[]const u8` |  |
-| `mail_country` | `[]const u8` |  |
-| `mail_postal_code` | `[]const u8` |  |
-| `mail_state_province` | `[]const u8` |  |
+| `locationType` | `[]const u8` |  |
+| `mailAddress1` | `[]const u8` |  |
+| `mailAddress2` | `[]const u8` |  |
+| `mailCity` | `[]const u8` |  |
+| `mailCountry` | `[]const u8` |  |
+| `mailPostalCode` | `[]const u8` |  |
+| `mailStateProvince` | `[]const u8` |  |
 | `modified` | `[]const u8` |  |
 | `name` | `[]const u8` |  |
-| `name_of_business` | `[]const u8` |  |
-| `note` | `[]const u8` |  |
-| `postal_code` | `[]const u8` |  |
-| `state_province` | `[]const u8` |  |
-| `unique_id` | `[]const u8` |  |
+| `nameOfBusiness` | `[]const u8` |  |
+| `notes` | `[]const u8` |  |
+| `postalCode` | `[]const u8` |  |
+| `stateProvince` | `[]const u8` |  |
+| `uniqueId` | `[]const u8` |  |
 | `version` | `i64` |  |
 
 #### Example: Load
@@ -1447,19 +1447,19 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `billing_id` | `[]const u8` |  |
-| `client_can_order_equipment` | `bool` |  |
+| `billingId` | `[]const u8` |  |
+| `clientCanOrderEquipment` | `bool` |  |
 | `contact` | `Value (object)` |  |
 | `created` | `[]const u8` |  |
 | `id` | `[]const u8` |  |
-| `is_active` | `bool` |  |
+| `isActive` | `bool` |  |
 | `location` | `Value (object)` |  |
 | `modified` | `[]const u8` |  |
 | `name` | `[]const u8` |  |
 | `parent` | `Value (object)` |  |
-| `partner_id` | `[]const u8` |  |
+| `partnerId` | `[]const u8` |  |
 | `reference` | `[]const u8` |  |
-| `verification_phrase` | `[]const u8` |  |
+| `verificationPhrase` | `[]const u8` |  |
 | `version` | `i64` |  |
 
 #### Example: Load
@@ -1514,15 +1514,15 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 | `carrier` | `[]const u8` |  |
 | `client` | `Value (object)` |  |
 | `created` | `[]const u8` |  |
-| `date_received` | `[]const u8` |  |
-| `date_shipped` | `[]const u8` |  |
-| `dc_kif` | `Value (object)` |  |
+| `dateReceived` | `[]const u8` |  |
+| `dateShipped` | `[]const u8` |  |
+| `dcKif` | `Value (object)` |  |
 | `id` | `[]const u8` |  |
-| `item` | `Value (array)` |  |
+| `items` | `Value (array)` |  |
 | `kif` | `Value (object)` |  |
 | `modified` | `[]const u8` |  |
 | `partner` | `Value (object)` |  |
-| `shipment_type` | `[]const u8` |  |
+| `shipmentType` | `[]const u8` |  |
 | `tracking` | `[]const u8` |  |
 | `version` | `i64` |  |
 
@@ -1606,30 +1606,30 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `alternate_key` | `[]const u8` |  |
+| `alternateKey` | `[]const u8` |  |
 | `client` | `Value (object)` |  |
-| `client_ref` | `[]const u8` |  |
+| `clientRef` | `[]const u8` |  |
 | `created` | `[]const u8` |  |
 | `decrypted` | `i64` |  |
-| `device_name` | `[]const u8` |  |
-| `direct_partner` | `Value (object)` |  |
+| `deviceName` | `[]const u8` |  |
+| `directPartner` | `Value (object)` |  |
 | `encrypted` | `i64` |  |
-| `end_date` | `[]const u8` |  |
-| `err_code` | `[]const u8` |  |
-| `err_message` | `[]const u8` |  |
+| `endDate` | `[]const u8` |  |
+| `errCode` | `[]const u8` |  |
+| `errMessage` | `[]const u8` |  |
 | `id` | `[]const u8` |  |
-| `ip_address` | `[]const u8` |  |
-| `is_virtual` | `bool` |  |
-| `key_type` | `[]const u8` |  |
+| `ipAddress` | `[]const u8` |  |
+| `isVirtual` | `bool` |  |
+| `keyType` | `[]const u8` |  |
 | `location` | `Value (object)` |  |
-| `message_id` | `[]const u8` |  |
+| `messageId` | `[]const u8` |  |
 | `method` | `[]const u8` |  |
 | `partner` | `Value (object)` |  |
 | `reference` | `[]const u8` |  |
-| `serial_number` | `[]const u8` |  |
-| `start_date` | `[]const u8` |  |
+| `serialNumber` | `[]const u8` |  |
+| `startDate` | `[]const u8` |  |
 | `success` | `bool` |  |
-| `transaction_source` | `[]const u8` |  |
+| `transactionSource` | `[]const u8` |  |
 
 #### Example: Load
 
@@ -1682,15 +1682,15 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 | --- | --- | --- |
 | `client` | `Value (object)` |  |
 | `email` | `[]const u8` |  |
-| `first_name` | `[]const u8` |  |
+| `firstName` | `[]const u8` |  |
 | `id` | `[]const u8` |  |
-| `is_active` | `bool` |  |
+| `isActive` | `bool` |  |
 | `kif` | `Value (object)` |  |
-| `last_name` | `[]const u8` |  |
+| `lastName` | `[]const u8` |  |
 | `partner` | `Value (object)` |  |
 | `phone` | `[]const u8` |  |
-| `user_name` | `[]const u8` |  |
-| `user_role` | `Value (object)` |  |
+| `userName` | `[]const u8` |  |
+| `userRole` | `Value (object)` |  |
 | `version` | `i64` |  |
 
 #### Example: List
@@ -1734,16 +1734,16 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 | `client` | `Value (object)` |  |
 | `created` | `[]const u8` |  |
 | `email` | `[]const u8` |  |
-| `first_name` | `[]const u8` |  |
+| `firstName` | `[]const u8` |  |
 | `id` | `[]const u8` |  |
-| `is_active` | `bool` |  |
+| `isActive` | `bool` |  |
 | `kif` | `Value (object)` |  |
-| `last_name` | `[]const u8` |  |
+| `lastName` | `[]const u8` |  |
 | `modified` | `[]const u8` |  |
 | `partner` | `Value (object)` |  |
 | `phone` | `[]const u8` |  |
-| `user_name` | `[]const u8` |  |
-| `user_role` | `Value (object)` |  |
+| `userName` | `[]const u8` |  |
+| `userRole` | `Value (object)` |  |
 | `version` | `i64` |  |
 
 #### Example: Load

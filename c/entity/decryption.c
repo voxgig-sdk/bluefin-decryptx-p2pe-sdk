@@ -14,6 +14,8 @@ typedef struct decryption_entity {
   voxgig_value* data;     // Map
   voxgig_value* mtch;     // Map
   Context* entctx;
+  // Set once a successful `remove` resolves on this instance.
+  bool deleted;
 } decryption_entity;
 
 typedef void (*decryption_postdone_fn)(decryption_entity* self, Context* ctx);
@@ -24,11 +26,14 @@ static const char* decryption_get_name(Entity* e);
 static Entity* decryption_make(Entity* e);
 static voxgig_value* decryption_data(Entity* e, voxgig_value* args);
 static voxgig_value* decryption_matchv(Entity* e, voxgig_value* args);
-static voxgig_value* decryption_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
-static voxgig_value* decryption_list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
-static voxgig_value* decryption_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
-static voxgig_value* decryption_update(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
-static voxgig_value* decryption_remove(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+// Ops resolve to the ENTITY (`list` to a NULL-terminated array of them).
+static Entity* decryption_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static Entity** decryption_list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static Entity* decryption_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
+static Entity* decryption_update(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
+static Entity* decryption_remove(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static void decryption_mark_deleted(Entity* e);
+static bool decryption_deleted(Entity* e);
 
 static Context* decryption_ent_ctx(decryption_entity* self) {
   return self->entctx;
@@ -236,13 +241,13 @@ static voxgig_value* decryption_matchv(Entity* e, voxgig_value* args) {
   return voxgig_clone(self->mtch);
 }
 
-static voxgig_value* decryption_load(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* decryption_load(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("load", "decryption");
   return NULL;
 }
 
-static voxgig_value* decryption_list(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity** decryption_list(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("list", "decryption");
   return NULL;
@@ -260,7 +265,7 @@ static void decryption_create_postdone(decryption_entity* self, Context* ctx) {
   }
 }
 
-static voxgig_value* decryption_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err) {
+static Entity* decryption_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err) {
   decryption_entity* self = (decryption_entity*)e;
   CtxSpec cs;
   memset(&cs, 0, sizeof(cs));
@@ -270,20 +275,38 @@ static voxgig_value* decryption_create(Entity* e, voxgig_value* reqdata, voxgig_
   cs.data = self->data;
   cs.reqdata = reqdata;
   Context* ctx = make_context_util(cs, decryption_ent_ctx(self));
-  return decryption_run_op(self, ctx, decryption_create_postdone, err);
+  decryption_run_op(self, ctx, decryption_create_postdone, err);
+  if (*err) return NULL;
+
+  // The operation resolves to THIS entity: run_op has just absorbed the
+  // result into it, and the caller reaches the record through vt->data.
+  // See AGENTS.md "Entity operations return ENTITIES".
+
+  return e;
 }
 
 
-static voxgig_value* decryption_update(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* decryption_update(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("update", "decryption");
   return NULL;
 }
 
-static voxgig_value* decryption_remove(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* decryption_remove(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("remove", "decryption");
   return NULL;
+}
+
+// `remove` resolves to the entity, marked. The instance KEEPS the data it
+// held - a caller can still read what was deleted - but it is no longer a
+// live record.
+static void decryption_mark_deleted(Entity* e) {
+  ((decryption_entity*)e)->deleted = true;
+}
+
+static bool decryption_deleted(Entity* e) {
+  return ((decryption_entity*)e)->deleted;
 }
 
 static const EntityVT decryption_VT = {
@@ -291,6 +314,8 @@ static const EntityVT decryption_VT = {
   decryption_make,
   decryption_data,
   decryption_matchv,
+  decryption_mark_deleted,
+  decryption_deleted,
   decryption_load,
   decryption_list,
   decryption_create,

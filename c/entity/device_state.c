@@ -14,6 +14,8 @@ typedef struct device_state_entity {
   voxgig_value* data;     // Map
   voxgig_value* mtch;     // Map
   Context* entctx;
+  // Set once a successful `remove` resolves on this instance.
+  bool deleted;
 } device_state_entity;
 
 typedef void (*device_state_postdone_fn)(device_state_entity* self, Context* ctx);
@@ -24,11 +26,14 @@ static const char* device_state_get_name(Entity* e);
 static Entity* device_state_make(Entity* e);
 static voxgig_value* device_state_data(Entity* e, voxgig_value* args);
 static voxgig_value* device_state_matchv(Entity* e, voxgig_value* args);
-static voxgig_value* device_state_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
-static voxgig_value* device_state_list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
-static voxgig_value* device_state_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
-static voxgig_value* device_state_update(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
-static voxgig_value* device_state_remove(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+// Ops resolve to the ENTITY (`list` to a NULL-terminated array of them).
+static Entity* device_state_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static Entity** device_state_list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static Entity* device_state_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
+static Entity* device_state_update(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
+static Entity* device_state_remove(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static void device_state_mark_deleted(Entity* e);
+static bool device_state_deleted(Entity* e);
 
 static Context* device_state_ent_ctx(device_state_entity* self) {
   return self->entctx;
@@ -236,7 +241,7 @@ static voxgig_value* device_state_matchv(Entity* e, voxgig_value* args) {
   return voxgig_clone(self->mtch);
 }
 
-static voxgig_value* device_state_load(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* device_state_load(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("load", "device_state");
   return NULL;
@@ -251,7 +256,7 @@ static void device_state_list_postdone(device_state_entity* self, Context* ctx) 
   }
 }
 
-static voxgig_value* device_state_list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err) {
+static Entity** device_state_list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err) {
   device_state_entity* self = (device_state_entity*)e;
   CtxSpec cs;
   memset(&cs, 0, sizeof(cs));
@@ -261,26 +266,54 @@ static voxgig_value* device_state_list(Entity* e, voxgig_value* reqmatch, voxgig
   cs.data = self->data;
   cs.reqmatch = reqmatch;
   Context* ctx = make_context_util(cs, device_state_ent_ctx(self));
-  return device_state_run_op(self, ctx, device_state_list_postdone, err);
+  voxgig_value* out = device_state_run_op(self, ctx, device_state_list_postdone, err);
+  if (*err) return NULL;
+
+  // `list` resolves to one ENTITY per record. make_result cannot build them
+  // here - it works in voxgig_value, which has no slot for an entity - so the
+  // op does, mirroring what the dynamic targets get from make_result. The
+  // array is NULL-terminated.
+  size_t n = voxgig_is_list(out) ? voxgig_as_list(out)->len : 0;
+  Entity** items = (Entity**)calloc(n + 1, sizeof(Entity*));
+  for (size_t i = 0; i < n; i++) {
+    voxgig_value* entry = voxgig_as_list(out)->items[i];
+    Entity* ent = e->vt->make(e);
+    if (voxgig_is_map(entry)) ent->vt->data(ent, entry);
+    items[i] = ent;
+  }
+  items[n] = NULL;
+
+  return items;
 }
 
 
-static voxgig_value* device_state_create(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* device_state_create(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("create", "device_state");
   return NULL;
 }
 
-static voxgig_value* device_state_update(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* device_state_update(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("update", "device_state");
   return NULL;
 }
 
-static voxgig_value* device_state_remove(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* device_state_remove(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("remove", "device_state");
   return NULL;
+}
+
+// `remove` resolves to the entity, marked. The instance KEEPS the data it
+// held - a caller can still read what was deleted - but it is no longer a
+// live record.
+static void device_state_mark_deleted(Entity* e) {
+  ((device_state_entity*)e)->deleted = true;
+}
+
+static bool device_state_deleted(Entity* e) {
+  return ((device_state_entity*)e)->deleted;
 }
 
 static const EntityVT device_state_VT = {
@@ -288,6 +321,8 @@ static const EntityVT device_state_VT = {
   device_state_make,
   device_state_data,
   device_state_matchv,
+  device_state_mark_deleted,
+  device_state_deleted,
   device_state_load,
   device_state_list,
   device_state_create,

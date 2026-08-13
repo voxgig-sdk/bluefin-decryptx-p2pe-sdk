@@ -38,15 +38,15 @@ static DeviceRkiActivateResultSetup device_rki_activate_result_basic_setup(const
   if (!idmap.is_map()) idmap = vmap();
 
   Value env = env_override(vmap({
-    {"BLUEFINDECRYPTXP_PE_TEST_DEVICE_RKI_ACTIVATE_RESULT_ENTID", idmap},
-    {"BLUEFINDECRYPTXP_PE_TEST_LIVE", Value("FALSE")},
-    {"BLUEFINDECRYPTXP_PE_TEST_EXPLAIN", Value("FALSE")}
+    {"BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_RKI_ACTIVATE_RESULT_ENTID", idmap},
+    {"BLUEFIN_DECRYPTX_P2PE_TEST_LIVE", Value("FALSE")},
+    {"BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN", Value("FALSE")}
   }));
 
-  Value idmap_resolved = Helpers::toMapAny(getp(env, "BLUEFINDECRYPTXP_PE_TEST_DEVICE_RKI_ACTIVATE_RESULT_ENTID"));
+  Value idmap_resolved = Helpers::toMapAny(getp(env, "BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_RKI_ACTIVATE_RESULT_ENTID"));
   if (!idmap_resolved.is_map()) idmap_resolved = idmap;
 
-  bool live = getp(env, "BLUEFINDECRYPTXP_PE_TEST_LIVE") == Value("TRUE");
+  bool live = getp(env, "BLUEFIN_DECRYPTX_P2PE_TEST_LIVE") == Value("TRUE");
 
   DeviceRkiActivateResultSetup s;
   s.client = client;
@@ -65,27 +65,6 @@ static void device_rki_activate_result_entity_instance() {
   ASSERT_EQ(ent->getName(), std::string("device_rki_activate_result"), "entity name");
 }
 
-static void device_rki_activate_result_entity_stream() {
-  // stream() runs the list op through the full pipeline and returns the
-  // result items. Seed two entities via test mode; with the streaming feature
-  // active it yields the feature's incremental items, else it falls back to
-  // the materialised items — either way every item is yielded.
-  Value seed = vmap({{"entity", vmap({{"device_rki_activate_result", vmap({
-      {"strm01", vmap({{"id", Value("strm01")}})},
-      {"strm02", vmap({{"id", Value("strm02")}})}})}})}});
-  Value sdkopts = vmap({{"feature",
-      vmap({{"streaming", vmap({{"active", Value(true)}})}})}});
-
-  auto strsdk = BluefinDecryptxP2peSDK::testSDK(seed, sdkopts);
-  auto se = strsdk->device_rki_activate_result();
-  std::vector<Value> items = se->stream("list", Value::undef(), Value::undef());
-  ASSERT_EQ((int)items.size(), 2, "stream yields both seeded items");
-
-  auto plainsdk = BluefinDecryptxP2peSDK::testSDK(seed, Value::undef());
-  auto pe = plainsdk->device_rki_activate_result();
-  std::vector<Value> pitems = pe->stream("list", Value::undef(), Value::undef());
-  ASSERT_EQ((int)pitems.size(), 2, "fallback stream yields both items");
-}
 
 static void device_rki_activate_result_entity_basic() {
   auto setup = device_rki_activate_result_basic_setup(Value::undef());
@@ -100,7 +79,7 @@ static void device_rki_activate_result_entity_basic() {
   Value device_rki_activate_result_ref01_data = Helpers::toMapAny(getp(Struct::getpath(setup.data, {"new", "device_rki_activate_result"}), "device_rki_activate_result_ref01"));
   if (!device_rki_activate_result_ref01_data.is_map()) device_rki_activate_result_ref01_data = vmap();
   {
-    Value device_rki_activate_result_ref01_data_result = device_rki_activate_result_ref01_ent->create(Struct::clone(device_rki_activate_result_ref01_data), Value::undef());
+    Value device_rki_activate_result_ref01_data_result = device_rki_activate_result_ref01_ent->create(Struct::clone(device_rki_activate_result_ref01_data), Value::undef())->data();
     device_rki_activate_result_ref01_data = Helpers::toMapAny(device_rki_activate_result_ref01_data_result);
     if (!device_rki_activate_result_ref01_data.is_map()) device_rki_activate_result_ref01_data = vmap();
     ASSERT_TRUE(device_rki_activate_result_ref01_data.is_map(), "expected create result to be a map");
@@ -110,7 +89,6 @@ static void device_rki_activate_result_entity_basic() {
 
 int main() {
   T_RUN(device_rki_activate_result_entity_instance);
-  T_RUN(device_rki_activate_result_entity_stream);
   T_RUN(device_rki_activate_result_entity_basic);
   return sdktest::summary("device_rki_activate_result_entity_test");
 }

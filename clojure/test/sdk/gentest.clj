@@ -35,10 +35,13 @@
   (t/run-check rec "gen-smoke-attestation"
     (fn [] (let [sdk (api/test-sdk nil nil)
                  ent (api/attestation sdk nil)]
-             (let [res (e-attestation/create ent (vs/jm "name" "smoke") nil)]
-               (t/is-true (vs/ismap res) "create returns a record map")
-               (t/is-true (some? (vs/getprop res "id")) "created record has an id"))
+             (let [res (e-attestation/create ent (vs/jm "name" "smoke") nil)
+                   rec (if (map? res) ((:data-get res)) res)]
+               ;; create resolves to the ENTITY; the record is data-get.
+               (t/is-true (vs/ismap rec) "create resolves to an entity carrying a record")
+               (t/is-true (some? (vs/getprop rec "id")) "created record has an id"))
              (let [items (e-attestation/list ent (vs/jm) nil)]
+               ;; list resolves to one entity per record.
                (t/is-true (sequential? items) "list returns a sequential collection"))
              )))
   (t/run-check rec "gen-stream-attestation"
@@ -69,10 +72,13 @@
   (t/run-check rec "gen-smoke-client"
     (fn [] (let [sdk (api/test-sdk nil nil)
                  ent (api/client sdk nil)]
-             (let [res (e-client/create ent (vs/jm "name" "smoke") nil)]
-               (t/is-true (vs/ismap res) "create returns a record map")
-               (t/is-true (some? (vs/getprop res "id")) "created record has an id"))
+             (let [res (e-client/create ent (vs/jm "name" "smoke") nil)
+                   rec (if (map? res) ((:data-get res)) res)]
+               ;; create resolves to the ENTITY; the record is data-get.
+               (t/is-true (vs/ismap rec) "create resolves to an entity carrying a record")
+               (t/is-true (some? (vs/getprop rec "id")) "created record has an id"))
              (let [items (e-client/list ent (vs/jm) nil)]
+               ;; list resolves to one entity per record.
                (t/is-true (sequential? items) "list returns a sequential collection"))
              )))
   (t/run-check rec "gen-stream-client"
@@ -103,9 +109,11 @@
   (t/run-check rec "gen-smoke-create_result"
     (fn [] (let [sdk (api/test-sdk nil nil)
                  ent (api/create_result sdk nil)]
-             (let [res (e-create_result/create ent (vs/jm "name" "smoke") nil)]
-               (t/is-true (vs/ismap res) "create returns a record map")
-               (t/is-true (some? (vs/getprop res "id")) "created record has an id"))
+             (let [res (e-create_result/create ent (vs/jm "name" "smoke") nil)
+                   rec (if (map? res) ((:data-get res)) res)]
+               ;; create resolves to the ENTITY; the record is data-get.
+               (t/is-true (vs/ismap rec) "create resolves to an entity carrying a record")
+               (t/is-true (some? (vs/getprop rec "id")) "created record has an id"))
              )))
   (t/run-check rec "gen-exists-decryption"
     (fn [] (let [sdk (api/test-sdk nil nil)]
@@ -113,9 +121,11 @@
   (t/run-check rec "gen-smoke-decryption"
     (fn [] (let [sdk (api/test-sdk nil nil)
                  ent (api/decryption sdk nil)]
-             (let [res (e-decryption/create ent (vs/jm "name" "smoke") nil)]
-               (t/is-true (vs/ismap res) "create returns a record map")
-               (t/is-true (some? (vs/getprop res "id")) "created record has an id"))
+             (let [res (e-decryption/create ent (vs/jm "name" "smoke") nil)
+                   rec (if (map? res) ((:data-get res)) res)]
+               ;; create resolves to the ENTITY; the record is data-get.
+               (t/is-true (vs/ismap rec) "create resolves to an entity carrying a record")
+               (t/is-true (some? (vs/getprop rec "id")) "created record has an id"))
              )))
   (t/run-check rec "gen-exists-device"
     (fn [] (let [sdk (api/test-sdk nil nil)]
@@ -123,10 +133,13 @@
   (t/run-check rec "gen-smoke-device"
     (fn [] (let [sdk (api/test-sdk nil nil)
                  ent (api/device sdk nil)]
-             (let [res (e-device/create ent (vs/jm "name" "smoke") nil)]
-               (t/is-true (vs/ismap res) "create returns a record map")
-               (t/is-true (some? (vs/getprop res "id")) "created record has an id"))
+             (let [res (e-device/create ent (vs/jm "name" "smoke") nil)
+                   rec (if (map? res) ((:data-get res)) res)]
+               ;; create resolves to the ENTITY; the record is data-get.
+               (t/is-true (vs/ismap rec) "create resolves to an entity carrying a record")
+               (t/is-true (some? (vs/getprop rec "id")) "created record has an id"))
              (let [items (e-device/list ent (vs/jm) nil)]
+               ;; list resolves to one entity per record.
                (t/is-true (sequential? items) "list returns a sequential collection"))
              )))
   (t/run-check rec "gen-stream-device"
@@ -158,6 +171,7 @@
     (fn [] (let [sdk (api/test-sdk nil nil)
                  ent (api/device_build sdk nil)]
              (let [items (e-device_build/list ent (vs/jm) nil)]
+               ;; list resolves to one entity per record.
                (t/is-true (sequential? items) "list returns a sequential collection"))
              )))
   (t/run-check rec "gen-stream-device_build"
@@ -192,6 +206,7 @@
     (fn [] (let [sdk (api/test-sdk nil nil)
                  ent (api/device_custody_list sdk nil)]
              (let [items (e-device_custody_list/list ent (vs/jm) nil)]
+               ;; list resolves to one entity per record.
                (t/is-true (sequential? items) "list returns a sequential collection"))
              )))
   (t/run-check rec "gen-stream-device_custody_list"
@@ -225,9 +240,11 @@
   (t/run-check rec "gen-smoke-device_receive_result"
     (fn [] (let [sdk (api/test-sdk nil nil)
                  ent (api/device_receive_result sdk nil)]
-             (let [res (e-device_receive_result/create ent (vs/jm "name" "smoke") nil)]
-               (t/is-true (vs/ismap res) "create returns a record map")
-               (t/is-true (some? (vs/getprop res "id")) "created record has an id"))
+             (let [res (e-device_receive_result/create ent (vs/jm "name" "smoke") nil)
+                   rec (if (map? res) ((:data-get res)) res)]
+               ;; create resolves to the ENTITY; the record is data-get.
+               (t/is-true (vs/ismap rec) "create resolves to an entity carrying a record")
+               (t/is-true (some? (vs/getprop rec "id")) "created record has an id"))
              )))
   (t/run-check rec "gen-exists-device_rki_activate_result"
     (fn [] (let [sdk (api/test-sdk nil nil)]
@@ -235,9 +252,11 @@
   (t/run-check rec "gen-smoke-device_rki_activate_result"
     (fn [] (let [sdk (api/test-sdk nil nil)
                  ent (api/device_rki_activate_result sdk nil)]
-             (let [res (e-device_rki_activate_result/create ent (vs/jm "name" "smoke") nil)]
-               (t/is-true (vs/ismap res) "create returns a record map")
-               (t/is-true (some? (vs/getprop res "id")) "created record has an id"))
+             (let [res (e-device_rki_activate_result/create ent (vs/jm "name" "smoke") nil)
+                   rec (if (map? res) ((:data-get res)) res)]
+               ;; create resolves to the ENTITY; the record is data-get.
+               (t/is-true (vs/ismap rec) "create resolves to an entity carrying a record")
+               (t/is-true (some? (vs/getprop rec "id")) "created record has an id"))
              )))
   (t/run-check rec "gen-exists-device_state"
     (fn [] (let [sdk (api/test-sdk nil nil)]
@@ -246,6 +265,7 @@
     (fn [] (let [sdk (api/test-sdk nil nil)
                  ent (api/device_state sdk nil)]
              (let [items (e-device_state/list ent (vs/jm) nil)]
+               ;; list resolves to one entity per record.
                (t/is-true (sequential? items) "list returns a sequential collection"))
              )))
   (t/run-check rec "gen-stream-device_state"
@@ -277,6 +297,7 @@
     (fn [] (let [sdk (api/test-sdk nil nil)
                  ent (api/device_type sdk nil)]
              (let [items (e-device_type/list ent (vs/jm) nil)]
+               ;; list resolves to one entity per record.
                (t/is-true (sequential? items) "list returns a sequential collection"))
              )))
   (t/run-check rec "gen-stream-device_type"
@@ -308,6 +329,7 @@
     (fn [] (let [sdk (api/test-sdk nil nil)
                  ent (api/inject_key sdk nil)]
              (let [items (e-inject_key/list ent (vs/jm) nil)]
+               ;; list resolves to one entity per record.
                (t/is-true (sequential? items) "list returns a sequential collection"))
              )))
   (t/run-check rec "gen-stream-inject_key"
@@ -339,6 +361,7 @@
     (fn [] (let [sdk (api/test-sdk nil nil)
                  ent (api/kif sdk nil)]
              (let [items (e-kif/list ent (vs/jm) nil)]
+               ;; list resolves to one entity per record.
                (t/is-true (sequential? items) "list returns a sequential collection"))
              )))
   (t/run-check rec "gen-stream-kif"
@@ -369,10 +392,13 @@
   (t/run-check rec "gen-smoke-location"
     (fn [] (let [sdk (api/test-sdk nil nil)
                  ent (api/location sdk nil)]
-             (let [res (e-location/create ent (vs/jm "name" "smoke") nil)]
-               (t/is-true (vs/ismap res) "create returns a record map")
-               (t/is-true (some? (vs/getprop res "id")) "created record has an id"))
+             (let [res (e-location/create ent (vs/jm "name" "smoke") nil)
+                   rec (if (map? res) ((:data-get res)) res)]
+               ;; create resolves to the ENTITY; the record is data-get.
+               (t/is-true (vs/ismap rec) "create resolves to an entity carrying a record")
+               (t/is-true (some? (vs/getprop rec "id")) "created record has an id"))
              (let [items (e-location/list ent (vs/jm) nil)]
+               ;; list resolves to one entity per record.
                (t/is-true (sequential? items) "list returns a sequential collection"))
              )))
   (t/run-check rec "gen-stream-location"
@@ -403,10 +429,13 @@
   (t/run-check rec "gen-smoke-partner"
     (fn [] (let [sdk (api/test-sdk nil nil)
                  ent (api/partner sdk nil)]
-             (let [res (e-partner/create ent (vs/jm "name" "smoke") nil)]
-               (t/is-true (vs/ismap res) "create returns a record map")
-               (t/is-true (some? (vs/getprop res "id")) "created record has an id"))
+             (let [res (e-partner/create ent (vs/jm "name" "smoke") nil)
+                   rec (if (map? res) ((:data-get res)) res)]
+               ;; create resolves to the ENTITY; the record is data-get.
+               (t/is-true (vs/ismap rec) "create resolves to an entity carrying a record")
+               (t/is-true (some? (vs/getprop rec "id")) "created record has an id"))
              (let [items (e-partner/list ent (vs/jm) nil)]
+               ;; list resolves to one entity per record.
                (t/is-true (sequential? items) "list returns a sequential collection"))
              )))
   (t/run-check rec "gen-stream-partner"
@@ -437,10 +466,13 @@
   (t/run-check rec "gen-smoke-shipment"
     (fn [] (let [sdk (api/test-sdk nil nil)
                  ent (api/shipment sdk nil)]
-             (let [res (e-shipment/create ent (vs/jm "name" "smoke") nil)]
-               (t/is-true (vs/ismap res) "create returns a record map")
-               (t/is-true (some? (vs/getprop res "id")) "created record has an id"))
+             (let [res (e-shipment/create ent (vs/jm "name" "smoke") nil)
+                   rec (if (map? res) ((:data-get res)) res)]
+               ;; create resolves to the ENTITY; the record is data-get.
+               (t/is-true (vs/ismap rec) "create resolves to an entity carrying a record")
+               (t/is-true (some? (vs/getprop rec "id")) "created record has an id"))
              (let [items (e-shipment/list ent (vs/jm) nil)]
+               ;; list resolves to one entity per record.
                (t/is-true (sequential? items) "list returns a sequential collection"))
              )))
   (t/run-check rec "gen-stream-shipment"
@@ -471,9 +503,11 @@
   (t/run-check rec "gen-smoke-success"
     (fn [] (let [sdk (api/test-sdk nil nil)
                  ent (api/success sdk nil)]
-             (let [res (e-success/create ent (vs/jm "name" "smoke") nil)]
-               (t/is-true (vs/ismap res) "create returns a record map")
-               (t/is-true (some? (vs/getprop res "id")) "created record has an id"))
+             (let [res (e-success/create ent (vs/jm "name" "smoke") nil)
+                   rec (if (map? res) ((:data-get res)) res)]
+               ;; create resolves to the ENTITY; the record is data-get.
+               (t/is-true (vs/ismap rec) "create resolves to an entity carrying a record")
+               (t/is-true (some? (vs/getprop rec "id")) "created record has an id"))
              )))
   (t/run-check rec "gen-exists-transaction"
     (fn [] (let [sdk (api/test-sdk nil nil)]
@@ -481,10 +515,13 @@
   (t/run-check rec "gen-smoke-transaction"
     (fn [] (let [sdk (api/test-sdk nil nil)
                  ent (api/transaction sdk nil)]
-             (let [res (e-transaction/create ent (vs/jm "name" "smoke") nil)]
-               (t/is-true (vs/ismap res) "create returns a record map")
-               (t/is-true (some? (vs/getprop res "id")) "created record has an id"))
+             (let [res (e-transaction/create ent (vs/jm "name" "smoke") nil)
+                   rec (if (map? res) ((:data-get res)) res)]
+               ;; create resolves to the ENTITY; the record is data-get.
+               (t/is-true (vs/ismap rec) "create resolves to an entity carrying a record")
+               (t/is-true (some? (vs/getprop rec "id")) "created record has an id"))
              (let [items (e-transaction/list ent (vs/jm) nil)]
+               ;; list resolves to one entity per record.
                (t/is-true (sequential? items) "list returns a sequential collection"))
              )))
   (t/run-check rec "gen-stream-transaction"
@@ -515,10 +552,13 @@
   (t/run-check rec "gen-smoke-update_result"
     (fn [] (let [sdk (api/test-sdk nil nil)
                  ent (api/update_result sdk nil)]
-             (let [res (e-update_result/create ent (vs/jm "name" "smoke") nil)]
-               (t/is-true (vs/ismap res) "create returns a record map")
-               (t/is-true (some? (vs/getprop res "id")) "created record has an id"))
+             (let [res (e-update_result/create ent (vs/jm "name" "smoke") nil)
+                   rec (if (map? res) ((:data-get res)) res)]
+               ;; create resolves to the ENTITY; the record is data-get.
+               (t/is-true (vs/ismap rec) "create resolves to an entity carrying a record")
+               (t/is-true (some? (vs/getprop rec "id")) "created record has an id"))
              (let [items (e-update_result/list ent (vs/jm) nil)]
+               ;; list resolves to one entity per record.
                (t/is-true (sequential? items) "list returns a sequential collection"))
              )))
   (t/run-check rec "gen-stream-update_result"
@@ -818,9 +858,10 @@
              (t/is-true (vs/ismap result) "direct returns a result map")
              (t/is-true (vs/getprop result "ok") "direct 200 => ok true")
              (t/is-eq (vs/getprop result "status") 200 "direct surfaces the status"))))
-  (letfn [(clj-blocks [text]
-            (let [fence (apply str (repeat 3 (char 96)))
-                  parts (clojure.string/split text (re-pattern fence))]
+  (letfn [(fence-pat [] (re-pattern (apply str (repeat 3 (char 96)))))
+          (fence-count [text] (count (re-seq (fence-pat) text)))
+          (clj-blocks [text]
+            (let [parts (clojure.string/split text (fence-pat))]
               (->> parts
                    (map-indexed vector)
                    (filter (fn [[i _]] (odd? i)))
@@ -838,9 +879,19 @@
         (fn []
           (if-not (.exists (java.io.File. ^String path))
             (t/is-true true (str label " absent (skipped)"))
-            (let [blocks (clj-blocks (slurp path))]
-              (doseq [b blocks]
-                (binding [*read-eval* false]
-                  (read-string (str "[\n" b "\n]"))))
-              (t/is-true true (str label " clojure blocks parse cleanly"))))))))
+            (let [text (slurp path)]
+              ;; A code fence opened but never closed leaves an ODD number of
+              ;; fence markers; the split-on-fence then captures the trailing
+              ;; prose (everything after the last opener) as if it were a
+              ;; clojure block, which can parse cleanly and pass silently. Fail
+              ;; on the malformed doc instead. (Count markers directly rather
+              ;; than split parts: split drops trailing empty segments, so a
+              ;; closing fence at EOF would be miscounted.)
+              (t/is-true (even? (fence-count text))
+                         (str label " code fences balanced (no unclosed fence)"))
+              (let [blocks (clj-blocks text)]
+                (doseq [b blocks]
+                  (binding [*read-eval* false]
+                    (read-string (str "[\n" b "\n]"))))
+                (t/is-true true (str label " clojure blocks parse cleanly")))))))))
   nil)

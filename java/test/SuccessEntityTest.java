@@ -47,7 +47,7 @@ public class SuccessEntityTest {
     // The basic flow consumes synthetic IDs from the fixture. In live mode
     // without an *_ENTID env override, those IDs hit the live API and 4xx.
     Assumptions.assumeFalse(setup.syntheticOnly,
-        "live entity test uses synthetic IDs from fixture — set BLUEFINDECRYPTXP_PE_TEST_SUCCESS_ENTID JSON to run live");
+        "live entity test uses synthetic IDs from fixture — set BLUEFIN_DECRYPTX_P2PE_TEST_SUCCESS_ENTID JSON to run live");
     BluefinDecryptxP2peSDK client = setup.client;
 
     // CREATE
@@ -57,7 +57,7 @@ public class SuccessEntityTest {
     successRef01Data.put("share_partner_to", setup.idmap.get("share_partner_to01"));
 
     Object successRef01DataResult = successRef01Ent.create(successRef01Data, null);
-    successRef01Data = Helpers.toMapAny(successRef01DataResult);
+    successRef01Data = Helpers.toMapAny(successRef01DataResult instanceof SdkEntity ? ((SdkEntity) successRef01DataResult).data() : successRef01DataResult);
     assertNotNull(successRef01Data, "expected create result to be a map");
 
     // REMOVE
@@ -104,26 +104,26 @@ public class SuccessEntityTest {
     // mode is on without a real override, the basic test runs against
     // synthetic IDs from the fixture and 4xx's. Surface this so the test
     // can skip.
-    String entidEnvRaw = RunnerSupport.getenv("BLUEFINDECRYPTXP_PE_TEST_SUCCESS_ENTID");
+    String entidEnvRaw = RunnerSupport.getenv("BLUEFIN_DECRYPTX_P2PE_TEST_SUCCESS_ENTID");
     boolean idmapOverridden = entidEnvRaw != null
         && entidEnvRaw.trim().startsWith("{");
 
     Map<String, Object> envm = new LinkedHashMap<>();
-    envm.put("BLUEFINDECRYPTXP_PE_TEST_SUCCESS_ENTID", idmap);
-    envm.put("BLUEFINDECRYPTXP_PE_TEST_LIVE", "FALSE");
-    envm.put("BLUEFINDECRYPTXP_PE_TEST_EXPLAIN", "FALSE");
-    envm.put("BLUEFINDECRYPTXP_PE_APIKEY", "NONE");
+    envm.put("BLUEFIN_DECRYPTX_P2PE_TEST_SUCCESS_ENTID", idmap);
+    envm.put("BLUEFIN_DECRYPTX_P2PE_TEST_LIVE", "FALSE");
+    envm.put("BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN", "FALSE");
+    envm.put("BLUEFIN_DECRYPTX_P2PE_APIKEY", "NONE");
     Map<String, Object> env = RunnerSupport.envOverride(envm);
 
-    Map<String, Object> idmapResolved = Helpers.toMapAny(env.get("BLUEFINDECRYPTXP_PE_TEST_SUCCESS_ENTID"));
+    Map<String, Object> idmapResolved = Helpers.toMapAny(env.get("BLUEFIN_DECRYPTX_P2PE_TEST_SUCCESS_ENTID"));
     if (idmapResolved == null) {
       idmapResolved = Helpers.toMapAny(idmap);
     }
 
-    boolean live = "TRUE".equals(env.get("BLUEFINDECRYPTXP_PE_TEST_LIVE"));
+    boolean live = "TRUE".equals(env.get("BLUEFIN_DECRYPTX_P2PE_TEST_LIVE"));
     if (live) {
       Map<String, Object> liveOpts = new LinkedHashMap<>();
-      liveOpts.put("apikey", env.get("BLUEFINDECRYPTXP_PE_APIKEY"));
+      liveOpts.put("apikey", env.get("BLUEFIN_DECRYPTX_P2PE_APIKEY"));
       Object mergedOpts = Struct.merge(Struct.jt(liveOpts, extra));
       client = new BluefinDecryptxP2peSDK(Helpers.toMapAny(mergedOpts));
     }
@@ -133,7 +133,7 @@ public class SuccessEntityTest {
     setup.data = entityData;
     setup.idmap = idmapResolved;
     setup.env = env;
-    setup.explain = "TRUE".equals(env.get("BLUEFINDECRYPTXP_PE_TEST_EXPLAIN"));
+    setup.explain = "TRUE".equals(env.get("BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN"));
     setup.live = live;
     setup.syntheticOnly = live && !idmapOverridden;
     setup.now = System.currentTimeMillis();

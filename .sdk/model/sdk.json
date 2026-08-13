@@ -5,6 +5,10 @@
       "desc": ""
     },
     "kit": {
+      "author": {
+        "name": "",
+        "url": ""
+      },
       "config": {
         "docs_order": [
           "ts",
@@ -18,6 +22,7 @@
           "content-type": "application/json"
         }
       },
+      "contributor": {},
       "entity": {
         "attestation": {
           "active": true,
@@ -33,7 +38,7 @@
             },
             {
               "active": true,
-              "name": "complete_date",
+              "name": "completeDate",
               "req": false,
               "type": "`$STRING`"
             },
@@ -63,7 +68,7 @@
             },
             {
               "active": true,
-              "name": "note",
+              "name": "notes",
               "req": false,
               "type": "`$STRING`"
             }
@@ -81,6 +86,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/attestations",
                   "parts": [
@@ -130,6 +136,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/attestations",
                   "parts": [
@@ -167,6 +174,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/attestations/{id}",
                   "parts": [
@@ -216,7 +224,7 @@
             },
             {
               "active": true,
-              "name": "direct_partner",
+              "name": "directPartner",
               "req": false,
               "type": "`$OBJECT`"
             },
@@ -228,7 +236,7 @@
             },
             {
               "active": true,
-              "name": "is_active",
+              "name": "isActive",
               "req": false,
               "type": "`$BOOLEAN`"
             },
@@ -282,6 +290,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/clients",
                   "parts": [
@@ -331,6 +340,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/clients",
                   "parts": [
@@ -368,6 +378,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/clients/{id}",
                   "parts": [
@@ -404,6 +415,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "DELETE",
                   "orig": "/clients/{id}",
                   "parts": [
@@ -461,6 +473,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/devices/{serialNumber}/{deviceType}/custody",
                   "parts": [
@@ -519,6 +532,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/decryption",
                   "parts": [
@@ -545,31 +559,31 @@
           "fields": [
             {
               "active": true,
-              "name": "activated_by",
+              "name": "activatedBy",
               "req": true,
               "type": "`$OBJECT`"
             },
             {
               "active": true,
-              "name": "activation_date",
+              "name": "activationDate",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "alternate_key",
+              "name": "alternateKey",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "audit_next_date",
+              "name": "auditNextDate",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "audit_notification_date",
+              "name": "auditNotificationDate",
               "req": false,
               "type": "`$STRING`"
             },
@@ -587,37 +601,37 @@
             },
             {
               "active": true,
-              "name": "created_by",
+              "name": "createdBy",
               "req": true,
               "type": "`$OBJECT`"
             },
             {
               "active": true,
-              "name": "device_build",
+              "name": "deviceBuild",
               "req": false,
               "type": "`$OBJECT`"
             },
             {
               "active": true,
-              "name": "device_state",
+              "name": "deviceState",
               "req": false,
               "type": "`$OBJECT`"
             },
             {
               "active": true,
-              "name": "device_type",
+              "name": "deviceType",
               "req": false,
               "type": "`$OBJECT`"
             },
             {
               "active": true,
-              "name": "error_counter",
+              "name": "errorCounter",
               "req": false,
               "type": "`$INTEGER`"
             },
             {
               "active": true,
-              "name": "error_last_date",
+              "name": "errorLastDate",
               "req": false,
               "type": "`$STRING`"
             },
@@ -629,25 +643,25 @@
             },
             {
               "active": true,
-              "name": "initialized_by",
+              "name": "initializedBy",
               "req": true,
               "type": "`$OBJECT`"
             },
             {
               "active": true,
-              "name": "initialized_date",
+              "name": "initializedDate",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "inject_key",
+              "name": "injectKey",
               "req": false,
               "type": "`$OBJECT`"
             },
             {
               "active": true,
-              "name": "is_virtual",
+              "name": "isVirtual",
               "req": false,
               "type": "`$BOOLEAN`"
             },
@@ -659,7 +673,7 @@
             },
             {
               "active": true,
-              "name": "last_activity_date",
+              "name": "lastActivityDate",
               "req": false,
               "type": "`$STRING`"
             },
@@ -677,7 +691,7 @@
             },
             {
               "active": true,
-              "name": "modified_by",
+              "name": "modifiedBy",
               "req": true,
               "type": "`$OBJECT`"
             },
@@ -689,7 +703,7 @@
             },
             {
               "active": true,
-              "name": "note",
+              "name": "notes",
               "req": false,
               "type": "`$STRING`"
             },
@@ -701,7 +715,7 @@
             },
             {
               "active": true,
-              "name": "serial_number",
+              "name": "serialNumber",
               "req": false,
               "type": "`$STRING`"
             },
@@ -725,6 +739,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/devices",
                   "parts": [
@@ -824,6 +839,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/devices",
                   "parts": [
@@ -875,6 +891,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/devices/{serialNumber}/{deviceType}",
                   "parts": [
@@ -913,6 +930,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/devices/{id}",
                   "parts": [
@@ -948,19 +966,19 @@
           "fields": [
             {
               "active": true,
-              "name": "app_version",
+              "name": "appVersion",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "build_number",
+              "name": "buildNumber",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "config_file_name",
+              "name": "configFileName",
               "req": false,
               "type": "`$STRING`"
             },
@@ -972,19 +990,19 @@
             },
             {
               "active": true,
-              "name": "device_type",
+              "name": "deviceType",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "firmware_version",
+              "name": "firmwareVersion",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "hardware_version",
+              "name": "hardwareVersion",
               "req": false,
               "type": "`$STRING`"
             },
@@ -996,7 +1014,7 @@
             },
             {
               "active": true,
-              "name": "is_active",
+              "name": "isActive",
               "req": false,
               "type": "`$BOOLEAN`"
             },
@@ -1014,7 +1032,7 @@
             },
             {
               "active": true,
-              "name": "note",
+              "name": "notes",
               "req": false,
               "type": "`$STRING`"
             },
@@ -1026,13 +1044,13 @@
             },
             {
               "active": true,
-              "name": "white_listing_bin_range",
+              "name": "whiteListingBinRanges",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "white_listing_used",
+              "name": "whiteListingUsed",
               "req": false,
               "type": "`$BOOLEAN`"
             }
@@ -1079,6 +1097,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/deviceBuilds",
                   "parts": [
@@ -1116,6 +1135,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/deviceBuilds/{id}",
                   "parts": [
@@ -1147,7 +1167,7 @@
           "fields": [
             {
               "active": true,
-              "name": "complete_date",
+              "name": "completeDate",
               "req": false,
               "type": "`$STRING`"
             },
@@ -1159,7 +1179,7 @@
             },
             {
               "active": true,
-              "name": "created_by",
+              "name": "createdBy",
               "req": true,
               "type": "`$OBJECT`"
             },
@@ -1195,13 +1215,13 @@
             },
             {
               "active": true,
-              "name": "modified_by",
+              "name": "modifiedBy",
               "req": true,
               "type": "`$OBJECT`"
             },
             {
               "active": true,
-              "name": "note",
+              "name": "notes",
               "req": false,
               "type": "`$STRING`"
             },
@@ -1213,7 +1233,7 @@
             },
             {
               "active": true,
-              "name": "transfer_method",
+              "name": "transferMethod",
               "req": false,
               "type": "`$OBJECT`"
             },
@@ -1264,6 +1284,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/devices/{serialNumber}/{deviceType}/custody/{id}",
                   "parts": [
@@ -1310,7 +1331,7 @@
           "fields": [
             {
               "active": true,
-              "name": "complete_date",
+              "name": "completeDate",
               "req": false,
               "type": "`$STRING`"
             },
@@ -1322,7 +1343,7 @@
             },
             {
               "active": true,
-              "name": "created_by",
+              "name": "createdBy",
               "req": true,
               "type": "`$OBJECT`"
             },
@@ -1358,13 +1379,13 @@
             },
             {
               "active": true,
-              "name": "modified_by",
+              "name": "modifiedBy",
               "req": true,
               "type": "`$OBJECT`"
             },
             {
               "active": true,
-              "name": "note",
+              "name": "notes",
               "req": false,
               "type": "`$STRING`"
             },
@@ -1376,7 +1397,7 @@
             },
             {
               "active": true,
-              "name": "transfer_method",
+              "name": "transferMethod",
               "req": false,
               "type": "`$OBJECT`"
             },
@@ -1439,6 +1460,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/devices/{serialNumber}/{deviceType}/custody",
                   "parts": [
@@ -1554,6 +1576,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/virtualDevices/{sharePartnerTo}",
                   "parts": [
@@ -1612,6 +1635,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/devices/receive",
                   "parts": [
@@ -1653,6 +1677,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/devices/rki/activate",
                   "parts": [
@@ -1705,6 +1730,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/deviceStates",
                   "parts": [
@@ -1737,13 +1763,13 @@
             },
             {
               "active": true,
-              "name": "device_type_mode",
+              "name": "deviceTypeMode",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "hardware_version",
+              "name": "hardwareVersion",
               "req": false,
               "type": "`$STRING`"
             },
@@ -1755,7 +1781,7 @@
             },
             {
               "active": true,
-              "name": "is_active",
+              "name": "isActive",
               "req": false,
               "type": "`$BOOLEAN`"
             },
@@ -1785,13 +1811,13 @@
             },
             {
               "active": true,
-              "name": "photo_url",
+              "name": "photoUrl",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "product_name",
+              "name": "productName",
               "req": false,
               "type": "`$STRING`"
             },
@@ -1815,6 +1841,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/deviceTypes",
                   "parts": [
@@ -1846,6 +1873,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/deviceTypes/{id}",
                   "parts": [
@@ -1889,19 +1917,19 @@
             },
             {
               "active": true,
-              "name": "is_active",
+              "name": "isActive",
               "req": false,
               "type": "`$BOOLEAN`"
             },
             {
               "active": true,
-              "name": "is_p2_pe",
+              "name": "isP2PE",
               "req": false,
               "type": "`$BOOLEAN`"
             },
             {
               "active": true,
-              "name": "key_type",
+              "name": "keyType",
               "req": false,
               "type": "`$STRING`"
             },
@@ -1937,6 +1965,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/injectKeys",
                   "parts": [
@@ -1968,6 +1997,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/injectKeys/{id}",
                   "parts": [
@@ -2023,6 +2053,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/kifs",
                   "parts": [
@@ -2061,7 +2092,7 @@
             },
             {
               "active": true,
-              "name": "billing_id",
+              "name": "billingId",
               "req": false,
               "type": "`$STRING`"
             },
@@ -2085,7 +2116,7 @@
             },
             {
               "active": true,
-              "name": "custom_reference",
+              "name": "customReference",
               "req": false,
               "type": "`$STRING`"
             },
@@ -2097,43 +2128,43 @@
             },
             {
               "active": true,
-              "name": "location_type",
+              "name": "locationType",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "mail_address1",
+              "name": "mailAddress1",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "mail_address2",
+              "name": "mailAddress2",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "mail_city",
+              "name": "mailCity",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "mail_country",
+              "name": "mailCountry",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "mail_postal_code",
+              "name": "mailPostalCode",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "mail_state_province",
+              "name": "mailStateProvince",
               "req": false,
               "type": "`$STRING`"
             },
@@ -2151,31 +2182,31 @@
             },
             {
               "active": true,
-              "name": "name_of_business",
+              "name": "nameOfBusiness",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "note",
+              "name": "notes",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "postal_code",
+              "name": "postalCode",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "state_province",
+              "name": "stateProvince",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "unique_id",
+              "name": "uniqueId",
               "req": false,
               "type": "`$STRING`"
             },
@@ -2199,6 +2230,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/locations",
                   "parts": [
@@ -2248,6 +2280,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/locations",
                   "parts": [
@@ -2285,6 +2318,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/locations/{id}",
                   "parts": [
@@ -2321,6 +2355,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "DELETE",
                   "orig": "/locations/{id}",
                   "parts": [
@@ -2352,13 +2387,13 @@
           "fields": [
             {
               "active": true,
-              "name": "billing_id",
+              "name": "billingId",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "client_can_order_equipment",
+              "name": "clientCanOrderEquipment",
               "req": false,
               "type": "`$BOOLEAN`"
             },
@@ -2388,7 +2423,7 @@
             },
             {
               "active": true,
-              "name": "is_active",
+              "name": "isActive",
               "req": false,
               "type": "`$BOOLEAN`"
             },
@@ -2418,7 +2453,7 @@
             },
             {
               "active": true,
-              "name": "partner_id",
+              "name": "partnerId",
               "req": false,
               "type": "`$STRING`"
             },
@@ -2430,7 +2465,7 @@
             },
             {
               "active": true,
-              "name": "verification_phrase",
+              "name": "verificationPhrase",
               "req": false,
               "type": "`$STRING`"
             },
@@ -2454,6 +2489,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/partners",
                   "parts": [
@@ -2503,6 +2539,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/partners",
                   "parts": [
@@ -2540,6 +2577,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/partners/{id}",
                   "parts": [
@@ -2589,19 +2627,19 @@
             },
             {
               "active": true,
-              "name": "date_received",
+              "name": "dateReceived",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "date_shipped",
+              "name": "dateShipped",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "dc_kif",
+              "name": "dcKif",
               "req": false,
               "type": "`$OBJECT`"
             },
@@ -2613,7 +2651,7 @@
             },
             {
               "active": true,
-              "name": "item",
+              "name": "items",
               "req": false,
               "type": "`$ARRAY`"
             },
@@ -2637,7 +2675,7 @@
             },
             {
               "active": true,
-              "name": "shipment_type",
+              "name": "shipmentType",
               "req": false,
               "type": "`$STRING`"
             },
@@ -2667,6 +2705,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/shipments",
                   "parts": [
@@ -2724,6 +2763,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/shipments",
                   "parts": [
@@ -2762,6 +2802,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/shipments/{id}",
                   "parts": [
@@ -2818,6 +2859,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/virtualDevices/{sharePartnerTo}",
                   "parts": [
@@ -2859,6 +2901,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "DELETE",
                   "orig": "/virtualDevices/{sharePartnerTo}",
                   "parts": [
@@ -2899,7 +2942,7 @@
           "fields": [
             {
               "active": true,
-              "name": "alternate_key",
+              "name": "alternateKey",
               "req": false,
               "type": "`$STRING`"
             },
@@ -2911,7 +2954,7 @@
             },
             {
               "active": true,
-              "name": "client_ref",
+              "name": "clientRef",
               "req": false,
               "type": "`$STRING`"
             },
@@ -2929,13 +2972,13 @@
             },
             {
               "active": true,
-              "name": "device_name",
+              "name": "deviceName",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "direct_partner",
+              "name": "directPartner",
               "req": false,
               "type": "`$OBJECT`"
             },
@@ -2947,19 +2990,19 @@
             },
             {
               "active": true,
-              "name": "end_date",
+              "name": "endDate",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "err_code",
+              "name": "errCode",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "err_message",
+              "name": "errMessage",
               "req": false,
               "type": "`$STRING`"
             },
@@ -2971,19 +3014,19 @@
             },
             {
               "active": true,
-              "name": "ip_address",
+              "name": "ipAddress",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "is_virtual",
+              "name": "isVirtual",
               "req": false,
               "type": "`$BOOLEAN`"
             },
             {
               "active": true,
-              "name": "key_type",
+              "name": "keyType",
               "req": false,
               "type": "`$STRING`"
             },
@@ -2995,7 +3038,7 @@
             },
             {
               "active": true,
-              "name": "message_id",
+              "name": "messageId",
               "req": false,
               "type": "`$STRING`"
             },
@@ -3019,13 +3062,13 @@
             },
             {
               "active": true,
-              "name": "serial_number",
+              "name": "serialNumber",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "start_date",
+              "name": "startDate",
               "req": false,
               "type": "`$STRING`"
             },
@@ -3037,7 +3080,7 @@
             },
             {
               "active": true,
-              "name": "transaction_source",
+              "name": "transactionSource",
               "req": false,
               "type": "`$STRING`"
             }
@@ -3055,6 +3098,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/transactions",
                   "parts": [
@@ -3185,6 +3229,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/transactions",
                   "parts": [
@@ -3232,6 +3277,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/transactions/{id}",
                   "parts": [
@@ -3275,7 +3321,7 @@
             },
             {
               "active": true,
-              "name": "first_name",
+              "name": "firstName",
               "req": false,
               "type": "`$STRING`"
             },
@@ -3287,7 +3333,7 @@
             },
             {
               "active": true,
-              "name": "is_active",
+              "name": "isActive",
               "req": false,
               "type": "`$BOOLEAN`"
             },
@@ -3299,7 +3345,7 @@
             },
             {
               "active": true,
-              "name": "last_name",
+              "name": "lastName",
               "req": false,
               "type": "`$STRING`"
             },
@@ -3317,13 +3363,13 @@
             },
             {
               "active": true,
-              "name": "user_name",
+              "name": "userName",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "user_role",
+              "name": "userRole",
               "req": false,
               "type": "`$OBJECT`"
             },
@@ -3347,6 +3393,7 @@
                 {
                   "active": true,
                   "args": {},
+                  "kind": "http",
                   "method": "POST",
                   "orig": "/users",
                   "parts": [
@@ -3412,6 +3459,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/users",
                   "parts": [
@@ -3451,6 +3499,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "PATCH",
                   "orig": "/clients/{id}",
                   "parts": [
@@ -3481,6 +3530,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "PATCH",
                   "orig": "/devices/{id}",
                   "parts": [
@@ -3511,6 +3561,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "PATCH",
                   "orig": "/locations/{id}",
                   "parts": [
@@ -3541,6 +3592,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "PATCH",
                   "orig": "/partners/{id}",
                   "parts": [
@@ -3571,6 +3623,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "PATCH",
                   "orig": "/shipments/{id}",
                   "parts": [
@@ -3601,6 +3654,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "PATCH",
                   "orig": "/transactions/{id}",
                   "parts": [
@@ -3631,6 +3685,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "PATCH",
                   "orig": "/users/{id}",
                   "parts": [
@@ -3680,7 +3735,7 @@
             },
             {
               "active": true,
-              "name": "first_name",
+              "name": "firstName",
               "req": false,
               "type": "`$STRING`"
             },
@@ -3692,7 +3747,7 @@
             },
             {
               "active": true,
-              "name": "is_active",
+              "name": "isActive",
               "req": false,
               "type": "`$BOOLEAN`"
             },
@@ -3704,7 +3759,7 @@
             },
             {
               "active": true,
-              "name": "last_name",
+              "name": "lastName",
               "req": false,
               "type": "`$STRING`"
             },
@@ -3728,13 +3783,13 @@
             },
             {
               "active": true,
-              "name": "user_name",
+              "name": "userName",
               "req": false,
               "type": "`$STRING`"
             },
             {
               "active": true,
-              "name": "user_role",
+              "name": "userRole",
               "req": false,
               "type": "`$OBJECT`"
             },
@@ -3769,6 +3824,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "GET",
                   "orig": "/users/{id}",
                   "parts": [
@@ -3805,6 +3861,7 @@
                       }
                     ]
                   },
+                  "kind": "http",
                   "method": "DELETE",
                   "orig": "/users/{id}",
                   "parts": [
@@ -4979,18 +5036,42 @@
         "website": "https://p2pemanager.com"
       },
       "option": {},
+      "repo": {
+        "host": "github.com",
+        "path": ""
+      },
       "target": {
         "c": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "c",
+          "feature": {
+            "fullset": [
+              "tests/feature_test.c",
+              "tests/sdk_pipeline_test.c"
+            ],
+            "trim": true
+          },
           "module": {
-            "name": "bluefin-decryptx-p2pe"
+            "goversion": "",
+            "name": "bluefin-decryptx-p2pe",
+            "package": "",
+            "path": ""
           },
           "name": "c",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -5012,22 +5093,40 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "C"
         },
         "clojure": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": ";"
           },
           "deps": {},
           "ext": "clj",
+          "feature": {
+            "fullset": [],
+            "trim": false
+          },
           "module": {
-            "name": "bluefin-decryptx-p2pe"
+            "goversion": "",
+            "name": "bluefin-decryptx-p2pe",
+            "package": "",
+            "path": ""
           },
           "name": "clojure",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -5049,22 +5148,42 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Clojure"
         },
         "cpp": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "hpp",
+          "feature": {
+            "fullset": [
+              "test/feature_test.cpp"
+            ],
+            "trim": true
+          },
           "module": {
-            "name": "bluefin-decryptx-p2pe"
+            "goversion": "",
+            "name": "bluefin-decryptx-p2pe",
+            "package": "",
+            "path": ""
           },
           "name": "cpp",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -5086,23 +5205,43 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "C++"
         },
         "csharp": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "cs",
+          "feature": {
+            "fullset": [
+              "test/FeatureTest.cs"
+            ],
+            "trim": true
+          },
           "module": {
-            "name": "bluefin-decryptx-p2pe"
+            "goversion": "",
+            "name": "bluefin-decryptx-p2pe",
+            "package": "",
+            "path": ""
           },
           "name": "csharp",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -5124,22 +5263,40 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "C#"
         },
         "dart": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "dart",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "bluefin-decryptx-p2pe"
+            "goversion": "",
+            "name": "bluefin-decryptx-p2pe",
+            "package": "",
+            "path": ""
           },
           "name": "dart",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -5161,22 +5318,40 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Dart"
         },
         "elixir": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "#"
           },
           "deps": {},
           "ext": "ex",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "bluefin-decryptx-p2pe"
+            "goversion": "",
+            "name": "bluefin-decryptx-p2pe",
+            "package": "",
+            "path": ""
           },
           "name": "elixir",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -5198,22 +5373,42 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Elixir"
         },
         "go": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "go",
+          "feature": {
+            "fullset": [
+              "test/feature_test.go"
+            ],
+            "trim": true
+          },
           "module": {
-            "name": "bluefin-decryptx-p2pe"
+            "goversion": "",
+            "name": "bluefin-decryptx-p2pe",
+            "package": "",
+            "path": ""
           },
           "name": "go",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -5235,22 +5430,40 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Golang"
         },
         "go-cli": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "go",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "bluefin-decryptx-p2pe"
+            "goversion": "",
+            "name": "bluefin-decryptx-p2pe",
+            "package": "",
+            "path": ""
           },
           "name": "go-cli",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "phase": {
             "agentguide": {
               "active": false
@@ -5289,21 +5502,39 @@
                 "recipe": "github"
               },
               "via": "root"
-            }
+            },
+            "version": "0.0.1"
           },
           "title": "Go CLI"
         },
         "go-mcp": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "go",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "bluefin-decryptx-p2pe"
+            "goversion": "",
+            "name": "bluefin-decryptx-p2pe",
+            "package": "",
+            "path": ""
           },
           "name": "go-mcp",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "phase": {
             "agentguide": {
               "active": false
@@ -5342,21 +5573,39 @@
                 "recipe": "github"
               },
               "via": "root"
-            }
+            },
+            "version": "0.0.1"
           },
           "title": "Go MCP server"
         },
         "haskell": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "--"
           },
           "deps": {},
           "ext": "hs",
+          "feature": {
+            "fullset": [],
+            "trim": false
+          },
           "module": {
-            "name": "bluefin-decryptx-p2pe"
+            "goversion": "",
+            "name": "bluefin-decryptx-p2pe",
+            "package": "",
+            "path": ""
           },
           "name": "haskell",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "phase": {
             "agentguide": {
               "active": true
@@ -5395,22 +5644,42 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Haskell"
         },
         "java": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "java",
+          "feature": {
+            "fullset": [
+              "test/FeatureTest.java"
+            ],
+            "trim": true
+          },
           "module": {
-            "name": "bluefin-decryptx-p2pe"
+            "goversion": "",
+            "name": "bluefin-decryptx-p2pe",
+            "package": "",
+            "path": ""
           },
           "name": "java",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -5432,13 +5701,18 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Java"
         },
         "js": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
@@ -5450,10 +5724,23 @@
             }
           },
           "ext": "js",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "bluefin-decryptx-p2pe"
+            "goversion": "",
+            "name": "bluefin-decryptx-p2pe",
+            "package": "",
+            "path": ""
           },
           "name": "js",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -5475,21 +5762,41 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "title": "JavaScript"
         },
         "kotlin": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "kt",
+          "feature": {
+            "fullset": [
+              "test/FeatureTest.kt"
+            ],
+            "trim": true
+          },
           "module": {
-            "name": "bluefin-decryptx-p2pe"
+            "goversion": "",
+            "name": "bluefin-decryptx-p2pe",
+            "package": "",
+            "path": ""
           },
           "name": "kotlin",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -5511,13 +5818,18 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Kotlin"
         },
         "lua": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "--"
           },
@@ -5529,10 +5841,23 @@
             }
           },
           "ext": "lua",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "bluefin-decryptx-p2pe"
+            "goversion": "",
+            "name": "bluefin-decryptx-p2pe",
+            "package": "",
+            "path": ""
           },
           "name": "lua",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -5554,22 +5879,40 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Lua"
         },
         "ocaml": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "ml",
+          "feature": {
+            "fullset": [],
+            "trim": false
+          },
           "module": {
-            "name": "bluefin-decryptx-p2pe"
+            "goversion": "",
+            "name": "bluefin-decryptx-p2pe",
+            "package": "",
+            "path": ""
           },
           "name": "ocaml",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -5591,22 +5934,40 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "OCaml"
         },
         "perl": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "#"
           },
           "deps": {},
           "ext": "pl",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "bluefin-decryptx-p2pe"
+            "goversion": "",
+            "name": "bluefin-decryptx-p2pe",
+            "package": "",
+            "path": ""
           },
           "name": "perl",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -5628,22 +5989,40 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Perl"
         },
         "php": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "php",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "bluefin-decryptx-p2pe"
+            "goversion": "",
+            "name": "bluefin-decryptx-p2pe",
+            "package": "",
+            "path": ""
           },
           "name": "php",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -5665,13 +6044,18 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "PHP"
         },
         "py": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "#"
           },
@@ -5683,10 +6067,23 @@
             }
           },
           "ext": "py",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "bluefin-decryptx-p2pe"
+            "goversion": "",
+            "name": "bluefin-decryptx-p2pe",
+            "package": "",
+            "path": ""
           },
           "name": "py",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -5708,13 +6105,18 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Python"
         },
         "rb": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "#"
           },
@@ -5731,10 +6133,23 @@
             }
           },
           "ext": "rb",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "bluefin-decryptx-p2pe"
+            "goversion": "",
+            "name": "bluefin-decryptx-p2pe",
+            "package": "",
+            "path": ""
           },
           "name": "rb",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -5756,13 +6171,18 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Ruby"
         },
         "rust": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
@@ -5774,10 +6194,25 @@
             }
           },
           "ext": "rs",
+          "feature": {
+            "fullset": [
+              "tests/feature_test.rs"
+            ],
+            "trim": true
+          },
           "module": {
-            "name": "bluefin-decryptx-p2pe"
+            "goversion": "",
+            "name": "bluefin-decryptx-p2pe",
+            "package": "",
+            "path": ""
           },
           "name": "rust",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -5799,22 +6234,40 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Rust"
         },
         "scala": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "scala",
+          "feature": {
+            "fullset": [],
+            "trim": false
+          },
           "module": {
-            "name": "bluefin-decryptx-p2pe"
+            "goversion": "",
+            "name": "bluefin-decryptx-p2pe",
+            "package": "",
+            "path": ""
           },
           "name": "scala",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -5836,23 +6289,43 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Scala"
         },
         "swift": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "swift",
+          "feature": {
+            "fullset": [
+              "Tests/ProjectNameSDKTests/FeatureTest.swift"
+            ],
+            "trim": true
+          },
           "module": {
-            "name": "bluefin-decryptx-p2pe"
+            "goversion": "",
+            "name": "bluefin-decryptx-p2pe",
+            "package": "",
+            "path": ""
           },
           "name": "swift",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -5874,13 +6347,18 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Swift"
         },
         "ts": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
@@ -5903,10 +6381,23 @@
             }
           },
           "ext": "ts",
+          "feature": {
+            "fullset": [],
+            "trim": true
+          },
           "module": {
-            "name": "bluefin-decryptx-p2pe"
+            "goversion": "",
+            "name": "bluefin-decryptx-p2pe",
+            "package": "",
+            "path": ""
           },
           "name": "ts",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -5928,21 +6419,39 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "title": "TypeScript"
         },
         "zig": {
           "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
           "comment": {
             "line": "//"
           },
           "deps": {},
           "ext": "zig",
+          "feature": {
+            "fullset": [],
+            "trim": false
+          },
           "module": {
-            "name": "bluefin-decryptx-p2pe"
+            "goversion": "",
+            "name": "bluefin-decryptx-p2pe",
+            "package": "",
+            "path": ""
           },
           "name": "zig",
+          "output": {
+            "adopt": false,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -5964,10 +6473,18 @@
                 "recipe": "github"
               },
               "via": "port"
-            }
+            },
+            "version": "0.0.1"
           },
           "srcfeature": false,
           "title": "Zig"
+        }
+      },
+      "test": {
+        "live": {
+          "app": false,
+          "base": "",
+          "strict": false
         }
       }
     }

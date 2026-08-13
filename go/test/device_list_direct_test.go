@@ -50,7 +50,8 @@ func TestDeviceListDirect(t *testing.T) {
 		if setup.live {
 			// Live mode is lenient: synthetic IDs frequently 4xx. Skip
 			// rather than fail when the load endpoint isn't reachable with
-			// the IDs we can construct from setup.idmap.
+			// the IDs we can construct from setup.idmap — unless the model
+			// sets main.kit.test.live.strict.
 			if err != nil {
 				t.Skipf("load call failed (likely synthetic IDs against live API): %v", err)
 			}
@@ -115,21 +116,21 @@ func device_listDirectSetup(mockres any) *device_listDirectSetupResult {
 	calls := &[]map[string]any{}
 
 	env := envOverride(map[string]any{
-		"BLUEFINDECRYPTXP_PE_TEST_DEVICE_LIST_ENTID": map[string]any{},
-		"BLUEFINDECRYPTXP_PE_TEST_LIVE":    "FALSE",
-		"BLUEFINDECRYPTXP_PE_APIKEY":       "NONE",
+		"BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_LIST_ENTID": map[string]any{},
+		"BLUEFIN_DECRYPTX_P2PE_TEST_LIVE":    "FALSE",
+		"BLUEFIN_DECRYPTX_P2PE_APIKEY":       "NONE",
 	})
 
-	live := env["BLUEFINDECRYPTXP_PE_TEST_LIVE"] == "TRUE"
+	live := env["BLUEFIN_DECRYPTX_P2PE_TEST_LIVE"] == "TRUE"
 
 	if live {
 		mergedOpts := map[string]any{
-			"apikey": env["BLUEFINDECRYPTXP_PE_APIKEY"],
+			"apikey": env["BLUEFIN_DECRYPTX_P2PE_APIKEY"],
 		}
 		client := sdk.NewBluefinDecryptxP2peSDK(mergedOpts)
 
 		idmap := map[string]any{}
-		if entidRaw, ok := env["BLUEFINDECRYPTXP_PE_TEST_DEVICE_LIST_ENTID"]; ok {
+		if entidRaw, ok := env["BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_LIST_ENTID"]; ok {
 			if entidStr, ok := entidRaw.(string); ok && strings.HasPrefix(entidStr, "{") {
 				json.Unmarshal([]byte(entidStr), &idmap)
 			} else if entidMap, ok := entidRaw.(map[string]any); ok {

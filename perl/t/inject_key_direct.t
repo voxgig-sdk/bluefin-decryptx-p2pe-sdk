@@ -132,16 +132,16 @@ sub inject_key_direct_setup {
   my $calls = [];
 
   my $env = BluefinDecryptxP2peTestRunner::env_override({
-    'BLUEFINDECRYPTXP_PE_TEST_INJECT_KEY_ENTID' => {},
-    'BLUEFINDECRYPTXP_PE_TEST_LIVE' => 'FALSE',
-    'BLUEFINDECRYPTXP_PE_APIKEY' => 'NONE',
+    'BLUEFIN_DECRYPTX_P2PE_TEST_INJECT_KEY_ENTID' => {},
+    'BLUEFIN_DECRYPTX_P2PE_TEST_LIVE' => 'FALSE',
+    'BLUEFIN_DECRYPTX_P2PE_APIKEY' => 'NONE',
   });
 
-  my $live = ((($env->{'BLUEFINDECRYPTXP_PE_TEST_LIVE'}) || '') eq 'TRUE') ? 1 : 0;
+  my $live = ((($env->{'BLUEFIN_DECRYPTX_P2PE_TEST_LIVE'}) || '') eq 'TRUE') ? 1 : 0;
 
   if ($live) {
     my $client = BluefinDecryptxP2peSDK->new({
-      'apikey' => $env->{'BLUEFINDECRYPTXP_PE_APIKEY'},
+      'apikey' => $env->{'BLUEFIN_DECRYPTX_P2PE_APIKEY'},
     });
     return {
       'client' => $client,

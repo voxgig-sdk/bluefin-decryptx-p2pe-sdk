@@ -38,15 +38,15 @@ static ShipmentSetup shipment_basic_setup(const Value& extra) {
   if (!idmap.is_map()) idmap = vmap();
 
   Value env = env_override(vmap({
-    {"BLUEFINDECRYPTXP_PE_TEST_SHIPMENT_ENTID", idmap},
-    {"BLUEFINDECRYPTXP_PE_TEST_LIVE", Value("FALSE")},
-    {"BLUEFINDECRYPTXP_PE_TEST_EXPLAIN", Value("FALSE")}
+    {"BLUEFIN_DECRYPTX_P2PE_TEST_SHIPMENT_ENTID", idmap},
+    {"BLUEFIN_DECRYPTX_P2PE_TEST_LIVE", Value("FALSE")},
+    {"BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN", Value("FALSE")}
   }));
 
-  Value idmap_resolved = Helpers::toMapAny(getp(env, "BLUEFINDECRYPTXP_PE_TEST_SHIPMENT_ENTID"));
+  Value idmap_resolved = Helpers::toMapAny(getp(env, "BLUEFIN_DECRYPTX_P2PE_TEST_SHIPMENT_ENTID"));
   if (!idmap_resolved.is_map()) idmap_resolved = idmap;
 
-  bool live = getp(env, "BLUEFINDECRYPTXP_PE_TEST_LIVE") == Value("TRUE");
+  bool live = getp(env, "BLUEFIN_DECRYPTX_P2PE_TEST_LIVE") == Value("TRUE");
 
   ShipmentSetup s;
   s.client = client;
@@ -64,6 +64,7 @@ static void shipment_entity_instance() {
   auto ent = testsdk->shipment();
   ASSERT_EQ(ent->getName(), std::string("shipment"), "entity name");
 }
+
 
 static void shipment_entity_stream() {
   // stream() runs the list op through the full pipeline and returns the
@@ -100,7 +101,7 @@ static void shipment_entity_basic() {
   Value shipment_ref01_data = Helpers::toMapAny(getp(Struct::getpath(setup.data, {"new", "shipment"}), "shipment_ref01"));
   if (!shipment_ref01_data.is_map()) shipment_ref01_data = vmap();
   {
-    Value shipment_ref01_data_result = shipment_ref01_ent->create(Struct::clone(shipment_ref01_data), Value::undef());
+    Value shipment_ref01_data_result = shipment_ref01_ent->create(Struct::clone(shipment_ref01_data), Value::undef())->data();
     shipment_ref01_data = Helpers::toMapAny(shipment_ref01_data_result);
     if (!shipment_ref01_data.is_map()) shipment_ref01_data = vmap();
     ASSERT_TRUE(shipment_ref01_data.is_map(), "expected create result to be a map");
@@ -109,7 +110,10 @@ static void shipment_entity_basic() {
 
   // LIST
   Value shipment_ref01_match = vmap();
-  Value shipment_ref01_list = shipment_ref01_ent->list(Struct::clone(shipment_ref01_match), Value::undef());
+  auto shipment_ref01_list_ents = shipment_ref01_ent->list(Struct::clone(shipment_ref01_match), Value::undef());
+  // list resolves to one ENTITY per record; the flow asserts on the records.
+  Value shipment_ref01_list = vlist();
+  for (const auto& e : shipment_ref01_list_ents) { shipment_ref01_list.as_list()->push_back(e->data()); }
   ASSERT_TRUE(shipment_ref01_list.is_list(), "expected list result to be an array");
   {
     std::vector<Value> found = Struct::select(entity_list_to_data(shipment_ref01_list), vmap({{"id", getp(shipment_ref01_data, "id")}}));
@@ -118,7 +122,7 @@ static void shipment_entity_basic() {
 
   // LOAD
   Value shipment_ref01_match_dt0 = vmap({{"id", getp(shipment_ref01_data, "id")}});
-  Value shipment_ref01_data_dt0_loaded = shipment_ref01_ent->load(Struct::clone(shipment_ref01_match_dt0), Value::undef());
+  Value shipment_ref01_data_dt0_loaded = shipment_ref01_ent->load(Struct::clone(shipment_ref01_match_dt0), Value::undef())->data();
   Value shipment_ref01_data_dt0_load_result = Helpers::toMapAny(shipment_ref01_data_dt0_loaded);
   ASSERT_TRUE(shipment_ref01_data_dt0_load_result.is_map(), "expected load result to be a map");
   ASSERT_EQ_VAL(getp(shipment_ref01_data_dt0_load_result, "id"), getp(shipment_ref01_data, "id"), "expected load result id to match");

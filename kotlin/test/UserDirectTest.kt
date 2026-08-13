@@ -98,24 +98,24 @@ class UserDirectTest {
       val calls = mutableListOf<MutableMap<String, Any?>>()
 
       val envm = linkedMapOf<String, Any?>()
-      envm["BLUEFINDECRYPTXP_PE_TEST_USER_ENTID"] = linkedMapOf<String, Any?>()
-      envm["BLUEFINDECRYPTXP_PE_TEST_LIVE"] = "FALSE"
-      envm["BLUEFINDECRYPTXP_PE_APIKEY"] = "NONE"
+      envm["BLUEFIN_DECRYPTX_P2PE_TEST_USER_ENTID"] = linkedMapOf<String, Any?>()
+      envm["BLUEFIN_DECRYPTX_P2PE_TEST_LIVE"] = "FALSE"
+      envm["BLUEFIN_DECRYPTX_P2PE_APIKEY"] = "NONE"
       val env = RunnerSupport.envOverride(envm)
 
-      val live = "TRUE" == env["BLUEFINDECRYPTXP_PE_TEST_LIVE"]
+      val live = "TRUE" == env["BLUEFIN_DECRYPTX_P2PE_TEST_LIVE"]
 
       val setup = DirectSetup()
       setup.calls = calls
 
       if (live) {
         val mergedOpts = linkedMapOf<String, Any?>()
-        mergedOpts["apikey"] = env["BLUEFINDECRYPTXP_PE_APIKEY"]
+        mergedOpts["apikey"] = env["BLUEFIN_DECRYPTX_P2PE_APIKEY"]
         setup.client = BluefinDecryptxP2peSDK(mergedOpts)
         setup.live = true
 
         var idmap: MutableMap<String, Any?> = linkedMapOf()
-        val entidRaw = env["BLUEFINDECRYPTXP_PE_TEST_USER_ENTID"]
+        val entidRaw = env["BLUEFIN_DECRYPTX_P2PE_TEST_USER_ENTID"]
         if (entidRaw is String && entidRaw.startsWith("{")) {
           val parsed = Helpers.toMapAny(Json.parseOrNull(entidRaw))
           if (parsed != null) {

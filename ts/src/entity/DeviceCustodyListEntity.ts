@@ -37,7 +37,7 @@ class DeviceCustodyListEntity extends BluefinDecryptxP2peEntityBase<DeviceCustod
 
 
 
-  async list(this: any, reqmatch?: DeviceCustodyListListMatch, ctrl?: Control): Promise<DeviceCustodyList[]> {
+  async list(this: any, reqmatch?: DeviceCustodyListListMatch, ctrl?: Control): Promise<DeviceCustodyListEntity[]> {
 
     const utility = this._utility
 

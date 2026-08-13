@@ -16,17 +16,17 @@ main: kit: entity: inject_key: {
       type: "`$STRING`"
     }
     {
-      name: "is_active"
+      name: "isActive"
       req: false
       type: "`$BOOLEAN`"
     }
     {
-      name: "is_p2_pe"
+      name: "isP2PE"
       req: false
       type: "`$BOOLEAN`"
     }
     {
-      name: "key_type"
+      name: "keyType"
       req: false
       type: "`$STRING`"
     }

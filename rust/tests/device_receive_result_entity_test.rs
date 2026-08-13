@@ -41,7 +41,7 @@ fn device_receive_result_entity_basic() {
     // The basic flow consumes synthetic IDs from the fixture. In live mode
     // without an *_ENTID env override, those IDs hit the live API and 4xx.
     if setup.synthetic_only {
-        eprintln!("skip: live entity test uses synthetic IDs from fixture — set BLUEFINDECRYPTXP_PE_TEST_DEVICE_RECEIVE_RESULT_ENTID JSON to run live");
+        eprintln!("skip: live entity test uses synthetic IDs from fixture — set BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_RECEIVE_RESULT_ENTID JSON to run live");
         return;
     }
     let client = setup.client.clone();
@@ -55,7 +55,7 @@ fn device_receive_result_entity_basic() {
     let device_receive_result_ref01_data_result = device_receive_result_ref01_ent
         .create(device_receive_result_ref01_data.clone(), Value::Noval)
         .expect("create failed");
-    let device_receive_result_ref01_data = to_map(&device_receive_result_ref01_data_result);
+    let device_receive_result_ref01_data = to_map(&device_receive_result_ref01_data_result.data(None));
     assert!(
         matches!(device_receive_result_ref01_data, Value::Map(_)),
         "expected create result to be a map"
@@ -107,27 +107,27 @@ fn device_receive_result_basic_setup(extra: Value) -> EntityTestSetup {
     // Detect ENTID env override before env_override consumes it. When live
     // mode is on without a real override, the basic test runs against
     // synthetic IDs from the fixture and 4xx's.
-    let entid_env_raw = std::env::var("BLUEFINDECRYPTXP_PE_TEST_DEVICE_RECEIVE_RESULT_ENTID").unwrap_or_default();
+    let entid_env_raw = std::env::var("BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_RECEIVE_RESULT_ENTID").unwrap_or_default();
     let idmap_overridden =
         !entid_env_raw.trim().is_empty() && entid_env_raw.trim().starts_with('{');
 
     let env = env_override(jo(vec![
-        ("BLUEFINDECRYPTXP_PE_TEST_DEVICE_RECEIVE_RESULT_ENTID", idmap.clone()),
-        ("BLUEFINDECRYPTXP_PE_TEST_LIVE", Value::str("FALSE")),
-        ("BLUEFINDECRYPTXP_PE_TEST_EXPLAIN", Value::str("FALSE")),
-        ("BLUEFINDECRYPTXP_PE_APIKEY", Value::str("NONE")),
+        ("BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_RECEIVE_RESULT_ENTID", idmap.clone()),
+        ("BLUEFIN_DECRYPTX_P2PE_TEST_LIVE", Value::str("FALSE")),
+        ("BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN", Value::str("FALSE")),
+        ("BLUEFIN_DECRYPTX_P2PE_APIKEY", Value::str("NONE")),
     ]));
 
-    let idmap_resolved = match to_map(&getp(&env, "BLUEFINDECRYPTXP_PE_TEST_DEVICE_RECEIVE_RESULT_ENTID")) {
+    let idmap_resolved = match to_map(&getp(&env, "BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_RECEIVE_RESULT_ENTID")) {
         Value::Map(m) => Value::Map(m),
         _ => to_map(&idmap),
     };
 
-    let live = getp(&env, "BLUEFINDECRYPTXP_PE_TEST_LIVE") == Value::str("TRUE");
+    let live = getp(&env, "BLUEFIN_DECRYPTX_P2PE_TEST_LIVE") == Value::str("TRUE");
 
     let client = if live {
         let merged = vs::merge(
-            &ja(vec![jo(vec![("apikey", getp(&env, "BLUEFINDECRYPTXP_PE_APIKEY"))]), extra]),
+            &ja(vec![jo(vec![("apikey", getp(&env, "BLUEFIN_DECRYPTX_P2PE_APIKEY"))]), extra]),
             None,
         );
         BluefinDecryptxP2peSDK::new(to_map(&merged))
@@ -140,7 +140,7 @@ fn device_receive_result_basic_setup(extra: Value) -> EntityTestSetup {
         data: entity_data,
         idmap: idmap_resolved,
         env: env.clone(),
-        explain: getp(&env, "BLUEFINDECRYPTXP_PE_TEST_EXPLAIN") == Value::str("TRUE"),
+        explain: getp(&env, "BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN") == Value::str("TRUE"),
         live,
         synthetic_only: live && !idmap_overridden,
         now: now_ms(),

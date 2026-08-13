@@ -173,12 +173,12 @@ attestation = client.Attestation()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `client` | `dict` | No |  |
-| `complete_date` | `str` | No |  |
+| `completeDate` | `str` | No |  |
 | `created` | `str` | No |  |
 | `device` | `dict` | No |  |
 | `id` | `str` | No |  |
 | `name` | `str` | No |  |
-| `note` | `str` | No |  |
+| `notes` | `str` | No |  |
 
 ### Operations
 
@@ -250,9 +250,9 @@ client_ = client.Client()
 | --- | --- | --- | --- |
 | `contact` | `dict` | No |  |
 | `created` | `str` | No |  |
-| `direct_partner` | `dict` | No |  |
+| `directPartner` | `dict` | No |  |
 | `id` | `str` | No |  |
-| `is_active` | `bool` | No |  |
+| `isActive` | `bool` | No |  |
 | `location` | `dict` | Yes |  |
 | `mid` | `str` | No |  |
 | `modified` | `str` | No |  |
@@ -266,9 +266,9 @@ client_ = client.Client()
 | --- | --- | --- | --- | --- |
 | `contact` | - | Yes | - | - |
 | `created` | - | - | - | - |
-| `direct_partner` | - | - | - | - |
+| `directPartner` | - | - | - | - |
 | `id` | - | - | - | - |
-| `is_active` | - | - | - | - |
+| `isActive` | - | - | - | - |
 | `location` | - | - | - | - |
 | `mid` | - | - | - | - |
 | `modified` | - | - | - | - |
@@ -453,33 +453,33 @@ device = client.Device()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `activated_by` | `dict` | Yes |  |
-| `activation_date` | `str` | No |  |
-| `alternate_key` | `str` | No |  |
-| `audit_next_date` | `str` | No |  |
-| `audit_notification_date` | `str` | No |  |
+| `activatedBy` | `dict` | Yes |  |
+| `activationDate` | `str` | No |  |
+| `alternateKey` | `str` | No |  |
+| `auditNextDate` | `str` | No |  |
+| `auditNotificationDate` | `str` | No |  |
 | `client` | `dict` | No |  |
 | `created` | `str` | No |  |
-| `created_by` | `dict` | Yes |  |
-| `device_build` | `dict` | No |  |
-| `device_state` | `dict` | No |  |
-| `device_type` | `dict` | No |  |
-| `error_counter` | `int` | No |  |
-| `error_last_date` | `str` | No |  |
+| `createdBy` | `dict` | Yes |  |
+| `deviceBuild` | `dict` | No |  |
+| `deviceState` | `dict` | No |  |
+| `deviceType` | `dict` | No |  |
+| `errorCounter` | `int` | No |  |
+| `errorLastDate` | `str` | No |  |
 | `id` | `str` | No |  |
-| `initialized_by` | `dict` | Yes |  |
-| `initialized_date` | `str` | No |  |
-| `inject_key` | `dict` | No |  |
-| `is_virtual` | `bool` | No |  |
+| `initializedBy` | `dict` | Yes |  |
+| `initializedDate` | `str` | No |  |
+| `injectKey` | `dict` | No |  |
+| `isVirtual` | `bool` | No |  |
 | `kif` | `dict` | No |  |
-| `last_activity_date` | `str` | No |  |
+| `lastActivityDate` | `str` | No |  |
 | `location` | `dict` | Yes |  |
 | `modified` | `str` | No |  |
-| `modified_by` | `dict` | Yes |  |
+| `modifiedBy` | `dict` | Yes |  |
 | `name` | `str` | No |  |
-| `note` | `str` | No |  |
+| `notes` | `str` | No |  |
 | `partner` | `dict` | No |  |
-| `serial_number` | `str` | No |  |
+| `serialNumber` | `str` | No |  |
 | `version` | `int` | No |  |
 
 ### Operations
@@ -490,11 +490,11 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```python
 result = client.Device().create({
-    "activated_by": {},  # dict
-    "created_by": {},  # dict
-    "initialized_by": {},  # dict
+    "activatedBy": {},  # dict
+    "createdBy": {},  # dict
+    "initializedBy": {},  # dict
     "location": {},  # dict
-    "modified_by": {},  # dict
+    "modifiedBy": {},  # dict
 })
 ```
 
@@ -555,21 +555,21 @@ device_build = client.DeviceBuild()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `app_version` | `str` | No |  |
-| `build_number` | `str` | No |  |
-| `config_file_name` | `str` | No |  |
+| `appVersion` | `str` | No |  |
+| `buildNumber` | `str` | No |  |
+| `configFileName` | `str` | No |  |
 | `created` | `str` | No |  |
-| `device_type` | `str` | No |  |
-| `firmware_version` | `str` | No |  |
-| `hardware_version` | `str` | No |  |
+| `deviceType` | `str` | No |  |
+| `firmwareVersion` | `str` | No |  |
+| `hardwareVersion` | `str` | No |  |
 | `id` | `int` | No |  |
-| `is_active` | `bool` | No |  |
+| `isActive` | `bool` | No |  |
 | `modified` | `str` | No |  |
 | `name` | `str` | No |  |
-| `note` | `str` | No |  |
+| `notes` | `str` | No |  |
 | `version` | `int` | No |  |
-| `white_listing_bin_range` | `str` | No |  |
-| `white_listing_used` | `bool` | No |  |
+| `whiteListingBinRanges` | `str` | No |  |
+| `whiteListingUsed` | `bool` | No |  |
 
 ### Operations
 
@@ -630,18 +630,18 @@ device_custody_detail = client.DeviceCustodyDetail()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `complete_date` | `str` | No |  |
+| `completeDate` | `str` | No |  |
 | `created` | `str` | No |  |
-| `created_by` | `dict` | Yes |  |
+| `createdBy` | `dict` | Yes |  |
 | `custodian` | `dict` | Yes |  |
 | `device` | `dict` | No |  |
 | `id` | `int` | No |  |
 | `location` | `dict` | Yes |  |
 | `modified` | `str` | No |  |
-| `modified_by` | `dict` | Yes |  |
-| `note` | `str` | No |  |
+| `modifiedBy` | `dict` | Yes |  |
+| `notes` | `str` | No |  |
 | `status` | `dict` | No |  |
-| `transfer_method` | `dict` | No |  |
+| `transferMethod` | `dict` | No |  |
 | `version` | `int` | No |  |
 
 ### Operations
@@ -693,18 +693,18 @@ device_custody_list = client.DeviceCustodyList()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `complete_date` | `str` | No |  |
+| `completeDate` | `str` | No |  |
 | `created` | `str` | No |  |
-| `created_by` | `dict` | Yes |  |
+| `createdBy` | `dict` | Yes |  |
 | `custodian` | `dict` | Yes |  |
 | `device` | `dict` | No |  |
 | `id` | `int` | No |  |
 | `location` | `dict` | Yes |  |
 | `modified` | `str` | No |  |
-| `modified_by` | `dict` | Yes |  |
-| `note` | `str` | No |  |
+| `modifiedBy` | `dict` | Yes |  |
+| `notes` | `str` | No |  |
 | `status` | `dict` | No |  |
-| `transfer_method` | `dict` | No |  |
+| `transferMethod` | `dict` | No |  |
 | `version` | `int` | No |  |
 
 ### Operations
@@ -714,7 +714,7 @@ device_custody_list = client.DeviceCustodyList()
 List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
 
 ```python
-results = client.DeviceCustodyList().list()
+results = client.DeviceCustodyList().list({"device_type": "example", "serial_number": "example"})
 for device_custody_list in results:
     print(device_custody_list)
 ```
@@ -971,16 +971,16 @@ device_type = client.DeviceType()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `created` | `str` | No |  |
-| `device_type_mode` | `str` | No |  |
-| `hardware_version` | `str` | No |  |
+| `deviceTypeMode` | `str` | No |  |
+| `hardwareVersion` | `str` | No |  |
 | `id` | `str` | No |  |
-| `is_active` | `bool` | No |  |
+| `isActive` | `bool` | No |  |
 | `manufacturer` | `str` | No |  |
 | `model` | `str` | No |  |
 | `modified` | `str` | No |  |
 | `name` | `str` | No |  |
-| `photo_url` | `str` | No |  |
-| `product_name` | `str` | No |  |
+| `photoUrl` | `str` | No |  |
+| `productName` | `str` | No |  |
 | `version` | `int` | No |  |
 
 ### Operations
@@ -1044,9 +1044,9 @@ inject_key = client.InjectKey()
 | --- | --- | --- | --- |
 | `created` | `str` | No |  |
 | `id` | `str` | No |  |
-| `is_active` | `bool` | No |  |
-| `is_p2_pe` | `bool` | No |  |
-| `key_type` | `str` | No |  |
+| `isActive` | `bool` | No |  |
+| `isP2PE` | `bool` | No |  |
+| `keyType` | `str` | No |  |
 | `modified` | `str` | No |  |
 | `name` | `str` | No |  |
 | `version` | `int` | No |  |
@@ -1166,26 +1166,26 @@ location = client.Location()
 | --- | --- | --- | --- |
 | `address1` | `str` | No |  |
 | `address2` | `str` | No |  |
-| `billing_id` | `str` | No |  |
+| `billingId` | `str` | No |  |
 | `city` | `str` | No |  |
 | `country` | `str` | No |  |
 | `created` | `str` | No |  |
-| `custom_reference` | `str` | No |  |
+| `customReference` | `str` | No |  |
 | `id` | `str` | No |  |
-| `location_type` | `str` | No |  |
-| `mail_address1` | `str` | No |  |
-| `mail_address2` | `str` | No |  |
-| `mail_city` | `str` | No |  |
-| `mail_country` | `str` | No |  |
-| `mail_postal_code` | `str` | No |  |
-| `mail_state_province` | `str` | No |  |
+| `locationType` | `str` | No |  |
+| `mailAddress1` | `str` | No |  |
+| `mailAddress2` | `str` | No |  |
+| `mailCity` | `str` | No |  |
+| `mailCountry` | `str` | No |  |
+| `mailPostalCode` | `str` | No |  |
+| `mailStateProvince` | `str` | No |  |
 | `modified` | `str` | No |  |
 | `name` | `str` | No |  |
-| `name_of_business` | `str` | No |  |
-| `note` | `str` | No |  |
-| `postal_code` | `str` | No |  |
-| `state_province` | `str` | No |  |
-| `unique_id` | `str` | No |  |
+| `nameOfBusiness` | `str` | No |  |
+| `notes` | `str` | No |  |
+| `postalCode` | `str` | No |  |
+| `stateProvince` | `str` | No |  |
+| `uniqueId` | `str` | No |  |
 | `version` | `int` | No |  |
 
 ### Operations
@@ -1264,38 +1264,38 @@ partner = client.Partner()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `billing_id` | `str` | No |  |
-| `client_can_order_equipment` | `bool` | No |  |
+| `billingId` | `str` | No |  |
+| `clientCanOrderEquipment` | `bool` | No |  |
 | `contact` | `dict` | No |  |
 | `created` | `str` | No |  |
 | `id` | `str` | No |  |
-| `is_active` | `bool` | No |  |
+| `isActive` | `bool` | No |  |
 | `location` | `dict` | Yes |  |
 | `modified` | `str` | No |  |
 | `name` | `str` | No |  |
 | `parent` | `dict` | No |  |
-| `partner_id` | `str` | No |  |
+| `partnerId` | `str` | No |  |
 | `reference` | `str` | No |  |
-| `verification_phrase` | `str` | No |  |
+| `verificationPhrase` | `str` | No |  |
 | `version` | `int` | No |  |
 
 ### Field Usage by Operation
 
 | Field | load | list | create |
 | --- | --- | --- | --- |
-| `billing_id` | - | - | - |
-| `client_can_order_equipment` | - | - | - |
+| `billingId` | - | - | - |
+| `clientCanOrderEquipment` | - | - | - |
 | `contact` | - | Yes | - |
 | `created` | - | - | - |
 | `id` | - | - | - |
-| `is_active` | - | - | - |
+| `isActive` | - | - | - |
 | `location` | - | - | - |
 | `modified` | - | - | - |
 | `name` | - | - | - |
 | `parent` | - | - | - |
-| `partner_id` | - | - | - |
+| `partnerId` | - | - | - |
 | `reference` | - | - | - |
-| `verification_phrase` | - | - | - |
+| `verificationPhrase` | - | - | - |
 | `version` | - | - | - |
 
 ### Operations
@@ -1370,15 +1370,15 @@ shipment = client.Shipment()
 | `carrier` | `str` | No |  |
 | `client` | `dict` | No |  |
 | `created` | `str` | No |  |
-| `date_received` | `str` | No |  |
-| `date_shipped` | `str` | No |  |
-| `dc_kif` | `dict` | No |  |
+| `dateReceived` | `str` | No |  |
+| `dateShipped` | `str` | No |  |
+| `dcKif` | `dict` | No |  |
 | `id` | `str` | No |  |
-| `item` | `list` | No |  |
+| `items` | `list` | No |  |
 | `kif` | `dict` | No |  |
 | `modified` | `str` | No |  |
 | `partner` | `dict` | No |  |
-| `shipment_type` | `str` | No |  |
+| `shipmentType` | `str` | No |  |
 | `tracking` | `str` | No |  |
 | `version` | `int` | No |  |
 
@@ -1511,30 +1511,30 @@ transaction = client.Transaction()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `alternate_key` | `str` | No |  |
+| `alternateKey` | `str` | No |  |
 | `client` | `dict` | No |  |
-| `client_ref` | `str` | No |  |
+| `clientRef` | `str` | No |  |
 | `created` | `str` | No |  |
 | `decrypted` | `int` | No |  |
-| `device_name` | `str` | No |  |
-| `direct_partner` | `dict` | No |  |
+| `deviceName` | `str` | No |  |
+| `directPartner` | `dict` | No |  |
 | `encrypted` | `int` | No |  |
-| `end_date` | `str` | No |  |
-| `err_code` | `str` | No |  |
-| `err_message` | `str` | No |  |
+| `endDate` | `str` | No |  |
+| `errCode` | `str` | No |  |
+| `errMessage` | `str` | No |  |
 | `id` | `str` | No |  |
-| `ip_address` | `str` | No |  |
-| `is_virtual` | `bool` | No |  |
-| `key_type` | `str` | No |  |
+| `ipAddress` | `str` | No |  |
+| `isVirtual` | `bool` | No |  |
+| `keyType` | `str` | No |  |
 | `location` | `dict` | Yes |  |
-| `message_id` | `str` | No |  |
+| `messageId` | `str` | No |  |
 | `method` | `str` | No |  |
 | `partner` | `dict` | No |  |
 | `reference` | `str` | No |  |
-| `serial_number` | `str` | No |  |
-| `start_date` | `str` | No |  |
+| `serialNumber` | `str` | No |  |
+| `startDate` | `str` | No |  |
 | `success` | `bool` | No |  |
-| `transaction_source` | `str` | No |  |
+| `transactionSource` | `str` | No |  |
 
 ### Operations
 
@@ -1607,15 +1607,15 @@ update_result = client.UpdateResult()
 | --- | --- | --- | --- |
 | `client` | `dict` | No |  |
 | `email` | `str` | No |  |
-| `first_name` | `str` | No |  |
+| `firstName` | `str` | No |  |
 | `id` | `str` | No |  |
-| `is_active` | `bool` | No |  |
+| `isActive` | `bool` | No |  |
 | `kif` | `dict` | No |  |
-| `last_name` | `str` | No |  |
+| `lastName` | `str` | No |  |
 | `partner` | `dict` | No |  |
 | `phone` | `str` | No |  |
-| `user_name` | `str` | No |  |
-| `user_role` | `dict` | No |  |
+| `userName` | `str` | No |  |
+| `userRole` | `dict` | No |  |
 | `version` | `int` | No |  |
 
 ### Operations
@@ -1692,16 +1692,16 @@ user = client.User()
 | `client` | `dict` | No |  |
 | `created` | `str` | No |  |
 | `email` | `str` | No |  |
-| `first_name` | `str` | No |  |
+| `firstName` | `str` | No |  |
 | `id` | `str` | No |  |
-| `is_active` | `bool` | No |  |
+| `isActive` | `bool` | No |  |
 | `kif` | `dict` | No |  |
-| `last_name` | `str` | No |  |
+| `lastName` | `str` | No |  |
 | `modified` | `str` | No |  |
 | `partner` | `dict` | No |  |
 | `phone` | `str` | No |  |
-| `user_name` | `str` | No |  |
-| `user_role` | `dict` | No |  |
+| `userName` | `str` | No |  |
+| `userRole` | `dict` | No |  |
 | `version` | `int` | No |  |
 
 ### Operations

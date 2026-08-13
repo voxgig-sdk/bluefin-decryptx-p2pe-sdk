@@ -57,37 +57,39 @@ to recover from failures.
 
 ### 2. List attestation records
 
-`eList ent match ctrl` returns a list `Value` and raises on error.
+`eList ent match ctrl` resolves to one ENTITY per record and raises on
+error. Read a record with `eDataGet`.
 
 ```haskell
   ent <- Sdk.attestation sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
   attestations <- Sdk.eList ent match ctrl
-  print attestations
+  mapM_ (\en -> print =<< Sdk.eDataGet en) attestations
 ```
 
 ### 3. Load a devicecustodydetail
 
 DeviceCustodyDetail is nested under device_type, so provide the `device_type`.
-`eLoad` returns the bare record and raises on error.
+`eLoad` resolves to the ENTITY and raises on error; `eDataGet` gives the
+record.
 
 ```haskell
   device_custody_detailEnt <- Sdk.device_custody_detail sdk VNoval
   m <- jo [("device_type", VStr "example_device_type"), ("serial_number", VStr "example_serial_number"), ("id", VStr "example_id")]
   ctrl2 <- emptyMap
   device_custody_detail <- Sdk.eLoad device_custody_detailEnt m ctrl2
-  print device_custody_detail
+  print =<< Sdk.eDataGet device_custody_detail
 ```
 
 ### 4. Create, update, and remove
 
 ```haskell
   createEnt <- Sdk.attestation sdk VNoval
-  d <- jo [("client", VNoval), ("complete_date", VStr "example_complete_date")]
+  d <- jo [("client", VNoval), ("completeDate", VStr "example_completeDate")]
   cctrl <- emptyMap
   created <- Sdk.eCreate createEnt d cctrl
-  print created
+  print =<< Sdk.eDataGet created
 ```
 
 
@@ -305,11 +307,11 @@ All entities share the same record interface (fields of the `Entity` type).
 
 | Field | Signature | Description |
 | --- | --- | --- |
-| `eLoad` | `Value -> Value -> IO Value` | Load a single entity by match criteria. Raises on error. |
-| `eList` | `Value -> Value -> IO Value` | List entities matching the criteria. Raises on error. |
-| `eCreate` | `Value -> Value -> IO Value` | Create a new entity. Raises on error. |
-| `eUpdate` | `Value -> Value -> IO Value` | Update an existing entity. Raises on error. |
-| `eRemove` | `Value -> Value -> IO Value` | Remove an entity. Raises on error. |
+| `eLoad` | `Value -> Value -> IO Entity` | Load a single entity by match criteria. Resolves to the entity. Raises on error. |
+| `eList` | `Value -> Value -> IO [Entity]` | List entities matching the criteria. Resolves to one entity per record. Raises on error. |
+| `eCreate` | `Value -> Value -> IO Entity` | Create a new entity. Resolves to the entity. Raises on error. |
+| `eUpdate` | `Value -> Value -> IO Entity` | Update an existing entity. Resolves to the entity. Raises on error. |
+| `eRemove` | `Value -> Value -> IO Entity` | Remove an entity. Resolves to the entity, marked deleted. Raises on error. |
 | `eDataGet` | `IO Value` | Get entity data. |
 | `eDataSet` | `Value -> IO ()` | Set entity data. |
 | `eStream` | `String -> Value -> Value -> IO [Value]` | Run an op as a lazy stream of items. |
@@ -318,9 +320,11 @@ All entities share the same record interface (fields of the `Entity` type).
 
 ### Result shape
 
-Entity operations return the bare result `Value` (a map for single-entity
-ops, a list for `eList`) and raise on error. Wrap calls in
-`Control.Exception.try` to handle failures.
+Entity operations resolve to the ENTITY, not the raw record — `eList` to
+one entity per record — and raise on error. The record is reached through
+`eDataGet`, which returns the entity's data container. `eRemove` resolves to
+the entity marked deleted (`eDeleted`); it keeps the data it held. Wrap calls
+in `Control.Exception.try` to handle failures.
 
 The `direct` escape hatch never raises — it returns a result `Value`
 you branch on via its `ok` field (read with `getp result "ok"`):
@@ -341,12 +345,12 @@ On error, `ok` is `False` and `err` carries the error value.
 | Field | Description |
 | --- | --- |
 | `client` |  |
-| `complete_date` |  |
+| `completeDate` |  |
 | `created` |  |
 | `device` |  |
 | `id` |  |
 | `name` |  |
-| `note` |  |
+| `notes` |  |
 
 Operations: Create, List, Load.
 
@@ -358,9 +362,9 @@ API path: `/attestations`
 | --- | --- |
 | `contact` |  |
 | `created` |  |
-| `direct_partner` |  |
+| `directPartner` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `location` |  |
 | `mid` |  |
 | `modified` |  |
@@ -395,33 +399,33 @@ API path: `/decryption`
 
 | Field | Description |
 | --- | --- |
-| `activated_by` |  |
-| `activation_date` |  |
-| `alternate_key` |  |
-| `audit_next_date` |  |
-| `audit_notification_date` |  |
+| `activatedBy` |  |
+| `activationDate` |  |
+| `alternateKey` |  |
+| `auditNextDate` |  |
+| `auditNotificationDate` |  |
 | `client` |  |
 | `created` |  |
-| `created_by` |  |
-| `device_build` |  |
-| `device_state` |  |
-| `device_type` |  |
-| `error_counter` |  |
-| `error_last_date` |  |
+| `createdBy` |  |
+| `deviceBuild` |  |
+| `deviceState` |  |
+| `deviceType` |  |
+| `errorCounter` |  |
+| `errorLastDate` |  |
 | `id` |  |
-| `initialized_by` |  |
-| `initialized_date` |  |
-| `inject_key` |  |
-| `is_virtual` |  |
+| `initializedBy` |  |
+| `initializedDate` |  |
+| `injectKey` |  |
+| `isVirtual` |  |
 | `kif` |  |
-| `last_activity_date` |  |
+| `lastActivityDate` |  |
 | `location` |  |
 | `modified` |  |
-| `modified_by` |  |
+| `modifiedBy` |  |
 | `name` |  |
-| `note` |  |
+| `notes` |  |
 | `partner` |  |
-| `serial_number` |  |
+| `serialNumber` |  |
 | `version` |  |
 
 Operations: Create, List, Load.
@@ -432,21 +436,21 @@ API path: `/devices`
 
 | Field | Description |
 | --- | --- |
-| `app_version` |  |
-| `build_number` |  |
-| `config_file_name` |  |
+| `appVersion` |  |
+| `buildNumber` |  |
+| `configFileName` |  |
 | `created` |  |
-| `device_type` |  |
-| `firmware_version` |  |
-| `hardware_version` |  |
+| `deviceType` |  |
+| `firmwareVersion` |  |
+| `hardwareVersion` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `modified` |  |
 | `name` |  |
-| `note` |  |
+| `notes` |  |
 | `version` |  |
-| `white_listing_bin_range` |  |
-| `white_listing_used` |  |
+| `whiteListingBinRanges` |  |
+| `whiteListingUsed` |  |
 
 Operations: List, Load.
 
@@ -456,18 +460,18 @@ API path: `/deviceBuilds`
 
 | Field | Description |
 | --- | --- |
-| `complete_date` |  |
+| `completeDate` |  |
 | `created` |  |
-| `created_by` |  |
+| `createdBy` |  |
 | `custodian` |  |
 | `device` |  |
 | `id` |  |
 | `location` |  |
 | `modified` |  |
-| `modified_by` |  |
-| `note` |  |
+| `modifiedBy` |  |
+| `notes` |  |
 | `status` |  |
-| `transfer_method` |  |
+| `transferMethod` |  |
 | `version` |  |
 
 Operations: Load.
@@ -478,18 +482,18 @@ API path: `/devices/{serialNumber}/{deviceType}/custody/{id}`
 
 | Field | Description |
 | --- | --- |
-| `complete_date` |  |
+| `completeDate` |  |
 | `created` |  |
-| `created_by` |  |
+| `createdBy` |  |
 | `custodian` |  |
 | `device` |  |
 | `id` |  |
 | `location` |  |
 | `modified` |  |
-| `modified_by` |  |
-| `note` |  |
+| `modifiedBy` |  |
+| `notes` |  |
 | `status` |  |
-| `transfer_method` |  |
+| `transferMethod` |  |
 | `version` |  |
 
 Operations: List.
@@ -543,16 +547,16 @@ API path: `/deviceStates`
 | Field | Description |
 | --- | --- |
 | `created` |  |
-| `device_type_mode` |  |
-| `hardware_version` |  |
+| `deviceTypeMode` |  |
+| `hardwareVersion` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `manufacturer` |  |
 | `model` |  |
 | `modified` |  |
 | `name` |  |
-| `photo_url` |  |
-| `product_name` |  |
+| `photoUrl` |  |
+| `productName` |  |
 | `version` |  |
 
 Operations: List, Load.
@@ -565,9 +569,9 @@ API path: `/deviceTypes`
 | --- | --- |
 | `created` |  |
 | `id` |  |
-| `is_active` |  |
-| `is_p2_pe` |  |
-| `key_type` |  |
+| `isActive` |  |
+| `isP2PE` |  |
+| `keyType` |  |
 | `modified` |  |
 | `name` |  |
 | `version` |  |
@@ -593,26 +597,26 @@ API path: `/kifs`
 | --- | --- |
 | `address1` |  |
 | `address2` |  |
-| `billing_id` |  |
+| `billingId` |  |
 | `city` |  |
 | `country` |  |
 | `created` |  |
-| `custom_reference` |  |
+| `customReference` |  |
 | `id` |  |
-| `location_type` |  |
-| `mail_address1` |  |
-| `mail_address2` |  |
-| `mail_city` |  |
-| `mail_country` |  |
-| `mail_postal_code` |  |
-| `mail_state_province` |  |
+| `locationType` |  |
+| `mailAddress1` |  |
+| `mailAddress2` |  |
+| `mailCity` |  |
+| `mailCountry` |  |
+| `mailPostalCode` |  |
+| `mailStateProvince` |  |
 | `modified` |  |
 | `name` |  |
-| `name_of_business` |  |
-| `note` |  |
-| `postal_code` |  |
-| `state_province` |  |
-| `unique_id` |  |
+| `nameOfBusiness` |  |
+| `notes` |  |
+| `postalCode` |  |
+| `stateProvince` |  |
+| `uniqueId` |  |
 | `version` |  |
 
 Operations: Create, List, Load, Remove.
@@ -623,19 +627,19 @@ API path: `/locations`
 
 | Field | Description |
 | --- | --- |
-| `billing_id` |  |
-| `client_can_order_equipment` |  |
+| `billingId` |  |
+| `clientCanOrderEquipment` |  |
 | `contact` |  |
 | `created` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `location` |  |
 | `modified` |  |
 | `name` |  |
 | `parent` |  |
-| `partner_id` |  |
+| `partnerId` |  |
 | `reference` |  |
-| `verification_phrase` |  |
+| `verificationPhrase` |  |
 | `version` |  |
 
 Operations: Create, List, Load.
@@ -649,15 +653,15 @@ API path: `/partners`
 | `carrier` |  |
 | `client` |  |
 | `created` |  |
-| `date_received` |  |
-| `date_shipped` |  |
-| `dc_kif` |  |
+| `dateReceived` |  |
+| `dateShipped` |  |
+| `dcKif` |  |
 | `id` |  |
-| `item` |  |
+| `items` |  |
 | `kif` |  |
 | `modified` |  |
 | `partner` |  |
-| `shipment_type` |  |
+| `shipmentType` |  |
 | `tracking` |  |
 | `version` |  |
 
@@ -679,30 +683,30 @@ API path: `/virtualDevices/{sharePartnerTo}`
 
 | Field | Description |
 | --- | --- |
-| `alternate_key` |  |
+| `alternateKey` |  |
 | `client` |  |
-| `client_ref` |  |
+| `clientRef` |  |
 | `created` |  |
 | `decrypted` |  |
-| `device_name` |  |
-| `direct_partner` |  |
+| `deviceName` |  |
+| `directPartner` |  |
 | `encrypted` |  |
-| `end_date` |  |
-| `err_code` |  |
-| `err_message` |  |
+| `endDate` |  |
+| `errCode` |  |
+| `errMessage` |  |
 | `id` |  |
-| `ip_address` |  |
-| `is_virtual` |  |
-| `key_type` |  |
+| `ipAddress` |  |
+| `isVirtual` |  |
+| `keyType` |  |
 | `location` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `method` |  |
 | `partner` |  |
 | `reference` |  |
-| `serial_number` |  |
-| `start_date` |  |
+| `serialNumber` |  |
+| `startDate` |  |
 | `success` |  |
-| `transaction_source` |  |
+| `transactionSource` |  |
 
 Operations: Create, List, Load.
 
@@ -714,15 +718,15 @@ API path: `/transactions`
 | --- | --- |
 | `client` |  |
 | `email` |  |
-| `first_name` |  |
+| `firstName` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `kif` |  |
-| `last_name` |  |
+| `lastName` |  |
 | `partner` |  |
 | `phone` |  |
-| `user_name` |  |
-| `user_role` |  |
+| `userName` |  |
+| `userRole` |  |
 | `version` |  |
 
 Operations: Create, List, Update.
@@ -736,16 +740,16 @@ API path: `/users`
 | `client` |  |
 | `created` |  |
 | `email` |  |
-| `first_name` |  |
+| `firstName` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `kif` |  |
-| `last_name` |  |
+| `lastName` |  |
 | `modified` |  |
 | `partner` |  |
 | `phone` |  |
-| `user_name` |  |
-| `user_role` |  |
+| `userName` |  |
+| `userRole` |  |
 | `version` |  |
 
 Operations: Load, Remove.
@@ -765,21 +769,21 @@ Create an instance: `attestation <- Sdk.attestation sdk VNoval`
 
 | Method | Description |
 | --- | --- |
-| `eCreate ent data ctrl` | Create a new entity with the given data. |
-| `eList ent match ctrl` | List entities, optionally matching the given criteria. |
-| `eLoad ent match ctrl` | Load a single entity by match criteria. |
+| `eCreate ent data ctrl` | Create a new entity with the given data. Resolves to the entity. |
+| `eList ent match ctrl` | List entities, optionally matching the given criteria. Resolves to one entity per record. |
+| `eLoad ent match ctrl` | Load a single entity by match criteria. Resolves to the entity. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
 | `client` | `Value` |  |
-| `complete_date` | `String` |  |
+| `completeDate` | `String` |  |
 | `created` | `String` |  |
 | `device` | `Value` |  |
 | `id` | `String` |  |
 | `name` | `String` |  |
-| `note` | `String` |  |
+| `notes` | `String` |  |
 
 #### Example: Load
 
@@ -788,6 +792,8 @@ Create an instance: `attestation <- Sdk.attestation sdk VNoval`
   match <- jo [("id", VStr "attestation_id")]
   ctrl <- emptyMap
   attestation <- Sdk.eLoad ent match ctrl
+  -- The op resolves to the ENTITY; the record is inside it.
+  attestationData <- Sdk.eDataGet attestation
 ```
 
 #### Example: List
@@ -796,7 +802,9 @@ Create an instance: `attestation <- Sdk.attestation sdk VNoval`
   ent <- Sdk.attestation sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
+  -- One ENTITY per record.
   attestations <- Sdk.eList ent match ctrl
+  attestationDatas <- mapM Sdk.eDataGet attestations
 ```
 
 #### Example: Create
@@ -807,6 +815,7 @@ Create an instance: `attestation <- Sdk.attestation sdk VNoval`
     []
   ctrl <- emptyMap
   attestation <- Sdk.eCreate ent d ctrl
+  attestationData <- Sdk.eDataGet attestation
 ```
 
 
@@ -818,10 +827,10 @@ Create an instance: `client <- Sdk.client sdk VNoval`
 
 | Method | Description |
 | --- | --- |
-| `eCreate ent data ctrl` | Create a new entity with the given data. |
-| `eList ent match ctrl` | List entities, optionally matching the given criteria. |
-| `eLoad ent match ctrl` | Load a single entity by match criteria. |
-| `eRemove ent match ctrl` | Remove the matching entity. |
+| `eCreate ent data ctrl` | Create a new entity with the given data. Resolves to the entity. |
+| `eList ent match ctrl` | List entities, optionally matching the given criteria. Resolves to one entity per record. |
+| `eLoad ent match ctrl` | Load a single entity by match criteria. Resolves to the entity. |
+| `eRemove ent match ctrl` | Remove the matching entity. Resolves to the entity, marked deleted. |
 
 #### Fields
 
@@ -829,9 +838,9 @@ Create an instance: `client <- Sdk.client sdk VNoval`
 | --- | --- | --- |
 | `contact` | `Value` |  |
 | `created` | `String` |  |
-| `direct_partner` | `Value` |  |
+| `directPartner` | `Value` |  |
 | `id` | `String` |  |
-| `is_active` | `Bool` |  |
+| `isActive` | `Bool` |  |
 | `location` | `Value` |  |
 | `mid` | `String` |  |
 | `modified` | `String` |  |
@@ -846,6 +855,8 @@ Create an instance: `client <- Sdk.client sdk VNoval`
   match <- jo [("id", VStr "client_id")]
   ctrl <- emptyMap
   client <- Sdk.eLoad ent match ctrl
+  -- The op resolves to the ENTITY; the record is inside it.
+  clientData <- Sdk.eDataGet client
 ```
 
 #### Example: List
@@ -854,7 +865,9 @@ Create an instance: `client <- Sdk.client sdk VNoval`
   ent <- Sdk.client sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
+  -- One ENTITY per record.
   clients <- Sdk.eList ent match ctrl
+  clientDatas <- mapM Sdk.eDataGet clients
 ```
 
 #### Example: Create
@@ -866,6 +879,7 @@ Create an instance: `client <- Sdk.client sdk VNoval`
     ]
   ctrl <- emptyMap
   client <- Sdk.eCreate ent d ctrl
+  clientData <- Sdk.eDataGet client
 ```
 
 
@@ -877,7 +891,7 @@ Create an instance: `create_result <- Sdk.create_result sdk VNoval`
 
 | Method | Description |
 | --- | --- |
-| `eCreate ent data ctrl` | Create a new entity with the given data. |
+| `eCreate ent data ctrl` | Create a new entity with the given data. Resolves to the entity. |
 
 #### Example: Create
 
@@ -889,6 +903,7 @@ Create an instance: `create_result <- Sdk.create_result sdk VNoval`
     ]
   ctrl <- emptyMap
   create_result <- Sdk.eCreate ent d ctrl
+  create_resultData <- Sdk.eDataGet create_result
 ```
 
 
@@ -900,7 +915,7 @@ Create an instance: `decryption <- Sdk.decryption sdk VNoval`
 
 | Method | Description |
 | --- | --- |
-| `eCreate ent data ctrl` | Create a new entity with the given data. |
+| `eCreate ent data ctrl` | Create a new entity with the given data. Resolves to the entity. |
 
 #### Fields
 
@@ -916,6 +931,7 @@ Create an instance: `decryption <- Sdk.decryption sdk VNoval`
     []
   ctrl <- emptyMap
   decryption <- Sdk.eCreate ent d ctrl
+  decryptionData <- Sdk.eDataGet decryption
 ```
 
 
@@ -927,41 +943,41 @@ Create an instance: `device <- Sdk.device sdk VNoval`
 
 | Method | Description |
 | --- | --- |
-| `eCreate ent data ctrl` | Create a new entity with the given data. |
-| `eList ent match ctrl` | List entities, optionally matching the given criteria. |
-| `eLoad ent match ctrl` | Load a single entity by match criteria. |
+| `eCreate ent data ctrl` | Create a new entity with the given data. Resolves to the entity. |
+| `eList ent match ctrl` | List entities, optionally matching the given criteria. Resolves to one entity per record. |
+| `eLoad ent match ctrl` | Load a single entity by match criteria. Resolves to the entity. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `activated_by` | `Value` |  |
-| `activation_date` | `String` |  |
-| `alternate_key` | `String` |  |
-| `audit_next_date` | `String` |  |
-| `audit_notification_date` | `String` |  |
+| `activatedBy` | `Value` |  |
+| `activationDate` | `String` |  |
+| `alternateKey` | `String` |  |
+| `auditNextDate` | `String` |  |
+| `auditNotificationDate` | `String` |  |
 | `client` | `Value` |  |
 | `created` | `String` |  |
-| `created_by` | `Value` |  |
-| `device_build` | `Value` |  |
-| `device_state` | `Value` |  |
-| `device_type` | `Value` |  |
-| `error_counter` | `Int` |  |
-| `error_last_date` | `String` |  |
+| `createdBy` | `Value` |  |
+| `deviceBuild` | `Value` |  |
+| `deviceState` | `Value` |  |
+| `deviceType` | `Value` |  |
+| `errorCounter` | `Int` |  |
+| `errorLastDate` | `String` |  |
 | `id` | `String` |  |
-| `initialized_by` | `Value` |  |
-| `initialized_date` | `String` |  |
-| `inject_key` | `Value` |  |
-| `is_virtual` | `Bool` |  |
+| `initializedBy` | `Value` |  |
+| `initializedDate` | `String` |  |
+| `injectKey` | `Value` |  |
+| `isVirtual` | `Bool` |  |
 | `kif` | `Value` |  |
-| `last_activity_date` | `String` |  |
+| `lastActivityDate` | `String` |  |
 | `location` | `Value` |  |
 | `modified` | `String` |  |
-| `modified_by` | `Value` |  |
+| `modifiedBy` | `Value` |  |
 | `name` | `String` |  |
-| `note` | `String` |  |
+| `notes` | `String` |  |
 | `partner` | `Value` |  |
-| `serial_number` | `String` |  |
+| `serialNumber` | `String` |  |
 | `version` | `Int` |  |
 
 #### Example: Load
@@ -971,6 +987,8 @@ Create an instance: `device <- Sdk.device sdk VNoval`
   match <- jo [("id", VStr "device_id")]
   ctrl <- emptyMap
   device <- Sdk.eLoad ent match ctrl
+  -- The op resolves to the ENTITY; the record is inside it.
+  deviceData <- Sdk.eDataGet device
 ```
 
 #### Example: List
@@ -979,7 +997,9 @@ Create an instance: `device <- Sdk.device sdk VNoval`
   ent <- Sdk.device sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
+  -- One ENTITY per record.
   devices <- Sdk.eList ent match ctrl
+  deviceDatas <- mapM Sdk.eDataGet devices
 ```
 
 #### Example: Create
@@ -987,14 +1007,15 @@ Create an instance: `device <- Sdk.device sdk VNoval`
 ```haskell
   ent <- Sdk.device sdk VNoval
   d <- jo
-    [ ("activated_by", VNoval)   -- Value
-    , ("created_by", VNoval)   -- Value
-    , ("initialized_by", VNoval)   -- Value
+    [ ("activatedBy", VNoval)   -- Value
+    , ("createdBy", VNoval)   -- Value
+    , ("initializedBy", VNoval)   -- Value
     , ("location", VNoval)   -- Value
-    , ("modified_by", VNoval)   -- Value
+    , ("modifiedBy", VNoval)   -- Value
     ]
   ctrl <- emptyMap
   device <- Sdk.eCreate ent d ctrl
+  deviceData <- Sdk.eDataGet device
 ```
 
 
@@ -1006,28 +1027,28 @@ Create an instance: `device_build <- Sdk.device_build sdk VNoval`
 
 | Method | Description |
 | --- | --- |
-| `eList ent match ctrl` | List entities, optionally matching the given criteria. |
-| `eLoad ent match ctrl` | Load a single entity by match criteria. |
+| `eList ent match ctrl` | List entities, optionally matching the given criteria. Resolves to one entity per record. |
+| `eLoad ent match ctrl` | Load a single entity by match criteria. Resolves to the entity. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `app_version` | `String` |  |
-| `build_number` | `String` |  |
-| `config_file_name` | `String` |  |
+| `appVersion` | `String` |  |
+| `buildNumber` | `String` |  |
+| `configFileName` | `String` |  |
 | `created` | `String` |  |
-| `device_type` | `String` |  |
-| `firmware_version` | `String` |  |
-| `hardware_version` | `String` |  |
+| `deviceType` | `String` |  |
+| `firmwareVersion` | `String` |  |
+| `hardwareVersion` | `String` |  |
 | `id` | `Int` |  |
-| `is_active` | `Bool` |  |
+| `isActive` | `Bool` |  |
 | `modified` | `String` |  |
 | `name` | `String` |  |
-| `note` | `String` |  |
+| `notes` | `String` |  |
 | `version` | `Int` |  |
-| `white_listing_bin_range` | `String` |  |
-| `white_listing_used` | `Bool` |  |
+| `whiteListingBinRanges` | `String` |  |
+| `whiteListingUsed` | `Bool` |  |
 
 #### Example: Load
 
@@ -1036,6 +1057,8 @@ Create an instance: `device_build <- Sdk.device_build sdk VNoval`
   match <- jo [("id", VStr "device_build_id")]
   ctrl <- emptyMap
   device_build <- Sdk.eLoad ent match ctrl
+  -- The op resolves to the ENTITY; the record is inside it.
+  device_buildData <- Sdk.eDataGet device_build
 ```
 
 #### Example: List
@@ -1044,7 +1067,9 @@ Create an instance: `device_build <- Sdk.device_build sdk VNoval`
   ent <- Sdk.device_build sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
+  -- One ENTITY per record.
   device_builds <- Sdk.eList ent match ctrl
+  device_buildDatas <- mapM Sdk.eDataGet device_builds
 ```
 
 
@@ -1056,24 +1081,24 @@ Create an instance: `device_custody_detail <- Sdk.device_custody_detail sdk VNov
 
 | Method | Description |
 | --- | --- |
-| `eLoad ent match ctrl` | Load a single entity by match criteria. |
+| `eLoad ent match ctrl` | Load a single entity by match criteria. Resolves to the entity. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `complete_date` | `String` |  |
+| `completeDate` | `String` |  |
 | `created` | `String` |  |
-| `created_by` | `Value` |  |
+| `createdBy` | `Value` |  |
 | `custodian` | `Value` |  |
 | `device` | `Value` |  |
 | `id` | `Int` |  |
 | `location` | `Value` |  |
 | `modified` | `String` |  |
-| `modified_by` | `Value` |  |
-| `note` | `String` |  |
+| `modifiedBy` | `Value` |  |
+| `notes` | `String` |  |
 | `status` | `Value` |  |
-| `transfer_method` | `Value` |  |
+| `transferMethod` | `Value` |  |
 | `version` | `Int` |  |
 
 #### Example: Load
@@ -1083,6 +1108,8 @@ Create an instance: `device_custody_detail <- Sdk.device_custody_detail sdk VNov
   match <- jo [("id", VStr "device_custody_detail_id"), ("device_type", VStr "device_type"), ("serial_number", VStr "serial_number")]
   ctrl <- emptyMap
   device_custody_detail <- Sdk.eLoad ent match ctrl
+  -- The op resolves to the ENTITY; the record is inside it.
+  device_custody_detailData <- Sdk.eDataGet device_custody_detail
 ```
 
 
@@ -1094,24 +1121,24 @@ Create an instance: `device_custody_list <- Sdk.device_custody_list sdk VNoval`
 
 | Method | Description |
 | --- | --- |
-| `eList ent match ctrl` | List entities, optionally matching the given criteria. |
+| `eList ent match ctrl` | List entities, optionally matching the given criteria. Resolves to one entity per record. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `complete_date` | `String` |  |
+| `completeDate` | `String` |  |
 | `created` | `String` |  |
-| `created_by` | `Value` |  |
+| `createdBy` | `Value` |  |
 | `custodian` | `Value` |  |
 | `device` | `Value` |  |
 | `id` | `Int` |  |
 | `location` | `Value` |  |
 | `modified` | `String` |  |
-| `modified_by` | `Value` |  |
-| `note` | `String` |  |
+| `modifiedBy` | `Value` |  |
+| `notes` | `String` |  |
 | `status` | `Value` |  |
-| `transfer_method` | `Value` |  |
+| `transferMethod` | `Value` |  |
 | `version` | `Int` |  |
 
 #### Example: List
@@ -1120,7 +1147,9 @@ Create an instance: `device_custody_list <- Sdk.device_custody_list sdk VNoval`
   ent <- Sdk.device_custody_list sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
+  -- One ENTITY per record.
   device_custody_lists <- Sdk.eList ent match ctrl
+  device_custody_listDatas <- mapM Sdk.eDataGet device_custody_lists
 ```
 
 
@@ -1132,7 +1161,7 @@ Create an instance: `device_list <- Sdk.device_list sdk VNoval`
 
 | Method | Description |
 | --- | --- |
-| `eLoad ent match ctrl` | Load a single entity by match criteria. |
+| `eLoad ent match ctrl` | Load a single entity by match criteria. Resolves to the entity. |
 
 #### Fields
 
@@ -1148,6 +1177,8 @@ Create an instance: `device_list <- Sdk.device_list sdk VNoval`
   match <- jo [("share_partner_to", VStr "share_partner_to")]
   ctrl <- emptyMap
   device_list <- Sdk.eLoad ent match ctrl
+  -- The op resolves to the ENTITY; the record is inside it.
+  device_listData <- Sdk.eDataGet device_list
 ```
 
 
@@ -1159,7 +1190,7 @@ Create an instance: `device_receive_result <- Sdk.device_receive_result sdk VNov
 
 | Method | Description |
 | --- | --- |
-| `eCreate ent data ctrl` | Create a new entity with the given data. |
+| `eCreate ent data ctrl` | Create a new entity with the given data. Resolves to the entity. |
 
 #### Fields
 
@@ -1176,6 +1207,7 @@ Create an instance: `device_receive_result <- Sdk.device_receive_result sdk VNov
     ]
   ctrl <- emptyMap
   device_receive_result <- Sdk.eCreate ent d ctrl
+  device_receive_resultData <- Sdk.eDataGet device_receive_result
 ```
 
 
@@ -1187,7 +1219,7 @@ Create an instance: `device_rki_activate_result <- Sdk.device_rki_activate_resul
 
 | Method | Description |
 | --- | --- |
-| `eCreate ent data ctrl` | Create a new entity with the given data. |
+| `eCreate ent data ctrl` | Create a new entity with the given data. Resolves to the entity. |
 
 #### Fields
 
@@ -1204,6 +1236,7 @@ Create an instance: `device_rki_activate_result <- Sdk.device_rki_activate_resul
     ]
   ctrl <- emptyMap
   device_rki_activate_result <- Sdk.eCreate ent d ctrl
+  device_rki_activate_resultData <- Sdk.eDataGet device_rki_activate_result
 ```
 
 
@@ -1215,7 +1248,7 @@ Create an instance: `device_state <- Sdk.device_state sdk VNoval`
 
 | Method | Description |
 | --- | --- |
-| `eList ent match ctrl` | List entities, optionally matching the given criteria. |
+| `eList ent match ctrl` | List entities, optionally matching the given criteria. Resolves to one entity per record. |
 
 #### Fields
 
@@ -1230,7 +1263,9 @@ Create an instance: `device_state <- Sdk.device_state sdk VNoval`
   ent <- Sdk.device_state sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
+  -- One ENTITY per record.
   device_states <- Sdk.eList ent match ctrl
+  device_stateDatas <- mapM Sdk.eDataGet device_states
 ```
 
 
@@ -1242,24 +1277,24 @@ Create an instance: `device_type <- Sdk.device_type sdk VNoval`
 
 | Method | Description |
 | --- | --- |
-| `eList ent match ctrl` | List entities, optionally matching the given criteria. |
-| `eLoad ent match ctrl` | Load a single entity by match criteria. |
+| `eList ent match ctrl` | List entities, optionally matching the given criteria. Resolves to one entity per record. |
+| `eLoad ent match ctrl` | Load a single entity by match criteria. Resolves to the entity. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
 | `created` | `String` |  |
-| `device_type_mode` | `String` |  |
-| `hardware_version` | `String` |  |
+| `deviceTypeMode` | `String` |  |
+| `hardwareVersion` | `String` |  |
 | `id` | `String` |  |
-| `is_active` | `Bool` |  |
+| `isActive` | `Bool` |  |
 | `manufacturer` | `String` |  |
 | `model` | `String` |  |
 | `modified` | `String` |  |
 | `name` | `String` |  |
-| `photo_url` | `String` |  |
-| `product_name` | `String` |  |
+| `photoUrl` | `String` |  |
+| `productName` | `String` |  |
 | `version` | `Int` |  |
 
 #### Example: Load
@@ -1269,6 +1304,8 @@ Create an instance: `device_type <- Sdk.device_type sdk VNoval`
   match <- jo [("id", VStr "device_type_id")]
   ctrl <- emptyMap
   device_type <- Sdk.eLoad ent match ctrl
+  -- The op resolves to the ENTITY; the record is inside it.
+  device_typeData <- Sdk.eDataGet device_type
 ```
 
 #### Example: List
@@ -1277,7 +1314,9 @@ Create an instance: `device_type <- Sdk.device_type sdk VNoval`
   ent <- Sdk.device_type sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
+  -- One ENTITY per record.
   device_types <- Sdk.eList ent match ctrl
+  device_typeDatas <- mapM Sdk.eDataGet device_types
 ```
 
 
@@ -1289,8 +1328,8 @@ Create an instance: `inject_key <- Sdk.inject_key sdk VNoval`
 
 | Method | Description |
 | --- | --- |
-| `eList ent match ctrl` | List entities, optionally matching the given criteria. |
-| `eLoad ent match ctrl` | Load a single entity by match criteria. |
+| `eList ent match ctrl` | List entities, optionally matching the given criteria. Resolves to one entity per record. |
+| `eLoad ent match ctrl` | Load a single entity by match criteria. Resolves to the entity. |
 
 #### Fields
 
@@ -1298,9 +1337,9 @@ Create an instance: `inject_key <- Sdk.inject_key sdk VNoval`
 | --- | --- | --- |
 | `created` | `String` |  |
 | `id` | `String` |  |
-| `is_active` | `Bool` |  |
-| `is_p2_pe` | `Bool` |  |
-| `key_type` | `String` |  |
+| `isActive` | `Bool` |  |
+| `isP2PE` | `Bool` |  |
+| `keyType` | `String` |  |
 | `modified` | `String` |  |
 | `name` | `String` |  |
 | `version` | `Int` |  |
@@ -1312,6 +1351,8 @@ Create an instance: `inject_key <- Sdk.inject_key sdk VNoval`
   match <- jo [("id", VStr "inject_key_id")]
   ctrl <- emptyMap
   inject_key <- Sdk.eLoad ent match ctrl
+  -- The op resolves to the ENTITY; the record is inside it.
+  inject_keyData <- Sdk.eDataGet inject_key
 ```
 
 #### Example: List
@@ -1320,7 +1361,9 @@ Create an instance: `inject_key <- Sdk.inject_key sdk VNoval`
   ent <- Sdk.inject_key sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
+  -- One ENTITY per record.
   inject_keys <- Sdk.eList ent match ctrl
+  inject_keyDatas <- mapM Sdk.eDataGet inject_keys
 ```
 
 
@@ -1332,7 +1375,7 @@ Create an instance: `kif <- Sdk.kif sdk VNoval`
 
 | Method | Description |
 | --- | --- |
-| `eList ent match ctrl` | List entities, optionally matching the given criteria. |
+| `eList ent match ctrl` | List entities, optionally matching the given criteria. Resolves to one entity per record. |
 
 #### Fields
 
@@ -1347,7 +1390,9 @@ Create an instance: `kif <- Sdk.kif sdk VNoval`
   ent <- Sdk.kif sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
+  -- One ENTITY per record.
   kifs <- Sdk.eList ent match ctrl
+  kifDatas <- mapM Sdk.eDataGet kifs
 ```
 
 
@@ -1359,10 +1404,10 @@ Create an instance: `location <- Sdk.location sdk VNoval`
 
 | Method | Description |
 | --- | --- |
-| `eCreate ent data ctrl` | Create a new entity with the given data. |
-| `eList ent match ctrl` | List entities, optionally matching the given criteria. |
-| `eLoad ent match ctrl` | Load a single entity by match criteria. |
-| `eRemove ent match ctrl` | Remove the matching entity. |
+| `eCreate ent data ctrl` | Create a new entity with the given data. Resolves to the entity. |
+| `eList ent match ctrl` | List entities, optionally matching the given criteria. Resolves to one entity per record. |
+| `eLoad ent match ctrl` | Load a single entity by match criteria. Resolves to the entity. |
+| `eRemove ent match ctrl` | Remove the matching entity. Resolves to the entity, marked deleted. |
 
 #### Fields
 
@@ -1370,26 +1415,26 @@ Create an instance: `location <- Sdk.location sdk VNoval`
 | --- | --- | --- |
 | `address1` | `String` |  |
 | `address2` | `String` |  |
-| `billing_id` | `String` |  |
+| `billingId` | `String` |  |
 | `city` | `String` |  |
 | `country` | `String` |  |
 | `created` | `String` |  |
-| `custom_reference` | `String` |  |
+| `customReference` | `String` |  |
 | `id` | `String` |  |
-| `location_type` | `String` |  |
-| `mail_address1` | `String` |  |
-| `mail_address2` | `String` |  |
-| `mail_city` | `String` |  |
-| `mail_country` | `String` |  |
-| `mail_postal_code` | `String` |  |
-| `mail_state_province` | `String` |  |
+| `locationType` | `String` |  |
+| `mailAddress1` | `String` |  |
+| `mailAddress2` | `String` |  |
+| `mailCity` | `String` |  |
+| `mailCountry` | `String` |  |
+| `mailPostalCode` | `String` |  |
+| `mailStateProvince` | `String` |  |
 | `modified` | `String` |  |
 | `name` | `String` |  |
-| `name_of_business` | `String` |  |
-| `note` | `String` |  |
-| `postal_code` | `String` |  |
-| `state_province` | `String` |  |
-| `unique_id` | `String` |  |
+| `nameOfBusiness` | `String` |  |
+| `notes` | `String` |  |
+| `postalCode` | `String` |  |
+| `stateProvince` | `String` |  |
+| `uniqueId` | `String` |  |
 | `version` | `Int` |  |
 
 #### Example: Load
@@ -1399,6 +1444,8 @@ Create an instance: `location <- Sdk.location sdk VNoval`
   match <- jo [("id", VStr "location_id")]
   ctrl <- emptyMap
   location <- Sdk.eLoad ent match ctrl
+  -- The op resolves to the ENTITY; the record is inside it.
+  locationData <- Sdk.eDataGet location
 ```
 
 #### Example: List
@@ -1407,7 +1454,9 @@ Create an instance: `location <- Sdk.location sdk VNoval`
   ent <- Sdk.location sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
+  -- One ENTITY per record.
   locations <- Sdk.eList ent match ctrl
+  locationDatas <- mapM Sdk.eDataGet locations
 ```
 
 #### Example: Create
@@ -1418,6 +1467,7 @@ Create an instance: `location <- Sdk.location sdk VNoval`
     []
   ctrl <- emptyMap
   location <- Sdk.eCreate ent d ctrl
+  locationData <- Sdk.eDataGet location
 ```
 
 
@@ -1429,27 +1479,27 @@ Create an instance: `partner <- Sdk.partner sdk VNoval`
 
 | Method | Description |
 | --- | --- |
-| `eCreate ent data ctrl` | Create a new entity with the given data. |
-| `eList ent match ctrl` | List entities, optionally matching the given criteria. |
-| `eLoad ent match ctrl` | Load a single entity by match criteria. |
+| `eCreate ent data ctrl` | Create a new entity with the given data. Resolves to the entity. |
+| `eList ent match ctrl` | List entities, optionally matching the given criteria. Resolves to one entity per record. |
+| `eLoad ent match ctrl` | Load a single entity by match criteria. Resolves to the entity. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `billing_id` | `String` |  |
-| `client_can_order_equipment` | `Bool` |  |
+| `billingId` | `String` |  |
+| `clientCanOrderEquipment` | `Bool` |  |
 | `contact` | `Value` |  |
 | `created` | `String` |  |
 | `id` | `String` |  |
-| `is_active` | `Bool` |  |
+| `isActive` | `Bool` |  |
 | `location` | `Value` |  |
 | `modified` | `String` |  |
 | `name` | `String` |  |
 | `parent` | `Value` |  |
-| `partner_id` | `String` |  |
+| `partnerId` | `String` |  |
 | `reference` | `String` |  |
-| `verification_phrase` | `String` |  |
+| `verificationPhrase` | `String` |  |
 | `version` | `Int` |  |
 
 #### Example: Load
@@ -1459,6 +1509,8 @@ Create an instance: `partner <- Sdk.partner sdk VNoval`
   match <- jo [("id", VStr "partner_id")]
   ctrl <- emptyMap
   partner <- Sdk.eLoad ent match ctrl
+  -- The op resolves to the ENTITY; the record is inside it.
+  partnerData <- Sdk.eDataGet partner
 ```
 
 #### Example: List
@@ -1467,7 +1519,9 @@ Create an instance: `partner <- Sdk.partner sdk VNoval`
   ent <- Sdk.partner sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
+  -- One ENTITY per record.
   partners <- Sdk.eList ent match ctrl
+  partnerDatas <- mapM Sdk.eDataGet partners
 ```
 
 #### Example: Create
@@ -1479,6 +1533,7 @@ Create an instance: `partner <- Sdk.partner sdk VNoval`
     ]
   ctrl <- emptyMap
   partner <- Sdk.eCreate ent d ctrl
+  partnerData <- Sdk.eDataGet partner
 ```
 
 
@@ -1490,9 +1545,9 @@ Create an instance: `shipment <- Sdk.shipment sdk VNoval`
 
 | Method | Description |
 | --- | --- |
-| `eCreate ent data ctrl` | Create a new entity with the given data. |
-| `eList ent match ctrl` | List entities, optionally matching the given criteria. |
-| `eLoad ent match ctrl` | Load a single entity by match criteria. |
+| `eCreate ent data ctrl` | Create a new entity with the given data. Resolves to the entity. |
+| `eList ent match ctrl` | List entities, optionally matching the given criteria. Resolves to one entity per record. |
+| `eLoad ent match ctrl` | Load a single entity by match criteria. Resolves to the entity. |
 
 #### Fields
 
@@ -1501,15 +1556,15 @@ Create an instance: `shipment <- Sdk.shipment sdk VNoval`
 | `carrier` | `String` |  |
 | `client` | `Value` |  |
 | `created` | `String` |  |
-| `date_received` | `String` |  |
-| `date_shipped` | `String` |  |
-| `dc_kif` | `Value` |  |
+| `dateReceived` | `String` |  |
+| `dateShipped` | `String` |  |
+| `dcKif` | `Value` |  |
 | `id` | `String` |  |
-| `item` | `[Value]` |  |
+| `items` | `[Value]` |  |
 | `kif` | `Value` |  |
 | `modified` | `String` |  |
 | `partner` | `Value` |  |
-| `shipment_type` | `String` |  |
+| `shipmentType` | `String` |  |
 | `tracking` | `String` |  |
 | `version` | `Int` |  |
 
@@ -1520,6 +1575,8 @@ Create an instance: `shipment <- Sdk.shipment sdk VNoval`
   match <- jo [("id", VStr "shipment_id")]
   ctrl <- emptyMap
   shipment <- Sdk.eLoad ent match ctrl
+  -- The op resolves to the ENTITY; the record is inside it.
+  shipmentData <- Sdk.eDataGet shipment
 ```
 
 #### Example: List
@@ -1528,7 +1585,9 @@ Create an instance: `shipment <- Sdk.shipment sdk VNoval`
   ent <- Sdk.shipment sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
+  -- One ENTITY per record.
   shipments <- Sdk.eList ent match ctrl
+  shipmentDatas <- mapM Sdk.eDataGet shipments
 ```
 
 #### Example: Create
@@ -1539,6 +1598,7 @@ Create an instance: `shipment <- Sdk.shipment sdk VNoval`
     []
   ctrl <- emptyMap
   shipment <- Sdk.eCreate ent d ctrl
+  shipmentData <- Sdk.eDataGet shipment
 ```
 
 
@@ -1550,8 +1610,8 @@ Create an instance: `success <- Sdk.success sdk VNoval`
 
 | Method | Description |
 | --- | --- |
-| `eCreate ent data ctrl` | Create a new entity with the given data. |
-| `eRemove ent match ctrl` | Remove the matching entity. |
+| `eCreate ent data ctrl` | Create a new entity with the given data. Resolves to the entity. |
+| `eRemove ent match ctrl` | Remove the matching entity. Resolves to the entity, marked deleted. |
 
 #### Fields
 
@@ -1568,6 +1628,7 @@ Create an instance: `success <- Sdk.success sdk VNoval`
     ]
   ctrl <- emptyMap
   success <- Sdk.eCreate ent d ctrl
+  successData <- Sdk.eDataGet success
 ```
 
 
@@ -1579,38 +1640,38 @@ Create an instance: `transaction <- Sdk.transaction sdk VNoval`
 
 | Method | Description |
 | --- | --- |
-| `eCreate ent data ctrl` | Create a new entity with the given data. |
-| `eList ent match ctrl` | List entities, optionally matching the given criteria. |
-| `eLoad ent match ctrl` | Load a single entity by match criteria. |
+| `eCreate ent data ctrl` | Create a new entity with the given data. Resolves to the entity. |
+| `eList ent match ctrl` | List entities, optionally matching the given criteria. Resolves to one entity per record. |
+| `eLoad ent match ctrl` | Load a single entity by match criteria. Resolves to the entity. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `alternate_key` | `String` |  |
+| `alternateKey` | `String` |  |
 | `client` | `Value` |  |
-| `client_ref` | `String` |  |
+| `clientRef` | `String` |  |
 | `created` | `String` |  |
 | `decrypted` | `Int` |  |
-| `device_name` | `String` |  |
-| `direct_partner` | `Value` |  |
+| `deviceName` | `String` |  |
+| `directPartner` | `Value` |  |
 | `encrypted` | `Int` |  |
-| `end_date` | `String` |  |
-| `err_code` | `String` |  |
-| `err_message` | `String` |  |
+| `endDate` | `String` |  |
+| `errCode` | `String` |  |
+| `errMessage` | `String` |  |
 | `id` | `String` |  |
-| `ip_address` | `String` |  |
-| `is_virtual` | `Bool` |  |
-| `key_type` | `String` |  |
+| `ipAddress` | `String` |  |
+| `isVirtual` | `Bool` |  |
+| `keyType` | `String` |  |
 | `location` | `Value` |  |
-| `message_id` | `String` |  |
+| `messageId` | `String` |  |
 | `method` | `String` |  |
 | `partner` | `Value` |  |
 | `reference` | `String` |  |
-| `serial_number` | `String` |  |
-| `start_date` | `String` |  |
+| `serialNumber` | `String` |  |
+| `startDate` | `String` |  |
 | `success` | `Bool` |  |
-| `transaction_source` | `String` |  |
+| `transactionSource` | `String` |  |
 
 #### Example: Load
 
@@ -1619,6 +1680,8 @@ Create an instance: `transaction <- Sdk.transaction sdk VNoval`
   match <- jo [("id", VStr "transaction_id")]
   ctrl <- emptyMap
   transaction <- Sdk.eLoad ent match ctrl
+  -- The op resolves to the ENTITY; the record is inside it.
+  transactionData <- Sdk.eDataGet transaction
 ```
 
 #### Example: List
@@ -1627,7 +1690,9 @@ Create an instance: `transaction <- Sdk.transaction sdk VNoval`
   ent <- Sdk.transaction sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
+  -- One ENTITY per record.
   transactions <- Sdk.eList ent match ctrl
+  transactionDatas <- mapM Sdk.eDataGet transactions
 ```
 
 #### Example: Create
@@ -1639,6 +1704,7 @@ Create an instance: `transaction <- Sdk.transaction sdk VNoval`
     ]
   ctrl <- emptyMap
   transaction <- Sdk.eCreate ent d ctrl
+  transactionData <- Sdk.eDataGet transaction
 ```
 
 
@@ -1650,9 +1716,9 @@ Create an instance: `update_result <- Sdk.update_result sdk VNoval`
 
 | Method | Description |
 | --- | --- |
-| `eCreate ent data ctrl` | Create a new entity with the given data. |
-| `eList ent match ctrl` | List entities, optionally matching the given criteria. |
-| `eUpdate ent data ctrl` | Update an existing entity. |
+| `eCreate ent data ctrl` | Create a new entity with the given data. Resolves to the entity. |
+| `eList ent match ctrl` | List entities, optionally matching the given criteria. Resolves to one entity per record. |
+| `eUpdate ent data ctrl` | Update an existing entity. Resolves to the entity. |
 
 #### Fields
 
@@ -1660,15 +1726,15 @@ Create an instance: `update_result <- Sdk.update_result sdk VNoval`
 | --- | --- | --- |
 | `client` | `Value` |  |
 | `email` | `String` |  |
-| `first_name` | `String` |  |
+| `firstName` | `String` |  |
 | `id` | `String` |  |
-| `is_active` | `Bool` |  |
+| `isActive` | `Bool` |  |
 | `kif` | `Value` |  |
-| `last_name` | `String` |  |
+| `lastName` | `String` |  |
 | `partner` | `Value` |  |
 | `phone` | `String` |  |
-| `user_name` | `String` |  |
-| `user_role` | `Value` |  |
+| `userName` | `String` |  |
+| `userRole` | `Value` |  |
 | `version` | `Int` |  |
 
 #### Example: List
@@ -1677,7 +1743,9 @@ Create an instance: `update_result <- Sdk.update_result sdk VNoval`
   ent <- Sdk.update_result sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
+  -- One ENTITY per record.
   update_results <- Sdk.eList ent match ctrl
+  update_resultDatas <- mapM Sdk.eDataGet update_results
 ```
 
 #### Example: Create
@@ -1688,6 +1756,7 @@ Create an instance: `update_result <- Sdk.update_result sdk VNoval`
     []
   ctrl <- emptyMap
   update_result <- Sdk.eCreate ent d ctrl
+  update_resultData <- Sdk.eDataGet update_result
 ```
 
 
@@ -1699,8 +1768,8 @@ Create an instance: `user <- Sdk.user sdk VNoval`
 
 | Method | Description |
 | --- | --- |
-| `eLoad ent match ctrl` | Load a single entity by match criteria. |
-| `eRemove ent match ctrl` | Remove the matching entity. |
+| `eLoad ent match ctrl` | Load a single entity by match criteria. Resolves to the entity. |
+| `eRemove ent match ctrl` | Remove the matching entity. Resolves to the entity, marked deleted. |
 
 #### Fields
 
@@ -1709,16 +1778,16 @@ Create an instance: `user <- Sdk.user sdk VNoval`
 | `client` | `Value` |  |
 | `created` | `String` |  |
 | `email` | `String` |  |
-| `first_name` | `String` |  |
+| `firstName` | `String` |  |
 | `id` | `String` |  |
-| `is_active` | `Bool` |  |
+| `isActive` | `Bool` |  |
 | `kif` | `Value` |  |
-| `last_name` | `String` |  |
+| `lastName` | `String` |  |
 | `modified` | `String` |  |
 | `partner` | `Value` |  |
 | `phone` | `String` |  |
-| `user_name` | `String` |  |
-| `user_role` | `Value` |  |
+| `userName` | `String` |  |
+| `userRole` | `Value` |  |
 | `version` | `Int` |  |
 
 #### Example: Load
@@ -1728,6 +1797,8 @@ Create an instance: `user <- Sdk.user sdk VNoval`
   match <- jo [("id", VStr "user_id")]
   ctrl <- emptyMap
   user <- Sdk.eLoad ent match ctrl
+  -- The op resolves to the ENTITY; the record is inside it.
+  userData <- Sdk.eDataGet user
 ```
 
 

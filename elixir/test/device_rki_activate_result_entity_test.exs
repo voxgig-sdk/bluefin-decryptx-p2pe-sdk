@@ -31,7 +31,8 @@ defmodule BluefinDecryptxP2pe.DeviceRkiActivateResultEntityTest do
   test "should create then read back" do
     sdk = BluefinDecryptxP2pe.test(S.jm(["entity", S.jm(["device_rki_activate_result", S.jm([])])]))
     ent = BluefinDecryptxP2pe.device_rki_activate_result(sdk)
-    made = BluefinDecryptxP2pe.Entity.DeviceRkiActivateResult.create(ent, S.jm(["name", "test-create"]))
+    created = BluefinDecryptxP2pe.Entity.DeviceRkiActivateResult.create(ent, S.jm(["name", "test-create"]))
+    made = BluefinDecryptxP2pe.EntityBase.data_get(created)
     assert S.ismap(made)
     assert S.getprop(made, "id") != nil
   end

@@ -56,7 +56,8 @@ defmodule BluefinDecryptxP2pe.Entity.Success do
       end
     end
 
-    Pipeline.run_op(ctx, post_done)
+    out = Pipeline.run_op(ctx, post_done)
+    EntityBase.op_return(ent, ctx, out)
   end
 
 
@@ -94,7 +95,10 @@ defmodule BluefinDecryptxP2pe.Entity.Success do
       end
     end
 
-    Pipeline.run_op(ctx, post_done)
+    out = Pipeline.run_op(ctx, post_done)
+    ent = EntityBase.op_return(ent, ctx, out)
+    # A removed entity keeps its data but is no longer a live record.
+    if ent == out, do: out, else: EntityBase.mark_deleted(ent)
   end
 
 

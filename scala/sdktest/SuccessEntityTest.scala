@@ -40,7 +40,7 @@ object SuccessEntityTest {
           Struct.getpath(entityData, "new.success"), "success_ref01"))
       successRef01Data.put("share_partner_to", idmap.get("share_partner_to01"))
       val successRef01DataResult = successRef01Ent.create(successRef01Data, null)
-      successRef01Data = Helpers.toMapAny(successRef01DataResult)
+      successRef01Data = Helpers.toMapAny(successRef01DataResult match { case e: SdkEntity => e.data(); case o => o })
       rep.check("success.create.map", successRef01Data != null, "expected create result to be a map")
 
     }

@@ -37,7 +37,7 @@ object DeviceEntityTest {
           Struct.getpath(entityData, "new.device"), "device_ref01"))
       deviceRef01Data.put("serial_number", idmap.get("serial_number01"))
       val deviceRef01DataResult = deviceRef01Ent.create(deviceRef01Data, null)
-      deviceRef01Data = Helpers.toMapAny(deviceRef01DataResult)
+      deviceRef01Data = Helpers.toMapAny(deviceRef01DataResult match { case e: SdkEntity => e.data(); case o => o })
       rep.check("device.create.map", deviceRef01Data != null, "expected create result to be a map")
       rep.check("device.create.id", deviceRef01Data != null && deviceRef01Data.get("id") != null, "expected created entity to have an id")
 
@@ -54,7 +54,7 @@ object DeviceEntityTest {
       val deviceRef01MatchDt0 = new LinkedHashMap[String, Object]()
       deviceRef01MatchDt0.put("id", deviceRef01Data.get("id"))
       val deviceRef01DataDt0Loaded = deviceRef01Ent.load(deviceRef01MatchDt0, null)
-      val deviceRef01DataDt0LoadResult = Helpers.toMapAny(deviceRef01DataDt0Loaded)
+      val deviceRef01DataDt0LoadResult = Helpers.toMapAny(deviceRef01DataDt0Loaded match { case e: SdkEntity => e.data(); case o => o })
       rep.check("device.load.map", deviceRef01DataDt0LoadResult != null, "expected load result to be a map")
       rep.eq("device.load.id", deviceRef01Data.get("id"), deviceRef01DataDt0LoadResult.get("id"))
     }

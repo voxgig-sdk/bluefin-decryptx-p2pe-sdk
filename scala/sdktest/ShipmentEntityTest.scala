@@ -35,7 +35,7 @@ object ShipmentEntityTest {
       var shipmentRef01Data = Helpers.toMapAny(Struct.getprop(
           Struct.getpath(entityData, "new.shipment"), "shipment_ref01"))
       val shipmentRef01DataResult = shipmentRef01Ent.create(shipmentRef01Data, null)
-      shipmentRef01Data = Helpers.toMapAny(shipmentRef01DataResult)
+      shipmentRef01Data = Helpers.toMapAny(shipmentRef01DataResult match { case e: SdkEntity => e.data(); case o => o })
       rep.check("shipment.create.map", shipmentRef01Data != null, "expected create result to be a map")
       rep.check("shipment.create.id", shipmentRef01Data != null && shipmentRef01Data.get("id") != null, "expected created entity to have an id")
 
@@ -52,7 +52,7 @@ object ShipmentEntityTest {
       val shipmentRef01MatchDt0 = new LinkedHashMap[String, Object]()
       shipmentRef01MatchDt0.put("id", shipmentRef01Data.get("id"))
       val shipmentRef01DataDt0Loaded = shipmentRef01Ent.load(shipmentRef01MatchDt0, null)
-      val shipmentRef01DataDt0LoadResult = Helpers.toMapAny(shipmentRef01DataDt0Loaded)
+      val shipmentRef01DataDt0LoadResult = Helpers.toMapAny(shipmentRef01DataDt0Loaded match { case e: SdkEntity => e.data(); case o => o })
       rep.check("shipment.load.map", shipmentRef01DataDt0LoadResult != null, "expected load result to be a map")
       rep.eq("shipment.load.id", shipmentRef01Data.get("id"), shipmentRef01DataDt0LoadResult.get("id"))
     }

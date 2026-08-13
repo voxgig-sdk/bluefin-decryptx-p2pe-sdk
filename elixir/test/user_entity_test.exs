@@ -34,7 +34,8 @@ defmodule BluefinDecryptxP2pe.UserEntityTest do
     if id != nil do
       sdk = mk_sdk()
       ent = BluefinDecryptxP2pe.user(sdk)
-      rec = BluefinDecryptxP2pe.Entity.User.load(ent, S.jm(["id", id]))
+      loaded = BluefinDecryptxP2pe.Entity.User.load(ent, S.jm(["id", id]))
+      rec = BluefinDecryptxP2pe.EntityBase.data_get(loaded)
       assert S.ismap(rec)
       assert S.getprop(rec, "id") == id
     end

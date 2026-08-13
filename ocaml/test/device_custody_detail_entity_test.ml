@@ -20,6 +20,7 @@ let () =
       let ent = Sdk_client.device_custody_detail client Noval in
       ignore ent;
       let loaded = ent.e_load (jo [("id", Str "device_custody_detail01")]) Noval in
-      check "load is a map" (ismap loaded);
-      check_vstr "load id" (getp loaded "id") "device_custody_detail01";
+      let loaded_data = loaded.e_data_get () in
+      check "load data is a map" (ismap loaded_data);
+      check_vstr "load id" (getp loaded_data "id") "device_custody_detail01";
       ())

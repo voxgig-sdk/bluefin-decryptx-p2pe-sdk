@@ -35,7 +35,7 @@ public class AttestationEntityTest
         }
         // The basic flow consumes synthetic IDs from the fixture. In live
         // mode without an *_ENTID env override, those IDs hit the live API
-        // and 4xx; set BLUEFINDECRYPTXP_PE_TEST_ATTESTATION_ENTID JSON to run live.
+        // and 4xx; set BLUEFIN_DECRYPTX_P2PE_TEST_ATTESTATION_ENTID JSON to run live.
         if (setup.SyntheticOnly)
         {
             return;
@@ -49,7 +49,7 @@ public class AttestationEntityTest
             "attestation_ref01"));
 
         var attestationRef01DataResult = attestationRef01Ent.Create(attestationRef01Data, null);
-        attestationRef01Data = Helpers.ToMapAny(attestationRef01DataResult);
+        attestationRef01Data = Helpers.ToMapAny(attestationRef01DataResult is IEntity ce ? ce.Data() : attestationRef01DataResult);
         Assert.True(attestationRef01Data != null, "expected create result to be a map");
         Assert.True(attestationRef01Data!["id"] != null, "expected created entity to have an id");
 
@@ -73,7 +73,7 @@ public class AttestationEntityTest
             ["id"] = attestationRef01Data!["id"],
         };
         var attestationRef01DataDt0Loaded = attestationRef01Ent.Load(attestationRef01MatchDt0, null);
-        var attestationRef01DataDt0LoadResult = Helpers.ToMapAny(attestationRef01DataDt0Loaded);
+        var attestationRef01DataDt0LoadResult = Helpers.ToMapAny(attestationRef01DataDt0Loaded is IEntity le ? le.Data() : attestationRef01DataDt0Loaded);
         Assert.True(attestationRef01DataDt0LoadResult != null, "expected load result to be a map");
         Assert.True(StructRunner.DeepEqual(attestationRef01DataDt0LoadResult!["id"], attestationRef01Data["id"]),
             "expected load result id to match");
@@ -165,43 +165,43 @@ public class AttestationEntityTest
         // live mode is on without a real override, the basic test runs
         // against synthetic IDs from the fixture and 4xx's.
         var entidEnvRaw = Environment.GetEnvironmentVariable(
-            "BLUEFINDECRYPTXP_PE_TEST_ATTESTATION_ENTID") ?? "";
+            "BLUEFIN_DECRYPTX_P2PE_TEST_ATTESTATION_ENTID") ?? "";
         var idmapOverridden = entidEnvRaw != "" &&
             entidEnvRaw.Trim().StartsWith("{");
 
         var env = TestRunner.EnvOverride(new Dictionary<string, object?>
         {
-            ["BLUEFINDECRYPTXP_PE_TEST_ATTESTATION_ENTID"] = idmap,
-            ["BLUEFINDECRYPTXP_PE_TEST_LIVE"] = "FALSE",
-            ["BLUEFINDECRYPTXP_PE_TEST_EXPLAIN"] = "FALSE",
-            ["BLUEFINDECRYPTXP_PE_APIKEY"] = "NONE",
+            ["BLUEFIN_DECRYPTX_P2PE_TEST_ATTESTATION_ENTID"] = idmap,
+            ["BLUEFIN_DECRYPTX_P2PE_TEST_LIVE"] = "FALSE",
+            ["BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN"] = "FALSE",
+            ["BLUEFIN_DECRYPTX_P2PE_APIKEY"] = "NONE",
         });
 
-        var idmapResolved = Helpers.ToMapAny(env["BLUEFINDECRYPTXP_PE_TEST_ATTESTATION_ENTID"])
+        var idmapResolved = Helpers.ToMapAny(env["BLUEFIN_DECRYPTX_P2PE_TEST_ATTESTATION_ENTID"])
             ?? Helpers.ToMapAny(idmap)
             ?? new Dictionary<string, object?>();
 
-        if (Equals(env["BLUEFINDECRYPTXP_PE_TEST_LIVE"], "TRUE"))
+        if (Equals(env["BLUEFIN_DECRYPTX_P2PE_TEST_LIVE"], "TRUE"))
         {
             var mergedOpts = StructUtils.Merge(new List<object?>
             {
                 new Dictionary<string, object?>
                 {
-                    ["apikey"] = env["BLUEFINDECRYPTXP_PE_APIKEY"],
+                    ["apikey"] = env["BLUEFIN_DECRYPTX_P2PE_APIKEY"],
                 },
                 extra,
             });
             client = new BluefinDecryptxP2peSDK(Helpers.ToMapAny(mergedOpts));
         }
 
-        var live = Equals(env["BLUEFINDECRYPTXP_PE_TEST_LIVE"], "TRUE");
+        var live = Equals(env["BLUEFIN_DECRYPTX_P2PE_TEST_LIVE"], "TRUE");
         return new EntityTestSetup
         {
             Client = client,
             Data = entityData,
             Idmap = idmapResolved,
             Env = env,
-            Explain = Equals(env["BLUEFINDECRYPTXP_PE_TEST_EXPLAIN"], "TRUE"),
+            Explain = Equals(env["BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN"], "TRUE"),
             Live = live,
             SyntheticOnly = live && !idmapOverridden,
             Now = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),

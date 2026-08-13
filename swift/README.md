@@ -70,7 +70,7 @@ catch {
 ### 3. Load a devicecustodydetail
 
 DeviceCustodyDetail is nested under device_type, so provide the `device_type`.
-`load()` returns the bare record (a `Value`) and throws on error.
+`load()` returns the ENTITY — call data() for the record — and throws on error.
 
 ```swift
 do {
@@ -85,8 +85,8 @@ catch {
 ### 4. Create, update, and remove
 
 ```swift
-// Create — returns the bare created record (a Value)
-let created = try client.Attestation().create(VMap([("client", .map(VMap())), ("complete_date", .string("example_complete_date"))]), nil)
+// Create — returns the ENTITY (call data() for the record)
+let created = try client.Attestation().create(VMap([("client", .map(VMap())), ("completeDate", .string("example_completeDate"))]), nil)
 
 ```
 
@@ -167,7 +167,8 @@ Create a mock client for unit testing — no server required:
 ```swift
 let client = BluefinDecryptxP2peSDK.testSDK(nil, nil)
 
-// Entity ops return the bare record and throw on error.
+// Entity ops return the ENTITY and throws on error;
+// call data() for the record.
 let deviceType = try client.DeviceType().list(nil, nil)
 // deviceType holds the mock response record
 print(deviceType)
@@ -288,7 +289,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (a `Value` map for
+Entity operations return the ENTITY (call data() for the record) (a `Value` map for
 single-entity ops, a `Value` list for `list`) and throw on error. Wrap
 calls in `do`/`catch` to handle failures.
 
@@ -311,12 +312,12 @@ On error, `ok` is `false` and `err` contains the error value.
 | Field | Description |
 | --- | --- |
 | `client` |  |
-| `complete_date` |  |
+| `completeDate` |  |
 | `created` |  |
 | `device` |  |
 | `id` |  |
 | `name` |  |
-| `note` |  |
+| `notes` |  |
 
 Operations: Create, List, Load.
 
@@ -328,9 +329,9 @@ API path: `/attestations`
 | --- | --- |
 | `contact` |  |
 | `created` |  |
-| `direct_partner` |  |
+| `directPartner` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `location` |  |
 | `mid` |  |
 | `modified` |  |
@@ -365,33 +366,33 @@ API path: `/decryption`
 
 | Field | Description |
 | --- | --- |
-| `activated_by` |  |
-| `activation_date` |  |
-| `alternate_key` |  |
-| `audit_next_date` |  |
-| `audit_notification_date` |  |
+| `activatedBy` |  |
+| `activationDate` |  |
+| `alternateKey` |  |
+| `auditNextDate` |  |
+| `auditNotificationDate` |  |
 | `client` |  |
 | `created` |  |
-| `created_by` |  |
-| `device_build` |  |
-| `device_state` |  |
-| `device_type` |  |
-| `error_counter` |  |
-| `error_last_date` |  |
+| `createdBy` |  |
+| `deviceBuild` |  |
+| `deviceState` |  |
+| `deviceType` |  |
+| `errorCounter` |  |
+| `errorLastDate` |  |
 | `id` |  |
-| `initialized_by` |  |
-| `initialized_date` |  |
-| `inject_key` |  |
-| `is_virtual` |  |
+| `initializedBy` |  |
+| `initializedDate` |  |
+| `injectKey` |  |
+| `isVirtual` |  |
 | `kif` |  |
-| `last_activity_date` |  |
+| `lastActivityDate` |  |
 | `location` |  |
 | `modified` |  |
-| `modified_by` |  |
+| `modifiedBy` |  |
 | `name` |  |
-| `note` |  |
+| `notes` |  |
 | `partner` |  |
-| `serial_number` |  |
+| `serialNumber` |  |
 | `version` |  |
 
 Operations: Create, List, Load.
@@ -402,21 +403,21 @@ API path: `/devices`
 
 | Field | Description |
 | --- | --- |
-| `app_version` |  |
-| `build_number` |  |
-| `config_file_name` |  |
+| `appVersion` |  |
+| `buildNumber` |  |
+| `configFileName` |  |
 | `created` |  |
-| `device_type` |  |
-| `firmware_version` |  |
-| `hardware_version` |  |
+| `deviceType` |  |
+| `firmwareVersion` |  |
+| `hardwareVersion` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `modified` |  |
 | `name` |  |
-| `note` |  |
+| `notes` |  |
 | `version` |  |
-| `white_listing_bin_range` |  |
-| `white_listing_used` |  |
+| `whiteListingBinRanges` |  |
+| `whiteListingUsed` |  |
 
 Operations: List, Load.
 
@@ -426,18 +427,18 @@ API path: `/deviceBuilds`
 
 | Field | Description |
 | --- | --- |
-| `complete_date` |  |
+| `completeDate` |  |
 | `created` |  |
-| `created_by` |  |
+| `createdBy` |  |
 | `custodian` |  |
 | `device` |  |
 | `id` |  |
 | `location` |  |
 | `modified` |  |
-| `modified_by` |  |
-| `note` |  |
+| `modifiedBy` |  |
+| `notes` |  |
 | `status` |  |
-| `transfer_method` |  |
+| `transferMethod` |  |
 | `version` |  |
 
 Operations: Load.
@@ -448,18 +449,18 @@ API path: `/devices/{serialNumber}/{deviceType}/custody/{id}`
 
 | Field | Description |
 | --- | --- |
-| `complete_date` |  |
+| `completeDate` |  |
 | `created` |  |
-| `created_by` |  |
+| `createdBy` |  |
 | `custodian` |  |
 | `device` |  |
 | `id` |  |
 | `location` |  |
 | `modified` |  |
-| `modified_by` |  |
-| `note` |  |
+| `modifiedBy` |  |
+| `notes` |  |
 | `status` |  |
-| `transfer_method` |  |
+| `transferMethod` |  |
 | `version` |  |
 
 Operations: List.
@@ -513,16 +514,16 @@ API path: `/deviceStates`
 | Field | Description |
 | --- | --- |
 | `created` |  |
-| `device_type_mode` |  |
-| `hardware_version` |  |
+| `deviceTypeMode` |  |
+| `hardwareVersion` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `manufacturer` |  |
 | `model` |  |
 | `modified` |  |
 | `name` |  |
-| `photo_url` |  |
-| `product_name` |  |
+| `photoUrl` |  |
+| `productName` |  |
 | `version` |  |
 
 Operations: List, Load.
@@ -535,9 +536,9 @@ API path: `/deviceTypes`
 | --- | --- |
 | `created` |  |
 | `id` |  |
-| `is_active` |  |
-| `is_p2_pe` |  |
-| `key_type` |  |
+| `isActive` |  |
+| `isP2PE` |  |
+| `keyType` |  |
 | `modified` |  |
 | `name` |  |
 | `version` |  |
@@ -563,26 +564,26 @@ API path: `/kifs`
 | --- | --- |
 | `address1` |  |
 | `address2` |  |
-| `billing_id` |  |
+| `billingId` |  |
 | `city` |  |
 | `country` |  |
 | `created` |  |
-| `custom_reference` |  |
+| `customReference` |  |
 | `id` |  |
-| `location_type` |  |
-| `mail_address1` |  |
-| `mail_address2` |  |
-| `mail_city` |  |
-| `mail_country` |  |
-| `mail_postal_code` |  |
-| `mail_state_province` |  |
+| `locationType` |  |
+| `mailAddress1` |  |
+| `mailAddress2` |  |
+| `mailCity` |  |
+| `mailCountry` |  |
+| `mailPostalCode` |  |
+| `mailStateProvince` |  |
 | `modified` |  |
 | `name` |  |
-| `name_of_business` |  |
-| `note` |  |
-| `postal_code` |  |
-| `state_province` |  |
-| `unique_id` |  |
+| `nameOfBusiness` |  |
+| `notes` |  |
+| `postalCode` |  |
+| `stateProvince` |  |
+| `uniqueId` |  |
 | `version` |  |
 
 Operations: Create, List, Load, Remove.
@@ -593,19 +594,19 @@ API path: `/locations`
 
 | Field | Description |
 | --- | --- |
-| `billing_id` |  |
-| `client_can_order_equipment` |  |
+| `billingId` |  |
+| `clientCanOrderEquipment` |  |
 | `contact` |  |
 | `created` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `location` |  |
 | `modified` |  |
 | `name` |  |
 | `parent` |  |
-| `partner_id` |  |
+| `partnerId` |  |
 | `reference` |  |
-| `verification_phrase` |  |
+| `verificationPhrase` |  |
 | `version` |  |
 
 Operations: Create, List, Load.
@@ -619,15 +620,15 @@ API path: `/partners`
 | `carrier` |  |
 | `client` |  |
 | `created` |  |
-| `date_received` |  |
-| `date_shipped` |  |
-| `dc_kif` |  |
+| `dateReceived` |  |
+| `dateShipped` |  |
+| `dcKif` |  |
 | `id` |  |
-| `item` |  |
+| `items` |  |
 | `kif` |  |
 | `modified` |  |
 | `partner` |  |
-| `shipment_type` |  |
+| `shipmentType` |  |
 | `tracking` |  |
 | `version` |  |
 
@@ -649,30 +650,30 @@ API path: `/virtualDevices/{sharePartnerTo}`
 
 | Field | Description |
 | --- | --- |
-| `alternate_key` |  |
+| `alternateKey` |  |
 | `client` |  |
-| `client_ref` |  |
+| `clientRef` |  |
 | `created` |  |
 | `decrypted` |  |
-| `device_name` |  |
-| `direct_partner` |  |
+| `deviceName` |  |
+| `directPartner` |  |
 | `encrypted` |  |
-| `end_date` |  |
-| `err_code` |  |
-| `err_message` |  |
+| `endDate` |  |
+| `errCode` |  |
+| `errMessage` |  |
 | `id` |  |
-| `ip_address` |  |
-| `is_virtual` |  |
-| `key_type` |  |
+| `ipAddress` |  |
+| `isVirtual` |  |
+| `keyType` |  |
 | `location` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `method` |  |
 | `partner` |  |
 | `reference` |  |
-| `serial_number` |  |
-| `start_date` |  |
+| `serialNumber` |  |
+| `startDate` |  |
 | `success` |  |
-| `transaction_source` |  |
+| `transactionSource` |  |
 
 Operations: Create, List, Load.
 
@@ -684,15 +685,15 @@ API path: `/transactions`
 | --- | --- |
 | `client` |  |
 | `email` |  |
-| `first_name` |  |
+| `firstName` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `kif` |  |
-| `last_name` |  |
+| `lastName` |  |
 | `partner` |  |
 | `phone` |  |
-| `user_name` |  |
-| `user_role` |  |
+| `userName` |  |
+| `userRole` |  |
 | `version` |  |
 
 Operations: Create, List, Update.
@@ -706,16 +707,16 @@ API path: `/users`
 | `client` |  |
 | `created` |  |
 | `email` |  |
-| `first_name` |  |
+| `firstName` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `kif` |  |
-| `last_name` |  |
+| `lastName` |  |
 | `modified` |  |
 | `partner` |  |
 | `phone` |  |
-| `user_name` |  |
-| `user_role` |  |
+| `userName` |  |
+| `userRole` |  |
 | `version` |  |
 
 Operations: Load, Remove.
@@ -744,12 +745,12 @@ Create an instance: `let attestation = client.Attestation()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `client` | `VMap` |  |
-| `complete_date` | `String` |  |
+| `completeDate` | `String` |  |
 | `created` | `String` |  |
 | `device` | `VMap` |  |
 | `id` | `String` |  |
 | `name` | `String` |  |
-| `note` | `String` |  |
+| `notes` | `String` |  |
 
 #### Example: Load
 
@@ -790,9 +791,9 @@ Create an instance: `let client = client.Client()`
 | --- | --- | --- |
 | `contact` | `VMap` |  |
 | `created` | `String` |  |
-| `direct_partner` | `VMap` |  |
+| `directPartner` | `VMap` |  |
 | `id` | `String` |  |
-| `is_active` | `Bool` |  |
+| `isActive` | `Bool` |  |
 | `location` | `VMap` |  |
 | `mid` | `String` |  |
 | `modified` | `String` |  |
@@ -881,33 +882,33 @@ Create an instance: `let device = client.Device()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `activated_by` | `VMap` |  |
-| `activation_date` | `String` |  |
-| `alternate_key` | `String` |  |
-| `audit_next_date` | `String` |  |
-| `audit_notification_date` | `String` |  |
+| `activatedBy` | `VMap` |  |
+| `activationDate` | `String` |  |
+| `alternateKey` | `String` |  |
+| `auditNextDate` | `String` |  |
+| `auditNotificationDate` | `String` |  |
 | `client` | `VMap` |  |
 | `created` | `String` |  |
-| `created_by` | `VMap` |  |
-| `device_build` | `VMap` |  |
-| `device_state` | `VMap` |  |
-| `device_type` | `VMap` |  |
-| `error_counter` | `Int` |  |
-| `error_last_date` | `String` |  |
+| `createdBy` | `VMap` |  |
+| `deviceBuild` | `VMap` |  |
+| `deviceState` | `VMap` |  |
+| `deviceType` | `VMap` |  |
+| `errorCounter` | `Int` |  |
+| `errorLastDate` | `String` |  |
 | `id` | `String` |  |
-| `initialized_by` | `VMap` |  |
-| `initialized_date` | `String` |  |
-| `inject_key` | `VMap` |  |
-| `is_virtual` | `Bool` |  |
+| `initializedBy` | `VMap` |  |
+| `initializedDate` | `String` |  |
+| `injectKey` | `VMap` |  |
+| `isVirtual` | `Bool` |  |
 | `kif` | `VMap` |  |
-| `last_activity_date` | `String` |  |
+| `lastActivityDate` | `String` |  |
 | `location` | `VMap` |  |
 | `modified` | `String` |  |
-| `modified_by` | `VMap` |  |
+| `modifiedBy` | `VMap` |  |
 | `name` | `String` |  |
-| `note` | `String` |  |
+| `notes` | `String` |  |
 | `partner` | `VMap` |  |
-| `serial_number` | `String` |  |
+| `serialNumber` | `String` |  |
 | `version` | `Int` |  |
 
 #### Example: Load
@@ -926,11 +927,11 @@ let deviceList = try client.Device().list(nil, nil)
 
 ```swift
 let device = try client.Device().create(VMap([
-    ("activated_by", .map(VMap())),  // VMap
-    ("created_by", .map(VMap())),  // VMap
-    ("initialized_by", .map(VMap())),  // VMap
+    ("activatedBy", .map(VMap())),  // VMap
+    ("createdBy", .map(VMap())),  // VMap
+    ("initializedBy", .map(VMap())),  // VMap
     ("location", .map(VMap())),  // VMap
-    ("modified_by", .map(VMap()))  // VMap
+    ("modifiedBy", .map(VMap()))  // VMap
 ]), nil)
 ```
 
@@ -950,21 +951,21 @@ Create an instance: `let deviceBuild = client.DeviceBuild()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `app_version` | `String` |  |
-| `build_number` | `String` |  |
-| `config_file_name` | `String` |  |
+| `appVersion` | `String` |  |
+| `buildNumber` | `String` |  |
+| `configFileName` | `String` |  |
 | `created` | `String` |  |
-| `device_type` | `String` |  |
-| `firmware_version` | `String` |  |
-| `hardware_version` | `String` |  |
+| `deviceType` | `String` |  |
+| `firmwareVersion` | `String` |  |
+| `hardwareVersion` | `String` |  |
 | `id` | `Int` |  |
-| `is_active` | `Bool` |  |
+| `isActive` | `Bool` |  |
 | `modified` | `String` |  |
 | `name` | `String` |  |
-| `note` | `String` |  |
+| `notes` | `String` |  |
 | `version` | `Int` |  |
-| `white_listing_bin_range` | `String` |  |
-| `white_listing_used` | `Bool` |  |
+| `whiteListingBinRanges` | `String` |  |
+| `whiteListingUsed` | `Bool` |  |
 
 #### Example: Load
 
@@ -993,18 +994,18 @@ Create an instance: `let deviceCustodyDetail = client.DeviceCustodyDetail()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `complete_date` | `String` |  |
+| `completeDate` | `String` |  |
 | `created` | `String` |  |
-| `created_by` | `VMap` |  |
+| `createdBy` | `VMap` |  |
 | `custodian` | `VMap` |  |
 | `device` | `VMap` |  |
 | `id` | `Int` |  |
 | `location` | `VMap` |  |
 | `modified` | `String` |  |
-| `modified_by` | `VMap` |  |
-| `note` | `String` |  |
+| `modifiedBy` | `VMap` |  |
+| `notes` | `String` |  |
 | `status` | `VMap` |  |
-| `transfer_method` | `VMap` |  |
+| `transferMethod` | `VMap` |  |
 | `version` | `Int` |  |
 
 #### Example: Load
@@ -1028,18 +1029,18 @@ Create an instance: `let deviceCustodyList = client.DeviceCustodyList()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `complete_date` | `String` |  |
+| `completeDate` | `String` |  |
 | `created` | `String` |  |
-| `created_by` | `VMap` |  |
+| `createdBy` | `VMap` |  |
 | `custodian` | `VMap` |  |
 | `device` | `VMap` |  |
 | `id` | `Int` |  |
 | `location` | `VMap` |  |
 | `modified` | `String` |  |
-| `modified_by` | `VMap` |  |
-| `note` | `String` |  |
+| `modifiedBy` | `VMap` |  |
+| `notes` | `String` |  |
 | `status` | `VMap` |  |
-| `transfer_method` | `VMap` |  |
+| `transferMethod` | `VMap` |  |
 | `version` | `Int` |  |
 
 #### Example: List
@@ -1163,16 +1164,16 @@ Create an instance: `let deviceType = client.DeviceType()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `created` | `String` |  |
-| `device_type_mode` | `String` |  |
-| `hardware_version` | `String` |  |
+| `deviceTypeMode` | `String` |  |
+| `hardwareVersion` | `String` |  |
 | `id` | `String` |  |
-| `is_active` | `Bool` |  |
+| `isActive` | `Bool` |  |
 | `manufacturer` | `String` |  |
 | `model` | `String` |  |
 | `modified` | `String` |  |
 | `name` | `String` |  |
-| `photo_url` | `String` |  |
-| `product_name` | `String` |  |
+| `photoUrl` | `String` |  |
+| `productName` | `String` |  |
 | `version` | `Int` |  |
 
 #### Example: Load
@@ -1205,9 +1206,9 @@ Create an instance: `let injectKey = client.InjectKey()`
 | --- | --- | --- |
 | `created` | `String` |  |
 | `id` | `String` |  |
-| `is_active` | `Bool` |  |
-| `is_p2_pe` | `Bool` |  |
-| `key_type` | `String` |  |
+| `isActive` | `Bool` |  |
+| `isP2PE` | `Bool` |  |
+| `keyType` | `String` |  |
 | `modified` | `String` |  |
 | `name` | `String` |  |
 | `version` | `Int` |  |
@@ -1268,26 +1269,26 @@ Create an instance: `let location = client.Location()`
 | --- | --- | --- |
 | `address1` | `String` |  |
 | `address2` | `String` |  |
-| `billing_id` | `String` |  |
+| `billingId` | `String` |  |
 | `city` | `String` |  |
 | `country` | `String` |  |
 | `created` | `String` |  |
-| `custom_reference` | `String` |  |
+| `customReference` | `String` |  |
 | `id` | `String` |  |
-| `location_type` | `String` |  |
-| `mail_address1` | `String` |  |
-| `mail_address2` | `String` |  |
-| `mail_city` | `String` |  |
-| `mail_country` | `String` |  |
-| `mail_postal_code` | `String` |  |
-| `mail_state_province` | `String` |  |
+| `locationType` | `String` |  |
+| `mailAddress1` | `String` |  |
+| `mailAddress2` | `String` |  |
+| `mailCity` | `String` |  |
+| `mailCountry` | `String` |  |
+| `mailPostalCode` | `String` |  |
+| `mailStateProvince` | `String` |  |
 | `modified` | `String` |  |
 | `name` | `String` |  |
-| `name_of_business` | `String` |  |
-| `note` | `String` |  |
-| `postal_code` | `String` |  |
-| `state_province` | `String` |  |
-| `unique_id` | `String` |  |
+| `nameOfBusiness` | `String` |  |
+| `notes` | `String` |  |
+| `postalCode` | `String` |  |
+| `stateProvince` | `String` |  |
+| `uniqueId` | `String` |  |
 | `version` | `Int` |  |
 
 #### Example: Load
@@ -1326,19 +1327,19 @@ Create an instance: `let partner = client.Partner()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `billing_id` | `String` |  |
-| `client_can_order_equipment` | `Bool` |  |
+| `billingId` | `String` |  |
+| `clientCanOrderEquipment` | `Bool` |  |
 | `contact` | `VMap` |  |
 | `created` | `String` |  |
 | `id` | `String` |  |
-| `is_active` | `Bool` |  |
+| `isActive` | `Bool` |  |
 | `location` | `VMap` |  |
 | `modified` | `String` |  |
 | `name` | `String` |  |
 | `parent` | `VMap` |  |
-| `partner_id` | `String` |  |
+| `partnerId` | `String` |  |
 | `reference` | `String` |  |
-| `verification_phrase` | `String` |  |
+| `verificationPhrase` | `String` |  |
 | `version` | `Int` |  |
 
 #### Example: Load
@@ -1381,15 +1382,15 @@ Create an instance: `let shipment = client.Shipment()`
 | `carrier` | `String` |  |
 | `client` | `VMap` |  |
 | `created` | `String` |  |
-| `date_received` | `String` |  |
-| `date_shipped` | `String` |  |
-| `dc_kif` | `VMap` |  |
+| `dateReceived` | `String` |  |
+| `dateShipped` | `String` |  |
+| `dcKif` | `VMap` |  |
 | `id` | `String` |  |
-| `item` | `[Value]` |  |
+| `items` | `[Value]` |  |
 | `kif` | `VMap` |  |
 | `modified` | `String` |  |
 | `partner` | `VMap` |  |
-| `shipment_type` | `String` |  |
+| `shipmentType` | `String` |  |
 | `tracking` | `String` |  |
 | `version` | `Int` |  |
 
@@ -1455,30 +1456,30 @@ Create an instance: `let transaction = client.Transaction()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `alternate_key` | `String` |  |
+| `alternateKey` | `String` |  |
 | `client` | `VMap` |  |
-| `client_ref` | `String` |  |
+| `clientRef` | `String` |  |
 | `created` | `String` |  |
 | `decrypted` | `Int` |  |
-| `device_name` | `String` |  |
-| `direct_partner` | `VMap` |  |
+| `deviceName` | `String` |  |
+| `directPartner` | `VMap` |  |
 | `encrypted` | `Int` |  |
-| `end_date` | `String` |  |
-| `err_code` | `String` |  |
-| `err_message` | `String` |  |
+| `endDate` | `String` |  |
+| `errCode` | `String` |  |
+| `errMessage` | `String` |  |
 | `id` | `String` |  |
-| `ip_address` | `String` |  |
-| `is_virtual` | `Bool` |  |
-| `key_type` | `String` |  |
+| `ipAddress` | `String` |  |
+| `isVirtual` | `Bool` |  |
+| `keyType` | `String` |  |
 | `location` | `VMap` |  |
-| `message_id` | `String` |  |
+| `messageId` | `String` |  |
 | `method` | `String` |  |
 | `partner` | `VMap` |  |
 | `reference` | `String` |  |
-| `serial_number` | `String` |  |
-| `start_date` | `String` |  |
+| `serialNumber` | `String` |  |
+| `startDate` | `String` |  |
 | `success` | `Bool` |  |
-| `transaction_source` | `String` |  |
+| `transactionSource` | `String` |  |
 
 #### Example: Load
 
@@ -1519,15 +1520,15 @@ Create an instance: `let updateResult = client.UpdateResult()`
 | --- | --- | --- |
 | `client` | `VMap` |  |
 | `email` | `String` |  |
-| `first_name` | `String` |  |
+| `firstName` | `String` |  |
 | `id` | `String` |  |
-| `is_active` | `Bool` |  |
+| `isActive` | `Bool` |  |
 | `kif` | `VMap` |  |
-| `last_name` | `String` |  |
+| `lastName` | `String` |  |
 | `partner` | `VMap` |  |
 | `phone` | `String` |  |
-| `user_name` | `String` |  |
-| `user_role` | `VMap` |  |
+| `userName` | `String` |  |
+| `userRole` | `VMap` |  |
 | `version` | `Int` |  |
 
 #### Example: List
@@ -1562,16 +1563,16 @@ Create an instance: `let user = client.User()`
 | `client` | `VMap` |  |
 | `created` | `String` |  |
 | `email` | `String` |  |
-| `first_name` | `String` |  |
+| `firstName` | `String` |  |
 | `id` | `String` |  |
-| `is_active` | `Bool` |  |
+| `isActive` | `Bool` |  |
 | `kif` | `VMap` |  |
-| `last_name` | `String` |  |
+| `lastName` | `String` |  |
 | `modified` | `String` |  |
 | `partner` | `VMap` |  |
 | `phone` | `String` |  |
-| `user_name` | `String` |  |
-| `user_role` | `VMap` |  |
+| `userName` | `String` |  |
+| `userRole` | `VMap` |  |
 | `version` | `Int` |  |
 
 #### Example: Load

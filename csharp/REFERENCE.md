@@ -199,12 +199,12 @@ var attestation = client.Attestation();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `client` | `Dictionary<string, object?>` | No |  |
-| `complete_date` | `string` | No |  |
+| `completeDate` | `string` | No |  |
 | `created` | `string` | No |  |
 | `device` | `Dictionary<string, object?>` | No |  |
 | `id` | `string` | No |  |
 | `name` | `string` | No |  |
-| `note` | `string` | No |  |
+| `notes` | `string` | No |  |
 
 ### Operations
 
@@ -268,9 +268,9 @@ var client = client.Client();
 | --- | --- | --- | --- |
 | `contact` | `Dictionary<string, object?>` | No |  |
 | `created` | `string` | No |  |
-| `direct_partner` | `Dictionary<string, object?>` | No |  |
+| `directPartner` | `Dictionary<string, object?>` | No |  |
 | `id` | `string` | No |  |
-| `is_active` | `bool` | No |  |
+| `isActive` | `bool` | No |  |
 | `location` | `Dictionary<string, object?>` | Yes |  |
 | `mid` | `string` | No |  |
 | `modified` | `string` | No |  |
@@ -284,9 +284,9 @@ var client = client.Client();
 | --- | --- | --- | --- | --- |
 | `contact` | - | Yes | - | - |
 | `created` | - | - | - | - |
-| `direct_partner` | - | - | - | - |
+| `directPartner` | - | - | - | - |
 | `id` | - | - | - | - |
-| `is_active` | - | - | - | - |
+| `isActive` | - | - | - | - |
 | `location` | - | - | - | - |
 | `mid` | - | - | - | - |
 | `modified` | - | - | - | - |
@@ -449,33 +449,33 @@ var device = client.Device();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `activated_by` | `Dictionary<string, object?>` | Yes |  |
-| `activation_date` | `string` | No |  |
-| `alternate_key` | `string` | No |  |
-| `audit_next_date` | `string` | No |  |
-| `audit_notification_date` | `string` | No |  |
+| `activatedBy` | `Dictionary<string, object?>` | Yes |  |
+| `activationDate` | `string` | No |  |
+| `alternateKey` | `string` | No |  |
+| `auditNextDate` | `string` | No |  |
+| `auditNotificationDate` | `string` | No |  |
 | `client` | `Dictionary<string, object?>` | No |  |
 | `created` | `string` | No |  |
-| `created_by` | `Dictionary<string, object?>` | Yes |  |
-| `device_build` | `Dictionary<string, object?>` | No |  |
-| `device_state` | `Dictionary<string, object?>` | No |  |
-| `device_type` | `Dictionary<string, object?>` | No |  |
-| `error_counter` | `long` | No |  |
-| `error_last_date` | `string` | No |  |
+| `createdBy` | `Dictionary<string, object?>` | Yes |  |
+| `deviceBuild` | `Dictionary<string, object?>` | No |  |
+| `deviceState` | `Dictionary<string, object?>` | No |  |
+| `deviceType` | `Dictionary<string, object?>` | No |  |
+| `errorCounter` | `long` | No |  |
+| `errorLastDate` | `string` | No |  |
 | `id` | `string` | No |  |
-| `initialized_by` | `Dictionary<string, object?>` | Yes |  |
-| `initialized_date` | `string` | No |  |
-| `inject_key` | `Dictionary<string, object?>` | No |  |
-| `is_virtual` | `bool` | No |  |
+| `initializedBy` | `Dictionary<string, object?>` | Yes |  |
+| `initializedDate` | `string` | No |  |
+| `injectKey` | `Dictionary<string, object?>` | No |  |
+| `isVirtual` | `bool` | No |  |
 | `kif` | `Dictionary<string, object?>` | No |  |
-| `last_activity_date` | `string` | No |  |
+| `lastActivityDate` | `string` | No |  |
 | `location` | `Dictionary<string, object?>` | Yes |  |
 | `modified` | `string` | No |  |
-| `modified_by` | `Dictionary<string, object?>` | Yes |  |
+| `modifiedBy` | `Dictionary<string, object?>` | Yes |  |
 | `name` | `string` | No |  |
-| `note` | `string` | No |  |
+| `notes` | `string` | No |  |
 | `partner` | `Dictionary<string, object?>` | No |  |
-| `serial_number` | `string` | No |  |
+| `serialNumber` | `string` | No |  |
 | `version` | `long` | No |  |
 
 ### Operations
@@ -487,11 +487,11 @@ Create a new entity with the given data. Returns the created entity data and rai
 ```csharp
 var result = client.Device().Create(new Dictionary<string, object?>
 {
-    ["activated_by"] = new Dictionary<string, object?>(),  // Dictionary<string, object?>
-    ["created_by"] = new Dictionary<string, object?>(),  // Dictionary<string, object?>
-    ["initialized_by"] = new Dictionary<string, object?>(),  // Dictionary<string, object?>
+    ["activatedBy"] = new Dictionary<string, object?>(),  // Dictionary<string, object?>
+    ["createdBy"] = new Dictionary<string, object?>(),  // Dictionary<string, object?>
+    ["initializedBy"] = new Dictionary<string, object?>(),  // Dictionary<string, object?>
     ["location"] = new Dictionary<string, object?>(),  // Dictionary<string, object?>
-    ["modified_by"] = new Dictionary<string, object?>(),  // Dictionary<string, object?>
+    ["modifiedBy"] = new Dictionary<string, object?>(),  // Dictionary<string, object?>
 });
 ```
 
@@ -543,21 +543,21 @@ var deviceBuild = client.DeviceBuild();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `app_version` | `string` | No |  |
-| `build_number` | `string` | No |  |
-| `config_file_name` | `string` | No |  |
+| `appVersion` | `string` | No |  |
+| `buildNumber` | `string` | No |  |
+| `configFileName` | `string` | No |  |
 | `created` | `string` | No |  |
-| `device_type` | `string` | No |  |
-| `firmware_version` | `string` | No |  |
-| `hardware_version` | `string` | No |  |
+| `deviceType` | `string` | No |  |
+| `firmwareVersion` | `string` | No |  |
+| `hardwareVersion` | `string` | No |  |
 | `id` | `long` | No |  |
-| `is_active` | `bool` | No |  |
+| `isActive` | `bool` | No |  |
 | `modified` | `string` | No |  |
 | `name` | `string` | No |  |
-| `note` | `string` | No |  |
+| `notes` | `string` | No |  |
 | `version` | `long` | No |  |
-| `white_listing_bin_range` | `string` | No |  |
-| `white_listing_used` | `bool` | No |  |
+| `whiteListingBinRanges` | `string` | No |  |
+| `whiteListingUsed` | `bool` | No |  |
 
 ### Operations
 
@@ -609,18 +609,18 @@ var deviceCustodyDetail = client.DeviceCustodyDetail();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `complete_date` | `string` | No |  |
+| `completeDate` | `string` | No |  |
 | `created` | `string` | No |  |
-| `created_by` | `Dictionary<string, object?>` | Yes |  |
+| `createdBy` | `Dictionary<string, object?>` | Yes |  |
 | `custodian` | `Dictionary<string, object?>` | Yes |  |
 | `device` | `Dictionary<string, object?>` | No |  |
 | `id` | `long` | No |  |
 | `location` | `Dictionary<string, object?>` | Yes |  |
 | `modified` | `string` | No |  |
-| `modified_by` | `Dictionary<string, object?>` | Yes |  |
-| `note` | `string` | No |  |
+| `modifiedBy` | `Dictionary<string, object?>` | Yes |  |
+| `notes` | `string` | No |  |
 | `status` | `Dictionary<string, object?>` | No |  |
-| `transfer_method` | `Dictionary<string, object?>` | No |  |
+| `transferMethod` | `Dictionary<string, object?>` | No |  |
 | `version` | `long` | No |  |
 
 ### Operations
@@ -664,18 +664,18 @@ var deviceCustodyList = client.DeviceCustodyList();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `complete_date` | `string` | No |  |
+| `completeDate` | `string` | No |  |
 | `created` | `string` | No |  |
-| `created_by` | `Dictionary<string, object?>` | Yes |  |
+| `createdBy` | `Dictionary<string, object?>` | Yes |  |
 | `custodian` | `Dictionary<string, object?>` | Yes |  |
 | `device` | `Dictionary<string, object?>` | No |  |
 | `id` | `long` | No |  |
 | `location` | `Dictionary<string, object?>` | Yes |  |
 | `modified` | `string` | No |  |
-| `modified_by` | `Dictionary<string, object?>` | Yes |  |
-| `note` | `string` | No |  |
+| `modifiedBy` | `Dictionary<string, object?>` | Yes |  |
+| `notes` | `string` | No |  |
 | `status` | `Dictionary<string, object?>` | No |  |
-| `transfer_method` | `Dictionary<string, object?>` | No |  |
+| `transferMethod` | `Dictionary<string, object?>` | No |  |
 | `version` | `long` | No |  |
 
 ### Operations
@@ -902,16 +902,16 @@ var deviceType = client.DeviceType();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `created` | `string` | No |  |
-| `device_type_mode` | `string` | No |  |
-| `hardware_version` | `string` | No |  |
+| `deviceTypeMode` | `string` | No |  |
+| `hardwareVersion` | `string` | No |  |
 | `id` | `string` | No |  |
-| `is_active` | `bool` | No |  |
+| `isActive` | `bool` | No |  |
 | `manufacturer` | `string` | No |  |
 | `model` | `string` | No |  |
 | `modified` | `string` | No |  |
 | `name` | `string` | No |  |
-| `photo_url` | `string` | No |  |
-| `product_name` | `string` | No |  |
+| `photoUrl` | `string` | No |  |
+| `productName` | `string` | No |  |
 | `version` | `long` | No |  |
 
 ### Operations
@@ -966,9 +966,9 @@ var injectKey = client.InjectKey();
 | --- | --- | --- | --- |
 | `created` | `string` | No |  |
 | `id` | `string` | No |  |
-| `is_active` | `bool` | No |  |
-| `is_p2_pe` | `bool` | No |  |
-| `key_type` | `string` | No |  |
+| `isActive` | `bool` | No |  |
+| `isP2PE` | `bool` | No |  |
+| `keyType` | `string` | No |  |
 | `modified` | `string` | No |  |
 | `name` | `string` | No |  |
 | `version` | `long` | No |  |
@@ -1070,26 +1070,26 @@ var location = client.Location();
 | --- | --- | --- | --- |
 | `address1` | `string` | No |  |
 | `address2` | `string` | No |  |
-| `billing_id` | `string` | No |  |
+| `billingId` | `string` | No |  |
 | `city` | `string` | No |  |
 | `country` | `string` | No |  |
 | `created` | `string` | No |  |
-| `custom_reference` | `string` | No |  |
+| `customReference` | `string` | No |  |
 | `id` | `string` | No |  |
-| `location_type` | `string` | No |  |
-| `mail_address1` | `string` | No |  |
-| `mail_address2` | `string` | No |  |
-| `mail_city` | `string` | No |  |
-| `mail_country` | `string` | No |  |
-| `mail_postal_code` | `string` | No |  |
-| `mail_state_province` | `string` | No |  |
+| `locationType` | `string` | No |  |
+| `mailAddress1` | `string` | No |  |
+| `mailAddress2` | `string` | No |  |
+| `mailCity` | `string` | No |  |
+| `mailCountry` | `string` | No |  |
+| `mailPostalCode` | `string` | No |  |
+| `mailStateProvince` | `string` | No |  |
 | `modified` | `string` | No |  |
 | `name` | `string` | No |  |
-| `name_of_business` | `string` | No |  |
-| `note` | `string` | No |  |
-| `postal_code` | `string` | No |  |
-| `state_province` | `string` | No |  |
-| `unique_id` | `string` | No |  |
+| `nameOfBusiness` | `string` | No |  |
+| `notes` | `string` | No |  |
+| `postalCode` | `string` | No |  |
+| `stateProvince` | `string` | No |  |
+| `uniqueId` | `string` | No |  |
 | `version` | `long` | No |  |
 
 ### Operations
@@ -1160,38 +1160,38 @@ var partner = client.Partner();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `billing_id` | `string` | No |  |
-| `client_can_order_equipment` | `bool` | No |  |
+| `billingId` | `string` | No |  |
+| `clientCanOrderEquipment` | `bool` | No |  |
 | `contact` | `Dictionary<string, object?>` | No |  |
 | `created` | `string` | No |  |
 | `id` | `string` | No |  |
-| `is_active` | `bool` | No |  |
+| `isActive` | `bool` | No |  |
 | `location` | `Dictionary<string, object?>` | Yes |  |
 | `modified` | `string` | No |  |
 | `name` | `string` | No |  |
 | `parent` | `Dictionary<string, object?>` | No |  |
-| `partner_id` | `string` | No |  |
+| `partnerId` | `string` | No |  |
 | `reference` | `string` | No |  |
-| `verification_phrase` | `string` | No |  |
+| `verificationPhrase` | `string` | No |  |
 | `version` | `long` | No |  |
 
 ### Field Usage by Operation
 
 | Field | load | list | create |
 | --- | --- | --- | --- |
-| `billing_id` | - | - | - |
-| `client_can_order_equipment` | - | - | - |
+| `billingId` | - | - | - |
+| `clientCanOrderEquipment` | - | - | - |
 | `contact` | - | Yes | - |
 | `created` | - | - | - |
 | `id` | - | - | - |
-| `is_active` | - | - | - |
+| `isActive` | - | - | - |
 | `location` | - | - | - |
 | `modified` | - | - | - |
 | `name` | - | - | - |
 | `parent` | - | - | - |
-| `partner_id` | - | - | - |
+| `partnerId` | - | - | - |
 | `reference` | - | - | - |
-| `verification_phrase` | - | - | - |
+| `verificationPhrase` | - | - | - |
 | `version` | - | - | - |
 
 ### Operations
@@ -1258,15 +1258,15 @@ var shipment = client.Shipment();
 | `carrier` | `string` | No |  |
 | `client` | `Dictionary<string, object?>` | No |  |
 | `created` | `string` | No |  |
-| `date_received` | `string` | No |  |
-| `date_shipped` | `string` | No |  |
-| `dc_kif` | `Dictionary<string, object?>` | No |  |
+| `dateReceived` | `string` | No |  |
+| `dateShipped` | `string` | No |  |
+| `dcKif` | `Dictionary<string, object?>` | No |  |
 | `id` | `string` | No |  |
-| `item` | `List<object?>` | No |  |
+| `items` | `List<object?>` | No |  |
 | `kif` | `Dictionary<string, object?>` | No |  |
 | `modified` | `string` | No |  |
 | `partner` | `Dictionary<string, object?>` | No |  |
-| `shipment_type` | `string` | No |  |
+| `shipmentType` | `string` | No |  |
 | `tracking` | `string` | No |  |
 | `version` | `long` | No |  |
 
@@ -1384,30 +1384,30 @@ var transaction = client.Transaction();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `alternate_key` | `string` | No |  |
+| `alternateKey` | `string` | No |  |
 | `client` | `Dictionary<string, object?>` | No |  |
-| `client_ref` | `string` | No |  |
+| `clientRef` | `string` | No |  |
 | `created` | `string` | No |  |
 | `decrypted` | `long` | No |  |
-| `device_name` | `string` | No |  |
-| `direct_partner` | `Dictionary<string, object?>` | No |  |
+| `deviceName` | `string` | No |  |
+| `directPartner` | `Dictionary<string, object?>` | No |  |
 | `encrypted` | `long` | No |  |
-| `end_date` | `string` | No |  |
-| `err_code` | `string` | No |  |
-| `err_message` | `string` | No |  |
+| `endDate` | `string` | No |  |
+| `errCode` | `string` | No |  |
+| `errMessage` | `string` | No |  |
 | `id` | `string` | No |  |
-| `ip_address` | `string` | No |  |
-| `is_virtual` | `bool` | No |  |
-| `key_type` | `string` | No |  |
+| `ipAddress` | `string` | No |  |
+| `isVirtual` | `bool` | No |  |
+| `keyType` | `string` | No |  |
 | `location` | `Dictionary<string, object?>` | Yes |  |
-| `message_id` | `string` | No |  |
+| `messageId` | `string` | No |  |
 | `method` | `string` | No |  |
 | `partner` | `Dictionary<string, object?>` | No |  |
 | `reference` | `string` | No |  |
-| `serial_number` | `string` | No |  |
-| `start_date` | `string` | No |  |
+| `serialNumber` | `string` | No |  |
+| `startDate` | `string` | No |  |
 | `success` | `bool` | No |  |
-| `transaction_source` | `string` | No |  |
+| `transactionSource` | `string` | No |  |
 
 ### Operations
 
@@ -1472,15 +1472,15 @@ var updateResult = client.UpdateResult();
 | --- | --- | --- | --- |
 | `client` | `Dictionary<string, object?>` | No |  |
 | `email` | `string` | No |  |
-| `first_name` | `string` | No |  |
+| `firstName` | `string` | No |  |
 | `id` | `string` | No |  |
-| `is_active` | `bool` | No |  |
+| `isActive` | `bool` | No |  |
 | `kif` | `Dictionary<string, object?>` | No |  |
-| `last_name` | `string` | No |  |
+| `lastName` | `string` | No |  |
 | `partner` | `Dictionary<string, object?>` | No |  |
 | `phone` | `string` | No |  |
-| `user_name` | `string` | No |  |
-| `user_role` | `Dictionary<string, object?>` | No |  |
+| `userName` | `string` | No |  |
+| `userRole` | `Dictionary<string, object?>` | No |  |
 | `version` | `long` | No |  |
 
 ### Operations
@@ -1550,16 +1550,16 @@ var user = client.User();
 | `client` | `Dictionary<string, object?>` | No |  |
 | `created` | `string` | No |  |
 | `email` | `string` | No |  |
-| `first_name` | `string` | No |  |
+| `firstName` | `string` | No |  |
 | `id` | `string` | No |  |
-| `is_active` | `bool` | No |  |
+| `isActive` | `bool` | No |  |
 | `kif` | `Dictionary<string, object?>` | No |  |
-| `last_name` | `string` | No |  |
+| `lastName` | `string` | No |  |
 | `modified` | `string` | No |  |
 | `partner` | `Dictionary<string, object?>` | No |  |
 | `phone` | `string` | No |  |
-| `user_name` | `string` | No |  |
-| `user_role` | `Dictionary<string, object?>` | No |  |
+| `userName` | `string` | No |  |
+| `userRole` | `Dictionary<string, object?>` | No |  |
 | `version` | `long` | No |  |
 
 ### Operations

@@ -56,6 +56,7 @@ defmodule BluefinDecryptxP2pe.Entity.Kif do
       end
     end
 
+    # `list` resolves to one ENTITY per record — make_result builds them.
     Pipeline.run_op(ctx, post_done)
   end
 

@@ -12,7 +12,7 @@ class Attestation {
   /// OBJECT
   Map<String, dynamic>? client;
   /// STRING
-  String? complete_date;
+  String? completeDate;
   /// STRING
   String? created;
   /// OBJECT
@@ -22,26 +22,26 @@ class Attestation {
   /// STRING
   String? name;
   /// STRING
-  String? note;
+  String? notes;
 
   Attestation({
     this.client,
-    this.complete_date,
+    this.completeDate,
     this.created,
     this.device,
     this.id,
     this.name,
-    this.note,
+    this.notes,
   });
 
   factory Attestation.fromMap(Map<String, dynamic> m) => Attestation(
         client: m['client'] is Map<String, dynamic> ? m['client'] : null,
-        complete_date: m['complete_date'] is String ? m['complete_date'] : null,
+        completeDate: m['completeDate'] is String ? m['completeDate'] : null,
         created: m['created'] is String ? m['created'] : null,
         device: m['device'] is Map<String, dynamic> ? m['device'] : null,
         id: m['id'] is String ? m['id'] : null,
         name: m['name'] is String ? m['name'] : null,
-        note: m['note'] is String ? m['note'] : null,
+        notes: m['notes'] is String ? m['notes'] : null,
       );
 
   Map<String, dynamic> toMap() {
@@ -49,8 +49,8 @@ class Attestation {
     if (null != client) {
       m['client'] = client;
     }
-    if (null != complete_date) {
-      m['complete_date'] = complete_date;
+    if (null != completeDate) {
+      m['completeDate'] = completeDate;
     }
     if (null != created) {
       m['created'] = created;
@@ -64,8 +64,8 @@ class Attestation {
     if (null != name) {
       m['name'] = name;
     }
-    if (null != note) {
-      m['note'] = note;
+    if (null != notes) {
+      m['notes'] = notes;
     }
     return m;
   }
@@ -96,7 +96,7 @@ class AttestationListMatch {
   /// OBJECT
   Map<String, dynamic>? client;
   /// STRING
-  String? complete_date;
+  String? completeDate;
   /// STRING
   String? created;
   /// OBJECT
@@ -106,26 +106,26 @@ class AttestationListMatch {
   /// STRING
   String? name;
   /// STRING
-  String? note;
+  String? notes;
 
   AttestationListMatch({
     this.client,
-    this.complete_date,
+    this.completeDate,
     this.created,
     this.device,
     this.id,
     this.name,
-    this.note,
+    this.notes,
   });
 
   factory AttestationListMatch.fromMap(Map<String, dynamic> m) => AttestationListMatch(
         client: m['client'] is Map<String, dynamic> ? m['client'] : null,
-        complete_date: m['complete_date'] is String ? m['complete_date'] : null,
+        completeDate: m['completeDate'] is String ? m['completeDate'] : null,
         created: m['created'] is String ? m['created'] : null,
         device: m['device'] is Map<String, dynamic> ? m['device'] : null,
         id: m['id'] is String ? m['id'] : null,
         name: m['name'] is String ? m['name'] : null,
-        note: m['note'] is String ? m['note'] : null,
+        notes: m['notes'] is String ? m['notes'] : null,
       );
 
   Map<String, dynamic> toMap() {
@@ -133,8 +133,8 @@ class AttestationListMatch {
     if (null != client) {
       m['client'] = client;
     }
-    if (null != complete_date) {
-      m['complete_date'] = complete_date;
+    if (null != completeDate) {
+      m['completeDate'] = completeDate;
     }
     if (null != created) {
       m['created'] = created;
@@ -148,8 +148,8 @@ class AttestationListMatch {
     if (null != name) {
       m['name'] = name;
     }
-    if (null != note) {
-      m['note'] = note;
+    if (null != notes) {
+      m['notes'] = notes;
     }
     return m;
   }
@@ -159,7 +159,7 @@ class AttestationCreateData {
   /// OBJECT
   Map<String, dynamic>? client;
   /// STRING
-  String? complete_date;
+  String? completeDate;
   /// STRING
   String? created;
   /// OBJECT
@@ -169,26 +169,26 @@ class AttestationCreateData {
   /// STRING
   String? name;
   /// STRING
-  String? note;
+  String? notes;
 
   AttestationCreateData({
     this.client,
-    this.complete_date,
+    this.completeDate,
     this.created,
     this.device,
     this.id,
     this.name,
-    this.note,
+    this.notes,
   });
 
   factory AttestationCreateData.fromMap(Map<String, dynamic> m) => AttestationCreateData(
         client: m['client'] is Map<String, dynamic> ? m['client'] : null,
-        complete_date: m['complete_date'] is String ? m['complete_date'] : null,
+        completeDate: m['completeDate'] is String ? m['completeDate'] : null,
         created: m['created'] is String ? m['created'] : null,
         device: m['device'] is Map<String, dynamic> ? m['device'] : null,
         id: m['id'] is String ? m['id'] : null,
         name: m['name'] is String ? m['name'] : null,
-        note: m['note'] is String ? m['note'] : null,
+        notes: m['notes'] is String ? m['notes'] : null,
       );
 
   Map<String, dynamic> toMap() {
@@ -196,8 +196,8 @@ class AttestationCreateData {
     if (null != client) {
       m['client'] = client;
     }
-    if (null != complete_date) {
-      m['complete_date'] = complete_date;
+    if (null != completeDate) {
+      m['completeDate'] = completeDate;
     }
     if (null != created) {
       m['created'] = created;
@@ -211,8 +211,8 @@ class AttestationCreateData {
     if (null != name) {
       m['name'] = name;
     }
-    if (null != note) {
-      m['note'] = note;
+    if (null != notes) {
+      m['notes'] = notes;
     }
     return m;
   }
@@ -224,11 +224,11 @@ class Client {
   /// STRING
   String? created;
   /// OBJECT
-  Map<String, dynamic>? direct_partner;
+  Map<String, dynamic>? directPartner;
   /// STRING
   String? id;
   /// BOOLEAN
-  bool? is_active;
+  bool? isActive;
   /// OBJECT (required at the API)
   Map<String, dynamic>? location;
   /// STRING
@@ -245,9 +245,9 @@ class Client {
   Client({
     this.contact,
     this.created,
-    this.direct_partner,
+    this.directPartner,
     this.id,
-    this.is_active,
+    this.isActive,
     this.location,
     this.mid,
     this.modified,
@@ -259,9 +259,9 @@ class Client {
   factory Client.fromMap(Map<String, dynamic> m) => Client(
         contact: m['contact'] is Map<String, dynamic> ? m['contact'] : null,
         created: m['created'] is String ? m['created'] : null,
-        direct_partner: m['direct_partner'] is Map<String, dynamic> ? m['direct_partner'] : null,
+        directPartner: m['directPartner'] is Map<String, dynamic> ? m['directPartner'] : null,
         id: m['id'] is String ? m['id'] : null,
-        is_active: m['is_active'] is bool ? m['is_active'] : null,
+        isActive: m['isActive'] is bool ? m['isActive'] : null,
         location: m['location'] is Map<String, dynamic> ? m['location'] : null,
         mid: m['mid'] is String ? m['mid'] : null,
         modified: m['modified'] is String ? m['modified'] : null,
@@ -278,14 +278,14 @@ class Client {
     if (null != created) {
       m['created'] = created;
     }
-    if (null != direct_partner) {
-      m['direct_partner'] = direct_partner;
+    if (null != directPartner) {
+      m['directPartner'] = directPartner;
     }
     if (null != id) {
       m['id'] = id;
     }
-    if (null != is_active) {
-      m['is_active'] = is_active;
+    if (null != isActive) {
+      m['isActive'] = isActive;
     }
     if (null != location) {
       m['location'] = location;
@@ -336,11 +336,11 @@ class ClientListMatch {
   /// STRING
   String? created;
   /// OBJECT
-  Map<String, dynamic>? direct_partner;
+  Map<String, dynamic>? directPartner;
   /// STRING
   String? id;
   /// BOOLEAN
-  bool? is_active;
+  bool? isActive;
   /// OBJECT
   Map<String, dynamic>? location;
   /// STRING
@@ -357,9 +357,9 @@ class ClientListMatch {
   ClientListMatch({
     this.contact,
     this.created,
-    this.direct_partner,
+    this.directPartner,
     this.id,
-    this.is_active,
+    this.isActive,
     this.location,
     this.mid,
     this.modified,
@@ -371,9 +371,9 @@ class ClientListMatch {
   factory ClientListMatch.fromMap(Map<String, dynamic> m) => ClientListMatch(
         contact: m['contact'] is Map<String, dynamic> ? m['contact'] : null,
         created: m['created'] is String ? m['created'] : null,
-        direct_partner: m['direct_partner'] is Map<String, dynamic> ? m['direct_partner'] : null,
+        directPartner: m['directPartner'] is Map<String, dynamic> ? m['directPartner'] : null,
         id: m['id'] is String ? m['id'] : null,
-        is_active: m['is_active'] is bool ? m['is_active'] : null,
+        isActive: m['isActive'] is bool ? m['isActive'] : null,
         location: m['location'] is Map<String, dynamic> ? m['location'] : null,
         mid: m['mid'] is String ? m['mid'] : null,
         modified: m['modified'] is String ? m['modified'] : null,
@@ -390,14 +390,14 @@ class ClientListMatch {
     if (null != created) {
       m['created'] = created;
     }
-    if (null != direct_partner) {
-      m['direct_partner'] = direct_partner;
+    if (null != directPartner) {
+      m['directPartner'] = directPartner;
     }
     if (null != id) {
       m['id'] = id;
     }
-    if (null != is_active) {
-      m['is_active'] = is_active;
+    if (null != isActive) {
+      m['isActive'] = isActive;
     }
     if (null != location) {
       m['location'] = location;
@@ -427,11 +427,11 @@ class ClientCreateData {
   /// STRING
   String? created;
   /// OBJECT
-  Map<String, dynamic>? direct_partner;
+  Map<String, dynamic>? directPartner;
   /// STRING
   String? id;
   /// BOOLEAN
-  bool? is_active;
+  bool? isActive;
   /// OBJECT (required at the API)
   Map<String, dynamic>? location;
   /// STRING
@@ -448,9 +448,9 @@ class ClientCreateData {
   ClientCreateData({
     this.contact,
     this.created,
-    this.direct_partner,
+    this.directPartner,
     this.id,
-    this.is_active,
+    this.isActive,
     this.location,
     this.mid,
     this.modified,
@@ -462,9 +462,9 @@ class ClientCreateData {
   factory ClientCreateData.fromMap(Map<String, dynamic> m) => ClientCreateData(
         contact: m['contact'] is Map<String, dynamic> ? m['contact'] : null,
         created: m['created'] is String ? m['created'] : null,
-        direct_partner: m['direct_partner'] is Map<String, dynamic> ? m['direct_partner'] : null,
+        directPartner: m['directPartner'] is Map<String, dynamic> ? m['directPartner'] : null,
         id: m['id'] is String ? m['id'] : null,
-        is_active: m['is_active'] is bool ? m['is_active'] : null,
+        isActive: m['isActive'] is bool ? m['isActive'] : null,
         location: m['location'] is Map<String, dynamic> ? m['location'] : null,
         mid: m['mid'] is String ? m['mid'] : null,
         modified: m['modified'] is String ? m['modified'] : null,
@@ -481,14 +481,14 @@ class ClientCreateData {
     if (null != created) {
       m['created'] = created;
     }
-    if (null != direct_partner) {
-      m['direct_partner'] = direct_partner;
+    if (null != directPartner) {
+      m['directPartner'] = directPartner;
     }
     if (null != id) {
       m['id'] = id;
     }
-    if (null != is_active) {
-      m['is_active'] = is_active;
+    if (null != isActive) {
+      m['isActive'] = isActive;
     }
     if (null != location) {
       m['location'] = location;
@@ -613,140 +613,140 @@ class DecryptionCreateData {
 
 class Device {
   /// OBJECT (required at the API)
-  Map<String, dynamic>? activated_by;
+  Map<String, dynamic>? activatedBy;
   /// STRING
-  String? activation_date;
+  String? activationDate;
   /// STRING
-  String? alternate_key;
+  String? alternateKey;
   /// STRING
-  String? audit_next_date;
+  String? auditNextDate;
   /// STRING
-  String? audit_notification_date;
+  String? auditNotificationDate;
   /// OBJECT
   Map<String, dynamic>? client;
   /// STRING
   String? created;
   /// OBJECT (required at the API)
-  Map<String, dynamic>? created_by;
+  Map<String, dynamic>? createdBy;
   /// OBJECT
-  Map<String, dynamic>? device_build;
+  Map<String, dynamic>? deviceBuild;
   /// OBJECT
-  Map<String, dynamic>? device_state;
+  Map<String, dynamic>? deviceState;
   /// OBJECT
-  Map<String, dynamic>? device_type;
+  Map<String, dynamic>? deviceType;
   /// INTEGER
-  int? error_counter;
+  int? errorCounter;
   /// STRING
-  String? error_last_date;
+  String? errorLastDate;
   /// STRING
   String? id;
   /// OBJECT (required at the API)
-  Map<String, dynamic>? initialized_by;
+  Map<String, dynamic>? initializedBy;
   /// STRING
-  String? initialized_date;
+  String? initializedDate;
   /// OBJECT
-  Map<String, dynamic>? inject_key;
+  Map<String, dynamic>? injectKey;
   /// BOOLEAN
-  bool? is_virtual;
+  bool? isVirtual;
   /// OBJECT
   Map<String, dynamic>? kif;
   /// STRING
-  String? last_activity_date;
+  String? lastActivityDate;
   /// OBJECT (required at the API)
   Map<String, dynamic>? location;
   /// STRING
   String? modified;
   /// OBJECT (required at the API)
-  Map<String, dynamic>? modified_by;
+  Map<String, dynamic>? modifiedBy;
   /// STRING
   String? name;
   /// STRING
-  String? note;
+  String? notes;
   /// OBJECT
   Map<String, dynamic>? partner;
   /// STRING
-  String? serial_number;
+  String? serialNumber;
   /// INTEGER
   int? version;
 
   Device({
-    this.activated_by,
-    this.activation_date,
-    this.alternate_key,
-    this.audit_next_date,
-    this.audit_notification_date,
+    this.activatedBy,
+    this.activationDate,
+    this.alternateKey,
+    this.auditNextDate,
+    this.auditNotificationDate,
     this.client,
     this.created,
-    this.created_by,
-    this.device_build,
-    this.device_state,
-    this.device_type,
-    this.error_counter,
-    this.error_last_date,
+    this.createdBy,
+    this.deviceBuild,
+    this.deviceState,
+    this.deviceType,
+    this.errorCounter,
+    this.errorLastDate,
     this.id,
-    this.initialized_by,
-    this.initialized_date,
-    this.inject_key,
-    this.is_virtual,
+    this.initializedBy,
+    this.initializedDate,
+    this.injectKey,
+    this.isVirtual,
     this.kif,
-    this.last_activity_date,
+    this.lastActivityDate,
     this.location,
     this.modified,
-    this.modified_by,
+    this.modifiedBy,
     this.name,
-    this.note,
+    this.notes,
     this.partner,
-    this.serial_number,
+    this.serialNumber,
     this.version,
   });
 
   factory Device.fromMap(Map<String, dynamic> m) => Device(
-        activated_by: m['activated_by'] is Map<String, dynamic> ? m['activated_by'] : null,
-        activation_date: m['activation_date'] is String ? m['activation_date'] : null,
-        alternate_key: m['alternate_key'] is String ? m['alternate_key'] : null,
-        audit_next_date: m['audit_next_date'] is String ? m['audit_next_date'] : null,
-        audit_notification_date: m['audit_notification_date'] is String ? m['audit_notification_date'] : null,
+        activatedBy: m['activatedBy'] is Map<String, dynamic> ? m['activatedBy'] : null,
+        activationDate: m['activationDate'] is String ? m['activationDate'] : null,
+        alternateKey: m['alternateKey'] is String ? m['alternateKey'] : null,
+        auditNextDate: m['auditNextDate'] is String ? m['auditNextDate'] : null,
+        auditNotificationDate: m['auditNotificationDate'] is String ? m['auditNotificationDate'] : null,
         client: m['client'] is Map<String, dynamic> ? m['client'] : null,
         created: m['created'] is String ? m['created'] : null,
-        created_by: m['created_by'] is Map<String, dynamic> ? m['created_by'] : null,
-        device_build: m['device_build'] is Map<String, dynamic> ? m['device_build'] : null,
-        device_state: m['device_state'] is Map<String, dynamic> ? m['device_state'] : null,
-        device_type: m['device_type'] is Map<String, dynamic> ? m['device_type'] : null,
-        error_counter: m['error_counter'] is int ? m['error_counter'] : null,
-        error_last_date: m['error_last_date'] is String ? m['error_last_date'] : null,
+        createdBy: m['createdBy'] is Map<String, dynamic> ? m['createdBy'] : null,
+        deviceBuild: m['deviceBuild'] is Map<String, dynamic> ? m['deviceBuild'] : null,
+        deviceState: m['deviceState'] is Map<String, dynamic> ? m['deviceState'] : null,
+        deviceType: m['deviceType'] is Map<String, dynamic> ? m['deviceType'] : null,
+        errorCounter: m['errorCounter'] is int ? m['errorCounter'] : null,
+        errorLastDate: m['errorLastDate'] is String ? m['errorLastDate'] : null,
         id: m['id'] is String ? m['id'] : null,
-        initialized_by: m['initialized_by'] is Map<String, dynamic> ? m['initialized_by'] : null,
-        initialized_date: m['initialized_date'] is String ? m['initialized_date'] : null,
-        inject_key: m['inject_key'] is Map<String, dynamic> ? m['inject_key'] : null,
-        is_virtual: m['is_virtual'] is bool ? m['is_virtual'] : null,
+        initializedBy: m['initializedBy'] is Map<String, dynamic> ? m['initializedBy'] : null,
+        initializedDate: m['initializedDate'] is String ? m['initializedDate'] : null,
+        injectKey: m['injectKey'] is Map<String, dynamic> ? m['injectKey'] : null,
+        isVirtual: m['isVirtual'] is bool ? m['isVirtual'] : null,
         kif: m['kif'] is Map<String, dynamic> ? m['kif'] : null,
-        last_activity_date: m['last_activity_date'] is String ? m['last_activity_date'] : null,
+        lastActivityDate: m['lastActivityDate'] is String ? m['lastActivityDate'] : null,
         location: m['location'] is Map<String, dynamic> ? m['location'] : null,
         modified: m['modified'] is String ? m['modified'] : null,
-        modified_by: m['modified_by'] is Map<String, dynamic> ? m['modified_by'] : null,
+        modifiedBy: m['modifiedBy'] is Map<String, dynamic> ? m['modifiedBy'] : null,
         name: m['name'] is String ? m['name'] : null,
-        note: m['note'] is String ? m['note'] : null,
+        notes: m['notes'] is String ? m['notes'] : null,
         partner: m['partner'] is Map<String, dynamic> ? m['partner'] : null,
-        serial_number: m['serial_number'] is String ? m['serial_number'] : null,
+        serialNumber: m['serialNumber'] is String ? m['serialNumber'] : null,
         version: m['version'] is int ? m['version'] : null,
       );
 
   Map<String, dynamic> toMap() {
     final m = <String, dynamic>{};
-    if (null != activated_by) {
-      m['activated_by'] = activated_by;
+    if (null != activatedBy) {
+      m['activatedBy'] = activatedBy;
     }
-    if (null != activation_date) {
-      m['activation_date'] = activation_date;
+    if (null != activationDate) {
+      m['activationDate'] = activationDate;
     }
-    if (null != alternate_key) {
-      m['alternate_key'] = alternate_key;
+    if (null != alternateKey) {
+      m['alternateKey'] = alternateKey;
     }
-    if (null != audit_next_date) {
-      m['audit_next_date'] = audit_next_date;
+    if (null != auditNextDate) {
+      m['auditNextDate'] = auditNextDate;
     }
-    if (null != audit_notification_date) {
-      m['audit_notification_date'] = audit_notification_date;
+    if (null != auditNotificationDate) {
+      m['auditNotificationDate'] = auditNotificationDate;
     }
     if (null != client) {
       m['client'] = client;
@@ -754,44 +754,44 @@ class Device {
     if (null != created) {
       m['created'] = created;
     }
-    if (null != created_by) {
-      m['created_by'] = created_by;
+    if (null != createdBy) {
+      m['createdBy'] = createdBy;
     }
-    if (null != device_build) {
-      m['device_build'] = device_build;
+    if (null != deviceBuild) {
+      m['deviceBuild'] = deviceBuild;
     }
-    if (null != device_state) {
-      m['device_state'] = device_state;
+    if (null != deviceState) {
+      m['deviceState'] = deviceState;
     }
-    if (null != device_type) {
-      m['device_type'] = device_type;
+    if (null != deviceType) {
+      m['deviceType'] = deviceType;
     }
-    if (null != error_counter) {
-      m['error_counter'] = error_counter;
+    if (null != errorCounter) {
+      m['errorCounter'] = errorCounter;
     }
-    if (null != error_last_date) {
-      m['error_last_date'] = error_last_date;
+    if (null != errorLastDate) {
+      m['errorLastDate'] = errorLastDate;
     }
     if (null != id) {
       m['id'] = id;
     }
-    if (null != initialized_by) {
-      m['initialized_by'] = initialized_by;
+    if (null != initializedBy) {
+      m['initializedBy'] = initializedBy;
     }
-    if (null != initialized_date) {
-      m['initialized_date'] = initialized_date;
+    if (null != initializedDate) {
+      m['initializedDate'] = initializedDate;
     }
-    if (null != inject_key) {
-      m['inject_key'] = inject_key;
+    if (null != injectKey) {
+      m['injectKey'] = injectKey;
     }
-    if (null != is_virtual) {
-      m['is_virtual'] = is_virtual;
+    if (null != isVirtual) {
+      m['isVirtual'] = isVirtual;
     }
     if (null != kif) {
       m['kif'] = kif;
     }
-    if (null != last_activity_date) {
-      m['last_activity_date'] = last_activity_date;
+    if (null != lastActivityDate) {
+      m['lastActivityDate'] = lastActivityDate;
     }
     if (null != location) {
       m['location'] = location;
@@ -799,20 +799,20 @@ class Device {
     if (null != modified) {
       m['modified'] = modified;
     }
-    if (null != modified_by) {
-      m['modified_by'] = modified_by;
+    if (null != modifiedBy) {
+      m['modifiedBy'] = modifiedBy;
     }
     if (null != name) {
       m['name'] = name;
     }
-    if (null != note) {
-      m['note'] = note;
+    if (null != notes) {
+      m['notes'] = notes;
     }
     if (null != partner) {
       m['partner'] = partner;
     }
-    if (null != serial_number) {
-      m['serial_number'] = serial_number;
+    if (null != serialNumber) {
+      m['serialNumber'] = serialNumber;
     }
     if (null != version) {
       m['version'] = version;
@@ -858,140 +858,140 @@ class DeviceLoadMatch {
 
 class DeviceListMatch {
   /// OBJECT
-  Map<String, dynamic>? activated_by;
+  Map<String, dynamic>? activatedBy;
   /// STRING
-  String? activation_date;
+  String? activationDate;
   /// STRING
-  String? alternate_key;
+  String? alternateKey;
   /// STRING
-  String? audit_next_date;
+  String? auditNextDate;
   /// STRING
-  String? audit_notification_date;
+  String? auditNotificationDate;
   /// OBJECT
   Map<String, dynamic>? client;
   /// STRING
   String? created;
   /// OBJECT
-  Map<String, dynamic>? created_by;
+  Map<String, dynamic>? createdBy;
   /// OBJECT
-  Map<String, dynamic>? device_build;
+  Map<String, dynamic>? deviceBuild;
   /// OBJECT
-  Map<String, dynamic>? device_state;
+  Map<String, dynamic>? deviceState;
   /// OBJECT
-  Map<String, dynamic>? device_type;
+  Map<String, dynamic>? deviceType;
   /// INTEGER
-  int? error_counter;
+  int? errorCounter;
   /// STRING
-  String? error_last_date;
+  String? errorLastDate;
   /// STRING
   String? id;
   /// OBJECT
-  Map<String, dynamic>? initialized_by;
+  Map<String, dynamic>? initializedBy;
   /// STRING
-  String? initialized_date;
+  String? initializedDate;
   /// OBJECT
-  Map<String, dynamic>? inject_key;
+  Map<String, dynamic>? injectKey;
   /// BOOLEAN
-  bool? is_virtual;
+  bool? isVirtual;
   /// OBJECT
   Map<String, dynamic>? kif;
   /// STRING
-  String? last_activity_date;
+  String? lastActivityDate;
   /// OBJECT
   Map<String, dynamic>? location;
   /// STRING
   String? modified;
   /// OBJECT
-  Map<String, dynamic>? modified_by;
+  Map<String, dynamic>? modifiedBy;
   /// STRING
   String? name;
   /// STRING
-  String? note;
+  String? notes;
   /// OBJECT
   Map<String, dynamic>? partner;
   /// STRING
-  String? serial_number;
+  String? serialNumber;
   /// INTEGER
   int? version;
 
   DeviceListMatch({
-    this.activated_by,
-    this.activation_date,
-    this.alternate_key,
-    this.audit_next_date,
-    this.audit_notification_date,
+    this.activatedBy,
+    this.activationDate,
+    this.alternateKey,
+    this.auditNextDate,
+    this.auditNotificationDate,
     this.client,
     this.created,
-    this.created_by,
-    this.device_build,
-    this.device_state,
-    this.device_type,
-    this.error_counter,
-    this.error_last_date,
+    this.createdBy,
+    this.deviceBuild,
+    this.deviceState,
+    this.deviceType,
+    this.errorCounter,
+    this.errorLastDate,
     this.id,
-    this.initialized_by,
-    this.initialized_date,
-    this.inject_key,
-    this.is_virtual,
+    this.initializedBy,
+    this.initializedDate,
+    this.injectKey,
+    this.isVirtual,
     this.kif,
-    this.last_activity_date,
+    this.lastActivityDate,
     this.location,
     this.modified,
-    this.modified_by,
+    this.modifiedBy,
     this.name,
-    this.note,
+    this.notes,
     this.partner,
-    this.serial_number,
+    this.serialNumber,
     this.version,
   });
 
   factory DeviceListMatch.fromMap(Map<String, dynamic> m) => DeviceListMatch(
-        activated_by: m['activated_by'] is Map<String, dynamic> ? m['activated_by'] : null,
-        activation_date: m['activation_date'] is String ? m['activation_date'] : null,
-        alternate_key: m['alternate_key'] is String ? m['alternate_key'] : null,
-        audit_next_date: m['audit_next_date'] is String ? m['audit_next_date'] : null,
-        audit_notification_date: m['audit_notification_date'] is String ? m['audit_notification_date'] : null,
+        activatedBy: m['activatedBy'] is Map<String, dynamic> ? m['activatedBy'] : null,
+        activationDate: m['activationDate'] is String ? m['activationDate'] : null,
+        alternateKey: m['alternateKey'] is String ? m['alternateKey'] : null,
+        auditNextDate: m['auditNextDate'] is String ? m['auditNextDate'] : null,
+        auditNotificationDate: m['auditNotificationDate'] is String ? m['auditNotificationDate'] : null,
         client: m['client'] is Map<String, dynamic> ? m['client'] : null,
         created: m['created'] is String ? m['created'] : null,
-        created_by: m['created_by'] is Map<String, dynamic> ? m['created_by'] : null,
-        device_build: m['device_build'] is Map<String, dynamic> ? m['device_build'] : null,
-        device_state: m['device_state'] is Map<String, dynamic> ? m['device_state'] : null,
-        device_type: m['device_type'] is Map<String, dynamic> ? m['device_type'] : null,
-        error_counter: m['error_counter'] is int ? m['error_counter'] : null,
-        error_last_date: m['error_last_date'] is String ? m['error_last_date'] : null,
+        createdBy: m['createdBy'] is Map<String, dynamic> ? m['createdBy'] : null,
+        deviceBuild: m['deviceBuild'] is Map<String, dynamic> ? m['deviceBuild'] : null,
+        deviceState: m['deviceState'] is Map<String, dynamic> ? m['deviceState'] : null,
+        deviceType: m['deviceType'] is Map<String, dynamic> ? m['deviceType'] : null,
+        errorCounter: m['errorCounter'] is int ? m['errorCounter'] : null,
+        errorLastDate: m['errorLastDate'] is String ? m['errorLastDate'] : null,
         id: m['id'] is String ? m['id'] : null,
-        initialized_by: m['initialized_by'] is Map<String, dynamic> ? m['initialized_by'] : null,
-        initialized_date: m['initialized_date'] is String ? m['initialized_date'] : null,
-        inject_key: m['inject_key'] is Map<String, dynamic> ? m['inject_key'] : null,
-        is_virtual: m['is_virtual'] is bool ? m['is_virtual'] : null,
+        initializedBy: m['initializedBy'] is Map<String, dynamic> ? m['initializedBy'] : null,
+        initializedDate: m['initializedDate'] is String ? m['initializedDate'] : null,
+        injectKey: m['injectKey'] is Map<String, dynamic> ? m['injectKey'] : null,
+        isVirtual: m['isVirtual'] is bool ? m['isVirtual'] : null,
         kif: m['kif'] is Map<String, dynamic> ? m['kif'] : null,
-        last_activity_date: m['last_activity_date'] is String ? m['last_activity_date'] : null,
+        lastActivityDate: m['lastActivityDate'] is String ? m['lastActivityDate'] : null,
         location: m['location'] is Map<String, dynamic> ? m['location'] : null,
         modified: m['modified'] is String ? m['modified'] : null,
-        modified_by: m['modified_by'] is Map<String, dynamic> ? m['modified_by'] : null,
+        modifiedBy: m['modifiedBy'] is Map<String, dynamic> ? m['modifiedBy'] : null,
         name: m['name'] is String ? m['name'] : null,
-        note: m['note'] is String ? m['note'] : null,
+        notes: m['notes'] is String ? m['notes'] : null,
         partner: m['partner'] is Map<String, dynamic> ? m['partner'] : null,
-        serial_number: m['serial_number'] is String ? m['serial_number'] : null,
+        serialNumber: m['serialNumber'] is String ? m['serialNumber'] : null,
         version: m['version'] is int ? m['version'] : null,
       );
 
   Map<String, dynamic> toMap() {
     final m = <String, dynamic>{};
-    if (null != activated_by) {
-      m['activated_by'] = activated_by;
+    if (null != activatedBy) {
+      m['activatedBy'] = activatedBy;
     }
-    if (null != activation_date) {
-      m['activation_date'] = activation_date;
+    if (null != activationDate) {
+      m['activationDate'] = activationDate;
     }
-    if (null != alternate_key) {
-      m['alternate_key'] = alternate_key;
+    if (null != alternateKey) {
+      m['alternateKey'] = alternateKey;
     }
-    if (null != audit_next_date) {
-      m['audit_next_date'] = audit_next_date;
+    if (null != auditNextDate) {
+      m['auditNextDate'] = auditNextDate;
     }
-    if (null != audit_notification_date) {
-      m['audit_notification_date'] = audit_notification_date;
+    if (null != auditNotificationDate) {
+      m['auditNotificationDate'] = auditNotificationDate;
     }
     if (null != client) {
       m['client'] = client;
@@ -999,44 +999,44 @@ class DeviceListMatch {
     if (null != created) {
       m['created'] = created;
     }
-    if (null != created_by) {
-      m['created_by'] = created_by;
+    if (null != createdBy) {
+      m['createdBy'] = createdBy;
     }
-    if (null != device_build) {
-      m['device_build'] = device_build;
+    if (null != deviceBuild) {
+      m['deviceBuild'] = deviceBuild;
     }
-    if (null != device_state) {
-      m['device_state'] = device_state;
+    if (null != deviceState) {
+      m['deviceState'] = deviceState;
     }
-    if (null != device_type) {
-      m['device_type'] = device_type;
+    if (null != deviceType) {
+      m['deviceType'] = deviceType;
     }
-    if (null != error_counter) {
-      m['error_counter'] = error_counter;
+    if (null != errorCounter) {
+      m['errorCounter'] = errorCounter;
     }
-    if (null != error_last_date) {
-      m['error_last_date'] = error_last_date;
+    if (null != errorLastDate) {
+      m['errorLastDate'] = errorLastDate;
     }
     if (null != id) {
       m['id'] = id;
     }
-    if (null != initialized_by) {
-      m['initialized_by'] = initialized_by;
+    if (null != initializedBy) {
+      m['initializedBy'] = initializedBy;
     }
-    if (null != initialized_date) {
-      m['initialized_date'] = initialized_date;
+    if (null != initializedDate) {
+      m['initializedDate'] = initializedDate;
     }
-    if (null != inject_key) {
-      m['inject_key'] = inject_key;
+    if (null != injectKey) {
+      m['injectKey'] = injectKey;
     }
-    if (null != is_virtual) {
-      m['is_virtual'] = is_virtual;
+    if (null != isVirtual) {
+      m['isVirtual'] = isVirtual;
     }
     if (null != kif) {
       m['kif'] = kif;
     }
-    if (null != last_activity_date) {
-      m['last_activity_date'] = last_activity_date;
+    if (null != lastActivityDate) {
+      m['lastActivityDate'] = lastActivityDate;
     }
     if (null != location) {
       m['location'] = location;
@@ -1044,20 +1044,20 @@ class DeviceListMatch {
     if (null != modified) {
       m['modified'] = modified;
     }
-    if (null != modified_by) {
-      m['modified_by'] = modified_by;
+    if (null != modifiedBy) {
+      m['modifiedBy'] = modifiedBy;
     }
     if (null != name) {
       m['name'] = name;
     }
-    if (null != note) {
-      m['note'] = note;
+    if (null != notes) {
+      m['notes'] = notes;
     }
     if (null != partner) {
       m['partner'] = partner;
     }
-    if (null != serial_number) {
-      m['serial_number'] = serial_number;
+    if (null != serialNumber) {
+      m['serialNumber'] = serialNumber;
     }
     if (null != version) {
       m['version'] = version;
@@ -1068,140 +1068,140 @@ class DeviceListMatch {
 
 class DeviceCreateData {
   /// OBJECT (required at the API)
-  Map<String, dynamic>? activated_by;
+  Map<String, dynamic>? activatedBy;
   /// STRING
-  String? activation_date;
+  String? activationDate;
   /// STRING
-  String? alternate_key;
+  String? alternateKey;
   /// STRING
-  String? audit_next_date;
+  String? auditNextDate;
   /// STRING
-  String? audit_notification_date;
+  String? auditNotificationDate;
   /// OBJECT
   Map<String, dynamic>? client;
   /// STRING
   String? created;
   /// OBJECT (required at the API)
-  Map<String, dynamic>? created_by;
+  Map<String, dynamic>? createdBy;
   /// OBJECT
-  Map<String, dynamic>? device_build;
+  Map<String, dynamic>? deviceBuild;
   /// OBJECT
-  Map<String, dynamic>? device_state;
+  Map<String, dynamic>? deviceState;
   /// OBJECT
-  Map<String, dynamic>? device_type;
+  Map<String, dynamic>? deviceType;
   /// INTEGER
-  int? error_counter;
+  int? errorCounter;
   /// STRING
-  String? error_last_date;
+  String? errorLastDate;
   /// STRING
   String? id;
   /// OBJECT (required at the API)
-  Map<String, dynamic>? initialized_by;
+  Map<String, dynamic>? initializedBy;
   /// STRING
-  String? initialized_date;
+  String? initializedDate;
   /// OBJECT
-  Map<String, dynamic>? inject_key;
+  Map<String, dynamic>? injectKey;
   /// BOOLEAN
-  bool? is_virtual;
+  bool? isVirtual;
   /// OBJECT
   Map<String, dynamic>? kif;
   /// STRING
-  String? last_activity_date;
+  String? lastActivityDate;
   /// OBJECT (required at the API)
   Map<String, dynamic>? location;
   /// STRING
   String? modified;
   /// OBJECT (required at the API)
-  Map<String, dynamic>? modified_by;
+  Map<String, dynamic>? modifiedBy;
   /// STRING
   String? name;
   /// STRING
-  String? note;
+  String? notes;
   /// OBJECT
   Map<String, dynamic>? partner;
   /// STRING
-  String? serial_number;
+  String? serialNumber;
   /// INTEGER
   int? version;
 
   DeviceCreateData({
-    this.activated_by,
-    this.activation_date,
-    this.alternate_key,
-    this.audit_next_date,
-    this.audit_notification_date,
+    this.activatedBy,
+    this.activationDate,
+    this.alternateKey,
+    this.auditNextDate,
+    this.auditNotificationDate,
     this.client,
     this.created,
-    this.created_by,
-    this.device_build,
-    this.device_state,
-    this.device_type,
-    this.error_counter,
-    this.error_last_date,
+    this.createdBy,
+    this.deviceBuild,
+    this.deviceState,
+    this.deviceType,
+    this.errorCounter,
+    this.errorLastDate,
     this.id,
-    this.initialized_by,
-    this.initialized_date,
-    this.inject_key,
-    this.is_virtual,
+    this.initializedBy,
+    this.initializedDate,
+    this.injectKey,
+    this.isVirtual,
     this.kif,
-    this.last_activity_date,
+    this.lastActivityDate,
     this.location,
     this.modified,
-    this.modified_by,
+    this.modifiedBy,
     this.name,
-    this.note,
+    this.notes,
     this.partner,
-    this.serial_number,
+    this.serialNumber,
     this.version,
   });
 
   factory DeviceCreateData.fromMap(Map<String, dynamic> m) => DeviceCreateData(
-        activated_by: m['activated_by'] is Map<String, dynamic> ? m['activated_by'] : null,
-        activation_date: m['activation_date'] is String ? m['activation_date'] : null,
-        alternate_key: m['alternate_key'] is String ? m['alternate_key'] : null,
-        audit_next_date: m['audit_next_date'] is String ? m['audit_next_date'] : null,
-        audit_notification_date: m['audit_notification_date'] is String ? m['audit_notification_date'] : null,
+        activatedBy: m['activatedBy'] is Map<String, dynamic> ? m['activatedBy'] : null,
+        activationDate: m['activationDate'] is String ? m['activationDate'] : null,
+        alternateKey: m['alternateKey'] is String ? m['alternateKey'] : null,
+        auditNextDate: m['auditNextDate'] is String ? m['auditNextDate'] : null,
+        auditNotificationDate: m['auditNotificationDate'] is String ? m['auditNotificationDate'] : null,
         client: m['client'] is Map<String, dynamic> ? m['client'] : null,
         created: m['created'] is String ? m['created'] : null,
-        created_by: m['created_by'] is Map<String, dynamic> ? m['created_by'] : null,
-        device_build: m['device_build'] is Map<String, dynamic> ? m['device_build'] : null,
-        device_state: m['device_state'] is Map<String, dynamic> ? m['device_state'] : null,
-        device_type: m['device_type'] is Map<String, dynamic> ? m['device_type'] : null,
-        error_counter: m['error_counter'] is int ? m['error_counter'] : null,
-        error_last_date: m['error_last_date'] is String ? m['error_last_date'] : null,
+        createdBy: m['createdBy'] is Map<String, dynamic> ? m['createdBy'] : null,
+        deviceBuild: m['deviceBuild'] is Map<String, dynamic> ? m['deviceBuild'] : null,
+        deviceState: m['deviceState'] is Map<String, dynamic> ? m['deviceState'] : null,
+        deviceType: m['deviceType'] is Map<String, dynamic> ? m['deviceType'] : null,
+        errorCounter: m['errorCounter'] is int ? m['errorCounter'] : null,
+        errorLastDate: m['errorLastDate'] is String ? m['errorLastDate'] : null,
         id: m['id'] is String ? m['id'] : null,
-        initialized_by: m['initialized_by'] is Map<String, dynamic> ? m['initialized_by'] : null,
-        initialized_date: m['initialized_date'] is String ? m['initialized_date'] : null,
-        inject_key: m['inject_key'] is Map<String, dynamic> ? m['inject_key'] : null,
-        is_virtual: m['is_virtual'] is bool ? m['is_virtual'] : null,
+        initializedBy: m['initializedBy'] is Map<String, dynamic> ? m['initializedBy'] : null,
+        initializedDate: m['initializedDate'] is String ? m['initializedDate'] : null,
+        injectKey: m['injectKey'] is Map<String, dynamic> ? m['injectKey'] : null,
+        isVirtual: m['isVirtual'] is bool ? m['isVirtual'] : null,
         kif: m['kif'] is Map<String, dynamic> ? m['kif'] : null,
-        last_activity_date: m['last_activity_date'] is String ? m['last_activity_date'] : null,
+        lastActivityDate: m['lastActivityDate'] is String ? m['lastActivityDate'] : null,
         location: m['location'] is Map<String, dynamic> ? m['location'] : null,
         modified: m['modified'] is String ? m['modified'] : null,
-        modified_by: m['modified_by'] is Map<String, dynamic> ? m['modified_by'] : null,
+        modifiedBy: m['modifiedBy'] is Map<String, dynamic> ? m['modifiedBy'] : null,
         name: m['name'] is String ? m['name'] : null,
-        note: m['note'] is String ? m['note'] : null,
+        notes: m['notes'] is String ? m['notes'] : null,
         partner: m['partner'] is Map<String, dynamic> ? m['partner'] : null,
-        serial_number: m['serial_number'] is String ? m['serial_number'] : null,
+        serialNumber: m['serialNumber'] is String ? m['serialNumber'] : null,
         version: m['version'] is int ? m['version'] : null,
       );
 
   Map<String, dynamic> toMap() {
     final m = <String, dynamic>{};
-    if (null != activated_by) {
-      m['activated_by'] = activated_by;
+    if (null != activatedBy) {
+      m['activatedBy'] = activatedBy;
     }
-    if (null != activation_date) {
-      m['activation_date'] = activation_date;
+    if (null != activationDate) {
+      m['activationDate'] = activationDate;
     }
-    if (null != alternate_key) {
-      m['alternate_key'] = alternate_key;
+    if (null != alternateKey) {
+      m['alternateKey'] = alternateKey;
     }
-    if (null != audit_next_date) {
-      m['audit_next_date'] = audit_next_date;
+    if (null != auditNextDate) {
+      m['auditNextDate'] = auditNextDate;
     }
-    if (null != audit_notification_date) {
-      m['audit_notification_date'] = audit_notification_date;
+    if (null != auditNotificationDate) {
+      m['auditNotificationDate'] = auditNotificationDate;
     }
     if (null != client) {
       m['client'] = client;
@@ -1209,44 +1209,44 @@ class DeviceCreateData {
     if (null != created) {
       m['created'] = created;
     }
-    if (null != created_by) {
-      m['created_by'] = created_by;
+    if (null != createdBy) {
+      m['createdBy'] = createdBy;
     }
-    if (null != device_build) {
-      m['device_build'] = device_build;
+    if (null != deviceBuild) {
+      m['deviceBuild'] = deviceBuild;
     }
-    if (null != device_state) {
-      m['device_state'] = device_state;
+    if (null != deviceState) {
+      m['deviceState'] = deviceState;
     }
-    if (null != device_type) {
-      m['device_type'] = device_type;
+    if (null != deviceType) {
+      m['deviceType'] = deviceType;
     }
-    if (null != error_counter) {
-      m['error_counter'] = error_counter;
+    if (null != errorCounter) {
+      m['errorCounter'] = errorCounter;
     }
-    if (null != error_last_date) {
-      m['error_last_date'] = error_last_date;
+    if (null != errorLastDate) {
+      m['errorLastDate'] = errorLastDate;
     }
     if (null != id) {
       m['id'] = id;
     }
-    if (null != initialized_by) {
-      m['initialized_by'] = initialized_by;
+    if (null != initializedBy) {
+      m['initializedBy'] = initializedBy;
     }
-    if (null != initialized_date) {
-      m['initialized_date'] = initialized_date;
+    if (null != initializedDate) {
+      m['initializedDate'] = initializedDate;
     }
-    if (null != inject_key) {
-      m['inject_key'] = inject_key;
+    if (null != injectKey) {
+      m['injectKey'] = injectKey;
     }
-    if (null != is_virtual) {
-      m['is_virtual'] = is_virtual;
+    if (null != isVirtual) {
+      m['isVirtual'] = isVirtual;
     }
     if (null != kif) {
       m['kif'] = kif;
     }
-    if (null != last_activity_date) {
-      m['last_activity_date'] = last_activity_date;
+    if (null != lastActivityDate) {
+      m['lastActivityDate'] = lastActivityDate;
     }
     if (null != location) {
       m['location'] = location;
@@ -1254,20 +1254,20 @@ class DeviceCreateData {
     if (null != modified) {
       m['modified'] = modified;
     }
-    if (null != modified_by) {
-      m['modified_by'] = modified_by;
+    if (null != modifiedBy) {
+      m['modifiedBy'] = modifiedBy;
     }
     if (null != name) {
       m['name'] = name;
     }
-    if (null != note) {
-      m['note'] = note;
+    if (null != notes) {
+      m['notes'] = notes;
     }
     if (null != partner) {
       m['partner'] = partner;
     }
-    if (null != serial_number) {
-      m['serial_number'] = serial_number;
+    if (null != serialNumber) {
+      m['serialNumber'] = serialNumber;
     }
     if (null != version) {
       m['version'] = version;
@@ -1278,100 +1278,100 @@ class DeviceCreateData {
 
 class DeviceBuild {
   /// STRING
-  String? app_version;
+  String? appVersion;
   /// STRING
-  String? build_number;
+  String? buildNumber;
   /// STRING
-  String? config_file_name;
+  String? configFileName;
   /// STRING
   String? created;
   /// STRING
-  String? device_type;
+  String? deviceType;
   /// STRING
-  String? firmware_version;
+  String? firmwareVersion;
   /// STRING
-  String? hardware_version;
+  String? hardwareVersion;
   /// INTEGER
   int? id;
   /// BOOLEAN
-  bool? is_active;
+  bool? isActive;
   /// STRING
   String? modified;
   /// STRING
   String? name;
   /// STRING
-  String? note;
+  String? notes;
   /// INTEGER
   int? version;
   /// STRING
-  String? white_listing_bin_range;
+  String? whiteListingBinRanges;
   /// BOOLEAN
-  bool? white_listing_used;
+  bool? whiteListingUsed;
 
   DeviceBuild({
-    this.app_version,
-    this.build_number,
-    this.config_file_name,
+    this.appVersion,
+    this.buildNumber,
+    this.configFileName,
     this.created,
-    this.device_type,
-    this.firmware_version,
-    this.hardware_version,
+    this.deviceType,
+    this.firmwareVersion,
+    this.hardwareVersion,
     this.id,
-    this.is_active,
+    this.isActive,
     this.modified,
     this.name,
-    this.note,
+    this.notes,
     this.version,
-    this.white_listing_bin_range,
-    this.white_listing_used,
+    this.whiteListingBinRanges,
+    this.whiteListingUsed,
   });
 
   factory DeviceBuild.fromMap(Map<String, dynamic> m) => DeviceBuild(
-        app_version: m['app_version'] is String ? m['app_version'] : null,
-        build_number: m['build_number'] is String ? m['build_number'] : null,
-        config_file_name: m['config_file_name'] is String ? m['config_file_name'] : null,
+        appVersion: m['appVersion'] is String ? m['appVersion'] : null,
+        buildNumber: m['buildNumber'] is String ? m['buildNumber'] : null,
+        configFileName: m['configFileName'] is String ? m['configFileName'] : null,
         created: m['created'] is String ? m['created'] : null,
-        device_type: m['device_type'] is String ? m['device_type'] : null,
-        firmware_version: m['firmware_version'] is String ? m['firmware_version'] : null,
-        hardware_version: m['hardware_version'] is String ? m['hardware_version'] : null,
+        deviceType: m['deviceType'] is String ? m['deviceType'] : null,
+        firmwareVersion: m['firmwareVersion'] is String ? m['firmwareVersion'] : null,
+        hardwareVersion: m['hardwareVersion'] is String ? m['hardwareVersion'] : null,
         id: m['id'] is int ? m['id'] : null,
-        is_active: m['is_active'] is bool ? m['is_active'] : null,
+        isActive: m['isActive'] is bool ? m['isActive'] : null,
         modified: m['modified'] is String ? m['modified'] : null,
         name: m['name'] is String ? m['name'] : null,
-        note: m['note'] is String ? m['note'] : null,
+        notes: m['notes'] is String ? m['notes'] : null,
         version: m['version'] is int ? m['version'] : null,
-        white_listing_bin_range: m['white_listing_bin_range'] is String ? m['white_listing_bin_range'] : null,
-        white_listing_used: m['white_listing_used'] is bool ? m['white_listing_used'] : null,
+        whiteListingBinRanges: m['whiteListingBinRanges'] is String ? m['whiteListingBinRanges'] : null,
+        whiteListingUsed: m['whiteListingUsed'] is bool ? m['whiteListingUsed'] : null,
       );
 
   Map<String, dynamic> toMap() {
     final m = <String, dynamic>{};
-    if (null != app_version) {
-      m['app_version'] = app_version;
+    if (null != appVersion) {
+      m['appVersion'] = appVersion;
     }
-    if (null != build_number) {
-      m['build_number'] = build_number;
+    if (null != buildNumber) {
+      m['buildNumber'] = buildNumber;
     }
-    if (null != config_file_name) {
-      m['config_file_name'] = config_file_name;
+    if (null != configFileName) {
+      m['configFileName'] = configFileName;
     }
     if (null != created) {
       m['created'] = created;
     }
-    if (null != device_type) {
-      m['device_type'] = device_type;
+    if (null != deviceType) {
+      m['deviceType'] = deviceType;
     }
-    if (null != firmware_version) {
-      m['firmware_version'] = firmware_version;
+    if (null != firmwareVersion) {
+      m['firmwareVersion'] = firmwareVersion;
     }
-    if (null != hardware_version) {
-      m['hardware_version'] = hardware_version;
+    if (null != hardwareVersion) {
+      m['hardwareVersion'] = hardwareVersion;
     }
     if (null != id) {
       m['id'] = id;
     }
-    if (null != is_active) {
-      m['is_active'] = is_active;
+    if (null != isActive) {
+      m['isActive'] = isActive;
     }
     if (null != modified) {
       m['modified'] = modified;
@@ -1379,17 +1379,17 @@ class DeviceBuild {
     if (null != name) {
       m['name'] = name;
     }
-    if (null != note) {
-      m['note'] = note;
+    if (null != notes) {
+      m['notes'] = notes;
     }
     if (null != version) {
       m['version'] = version;
     }
-    if (null != white_listing_bin_range) {
-      m['white_listing_bin_range'] = white_listing_bin_range;
+    if (null != whiteListingBinRanges) {
+      m['whiteListingBinRanges'] = whiteListingBinRanges;
     }
-    if (null != white_listing_used) {
-      m['white_listing_used'] = white_listing_used;
+    if (null != whiteListingUsed) {
+      m['whiteListingUsed'] = whiteListingUsed;
     }
     return m;
   }
@@ -1418,100 +1418,100 @@ class DeviceBuildLoadMatch {
 
 class DeviceBuildListMatch {
   /// STRING
-  String? app_version;
+  String? appVersion;
   /// STRING
-  String? build_number;
+  String? buildNumber;
   /// STRING
-  String? config_file_name;
+  String? configFileName;
   /// STRING
   String? created;
   /// STRING
-  String? device_type;
+  String? deviceType;
   /// STRING
-  String? firmware_version;
+  String? firmwareVersion;
   /// STRING
-  String? hardware_version;
+  String? hardwareVersion;
   /// INTEGER
   int? id;
   /// BOOLEAN
-  bool? is_active;
+  bool? isActive;
   /// STRING
   String? modified;
   /// STRING
   String? name;
   /// STRING
-  String? note;
+  String? notes;
   /// INTEGER
   int? version;
   /// STRING
-  String? white_listing_bin_range;
+  String? whiteListingBinRanges;
   /// BOOLEAN
-  bool? white_listing_used;
+  bool? whiteListingUsed;
 
   DeviceBuildListMatch({
-    this.app_version,
-    this.build_number,
-    this.config_file_name,
+    this.appVersion,
+    this.buildNumber,
+    this.configFileName,
     this.created,
-    this.device_type,
-    this.firmware_version,
-    this.hardware_version,
+    this.deviceType,
+    this.firmwareVersion,
+    this.hardwareVersion,
     this.id,
-    this.is_active,
+    this.isActive,
     this.modified,
     this.name,
-    this.note,
+    this.notes,
     this.version,
-    this.white_listing_bin_range,
-    this.white_listing_used,
+    this.whiteListingBinRanges,
+    this.whiteListingUsed,
   });
 
   factory DeviceBuildListMatch.fromMap(Map<String, dynamic> m) => DeviceBuildListMatch(
-        app_version: m['app_version'] is String ? m['app_version'] : null,
-        build_number: m['build_number'] is String ? m['build_number'] : null,
-        config_file_name: m['config_file_name'] is String ? m['config_file_name'] : null,
+        appVersion: m['appVersion'] is String ? m['appVersion'] : null,
+        buildNumber: m['buildNumber'] is String ? m['buildNumber'] : null,
+        configFileName: m['configFileName'] is String ? m['configFileName'] : null,
         created: m['created'] is String ? m['created'] : null,
-        device_type: m['device_type'] is String ? m['device_type'] : null,
-        firmware_version: m['firmware_version'] is String ? m['firmware_version'] : null,
-        hardware_version: m['hardware_version'] is String ? m['hardware_version'] : null,
+        deviceType: m['deviceType'] is String ? m['deviceType'] : null,
+        firmwareVersion: m['firmwareVersion'] is String ? m['firmwareVersion'] : null,
+        hardwareVersion: m['hardwareVersion'] is String ? m['hardwareVersion'] : null,
         id: m['id'] is int ? m['id'] : null,
-        is_active: m['is_active'] is bool ? m['is_active'] : null,
+        isActive: m['isActive'] is bool ? m['isActive'] : null,
         modified: m['modified'] is String ? m['modified'] : null,
         name: m['name'] is String ? m['name'] : null,
-        note: m['note'] is String ? m['note'] : null,
+        notes: m['notes'] is String ? m['notes'] : null,
         version: m['version'] is int ? m['version'] : null,
-        white_listing_bin_range: m['white_listing_bin_range'] is String ? m['white_listing_bin_range'] : null,
-        white_listing_used: m['white_listing_used'] is bool ? m['white_listing_used'] : null,
+        whiteListingBinRanges: m['whiteListingBinRanges'] is String ? m['whiteListingBinRanges'] : null,
+        whiteListingUsed: m['whiteListingUsed'] is bool ? m['whiteListingUsed'] : null,
       );
 
   Map<String, dynamic> toMap() {
     final m = <String, dynamic>{};
-    if (null != app_version) {
-      m['app_version'] = app_version;
+    if (null != appVersion) {
+      m['appVersion'] = appVersion;
     }
-    if (null != build_number) {
-      m['build_number'] = build_number;
+    if (null != buildNumber) {
+      m['buildNumber'] = buildNumber;
     }
-    if (null != config_file_name) {
-      m['config_file_name'] = config_file_name;
+    if (null != configFileName) {
+      m['configFileName'] = configFileName;
     }
     if (null != created) {
       m['created'] = created;
     }
-    if (null != device_type) {
-      m['device_type'] = device_type;
+    if (null != deviceType) {
+      m['deviceType'] = deviceType;
     }
-    if (null != firmware_version) {
-      m['firmware_version'] = firmware_version;
+    if (null != firmwareVersion) {
+      m['firmwareVersion'] = firmwareVersion;
     }
-    if (null != hardware_version) {
-      m['hardware_version'] = hardware_version;
+    if (null != hardwareVersion) {
+      m['hardwareVersion'] = hardwareVersion;
     }
     if (null != id) {
       m['id'] = id;
     }
-    if (null != is_active) {
-      m['is_active'] = is_active;
+    if (null != isActive) {
+      m['isActive'] = isActive;
     }
     if (null != modified) {
       m['modified'] = modified;
@@ -1519,17 +1519,17 @@ class DeviceBuildListMatch {
     if (null != name) {
       m['name'] = name;
     }
-    if (null != note) {
-      m['note'] = note;
+    if (null != notes) {
+      m['notes'] = notes;
     }
     if (null != version) {
       m['version'] = version;
     }
-    if (null != white_listing_bin_range) {
-      m['white_listing_bin_range'] = white_listing_bin_range;
+    if (null != whiteListingBinRanges) {
+      m['whiteListingBinRanges'] = whiteListingBinRanges;
     }
-    if (null != white_listing_used) {
-      m['white_listing_used'] = white_listing_used;
+    if (null != whiteListingUsed) {
+      m['whiteListingUsed'] = whiteListingUsed;
     }
     return m;
   }
@@ -1537,11 +1537,11 @@ class DeviceBuildListMatch {
 
 class DeviceCustodyDetail {
   /// STRING
-  String? complete_date;
+  String? completeDate;
   /// STRING
   String? created;
   /// OBJECT (required at the API)
-  Map<String, dynamic>? created_by;
+  Map<String, dynamic>? createdBy;
   /// OBJECT (required at the API)
   Map<String, dynamic>? custodian;
   /// OBJECT
@@ -1553,58 +1553,58 @@ class DeviceCustodyDetail {
   /// STRING
   String? modified;
   /// OBJECT (required at the API)
-  Map<String, dynamic>? modified_by;
+  Map<String, dynamic>? modifiedBy;
   /// STRING
-  String? note;
+  String? notes;
   /// OBJECT
   Map<String, dynamic>? status;
   /// OBJECT
-  Map<String, dynamic>? transfer_method;
+  Map<String, dynamic>? transferMethod;
   /// INTEGER
   int? version;
 
   DeviceCustodyDetail({
-    this.complete_date,
+    this.completeDate,
     this.created,
-    this.created_by,
+    this.createdBy,
     this.custodian,
     this.device,
     this.id,
     this.location,
     this.modified,
-    this.modified_by,
-    this.note,
+    this.modifiedBy,
+    this.notes,
     this.status,
-    this.transfer_method,
+    this.transferMethod,
     this.version,
   });
 
   factory DeviceCustodyDetail.fromMap(Map<String, dynamic> m) => DeviceCustodyDetail(
-        complete_date: m['complete_date'] is String ? m['complete_date'] : null,
+        completeDate: m['completeDate'] is String ? m['completeDate'] : null,
         created: m['created'] is String ? m['created'] : null,
-        created_by: m['created_by'] is Map<String, dynamic> ? m['created_by'] : null,
+        createdBy: m['createdBy'] is Map<String, dynamic> ? m['createdBy'] : null,
         custodian: m['custodian'] is Map<String, dynamic> ? m['custodian'] : null,
         device: m['device'] is Map<String, dynamic> ? m['device'] : null,
         id: m['id'] is int ? m['id'] : null,
         location: m['location'] is Map<String, dynamic> ? m['location'] : null,
         modified: m['modified'] is String ? m['modified'] : null,
-        modified_by: m['modified_by'] is Map<String, dynamic> ? m['modified_by'] : null,
-        note: m['note'] is String ? m['note'] : null,
+        modifiedBy: m['modifiedBy'] is Map<String, dynamic> ? m['modifiedBy'] : null,
+        notes: m['notes'] is String ? m['notes'] : null,
         status: m['status'] is Map<String, dynamic> ? m['status'] : null,
-        transfer_method: m['transfer_method'] is Map<String, dynamic> ? m['transfer_method'] : null,
+        transferMethod: m['transferMethod'] is Map<String, dynamic> ? m['transferMethod'] : null,
         version: m['version'] is int ? m['version'] : null,
       );
 
   Map<String, dynamic> toMap() {
     final m = <String, dynamic>{};
-    if (null != complete_date) {
-      m['complete_date'] = complete_date;
+    if (null != completeDate) {
+      m['completeDate'] = completeDate;
     }
     if (null != created) {
       m['created'] = created;
     }
-    if (null != created_by) {
-      m['created_by'] = created_by;
+    if (null != createdBy) {
+      m['createdBy'] = createdBy;
     }
     if (null != custodian) {
       m['custodian'] = custodian;
@@ -1621,17 +1621,17 @@ class DeviceCustodyDetail {
     if (null != modified) {
       m['modified'] = modified;
     }
-    if (null != modified_by) {
-      m['modified_by'] = modified_by;
+    if (null != modifiedBy) {
+      m['modifiedBy'] = modifiedBy;
     }
-    if (null != note) {
-      m['note'] = note;
+    if (null != notes) {
+      m['notes'] = notes;
     }
     if (null != status) {
       m['status'] = status;
     }
-    if (null != transfer_method) {
-      m['transfer_method'] = transfer_method;
+    if (null != transferMethod) {
+      m['transferMethod'] = transferMethod;
     }
     if (null != version) {
       m['version'] = version;
@@ -1677,11 +1677,11 @@ class DeviceCustodyDetailLoadMatch {
 
 class DeviceCustodyList {
   /// STRING
-  String? complete_date;
+  String? completeDate;
   /// STRING
   String? created;
   /// OBJECT (required at the API)
-  Map<String, dynamic>? created_by;
+  Map<String, dynamic>? createdBy;
   /// OBJECT (required at the API)
   Map<String, dynamic>? custodian;
   /// OBJECT
@@ -1693,58 +1693,58 @@ class DeviceCustodyList {
   /// STRING
   String? modified;
   /// OBJECT (required at the API)
-  Map<String, dynamic>? modified_by;
+  Map<String, dynamic>? modifiedBy;
   /// STRING
-  String? note;
+  String? notes;
   /// OBJECT
   Map<String, dynamic>? status;
   /// OBJECT
-  Map<String, dynamic>? transfer_method;
+  Map<String, dynamic>? transferMethod;
   /// INTEGER
   int? version;
 
   DeviceCustodyList({
-    this.complete_date,
+    this.completeDate,
     this.created,
-    this.created_by,
+    this.createdBy,
     this.custodian,
     this.device,
     this.id,
     this.location,
     this.modified,
-    this.modified_by,
-    this.note,
+    this.modifiedBy,
+    this.notes,
     this.status,
-    this.transfer_method,
+    this.transferMethod,
     this.version,
   });
 
   factory DeviceCustodyList.fromMap(Map<String, dynamic> m) => DeviceCustodyList(
-        complete_date: m['complete_date'] is String ? m['complete_date'] : null,
+        completeDate: m['completeDate'] is String ? m['completeDate'] : null,
         created: m['created'] is String ? m['created'] : null,
-        created_by: m['created_by'] is Map<String, dynamic> ? m['created_by'] : null,
+        createdBy: m['createdBy'] is Map<String, dynamic> ? m['createdBy'] : null,
         custodian: m['custodian'] is Map<String, dynamic> ? m['custodian'] : null,
         device: m['device'] is Map<String, dynamic> ? m['device'] : null,
         id: m['id'] is int ? m['id'] : null,
         location: m['location'] is Map<String, dynamic> ? m['location'] : null,
         modified: m['modified'] is String ? m['modified'] : null,
-        modified_by: m['modified_by'] is Map<String, dynamic> ? m['modified_by'] : null,
-        note: m['note'] is String ? m['note'] : null,
+        modifiedBy: m['modifiedBy'] is Map<String, dynamic> ? m['modifiedBy'] : null,
+        notes: m['notes'] is String ? m['notes'] : null,
         status: m['status'] is Map<String, dynamic> ? m['status'] : null,
-        transfer_method: m['transfer_method'] is Map<String, dynamic> ? m['transfer_method'] : null,
+        transferMethod: m['transferMethod'] is Map<String, dynamic> ? m['transferMethod'] : null,
         version: m['version'] is int ? m['version'] : null,
       );
 
   Map<String, dynamic> toMap() {
     final m = <String, dynamic>{};
-    if (null != complete_date) {
-      m['complete_date'] = complete_date;
+    if (null != completeDate) {
+      m['completeDate'] = completeDate;
     }
     if (null != created) {
       m['created'] = created;
     }
-    if (null != created_by) {
-      m['created_by'] = created_by;
+    if (null != createdBy) {
+      m['createdBy'] = createdBy;
     }
     if (null != custodian) {
       m['custodian'] = custodian;
@@ -1761,17 +1761,17 @@ class DeviceCustodyList {
     if (null != modified) {
       m['modified'] = modified;
     }
-    if (null != modified_by) {
-      m['modified_by'] = modified_by;
+    if (null != modifiedBy) {
+      m['modifiedBy'] = modifiedBy;
     }
-    if (null != note) {
-      m['note'] = note;
+    if (null != notes) {
+      m['notes'] = notes;
     }
     if (null != status) {
       m['status'] = status;
     }
-    if (null != transfer_method) {
-      m['transfer_method'] = transfer_method;
+    if (null != transferMethod) {
+      m['transferMethod'] = transferMethod;
     }
     if (null != version) {
       m['version'] = version;
@@ -2001,13 +2001,13 @@ class DeviceType {
   /// STRING
   String? created;
   /// STRING
-  String? device_type_mode;
+  String? deviceTypeMode;
   /// STRING
-  String? hardware_version;
+  String? hardwareVersion;
   /// STRING
   String? id;
   /// BOOLEAN
-  bool? is_active;
+  bool? isActive;
   /// STRING
   String? manufacturer;
   /// STRING
@@ -2017,39 +2017,39 @@ class DeviceType {
   /// STRING
   String? name;
   /// STRING
-  String? photo_url;
+  String? photoUrl;
   /// STRING
-  String? product_name;
+  String? productName;
   /// INTEGER
   int? version;
 
   DeviceType({
     this.created,
-    this.device_type_mode,
-    this.hardware_version,
+    this.deviceTypeMode,
+    this.hardwareVersion,
     this.id,
-    this.is_active,
+    this.isActive,
     this.manufacturer,
     this.model,
     this.modified,
     this.name,
-    this.photo_url,
-    this.product_name,
+    this.photoUrl,
+    this.productName,
     this.version,
   });
 
   factory DeviceType.fromMap(Map<String, dynamic> m) => DeviceType(
         created: m['created'] is String ? m['created'] : null,
-        device_type_mode: m['device_type_mode'] is String ? m['device_type_mode'] : null,
-        hardware_version: m['hardware_version'] is String ? m['hardware_version'] : null,
+        deviceTypeMode: m['deviceTypeMode'] is String ? m['deviceTypeMode'] : null,
+        hardwareVersion: m['hardwareVersion'] is String ? m['hardwareVersion'] : null,
         id: m['id'] is String ? m['id'] : null,
-        is_active: m['is_active'] is bool ? m['is_active'] : null,
+        isActive: m['isActive'] is bool ? m['isActive'] : null,
         manufacturer: m['manufacturer'] is String ? m['manufacturer'] : null,
         model: m['model'] is String ? m['model'] : null,
         modified: m['modified'] is String ? m['modified'] : null,
         name: m['name'] is String ? m['name'] : null,
-        photo_url: m['photo_url'] is String ? m['photo_url'] : null,
-        product_name: m['product_name'] is String ? m['product_name'] : null,
+        photoUrl: m['photoUrl'] is String ? m['photoUrl'] : null,
+        productName: m['productName'] is String ? m['productName'] : null,
         version: m['version'] is int ? m['version'] : null,
       );
 
@@ -2058,17 +2058,17 @@ class DeviceType {
     if (null != created) {
       m['created'] = created;
     }
-    if (null != device_type_mode) {
-      m['device_type_mode'] = device_type_mode;
+    if (null != deviceTypeMode) {
+      m['deviceTypeMode'] = deviceTypeMode;
     }
-    if (null != hardware_version) {
-      m['hardware_version'] = hardware_version;
+    if (null != hardwareVersion) {
+      m['hardwareVersion'] = hardwareVersion;
     }
     if (null != id) {
       m['id'] = id;
     }
-    if (null != is_active) {
-      m['is_active'] = is_active;
+    if (null != isActive) {
+      m['isActive'] = isActive;
     }
     if (null != manufacturer) {
       m['manufacturer'] = manufacturer;
@@ -2082,11 +2082,11 @@ class DeviceType {
     if (null != name) {
       m['name'] = name;
     }
-    if (null != photo_url) {
-      m['photo_url'] = photo_url;
+    if (null != photoUrl) {
+      m['photoUrl'] = photoUrl;
     }
-    if (null != product_name) {
-      m['product_name'] = product_name;
+    if (null != productName) {
+      m['productName'] = productName;
     }
     if (null != version) {
       m['version'] = version;
@@ -2120,13 +2120,13 @@ class DeviceTypeListMatch {
   /// STRING
   String? created;
   /// STRING
-  String? device_type_mode;
+  String? deviceTypeMode;
   /// STRING
-  String? hardware_version;
+  String? hardwareVersion;
   /// STRING
   String? id;
   /// BOOLEAN
-  bool? is_active;
+  bool? isActive;
   /// STRING
   String? manufacturer;
   /// STRING
@@ -2136,39 +2136,39 @@ class DeviceTypeListMatch {
   /// STRING
   String? name;
   /// STRING
-  String? photo_url;
+  String? photoUrl;
   /// STRING
-  String? product_name;
+  String? productName;
   /// INTEGER
   int? version;
 
   DeviceTypeListMatch({
     this.created,
-    this.device_type_mode,
-    this.hardware_version,
+    this.deviceTypeMode,
+    this.hardwareVersion,
     this.id,
-    this.is_active,
+    this.isActive,
     this.manufacturer,
     this.model,
     this.modified,
     this.name,
-    this.photo_url,
-    this.product_name,
+    this.photoUrl,
+    this.productName,
     this.version,
   });
 
   factory DeviceTypeListMatch.fromMap(Map<String, dynamic> m) => DeviceTypeListMatch(
         created: m['created'] is String ? m['created'] : null,
-        device_type_mode: m['device_type_mode'] is String ? m['device_type_mode'] : null,
-        hardware_version: m['hardware_version'] is String ? m['hardware_version'] : null,
+        deviceTypeMode: m['deviceTypeMode'] is String ? m['deviceTypeMode'] : null,
+        hardwareVersion: m['hardwareVersion'] is String ? m['hardwareVersion'] : null,
         id: m['id'] is String ? m['id'] : null,
-        is_active: m['is_active'] is bool ? m['is_active'] : null,
+        isActive: m['isActive'] is bool ? m['isActive'] : null,
         manufacturer: m['manufacturer'] is String ? m['manufacturer'] : null,
         model: m['model'] is String ? m['model'] : null,
         modified: m['modified'] is String ? m['modified'] : null,
         name: m['name'] is String ? m['name'] : null,
-        photo_url: m['photo_url'] is String ? m['photo_url'] : null,
-        product_name: m['product_name'] is String ? m['product_name'] : null,
+        photoUrl: m['photoUrl'] is String ? m['photoUrl'] : null,
+        productName: m['productName'] is String ? m['productName'] : null,
         version: m['version'] is int ? m['version'] : null,
       );
 
@@ -2177,17 +2177,17 @@ class DeviceTypeListMatch {
     if (null != created) {
       m['created'] = created;
     }
-    if (null != device_type_mode) {
-      m['device_type_mode'] = device_type_mode;
+    if (null != deviceTypeMode) {
+      m['deviceTypeMode'] = deviceTypeMode;
     }
-    if (null != hardware_version) {
-      m['hardware_version'] = hardware_version;
+    if (null != hardwareVersion) {
+      m['hardwareVersion'] = hardwareVersion;
     }
     if (null != id) {
       m['id'] = id;
     }
-    if (null != is_active) {
-      m['is_active'] = is_active;
+    if (null != isActive) {
+      m['isActive'] = isActive;
     }
     if (null != manufacturer) {
       m['manufacturer'] = manufacturer;
@@ -2201,11 +2201,11 @@ class DeviceTypeListMatch {
     if (null != name) {
       m['name'] = name;
     }
-    if (null != photo_url) {
-      m['photo_url'] = photo_url;
+    if (null != photoUrl) {
+      m['photoUrl'] = photoUrl;
     }
-    if (null != product_name) {
-      m['product_name'] = product_name;
+    if (null != productName) {
+      m['productName'] = productName;
     }
     if (null != version) {
       m['version'] = version;
@@ -2220,11 +2220,11 @@ class InjectKey {
   /// STRING
   String? id;
   /// BOOLEAN
-  bool? is_active;
+  bool? isActive;
   /// BOOLEAN
-  bool? is_p2_pe;
+  bool? isP2PE;
   /// STRING
-  String? key_type;
+  String? keyType;
   /// STRING
   String? modified;
   /// STRING
@@ -2235,9 +2235,9 @@ class InjectKey {
   InjectKey({
     this.created,
     this.id,
-    this.is_active,
-    this.is_p2_pe,
-    this.key_type,
+    this.isActive,
+    this.isP2PE,
+    this.keyType,
     this.modified,
     this.name,
     this.version,
@@ -2246,9 +2246,9 @@ class InjectKey {
   factory InjectKey.fromMap(Map<String, dynamic> m) => InjectKey(
         created: m['created'] is String ? m['created'] : null,
         id: m['id'] is String ? m['id'] : null,
-        is_active: m['is_active'] is bool ? m['is_active'] : null,
-        is_p2_pe: m['is_p2_pe'] is bool ? m['is_p2_pe'] : null,
-        key_type: m['key_type'] is String ? m['key_type'] : null,
+        isActive: m['isActive'] is bool ? m['isActive'] : null,
+        isP2PE: m['isP2PE'] is bool ? m['isP2PE'] : null,
+        keyType: m['keyType'] is String ? m['keyType'] : null,
         modified: m['modified'] is String ? m['modified'] : null,
         name: m['name'] is String ? m['name'] : null,
         version: m['version'] is int ? m['version'] : null,
@@ -2262,14 +2262,14 @@ class InjectKey {
     if (null != id) {
       m['id'] = id;
     }
-    if (null != is_active) {
-      m['is_active'] = is_active;
+    if (null != isActive) {
+      m['isActive'] = isActive;
     }
-    if (null != is_p2_pe) {
-      m['is_p2_pe'] = is_p2_pe;
+    if (null != isP2PE) {
+      m['isP2PE'] = isP2PE;
     }
-    if (null != key_type) {
-      m['key_type'] = key_type;
+    if (null != keyType) {
+      m['keyType'] = keyType;
     }
     if (null != modified) {
       m['modified'] = modified;
@@ -2311,11 +2311,11 @@ class InjectKeyListMatch {
   /// STRING
   String? id;
   /// BOOLEAN
-  bool? is_active;
+  bool? isActive;
   /// BOOLEAN
-  bool? is_p2_pe;
+  bool? isP2PE;
   /// STRING
-  String? key_type;
+  String? keyType;
   /// STRING
   String? modified;
   /// STRING
@@ -2326,9 +2326,9 @@ class InjectKeyListMatch {
   InjectKeyListMatch({
     this.created,
     this.id,
-    this.is_active,
-    this.is_p2_pe,
-    this.key_type,
+    this.isActive,
+    this.isP2PE,
+    this.keyType,
     this.modified,
     this.name,
     this.version,
@@ -2337,9 +2337,9 @@ class InjectKeyListMatch {
   factory InjectKeyListMatch.fromMap(Map<String, dynamic> m) => InjectKeyListMatch(
         created: m['created'] is String ? m['created'] : null,
         id: m['id'] is String ? m['id'] : null,
-        is_active: m['is_active'] is bool ? m['is_active'] : null,
-        is_p2_pe: m['is_p2_pe'] is bool ? m['is_p2_pe'] : null,
-        key_type: m['key_type'] is String ? m['key_type'] : null,
+        isActive: m['isActive'] is bool ? m['isActive'] : null,
+        isP2PE: m['isP2PE'] is bool ? m['isP2PE'] : null,
+        keyType: m['keyType'] is String ? m['keyType'] : null,
         modified: m['modified'] is String ? m['modified'] : null,
         name: m['name'] is String ? m['name'] : null,
         version: m['version'] is int ? m['version'] : null,
@@ -2353,14 +2353,14 @@ class InjectKeyListMatch {
     if (null != id) {
       m['id'] = id;
     }
-    if (null != is_active) {
-      m['is_active'] = is_active;
+    if (null != isActive) {
+      m['isActive'] = isActive;
     }
-    if (null != is_p2_pe) {
-      m['is_p2_pe'] = is_p2_pe;
+    if (null != isP2PE) {
+      m['isP2PE'] = isP2PE;
     }
-    if (null != key_type) {
-      m['key_type'] = key_type;
+    if (null != keyType) {
+      m['keyType'] = keyType;
     }
     if (null != modified) {
       m['modified'] = modified;
@@ -2437,7 +2437,7 @@ class Location {
   /// STRING
   String? address2;
   /// STRING
-  String? billing_id;
+  String? billingId;
   /// STRING
   String? city;
   /// STRING
@@ -2445,89 +2445,89 @@ class Location {
   /// STRING
   String? created;
   /// STRING
-  String? custom_reference;
+  String? customReference;
   /// STRING
   String? id;
   /// STRING
-  String? location_type;
+  String? locationType;
   /// STRING
-  String? mail_address1;
+  String? mailAddress1;
   /// STRING
-  String? mail_address2;
+  String? mailAddress2;
   /// STRING
-  String? mail_city;
+  String? mailCity;
   /// STRING
-  String? mail_country;
+  String? mailCountry;
   /// STRING
-  String? mail_postal_code;
+  String? mailPostalCode;
   /// STRING
-  String? mail_state_province;
+  String? mailStateProvince;
   /// STRING
   String? modified;
   /// STRING
   String? name;
   /// STRING
-  String? name_of_business;
+  String? nameOfBusiness;
   /// STRING
-  String? note;
+  String? notes;
   /// STRING
-  String? postal_code;
+  String? postalCode;
   /// STRING
-  String? state_province;
+  String? stateProvince;
   /// STRING
-  String? unique_id;
+  String? uniqueId;
   /// INTEGER
   int? version;
 
   Location({
     this.address1,
     this.address2,
-    this.billing_id,
+    this.billingId,
     this.city,
     this.country,
     this.created,
-    this.custom_reference,
+    this.customReference,
     this.id,
-    this.location_type,
-    this.mail_address1,
-    this.mail_address2,
-    this.mail_city,
-    this.mail_country,
-    this.mail_postal_code,
-    this.mail_state_province,
+    this.locationType,
+    this.mailAddress1,
+    this.mailAddress2,
+    this.mailCity,
+    this.mailCountry,
+    this.mailPostalCode,
+    this.mailStateProvince,
     this.modified,
     this.name,
-    this.name_of_business,
-    this.note,
-    this.postal_code,
-    this.state_province,
-    this.unique_id,
+    this.nameOfBusiness,
+    this.notes,
+    this.postalCode,
+    this.stateProvince,
+    this.uniqueId,
     this.version,
   });
 
   factory Location.fromMap(Map<String, dynamic> m) => Location(
         address1: m['address1'] is String ? m['address1'] : null,
         address2: m['address2'] is String ? m['address2'] : null,
-        billing_id: m['billing_id'] is String ? m['billing_id'] : null,
+        billingId: m['billingId'] is String ? m['billingId'] : null,
         city: m['city'] is String ? m['city'] : null,
         country: m['country'] is String ? m['country'] : null,
         created: m['created'] is String ? m['created'] : null,
-        custom_reference: m['custom_reference'] is String ? m['custom_reference'] : null,
+        customReference: m['customReference'] is String ? m['customReference'] : null,
         id: m['id'] is String ? m['id'] : null,
-        location_type: m['location_type'] is String ? m['location_type'] : null,
-        mail_address1: m['mail_address1'] is String ? m['mail_address1'] : null,
-        mail_address2: m['mail_address2'] is String ? m['mail_address2'] : null,
-        mail_city: m['mail_city'] is String ? m['mail_city'] : null,
-        mail_country: m['mail_country'] is String ? m['mail_country'] : null,
-        mail_postal_code: m['mail_postal_code'] is String ? m['mail_postal_code'] : null,
-        mail_state_province: m['mail_state_province'] is String ? m['mail_state_province'] : null,
+        locationType: m['locationType'] is String ? m['locationType'] : null,
+        mailAddress1: m['mailAddress1'] is String ? m['mailAddress1'] : null,
+        mailAddress2: m['mailAddress2'] is String ? m['mailAddress2'] : null,
+        mailCity: m['mailCity'] is String ? m['mailCity'] : null,
+        mailCountry: m['mailCountry'] is String ? m['mailCountry'] : null,
+        mailPostalCode: m['mailPostalCode'] is String ? m['mailPostalCode'] : null,
+        mailStateProvince: m['mailStateProvince'] is String ? m['mailStateProvince'] : null,
         modified: m['modified'] is String ? m['modified'] : null,
         name: m['name'] is String ? m['name'] : null,
-        name_of_business: m['name_of_business'] is String ? m['name_of_business'] : null,
-        note: m['note'] is String ? m['note'] : null,
-        postal_code: m['postal_code'] is String ? m['postal_code'] : null,
-        state_province: m['state_province'] is String ? m['state_province'] : null,
-        unique_id: m['unique_id'] is String ? m['unique_id'] : null,
+        nameOfBusiness: m['nameOfBusiness'] is String ? m['nameOfBusiness'] : null,
+        notes: m['notes'] is String ? m['notes'] : null,
+        postalCode: m['postalCode'] is String ? m['postalCode'] : null,
+        stateProvince: m['stateProvince'] is String ? m['stateProvince'] : null,
+        uniqueId: m['uniqueId'] is String ? m['uniqueId'] : null,
         version: m['version'] is int ? m['version'] : null,
       );
 
@@ -2539,8 +2539,8 @@ class Location {
     if (null != address2) {
       m['address2'] = address2;
     }
-    if (null != billing_id) {
-      m['billing_id'] = billing_id;
+    if (null != billingId) {
+      m['billingId'] = billingId;
     }
     if (null != city) {
       m['city'] = city;
@@ -2551,32 +2551,32 @@ class Location {
     if (null != created) {
       m['created'] = created;
     }
-    if (null != custom_reference) {
-      m['custom_reference'] = custom_reference;
+    if (null != customReference) {
+      m['customReference'] = customReference;
     }
     if (null != id) {
       m['id'] = id;
     }
-    if (null != location_type) {
-      m['location_type'] = location_type;
+    if (null != locationType) {
+      m['locationType'] = locationType;
     }
-    if (null != mail_address1) {
-      m['mail_address1'] = mail_address1;
+    if (null != mailAddress1) {
+      m['mailAddress1'] = mailAddress1;
     }
-    if (null != mail_address2) {
-      m['mail_address2'] = mail_address2;
+    if (null != mailAddress2) {
+      m['mailAddress2'] = mailAddress2;
     }
-    if (null != mail_city) {
-      m['mail_city'] = mail_city;
+    if (null != mailCity) {
+      m['mailCity'] = mailCity;
     }
-    if (null != mail_country) {
-      m['mail_country'] = mail_country;
+    if (null != mailCountry) {
+      m['mailCountry'] = mailCountry;
     }
-    if (null != mail_postal_code) {
-      m['mail_postal_code'] = mail_postal_code;
+    if (null != mailPostalCode) {
+      m['mailPostalCode'] = mailPostalCode;
     }
-    if (null != mail_state_province) {
-      m['mail_state_province'] = mail_state_province;
+    if (null != mailStateProvince) {
+      m['mailStateProvince'] = mailStateProvince;
     }
     if (null != modified) {
       m['modified'] = modified;
@@ -2584,20 +2584,20 @@ class Location {
     if (null != name) {
       m['name'] = name;
     }
-    if (null != name_of_business) {
-      m['name_of_business'] = name_of_business;
+    if (null != nameOfBusiness) {
+      m['nameOfBusiness'] = nameOfBusiness;
     }
-    if (null != note) {
-      m['note'] = note;
+    if (null != notes) {
+      m['notes'] = notes;
     }
-    if (null != postal_code) {
-      m['postal_code'] = postal_code;
+    if (null != postalCode) {
+      m['postalCode'] = postalCode;
     }
-    if (null != state_province) {
-      m['state_province'] = state_province;
+    if (null != stateProvince) {
+      m['stateProvince'] = stateProvince;
     }
-    if (null != unique_id) {
-      m['unique_id'] = unique_id;
+    if (null != uniqueId) {
+      m['uniqueId'] = uniqueId;
     }
     if (null != version) {
       m['version'] = version;
@@ -2633,7 +2633,7 @@ class LocationListMatch {
   /// STRING
   String? address2;
   /// STRING
-  String? billing_id;
+  String? billingId;
   /// STRING
   String? city;
   /// STRING
@@ -2641,89 +2641,89 @@ class LocationListMatch {
   /// STRING
   String? created;
   /// STRING
-  String? custom_reference;
+  String? customReference;
   /// STRING
   String? id;
   /// STRING
-  String? location_type;
+  String? locationType;
   /// STRING
-  String? mail_address1;
+  String? mailAddress1;
   /// STRING
-  String? mail_address2;
+  String? mailAddress2;
   /// STRING
-  String? mail_city;
+  String? mailCity;
   /// STRING
-  String? mail_country;
+  String? mailCountry;
   /// STRING
-  String? mail_postal_code;
+  String? mailPostalCode;
   /// STRING
-  String? mail_state_province;
+  String? mailStateProvince;
   /// STRING
   String? modified;
   /// STRING
   String? name;
   /// STRING
-  String? name_of_business;
+  String? nameOfBusiness;
   /// STRING
-  String? note;
+  String? notes;
   /// STRING
-  String? postal_code;
+  String? postalCode;
   /// STRING
-  String? state_province;
+  String? stateProvince;
   /// STRING
-  String? unique_id;
+  String? uniqueId;
   /// INTEGER
   int? version;
 
   LocationListMatch({
     this.address1,
     this.address2,
-    this.billing_id,
+    this.billingId,
     this.city,
     this.country,
     this.created,
-    this.custom_reference,
+    this.customReference,
     this.id,
-    this.location_type,
-    this.mail_address1,
-    this.mail_address2,
-    this.mail_city,
-    this.mail_country,
-    this.mail_postal_code,
-    this.mail_state_province,
+    this.locationType,
+    this.mailAddress1,
+    this.mailAddress2,
+    this.mailCity,
+    this.mailCountry,
+    this.mailPostalCode,
+    this.mailStateProvince,
     this.modified,
     this.name,
-    this.name_of_business,
-    this.note,
-    this.postal_code,
-    this.state_province,
-    this.unique_id,
+    this.nameOfBusiness,
+    this.notes,
+    this.postalCode,
+    this.stateProvince,
+    this.uniqueId,
     this.version,
   });
 
   factory LocationListMatch.fromMap(Map<String, dynamic> m) => LocationListMatch(
         address1: m['address1'] is String ? m['address1'] : null,
         address2: m['address2'] is String ? m['address2'] : null,
-        billing_id: m['billing_id'] is String ? m['billing_id'] : null,
+        billingId: m['billingId'] is String ? m['billingId'] : null,
         city: m['city'] is String ? m['city'] : null,
         country: m['country'] is String ? m['country'] : null,
         created: m['created'] is String ? m['created'] : null,
-        custom_reference: m['custom_reference'] is String ? m['custom_reference'] : null,
+        customReference: m['customReference'] is String ? m['customReference'] : null,
         id: m['id'] is String ? m['id'] : null,
-        location_type: m['location_type'] is String ? m['location_type'] : null,
-        mail_address1: m['mail_address1'] is String ? m['mail_address1'] : null,
-        mail_address2: m['mail_address2'] is String ? m['mail_address2'] : null,
-        mail_city: m['mail_city'] is String ? m['mail_city'] : null,
-        mail_country: m['mail_country'] is String ? m['mail_country'] : null,
-        mail_postal_code: m['mail_postal_code'] is String ? m['mail_postal_code'] : null,
-        mail_state_province: m['mail_state_province'] is String ? m['mail_state_province'] : null,
+        locationType: m['locationType'] is String ? m['locationType'] : null,
+        mailAddress1: m['mailAddress1'] is String ? m['mailAddress1'] : null,
+        mailAddress2: m['mailAddress2'] is String ? m['mailAddress2'] : null,
+        mailCity: m['mailCity'] is String ? m['mailCity'] : null,
+        mailCountry: m['mailCountry'] is String ? m['mailCountry'] : null,
+        mailPostalCode: m['mailPostalCode'] is String ? m['mailPostalCode'] : null,
+        mailStateProvince: m['mailStateProvince'] is String ? m['mailStateProvince'] : null,
         modified: m['modified'] is String ? m['modified'] : null,
         name: m['name'] is String ? m['name'] : null,
-        name_of_business: m['name_of_business'] is String ? m['name_of_business'] : null,
-        note: m['note'] is String ? m['note'] : null,
-        postal_code: m['postal_code'] is String ? m['postal_code'] : null,
-        state_province: m['state_province'] is String ? m['state_province'] : null,
-        unique_id: m['unique_id'] is String ? m['unique_id'] : null,
+        nameOfBusiness: m['nameOfBusiness'] is String ? m['nameOfBusiness'] : null,
+        notes: m['notes'] is String ? m['notes'] : null,
+        postalCode: m['postalCode'] is String ? m['postalCode'] : null,
+        stateProvince: m['stateProvince'] is String ? m['stateProvince'] : null,
+        uniqueId: m['uniqueId'] is String ? m['uniqueId'] : null,
         version: m['version'] is int ? m['version'] : null,
       );
 
@@ -2735,8 +2735,8 @@ class LocationListMatch {
     if (null != address2) {
       m['address2'] = address2;
     }
-    if (null != billing_id) {
-      m['billing_id'] = billing_id;
+    if (null != billingId) {
+      m['billingId'] = billingId;
     }
     if (null != city) {
       m['city'] = city;
@@ -2747,32 +2747,32 @@ class LocationListMatch {
     if (null != created) {
       m['created'] = created;
     }
-    if (null != custom_reference) {
-      m['custom_reference'] = custom_reference;
+    if (null != customReference) {
+      m['customReference'] = customReference;
     }
     if (null != id) {
       m['id'] = id;
     }
-    if (null != location_type) {
-      m['location_type'] = location_type;
+    if (null != locationType) {
+      m['locationType'] = locationType;
     }
-    if (null != mail_address1) {
-      m['mail_address1'] = mail_address1;
+    if (null != mailAddress1) {
+      m['mailAddress1'] = mailAddress1;
     }
-    if (null != mail_address2) {
-      m['mail_address2'] = mail_address2;
+    if (null != mailAddress2) {
+      m['mailAddress2'] = mailAddress2;
     }
-    if (null != mail_city) {
-      m['mail_city'] = mail_city;
+    if (null != mailCity) {
+      m['mailCity'] = mailCity;
     }
-    if (null != mail_country) {
-      m['mail_country'] = mail_country;
+    if (null != mailCountry) {
+      m['mailCountry'] = mailCountry;
     }
-    if (null != mail_postal_code) {
-      m['mail_postal_code'] = mail_postal_code;
+    if (null != mailPostalCode) {
+      m['mailPostalCode'] = mailPostalCode;
     }
-    if (null != mail_state_province) {
-      m['mail_state_province'] = mail_state_province;
+    if (null != mailStateProvince) {
+      m['mailStateProvince'] = mailStateProvince;
     }
     if (null != modified) {
       m['modified'] = modified;
@@ -2780,20 +2780,20 @@ class LocationListMatch {
     if (null != name) {
       m['name'] = name;
     }
-    if (null != name_of_business) {
-      m['name_of_business'] = name_of_business;
+    if (null != nameOfBusiness) {
+      m['nameOfBusiness'] = nameOfBusiness;
     }
-    if (null != note) {
-      m['note'] = note;
+    if (null != notes) {
+      m['notes'] = notes;
     }
-    if (null != postal_code) {
-      m['postal_code'] = postal_code;
+    if (null != postalCode) {
+      m['postalCode'] = postalCode;
     }
-    if (null != state_province) {
-      m['state_province'] = state_province;
+    if (null != stateProvince) {
+      m['stateProvince'] = stateProvince;
     }
-    if (null != unique_id) {
-      m['unique_id'] = unique_id;
+    if (null != uniqueId) {
+      m['uniqueId'] = uniqueId;
     }
     if (null != version) {
       m['version'] = version;
@@ -2808,7 +2808,7 @@ class LocationCreateData {
   /// STRING
   String? address2;
   /// STRING
-  String? billing_id;
+  String? billingId;
   /// STRING
   String? city;
   /// STRING
@@ -2816,89 +2816,89 @@ class LocationCreateData {
   /// STRING
   String? created;
   /// STRING
-  String? custom_reference;
+  String? customReference;
   /// STRING
   String? id;
   /// STRING
-  String? location_type;
+  String? locationType;
   /// STRING
-  String? mail_address1;
+  String? mailAddress1;
   /// STRING
-  String? mail_address2;
+  String? mailAddress2;
   /// STRING
-  String? mail_city;
+  String? mailCity;
   /// STRING
-  String? mail_country;
+  String? mailCountry;
   /// STRING
-  String? mail_postal_code;
+  String? mailPostalCode;
   /// STRING
-  String? mail_state_province;
+  String? mailStateProvince;
   /// STRING
   String? modified;
   /// STRING
   String? name;
   /// STRING
-  String? name_of_business;
+  String? nameOfBusiness;
   /// STRING
-  String? note;
+  String? notes;
   /// STRING
-  String? postal_code;
+  String? postalCode;
   /// STRING
-  String? state_province;
+  String? stateProvince;
   /// STRING
-  String? unique_id;
+  String? uniqueId;
   /// INTEGER
   int? version;
 
   LocationCreateData({
     this.address1,
     this.address2,
-    this.billing_id,
+    this.billingId,
     this.city,
     this.country,
     this.created,
-    this.custom_reference,
+    this.customReference,
     this.id,
-    this.location_type,
-    this.mail_address1,
-    this.mail_address2,
-    this.mail_city,
-    this.mail_country,
-    this.mail_postal_code,
-    this.mail_state_province,
+    this.locationType,
+    this.mailAddress1,
+    this.mailAddress2,
+    this.mailCity,
+    this.mailCountry,
+    this.mailPostalCode,
+    this.mailStateProvince,
     this.modified,
     this.name,
-    this.name_of_business,
-    this.note,
-    this.postal_code,
-    this.state_province,
-    this.unique_id,
+    this.nameOfBusiness,
+    this.notes,
+    this.postalCode,
+    this.stateProvince,
+    this.uniqueId,
     this.version,
   });
 
   factory LocationCreateData.fromMap(Map<String, dynamic> m) => LocationCreateData(
         address1: m['address1'] is String ? m['address1'] : null,
         address2: m['address2'] is String ? m['address2'] : null,
-        billing_id: m['billing_id'] is String ? m['billing_id'] : null,
+        billingId: m['billingId'] is String ? m['billingId'] : null,
         city: m['city'] is String ? m['city'] : null,
         country: m['country'] is String ? m['country'] : null,
         created: m['created'] is String ? m['created'] : null,
-        custom_reference: m['custom_reference'] is String ? m['custom_reference'] : null,
+        customReference: m['customReference'] is String ? m['customReference'] : null,
         id: m['id'] is String ? m['id'] : null,
-        location_type: m['location_type'] is String ? m['location_type'] : null,
-        mail_address1: m['mail_address1'] is String ? m['mail_address1'] : null,
-        mail_address2: m['mail_address2'] is String ? m['mail_address2'] : null,
-        mail_city: m['mail_city'] is String ? m['mail_city'] : null,
-        mail_country: m['mail_country'] is String ? m['mail_country'] : null,
-        mail_postal_code: m['mail_postal_code'] is String ? m['mail_postal_code'] : null,
-        mail_state_province: m['mail_state_province'] is String ? m['mail_state_province'] : null,
+        locationType: m['locationType'] is String ? m['locationType'] : null,
+        mailAddress1: m['mailAddress1'] is String ? m['mailAddress1'] : null,
+        mailAddress2: m['mailAddress2'] is String ? m['mailAddress2'] : null,
+        mailCity: m['mailCity'] is String ? m['mailCity'] : null,
+        mailCountry: m['mailCountry'] is String ? m['mailCountry'] : null,
+        mailPostalCode: m['mailPostalCode'] is String ? m['mailPostalCode'] : null,
+        mailStateProvince: m['mailStateProvince'] is String ? m['mailStateProvince'] : null,
         modified: m['modified'] is String ? m['modified'] : null,
         name: m['name'] is String ? m['name'] : null,
-        name_of_business: m['name_of_business'] is String ? m['name_of_business'] : null,
-        note: m['note'] is String ? m['note'] : null,
-        postal_code: m['postal_code'] is String ? m['postal_code'] : null,
-        state_province: m['state_province'] is String ? m['state_province'] : null,
-        unique_id: m['unique_id'] is String ? m['unique_id'] : null,
+        nameOfBusiness: m['nameOfBusiness'] is String ? m['nameOfBusiness'] : null,
+        notes: m['notes'] is String ? m['notes'] : null,
+        postalCode: m['postalCode'] is String ? m['postalCode'] : null,
+        stateProvince: m['stateProvince'] is String ? m['stateProvince'] : null,
+        uniqueId: m['uniqueId'] is String ? m['uniqueId'] : null,
         version: m['version'] is int ? m['version'] : null,
       );
 
@@ -2910,8 +2910,8 @@ class LocationCreateData {
     if (null != address2) {
       m['address2'] = address2;
     }
-    if (null != billing_id) {
-      m['billing_id'] = billing_id;
+    if (null != billingId) {
+      m['billingId'] = billingId;
     }
     if (null != city) {
       m['city'] = city;
@@ -2922,32 +2922,32 @@ class LocationCreateData {
     if (null != created) {
       m['created'] = created;
     }
-    if (null != custom_reference) {
-      m['custom_reference'] = custom_reference;
+    if (null != customReference) {
+      m['customReference'] = customReference;
     }
     if (null != id) {
       m['id'] = id;
     }
-    if (null != location_type) {
-      m['location_type'] = location_type;
+    if (null != locationType) {
+      m['locationType'] = locationType;
     }
-    if (null != mail_address1) {
-      m['mail_address1'] = mail_address1;
+    if (null != mailAddress1) {
+      m['mailAddress1'] = mailAddress1;
     }
-    if (null != mail_address2) {
-      m['mail_address2'] = mail_address2;
+    if (null != mailAddress2) {
+      m['mailAddress2'] = mailAddress2;
     }
-    if (null != mail_city) {
-      m['mail_city'] = mail_city;
+    if (null != mailCity) {
+      m['mailCity'] = mailCity;
     }
-    if (null != mail_country) {
-      m['mail_country'] = mail_country;
+    if (null != mailCountry) {
+      m['mailCountry'] = mailCountry;
     }
-    if (null != mail_postal_code) {
-      m['mail_postal_code'] = mail_postal_code;
+    if (null != mailPostalCode) {
+      m['mailPostalCode'] = mailPostalCode;
     }
-    if (null != mail_state_province) {
-      m['mail_state_province'] = mail_state_province;
+    if (null != mailStateProvince) {
+      m['mailStateProvince'] = mailStateProvince;
     }
     if (null != modified) {
       m['modified'] = modified;
@@ -2955,20 +2955,20 @@ class LocationCreateData {
     if (null != name) {
       m['name'] = name;
     }
-    if (null != name_of_business) {
-      m['name_of_business'] = name_of_business;
+    if (null != nameOfBusiness) {
+      m['nameOfBusiness'] = nameOfBusiness;
     }
-    if (null != note) {
-      m['note'] = note;
+    if (null != notes) {
+      m['notes'] = notes;
     }
-    if (null != postal_code) {
-      m['postal_code'] = postal_code;
+    if (null != postalCode) {
+      m['postalCode'] = postalCode;
     }
-    if (null != state_province) {
-      m['state_province'] = state_province;
+    if (null != stateProvince) {
+      m['stateProvince'] = stateProvince;
     }
-    if (null != unique_id) {
-      m['unique_id'] = unique_id;
+    if (null != uniqueId) {
+      m['uniqueId'] = uniqueId;
     }
     if (null != version) {
       m['version'] = version;
@@ -3000,9 +3000,9 @@ class LocationRemoveMatch {
 
 class Partner {
   /// STRING
-  String? billing_id;
+  String? billingId;
   /// BOOLEAN
-  bool? client_can_order_equipment;
+  bool? clientCanOrderEquipment;
   /// OBJECT
   Map<String, dynamic>? contact;
   /// STRING
@@ -3010,7 +3010,7 @@ class Partner {
   /// STRING
   String? id;
   /// BOOLEAN
-  bool? is_active;
+  bool? isActive;
   /// OBJECT (required at the API)
   Map<String, dynamic>? location;
   /// STRING
@@ -3020,55 +3020,55 @@ class Partner {
   /// OBJECT
   Map<String, dynamic>? parent;
   /// STRING
-  String? partner_id;
+  String? partnerId;
   /// STRING
   String? reference;
   /// STRING
-  String? verification_phrase;
+  String? verificationPhrase;
   /// INTEGER
   int? version;
 
   Partner({
-    this.billing_id,
-    this.client_can_order_equipment,
+    this.billingId,
+    this.clientCanOrderEquipment,
     this.contact,
     this.created,
     this.id,
-    this.is_active,
+    this.isActive,
     this.location,
     this.modified,
     this.name,
     this.parent,
-    this.partner_id,
+    this.partnerId,
     this.reference,
-    this.verification_phrase,
+    this.verificationPhrase,
     this.version,
   });
 
   factory Partner.fromMap(Map<String, dynamic> m) => Partner(
-        billing_id: m['billing_id'] is String ? m['billing_id'] : null,
-        client_can_order_equipment: m['client_can_order_equipment'] is bool ? m['client_can_order_equipment'] : null,
+        billingId: m['billingId'] is String ? m['billingId'] : null,
+        clientCanOrderEquipment: m['clientCanOrderEquipment'] is bool ? m['clientCanOrderEquipment'] : null,
         contact: m['contact'] is Map<String, dynamic> ? m['contact'] : null,
         created: m['created'] is String ? m['created'] : null,
         id: m['id'] is String ? m['id'] : null,
-        is_active: m['is_active'] is bool ? m['is_active'] : null,
+        isActive: m['isActive'] is bool ? m['isActive'] : null,
         location: m['location'] is Map<String, dynamic> ? m['location'] : null,
         modified: m['modified'] is String ? m['modified'] : null,
         name: m['name'] is String ? m['name'] : null,
         parent: m['parent'] is Map<String, dynamic> ? m['parent'] : null,
-        partner_id: m['partner_id'] is String ? m['partner_id'] : null,
+        partnerId: m['partnerId'] is String ? m['partnerId'] : null,
         reference: m['reference'] is String ? m['reference'] : null,
-        verification_phrase: m['verification_phrase'] is String ? m['verification_phrase'] : null,
+        verificationPhrase: m['verificationPhrase'] is String ? m['verificationPhrase'] : null,
         version: m['version'] is int ? m['version'] : null,
       );
 
   Map<String, dynamic> toMap() {
     final m = <String, dynamic>{};
-    if (null != billing_id) {
-      m['billing_id'] = billing_id;
+    if (null != billingId) {
+      m['billingId'] = billingId;
     }
-    if (null != client_can_order_equipment) {
-      m['client_can_order_equipment'] = client_can_order_equipment;
+    if (null != clientCanOrderEquipment) {
+      m['clientCanOrderEquipment'] = clientCanOrderEquipment;
     }
     if (null != contact) {
       m['contact'] = contact;
@@ -3079,8 +3079,8 @@ class Partner {
     if (null != id) {
       m['id'] = id;
     }
-    if (null != is_active) {
-      m['is_active'] = is_active;
+    if (null != isActive) {
+      m['isActive'] = isActive;
     }
     if (null != location) {
       m['location'] = location;
@@ -3094,14 +3094,14 @@ class Partner {
     if (null != parent) {
       m['parent'] = parent;
     }
-    if (null != partner_id) {
-      m['partner_id'] = partner_id;
+    if (null != partnerId) {
+      m['partnerId'] = partnerId;
     }
     if (null != reference) {
       m['reference'] = reference;
     }
-    if (null != verification_phrase) {
-      m['verification_phrase'] = verification_phrase;
+    if (null != verificationPhrase) {
+      m['verificationPhrase'] = verificationPhrase;
     }
     if (null != version) {
       m['version'] = version;
@@ -3133,9 +3133,9 @@ class PartnerLoadMatch {
 
 class PartnerListMatch {
   /// STRING
-  String? billing_id;
+  String? billingId;
   /// BOOLEAN
-  bool? client_can_order_equipment;
+  bool? clientCanOrderEquipment;
   /// OBJECT
   Map<String, dynamic>? contact;
   /// STRING
@@ -3143,7 +3143,7 @@ class PartnerListMatch {
   /// STRING
   String? id;
   /// BOOLEAN
-  bool? is_active;
+  bool? isActive;
   /// OBJECT
   Map<String, dynamic>? location;
   /// STRING
@@ -3153,55 +3153,55 @@ class PartnerListMatch {
   /// OBJECT
   Map<String, dynamic>? parent;
   /// STRING
-  String? partner_id;
+  String? partnerId;
   /// STRING
   String? reference;
   /// STRING
-  String? verification_phrase;
+  String? verificationPhrase;
   /// INTEGER
   int? version;
 
   PartnerListMatch({
-    this.billing_id,
-    this.client_can_order_equipment,
+    this.billingId,
+    this.clientCanOrderEquipment,
     this.contact,
     this.created,
     this.id,
-    this.is_active,
+    this.isActive,
     this.location,
     this.modified,
     this.name,
     this.parent,
-    this.partner_id,
+    this.partnerId,
     this.reference,
-    this.verification_phrase,
+    this.verificationPhrase,
     this.version,
   });
 
   factory PartnerListMatch.fromMap(Map<String, dynamic> m) => PartnerListMatch(
-        billing_id: m['billing_id'] is String ? m['billing_id'] : null,
-        client_can_order_equipment: m['client_can_order_equipment'] is bool ? m['client_can_order_equipment'] : null,
+        billingId: m['billingId'] is String ? m['billingId'] : null,
+        clientCanOrderEquipment: m['clientCanOrderEquipment'] is bool ? m['clientCanOrderEquipment'] : null,
         contact: m['contact'] is Map<String, dynamic> ? m['contact'] : null,
         created: m['created'] is String ? m['created'] : null,
         id: m['id'] is String ? m['id'] : null,
-        is_active: m['is_active'] is bool ? m['is_active'] : null,
+        isActive: m['isActive'] is bool ? m['isActive'] : null,
         location: m['location'] is Map<String, dynamic> ? m['location'] : null,
         modified: m['modified'] is String ? m['modified'] : null,
         name: m['name'] is String ? m['name'] : null,
         parent: m['parent'] is Map<String, dynamic> ? m['parent'] : null,
-        partner_id: m['partner_id'] is String ? m['partner_id'] : null,
+        partnerId: m['partnerId'] is String ? m['partnerId'] : null,
         reference: m['reference'] is String ? m['reference'] : null,
-        verification_phrase: m['verification_phrase'] is String ? m['verification_phrase'] : null,
+        verificationPhrase: m['verificationPhrase'] is String ? m['verificationPhrase'] : null,
         version: m['version'] is int ? m['version'] : null,
       );
 
   Map<String, dynamic> toMap() {
     final m = <String, dynamic>{};
-    if (null != billing_id) {
-      m['billing_id'] = billing_id;
+    if (null != billingId) {
+      m['billingId'] = billingId;
     }
-    if (null != client_can_order_equipment) {
-      m['client_can_order_equipment'] = client_can_order_equipment;
+    if (null != clientCanOrderEquipment) {
+      m['clientCanOrderEquipment'] = clientCanOrderEquipment;
     }
     if (null != contact) {
       m['contact'] = contact;
@@ -3212,8 +3212,8 @@ class PartnerListMatch {
     if (null != id) {
       m['id'] = id;
     }
-    if (null != is_active) {
-      m['is_active'] = is_active;
+    if (null != isActive) {
+      m['isActive'] = isActive;
     }
     if (null != location) {
       m['location'] = location;
@@ -3227,14 +3227,14 @@ class PartnerListMatch {
     if (null != parent) {
       m['parent'] = parent;
     }
-    if (null != partner_id) {
-      m['partner_id'] = partner_id;
+    if (null != partnerId) {
+      m['partnerId'] = partnerId;
     }
     if (null != reference) {
       m['reference'] = reference;
     }
-    if (null != verification_phrase) {
-      m['verification_phrase'] = verification_phrase;
+    if (null != verificationPhrase) {
+      m['verificationPhrase'] = verificationPhrase;
     }
     if (null != version) {
       m['version'] = version;
@@ -3245,9 +3245,9 @@ class PartnerListMatch {
 
 class PartnerCreateData {
   /// STRING
-  String? billing_id;
+  String? billingId;
   /// BOOLEAN
-  bool? client_can_order_equipment;
+  bool? clientCanOrderEquipment;
   /// OBJECT
   Map<String, dynamic>? contact;
   /// STRING
@@ -3255,7 +3255,7 @@ class PartnerCreateData {
   /// STRING
   String? id;
   /// BOOLEAN
-  bool? is_active;
+  bool? isActive;
   /// OBJECT (required at the API)
   Map<String, dynamic>? location;
   /// STRING
@@ -3265,55 +3265,55 @@ class PartnerCreateData {
   /// OBJECT
   Map<String, dynamic>? parent;
   /// STRING
-  String? partner_id;
+  String? partnerId;
   /// STRING
   String? reference;
   /// STRING
-  String? verification_phrase;
+  String? verificationPhrase;
   /// INTEGER
   int? version;
 
   PartnerCreateData({
-    this.billing_id,
-    this.client_can_order_equipment,
+    this.billingId,
+    this.clientCanOrderEquipment,
     this.contact,
     this.created,
     this.id,
-    this.is_active,
+    this.isActive,
     this.location,
     this.modified,
     this.name,
     this.parent,
-    this.partner_id,
+    this.partnerId,
     this.reference,
-    this.verification_phrase,
+    this.verificationPhrase,
     this.version,
   });
 
   factory PartnerCreateData.fromMap(Map<String, dynamic> m) => PartnerCreateData(
-        billing_id: m['billing_id'] is String ? m['billing_id'] : null,
-        client_can_order_equipment: m['client_can_order_equipment'] is bool ? m['client_can_order_equipment'] : null,
+        billingId: m['billingId'] is String ? m['billingId'] : null,
+        clientCanOrderEquipment: m['clientCanOrderEquipment'] is bool ? m['clientCanOrderEquipment'] : null,
         contact: m['contact'] is Map<String, dynamic> ? m['contact'] : null,
         created: m['created'] is String ? m['created'] : null,
         id: m['id'] is String ? m['id'] : null,
-        is_active: m['is_active'] is bool ? m['is_active'] : null,
+        isActive: m['isActive'] is bool ? m['isActive'] : null,
         location: m['location'] is Map<String, dynamic> ? m['location'] : null,
         modified: m['modified'] is String ? m['modified'] : null,
         name: m['name'] is String ? m['name'] : null,
         parent: m['parent'] is Map<String, dynamic> ? m['parent'] : null,
-        partner_id: m['partner_id'] is String ? m['partner_id'] : null,
+        partnerId: m['partnerId'] is String ? m['partnerId'] : null,
         reference: m['reference'] is String ? m['reference'] : null,
-        verification_phrase: m['verification_phrase'] is String ? m['verification_phrase'] : null,
+        verificationPhrase: m['verificationPhrase'] is String ? m['verificationPhrase'] : null,
         version: m['version'] is int ? m['version'] : null,
       );
 
   Map<String, dynamic> toMap() {
     final m = <String, dynamic>{};
-    if (null != billing_id) {
-      m['billing_id'] = billing_id;
+    if (null != billingId) {
+      m['billingId'] = billingId;
     }
-    if (null != client_can_order_equipment) {
-      m['client_can_order_equipment'] = client_can_order_equipment;
+    if (null != clientCanOrderEquipment) {
+      m['clientCanOrderEquipment'] = clientCanOrderEquipment;
     }
     if (null != contact) {
       m['contact'] = contact;
@@ -3324,8 +3324,8 @@ class PartnerCreateData {
     if (null != id) {
       m['id'] = id;
     }
-    if (null != is_active) {
-      m['is_active'] = is_active;
+    if (null != isActive) {
+      m['isActive'] = isActive;
     }
     if (null != location) {
       m['location'] = location;
@@ -3339,14 +3339,14 @@ class PartnerCreateData {
     if (null != parent) {
       m['parent'] = parent;
     }
-    if (null != partner_id) {
-      m['partner_id'] = partner_id;
+    if (null != partnerId) {
+      m['partnerId'] = partnerId;
     }
     if (null != reference) {
       m['reference'] = reference;
     }
-    if (null != verification_phrase) {
-      m['verification_phrase'] = verification_phrase;
+    if (null != verificationPhrase) {
+      m['verificationPhrase'] = verificationPhrase;
     }
     if (null != version) {
       m['version'] = version;
@@ -3363,15 +3363,15 @@ class Shipment {
   /// STRING
   String? created;
   /// STRING
-  String? date_received;
+  String? dateReceived;
   /// STRING
-  String? date_shipped;
+  String? dateShipped;
   /// OBJECT
-  Map<String, dynamic>? dc_kif;
+  Map<String, dynamic>? dcKif;
   /// STRING
   String? id;
   /// ARRAY
-  List<dynamic>? item;
+  List<dynamic>? items;
   /// OBJECT
   Map<String, dynamic>? kif;
   /// STRING
@@ -3379,7 +3379,7 @@ class Shipment {
   /// OBJECT
   Map<String, dynamic>? partner;
   /// STRING
-  String? shipment_type;
+  String? shipmentType;
   /// STRING
   String? tracking;
   /// INTEGER
@@ -3389,15 +3389,15 @@ class Shipment {
     this.carrier,
     this.client,
     this.created,
-    this.date_received,
-    this.date_shipped,
-    this.dc_kif,
+    this.dateReceived,
+    this.dateShipped,
+    this.dcKif,
     this.id,
-    this.item,
+    this.items,
     this.kif,
     this.modified,
     this.partner,
-    this.shipment_type,
+    this.shipmentType,
     this.tracking,
     this.version,
   });
@@ -3406,15 +3406,15 @@ class Shipment {
         carrier: m['carrier'] is String ? m['carrier'] : null,
         client: m['client'] is Map<String, dynamic> ? m['client'] : null,
         created: m['created'] is String ? m['created'] : null,
-        date_received: m['date_received'] is String ? m['date_received'] : null,
-        date_shipped: m['date_shipped'] is String ? m['date_shipped'] : null,
-        dc_kif: m['dc_kif'] is Map<String, dynamic> ? m['dc_kif'] : null,
+        dateReceived: m['dateReceived'] is String ? m['dateReceived'] : null,
+        dateShipped: m['dateShipped'] is String ? m['dateShipped'] : null,
+        dcKif: m['dcKif'] is Map<String, dynamic> ? m['dcKif'] : null,
         id: m['id'] is String ? m['id'] : null,
-        item: m['item'] is List<dynamic> ? m['item'] : null,
+        items: m['items'] is List<dynamic> ? m['items'] : null,
         kif: m['kif'] is Map<String, dynamic> ? m['kif'] : null,
         modified: m['modified'] is String ? m['modified'] : null,
         partner: m['partner'] is Map<String, dynamic> ? m['partner'] : null,
-        shipment_type: m['shipment_type'] is String ? m['shipment_type'] : null,
+        shipmentType: m['shipmentType'] is String ? m['shipmentType'] : null,
         tracking: m['tracking'] is String ? m['tracking'] : null,
         version: m['version'] is int ? m['version'] : null,
       );
@@ -3430,20 +3430,20 @@ class Shipment {
     if (null != created) {
       m['created'] = created;
     }
-    if (null != date_received) {
-      m['date_received'] = date_received;
+    if (null != dateReceived) {
+      m['dateReceived'] = dateReceived;
     }
-    if (null != date_shipped) {
-      m['date_shipped'] = date_shipped;
+    if (null != dateShipped) {
+      m['dateShipped'] = dateShipped;
     }
-    if (null != dc_kif) {
-      m['dc_kif'] = dc_kif;
+    if (null != dcKif) {
+      m['dcKif'] = dcKif;
     }
     if (null != id) {
       m['id'] = id;
     }
-    if (null != item) {
-      m['item'] = item;
+    if (null != items) {
+      m['items'] = items;
     }
     if (null != kif) {
       m['kif'] = kif;
@@ -3454,8 +3454,8 @@ class Shipment {
     if (null != partner) {
       m['partner'] = partner;
     }
-    if (null != shipment_type) {
-      m['shipment_type'] = shipment_type;
+    if (null != shipmentType) {
+      m['shipmentType'] = shipmentType;
     }
     if (null != tracking) {
       m['tracking'] = tracking;
@@ -3496,15 +3496,15 @@ class ShipmentListMatch {
   /// STRING
   String? created;
   /// STRING
-  String? date_received;
+  String? dateReceived;
   /// STRING
-  String? date_shipped;
+  String? dateShipped;
   /// OBJECT
-  Map<String, dynamic>? dc_kif;
+  Map<String, dynamic>? dcKif;
   /// STRING
   String? id;
   /// ARRAY
-  List<dynamic>? item;
+  List<dynamic>? items;
   /// OBJECT
   Map<String, dynamic>? kif;
   /// STRING
@@ -3512,7 +3512,7 @@ class ShipmentListMatch {
   /// OBJECT
   Map<String, dynamic>? partner;
   /// STRING
-  String? shipment_type;
+  String? shipmentType;
   /// STRING
   String? tracking;
   /// INTEGER
@@ -3522,15 +3522,15 @@ class ShipmentListMatch {
     this.carrier,
     this.client,
     this.created,
-    this.date_received,
-    this.date_shipped,
-    this.dc_kif,
+    this.dateReceived,
+    this.dateShipped,
+    this.dcKif,
     this.id,
-    this.item,
+    this.items,
     this.kif,
     this.modified,
     this.partner,
-    this.shipment_type,
+    this.shipmentType,
     this.tracking,
     this.version,
   });
@@ -3539,15 +3539,15 @@ class ShipmentListMatch {
         carrier: m['carrier'] is String ? m['carrier'] : null,
         client: m['client'] is Map<String, dynamic> ? m['client'] : null,
         created: m['created'] is String ? m['created'] : null,
-        date_received: m['date_received'] is String ? m['date_received'] : null,
-        date_shipped: m['date_shipped'] is String ? m['date_shipped'] : null,
-        dc_kif: m['dc_kif'] is Map<String, dynamic> ? m['dc_kif'] : null,
+        dateReceived: m['dateReceived'] is String ? m['dateReceived'] : null,
+        dateShipped: m['dateShipped'] is String ? m['dateShipped'] : null,
+        dcKif: m['dcKif'] is Map<String, dynamic> ? m['dcKif'] : null,
         id: m['id'] is String ? m['id'] : null,
-        item: m['item'] is List<dynamic> ? m['item'] : null,
+        items: m['items'] is List<dynamic> ? m['items'] : null,
         kif: m['kif'] is Map<String, dynamic> ? m['kif'] : null,
         modified: m['modified'] is String ? m['modified'] : null,
         partner: m['partner'] is Map<String, dynamic> ? m['partner'] : null,
-        shipment_type: m['shipment_type'] is String ? m['shipment_type'] : null,
+        shipmentType: m['shipmentType'] is String ? m['shipmentType'] : null,
         tracking: m['tracking'] is String ? m['tracking'] : null,
         version: m['version'] is int ? m['version'] : null,
       );
@@ -3563,20 +3563,20 @@ class ShipmentListMatch {
     if (null != created) {
       m['created'] = created;
     }
-    if (null != date_received) {
-      m['date_received'] = date_received;
+    if (null != dateReceived) {
+      m['dateReceived'] = dateReceived;
     }
-    if (null != date_shipped) {
-      m['date_shipped'] = date_shipped;
+    if (null != dateShipped) {
+      m['dateShipped'] = dateShipped;
     }
-    if (null != dc_kif) {
-      m['dc_kif'] = dc_kif;
+    if (null != dcKif) {
+      m['dcKif'] = dcKif;
     }
     if (null != id) {
       m['id'] = id;
     }
-    if (null != item) {
-      m['item'] = item;
+    if (null != items) {
+      m['items'] = items;
     }
     if (null != kif) {
       m['kif'] = kif;
@@ -3587,8 +3587,8 @@ class ShipmentListMatch {
     if (null != partner) {
       m['partner'] = partner;
     }
-    if (null != shipment_type) {
-      m['shipment_type'] = shipment_type;
+    if (null != shipmentType) {
+      m['shipmentType'] = shipmentType;
     }
     if (null != tracking) {
       m['tracking'] = tracking;
@@ -3608,15 +3608,15 @@ class ShipmentCreateData {
   /// STRING
   String? created;
   /// STRING
-  String? date_received;
+  String? dateReceived;
   /// STRING
-  String? date_shipped;
+  String? dateShipped;
   /// OBJECT
-  Map<String, dynamic>? dc_kif;
+  Map<String, dynamic>? dcKif;
   /// STRING
   String? id;
   /// ARRAY
-  List<dynamic>? item;
+  List<dynamic>? items;
   /// OBJECT
   Map<String, dynamic>? kif;
   /// STRING
@@ -3624,7 +3624,7 @@ class ShipmentCreateData {
   /// OBJECT
   Map<String, dynamic>? partner;
   /// STRING
-  String? shipment_type;
+  String? shipmentType;
   /// STRING
   String? tracking;
   /// INTEGER
@@ -3634,15 +3634,15 @@ class ShipmentCreateData {
     this.carrier,
     this.client,
     this.created,
-    this.date_received,
-    this.date_shipped,
-    this.dc_kif,
+    this.dateReceived,
+    this.dateShipped,
+    this.dcKif,
     this.id,
-    this.item,
+    this.items,
     this.kif,
     this.modified,
     this.partner,
-    this.shipment_type,
+    this.shipmentType,
     this.tracking,
     this.version,
   });
@@ -3651,15 +3651,15 @@ class ShipmentCreateData {
         carrier: m['carrier'] is String ? m['carrier'] : null,
         client: m['client'] is Map<String, dynamic> ? m['client'] : null,
         created: m['created'] is String ? m['created'] : null,
-        date_received: m['date_received'] is String ? m['date_received'] : null,
-        date_shipped: m['date_shipped'] is String ? m['date_shipped'] : null,
-        dc_kif: m['dc_kif'] is Map<String, dynamic> ? m['dc_kif'] : null,
+        dateReceived: m['dateReceived'] is String ? m['dateReceived'] : null,
+        dateShipped: m['dateShipped'] is String ? m['dateShipped'] : null,
+        dcKif: m['dcKif'] is Map<String, dynamic> ? m['dcKif'] : null,
         id: m['id'] is String ? m['id'] : null,
-        item: m['item'] is List<dynamic> ? m['item'] : null,
+        items: m['items'] is List<dynamic> ? m['items'] : null,
         kif: m['kif'] is Map<String, dynamic> ? m['kif'] : null,
         modified: m['modified'] is String ? m['modified'] : null,
         partner: m['partner'] is Map<String, dynamic> ? m['partner'] : null,
-        shipment_type: m['shipment_type'] is String ? m['shipment_type'] : null,
+        shipmentType: m['shipmentType'] is String ? m['shipmentType'] : null,
         tracking: m['tracking'] is String ? m['tracking'] : null,
         version: m['version'] is int ? m['version'] : null,
       );
@@ -3675,20 +3675,20 @@ class ShipmentCreateData {
     if (null != created) {
       m['created'] = created;
     }
-    if (null != date_received) {
-      m['date_received'] = date_received;
+    if (null != dateReceived) {
+      m['dateReceived'] = dateReceived;
     }
-    if (null != date_shipped) {
-      m['date_shipped'] = date_shipped;
+    if (null != dateShipped) {
+      m['dateShipped'] = dateShipped;
     }
-    if (null != dc_kif) {
-      m['dc_kif'] = dc_kif;
+    if (null != dcKif) {
+      m['dcKif'] = dcKif;
     }
     if (null != id) {
       m['id'] = id;
     }
-    if (null != item) {
-      m['item'] = item;
+    if (null != items) {
+      m['items'] = items;
     }
     if (null != kif) {
       m['kif'] = kif;
@@ -3699,8 +3699,8 @@ class ShipmentCreateData {
     if (null != partner) {
       m['partner'] = partner;
     }
-    if (null != shipment_type) {
-      m['shipment_type'] = shipment_type;
+    if (null != shipmentType) {
+      m['shipmentType'] = shipmentType;
     }
     if (null != tracking) {
       m['tracking'] = tracking;
@@ -3736,19 +3736,26 @@ class Success {
 class SuccessCreateData {
   /// STRING (required at the API)
   String? share_partner_to;
+  /// BOOLEAN
+  bool? success;
 
   SuccessCreateData({
     this.share_partner_to,
+    this.success,
   });
 
   factory SuccessCreateData.fromMap(Map<String, dynamic> m) => SuccessCreateData(
         share_partner_to: m['share_partner_to'] is String ? m['share_partner_to'] : null,
+        success: m['success'] is bool ? m['success'] : null,
       );
 
   Map<String, dynamic> toMap() {
     final m = <String, dynamic>{};
     if (null != share_partner_to) {
       m['share_partner_to'] = share_partner_to;
+    }
+    if (null != success) {
+      m['success'] = success;
     }
     return m;
   }
@@ -3777,39 +3784,39 @@ class SuccessRemoveMatch {
 
 class Transaction {
   /// STRING
-  String? alternate_key;
+  String? alternateKey;
   /// OBJECT
   Map<String, dynamic>? client;
   /// STRING
-  String? client_ref;
+  String? clientRef;
   /// STRING
   String? created;
   /// INTEGER
   int? decrypted;
   /// STRING
-  String? device_name;
+  String? deviceName;
   /// OBJECT
-  Map<String, dynamic>? direct_partner;
+  Map<String, dynamic>? directPartner;
   /// INTEGER
   int? encrypted;
   /// STRING
-  String? end_date;
+  String? endDate;
   /// STRING
-  String? err_code;
+  String? errCode;
   /// STRING
-  String? err_message;
+  String? errMessage;
   /// STRING
   String? id;
   /// STRING
-  String? ip_address;
+  String? ipAddress;
   /// BOOLEAN
-  bool? is_virtual;
+  bool? isVirtual;
   /// STRING
-  String? key_type;
+  String? keyType;
   /// OBJECT (required at the API)
   Map<String, dynamic>? location;
   /// STRING
-  String? message_id;
+  String? messageId;
   /// STRING
   String? method;
   /// OBJECT
@@ -3817,78 +3824,78 @@ class Transaction {
   /// STRING
   String? reference;
   /// STRING
-  String? serial_number;
+  String? serialNumber;
   /// STRING
-  String? start_date;
+  String? startDate;
   /// BOOLEAN
   bool? success;
   /// STRING
-  String? transaction_source;
+  String? transactionSource;
 
   Transaction({
-    this.alternate_key,
+    this.alternateKey,
     this.client,
-    this.client_ref,
+    this.clientRef,
     this.created,
     this.decrypted,
-    this.device_name,
-    this.direct_partner,
+    this.deviceName,
+    this.directPartner,
     this.encrypted,
-    this.end_date,
-    this.err_code,
-    this.err_message,
+    this.endDate,
+    this.errCode,
+    this.errMessage,
     this.id,
-    this.ip_address,
-    this.is_virtual,
-    this.key_type,
+    this.ipAddress,
+    this.isVirtual,
+    this.keyType,
     this.location,
-    this.message_id,
+    this.messageId,
     this.method,
     this.partner,
     this.reference,
-    this.serial_number,
-    this.start_date,
+    this.serialNumber,
+    this.startDate,
     this.success,
-    this.transaction_source,
+    this.transactionSource,
   });
 
   factory Transaction.fromMap(Map<String, dynamic> m) => Transaction(
-        alternate_key: m['alternate_key'] is String ? m['alternate_key'] : null,
+        alternateKey: m['alternateKey'] is String ? m['alternateKey'] : null,
         client: m['client'] is Map<String, dynamic> ? m['client'] : null,
-        client_ref: m['client_ref'] is String ? m['client_ref'] : null,
+        clientRef: m['clientRef'] is String ? m['clientRef'] : null,
         created: m['created'] is String ? m['created'] : null,
         decrypted: m['decrypted'] is int ? m['decrypted'] : null,
-        device_name: m['device_name'] is String ? m['device_name'] : null,
-        direct_partner: m['direct_partner'] is Map<String, dynamic> ? m['direct_partner'] : null,
+        deviceName: m['deviceName'] is String ? m['deviceName'] : null,
+        directPartner: m['directPartner'] is Map<String, dynamic> ? m['directPartner'] : null,
         encrypted: m['encrypted'] is int ? m['encrypted'] : null,
-        end_date: m['end_date'] is String ? m['end_date'] : null,
-        err_code: m['err_code'] is String ? m['err_code'] : null,
-        err_message: m['err_message'] is String ? m['err_message'] : null,
+        endDate: m['endDate'] is String ? m['endDate'] : null,
+        errCode: m['errCode'] is String ? m['errCode'] : null,
+        errMessage: m['errMessage'] is String ? m['errMessage'] : null,
         id: m['id'] is String ? m['id'] : null,
-        ip_address: m['ip_address'] is String ? m['ip_address'] : null,
-        is_virtual: m['is_virtual'] is bool ? m['is_virtual'] : null,
-        key_type: m['key_type'] is String ? m['key_type'] : null,
+        ipAddress: m['ipAddress'] is String ? m['ipAddress'] : null,
+        isVirtual: m['isVirtual'] is bool ? m['isVirtual'] : null,
+        keyType: m['keyType'] is String ? m['keyType'] : null,
         location: m['location'] is Map<String, dynamic> ? m['location'] : null,
-        message_id: m['message_id'] is String ? m['message_id'] : null,
+        messageId: m['messageId'] is String ? m['messageId'] : null,
         method: m['method'] is String ? m['method'] : null,
         partner: m['partner'] is Map<String, dynamic> ? m['partner'] : null,
         reference: m['reference'] is String ? m['reference'] : null,
-        serial_number: m['serial_number'] is String ? m['serial_number'] : null,
-        start_date: m['start_date'] is String ? m['start_date'] : null,
+        serialNumber: m['serialNumber'] is String ? m['serialNumber'] : null,
+        startDate: m['startDate'] is String ? m['startDate'] : null,
         success: m['success'] is bool ? m['success'] : null,
-        transaction_source: m['transaction_source'] is String ? m['transaction_source'] : null,
+        transactionSource: m['transactionSource'] is String ? m['transactionSource'] : null,
       );
 
   Map<String, dynamic> toMap() {
     final m = <String, dynamic>{};
-    if (null != alternate_key) {
-      m['alternate_key'] = alternate_key;
+    if (null != alternateKey) {
+      m['alternateKey'] = alternateKey;
     }
     if (null != client) {
       m['client'] = client;
     }
-    if (null != client_ref) {
-      m['client_ref'] = client_ref;
+    if (null != clientRef) {
+      m['clientRef'] = clientRef;
     }
     if (null != created) {
       m['created'] = created;
@@ -3896,41 +3903,41 @@ class Transaction {
     if (null != decrypted) {
       m['decrypted'] = decrypted;
     }
-    if (null != device_name) {
-      m['device_name'] = device_name;
+    if (null != deviceName) {
+      m['deviceName'] = deviceName;
     }
-    if (null != direct_partner) {
-      m['direct_partner'] = direct_partner;
+    if (null != directPartner) {
+      m['directPartner'] = directPartner;
     }
     if (null != encrypted) {
       m['encrypted'] = encrypted;
     }
-    if (null != end_date) {
-      m['end_date'] = end_date;
+    if (null != endDate) {
+      m['endDate'] = endDate;
     }
-    if (null != err_code) {
-      m['err_code'] = err_code;
+    if (null != errCode) {
+      m['errCode'] = errCode;
     }
-    if (null != err_message) {
-      m['err_message'] = err_message;
+    if (null != errMessage) {
+      m['errMessage'] = errMessage;
     }
     if (null != id) {
       m['id'] = id;
     }
-    if (null != ip_address) {
-      m['ip_address'] = ip_address;
+    if (null != ipAddress) {
+      m['ipAddress'] = ipAddress;
     }
-    if (null != is_virtual) {
-      m['is_virtual'] = is_virtual;
+    if (null != isVirtual) {
+      m['isVirtual'] = isVirtual;
     }
-    if (null != key_type) {
-      m['key_type'] = key_type;
+    if (null != keyType) {
+      m['keyType'] = keyType;
     }
     if (null != location) {
       m['location'] = location;
     }
-    if (null != message_id) {
-      m['message_id'] = message_id;
+    if (null != messageId) {
+      m['messageId'] = messageId;
     }
     if (null != method) {
       m['method'] = method;
@@ -3941,17 +3948,17 @@ class Transaction {
     if (null != reference) {
       m['reference'] = reference;
     }
-    if (null != serial_number) {
-      m['serial_number'] = serial_number;
+    if (null != serialNumber) {
+      m['serialNumber'] = serialNumber;
     }
-    if (null != start_date) {
-      m['start_date'] = start_date;
+    if (null != startDate) {
+      m['startDate'] = startDate;
     }
     if (null != success) {
       m['success'] = success;
     }
-    if (null != transaction_source) {
-      m['transaction_source'] = transaction_source;
+    if (null != transactionSource) {
+      m['transactionSource'] = transactionSource;
     }
     return m;
   }
@@ -3980,39 +3987,39 @@ class TransactionLoadMatch {
 
 class TransactionListMatch {
   /// STRING
-  String? alternate_key;
+  String? alternateKey;
   /// OBJECT
   Map<String, dynamic>? client;
   /// STRING
-  String? client_ref;
+  String? clientRef;
   /// STRING
   String? created;
   /// INTEGER
   int? decrypted;
   /// STRING
-  String? device_name;
+  String? deviceName;
   /// OBJECT
-  Map<String, dynamic>? direct_partner;
+  Map<String, dynamic>? directPartner;
   /// INTEGER
   int? encrypted;
   /// STRING
-  String? end_date;
+  String? endDate;
   /// STRING
-  String? err_code;
+  String? errCode;
   /// STRING
-  String? err_message;
+  String? errMessage;
   /// STRING
   String? id;
   /// STRING
-  String? ip_address;
+  String? ipAddress;
   /// BOOLEAN
-  bool? is_virtual;
+  bool? isVirtual;
   /// STRING
-  String? key_type;
+  String? keyType;
   /// OBJECT
   Map<String, dynamic>? location;
   /// STRING
-  String? message_id;
+  String? messageId;
   /// STRING
   String? method;
   /// OBJECT
@@ -4020,78 +4027,78 @@ class TransactionListMatch {
   /// STRING
   String? reference;
   /// STRING
-  String? serial_number;
+  String? serialNumber;
   /// STRING
-  String? start_date;
+  String? startDate;
   /// BOOLEAN
   bool? success;
   /// STRING
-  String? transaction_source;
+  String? transactionSource;
 
   TransactionListMatch({
-    this.alternate_key,
+    this.alternateKey,
     this.client,
-    this.client_ref,
+    this.clientRef,
     this.created,
     this.decrypted,
-    this.device_name,
-    this.direct_partner,
+    this.deviceName,
+    this.directPartner,
     this.encrypted,
-    this.end_date,
-    this.err_code,
-    this.err_message,
+    this.endDate,
+    this.errCode,
+    this.errMessage,
     this.id,
-    this.ip_address,
-    this.is_virtual,
-    this.key_type,
+    this.ipAddress,
+    this.isVirtual,
+    this.keyType,
     this.location,
-    this.message_id,
+    this.messageId,
     this.method,
     this.partner,
     this.reference,
-    this.serial_number,
-    this.start_date,
+    this.serialNumber,
+    this.startDate,
     this.success,
-    this.transaction_source,
+    this.transactionSource,
   });
 
   factory TransactionListMatch.fromMap(Map<String, dynamic> m) => TransactionListMatch(
-        alternate_key: m['alternate_key'] is String ? m['alternate_key'] : null,
+        alternateKey: m['alternateKey'] is String ? m['alternateKey'] : null,
         client: m['client'] is Map<String, dynamic> ? m['client'] : null,
-        client_ref: m['client_ref'] is String ? m['client_ref'] : null,
+        clientRef: m['clientRef'] is String ? m['clientRef'] : null,
         created: m['created'] is String ? m['created'] : null,
         decrypted: m['decrypted'] is int ? m['decrypted'] : null,
-        device_name: m['device_name'] is String ? m['device_name'] : null,
-        direct_partner: m['direct_partner'] is Map<String, dynamic> ? m['direct_partner'] : null,
+        deviceName: m['deviceName'] is String ? m['deviceName'] : null,
+        directPartner: m['directPartner'] is Map<String, dynamic> ? m['directPartner'] : null,
         encrypted: m['encrypted'] is int ? m['encrypted'] : null,
-        end_date: m['end_date'] is String ? m['end_date'] : null,
-        err_code: m['err_code'] is String ? m['err_code'] : null,
-        err_message: m['err_message'] is String ? m['err_message'] : null,
+        endDate: m['endDate'] is String ? m['endDate'] : null,
+        errCode: m['errCode'] is String ? m['errCode'] : null,
+        errMessage: m['errMessage'] is String ? m['errMessage'] : null,
         id: m['id'] is String ? m['id'] : null,
-        ip_address: m['ip_address'] is String ? m['ip_address'] : null,
-        is_virtual: m['is_virtual'] is bool ? m['is_virtual'] : null,
-        key_type: m['key_type'] is String ? m['key_type'] : null,
+        ipAddress: m['ipAddress'] is String ? m['ipAddress'] : null,
+        isVirtual: m['isVirtual'] is bool ? m['isVirtual'] : null,
+        keyType: m['keyType'] is String ? m['keyType'] : null,
         location: m['location'] is Map<String, dynamic> ? m['location'] : null,
-        message_id: m['message_id'] is String ? m['message_id'] : null,
+        messageId: m['messageId'] is String ? m['messageId'] : null,
         method: m['method'] is String ? m['method'] : null,
         partner: m['partner'] is Map<String, dynamic> ? m['partner'] : null,
         reference: m['reference'] is String ? m['reference'] : null,
-        serial_number: m['serial_number'] is String ? m['serial_number'] : null,
-        start_date: m['start_date'] is String ? m['start_date'] : null,
+        serialNumber: m['serialNumber'] is String ? m['serialNumber'] : null,
+        startDate: m['startDate'] is String ? m['startDate'] : null,
         success: m['success'] is bool ? m['success'] : null,
-        transaction_source: m['transaction_source'] is String ? m['transaction_source'] : null,
+        transactionSource: m['transactionSource'] is String ? m['transactionSource'] : null,
       );
 
   Map<String, dynamic> toMap() {
     final m = <String, dynamic>{};
-    if (null != alternate_key) {
-      m['alternate_key'] = alternate_key;
+    if (null != alternateKey) {
+      m['alternateKey'] = alternateKey;
     }
     if (null != client) {
       m['client'] = client;
     }
-    if (null != client_ref) {
-      m['client_ref'] = client_ref;
+    if (null != clientRef) {
+      m['clientRef'] = clientRef;
     }
     if (null != created) {
       m['created'] = created;
@@ -4099,41 +4106,41 @@ class TransactionListMatch {
     if (null != decrypted) {
       m['decrypted'] = decrypted;
     }
-    if (null != device_name) {
-      m['device_name'] = device_name;
+    if (null != deviceName) {
+      m['deviceName'] = deviceName;
     }
-    if (null != direct_partner) {
-      m['direct_partner'] = direct_partner;
+    if (null != directPartner) {
+      m['directPartner'] = directPartner;
     }
     if (null != encrypted) {
       m['encrypted'] = encrypted;
     }
-    if (null != end_date) {
-      m['end_date'] = end_date;
+    if (null != endDate) {
+      m['endDate'] = endDate;
     }
-    if (null != err_code) {
-      m['err_code'] = err_code;
+    if (null != errCode) {
+      m['errCode'] = errCode;
     }
-    if (null != err_message) {
-      m['err_message'] = err_message;
+    if (null != errMessage) {
+      m['errMessage'] = errMessage;
     }
     if (null != id) {
       m['id'] = id;
     }
-    if (null != ip_address) {
-      m['ip_address'] = ip_address;
+    if (null != ipAddress) {
+      m['ipAddress'] = ipAddress;
     }
-    if (null != is_virtual) {
-      m['is_virtual'] = is_virtual;
+    if (null != isVirtual) {
+      m['isVirtual'] = isVirtual;
     }
-    if (null != key_type) {
-      m['key_type'] = key_type;
+    if (null != keyType) {
+      m['keyType'] = keyType;
     }
     if (null != location) {
       m['location'] = location;
     }
-    if (null != message_id) {
-      m['message_id'] = message_id;
+    if (null != messageId) {
+      m['messageId'] = messageId;
     }
     if (null != method) {
       m['method'] = method;
@@ -4144,17 +4151,17 @@ class TransactionListMatch {
     if (null != reference) {
       m['reference'] = reference;
     }
-    if (null != serial_number) {
-      m['serial_number'] = serial_number;
+    if (null != serialNumber) {
+      m['serialNumber'] = serialNumber;
     }
-    if (null != start_date) {
-      m['start_date'] = start_date;
+    if (null != startDate) {
+      m['startDate'] = startDate;
     }
     if (null != success) {
       m['success'] = success;
     }
-    if (null != transaction_source) {
-      m['transaction_source'] = transaction_source;
+    if (null != transactionSource) {
+      m['transactionSource'] = transactionSource;
     }
     return m;
   }
@@ -4162,39 +4169,39 @@ class TransactionListMatch {
 
 class TransactionCreateData {
   /// STRING
-  String? alternate_key;
+  String? alternateKey;
   /// OBJECT
   Map<String, dynamic>? client;
   /// STRING
-  String? client_ref;
+  String? clientRef;
   /// STRING
   String? created;
   /// INTEGER
   int? decrypted;
   /// STRING
-  String? device_name;
+  String? deviceName;
   /// OBJECT
-  Map<String, dynamic>? direct_partner;
+  Map<String, dynamic>? directPartner;
   /// INTEGER
   int? encrypted;
   /// STRING
-  String? end_date;
+  String? endDate;
   /// STRING
-  String? err_code;
+  String? errCode;
   /// STRING
-  String? err_message;
+  String? errMessage;
   /// STRING
   String? id;
   /// STRING
-  String? ip_address;
+  String? ipAddress;
   /// BOOLEAN
-  bool? is_virtual;
+  bool? isVirtual;
   /// STRING
-  String? key_type;
+  String? keyType;
   /// OBJECT (required at the API)
   Map<String, dynamic>? location;
   /// STRING
-  String? message_id;
+  String? messageId;
   /// STRING
   String? method;
   /// OBJECT
@@ -4202,78 +4209,78 @@ class TransactionCreateData {
   /// STRING
   String? reference;
   /// STRING
-  String? serial_number;
+  String? serialNumber;
   /// STRING
-  String? start_date;
+  String? startDate;
   /// BOOLEAN
   bool? success;
   /// STRING
-  String? transaction_source;
+  String? transactionSource;
 
   TransactionCreateData({
-    this.alternate_key,
+    this.alternateKey,
     this.client,
-    this.client_ref,
+    this.clientRef,
     this.created,
     this.decrypted,
-    this.device_name,
-    this.direct_partner,
+    this.deviceName,
+    this.directPartner,
     this.encrypted,
-    this.end_date,
-    this.err_code,
-    this.err_message,
+    this.endDate,
+    this.errCode,
+    this.errMessage,
     this.id,
-    this.ip_address,
-    this.is_virtual,
-    this.key_type,
+    this.ipAddress,
+    this.isVirtual,
+    this.keyType,
     this.location,
-    this.message_id,
+    this.messageId,
     this.method,
     this.partner,
     this.reference,
-    this.serial_number,
-    this.start_date,
+    this.serialNumber,
+    this.startDate,
     this.success,
-    this.transaction_source,
+    this.transactionSource,
   });
 
   factory TransactionCreateData.fromMap(Map<String, dynamic> m) => TransactionCreateData(
-        alternate_key: m['alternate_key'] is String ? m['alternate_key'] : null,
+        alternateKey: m['alternateKey'] is String ? m['alternateKey'] : null,
         client: m['client'] is Map<String, dynamic> ? m['client'] : null,
-        client_ref: m['client_ref'] is String ? m['client_ref'] : null,
+        clientRef: m['clientRef'] is String ? m['clientRef'] : null,
         created: m['created'] is String ? m['created'] : null,
         decrypted: m['decrypted'] is int ? m['decrypted'] : null,
-        device_name: m['device_name'] is String ? m['device_name'] : null,
-        direct_partner: m['direct_partner'] is Map<String, dynamic> ? m['direct_partner'] : null,
+        deviceName: m['deviceName'] is String ? m['deviceName'] : null,
+        directPartner: m['directPartner'] is Map<String, dynamic> ? m['directPartner'] : null,
         encrypted: m['encrypted'] is int ? m['encrypted'] : null,
-        end_date: m['end_date'] is String ? m['end_date'] : null,
-        err_code: m['err_code'] is String ? m['err_code'] : null,
-        err_message: m['err_message'] is String ? m['err_message'] : null,
+        endDate: m['endDate'] is String ? m['endDate'] : null,
+        errCode: m['errCode'] is String ? m['errCode'] : null,
+        errMessage: m['errMessage'] is String ? m['errMessage'] : null,
         id: m['id'] is String ? m['id'] : null,
-        ip_address: m['ip_address'] is String ? m['ip_address'] : null,
-        is_virtual: m['is_virtual'] is bool ? m['is_virtual'] : null,
-        key_type: m['key_type'] is String ? m['key_type'] : null,
+        ipAddress: m['ipAddress'] is String ? m['ipAddress'] : null,
+        isVirtual: m['isVirtual'] is bool ? m['isVirtual'] : null,
+        keyType: m['keyType'] is String ? m['keyType'] : null,
         location: m['location'] is Map<String, dynamic> ? m['location'] : null,
-        message_id: m['message_id'] is String ? m['message_id'] : null,
+        messageId: m['messageId'] is String ? m['messageId'] : null,
         method: m['method'] is String ? m['method'] : null,
         partner: m['partner'] is Map<String, dynamic> ? m['partner'] : null,
         reference: m['reference'] is String ? m['reference'] : null,
-        serial_number: m['serial_number'] is String ? m['serial_number'] : null,
-        start_date: m['start_date'] is String ? m['start_date'] : null,
+        serialNumber: m['serialNumber'] is String ? m['serialNumber'] : null,
+        startDate: m['startDate'] is String ? m['startDate'] : null,
         success: m['success'] is bool ? m['success'] : null,
-        transaction_source: m['transaction_source'] is String ? m['transaction_source'] : null,
+        transactionSource: m['transactionSource'] is String ? m['transactionSource'] : null,
       );
 
   Map<String, dynamic> toMap() {
     final m = <String, dynamic>{};
-    if (null != alternate_key) {
-      m['alternate_key'] = alternate_key;
+    if (null != alternateKey) {
+      m['alternateKey'] = alternateKey;
     }
     if (null != client) {
       m['client'] = client;
     }
-    if (null != client_ref) {
-      m['client_ref'] = client_ref;
+    if (null != clientRef) {
+      m['clientRef'] = clientRef;
     }
     if (null != created) {
       m['created'] = created;
@@ -4281,41 +4288,41 @@ class TransactionCreateData {
     if (null != decrypted) {
       m['decrypted'] = decrypted;
     }
-    if (null != device_name) {
-      m['device_name'] = device_name;
+    if (null != deviceName) {
+      m['deviceName'] = deviceName;
     }
-    if (null != direct_partner) {
-      m['direct_partner'] = direct_partner;
+    if (null != directPartner) {
+      m['directPartner'] = directPartner;
     }
     if (null != encrypted) {
       m['encrypted'] = encrypted;
     }
-    if (null != end_date) {
-      m['end_date'] = end_date;
+    if (null != endDate) {
+      m['endDate'] = endDate;
     }
-    if (null != err_code) {
-      m['err_code'] = err_code;
+    if (null != errCode) {
+      m['errCode'] = errCode;
     }
-    if (null != err_message) {
-      m['err_message'] = err_message;
+    if (null != errMessage) {
+      m['errMessage'] = errMessage;
     }
     if (null != id) {
       m['id'] = id;
     }
-    if (null != ip_address) {
-      m['ip_address'] = ip_address;
+    if (null != ipAddress) {
+      m['ipAddress'] = ipAddress;
     }
-    if (null != is_virtual) {
-      m['is_virtual'] = is_virtual;
+    if (null != isVirtual) {
+      m['isVirtual'] = isVirtual;
     }
-    if (null != key_type) {
-      m['key_type'] = key_type;
+    if (null != keyType) {
+      m['keyType'] = keyType;
     }
     if (null != location) {
       m['location'] = location;
     }
-    if (null != message_id) {
-      m['message_id'] = message_id;
+    if (null != messageId) {
+      m['messageId'] = messageId;
     }
     if (null != method) {
       m['method'] = method;
@@ -4326,17 +4333,17 @@ class TransactionCreateData {
     if (null != reference) {
       m['reference'] = reference;
     }
-    if (null != serial_number) {
-      m['serial_number'] = serial_number;
+    if (null != serialNumber) {
+      m['serialNumber'] = serialNumber;
     }
-    if (null != start_date) {
-      m['start_date'] = start_date;
+    if (null != startDate) {
+      m['startDate'] = startDate;
     }
     if (null != success) {
       m['success'] = success;
     }
-    if (null != transaction_source) {
-      m['transaction_source'] = transaction_source;
+    if (null != transactionSource) {
+      m['transactionSource'] = transactionSource;
     }
     return m;
   }
@@ -4348,53 +4355,53 @@ class UpdateResult {
   /// STRING
   String? email;
   /// STRING
-  String? first_name;
+  String? firstName;
   /// STRING
   String? id;
   /// BOOLEAN
-  bool? is_active;
+  bool? isActive;
   /// OBJECT
   Map<String, dynamic>? kif;
   /// STRING
-  String? last_name;
+  String? lastName;
   /// OBJECT
   Map<String, dynamic>? partner;
   /// STRING
   String? phone;
   /// STRING
-  String? user_name;
+  String? userName;
   /// OBJECT
-  Map<String, dynamic>? user_role;
+  Map<String, dynamic>? userRole;
   /// INTEGER
   int? version;
 
   UpdateResult({
     this.client,
     this.email,
-    this.first_name,
+    this.firstName,
     this.id,
-    this.is_active,
+    this.isActive,
     this.kif,
-    this.last_name,
+    this.lastName,
     this.partner,
     this.phone,
-    this.user_name,
-    this.user_role,
+    this.userName,
+    this.userRole,
     this.version,
   });
 
   factory UpdateResult.fromMap(Map<String, dynamic> m) => UpdateResult(
         client: m['client'] is Map<String, dynamic> ? m['client'] : null,
         email: m['email'] is String ? m['email'] : null,
-        first_name: m['first_name'] is String ? m['first_name'] : null,
+        firstName: m['firstName'] is String ? m['firstName'] : null,
         id: m['id'] is String ? m['id'] : null,
-        is_active: m['is_active'] is bool ? m['is_active'] : null,
+        isActive: m['isActive'] is bool ? m['isActive'] : null,
         kif: m['kif'] is Map<String, dynamic> ? m['kif'] : null,
-        last_name: m['last_name'] is String ? m['last_name'] : null,
+        lastName: m['lastName'] is String ? m['lastName'] : null,
         partner: m['partner'] is Map<String, dynamic> ? m['partner'] : null,
         phone: m['phone'] is String ? m['phone'] : null,
-        user_name: m['user_name'] is String ? m['user_name'] : null,
-        user_role: m['user_role'] is Map<String, dynamic> ? m['user_role'] : null,
+        userName: m['userName'] is String ? m['userName'] : null,
+        userRole: m['userRole'] is Map<String, dynamic> ? m['userRole'] : null,
         version: m['version'] is int ? m['version'] : null,
       );
 
@@ -4406,20 +4413,20 @@ class UpdateResult {
     if (null != email) {
       m['email'] = email;
     }
-    if (null != first_name) {
-      m['first_name'] = first_name;
+    if (null != firstName) {
+      m['firstName'] = firstName;
     }
     if (null != id) {
       m['id'] = id;
     }
-    if (null != is_active) {
-      m['is_active'] = is_active;
+    if (null != isActive) {
+      m['isActive'] = isActive;
     }
     if (null != kif) {
       m['kif'] = kif;
     }
-    if (null != last_name) {
-      m['last_name'] = last_name;
+    if (null != lastName) {
+      m['lastName'] = lastName;
     }
     if (null != partner) {
       m['partner'] = partner;
@@ -4427,11 +4434,11 @@ class UpdateResult {
     if (null != phone) {
       m['phone'] = phone;
     }
-    if (null != user_name) {
-      m['user_name'] = user_name;
+    if (null != userName) {
+      m['userName'] = userName;
     }
-    if (null != user_role) {
-      m['user_role'] = user_role;
+    if (null != userRole) {
+      m['userRole'] = userRole;
     }
     if (null != version) {
       m['version'] = version;
@@ -4446,53 +4453,53 @@ class UpdateResultListMatch {
   /// STRING
   String? email;
   /// STRING
-  String? first_name;
+  String? firstName;
   /// STRING
   String? id;
   /// BOOLEAN
-  bool? is_active;
+  bool? isActive;
   /// OBJECT
   Map<String, dynamic>? kif;
   /// STRING
-  String? last_name;
+  String? lastName;
   /// OBJECT
   Map<String, dynamic>? partner;
   /// STRING
   String? phone;
   /// STRING
-  String? user_name;
+  String? userName;
   /// OBJECT
-  Map<String, dynamic>? user_role;
+  Map<String, dynamic>? userRole;
   /// INTEGER
   int? version;
 
   UpdateResultListMatch({
     this.client,
     this.email,
-    this.first_name,
+    this.firstName,
     this.id,
-    this.is_active,
+    this.isActive,
     this.kif,
-    this.last_name,
+    this.lastName,
     this.partner,
     this.phone,
-    this.user_name,
-    this.user_role,
+    this.userName,
+    this.userRole,
     this.version,
   });
 
   factory UpdateResultListMatch.fromMap(Map<String, dynamic> m) => UpdateResultListMatch(
         client: m['client'] is Map<String, dynamic> ? m['client'] : null,
         email: m['email'] is String ? m['email'] : null,
-        first_name: m['first_name'] is String ? m['first_name'] : null,
+        firstName: m['firstName'] is String ? m['firstName'] : null,
         id: m['id'] is String ? m['id'] : null,
-        is_active: m['is_active'] is bool ? m['is_active'] : null,
+        isActive: m['isActive'] is bool ? m['isActive'] : null,
         kif: m['kif'] is Map<String, dynamic> ? m['kif'] : null,
-        last_name: m['last_name'] is String ? m['last_name'] : null,
+        lastName: m['lastName'] is String ? m['lastName'] : null,
         partner: m['partner'] is Map<String, dynamic> ? m['partner'] : null,
         phone: m['phone'] is String ? m['phone'] : null,
-        user_name: m['user_name'] is String ? m['user_name'] : null,
-        user_role: m['user_role'] is Map<String, dynamic> ? m['user_role'] : null,
+        userName: m['userName'] is String ? m['userName'] : null,
+        userRole: m['userRole'] is Map<String, dynamic> ? m['userRole'] : null,
         version: m['version'] is int ? m['version'] : null,
       );
 
@@ -4504,20 +4511,20 @@ class UpdateResultListMatch {
     if (null != email) {
       m['email'] = email;
     }
-    if (null != first_name) {
-      m['first_name'] = first_name;
+    if (null != firstName) {
+      m['firstName'] = firstName;
     }
     if (null != id) {
       m['id'] = id;
     }
-    if (null != is_active) {
-      m['is_active'] = is_active;
+    if (null != isActive) {
+      m['isActive'] = isActive;
     }
     if (null != kif) {
       m['kif'] = kif;
     }
-    if (null != last_name) {
-      m['last_name'] = last_name;
+    if (null != lastName) {
+      m['lastName'] = lastName;
     }
     if (null != partner) {
       m['partner'] = partner;
@@ -4525,11 +4532,11 @@ class UpdateResultListMatch {
     if (null != phone) {
       m['phone'] = phone;
     }
-    if (null != user_name) {
-      m['user_name'] = user_name;
+    if (null != userName) {
+      m['userName'] = userName;
     }
-    if (null != user_role) {
-      m['user_role'] = user_role;
+    if (null != userRole) {
+      m['userRole'] = userRole;
     }
     if (null != version) {
       m['version'] = version;
@@ -4544,53 +4551,53 @@ class UpdateResultCreateData {
   /// STRING
   String? email;
   /// STRING
-  String? first_name;
+  String? firstName;
   /// STRING
   String? id;
   /// BOOLEAN
-  bool? is_active;
+  bool? isActive;
   /// OBJECT
   Map<String, dynamic>? kif;
   /// STRING
-  String? last_name;
+  String? lastName;
   /// OBJECT
   Map<String, dynamic>? partner;
   /// STRING
   String? phone;
   /// STRING
-  String? user_name;
+  String? userName;
   /// OBJECT
-  Map<String, dynamic>? user_role;
+  Map<String, dynamic>? userRole;
   /// INTEGER
   int? version;
 
   UpdateResultCreateData({
     this.client,
     this.email,
-    this.first_name,
+    this.firstName,
     this.id,
-    this.is_active,
+    this.isActive,
     this.kif,
-    this.last_name,
+    this.lastName,
     this.partner,
     this.phone,
-    this.user_name,
-    this.user_role,
+    this.userName,
+    this.userRole,
     this.version,
   });
 
   factory UpdateResultCreateData.fromMap(Map<String, dynamic> m) => UpdateResultCreateData(
         client: m['client'] is Map<String, dynamic> ? m['client'] : null,
         email: m['email'] is String ? m['email'] : null,
-        first_name: m['first_name'] is String ? m['first_name'] : null,
+        firstName: m['firstName'] is String ? m['firstName'] : null,
         id: m['id'] is String ? m['id'] : null,
-        is_active: m['is_active'] is bool ? m['is_active'] : null,
+        isActive: m['isActive'] is bool ? m['isActive'] : null,
         kif: m['kif'] is Map<String, dynamic> ? m['kif'] : null,
-        last_name: m['last_name'] is String ? m['last_name'] : null,
+        lastName: m['lastName'] is String ? m['lastName'] : null,
         partner: m['partner'] is Map<String, dynamic> ? m['partner'] : null,
         phone: m['phone'] is String ? m['phone'] : null,
-        user_name: m['user_name'] is String ? m['user_name'] : null,
-        user_role: m['user_role'] is Map<String, dynamic> ? m['user_role'] : null,
+        userName: m['userName'] is String ? m['userName'] : null,
+        userRole: m['userRole'] is Map<String, dynamic> ? m['userRole'] : null,
         version: m['version'] is int ? m['version'] : null,
       );
 
@@ -4602,20 +4609,20 @@ class UpdateResultCreateData {
     if (null != email) {
       m['email'] = email;
     }
-    if (null != first_name) {
-      m['first_name'] = first_name;
+    if (null != firstName) {
+      m['firstName'] = firstName;
     }
     if (null != id) {
       m['id'] = id;
     }
-    if (null != is_active) {
-      m['is_active'] = is_active;
+    if (null != isActive) {
+      m['isActive'] = isActive;
     }
     if (null != kif) {
       m['kif'] = kif;
     }
-    if (null != last_name) {
-      m['last_name'] = last_name;
+    if (null != lastName) {
+      m['lastName'] = lastName;
     }
     if (null != partner) {
       m['partner'] = partner;
@@ -4623,11 +4630,11 @@ class UpdateResultCreateData {
     if (null != phone) {
       m['phone'] = phone;
     }
-    if (null != user_name) {
-      m['user_name'] = user_name;
+    if (null != userName) {
+      m['userName'] = userName;
     }
-    if (null != user_role) {
-      m['user_role'] = user_role;
+    if (null != userRole) {
+      m['userRole'] = userRole;
     }
     if (null != version) {
       m['version'] = version;
@@ -4639,19 +4646,96 @@ class UpdateResultCreateData {
 class UpdateResultUpdateData {
   /// STRING (required at the API)
   String? id;
+  /// OBJECT
+  Map<String, dynamic>? client;
+  /// STRING
+  String? email;
+  /// STRING
+  String? firstName;
+  /// BOOLEAN
+  bool? isActive;
+  /// OBJECT
+  Map<String, dynamic>? kif;
+  /// STRING
+  String? lastName;
+  /// OBJECT
+  Map<String, dynamic>? partner;
+  /// STRING
+  String? phone;
+  /// STRING
+  String? userName;
+  /// OBJECT
+  Map<String, dynamic>? userRole;
+  /// INTEGER
+  int? version;
 
   UpdateResultUpdateData({
     this.id,
+    this.client,
+    this.email,
+    this.firstName,
+    this.isActive,
+    this.kif,
+    this.lastName,
+    this.partner,
+    this.phone,
+    this.userName,
+    this.userRole,
+    this.version,
   });
 
   factory UpdateResultUpdateData.fromMap(Map<String, dynamic> m) => UpdateResultUpdateData(
         id: m['id'] is String ? m['id'] : null,
+        client: m['client'] is Map<String, dynamic> ? m['client'] : null,
+        email: m['email'] is String ? m['email'] : null,
+        firstName: m['firstName'] is String ? m['firstName'] : null,
+        isActive: m['isActive'] is bool ? m['isActive'] : null,
+        kif: m['kif'] is Map<String, dynamic> ? m['kif'] : null,
+        lastName: m['lastName'] is String ? m['lastName'] : null,
+        partner: m['partner'] is Map<String, dynamic> ? m['partner'] : null,
+        phone: m['phone'] is String ? m['phone'] : null,
+        userName: m['userName'] is String ? m['userName'] : null,
+        userRole: m['userRole'] is Map<String, dynamic> ? m['userRole'] : null,
+        version: m['version'] is int ? m['version'] : null,
       );
 
   Map<String, dynamic> toMap() {
     final m = <String, dynamic>{};
     if (null != id) {
       m['id'] = id;
+    }
+    if (null != client) {
+      m['client'] = client;
+    }
+    if (null != email) {
+      m['email'] = email;
+    }
+    if (null != firstName) {
+      m['firstName'] = firstName;
+    }
+    if (null != isActive) {
+      m['isActive'] = isActive;
+    }
+    if (null != kif) {
+      m['kif'] = kif;
+    }
+    if (null != lastName) {
+      m['lastName'] = lastName;
+    }
+    if (null != partner) {
+      m['partner'] = partner;
+    }
+    if (null != phone) {
+      m['phone'] = phone;
+    }
+    if (null != userName) {
+      m['userName'] = userName;
+    }
+    if (null != userRole) {
+      m['userRole'] = userRole;
+    }
+    if (null != version) {
+      m['version'] = version;
     }
     return m;
   }
@@ -4665,15 +4749,15 @@ class User {
   /// STRING
   String? email;
   /// STRING
-  String? first_name;
+  String? firstName;
   /// STRING
   String? id;
   /// BOOLEAN
-  bool? is_active;
+  bool? isActive;
   /// OBJECT
   Map<String, dynamic>? kif;
   /// STRING
-  String? last_name;
+  String? lastName;
   /// STRING
   String? modified;
   /// OBJECT
@@ -4681,9 +4765,9 @@ class User {
   /// STRING
   String? phone;
   /// STRING
-  String? user_name;
+  String? userName;
   /// OBJECT
-  Map<String, dynamic>? user_role;
+  Map<String, dynamic>? userRole;
   /// INTEGER
   int? version;
 
@@ -4691,16 +4775,16 @@ class User {
     this.client,
     this.created,
     this.email,
-    this.first_name,
+    this.firstName,
     this.id,
-    this.is_active,
+    this.isActive,
     this.kif,
-    this.last_name,
+    this.lastName,
     this.modified,
     this.partner,
     this.phone,
-    this.user_name,
-    this.user_role,
+    this.userName,
+    this.userRole,
     this.version,
   });
 
@@ -4708,16 +4792,16 @@ class User {
         client: m['client'] is Map<String, dynamic> ? m['client'] : null,
         created: m['created'] is String ? m['created'] : null,
         email: m['email'] is String ? m['email'] : null,
-        first_name: m['first_name'] is String ? m['first_name'] : null,
+        firstName: m['firstName'] is String ? m['firstName'] : null,
         id: m['id'] is String ? m['id'] : null,
-        is_active: m['is_active'] is bool ? m['is_active'] : null,
+        isActive: m['isActive'] is bool ? m['isActive'] : null,
         kif: m['kif'] is Map<String, dynamic> ? m['kif'] : null,
-        last_name: m['last_name'] is String ? m['last_name'] : null,
+        lastName: m['lastName'] is String ? m['lastName'] : null,
         modified: m['modified'] is String ? m['modified'] : null,
         partner: m['partner'] is Map<String, dynamic> ? m['partner'] : null,
         phone: m['phone'] is String ? m['phone'] : null,
-        user_name: m['user_name'] is String ? m['user_name'] : null,
-        user_role: m['user_role'] is Map<String, dynamic> ? m['user_role'] : null,
+        userName: m['userName'] is String ? m['userName'] : null,
+        userRole: m['userRole'] is Map<String, dynamic> ? m['userRole'] : null,
         version: m['version'] is int ? m['version'] : null,
       );
 
@@ -4732,20 +4816,20 @@ class User {
     if (null != email) {
       m['email'] = email;
     }
-    if (null != first_name) {
-      m['first_name'] = first_name;
+    if (null != firstName) {
+      m['firstName'] = firstName;
     }
     if (null != id) {
       m['id'] = id;
     }
-    if (null != is_active) {
-      m['is_active'] = is_active;
+    if (null != isActive) {
+      m['isActive'] = isActive;
     }
     if (null != kif) {
       m['kif'] = kif;
     }
-    if (null != last_name) {
-      m['last_name'] = last_name;
+    if (null != lastName) {
+      m['lastName'] = lastName;
     }
     if (null != modified) {
       m['modified'] = modified;
@@ -4756,11 +4840,11 @@ class User {
     if (null != phone) {
       m['phone'] = phone;
     }
-    if (null != user_name) {
-      m['user_name'] = user_name;
+    if (null != userName) {
+      m['userName'] = userName;
     }
-    if (null != user_role) {
-      m['user_role'] = user_role;
+    if (null != userRole) {
+      m['userRole'] = userRole;
     }
     if (null != version) {
       m['version'] = version;

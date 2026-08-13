@@ -40,7 +40,7 @@ class InjectKeyEntityTest {
     }
     Assumptions.assumeFalse(
       setup.syntheticOnly,
-      "live entity test uses synthetic IDs from fixture — set BLUEFINDECRYPTXP_PE_TEST_INJECT_KEY_ENTID JSON to run live",
+      "live entity test uses synthetic IDs from fixture — set BLUEFIN_DECRYPTX_P2PE_TEST_INJECT_KEY_ENTID JSON to run live",
     )
     val client = setup.client
 
@@ -62,7 +62,7 @@ class InjectKeyEntityTest {
     val injectKeyRef01MatchDt0 = linkedMapOf<String, Any?>()
     injectKeyRef01MatchDt0["id"] = injectKeyRef01Data["id"]
     val injectKeyRef01DataDt0Loaded = injectKeyRef01Ent.load(injectKeyRef01MatchDt0, null)
-    val injectKeyRef01DataDt0LoadResult = Helpers.toMapAny(injectKeyRef01DataDt0Loaded) ?: linkedMapOf()
+    val injectKeyRef01DataDt0LoadResult = Helpers.toMapAny(if (injectKeyRef01DataDt0Loaded is SdkEntity) injectKeyRef01DataDt0Loaded.data() else injectKeyRef01DataDt0Loaded) ?: linkedMapOf()
     assertNotNull(injectKeyRef01DataDt0LoadResult, "expected load result to be a map")
     assertEquals(injectKeyRef01Data["id"], injectKeyRef01DataDt0LoadResult["id"],
         "expected load result id to match")
@@ -132,25 +132,25 @@ class InjectKeyEntityTest {
           "}]}"))
 
       // Detect ENTID env override before envOverride consumes it.
-      val entidEnvRaw = RunnerSupport.getenv("BLUEFINDECRYPTXP_PE_TEST_INJECT_KEY_ENTID")
+      val entidEnvRaw = RunnerSupport.getenv("BLUEFIN_DECRYPTX_P2PE_TEST_INJECT_KEY_ENTID")
       val idmapOverridden = entidEnvRaw != null && entidEnvRaw.trim().startsWith("{")
 
       val envm = linkedMapOf<String, Any?>()
-      envm["BLUEFINDECRYPTXP_PE_TEST_INJECT_KEY_ENTID"] = idmap
-      envm["BLUEFINDECRYPTXP_PE_TEST_LIVE"] = "FALSE"
-      envm["BLUEFINDECRYPTXP_PE_TEST_EXPLAIN"] = "FALSE"
-      envm["BLUEFINDECRYPTXP_PE_APIKEY"] = "NONE"
+      envm["BLUEFIN_DECRYPTX_P2PE_TEST_INJECT_KEY_ENTID"] = idmap
+      envm["BLUEFIN_DECRYPTX_P2PE_TEST_LIVE"] = "FALSE"
+      envm["BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN"] = "FALSE"
+      envm["BLUEFIN_DECRYPTX_P2PE_APIKEY"] = "NONE"
       val env = RunnerSupport.envOverride(envm)
 
-      var idmapResolved = Helpers.toMapAny(env["BLUEFINDECRYPTXP_PE_TEST_INJECT_KEY_ENTID"])
+      var idmapResolved = Helpers.toMapAny(env["BLUEFIN_DECRYPTX_P2PE_TEST_INJECT_KEY_ENTID"])
       if (idmapResolved == null) {
         idmapResolved = Helpers.toMapAny(idmap) ?: linkedMapOf()
       }
 
-      val live = "TRUE" == env["BLUEFINDECRYPTXP_PE_TEST_LIVE"]
+      val live = "TRUE" == env["BLUEFIN_DECRYPTX_P2PE_TEST_LIVE"]
       if (live) {
         val liveOpts = linkedMapOf<String, Any?>()
-        liveOpts["apikey"] = env["BLUEFINDECRYPTXP_PE_APIKEY"]
+        liveOpts["apikey"] = env["BLUEFIN_DECRYPTX_P2PE_APIKEY"]
         val mergedOpts = Struct.merge(Struct.jt(liveOpts, extra))
         client = BluefinDecryptxP2peSDK(Helpers.toMapAny(mergedOpts))
       }
@@ -160,7 +160,7 @@ class InjectKeyEntityTest {
       setup.data = entityData
       setup.idmap = idmapResolved
       setup.env = env
-      setup.explain = "TRUE" == env["BLUEFINDECRYPTXP_PE_TEST_EXPLAIN"]
+      setup.explain = "TRUE" == env["BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN"]
       setup.live = live
       setup.syntheticOnly = live && !idmapOverridden
       setup.now = System.currentTimeMillis()

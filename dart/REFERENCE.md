@@ -172,12 +172,12 @@ final attestation = client.Attestation();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `client` | `Map<String, dynamic>` | No |  |
-| `complete_date` | `String` | No |  |
+| `completeDate` | `String` | No |  |
 | `created` | `String` | No |  |
 | `device` | `Map<String, dynamic>` | No |  |
 | `id` | `String` | No |  |
 | `name` | `String` | No |  |
-| `note` | `String` | No |  |
+| `notes` | `String` | No |  |
 
 ### Operations
 
@@ -242,9 +242,9 @@ final client_ = client.Client();
 | --- | --- | --- | --- |
 | `contact` | `Map<String, dynamic>` | No |  |
 | `created` | `String` | No |  |
-| `direct_partner` | `Map<String, dynamic>` | No |  |
+| `directPartner` | `Map<String, dynamic>` | No |  |
 | `id` | `String` | No |  |
-| `is_active` | `bool` | No |  |
+| `isActive` | `bool` | No |  |
 | `location` | `Map<String, dynamic>` | Yes |  |
 | `mid` | `String` | No |  |
 | `modified` | `String` | No |  |
@@ -258,9 +258,9 @@ final client_ = client.Client();
 | --- | --- | --- | --- | --- |
 | `contact` | - | Yes | - | - |
 | `created` | - | - | - | - |
-| `direct_partner` | - | - | - | - |
+| `directPartner` | - | - | - | - |
 | `id` | - | - | - | - |
-| `is_active` | - | - | - | - |
+| `isActive` | - | - | - | - |
 | `location` | - | - | - | - |
 | `mid` | - | - | - | - |
 | `modified` | - | - | - | - |
@@ -422,33 +422,33 @@ final device = client.Device();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `activated_by` | `Map<String, dynamic>` | Yes |  |
-| `activation_date` | `String` | No |  |
-| `alternate_key` | `String` | No |  |
-| `audit_next_date` | `String` | No |  |
-| `audit_notification_date` | `String` | No |  |
+| `activatedBy` | `Map<String, dynamic>` | Yes |  |
+| `activationDate` | `String` | No |  |
+| `alternateKey` | `String` | No |  |
+| `auditNextDate` | `String` | No |  |
+| `auditNotificationDate` | `String` | No |  |
 | `client` | `Map<String, dynamic>` | No |  |
 | `created` | `String` | No |  |
-| `created_by` | `Map<String, dynamic>` | Yes |  |
-| `device_build` | `Map<String, dynamic>` | No |  |
-| `device_state` | `Map<String, dynamic>` | No |  |
-| `device_type` | `Map<String, dynamic>` | No |  |
-| `error_counter` | `int` | No |  |
-| `error_last_date` | `String` | No |  |
+| `createdBy` | `Map<String, dynamic>` | Yes |  |
+| `deviceBuild` | `Map<String, dynamic>` | No |  |
+| `deviceState` | `Map<String, dynamic>` | No |  |
+| `deviceType` | `Map<String, dynamic>` | No |  |
+| `errorCounter` | `int` | No |  |
+| `errorLastDate` | `String` | No |  |
 | `id` | `String` | No |  |
-| `initialized_by` | `Map<String, dynamic>` | Yes |  |
-| `initialized_date` | `String` | No |  |
-| `inject_key` | `Map<String, dynamic>` | No |  |
-| `is_virtual` | `bool` | No |  |
+| `initializedBy` | `Map<String, dynamic>` | Yes |  |
+| `initializedDate` | `String` | No |  |
+| `injectKey` | `Map<String, dynamic>` | No |  |
+| `isVirtual` | `bool` | No |  |
 | `kif` | `Map<String, dynamic>` | No |  |
-| `last_activity_date` | `String` | No |  |
+| `lastActivityDate` | `String` | No |  |
 | `location` | `Map<String, dynamic>` | Yes |  |
 | `modified` | `String` | No |  |
-| `modified_by` | `Map<String, dynamic>` | Yes |  |
+| `modifiedBy` | `Map<String, dynamic>` | Yes |  |
 | `name` | `String` | No |  |
-| `note` | `String` | No |  |
+| `notes` | `String` | No |  |
 | `partner` | `Map<String, dynamic>` | No |  |
-| `serial_number` | `String` | No |  |
+| `serialNumber` | `String` | No |  |
 | `version` | `int` | No |  |
 
 ### Operations
@@ -459,11 +459,11 @@ Create a new entity with the given data. Returns the created entity data and thr
 
 ```dart
 final result = await client.Device().create({
-  'activated_by': <String, dynamic>{},  // Map<String, dynamic>
-  'created_by': <String, dynamic>{},  // Map<String, dynamic>
-  'initialized_by': <String, dynamic>{},  // Map<String, dynamic>
+  'activatedBy': <String, dynamic>{},  // Map<String, dynamic>
+  'createdBy': <String, dynamic>{},  // Map<String, dynamic>
+  'initializedBy': <String, dynamic>{},  // Map<String, dynamic>
   'location': <String, dynamic>{},  // Map<String, dynamic>
-  'modified_by': <String, dynamic>{},  // Map<String, dynamic>
+  'modifiedBy': <String, dynamic>{},  // Map<String, dynamic>
 });
 ```
 
@@ -517,21 +517,21 @@ final device_build = client.DeviceBuild();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `app_version` | `String` | No |  |
-| `build_number` | `String` | No |  |
-| `config_file_name` | `String` | No |  |
+| `appVersion` | `String` | No |  |
+| `buildNumber` | `String` | No |  |
+| `configFileName` | `String` | No |  |
 | `created` | `String` | No |  |
-| `device_type` | `String` | No |  |
-| `firmware_version` | `String` | No |  |
-| `hardware_version` | `String` | No |  |
+| `deviceType` | `String` | No |  |
+| `firmwareVersion` | `String` | No |  |
+| `hardwareVersion` | `String` | No |  |
 | `id` | `int` | No |  |
-| `is_active` | `bool` | No |  |
+| `isActive` | `bool` | No |  |
 | `modified` | `String` | No |  |
 | `name` | `String` | No |  |
-| `note` | `String` | No |  |
+| `notes` | `String` | No |  |
 | `version` | `int` | No |  |
-| `white_listing_bin_range` | `String` | No |  |
-| `white_listing_used` | `bool` | No |  |
+| `whiteListingBinRanges` | `String` | No |  |
+| `whiteListingUsed` | `bool` | No |  |
 
 ### Operations
 
@@ -585,18 +585,18 @@ final device_custody_detail = client.DeviceCustodyDetail();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `complete_date` | `String` | No |  |
+| `completeDate` | `String` | No |  |
 | `created` | `String` | No |  |
-| `created_by` | `Map<String, dynamic>` | Yes |  |
+| `createdBy` | `Map<String, dynamic>` | Yes |  |
 | `custodian` | `Map<String, dynamic>` | Yes |  |
 | `device` | `Map<String, dynamic>` | No |  |
 | `id` | `int` | No |  |
 | `location` | `Map<String, dynamic>` | Yes |  |
 | `modified` | `String` | No |  |
-| `modified_by` | `Map<String, dynamic>` | Yes |  |
-| `note` | `String` | No |  |
+| `modifiedBy` | `Map<String, dynamic>` | Yes |  |
+| `notes` | `String` | No |  |
 | `status` | `Map<String, dynamic>` | No |  |
-| `transfer_method` | `Map<String, dynamic>` | No |  |
+| `transferMethod` | `Map<String, dynamic>` | No |  |
 | `version` | `int` | No |  |
 
 ### Operations
@@ -640,18 +640,18 @@ final device_custody_list = client.DeviceCustodyList();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `complete_date` | `String` | No |  |
+| `completeDate` | `String` | No |  |
 | `created` | `String` | No |  |
-| `created_by` | `Map<String, dynamic>` | Yes |  |
+| `createdBy` | `Map<String, dynamic>` | Yes |  |
 | `custodian` | `Map<String, dynamic>` | Yes |  |
 | `device` | `Map<String, dynamic>` | No |  |
 | `id` | `int` | No |  |
 | `location` | `Map<String, dynamic>` | Yes |  |
 | `modified` | `String` | No |  |
-| `modified_by` | `Map<String, dynamic>` | Yes |  |
-| `note` | `String` | No |  |
+| `modifiedBy` | `Map<String, dynamic>` | Yes |  |
+| `notes` | `String` | No |  |
 | `status` | `Map<String, dynamic>` | No |  |
-| `transfer_method` | `Map<String, dynamic>` | No |  |
+| `transferMethod` | `Map<String, dynamic>` | No |  |
 | `version` | `int` | No |  |
 
 ### Operations
@@ -661,7 +661,7 @@ final device_custody_list = client.DeviceCustodyList();
 List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entity instances and throws on error.
 
 ```dart
-final results = await client.DeviceCustodyList().list();
+final results = await client.DeviceCustodyList().list({ device_type: "example", serial_number: "example" });
 for (final device_custody_list in results) {
   print(device_custody_list.data());
 }
@@ -880,16 +880,16 @@ final device_type = client.DeviceType();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `created` | `String` | No |  |
-| `device_type_mode` | `String` | No |  |
-| `hardware_version` | `String` | No |  |
+| `deviceTypeMode` | `String` | No |  |
+| `hardwareVersion` | `String` | No |  |
 | `id` | `String` | No |  |
-| `is_active` | `bool` | No |  |
+| `isActive` | `bool` | No |  |
 | `manufacturer` | `String` | No |  |
 | `model` | `String` | No |  |
 | `modified` | `String` | No |  |
 | `name` | `String` | No |  |
-| `photo_url` | `String` | No |  |
-| `product_name` | `String` | No |  |
+| `photoUrl` | `String` | No |  |
+| `productName` | `String` | No |  |
 | `version` | `int` | No |  |
 
 ### Operations
@@ -946,9 +946,9 @@ final inject_key = client.InjectKey();
 | --- | --- | --- | --- |
 | `created` | `String` | No |  |
 | `id` | `String` | No |  |
-| `is_active` | `bool` | No |  |
-| `is_p2_pe` | `bool` | No |  |
-| `key_type` | `String` | No |  |
+| `isActive` | `bool` | No |  |
+| `isP2PE` | `bool` | No |  |
+| `keyType` | `String` | No |  |
 | `modified` | `String` | No |  |
 | `name` | `String` | No |  |
 | `version` | `int` | No |  |
@@ -1054,26 +1054,26 @@ final location = client.Location();
 | --- | --- | --- | --- |
 | `address1` | `String` | No |  |
 | `address2` | `String` | No |  |
-| `billing_id` | `String` | No |  |
+| `billingId` | `String` | No |  |
 | `city` | `String` | No |  |
 | `country` | `String` | No |  |
 | `created` | `String` | No |  |
-| `custom_reference` | `String` | No |  |
+| `customReference` | `String` | No |  |
 | `id` | `String` | No |  |
-| `location_type` | `String` | No |  |
-| `mail_address1` | `String` | No |  |
-| `mail_address2` | `String` | No |  |
-| `mail_city` | `String` | No |  |
-| `mail_country` | `String` | No |  |
-| `mail_postal_code` | `String` | No |  |
-| `mail_state_province` | `String` | No |  |
+| `locationType` | `String` | No |  |
+| `mailAddress1` | `String` | No |  |
+| `mailAddress2` | `String` | No |  |
+| `mailCity` | `String` | No |  |
+| `mailCountry` | `String` | No |  |
+| `mailPostalCode` | `String` | No |  |
+| `mailStateProvince` | `String` | No |  |
 | `modified` | `String` | No |  |
 | `name` | `String` | No |  |
-| `name_of_business` | `String` | No |  |
-| `note` | `String` | No |  |
-| `postal_code` | `String` | No |  |
-| `state_province` | `String` | No |  |
-| `unique_id` | `String` | No |  |
+| `nameOfBusiness` | `String` | No |  |
+| `notes` | `String` | No |  |
+| `postalCode` | `String` | No |  |
+| `stateProvince` | `String` | No |  |
+| `uniqueId` | `String` | No |  |
 | `version` | `int` | No |  |
 
 ### Operations
@@ -1145,38 +1145,38 @@ final partner = client.Partner();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `billing_id` | `String` | No |  |
-| `client_can_order_equipment` | `bool` | No |  |
+| `billingId` | `String` | No |  |
+| `clientCanOrderEquipment` | `bool` | No |  |
 | `contact` | `Map<String, dynamic>` | No |  |
 | `created` | `String` | No |  |
 | `id` | `String` | No |  |
-| `is_active` | `bool` | No |  |
+| `isActive` | `bool` | No |  |
 | `location` | `Map<String, dynamic>` | Yes |  |
 | `modified` | `String` | No |  |
 | `name` | `String` | No |  |
 | `parent` | `Map<String, dynamic>` | No |  |
-| `partner_id` | `String` | No |  |
+| `partnerId` | `String` | No |  |
 | `reference` | `String` | No |  |
-| `verification_phrase` | `String` | No |  |
+| `verificationPhrase` | `String` | No |  |
 | `version` | `int` | No |  |
 
 ### Field Usage by Operation
 
 | Field | load | list | create |
 | --- | --- | --- | --- |
-| `billing_id` | - | - | - |
-| `client_can_order_equipment` | - | - | - |
+| `billingId` | - | - | - |
+| `clientCanOrderEquipment` | - | - | - |
 | `contact` | - | Yes | - |
 | `created` | - | - | - |
 | `id` | - | - | - |
-| `is_active` | - | - | - |
+| `isActive` | - | - | - |
 | `location` | - | - | - |
 | `modified` | - | - | - |
 | `name` | - | - | - |
 | `parent` | - | - | - |
-| `partner_id` | - | - | - |
+| `partnerId` | - | - | - |
 | `reference` | - | - | - |
-| `verification_phrase` | - | - | - |
+| `verificationPhrase` | - | - | - |
 | `version` | - | - | - |
 
 ### Operations
@@ -1244,15 +1244,15 @@ final shipment = client.Shipment();
 | `carrier` | `String` | No |  |
 | `client` | `Map<String, dynamic>` | No |  |
 | `created` | `String` | No |  |
-| `date_received` | `String` | No |  |
-| `date_shipped` | `String` | No |  |
-| `dc_kif` | `Map<String, dynamic>` | No |  |
+| `dateReceived` | `String` | No |  |
+| `dateShipped` | `String` | No |  |
+| `dcKif` | `Map<String, dynamic>` | No |  |
 | `id` | `String` | No |  |
-| `item` | `List<dynamic>` | No |  |
+| `items` | `List<dynamic>` | No |  |
 | `kif` | `Map<String, dynamic>` | No |  |
 | `modified` | `String` | No |  |
 | `partner` | `Map<String, dynamic>` | No |  |
-| `shipment_type` | `String` | No |  |
+| `shipmentType` | `String` | No |  |
 | `tracking` | `String` | No |  |
 | `version` | `int` | No |  |
 
@@ -1370,30 +1370,30 @@ final transaction = client.Transaction();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `alternate_key` | `String` | No |  |
+| `alternateKey` | `String` | No |  |
 | `client` | `Map<String, dynamic>` | No |  |
-| `client_ref` | `String` | No |  |
+| `clientRef` | `String` | No |  |
 | `created` | `String` | No |  |
 | `decrypted` | `int` | No |  |
-| `device_name` | `String` | No |  |
-| `direct_partner` | `Map<String, dynamic>` | No |  |
+| `deviceName` | `String` | No |  |
+| `directPartner` | `Map<String, dynamic>` | No |  |
 | `encrypted` | `int` | No |  |
-| `end_date` | `String` | No |  |
-| `err_code` | `String` | No |  |
-| `err_message` | `String` | No |  |
+| `endDate` | `String` | No |  |
+| `errCode` | `String` | No |  |
+| `errMessage` | `String` | No |  |
 | `id` | `String` | No |  |
-| `ip_address` | `String` | No |  |
-| `is_virtual` | `bool` | No |  |
-| `key_type` | `String` | No |  |
+| `ipAddress` | `String` | No |  |
+| `isVirtual` | `bool` | No |  |
+| `keyType` | `String` | No |  |
 | `location` | `Map<String, dynamic>` | Yes |  |
-| `message_id` | `String` | No |  |
+| `messageId` | `String` | No |  |
 | `method` | `String` | No |  |
 | `partner` | `Map<String, dynamic>` | No |  |
 | `reference` | `String` | No |  |
-| `serial_number` | `String` | No |  |
-| `start_date` | `String` | No |  |
+| `serialNumber` | `String` | No |  |
+| `startDate` | `String` | No |  |
 | `success` | `bool` | No |  |
-| `transaction_source` | `String` | No |  |
+| `transactionSource` | `String` | No |  |
 
 ### Operations
 
@@ -1459,15 +1459,15 @@ final update_result = client.UpdateResult();
 | --- | --- | --- | --- |
 | `client` | `Map<String, dynamic>` | No |  |
 | `email` | `String` | No |  |
-| `first_name` | `String` | No |  |
+| `firstName` | `String` | No |  |
 | `id` | `String` | No |  |
-| `is_active` | `bool` | No |  |
+| `isActive` | `bool` | No |  |
 | `kif` | `Map<String, dynamic>` | No |  |
-| `last_name` | `String` | No |  |
+| `lastName` | `String` | No |  |
 | `partner` | `Map<String, dynamic>` | No |  |
 | `phone` | `String` | No |  |
-| `user_name` | `String` | No |  |
-| `user_role` | `Map<String, dynamic>` | No |  |
+| `userName` | `String` | No |  |
+| `userRole` | `Map<String, dynamic>` | No |  |
 | `version` | `int` | No |  |
 
 ### Operations
@@ -1537,16 +1537,16 @@ final user = client.User();
 | `client` | `Map<String, dynamic>` | No |  |
 | `created` | `String` | No |  |
 | `email` | `String` | No |  |
-| `first_name` | `String` | No |  |
+| `firstName` | `String` | No |  |
 | `id` | `String` | No |  |
-| `is_active` | `bool` | No |  |
+| `isActive` | `bool` | No |  |
 | `kif` | `Map<String, dynamic>` | No |  |
-| `last_name` | `String` | No |  |
+| `lastName` | `String` | No |  |
 | `modified` | `String` | No |  |
 | `partner` | `Map<String, dynamic>` | No |  |
 | `phone` | `String` | No |  |
-| `user_name` | `String` | No |  |
-| `user_role` | `Map<String, dynamic>` | No |  |
+| `userName` | `String` | No |  |
+| `userRole` | `Map<String, dynamic>` | No |  |
 | `version` | `int` | No |  |
 
 ### Operations

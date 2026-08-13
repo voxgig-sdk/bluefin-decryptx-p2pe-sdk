@@ -77,19 +77,19 @@ Map<String, dynamic> directSetup([dynamic mockres]) {
   final calls = <Map<String, dynamic>>[];
 
   final env = envOverride({
-    'BLUEFINDECRYPTXP_PE_TEST_DEVICE_CUSTODY_DETAIL_ENTID': <String, dynamic>{},
-    'BLUEFINDECRYPTXP_PE_TEST_LIVE': 'FALSE',
-    'BLUEFINDECRYPTXP_PE_APIKEY': 'NONE',
+    'BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_CUSTODY_DETAIL_ENTID': <String, dynamic>{},
+    'BLUEFIN_DECRYPTX_P2PE_TEST_LIVE': 'FALSE',
+    'BLUEFIN_DECRYPTX_P2PE_APIKEY': 'NONE',
   });
 
-  final live = 'TRUE' == env['BLUEFINDECRYPTXP_PE_TEST_LIVE'];
+  final live = 'TRUE' == env['BLUEFIN_DECRYPTX_P2PE_TEST_LIVE'];
 
   if (live) {
     final client = BluefinDecryptxP2peSDK({
-      'apikey': env['BLUEFINDECRYPTXP_PE_APIKEY'],
+      'apikey': env['BLUEFIN_DECRYPTX_P2PE_APIKEY'],
     });
 
-    dynamic idmap = env['BLUEFINDECRYPTXP_PE_TEST_DEVICE_CUSTODY_DETAIL_ENTID'];
+    dynamic idmap = env['BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_CUSTODY_DETAIL_ENTID'];
     if (idmap is String && idmap.startsWith('{')) {
       idmap = jsonDecode(idmap);
     }

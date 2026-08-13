@@ -38,7 +38,7 @@ object UserEntityTest {
       val userRef01MatchDt0 = new LinkedHashMap[String, Object]()
       userRef01MatchDt0.put("id", userRef01Data.get("id"))
       val userRef01DataDt0Loaded = userRef01Ent.load(userRef01MatchDt0, null)
-      val userRef01DataDt0LoadResult = Helpers.toMapAny(userRef01DataDt0Loaded)
+      val userRef01DataDt0LoadResult = Helpers.toMapAny(userRef01DataDt0Loaded match { case e: SdkEntity => e.data(); case o => o })
       rep.check("user.load.map", userRef01DataDt0LoadResult != null, "expected load result to be a map")
       rep.eq("user.load.id", userRef01Data.get("id"), userRef01DataDt0LoadResult.get("id"))
     }

@@ -92,7 +92,7 @@ func TestDeviceEntity(t *testing.T) {
 		// The basic flow consumes synthetic IDs from the fixture. In live mode
 		// without an *_ENTID env override, those IDs hit the live API and 4xx.
 		if setup.syntheticOnly {
-			t.Skip("live entity test uses synthetic IDs from fixture — set BLUEFINDECRYPTXP_PE_TEST_DEVICE_ENTID JSON to run live")
+			t.Skip("live entity test uses synthetic IDs from fixture — set BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_ENTID JSON to run live")
 			return
 		}
 		client := setup.client
@@ -107,7 +107,7 @@ func TestDeviceEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("create failed: %v", err)
 		}
-		deviceRef01Data = core.ToMapAny(deviceRef01DataResult)
+		deviceRef01Data = core.ToMapAny(entityData(deviceRef01DataResult))
 		if deviceRef01Data == nil {
 			t.Fatal("expected create result to be a map")
 		}
@@ -140,7 +140,7 @@ func TestDeviceEntity(t *testing.T) {
 		if err != nil {
 			t.Fatalf("load failed: %v", err)
 		}
-		deviceRef01DataDt0LoadResult := core.ToMapAny(deviceRef01DataDt0Loaded)
+		deviceRef01DataDt0LoadResult := core.ToMapAny(entityData(deviceRef01DataDt0Loaded))
 		if deviceRef01DataDt0LoadResult == nil {
 			t.Fatal("expected load result to be a map")
 		}
@@ -188,38 +188,38 @@ func deviceBasicSetup(extra map[string]any) *entityTestSetup {
 	// Detect ENTID env override before envOverride consumes it. When live
 	// mode is on without a real override, the basic test runs against synthetic
 	// IDs from the fixture and 4xx's. Surface this so the test can skip.
-	entidEnvRaw := os.Getenv("BLUEFINDECRYPTXP_PE_TEST_DEVICE_ENTID")
+	entidEnvRaw := os.Getenv("BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_ENTID")
 	idmapOverridden := entidEnvRaw != "" && strings.HasPrefix(strings.TrimSpace(entidEnvRaw), "{")
 
 	env := envOverride(map[string]any{
-		"BLUEFINDECRYPTXP_PE_TEST_DEVICE_ENTID": idmap,
-		"BLUEFINDECRYPTXP_PE_TEST_LIVE":      "FALSE",
-		"BLUEFINDECRYPTXP_PE_TEST_EXPLAIN":   "FALSE",
-		"BLUEFINDECRYPTXP_PE_APIKEY":         "NONE",
+		"BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_ENTID": idmap,
+		"BLUEFIN_DECRYPTX_P2PE_TEST_LIVE":      "FALSE",
+		"BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN":   "FALSE",
+		"BLUEFIN_DECRYPTX_P2PE_APIKEY":         "NONE",
 	})
 
-	idmapResolved := core.ToMapAny(env["BLUEFINDECRYPTXP_PE_TEST_DEVICE_ENTID"])
+	idmapResolved := core.ToMapAny(env["BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_ENTID"])
 	if idmapResolved == nil {
 		idmapResolved = core.ToMapAny(idmap)
 	}
 
-	if env["BLUEFINDECRYPTXP_PE_TEST_LIVE"] == "TRUE" {
+	if env["BLUEFIN_DECRYPTX_P2PE_TEST_LIVE"] == "TRUE" {
 		mergedOpts := vs.Merge([]any{
 			map[string]any{
-				"apikey": env["BLUEFINDECRYPTXP_PE_APIKEY"],
+				"apikey": env["BLUEFIN_DECRYPTX_P2PE_APIKEY"],
 			},
 			extra,
 		})
 		client = sdk.NewBluefinDecryptxP2peSDK(core.ToMapAny(mergedOpts))
 	}
 
-	live := env["BLUEFINDECRYPTXP_PE_TEST_LIVE"] == "TRUE"
+	live := env["BLUEFIN_DECRYPTX_P2PE_TEST_LIVE"] == "TRUE"
 	return &entityTestSetup{
 		client:        client,
 		data:          entityData,
 		idmap:         idmapResolved,
 		env:           env,
-		explain:       env["BLUEFINDECRYPTXP_PE_TEST_EXPLAIN"] == "TRUE",
+		explain:       env["BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN"] == "TRUE",
 		live:          live,
 		syntheticOnly: live && !idmapOverridden,
 		now:           time.Now().UnixMilli(),

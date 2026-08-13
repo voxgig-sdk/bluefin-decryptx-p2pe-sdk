@@ -77,7 +77,7 @@ match client.device_custody_detail(Value::Noval).load(jo(vec![("device_type", Va
 
 ```rust
 // Create — returns the bare created record
-let created = client.attestation(Value::Noval).create(jo(vec![("client", Value::empty_map()), ("complete_date", Value::str("example_complete_date"))]), Value::Noval).unwrap();
+let created = client.attestation(Value::Noval).create(jo(vec![("client", Value::empty_map()), ("completeDate", Value::str("example_completeDate"))]), Value::Noval).unwrap();
 
 ```
 
@@ -292,12 +292,12 @@ On error, `ok` is `false` and `err` carries the error value.
 | Field | Description |
 | --- | --- |
 | `client` |  |
-| `complete_date` |  |
+| `completeDate` |  |
 | `created` |  |
 | `device` |  |
 | `id` |  |
 | `name` |  |
-| `note` |  |
+| `notes` |  |
 
 Operations: Create, List, Load.
 
@@ -309,9 +309,9 @@ API path: `/attestations`
 | --- | --- |
 | `contact` |  |
 | `created` |  |
-| `direct_partner` |  |
+| `directPartner` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `location` |  |
 | `mid` |  |
 | `modified` |  |
@@ -346,33 +346,33 @@ API path: `/decryption`
 
 | Field | Description |
 | --- | --- |
-| `activated_by` |  |
-| `activation_date` |  |
-| `alternate_key` |  |
-| `audit_next_date` |  |
-| `audit_notification_date` |  |
+| `activatedBy` |  |
+| `activationDate` |  |
+| `alternateKey` |  |
+| `auditNextDate` |  |
+| `auditNotificationDate` |  |
 | `client` |  |
 | `created` |  |
-| `created_by` |  |
-| `device_build` |  |
-| `device_state` |  |
-| `device_type` |  |
-| `error_counter` |  |
-| `error_last_date` |  |
+| `createdBy` |  |
+| `deviceBuild` |  |
+| `deviceState` |  |
+| `deviceType` |  |
+| `errorCounter` |  |
+| `errorLastDate` |  |
 | `id` |  |
-| `initialized_by` |  |
-| `initialized_date` |  |
-| `inject_key` |  |
-| `is_virtual` |  |
+| `initializedBy` |  |
+| `initializedDate` |  |
+| `injectKey` |  |
+| `isVirtual` |  |
 | `kif` |  |
-| `last_activity_date` |  |
+| `lastActivityDate` |  |
 | `location` |  |
 | `modified` |  |
-| `modified_by` |  |
+| `modifiedBy` |  |
 | `name` |  |
-| `note` |  |
+| `notes` |  |
 | `partner` |  |
-| `serial_number` |  |
+| `serialNumber` |  |
 | `version` |  |
 
 Operations: Create, List, Load.
@@ -383,21 +383,21 @@ API path: `/devices`
 
 | Field | Description |
 | --- | --- |
-| `app_version` |  |
-| `build_number` |  |
-| `config_file_name` |  |
+| `appVersion` |  |
+| `buildNumber` |  |
+| `configFileName` |  |
 | `created` |  |
-| `device_type` |  |
-| `firmware_version` |  |
-| `hardware_version` |  |
+| `deviceType` |  |
+| `firmwareVersion` |  |
+| `hardwareVersion` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `modified` |  |
 | `name` |  |
-| `note` |  |
+| `notes` |  |
 | `version` |  |
-| `white_listing_bin_range` |  |
-| `white_listing_used` |  |
+| `whiteListingBinRanges` |  |
+| `whiteListingUsed` |  |
 
 Operations: List, Load.
 
@@ -407,18 +407,18 @@ API path: `/deviceBuilds`
 
 | Field | Description |
 | --- | --- |
-| `complete_date` |  |
+| `completeDate` |  |
 | `created` |  |
-| `created_by` |  |
+| `createdBy` |  |
 | `custodian` |  |
 | `device` |  |
 | `id` |  |
 | `location` |  |
 | `modified` |  |
-| `modified_by` |  |
-| `note` |  |
+| `modifiedBy` |  |
+| `notes` |  |
 | `status` |  |
-| `transfer_method` |  |
+| `transferMethod` |  |
 | `version` |  |
 
 Operations: Load.
@@ -429,18 +429,18 @@ API path: `/devices/{serialNumber}/{deviceType}/custody/{id}`
 
 | Field | Description |
 | --- | --- |
-| `complete_date` |  |
+| `completeDate` |  |
 | `created` |  |
-| `created_by` |  |
+| `createdBy` |  |
 | `custodian` |  |
 | `device` |  |
 | `id` |  |
 | `location` |  |
 | `modified` |  |
-| `modified_by` |  |
-| `note` |  |
+| `modifiedBy` |  |
+| `notes` |  |
 | `status` |  |
-| `transfer_method` |  |
+| `transferMethod` |  |
 | `version` |  |
 
 Operations: List.
@@ -494,16 +494,16 @@ API path: `/deviceStates`
 | Field | Description |
 | --- | --- |
 | `created` |  |
-| `device_type_mode` |  |
-| `hardware_version` |  |
+| `deviceTypeMode` |  |
+| `hardwareVersion` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `manufacturer` |  |
 | `model` |  |
 | `modified` |  |
 | `name` |  |
-| `photo_url` |  |
-| `product_name` |  |
+| `photoUrl` |  |
+| `productName` |  |
 | `version` |  |
 
 Operations: List, Load.
@@ -516,9 +516,9 @@ API path: `/deviceTypes`
 | --- | --- |
 | `created` |  |
 | `id` |  |
-| `is_active` |  |
-| `is_p2_pe` |  |
-| `key_type` |  |
+| `isActive` |  |
+| `isP2PE` |  |
+| `keyType` |  |
 | `modified` |  |
 | `name` |  |
 | `version` |  |
@@ -544,26 +544,26 @@ API path: `/kifs`
 | --- | --- |
 | `address1` |  |
 | `address2` |  |
-| `billing_id` |  |
+| `billingId` |  |
 | `city` |  |
 | `country` |  |
 | `created` |  |
-| `custom_reference` |  |
+| `customReference` |  |
 | `id` |  |
-| `location_type` |  |
-| `mail_address1` |  |
-| `mail_address2` |  |
-| `mail_city` |  |
-| `mail_country` |  |
-| `mail_postal_code` |  |
-| `mail_state_province` |  |
+| `locationType` |  |
+| `mailAddress1` |  |
+| `mailAddress2` |  |
+| `mailCity` |  |
+| `mailCountry` |  |
+| `mailPostalCode` |  |
+| `mailStateProvince` |  |
 | `modified` |  |
 | `name` |  |
-| `name_of_business` |  |
-| `note` |  |
-| `postal_code` |  |
-| `state_province` |  |
-| `unique_id` |  |
+| `nameOfBusiness` |  |
+| `notes` |  |
+| `postalCode` |  |
+| `stateProvince` |  |
+| `uniqueId` |  |
 | `version` |  |
 
 Operations: Create, List, Load, Remove.
@@ -574,19 +574,19 @@ API path: `/locations`
 
 | Field | Description |
 | --- | --- |
-| `billing_id` |  |
-| `client_can_order_equipment` |  |
+| `billingId` |  |
+| `clientCanOrderEquipment` |  |
 | `contact` |  |
 | `created` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `location` |  |
 | `modified` |  |
 | `name` |  |
 | `parent` |  |
-| `partner_id` |  |
+| `partnerId` |  |
 | `reference` |  |
-| `verification_phrase` |  |
+| `verificationPhrase` |  |
 | `version` |  |
 
 Operations: Create, List, Load.
@@ -600,15 +600,15 @@ API path: `/partners`
 | `carrier` |  |
 | `client` |  |
 | `created` |  |
-| `date_received` |  |
-| `date_shipped` |  |
-| `dc_kif` |  |
+| `dateReceived` |  |
+| `dateShipped` |  |
+| `dcKif` |  |
 | `id` |  |
-| `item` |  |
+| `items` |  |
 | `kif` |  |
 | `modified` |  |
 | `partner` |  |
-| `shipment_type` |  |
+| `shipmentType` |  |
 | `tracking` |  |
 | `version` |  |
 
@@ -630,30 +630,30 @@ API path: `/virtualDevices/{sharePartnerTo}`
 
 | Field | Description |
 | --- | --- |
-| `alternate_key` |  |
+| `alternateKey` |  |
 | `client` |  |
-| `client_ref` |  |
+| `clientRef` |  |
 | `created` |  |
 | `decrypted` |  |
-| `device_name` |  |
-| `direct_partner` |  |
+| `deviceName` |  |
+| `directPartner` |  |
 | `encrypted` |  |
-| `end_date` |  |
-| `err_code` |  |
-| `err_message` |  |
+| `endDate` |  |
+| `errCode` |  |
+| `errMessage` |  |
 | `id` |  |
-| `ip_address` |  |
-| `is_virtual` |  |
-| `key_type` |  |
+| `ipAddress` |  |
+| `isVirtual` |  |
+| `keyType` |  |
 | `location` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `method` |  |
 | `partner` |  |
 | `reference` |  |
-| `serial_number` |  |
-| `start_date` |  |
+| `serialNumber` |  |
+| `startDate` |  |
 | `success` |  |
-| `transaction_source` |  |
+| `transactionSource` |  |
 
 Operations: Create, List, Load.
 
@@ -665,15 +665,15 @@ API path: `/transactions`
 | --- | --- |
 | `client` |  |
 | `email` |  |
-| `first_name` |  |
+| `firstName` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `kif` |  |
-| `last_name` |  |
+| `lastName` |  |
 | `partner` |  |
 | `phone` |  |
-| `user_name` |  |
-| `user_role` |  |
+| `userName` |  |
+| `userRole` |  |
 | `version` |  |
 
 Operations: Create, List, Update.
@@ -687,16 +687,16 @@ API path: `/users`
 | `client` |  |
 | `created` |  |
 | `email` |  |
-| `first_name` |  |
+| `firstName` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `kif` |  |
-| `last_name` |  |
+| `lastName` |  |
 | `modified` |  |
 | `partner` |  |
 | `phone` |  |
-| `user_name` |  |
-| `user_role` |  |
+| `userName` |  |
+| `userRole` |  |
 | `version` |  |
 
 Operations: Load, Remove.
@@ -725,12 +725,12 @@ Create an instance: `let attestation = client.attestation(Value::Noval);`
 | Field | Type | Description |
 | --- | --- | --- |
 | `client` | `std::collections::HashMap<String, Value>` |  |
-| `complete_date` | `String` |  |
+| `completeDate` | `String` |  |
 | `created` | `String` |  |
 | `device` | `std::collections::HashMap<String, Value>` |  |
 | `id` | `String` |  |
 | `name` | `String` |  |
-| `note` | `String` |  |
+| `notes` | `String` |  |
 
 #### Example: Load
 
@@ -771,9 +771,9 @@ Create an instance: `let client = client.client(Value::Noval);`
 | --- | --- | --- |
 | `contact` | `std::collections::HashMap<String, Value>` |  |
 | `created` | `String` |  |
-| `direct_partner` | `std::collections::HashMap<String, Value>` |  |
+| `directPartner` | `std::collections::HashMap<String, Value>` |  |
 | `id` | `String` |  |
-| `is_active` | `bool` |  |
+| `isActive` | `bool` |  |
 | `location` | `std::collections::HashMap<String, Value>` |  |
 | `mid` | `String` |  |
 | `modified` | `String` |  |
@@ -862,33 +862,33 @@ Create an instance: `let device = client.device(Value::Noval);`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `activated_by` | `std::collections::HashMap<String, Value>` |  |
-| `activation_date` | `String` |  |
-| `alternate_key` | `String` |  |
-| `audit_next_date` | `String` |  |
-| `audit_notification_date` | `String` |  |
+| `activatedBy` | `std::collections::HashMap<String, Value>` |  |
+| `activationDate` | `String` |  |
+| `alternateKey` | `String` |  |
+| `auditNextDate` | `String` |  |
+| `auditNotificationDate` | `String` |  |
 | `client` | `std::collections::HashMap<String, Value>` |  |
 | `created` | `String` |  |
-| `created_by` | `std::collections::HashMap<String, Value>` |  |
-| `device_build` | `std::collections::HashMap<String, Value>` |  |
-| `device_state` | `std::collections::HashMap<String, Value>` |  |
-| `device_type` | `std::collections::HashMap<String, Value>` |  |
-| `error_counter` | `i64` |  |
-| `error_last_date` | `String` |  |
+| `createdBy` | `std::collections::HashMap<String, Value>` |  |
+| `deviceBuild` | `std::collections::HashMap<String, Value>` |  |
+| `deviceState` | `std::collections::HashMap<String, Value>` |  |
+| `deviceType` | `std::collections::HashMap<String, Value>` |  |
+| `errorCounter` | `i64` |  |
+| `errorLastDate` | `String` |  |
 | `id` | `String` |  |
-| `initialized_by` | `std::collections::HashMap<String, Value>` |  |
-| `initialized_date` | `String` |  |
-| `inject_key` | `std::collections::HashMap<String, Value>` |  |
-| `is_virtual` | `bool` |  |
+| `initializedBy` | `std::collections::HashMap<String, Value>` |  |
+| `initializedDate` | `String` |  |
+| `injectKey` | `std::collections::HashMap<String, Value>` |  |
+| `isVirtual` | `bool` |  |
 | `kif` | `std::collections::HashMap<String, Value>` |  |
-| `last_activity_date` | `String` |  |
+| `lastActivityDate` | `String` |  |
 | `location` | `std::collections::HashMap<String, Value>` |  |
 | `modified` | `String` |  |
-| `modified_by` | `std::collections::HashMap<String, Value>` |  |
+| `modifiedBy` | `std::collections::HashMap<String, Value>` |  |
 | `name` | `String` |  |
-| `note` | `String` |  |
+| `notes` | `String` |  |
 | `partner` | `std::collections::HashMap<String, Value>` |  |
-| `serial_number` | `String` |  |
+| `serialNumber` | `String` |  |
 | `version` | `i64` |  |
 
 #### Example: Load
@@ -907,11 +907,11 @@ let devices = client.device(Value::Noval).list(Value::Noval, Value::Noval).unwra
 
 ```rust
 let device = client.device(Value::Noval).create(jo(vec![
-    ("activated_by", Value::empty_map()),  // std::collections::HashMap<String, Value>
-    ("created_by", Value::empty_map()),  // std::collections::HashMap<String, Value>
-    ("initialized_by", Value::empty_map()),  // std::collections::HashMap<String, Value>
+    ("activatedBy", Value::empty_map()),  // std::collections::HashMap<String, Value>
+    ("createdBy", Value::empty_map()),  // std::collections::HashMap<String, Value>
+    ("initializedBy", Value::empty_map()),  // std::collections::HashMap<String, Value>
     ("location", Value::empty_map()),  // std::collections::HashMap<String, Value>
-    ("modified_by", Value::empty_map()),  // std::collections::HashMap<String, Value>
+    ("modifiedBy", Value::empty_map()),  // std::collections::HashMap<String, Value>
 ]), Value::Noval).unwrap();
 ```
 
@@ -931,21 +931,21 @@ Create an instance: `let device_build = client.device_build(Value::Noval);`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `app_version` | `String` |  |
-| `build_number` | `String` |  |
-| `config_file_name` | `String` |  |
+| `appVersion` | `String` |  |
+| `buildNumber` | `String` |  |
+| `configFileName` | `String` |  |
 | `created` | `String` |  |
-| `device_type` | `String` |  |
-| `firmware_version` | `String` |  |
-| `hardware_version` | `String` |  |
+| `deviceType` | `String` |  |
+| `firmwareVersion` | `String` |  |
+| `hardwareVersion` | `String` |  |
 | `id` | `i64` |  |
-| `is_active` | `bool` |  |
+| `isActive` | `bool` |  |
 | `modified` | `String` |  |
 | `name` | `String` |  |
-| `note` | `String` |  |
+| `notes` | `String` |  |
 | `version` | `i64` |  |
-| `white_listing_bin_range` | `String` |  |
-| `white_listing_used` | `bool` |  |
+| `whiteListingBinRanges` | `String` |  |
+| `whiteListingUsed` | `bool` |  |
 
 #### Example: Load
 
@@ -974,18 +974,18 @@ Create an instance: `let device_custody_detail = client.device_custody_detail(Va
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `complete_date` | `String` |  |
+| `completeDate` | `String` |  |
 | `created` | `String` |  |
-| `created_by` | `std::collections::HashMap<String, Value>` |  |
+| `createdBy` | `std::collections::HashMap<String, Value>` |  |
 | `custodian` | `std::collections::HashMap<String, Value>` |  |
 | `device` | `std::collections::HashMap<String, Value>` |  |
 | `id` | `i64` |  |
 | `location` | `std::collections::HashMap<String, Value>` |  |
 | `modified` | `String` |  |
-| `modified_by` | `std::collections::HashMap<String, Value>` |  |
-| `note` | `String` |  |
+| `modifiedBy` | `std::collections::HashMap<String, Value>` |  |
+| `notes` | `String` |  |
 | `status` | `std::collections::HashMap<String, Value>` |  |
-| `transfer_method` | `std::collections::HashMap<String, Value>` |  |
+| `transferMethod` | `std::collections::HashMap<String, Value>` |  |
 | `version` | `i64` |  |
 
 #### Example: Load
@@ -1009,18 +1009,18 @@ Create an instance: `let device_custody_list = client.device_custody_list(Value:
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `complete_date` | `String` |  |
+| `completeDate` | `String` |  |
 | `created` | `String` |  |
-| `created_by` | `std::collections::HashMap<String, Value>` |  |
+| `createdBy` | `std::collections::HashMap<String, Value>` |  |
 | `custodian` | `std::collections::HashMap<String, Value>` |  |
 | `device` | `std::collections::HashMap<String, Value>` |  |
 | `id` | `i64` |  |
 | `location` | `std::collections::HashMap<String, Value>` |  |
 | `modified` | `String` |  |
-| `modified_by` | `std::collections::HashMap<String, Value>` |  |
-| `note` | `String` |  |
+| `modifiedBy` | `std::collections::HashMap<String, Value>` |  |
+| `notes` | `String` |  |
 | `status` | `std::collections::HashMap<String, Value>` |  |
-| `transfer_method` | `std::collections::HashMap<String, Value>` |  |
+| `transferMethod` | `std::collections::HashMap<String, Value>` |  |
 | `version` | `i64` |  |
 
 #### Example: List
@@ -1144,16 +1144,16 @@ Create an instance: `let device_type = client.device_type(Value::Noval);`
 | Field | Type | Description |
 | --- | --- | --- |
 | `created` | `String` |  |
-| `device_type_mode` | `String` |  |
-| `hardware_version` | `String` |  |
+| `deviceTypeMode` | `String` |  |
+| `hardwareVersion` | `String` |  |
 | `id` | `String` |  |
-| `is_active` | `bool` |  |
+| `isActive` | `bool` |  |
 | `manufacturer` | `String` |  |
 | `model` | `String` |  |
 | `modified` | `String` |  |
 | `name` | `String` |  |
-| `photo_url` | `String` |  |
-| `product_name` | `String` |  |
+| `photoUrl` | `String` |  |
+| `productName` | `String` |  |
 | `version` | `i64` |  |
 
 #### Example: Load
@@ -1186,9 +1186,9 @@ Create an instance: `let inject_key = client.inject_key(Value::Noval);`
 | --- | --- | --- |
 | `created` | `String` |  |
 | `id` | `String` |  |
-| `is_active` | `bool` |  |
-| `is_p2_pe` | `bool` |  |
-| `key_type` | `String` |  |
+| `isActive` | `bool` |  |
+| `isP2PE` | `bool` |  |
+| `keyType` | `String` |  |
 | `modified` | `String` |  |
 | `name` | `String` |  |
 | `version` | `i64` |  |
@@ -1249,26 +1249,26 @@ Create an instance: `let location = client.location(Value::Noval);`
 | --- | --- | --- |
 | `address1` | `String` |  |
 | `address2` | `String` |  |
-| `billing_id` | `String` |  |
+| `billingId` | `String` |  |
 | `city` | `String` |  |
 | `country` | `String` |  |
 | `created` | `String` |  |
-| `custom_reference` | `String` |  |
+| `customReference` | `String` |  |
 | `id` | `String` |  |
-| `location_type` | `String` |  |
-| `mail_address1` | `String` |  |
-| `mail_address2` | `String` |  |
-| `mail_city` | `String` |  |
-| `mail_country` | `String` |  |
-| `mail_postal_code` | `String` |  |
-| `mail_state_province` | `String` |  |
+| `locationType` | `String` |  |
+| `mailAddress1` | `String` |  |
+| `mailAddress2` | `String` |  |
+| `mailCity` | `String` |  |
+| `mailCountry` | `String` |  |
+| `mailPostalCode` | `String` |  |
+| `mailStateProvince` | `String` |  |
 | `modified` | `String` |  |
 | `name` | `String` |  |
-| `name_of_business` | `String` |  |
-| `note` | `String` |  |
-| `postal_code` | `String` |  |
-| `state_province` | `String` |  |
-| `unique_id` | `String` |  |
+| `nameOfBusiness` | `String` |  |
+| `notes` | `String` |  |
+| `postalCode` | `String` |  |
+| `stateProvince` | `String` |  |
+| `uniqueId` | `String` |  |
 | `version` | `i64` |  |
 
 #### Example: Load
@@ -1307,19 +1307,19 @@ Create an instance: `let partner = client.partner(Value::Noval);`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `billing_id` | `String` |  |
-| `client_can_order_equipment` | `bool` |  |
+| `billingId` | `String` |  |
+| `clientCanOrderEquipment` | `bool` |  |
 | `contact` | `std::collections::HashMap<String, Value>` |  |
 | `created` | `String` |  |
 | `id` | `String` |  |
-| `is_active` | `bool` |  |
+| `isActive` | `bool` |  |
 | `location` | `std::collections::HashMap<String, Value>` |  |
 | `modified` | `String` |  |
 | `name` | `String` |  |
 | `parent` | `std::collections::HashMap<String, Value>` |  |
-| `partner_id` | `String` |  |
+| `partnerId` | `String` |  |
 | `reference` | `String` |  |
-| `verification_phrase` | `String` |  |
+| `verificationPhrase` | `String` |  |
 | `version` | `i64` |  |
 
 #### Example: Load
@@ -1362,15 +1362,15 @@ Create an instance: `let shipment = client.shipment(Value::Noval);`
 | `carrier` | `String` |  |
 | `client` | `std::collections::HashMap<String, Value>` |  |
 | `created` | `String` |  |
-| `date_received` | `String` |  |
-| `date_shipped` | `String` |  |
-| `dc_kif` | `std::collections::HashMap<String, Value>` |  |
+| `dateReceived` | `String` |  |
+| `dateShipped` | `String` |  |
+| `dcKif` | `std::collections::HashMap<String, Value>` |  |
 | `id` | `String` |  |
-| `item` | `Vec<Value>` |  |
+| `items` | `Vec<Value>` |  |
 | `kif` | `std::collections::HashMap<String, Value>` |  |
 | `modified` | `String` |  |
 | `partner` | `std::collections::HashMap<String, Value>` |  |
-| `shipment_type` | `String` |  |
+| `shipmentType` | `String` |  |
 | `tracking` | `String` |  |
 | `version` | `i64` |  |
 
@@ -1436,30 +1436,30 @@ Create an instance: `let transaction = client.transaction(Value::Noval);`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `alternate_key` | `String` |  |
+| `alternateKey` | `String` |  |
 | `client` | `std::collections::HashMap<String, Value>` |  |
-| `client_ref` | `String` |  |
+| `clientRef` | `String` |  |
 | `created` | `String` |  |
 | `decrypted` | `i64` |  |
-| `device_name` | `String` |  |
-| `direct_partner` | `std::collections::HashMap<String, Value>` |  |
+| `deviceName` | `String` |  |
+| `directPartner` | `std::collections::HashMap<String, Value>` |  |
 | `encrypted` | `i64` |  |
-| `end_date` | `String` |  |
-| `err_code` | `String` |  |
-| `err_message` | `String` |  |
+| `endDate` | `String` |  |
+| `errCode` | `String` |  |
+| `errMessage` | `String` |  |
 | `id` | `String` |  |
-| `ip_address` | `String` |  |
-| `is_virtual` | `bool` |  |
-| `key_type` | `String` |  |
+| `ipAddress` | `String` |  |
+| `isVirtual` | `bool` |  |
+| `keyType` | `String` |  |
 | `location` | `std::collections::HashMap<String, Value>` |  |
-| `message_id` | `String` |  |
+| `messageId` | `String` |  |
 | `method` | `String` |  |
 | `partner` | `std::collections::HashMap<String, Value>` |  |
 | `reference` | `String` |  |
-| `serial_number` | `String` |  |
-| `start_date` | `String` |  |
+| `serialNumber` | `String` |  |
+| `startDate` | `String` |  |
 | `success` | `bool` |  |
-| `transaction_source` | `String` |  |
+| `transactionSource` | `String` |  |
 
 #### Example: Load
 
@@ -1500,15 +1500,15 @@ Create an instance: `let update_result = client.update_result(Value::Noval);`
 | --- | --- | --- |
 | `client` | `std::collections::HashMap<String, Value>` |  |
 | `email` | `String` |  |
-| `first_name` | `String` |  |
+| `firstName` | `String` |  |
 | `id` | `String` |  |
-| `is_active` | `bool` |  |
+| `isActive` | `bool` |  |
 | `kif` | `std::collections::HashMap<String, Value>` |  |
-| `last_name` | `String` |  |
+| `lastName` | `String` |  |
 | `partner` | `std::collections::HashMap<String, Value>` |  |
 | `phone` | `String` |  |
-| `user_name` | `String` |  |
-| `user_role` | `std::collections::HashMap<String, Value>` |  |
+| `userName` | `String` |  |
+| `userRole` | `std::collections::HashMap<String, Value>` |  |
 | `version` | `i64` |  |
 
 #### Example: List
@@ -1543,16 +1543,16 @@ Create an instance: `let user = client.user(Value::Noval);`
 | `client` | `std::collections::HashMap<String, Value>` |  |
 | `created` | `String` |  |
 | `email` | `String` |  |
-| `first_name` | `String` |  |
+| `firstName` | `String` |  |
 | `id` | `String` |  |
-| `is_active` | `bool` |  |
+| `isActive` | `bool` |  |
 | `kif` | `std::collections::HashMap<String, Value>` |  |
-| `last_name` | `String` |  |
+| `lastName` | `String` |  |
 | `modified` | `String` |  |
 | `partner` | `std::collections::HashMap<String, Value>` |  |
 | `phone` | `String` |  |
-| `user_name` | `String` |  |
-| `user_role` | `std::collections::HashMap<String, Value>` |  |
+| `userName` | `String` |  |
+| `userRole` | `std::collections::HashMap<String, Value>` |  |
 | `version` | `i64` |  |
 
 #### Example: Load

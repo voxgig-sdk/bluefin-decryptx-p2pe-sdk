@@ -92,7 +92,7 @@ try {
 
 ```cpp
 // Create — returns the bare created record.
-Value created = client->attestation()->create(vmap({{"client", vmap()}, {"complete_date", Value("example_complete_date")}}), Value::undef());
+Value created = client->attestation()->create(vmap({{"client", vmap()}, {"completeDate", Value("example_completeDate")}}), Value::undef());
 
 ```
 
@@ -307,12 +307,12 @@ On error, `ok` is `false` and `err` contains the error value.
 | Field | Description |
 | --- | --- |
 | `client` |  |
-| `complete_date` |  |
+| `completeDate` |  |
 | `created` |  |
 | `device` |  |
 | `id` |  |
 | `name` |  |
-| `note` |  |
+| `notes` |  |
 
 Operations: Create, List, Load.
 
@@ -324,9 +324,9 @@ API path: `/attestations`
 | --- | --- |
 | `contact` |  |
 | `created` |  |
-| `direct_partner` |  |
+| `directPartner` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `location` |  |
 | `mid` |  |
 | `modified` |  |
@@ -361,33 +361,33 @@ API path: `/decryption`
 
 | Field | Description |
 | --- | --- |
-| `activated_by` |  |
-| `activation_date` |  |
-| `alternate_key` |  |
-| `audit_next_date` |  |
-| `audit_notification_date` |  |
+| `activatedBy` |  |
+| `activationDate` |  |
+| `alternateKey` |  |
+| `auditNextDate` |  |
+| `auditNotificationDate` |  |
 | `client` |  |
 | `created` |  |
-| `created_by` |  |
-| `device_build` |  |
-| `device_state` |  |
-| `device_type` |  |
-| `error_counter` |  |
-| `error_last_date` |  |
+| `createdBy` |  |
+| `deviceBuild` |  |
+| `deviceState` |  |
+| `deviceType` |  |
+| `errorCounter` |  |
+| `errorLastDate` |  |
 | `id` |  |
-| `initialized_by` |  |
-| `initialized_date` |  |
-| `inject_key` |  |
-| `is_virtual` |  |
+| `initializedBy` |  |
+| `initializedDate` |  |
+| `injectKey` |  |
+| `isVirtual` |  |
 | `kif` |  |
-| `last_activity_date` |  |
+| `lastActivityDate` |  |
 | `location` |  |
 | `modified` |  |
-| `modified_by` |  |
+| `modifiedBy` |  |
 | `name` |  |
-| `note` |  |
+| `notes` |  |
 | `partner` |  |
-| `serial_number` |  |
+| `serialNumber` |  |
 | `version` |  |
 
 Operations: Create, List, Load.
@@ -398,21 +398,21 @@ API path: `/devices`
 
 | Field | Description |
 | --- | --- |
-| `app_version` |  |
-| `build_number` |  |
-| `config_file_name` |  |
+| `appVersion` |  |
+| `buildNumber` |  |
+| `configFileName` |  |
 | `created` |  |
-| `device_type` |  |
-| `firmware_version` |  |
-| `hardware_version` |  |
+| `deviceType` |  |
+| `firmwareVersion` |  |
+| `hardwareVersion` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `modified` |  |
 | `name` |  |
-| `note` |  |
+| `notes` |  |
 | `version` |  |
-| `white_listing_bin_range` |  |
-| `white_listing_used` |  |
+| `whiteListingBinRanges` |  |
+| `whiteListingUsed` |  |
 
 Operations: List, Load.
 
@@ -422,18 +422,18 @@ API path: `/deviceBuilds`
 
 | Field | Description |
 | --- | --- |
-| `complete_date` |  |
+| `completeDate` |  |
 | `created` |  |
-| `created_by` |  |
+| `createdBy` |  |
 | `custodian` |  |
 | `device` |  |
 | `id` |  |
 | `location` |  |
 | `modified` |  |
-| `modified_by` |  |
-| `note` |  |
+| `modifiedBy` |  |
+| `notes` |  |
 | `status` |  |
-| `transfer_method` |  |
+| `transferMethod` |  |
 | `version` |  |
 
 Operations: Load.
@@ -444,18 +444,18 @@ API path: `/devices/{serialNumber}/{deviceType}/custody/{id}`
 
 | Field | Description |
 | --- | --- |
-| `complete_date` |  |
+| `completeDate` |  |
 | `created` |  |
-| `created_by` |  |
+| `createdBy` |  |
 | `custodian` |  |
 | `device` |  |
 | `id` |  |
 | `location` |  |
 | `modified` |  |
-| `modified_by` |  |
-| `note` |  |
+| `modifiedBy` |  |
+| `notes` |  |
 | `status` |  |
-| `transfer_method` |  |
+| `transferMethod` |  |
 | `version` |  |
 
 Operations: List.
@@ -509,16 +509,16 @@ API path: `/deviceStates`
 | Field | Description |
 | --- | --- |
 | `created` |  |
-| `device_type_mode` |  |
-| `hardware_version` |  |
+| `deviceTypeMode` |  |
+| `hardwareVersion` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `manufacturer` |  |
 | `model` |  |
 | `modified` |  |
 | `name` |  |
-| `photo_url` |  |
-| `product_name` |  |
+| `photoUrl` |  |
+| `productName` |  |
 | `version` |  |
 
 Operations: List, Load.
@@ -531,9 +531,9 @@ API path: `/deviceTypes`
 | --- | --- |
 | `created` |  |
 | `id` |  |
-| `is_active` |  |
-| `is_p2_pe` |  |
-| `key_type` |  |
+| `isActive` |  |
+| `isP2PE` |  |
+| `keyType` |  |
 | `modified` |  |
 | `name` |  |
 | `version` |  |
@@ -559,26 +559,26 @@ API path: `/kifs`
 | --- | --- |
 | `address1` |  |
 | `address2` |  |
-| `billing_id` |  |
+| `billingId` |  |
 | `city` |  |
 | `country` |  |
 | `created` |  |
-| `custom_reference` |  |
+| `customReference` |  |
 | `id` |  |
-| `location_type` |  |
-| `mail_address1` |  |
-| `mail_address2` |  |
-| `mail_city` |  |
-| `mail_country` |  |
-| `mail_postal_code` |  |
-| `mail_state_province` |  |
+| `locationType` |  |
+| `mailAddress1` |  |
+| `mailAddress2` |  |
+| `mailCity` |  |
+| `mailCountry` |  |
+| `mailPostalCode` |  |
+| `mailStateProvince` |  |
 | `modified` |  |
 | `name` |  |
-| `name_of_business` |  |
-| `note` |  |
-| `postal_code` |  |
-| `state_province` |  |
-| `unique_id` |  |
+| `nameOfBusiness` |  |
+| `notes` |  |
+| `postalCode` |  |
+| `stateProvince` |  |
+| `uniqueId` |  |
 | `version` |  |
 
 Operations: Create, List, Load, Remove.
@@ -589,19 +589,19 @@ API path: `/locations`
 
 | Field | Description |
 | --- | --- |
-| `billing_id` |  |
-| `client_can_order_equipment` |  |
+| `billingId` |  |
+| `clientCanOrderEquipment` |  |
 | `contact` |  |
 | `created` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `location` |  |
 | `modified` |  |
 | `name` |  |
 | `parent` |  |
-| `partner_id` |  |
+| `partnerId` |  |
 | `reference` |  |
-| `verification_phrase` |  |
+| `verificationPhrase` |  |
 | `version` |  |
 
 Operations: Create, List, Load.
@@ -615,15 +615,15 @@ API path: `/partners`
 | `carrier` |  |
 | `client` |  |
 | `created` |  |
-| `date_received` |  |
-| `date_shipped` |  |
-| `dc_kif` |  |
+| `dateReceived` |  |
+| `dateShipped` |  |
+| `dcKif` |  |
 | `id` |  |
-| `item` |  |
+| `items` |  |
 | `kif` |  |
 | `modified` |  |
 | `partner` |  |
-| `shipment_type` |  |
+| `shipmentType` |  |
 | `tracking` |  |
 | `version` |  |
 
@@ -645,30 +645,30 @@ API path: `/virtualDevices/{sharePartnerTo}`
 
 | Field | Description |
 | --- | --- |
-| `alternate_key` |  |
+| `alternateKey` |  |
 | `client` |  |
-| `client_ref` |  |
+| `clientRef` |  |
 | `created` |  |
 | `decrypted` |  |
-| `device_name` |  |
-| `direct_partner` |  |
+| `deviceName` |  |
+| `directPartner` |  |
 | `encrypted` |  |
-| `end_date` |  |
-| `err_code` |  |
-| `err_message` |  |
+| `endDate` |  |
+| `errCode` |  |
+| `errMessage` |  |
 | `id` |  |
-| `ip_address` |  |
-| `is_virtual` |  |
-| `key_type` |  |
+| `ipAddress` |  |
+| `isVirtual` |  |
+| `keyType` |  |
 | `location` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `method` |  |
 | `partner` |  |
 | `reference` |  |
-| `serial_number` |  |
-| `start_date` |  |
+| `serialNumber` |  |
+| `startDate` |  |
 | `success` |  |
-| `transaction_source` |  |
+| `transactionSource` |  |
 
 Operations: Create, List, Load.
 
@@ -680,15 +680,15 @@ API path: `/transactions`
 | --- | --- |
 | `client` |  |
 | `email` |  |
-| `first_name` |  |
+| `firstName` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `kif` |  |
-| `last_name` |  |
+| `lastName` |  |
 | `partner` |  |
 | `phone` |  |
-| `user_name` |  |
-| `user_role` |  |
+| `userName` |  |
+| `userRole` |  |
 | `version` |  |
 
 Operations: Create, List, Update.
@@ -702,16 +702,16 @@ API path: `/users`
 | `client` |  |
 | `created` |  |
 | `email` |  |
-| `first_name` |  |
+| `firstName` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `kif` |  |
-| `last_name` |  |
+| `lastName` |  |
 | `modified` |  |
 | `partner` |  |
 | `phone` |  |
-| `user_name` |  |
-| `user_role` |  |
+| `userName` |  |
+| `userRole` |  |
 | `version` |  |
 
 Operations: Load, Remove.
@@ -740,12 +740,12 @@ Create an instance: `auto attestation = client->attestation();`
 | Field | Type | Description |
 | --- | --- | --- |
 | `client` | `std::map<std::string, Value>` |  |
-| `complete_date` | `std::string` |  |
+| `completeDate` | `std::string` |  |
 | `created` | `std::string` |  |
 | `device` | `std::map<std::string, Value>` |  |
 | `id` | `std::string` |  |
 | `name` | `std::string` |  |
-| `note` | `std::string` |  |
+| `notes` | `std::string` |  |
 
 #### Example: Load
 
@@ -786,9 +786,9 @@ Create an instance: `auto client = client->client();`
 | --- | --- | --- |
 | `contact` | `std::map<std::string, Value>` |  |
 | `created` | `std::string` |  |
-| `direct_partner` | `std::map<std::string, Value>` |  |
+| `directPartner` | `std::map<std::string, Value>` |  |
 | `id` | `std::string` |  |
-| `is_active` | `bool` |  |
+| `isActive` | `bool` |  |
 | `location` | `std::map<std::string, Value>` |  |
 | `mid` | `std::string` |  |
 | `modified` | `std::string` |  |
@@ -877,33 +877,33 @@ Create an instance: `auto device = client->device();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `activated_by` | `std::map<std::string, Value>` |  |
-| `activation_date` | `std::string` |  |
-| `alternate_key` | `std::string` |  |
-| `audit_next_date` | `std::string` |  |
-| `audit_notification_date` | `std::string` |  |
+| `activatedBy` | `std::map<std::string, Value>` |  |
+| `activationDate` | `std::string` |  |
+| `alternateKey` | `std::string` |  |
+| `auditNextDate` | `std::string` |  |
+| `auditNotificationDate` | `std::string` |  |
 | `client` | `std::map<std::string, Value>` |  |
 | `created` | `std::string` |  |
-| `created_by` | `std::map<std::string, Value>` |  |
-| `device_build` | `std::map<std::string, Value>` |  |
-| `device_state` | `std::map<std::string, Value>` |  |
-| `device_type` | `std::map<std::string, Value>` |  |
-| `error_counter` | `int64_t` |  |
-| `error_last_date` | `std::string` |  |
+| `createdBy` | `std::map<std::string, Value>` |  |
+| `deviceBuild` | `std::map<std::string, Value>` |  |
+| `deviceState` | `std::map<std::string, Value>` |  |
+| `deviceType` | `std::map<std::string, Value>` |  |
+| `errorCounter` | `int64_t` |  |
+| `errorLastDate` | `std::string` |  |
 | `id` | `std::string` |  |
-| `initialized_by` | `std::map<std::string, Value>` |  |
-| `initialized_date` | `std::string` |  |
-| `inject_key` | `std::map<std::string, Value>` |  |
-| `is_virtual` | `bool` |  |
+| `initializedBy` | `std::map<std::string, Value>` |  |
+| `initializedDate` | `std::string` |  |
+| `injectKey` | `std::map<std::string, Value>` |  |
+| `isVirtual` | `bool` |  |
 | `kif` | `std::map<std::string, Value>` |  |
-| `last_activity_date` | `std::string` |  |
+| `lastActivityDate` | `std::string` |  |
 | `location` | `std::map<std::string, Value>` |  |
 | `modified` | `std::string` |  |
-| `modified_by` | `std::map<std::string, Value>` |  |
+| `modifiedBy` | `std::map<std::string, Value>` |  |
 | `name` | `std::string` |  |
-| `note` | `std::string` |  |
+| `notes` | `std::string` |  |
 | `partner` | `std::map<std::string, Value>` |  |
-| `serial_number` | `std::string` |  |
+| `serialNumber` | `std::string` |  |
 | `version` | `int64_t` |  |
 
 #### Example: Load
@@ -922,11 +922,11 @@ Value devices = client->device()->list(Value::undef(), Value::undef());
 
 ```cpp
 Value device = client->device()->create(vmap({
-    {"activated_by", vmap()},  // std::map<std::string, Value>
-    {"created_by", vmap()},  // std::map<std::string, Value>
-    {"initialized_by", vmap()},  // std::map<std::string, Value>
+    {"activatedBy", vmap()},  // std::map<std::string, Value>
+    {"createdBy", vmap()},  // std::map<std::string, Value>
+    {"initializedBy", vmap()},  // std::map<std::string, Value>
     {"location", vmap()},  // std::map<std::string, Value>
-    {"modified_by", vmap()},  // std::map<std::string, Value>
+    {"modifiedBy", vmap()},  // std::map<std::string, Value>
 }), Value::undef());
 ```
 
@@ -946,21 +946,21 @@ Create an instance: `auto device_build = client->device_build();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `app_version` | `std::string` |  |
-| `build_number` | `std::string` |  |
-| `config_file_name` | `std::string` |  |
+| `appVersion` | `std::string` |  |
+| `buildNumber` | `std::string` |  |
+| `configFileName` | `std::string` |  |
 | `created` | `std::string` |  |
-| `device_type` | `std::string` |  |
-| `firmware_version` | `std::string` |  |
-| `hardware_version` | `std::string` |  |
+| `deviceType` | `std::string` |  |
+| `firmwareVersion` | `std::string` |  |
+| `hardwareVersion` | `std::string` |  |
 | `id` | `int64_t` |  |
-| `is_active` | `bool` |  |
+| `isActive` | `bool` |  |
 | `modified` | `std::string` |  |
 | `name` | `std::string` |  |
-| `note` | `std::string` |  |
+| `notes` | `std::string` |  |
 | `version` | `int64_t` |  |
-| `white_listing_bin_range` | `std::string` |  |
-| `white_listing_used` | `bool` |  |
+| `whiteListingBinRanges` | `std::string` |  |
+| `whiteListingUsed` | `bool` |  |
 
 #### Example: Load
 
@@ -989,18 +989,18 @@ Create an instance: `auto device_custody_detail = client->device_custody_detail(
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `complete_date` | `std::string` |  |
+| `completeDate` | `std::string` |  |
 | `created` | `std::string` |  |
-| `created_by` | `std::map<std::string, Value>` |  |
+| `createdBy` | `std::map<std::string, Value>` |  |
 | `custodian` | `std::map<std::string, Value>` |  |
 | `device` | `std::map<std::string, Value>` |  |
 | `id` | `int64_t` |  |
 | `location` | `std::map<std::string, Value>` |  |
 | `modified` | `std::string` |  |
-| `modified_by` | `std::map<std::string, Value>` |  |
-| `note` | `std::string` |  |
+| `modifiedBy` | `std::map<std::string, Value>` |  |
+| `notes` | `std::string` |  |
 | `status` | `std::map<std::string, Value>` |  |
-| `transfer_method` | `std::map<std::string, Value>` |  |
+| `transferMethod` | `std::map<std::string, Value>` |  |
 | `version` | `int64_t` |  |
 
 #### Example: Load
@@ -1024,18 +1024,18 @@ Create an instance: `auto device_custody_list = client->device_custody_list();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `complete_date` | `std::string` |  |
+| `completeDate` | `std::string` |  |
 | `created` | `std::string` |  |
-| `created_by` | `std::map<std::string, Value>` |  |
+| `createdBy` | `std::map<std::string, Value>` |  |
 | `custodian` | `std::map<std::string, Value>` |  |
 | `device` | `std::map<std::string, Value>` |  |
 | `id` | `int64_t` |  |
 | `location` | `std::map<std::string, Value>` |  |
 | `modified` | `std::string` |  |
-| `modified_by` | `std::map<std::string, Value>` |  |
-| `note` | `std::string` |  |
+| `modifiedBy` | `std::map<std::string, Value>` |  |
+| `notes` | `std::string` |  |
 | `status` | `std::map<std::string, Value>` |  |
-| `transfer_method` | `std::map<std::string, Value>` |  |
+| `transferMethod` | `std::map<std::string, Value>` |  |
 | `version` | `int64_t` |  |
 
 #### Example: List
@@ -1159,16 +1159,16 @@ Create an instance: `auto device_type = client->device_type();`
 | Field | Type | Description |
 | --- | --- | --- |
 | `created` | `std::string` |  |
-| `device_type_mode` | `std::string` |  |
-| `hardware_version` | `std::string` |  |
+| `deviceTypeMode` | `std::string` |  |
+| `hardwareVersion` | `std::string` |  |
 | `id` | `std::string` |  |
-| `is_active` | `bool` |  |
+| `isActive` | `bool` |  |
 | `manufacturer` | `std::string` |  |
 | `model` | `std::string` |  |
 | `modified` | `std::string` |  |
 | `name` | `std::string` |  |
-| `photo_url` | `std::string` |  |
-| `product_name` | `std::string` |  |
+| `photoUrl` | `std::string` |  |
+| `productName` | `std::string` |  |
 | `version` | `int64_t` |  |
 
 #### Example: Load
@@ -1201,9 +1201,9 @@ Create an instance: `auto inject_key = client->inject_key();`
 | --- | --- | --- |
 | `created` | `std::string` |  |
 | `id` | `std::string` |  |
-| `is_active` | `bool` |  |
-| `is_p2_pe` | `bool` |  |
-| `key_type` | `std::string` |  |
+| `isActive` | `bool` |  |
+| `isP2PE` | `bool` |  |
+| `keyType` | `std::string` |  |
 | `modified` | `std::string` |  |
 | `name` | `std::string` |  |
 | `version` | `int64_t` |  |
@@ -1264,26 +1264,26 @@ Create an instance: `auto location = client->location();`
 | --- | --- | --- |
 | `address1` | `std::string` |  |
 | `address2` | `std::string` |  |
-| `billing_id` | `std::string` |  |
+| `billingId` | `std::string` |  |
 | `city` | `std::string` |  |
 | `country` | `std::string` |  |
 | `created` | `std::string` |  |
-| `custom_reference` | `std::string` |  |
+| `customReference` | `std::string` |  |
 | `id` | `std::string` |  |
-| `location_type` | `std::string` |  |
-| `mail_address1` | `std::string` |  |
-| `mail_address2` | `std::string` |  |
-| `mail_city` | `std::string` |  |
-| `mail_country` | `std::string` |  |
-| `mail_postal_code` | `std::string` |  |
-| `mail_state_province` | `std::string` |  |
+| `locationType` | `std::string` |  |
+| `mailAddress1` | `std::string` |  |
+| `mailAddress2` | `std::string` |  |
+| `mailCity` | `std::string` |  |
+| `mailCountry` | `std::string` |  |
+| `mailPostalCode` | `std::string` |  |
+| `mailStateProvince` | `std::string` |  |
 | `modified` | `std::string` |  |
 | `name` | `std::string` |  |
-| `name_of_business` | `std::string` |  |
-| `note` | `std::string` |  |
-| `postal_code` | `std::string` |  |
-| `state_province` | `std::string` |  |
-| `unique_id` | `std::string` |  |
+| `nameOfBusiness` | `std::string` |  |
+| `notes` | `std::string` |  |
+| `postalCode` | `std::string` |  |
+| `stateProvince` | `std::string` |  |
+| `uniqueId` | `std::string` |  |
 | `version` | `int64_t` |  |
 
 #### Example: Load
@@ -1322,19 +1322,19 @@ Create an instance: `auto partner = client->partner();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `billing_id` | `std::string` |  |
-| `client_can_order_equipment` | `bool` |  |
+| `billingId` | `std::string` |  |
+| `clientCanOrderEquipment` | `bool` |  |
 | `contact` | `std::map<std::string, Value>` |  |
 | `created` | `std::string` |  |
 | `id` | `std::string` |  |
-| `is_active` | `bool` |  |
+| `isActive` | `bool` |  |
 | `location` | `std::map<std::string, Value>` |  |
 | `modified` | `std::string` |  |
 | `name` | `std::string` |  |
 | `parent` | `std::map<std::string, Value>` |  |
-| `partner_id` | `std::string` |  |
+| `partnerId` | `std::string` |  |
 | `reference` | `std::string` |  |
-| `verification_phrase` | `std::string` |  |
+| `verificationPhrase` | `std::string` |  |
 | `version` | `int64_t` |  |
 
 #### Example: Load
@@ -1377,15 +1377,15 @@ Create an instance: `auto shipment = client->shipment();`
 | `carrier` | `std::string` |  |
 | `client` | `std::map<std::string, Value>` |  |
 | `created` | `std::string` |  |
-| `date_received` | `std::string` |  |
-| `date_shipped` | `std::string` |  |
-| `dc_kif` | `std::map<std::string, Value>` |  |
+| `dateReceived` | `std::string` |  |
+| `dateShipped` | `std::string` |  |
+| `dcKif` | `std::map<std::string, Value>` |  |
 | `id` | `std::string` |  |
-| `item` | `std::vector<Value>` |  |
+| `items` | `std::vector<Value>` |  |
 | `kif` | `std::map<std::string, Value>` |  |
 | `modified` | `std::string` |  |
 | `partner` | `std::map<std::string, Value>` |  |
-| `shipment_type` | `std::string` |  |
+| `shipmentType` | `std::string` |  |
 | `tracking` | `std::string` |  |
 | `version` | `int64_t` |  |
 
@@ -1451,30 +1451,30 @@ Create an instance: `auto transaction = client->transaction();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `alternate_key` | `std::string` |  |
+| `alternateKey` | `std::string` |  |
 | `client` | `std::map<std::string, Value>` |  |
-| `client_ref` | `std::string` |  |
+| `clientRef` | `std::string` |  |
 | `created` | `std::string` |  |
 | `decrypted` | `int64_t` |  |
-| `device_name` | `std::string` |  |
-| `direct_partner` | `std::map<std::string, Value>` |  |
+| `deviceName` | `std::string` |  |
+| `directPartner` | `std::map<std::string, Value>` |  |
 | `encrypted` | `int64_t` |  |
-| `end_date` | `std::string` |  |
-| `err_code` | `std::string` |  |
-| `err_message` | `std::string` |  |
+| `endDate` | `std::string` |  |
+| `errCode` | `std::string` |  |
+| `errMessage` | `std::string` |  |
 | `id` | `std::string` |  |
-| `ip_address` | `std::string` |  |
-| `is_virtual` | `bool` |  |
-| `key_type` | `std::string` |  |
+| `ipAddress` | `std::string` |  |
+| `isVirtual` | `bool` |  |
+| `keyType` | `std::string` |  |
 | `location` | `std::map<std::string, Value>` |  |
-| `message_id` | `std::string` |  |
+| `messageId` | `std::string` |  |
 | `method` | `std::string` |  |
 | `partner` | `std::map<std::string, Value>` |  |
 | `reference` | `std::string` |  |
-| `serial_number` | `std::string` |  |
-| `start_date` | `std::string` |  |
+| `serialNumber` | `std::string` |  |
+| `startDate` | `std::string` |  |
 | `success` | `bool` |  |
-| `transaction_source` | `std::string` |  |
+| `transactionSource` | `std::string` |  |
 
 #### Example: Load
 
@@ -1515,15 +1515,15 @@ Create an instance: `auto update_result = client->update_result();`
 | --- | --- | --- |
 | `client` | `std::map<std::string, Value>` |  |
 | `email` | `std::string` |  |
-| `first_name` | `std::string` |  |
+| `firstName` | `std::string` |  |
 | `id` | `std::string` |  |
-| `is_active` | `bool` |  |
+| `isActive` | `bool` |  |
 | `kif` | `std::map<std::string, Value>` |  |
-| `last_name` | `std::string` |  |
+| `lastName` | `std::string` |  |
 | `partner` | `std::map<std::string, Value>` |  |
 | `phone` | `std::string` |  |
-| `user_name` | `std::string` |  |
-| `user_role` | `std::map<std::string, Value>` |  |
+| `userName` | `std::string` |  |
+| `userRole` | `std::map<std::string, Value>` |  |
 | `version` | `int64_t` |  |
 
 #### Example: List
@@ -1558,16 +1558,16 @@ Create an instance: `auto user = client->user();`
 | `client` | `std::map<std::string, Value>` |  |
 | `created` | `std::string` |  |
 | `email` | `std::string` |  |
-| `first_name` | `std::string` |  |
+| `firstName` | `std::string` |  |
 | `id` | `std::string` |  |
-| `is_active` | `bool` |  |
+| `isActive` | `bool` |  |
 | `kif` | `std::map<std::string, Value>` |  |
-| `last_name` | `std::string` |  |
+| `lastName` | `std::string` |  |
 | `modified` | `std::string` |  |
 | `partner` | `std::map<std::string, Value>` |  |
 | `phone` | `std::string` |  |
-| `user_name` | `std::string` |  |
-| `user_role` | `std::map<std::string, Value>` |  |
+| `userName` | `std::string` |  |
+| `userRole` | `std::map<std::string, Value>` |  |
 | `version` | `int64_t` |  |
 
 #### Example: Load

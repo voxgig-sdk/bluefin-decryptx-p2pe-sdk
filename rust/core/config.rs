@@ -63,7 +63,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("complete_date")),
+                        ("name".to_string(), Value::str("completeDate")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(1f64)),
@@ -98,7 +98,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("note")),
+                        ("name".to_string(), Value::str("notes")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(6f64)),
@@ -113,6 +113,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/attestations")),
                                 ("parts".to_string(), Value::list(vec![
@@ -164,6 +165,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/attestations")),
                                 ("parts".to_string(), Value::list(vec![
@@ -204,6 +206,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/attestations/{id}")),
                                 ("parts".to_string(), Value::list(vec![
@@ -253,7 +256,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("direct_partner")),
+                        ("name".to_string(), Value::str("directPartner")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                         ("index$".to_string(), Value::Num(2f64)),
@@ -267,7 +270,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("is_active")),
+                        ("name".to_string(), Value::str("isActive")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
                         ("index$".to_string(), Value::Num(4f64)),
@@ -324,6 +327,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/clients")),
                                 ("parts".to_string(), Value::list(vec![
@@ -375,6 +379,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/clients")),
                                 ("parts".to_string(), Value::list(vec![
@@ -415,6 +420,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/clients/{id}")),
                                 ("parts".to_string(), Value::list(vec![
@@ -454,6 +460,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("DELETE")),
                                 ("orig".to_string(), Value::str("/clients/{id}")),
                                 ("parts".to_string(), Value::list(vec![
@@ -511,6 +518,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/devices/{serialNumber}/{deviceType}/custody")),
                                 ("parts".to_string(), Value::list(vec![
@@ -568,6 +576,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/decryption")),
                                 ("parts".to_string(), Value::list(vec![
@@ -592,35 +601,35 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("activated_by")),
+                        ("name".to_string(), Value::str("activatedBy")),
                         ("req".to_string(), Value::Bool(true)),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                         ("index$".to_string(), Value::Num(0f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("activation_date")),
+                        ("name".to_string(), Value::str("activationDate")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(1f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("alternate_key")),
+                        ("name".to_string(), Value::str("alternateKey")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(2f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("audit_next_date")),
+                        ("name".to_string(), Value::str("auditNextDate")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(3f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("audit_notification_date")),
+                        ("name".to_string(), Value::str("auditNotificationDate")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(4f64)),
@@ -641,42 +650,42 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("created_by")),
+                        ("name".to_string(), Value::str("createdBy")),
                         ("req".to_string(), Value::Bool(true)),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                         ("index$".to_string(), Value::Num(7f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("device_build")),
+                        ("name".to_string(), Value::str("deviceBuild")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                         ("index$".to_string(), Value::Num(8f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("device_state")),
+                        ("name".to_string(), Value::str("deviceState")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                         ("index$".to_string(), Value::Num(9f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("device_type")),
+                        ("name".to_string(), Value::str("deviceType")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                         ("index$".to_string(), Value::Num(10f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("error_counter")),
+                        ("name".to_string(), Value::str("errorCounter")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$INTEGER`")),
                         ("index$".to_string(), Value::Num(11f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("error_last_date")),
+                        ("name".to_string(), Value::str("errorLastDate")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(12f64)),
@@ -690,28 +699,28 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("initialized_by")),
+                        ("name".to_string(), Value::str("initializedBy")),
                         ("req".to_string(), Value::Bool(true)),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                         ("index$".to_string(), Value::Num(14f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("initialized_date")),
+                        ("name".to_string(), Value::str("initializedDate")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(15f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("inject_key")),
+                        ("name".to_string(), Value::str("injectKey")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                         ("index$".to_string(), Value::Num(16f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("is_virtual")),
+                        ("name".to_string(), Value::str("isVirtual")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
                         ("index$".to_string(), Value::Num(17f64)),
@@ -725,7 +734,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("last_activity_date")),
+                        ("name".to_string(), Value::str("lastActivityDate")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(19f64)),
@@ -746,7 +755,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("modified_by")),
+                        ("name".to_string(), Value::str("modifiedBy")),
                         ("req".to_string(), Value::Bool(true)),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                         ("index$".to_string(), Value::Num(22f64)),
@@ -760,7 +769,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("note")),
+                        ("name".to_string(), Value::str("notes")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(24f64)),
@@ -774,7 +783,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("serial_number")),
+                        ("name".to_string(), Value::str("serialNumber")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(26f64)),
@@ -796,6 +805,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/devices")),
                                 ("parts".to_string(), Value::list(vec![
@@ -897,6 +907,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/devices")),
                                 ("parts".to_string(), Value::list(vec![
@@ -952,6 +963,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/devices/{serialNumber}/{deviceType}")),
                                 ("parts".to_string(), Value::list(vec![
@@ -992,6 +1004,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/devices/{id}")),
                                 ("parts".to_string(), Value::list(vec![
@@ -1025,21 +1038,21 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("app_version")),
+                        ("name".to_string(), Value::str("appVersion")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(0f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("build_number")),
+                        ("name".to_string(), Value::str("buildNumber")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(1f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("config_file_name")),
+                        ("name".to_string(), Value::str("configFileName")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(2f64)),
@@ -1053,21 +1066,21 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("device_type")),
+                        ("name".to_string(), Value::str("deviceType")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(4f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("firmware_version")),
+                        ("name".to_string(), Value::str("firmwareVersion")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(5f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("hardware_version")),
+                        ("name".to_string(), Value::str("hardwareVersion")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(6f64)),
@@ -1081,7 +1094,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("is_active")),
+                        ("name".to_string(), Value::str("isActive")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
                         ("index$".to_string(), Value::Num(8f64)),
@@ -1102,7 +1115,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("note")),
+                        ("name".to_string(), Value::str("notes")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(11f64)),
@@ -1116,14 +1129,14 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("white_listing_bin_range")),
+                        ("name".to_string(), Value::str("whiteListingBinRanges")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(13f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("white_listing_used")),
+                        ("name".to_string(), Value::str("whiteListingUsed")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
                         ("index$".to_string(), Value::Num(14f64)),
@@ -1167,6 +1180,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/deviceBuilds")),
                                 ("parts".to_string(), Value::list(vec![
@@ -1207,6 +1221,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/deviceBuilds/{id}")),
                                 ("parts".to_string(), Value::list(vec![
@@ -1236,7 +1251,7 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("complete_date")),
+                        ("name".to_string(), Value::str("completeDate")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(0f64)),
@@ -1250,7 +1265,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("created_by")),
+                        ("name".to_string(), Value::str("createdBy")),
                         ("req".to_string(), Value::Bool(true)),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                         ("index$".to_string(), Value::Num(2f64)),
@@ -1292,14 +1307,14 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("modified_by")),
+                        ("name".to_string(), Value::str("modifiedBy")),
                         ("req".to_string(), Value::Bool(true)),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                         ("index$".to_string(), Value::Num(8f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("note")),
+                        ("name".to_string(), Value::str("notes")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(9f64)),
@@ -1313,7 +1328,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("transfer_method")),
+                        ("name".to_string(), Value::str("transferMethod")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                         ("index$".to_string(), Value::Num(11f64)),
@@ -1365,6 +1380,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/devices/{serialNumber}/{deviceType}/custody/{id}")),
                                 ("parts".to_string(), Value::list(vec![
@@ -1409,7 +1425,7 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("complete_date")),
+                        ("name".to_string(), Value::str("completeDate")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(0f64)),
@@ -1423,7 +1439,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("created_by")),
+                        ("name".to_string(), Value::str("createdBy")),
                         ("req".to_string(), Value::Bool(true)),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                         ("index$".to_string(), Value::Num(2f64)),
@@ -1465,14 +1481,14 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("modified_by")),
+                        ("name".to_string(), Value::str("modifiedBy")),
                         ("req".to_string(), Value::Bool(true)),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                         ("index$".to_string(), Value::Num(8f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("note")),
+                        ("name".to_string(), Value::str("notes")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(9f64)),
@@ -1486,7 +1502,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("transfer_method")),
+                        ("name".to_string(), Value::str("transferMethod")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                         ("index$".to_string(), Value::Num(11f64)),
@@ -1549,6 +1565,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/devices/{serialNumber}/{deviceType}/custody")),
                                 ("parts".to_string(), Value::list(vec![
@@ -1665,6 +1682,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/virtualDevices/{sharePartnerTo}")),
                                 ("parts".to_string(), Value::list(vec![
@@ -1722,6 +1740,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/devices/receive")),
                                 ("parts".to_string(), Value::list(vec![
@@ -1762,6 +1781,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/devices/rki/activate")),
                                 ("parts".to_string(), Value::list(vec![
@@ -1810,6 +1830,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/deviceStates")),
                                 ("parts".to_string(), Value::list(vec![
@@ -1841,14 +1862,14 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("device_type_mode")),
+                        ("name".to_string(), Value::str("deviceTypeMode")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(1f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("hardware_version")),
+                        ("name".to_string(), Value::str("hardwareVersion")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(2f64)),
@@ -1862,7 +1883,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("is_active")),
+                        ("name".to_string(), Value::str("isActive")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
                         ("index$".to_string(), Value::Num(4f64)),
@@ -1897,14 +1918,14 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("photo_url")),
+                        ("name".to_string(), Value::str("photoUrl")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(9f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("product_name")),
+                        ("name".to_string(), Value::str("productName")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(10f64)),
@@ -1926,6 +1947,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/deviceTypes")),
                                 ("parts".to_string(), Value::list(vec![
@@ -1960,6 +1982,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/deviceTypes/{id}")),
                                 ("parts".to_string(), Value::list(vec![
@@ -2003,21 +2026,21 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("is_active")),
+                        ("name".to_string(), Value::str("isActive")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
                         ("index$".to_string(), Value::Num(2f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("is_p2_pe")),
+                        ("name".to_string(), Value::str("isP2PE")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
                         ("index$".to_string(), Value::Num(3f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("key_type")),
+                        ("name".to_string(), Value::str("keyType")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(4f64)),
@@ -2053,6 +2076,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/injectKeys")),
                                 ("parts".to_string(), Value::list(vec![
@@ -2087,6 +2111,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/injectKeys/{id}")),
                                 ("parts".to_string(), Value::list(vec![
@@ -2138,6 +2163,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/kifs")),
                                 ("parts".to_string(), Value::list(vec![
@@ -2176,7 +2202,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("billing_id")),
+                        ("name".to_string(), Value::str("billingId")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(2f64)),
@@ -2204,7 +2230,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("custom_reference")),
+                        ("name".to_string(), Value::str("customReference")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(6f64)),
@@ -2218,49 +2244,49 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("location_type")),
+                        ("name".to_string(), Value::str("locationType")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(8f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("mail_address1")),
+                        ("name".to_string(), Value::str("mailAddress1")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(9f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("mail_address2")),
+                        ("name".to_string(), Value::str("mailAddress2")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(10f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("mail_city")),
+                        ("name".to_string(), Value::str("mailCity")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(11f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("mail_country")),
+                        ("name".to_string(), Value::str("mailCountry")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(12f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("mail_postal_code")),
+                        ("name".to_string(), Value::str("mailPostalCode")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(13f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("mail_state_province")),
+                        ("name".to_string(), Value::str("mailStateProvince")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(14f64)),
@@ -2281,35 +2307,35 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("name_of_business")),
+                        ("name".to_string(), Value::str("nameOfBusiness")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(17f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("note")),
+                        ("name".to_string(), Value::str("notes")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(18f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("postal_code")),
+                        ("name".to_string(), Value::str("postalCode")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(19f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("state_province")),
+                        ("name".to_string(), Value::str("stateProvince")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(20f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("unique_id")),
+                        ("name".to_string(), Value::str("uniqueId")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(21f64)),
@@ -2331,6 +2357,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/locations")),
                                 ("parts".to_string(), Value::list(vec![
@@ -2382,6 +2409,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/locations")),
                                 ("parts".to_string(), Value::list(vec![
@@ -2422,6 +2450,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/locations/{id}")),
                                 ("parts".to_string(), Value::list(vec![
@@ -2461,6 +2490,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("DELETE")),
                                 ("orig".to_string(), Value::str("/locations/{id}")),
                                 ("parts".to_string(), Value::list(vec![
@@ -2490,14 +2520,14 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("billing_id")),
+                        ("name".to_string(), Value::str("billingId")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(0f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("client_can_order_equipment")),
+                        ("name".to_string(), Value::str("clientCanOrderEquipment")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
                         ("index$".to_string(), Value::Num(1f64)),
@@ -2531,7 +2561,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("is_active")),
+                        ("name".to_string(), Value::str("isActive")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
                         ("index$".to_string(), Value::Num(5f64)),
@@ -2566,7 +2596,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("partner_id")),
+                        ("name".to_string(), Value::str("partnerId")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(10f64)),
@@ -2580,7 +2610,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("verification_phrase")),
+                        ("name".to_string(), Value::str("verificationPhrase")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(12f64)),
@@ -2602,6 +2632,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/partners")),
                                 ("parts".to_string(), Value::list(vec![
@@ -2653,6 +2684,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/partners")),
                                 ("parts".to_string(), Value::list(vec![
@@ -2693,6 +2725,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/partners/{id}")),
                                 ("parts".to_string(), Value::list(vec![
@@ -2743,21 +2776,21 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("date_received")),
+                        ("name".to_string(), Value::str("dateReceived")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(3f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("date_shipped")),
+                        ("name".to_string(), Value::str("dateShipped")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(4f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("dc_kif")),
+                        ("name".to_string(), Value::str("dcKif")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                         ("index$".to_string(), Value::Num(5f64)),
@@ -2771,7 +2804,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("item")),
+                        ("name".to_string(), Value::str("items")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$ARRAY`")),
                         ("index$".to_string(), Value::Num(7f64)),
@@ -2799,7 +2832,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("shipment_type")),
+                        ("name".to_string(), Value::str("shipmentType")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(11f64)),
@@ -2828,6 +2861,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/shipments")),
                                 ("parts".to_string(), Value::list(vec![
@@ -2887,6 +2921,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/shipments")),
                                 ("parts".to_string(), Value::list(vec![
@@ -2928,6 +2963,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/shipments/{id}")),
                                 ("parts".to_string(), Value::list(vec![
@@ -2984,6 +3020,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/virtualDevices/{sharePartnerTo}")),
                                 ("parts".to_string(), Value::list(vec![
@@ -3028,6 +3065,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("DELETE")),
                                 ("orig".to_string(), Value::str("/virtualDevices/{sharePartnerTo}")),
                                 ("parts".to_string(), Value::list(vec![
@@ -3066,7 +3104,7 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("alternate_key")),
+                        ("name".to_string(), Value::str("alternateKey")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(0f64)),
@@ -3080,7 +3118,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("client_ref")),
+                        ("name".to_string(), Value::str("clientRef")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(2f64)),
@@ -3101,14 +3139,14 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("device_name")),
+                        ("name".to_string(), Value::str("deviceName")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(5f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("direct_partner")),
+                        ("name".to_string(), Value::str("directPartner")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                         ("index$".to_string(), Value::Num(6f64)),
@@ -3122,21 +3160,21 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("end_date")),
+                        ("name".to_string(), Value::str("endDate")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(8f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("err_code")),
+                        ("name".to_string(), Value::str("errCode")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(9f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("err_message")),
+                        ("name".to_string(), Value::str("errMessage")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(10f64)),
@@ -3150,21 +3188,21 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("ip_address")),
+                        ("name".to_string(), Value::str("ipAddress")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(12f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("is_virtual")),
+                        ("name".to_string(), Value::str("isVirtual")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
                         ("index$".to_string(), Value::Num(13f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("key_type")),
+                        ("name".to_string(), Value::str("keyType")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(14f64)),
@@ -3178,7 +3216,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("message_id")),
+                        ("name".to_string(), Value::str("messageId")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(16f64)),
@@ -3206,14 +3244,14 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("serial_number")),
+                        ("name".to_string(), Value::str("serialNumber")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(20f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("start_date")),
+                        ("name".to_string(), Value::str("startDate")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(21f64)),
@@ -3227,7 +3265,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("transaction_source")),
+                        ("name".to_string(), Value::str("transactionSource")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(23f64)),
@@ -3242,6 +3280,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/transactions")),
                                 ("parts".to_string(), Value::list(vec![
@@ -3374,6 +3413,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/transactions")),
                                 ("parts".to_string(), Value::list(vec![
@@ -3424,6 +3464,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/transactions/{id}")),
                                 ("parts".to_string(), Value::list(vec![
@@ -3467,7 +3508,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("first_name")),
+                        ("name".to_string(), Value::str("firstName")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(2f64)),
@@ -3481,7 +3522,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("is_active")),
+                        ("name".to_string(), Value::str("isActive")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
                         ("index$".to_string(), Value::Num(4f64)),
@@ -3495,7 +3536,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("last_name")),
+                        ("name".to_string(), Value::str("lastName")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(6f64)),
@@ -3516,14 +3557,14 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("user_name")),
+                        ("name".to_string(), Value::str("userName")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(9f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("user_role")),
+                        ("name".to_string(), Value::str("userRole")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                         ("index$".to_string(), Value::Num(10f64)),
@@ -3545,6 +3586,7 @@ pub fn make_config() -> Value {
                             Value::map_of([
                                 ("active".to_string(), Value::Bool(true)),
                                 ("args".to_string(), Value::empty_map()),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/users")),
                                 ("parts".to_string(), Value::list(vec![
@@ -3612,6 +3654,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/users")),
                                 ("parts".to_string(), Value::list(vec![
@@ -3654,6 +3697,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("PATCH")),
                                 ("orig".to_string(), Value::str("/clients/{id}")),
                                 ("parts".to_string(), Value::list(vec![
@@ -3686,6 +3730,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("PATCH")),
                                 ("orig".to_string(), Value::str("/devices/{id}")),
                                 ("parts".to_string(), Value::list(vec![
@@ -3718,6 +3763,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("PATCH")),
                                 ("orig".to_string(), Value::str("/locations/{id}")),
                                 ("parts".to_string(), Value::list(vec![
@@ -3750,6 +3796,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("PATCH")),
                                 ("orig".to_string(), Value::str("/partners/{id}")),
                                 ("parts".to_string(), Value::list(vec![
@@ -3782,6 +3829,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("PATCH")),
                                 ("orig".to_string(), Value::str("/shipments/{id}")),
                                 ("parts".to_string(), Value::list(vec![
@@ -3814,6 +3862,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("PATCH")),
                                 ("orig".to_string(), Value::str("/transactions/{id}")),
                                 ("parts".to_string(), Value::list(vec![
@@ -3846,6 +3895,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("PATCH")),
                                 ("orig".to_string(), Value::str("/users/{id}")),
                                 ("parts".to_string(), Value::list(vec![
@@ -3896,7 +3946,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("first_name")),
+                        ("name".to_string(), Value::str("firstName")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(3f64)),
@@ -3910,7 +3960,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("is_active")),
+                        ("name".to_string(), Value::str("isActive")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
                         ("index$".to_string(), Value::Num(5f64)),
@@ -3924,7 +3974,7 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("last_name")),
+                        ("name".to_string(), Value::str("lastName")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(7f64)),
@@ -3952,14 +4002,14 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("user_name")),
+                        ("name".to_string(), Value::str("userName")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$STRING`")),
                         ("index$".to_string(), Value::Num(11f64)),
                     ]),
                     Value::map_of([
                         ("active".to_string(), Value::Bool(true)),
-                        ("name".to_string(), Value::str("user_role")),
+                        ("name".to_string(), Value::str("userRole")),
                         ("req".to_string(), Value::Bool(false)),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                         ("index$".to_string(), Value::Num(12f64)),
@@ -3993,6 +4043,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/users/{id}")),
                                 ("parts".to_string(), Value::list(vec![
@@ -4032,6 +4083,7 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
+                                ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("DELETE")),
                                 ("orig".to_string(), Value::str("/users/{id}")),
                                 ("parts".to_string(), Value::list(vec![

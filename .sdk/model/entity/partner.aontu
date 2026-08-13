@@ -6,12 +6,12 @@ main: kit: entity: partner: {
 
   fields: [
     {
-      name: "billing_id"
+      name: "billingId"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "client_can_order_equipment"
+      name: "clientCanOrderEquipment"
       req: false
       type: "`$BOOLEAN`"
     }
@@ -37,7 +37,7 @@ main: kit: entity: partner: {
       type: "`$STRING`"
     }
     {
-      name: "is_active"
+      name: "isActive"
       req: false
       type: "`$BOOLEAN`"
     }
@@ -62,7 +62,7 @@ main: kit: entity: partner: {
       type: "`$OBJECT`"
     }
     {
-      name: "partner_id"
+      name: "partnerId"
       req: false
       type: "`$STRING`"
     }
@@ -72,7 +72,7 @@ main: kit: entity: partner: {
       type: "`$STRING`"
     }
     {
-      name: "verification_phrase"
+      name: "verificationPhrase"
       req: false
       type: "`$STRING`"
     }

@@ -195,12 +195,12 @@ let attestation = client.Attestation()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `client` | `VMap` | No |  |
-| `complete_date` | `String` | No |  |
+| `completeDate` | `String` | No |  |
 | `created` | `String` | No |  |
 | `device` | `VMap` | No |  |
 | `id` | `String` | No |  |
 | `name` | `String` | No |  |
-| `note` | `String` | No |  |
+| `notes` | `String` | No |  |
 
 ### Operations
 
@@ -263,9 +263,9 @@ let client = client.Client()
 | --- | --- | --- | --- |
 | `contact` | `VMap` | No |  |
 | `created` | `String` | No |  |
-| `direct_partner` | `VMap` | No |  |
+| `directPartner` | `VMap` | No |  |
 | `id` | `String` | No |  |
-| `is_active` | `Bool` | No |  |
+| `isActive` | `Bool` | No |  |
 | `location` | `VMap` | Yes |  |
 | `mid` | `String` | No |  |
 | `modified` | `String` | No |  |
@@ -279,9 +279,9 @@ let client = client.Client()
 | --- | --- | --- | --- | --- |
 | `contact` | - | Yes | - | - |
 | `created` | - | - | - | - |
-| `direct_partner` | - | - | - | - |
+| `directPartner` | - | - | - | - |
 | `id` | - | - | - | - |
-| `is_active` | - | - | - | - |
+| `isActive` | - | - | - | - |
 | `location` | - | - | - | - |
 | `mid` | - | - | - | - |
 | `modified` | - | - | - | - |
@@ -441,33 +441,33 @@ let device = client.Device()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `activated_by` | `VMap` | Yes |  |
-| `activation_date` | `String` | No |  |
-| `alternate_key` | `String` | No |  |
-| `audit_next_date` | `String` | No |  |
-| `audit_notification_date` | `String` | No |  |
+| `activatedBy` | `VMap` | Yes |  |
+| `activationDate` | `String` | No |  |
+| `alternateKey` | `String` | No |  |
+| `auditNextDate` | `String` | No |  |
+| `auditNotificationDate` | `String` | No |  |
 | `client` | `VMap` | No |  |
 | `created` | `String` | No |  |
-| `created_by` | `VMap` | Yes |  |
-| `device_build` | `VMap` | No |  |
-| `device_state` | `VMap` | No |  |
-| `device_type` | `VMap` | No |  |
-| `error_counter` | `Int` | No |  |
-| `error_last_date` | `String` | No |  |
+| `createdBy` | `VMap` | Yes |  |
+| `deviceBuild` | `VMap` | No |  |
+| `deviceState` | `VMap` | No |  |
+| `deviceType` | `VMap` | No |  |
+| `errorCounter` | `Int` | No |  |
+| `errorLastDate` | `String` | No |  |
 | `id` | `String` | No |  |
-| `initialized_by` | `VMap` | Yes |  |
-| `initialized_date` | `String` | No |  |
-| `inject_key` | `VMap` | No |  |
-| `is_virtual` | `Bool` | No |  |
+| `initializedBy` | `VMap` | Yes |  |
+| `initializedDate` | `String` | No |  |
+| `injectKey` | `VMap` | No |  |
+| `isVirtual` | `Bool` | No |  |
 | `kif` | `VMap` | No |  |
-| `last_activity_date` | `String` | No |  |
+| `lastActivityDate` | `String` | No |  |
 | `location` | `VMap` | Yes |  |
 | `modified` | `String` | No |  |
-| `modified_by` | `VMap` | Yes |  |
+| `modifiedBy` | `VMap` | Yes |  |
 | `name` | `String` | No |  |
-| `note` | `String` | No |  |
+| `notes` | `String` | No |  |
 | `partner` | `VMap` | No |  |
-| `serial_number` | `String` | No |  |
+| `serialNumber` | `String` | No |  |
 | `version` | `Int` | No |  |
 
 ### Operations
@@ -478,11 +478,11 @@ Create a new entity with the given data. Returns the created entity data and thr
 
 ```swift
 let result = try client.Device().create(VMap([
-    ("activated_by", .map(VMap())),  // VMap
-    ("created_by", .map(VMap())),  // VMap
-    ("initialized_by", .map(VMap())),  // VMap
+    ("activatedBy", .map(VMap())),  // VMap
+    ("createdBy", .map(VMap())),  // VMap
+    ("initializedBy", .map(VMap())),  // VMap
     ("location", .map(VMap())),  // VMap
-    ("modified_by", .map(VMap()))  // VMap
+    ("modifiedBy", .map(VMap()))  // VMap
 ]), nil)
 ```
 
@@ -534,21 +534,21 @@ let deviceBuild = client.DeviceBuild()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `app_version` | `String` | No |  |
-| `build_number` | `String` | No |  |
-| `config_file_name` | `String` | No |  |
+| `appVersion` | `String` | No |  |
+| `buildNumber` | `String` | No |  |
+| `configFileName` | `String` | No |  |
 | `created` | `String` | No |  |
-| `device_type` | `String` | No |  |
-| `firmware_version` | `String` | No |  |
-| `hardware_version` | `String` | No |  |
+| `deviceType` | `String` | No |  |
+| `firmwareVersion` | `String` | No |  |
+| `hardwareVersion` | `String` | No |  |
 | `id` | `Int` | No |  |
-| `is_active` | `Bool` | No |  |
+| `isActive` | `Bool` | No |  |
 | `modified` | `String` | No |  |
 | `name` | `String` | No |  |
-| `note` | `String` | No |  |
+| `notes` | `String` | No |  |
 | `version` | `Int` | No |  |
-| `white_listing_bin_range` | `String` | No |  |
-| `white_listing_used` | `Bool` | No |  |
+| `whiteListingBinRanges` | `String` | No |  |
+| `whiteListingUsed` | `Bool` | No |  |
 
 ### Operations
 
@@ -600,18 +600,18 @@ let deviceCustodyDetail = client.DeviceCustodyDetail()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `complete_date` | `String` | No |  |
+| `completeDate` | `String` | No |  |
 | `created` | `String` | No |  |
-| `created_by` | `VMap` | Yes |  |
+| `createdBy` | `VMap` | Yes |  |
 | `custodian` | `VMap` | Yes |  |
 | `device` | `VMap` | No |  |
 | `id` | `Int` | No |  |
 | `location` | `VMap` | Yes |  |
 | `modified` | `String` | No |  |
-| `modified_by` | `VMap` | Yes |  |
-| `note` | `String` | No |  |
+| `modifiedBy` | `VMap` | Yes |  |
+| `notes` | `String` | No |  |
 | `status` | `VMap` | No |  |
-| `transfer_method` | `VMap` | No |  |
+| `transferMethod` | `VMap` | No |  |
 | `version` | `Int` | No |  |
 
 ### Operations
@@ -655,18 +655,18 @@ let deviceCustodyList = client.DeviceCustodyList()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `complete_date` | `String` | No |  |
+| `completeDate` | `String` | No |  |
 | `created` | `String` | No |  |
-| `created_by` | `VMap` | Yes |  |
+| `createdBy` | `VMap` | Yes |  |
 | `custodian` | `VMap` | Yes |  |
 | `device` | `VMap` | No |  |
 | `id` | `Int` | No |  |
 | `location` | `VMap` | Yes |  |
 | `modified` | `String` | No |  |
-| `modified_by` | `VMap` | Yes |  |
-| `note` | `String` | No |  |
+| `modifiedBy` | `VMap` | Yes |  |
+| `notes` | `String` | No |  |
 | `status` | `VMap` | No |  |
-| `transfer_method` | `VMap` | No |  |
+| `transferMethod` | `VMap` | No |  |
 | `version` | `Int` | No |  |
 
 ### Operations
@@ -891,16 +891,16 @@ let deviceType = client.DeviceType()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `created` | `String` | No |  |
-| `device_type_mode` | `String` | No |  |
-| `hardware_version` | `String` | No |  |
+| `deviceTypeMode` | `String` | No |  |
+| `hardwareVersion` | `String` | No |  |
 | `id` | `String` | No |  |
-| `is_active` | `Bool` | No |  |
+| `isActive` | `Bool` | No |  |
 | `manufacturer` | `String` | No |  |
 | `model` | `String` | No |  |
 | `modified` | `String` | No |  |
 | `name` | `String` | No |  |
-| `photo_url` | `String` | No |  |
-| `product_name` | `String` | No |  |
+| `photoUrl` | `String` | No |  |
+| `productName` | `String` | No |  |
 | `version` | `Int` | No |  |
 
 ### Operations
@@ -955,9 +955,9 @@ let injectKey = client.InjectKey()
 | --- | --- | --- | --- |
 | `created` | `String` | No |  |
 | `id` | `String` | No |  |
-| `is_active` | `Bool` | No |  |
-| `is_p2_pe` | `Bool` | No |  |
-| `key_type` | `String` | No |  |
+| `isActive` | `Bool` | No |  |
+| `isP2PE` | `Bool` | No |  |
+| `keyType` | `String` | No |  |
 | `modified` | `String` | No |  |
 | `name` | `String` | No |  |
 | `version` | `Int` | No |  |
@@ -1059,26 +1059,26 @@ let location = client.Location()
 | --- | --- | --- | --- |
 | `address1` | `String` | No |  |
 | `address2` | `String` | No |  |
-| `billing_id` | `String` | No |  |
+| `billingId` | `String` | No |  |
 | `city` | `String` | No |  |
 | `country` | `String` | No |  |
 | `created` | `String` | No |  |
-| `custom_reference` | `String` | No |  |
+| `customReference` | `String` | No |  |
 | `id` | `String` | No |  |
-| `location_type` | `String` | No |  |
-| `mail_address1` | `String` | No |  |
-| `mail_address2` | `String` | No |  |
-| `mail_city` | `String` | No |  |
-| `mail_country` | `String` | No |  |
-| `mail_postal_code` | `String` | No |  |
-| `mail_state_province` | `String` | No |  |
+| `locationType` | `String` | No |  |
+| `mailAddress1` | `String` | No |  |
+| `mailAddress2` | `String` | No |  |
+| `mailCity` | `String` | No |  |
+| `mailCountry` | `String` | No |  |
+| `mailPostalCode` | `String` | No |  |
+| `mailStateProvince` | `String` | No |  |
 | `modified` | `String` | No |  |
 | `name` | `String` | No |  |
-| `name_of_business` | `String` | No |  |
-| `note` | `String` | No |  |
-| `postal_code` | `String` | No |  |
-| `state_province` | `String` | No |  |
-| `unique_id` | `String` | No |  |
+| `nameOfBusiness` | `String` | No |  |
+| `notes` | `String` | No |  |
+| `postalCode` | `String` | No |  |
+| `stateProvince` | `String` | No |  |
+| `uniqueId` | `String` | No |  |
 | `version` | `Int` | No |  |
 
 ### Operations
@@ -1148,38 +1148,38 @@ let partner = client.Partner()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `billing_id` | `String` | No |  |
-| `client_can_order_equipment` | `Bool` | No |  |
+| `billingId` | `String` | No |  |
+| `clientCanOrderEquipment` | `Bool` | No |  |
 | `contact` | `VMap` | No |  |
 | `created` | `String` | No |  |
 | `id` | `String` | No |  |
-| `is_active` | `Bool` | No |  |
+| `isActive` | `Bool` | No |  |
 | `location` | `VMap` | Yes |  |
 | `modified` | `String` | No |  |
 | `name` | `String` | No |  |
 | `parent` | `VMap` | No |  |
-| `partner_id` | `String` | No |  |
+| `partnerId` | `String` | No |  |
 | `reference` | `String` | No |  |
-| `verification_phrase` | `String` | No |  |
+| `verificationPhrase` | `String` | No |  |
 | `version` | `Int` | No |  |
 
 ### Field Usage by Operation
 
 | Field | load | list | create |
 | --- | --- | --- | --- |
-| `billing_id` | - | - | - |
-| `client_can_order_equipment` | - | - | - |
+| `billingId` | - | - | - |
+| `clientCanOrderEquipment` | - | - | - |
 | `contact` | - | Yes | - |
 | `created` | - | - | - |
 | `id` | - | - | - |
-| `is_active` | - | - | - |
+| `isActive` | - | - | - |
 | `location` | - | - | - |
 | `modified` | - | - | - |
 | `name` | - | - | - |
 | `parent` | - | - | - |
-| `partner_id` | - | - | - |
+| `partnerId` | - | - | - |
 | `reference` | - | - | - |
-| `verification_phrase` | - | - | - |
+| `verificationPhrase` | - | - | - |
 | `version` | - | - | - |
 
 ### Operations
@@ -1245,15 +1245,15 @@ let shipment = client.Shipment()
 | `carrier` | `String` | No |  |
 | `client` | `VMap` | No |  |
 | `created` | `String` | No |  |
-| `date_received` | `String` | No |  |
-| `date_shipped` | `String` | No |  |
-| `dc_kif` | `VMap` | No |  |
+| `dateReceived` | `String` | No |  |
+| `dateShipped` | `String` | No |  |
+| `dcKif` | `VMap` | No |  |
 | `id` | `String` | No |  |
-| `item` | `[Value]` | No |  |
+| `items` | `[Value]` | No |  |
 | `kif` | `VMap` | No |  |
 | `modified` | `String` | No |  |
 | `partner` | `VMap` | No |  |
-| `shipment_type` | `String` | No |  |
+| `shipmentType` | `String` | No |  |
 | `tracking` | `String` | No |  |
 | `version` | `Int` | No |  |
 
@@ -1369,30 +1369,30 @@ let transaction = client.Transaction()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `alternate_key` | `String` | No |  |
+| `alternateKey` | `String` | No |  |
 | `client` | `VMap` | No |  |
-| `client_ref` | `String` | No |  |
+| `clientRef` | `String` | No |  |
 | `created` | `String` | No |  |
 | `decrypted` | `Int` | No |  |
-| `device_name` | `String` | No |  |
-| `direct_partner` | `VMap` | No |  |
+| `deviceName` | `String` | No |  |
+| `directPartner` | `VMap` | No |  |
 | `encrypted` | `Int` | No |  |
-| `end_date` | `String` | No |  |
-| `err_code` | `String` | No |  |
-| `err_message` | `String` | No |  |
+| `endDate` | `String` | No |  |
+| `errCode` | `String` | No |  |
+| `errMessage` | `String` | No |  |
 | `id` | `String` | No |  |
-| `ip_address` | `String` | No |  |
-| `is_virtual` | `Bool` | No |  |
-| `key_type` | `String` | No |  |
+| `ipAddress` | `String` | No |  |
+| `isVirtual` | `Bool` | No |  |
+| `keyType` | `String` | No |  |
 | `location` | `VMap` | Yes |  |
-| `message_id` | `String` | No |  |
+| `messageId` | `String` | No |  |
 | `method` | `String` | No |  |
 | `partner` | `VMap` | No |  |
 | `reference` | `String` | No |  |
-| `serial_number` | `String` | No |  |
-| `start_date` | `String` | No |  |
+| `serialNumber` | `String` | No |  |
+| `startDate` | `String` | No |  |
 | `success` | `Bool` | No |  |
-| `transaction_source` | `String` | No |  |
+| `transactionSource` | `String` | No |  |
 
 ### Operations
 
@@ -1456,15 +1456,15 @@ let updateResult = client.UpdateResult()
 | --- | --- | --- | --- |
 | `client` | `VMap` | No |  |
 | `email` | `String` | No |  |
-| `first_name` | `String` | No |  |
+| `firstName` | `String` | No |  |
 | `id` | `String` | No |  |
-| `is_active` | `Bool` | No |  |
+| `isActive` | `Bool` | No |  |
 | `kif` | `VMap` | No |  |
-| `last_name` | `String` | No |  |
+| `lastName` | `String` | No |  |
 | `partner` | `VMap` | No |  |
 | `phone` | `String` | No |  |
-| `user_name` | `String` | No |  |
-| `user_role` | `VMap` | No |  |
+| `userName` | `String` | No |  |
+| `userRole` | `VMap` | No |  |
 | `version` | `Int` | No |  |
 
 ### Operations
@@ -1531,16 +1531,16 @@ let user = client.User()
 | `client` | `VMap` | No |  |
 | `created` | `String` | No |  |
 | `email` | `String` | No |  |
-| `first_name` | `String` | No |  |
+| `firstName` | `String` | No |  |
 | `id` | `String` | No |  |
-| `is_active` | `Bool` | No |  |
+| `isActive` | `Bool` | No |  |
 | `kif` | `VMap` | No |  |
-| `last_name` | `String` | No |  |
+| `lastName` | `String` | No |  |
 | `modified` | `String` | No |  |
 | `partner` | `VMap` | No |  |
 | `phone` | `String` | No |  |
-| `user_name` | `String` | No |  |
-| `user_role` | `VMap` | No |  |
+| `userName` | `String` | No |  |
+| `userRole` | `VMap` | No |  |
 | `version` | `Int` | No |  |
 
 ### Operations

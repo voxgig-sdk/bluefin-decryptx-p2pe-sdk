@@ -31,7 +31,14 @@ defmodule BluefinDecryptxP2pe.DeviceStateEntityTest do
   test "should list records" do
     sdk = mk_sdk()
     ent = BluefinDecryptxP2pe.device_state(sdk)
+    # The op resolves to one ENTITY per record; the record is reached with
+    # data_get. See AGENTS.md "Entity operations return ENTITIES".
     result = BluefinDecryptxP2pe.Entity.DeviceState.list(ent, S.jm([]))
     assert S.islist(result)
+    if S.size(result) > 0 do
+      Enum.each(0..(S.size(result) - 1), fn i ->
+        assert S.ismap(BluefinDecryptxP2pe.EntityBase.data_get(S.getelem(result, i)))
+      end)
+    end
   end
 end

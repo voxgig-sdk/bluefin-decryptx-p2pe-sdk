@@ -17,12 +17,12 @@
 // Attestation is the typed data model for the attestation entity.
 typedef struct {
   voxgig_value*client;  // optional
-  char*complete_date;  // optional
+  char*completedate;  // optional
   char*created;  // optional
   voxgig_value*device;  // optional
   char*id;  // optional
   char*name;  // optional
-  char*note;  // optional
+  char*notes;  // optional
 } Attestation;
 
 // AttestationLoadMatch is the typed request payload for Attestation.load.
@@ -33,32 +33,32 @@ typedef struct {
 // AttestationListMatch is the typed request payload for Attestation.list.
 typedef struct {
   voxgig_value*client;  // optional
-  char*complete_date;  // optional
+  char*completedate;  // optional
   char*created;  // optional
   voxgig_value*device;  // optional
   char*id;  // optional
   char*name;  // optional
-  char*note;  // optional
+  char*notes;  // optional
 } AttestationListMatch;
 
 // AttestationCreateData is the typed request payload for Attestation.create.
 typedef struct {
   voxgig_value*client;  // optional
-  char*complete_date;  // optional
+  char*completedate;  // optional
   char*created;  // optional
   voxgig_value*device;  // optional
   char*id;  // optional
   char*name;  // optional
-  char*note;  // optional
+  char*notes;  // optional
 } AttestationCreateData;
 
 // Client is the typed data model for the client entity.
 typedef struct {
   voxgig_value*contact;  // optional
   char*created;  // optional
-  voxgig_value*direct_partner;  // optional
+  voxgig_value*directpartner;  // optional
   char*id;  // optional
-  bool is_active;  // optional
+  bool isactive;  // optional
   voxgig_value*location;
   char*mid;  // optional
   char*modified;  // optional
@@ -76,9 +76,9 @@ typedef struct {
 typedef struct {
   voxgig_value*contact;  // optional
   char*created;  // optional
-  voxgig_value*direct_partner;  // optional
+  voxgig_value*directpartner;  // optional
   char*id;  // optional
-  bool is_active;  // optional
+  bool isactive;  // optional
   voxgig_value*location;  // optional
   char*mid;  // optional
   char*modified;  // optional
@@ -91,9 +91,9 @@ typedef struct {
 typedef struct {
   voxgig_value*contact;  // optional
   char*created;  // optional
-  voxgig_value*direct_partner;  // optional
+  voxgig_value*directpartner;  // optional
   char*id;  // optional
-  bool is_active;  // optional
+  bool isactive;  // optional
   voxgig_value*location;
   char*mid;  // optional
   char*modified;  // optional
@@ -130,33 +130,33 @@ typedef struct {
 
 // Device is the typed data model for the device entity.
 typedef struct {
-  voxgig_value*activated_by;
-  char*activation_date;  // optional
-  char*alternate_key;  // optional
-  char*audit_next_date;  // optional
-  char*audit_notification_date;  // optional
+  voxgig_value*activatedby;
+  char*activationdate;  // optional
+  char*alternatekey;  // optional
+  char*auditnextdate;  // optional
+  char*auditnotificationdate;  // optional
   voxgig_value*client;  // optional
   char*created;  // optional
-  voxgig_value*created_by;
-  voxgig_value*device_build;  // optional
-  voxgig_value*device_state;  // optional
-  voxgig_value*device_type;  // optional
-  int64_t error_counter;  // optional
-  char*error_last_date;  // optional
+  voxgig_value*createdby;
+  voxgig_value*devicebuild;  // optional
+  voxgig_value*devicestate;  // optional
+  voxgig_value*devicetype;  // optional
+  int64_t errorcounter;  // optional
+  char*errorlastdate;  // optional
   char*id;  // optional
-  voxgig_value*initialized_by;
-  char*initialized_date;  // optional
-  voxgig_value*inject_key;  // optional
-  bool is_virtual;  // optional
+  voxgig_value*initializedby;
+  char*initializeddate;  // optional
+  voxgig_value*injectkey;  // optional
+  bool isvirtual;  // optional
   voxgig_value*kif;  // optional
-  char*last_activity_date;  // optional
+  char*lastactivitydate;  // optional
   voxgig_value*location;
   char*modified;  // optional
-  voxgig_value*modified_by;
+  voxgig_value*modifiedby;
   char*name;  // optional
-  char*note;  // optional
+  char*notes;  // optional
   voxgig_value*partner;  // optional
-  char*serial_number;  // optional
+  char*serialnumber;  // optional
   int64_t version;  // optional
 } Device;
 
@@ -169,85 +169,85 @@ typedef struct {
 
 // DeviceListMatch is the typed request payload for Device.list.
 typedef struct {
-  voxgig_value*activated_by;  // optional
-  char*activation_date;  // optional
-  char*alternate_key;  // optional
-  char*audit_next_date;  // optional
-  char*audit_notification_date;  // optional
+  voxgig_value*activatedby;  // optional
+  char*activationdate;  // optional
+  char*alternatekey;  // optional
+  char*auditnextdate;  // optional
+  char*auditnotificationdate;  // optional
   voxgig_value*client;  // optional
   char*created;  // optional
-  voxgig_value*created_by;  // optional
-  voxgig_value*device_build;  // optional
-  voxgig_value*device_state;  // optional
-  voxgig_value*device_type;  // optional
-  int64_t error_counter;  // optional
-  char*error_last_date;  // optional
+  voxgig_value*createdby;  // optional
+  voxgig_value*devicebuild;  // optional
+  voxgig_value*devicestate;  // optional
+  voxgig_value*devicetype;  // optional
+  int64_t errorcounter;  // optional
+  char*errorlastdate;  // optional
   char*id;  // optional
-  voxgig_value*initialized_by;  // optional
-  char*initialized_date;  // optional
-  voxgig_value*inject_key;  // optional
-  bool is_virtual;  // optional
+  voxgig_value*initializedby;  // optional
+  char*initializeddate;  // optional
+  voxgig_value*injectkey;  // optional
+  bool isvirtual;  // optional
   voxgig_value*kif;  // optional
-  char*last_activity_date;  // optional
+  char*lastactivitydate;  // optional
   voxgig_value*location;  // optional
   char*modified;  // optional
-  voxgig_value*modified_by;  // optional
+  voxgig_value*modifiedby;  // optional
   char*name;  // optional
-  char*note;  // optional
+  char*notes;  // optional
   voxgig_value*partner;  // optional
-  char*serial_number;  // optional
+  char*serialnumber;  // optional
   int64_t version;  // optional
 } DeviceListMatch;
 
 // DeviceCreateData is the typed request payload for Device.create.
 typedef struct {
-  voxgig_value*activated_by;
-  char*activation_date;  // optional
-  char*alternate_key;  // optional
-  char*audit_next_date;  // optional
-  char*audit_notification_date;  // optional
+  voxgig_value*activatedby;
+  char*activationdate;  // optional
+  char*alternatekey;  // optional
+  char*auditnextdate;  // optional
+  char*auditnotificationdate;  // optional
   voxgig_value*client;  // optional
   char*created;  // optional
-  voxgig_value*created_by;
-  voxgig_value*device_build;  // optional
-  voxgig_value*device_state;  // optional
-  voxgig_value*device_type;  // optional
-  int64_t error_counter;  // optional
-  char*error_last_date;  // optional
+  voxgig_value*createdby;
+  voxgig_value*devicebuild;  // optional
+  voxgig_value*devicestate;  // optional
+  voxgig_value*devicetype;  // optional
+  int64_t errorcounter;  // optional
+  char*errorlastdate;  // optional
   char*id;  // optional
-  voxgig_value*initialized_by;
-  char*initialized_date;  // optional
-  voxgig_value*inject_key;  // optional
-  bool is_virtual;  // optional
+  voxgig_value*initializedby;
+  char*initializeddate;  // optional
+  voxgig_value*injectkey;  // optional
+  bool isvirtual;  // optional
   voxgig_value*kif;  // optional
-  char*last_activity_date;  // optional
+  char*lastactivitydate;  // optional
   voxgig_value*location;
   char*modified;  // optional
-  voxgig_value*modified_by;
+  voxgig_value*modifiedby;
   char*name;  // optional
-  char*note;  // optional
+  char*notes;  // optional
   voxgig_value*partner;  // optional
-  char*serial_number;  // optional
+  char*serialnumber;  // optional
   int64_t version;  // optional
 } DeviceCreateData;
 
 // DeviceBuild is the typed data model for the device_build entity.
 typedef struct {
-  char*app_version;  // optional
-  char*build_number;  // optional
-  char*config_file_name;  // optional
+  char*appversion;  // optional
+  char*buildnumber;  // optional
+  char*configfilename;  // optional
   char*created;  // optional
-  char*device_type;  // optional
-  char*firmware_version;  // optional
-  char*hardware_version;  // optional
+  char*devicetype;  // optional
+  char*firmwareversion;  // optional
+  char*hardwareversion;  // optional
   int64_t id;  // optional
-  bool is_active;  // optional
+  bool isactive;  // optional
   char*modified;  // optional
   char*name;  // optional
-  char*note;  // optional
+  char*notes;  // optional
   int64_t version;  // optional
-  char*white_listing_bin_range;  // optional
-  bool white_listing_used;  // optional
+  char*whitelistingbinranges;  // optional
+  bool whitelistingused;  // optional
 } DeviceBuild;
 
 // DeviceBuildLoadMatch is the typed request payload for DeviceBuild.load.
@@ -257,37 +257,37 @@ typedef struct {
 
 // DeviceBuildListMatch is the typed request payload for DeviceBuild.list.
 typedef struct {
-  char*app_version;  // optional
-  char*build_number;  // optional
-  char*config_file_name;  // optional
+  char*appversion;  // optional
+  char*buildnumber;  // optional
+  char*configfilename;  // optional
   char*created;  // optional
-  char*device_type;  // optional
-  char*firmware_version;  // optional
-  char*hardware_version;  // optional
+  char*devicetype;  // optional
+  char*firmwareversion;  // optional
+  char*hardwareversion;  // optional
   int64_t id;  // optional
-  bool is_active;  // optional
+  bool isactive;  // optional
   char*modified;  // optional
   char*name;  // optional
-  char*note;  // optional
+  char*notes;  // optional
   int64_t version;  // optional
-  char*white_listing_bin_range;  // optional
-  bool white_listing_used;  // optional
+  char*whitelistingbinranges;  // optional
+  bool whitelistingused;  // optional
 } DeviceBuildListMatch;
 
 // DeviceCustodyDetail is the typed data model for the device_custody_detail entity.
 typedef struct {
-  char*complete_date;  // optional
+  char*completedate;  // optional
   char*created;  // optional
-  voxgig_value*created_by;
+  voxgig_value*createdby;
   voxgig_value*custodian;
   voxgig_value*device;  // optional
   int64_t id;  // optional
   voxgig_value*location;
   char*modified;  // optional
-  voxgig_value*modified_by;
-  char*note;  // optional
+  voxgig_value*modifiedby;
+  char*notes;  // optional
   voxgig_value*status;  // optional
-  voxgig_value*transfer_method;  // optional
+  voxgig_value*transfermethod;  // optional
   int64_t version;  // optional
 } DeviceCustodyDetail;
 
@@ -300,18 +300,18 @@ typedef struct {
 
 // DeviceCustodyList is the typed data model for the device_custody_list entity.
 typedef struct {
-  char*complete_date;  // optional
+  char*completedate;  // optional
   char*created;  // optional
-  voxgig_value*created_by;
+  voxgig_value*createdby;
   voxgig_value*custodian;
   voxgig_value*device;  // optional
   int64_t id;  // optional
   voxgig_value*location;
   char*modified;  // optional
-  voxgig_value*modified_by;
-  char*note;  // optional
+  voxgig_value*modifiedby;
+  char*notes;  // optional
   voxgig_value*status;  // optional
-  voxgig_value*transfer_method;  // optional
+  voxgig_value*transfermethod;  // optional
   int64_t version;  // optional
 } DeviceCustodyList;
 
@@ -367,16 +367,16 @@ typedef struct {
 // DeviceType is the typed data model for the device_type entity.
 typedef struct {
   char*created;  // optional
-  char*device_type_mode;  // optional
-  char*hardware_version;  // optional
+  char*devicetypemode;  // optional
+  char*hardwareversion;  // optional
   char*id;  // optional
-  bool is_active;  // optional
+  bool isactive;  // optional
   char*manufacturer;  // optional
   char*model;  // optional
   char*modified;  // optional
   char*name;  // optional
-  char*photo_url;  // optional
-  char*product_name;  // optional
+  char*photourl;  // optional
+  char*productname;  // optional
   int64_t version;  // optional
 } DeviceType;
 
@@ -388,16 +388,16 @@ typedef struct {
 // DeviceTypeListMatch is the typed request payload for DeviceType.list.
 typedef struct {
   char*created;  // optional
-  char*device_type_mode;  // optional
-  char*hardware_version;  // optional
+  char*devicetypemode;  // optional
+  char*hardwareversion;  // optional
   char*id;  // optional
-  bool is_active;  // optional
+  bool isactive;  // optional
   char*manufacturer;  // optional
   char*model;  // optional
   char*modified;  // optional
   char*name;  // optional
-  char*photo_url;  // optional
-  char*product_name;  // optional
+  char*photourl;  // optional
+  char*productname;  // optional
   int64_t version;  // optional
 } DeviceTypeListMatch;
 
@@ -405,9 +405,9 @@ typedef struct {
 typedef struct {
   char*created;  // optional
   char*id;  // optional
-  bool is_active;  // optional
-  bool is_p2_pe;  // optional
-  char*key_type;  // optional
+  bool isactive;  // optional
+  bool isp2pe;  // optional
+  char*keytype;  // optional
   char*modified;  // optional
   char*name;  // optional
   int64_t version;  // optional
@@ -422,9 +422,9 @@ typedef struct {
 typedef struct {
   char*created;  // optional
   char*id;  // optional
-  bool is_active;  // optional
-  bool is_p2_pe;  // optional
-  char*key_type;  // optional
+  bool isactive;  // optional
+  bool isp2pe;  // optional
+  char*keytype;  // optional
   char*modified;  // optional
   char*name;  // optional
   int64_t version;  // optional
@@ -446,26 +446,26 @@ typedef struct {
 typedef struct {
   char*address1;  // optional
   char*address2;  // optional
-  char*billing_id;  // optional
+  char*billingid;  // optional
   char*city;  // optional
   char*country;  // optional
   char*created;  // optional
-  char*custom_reference;  // optional
+  char*customreference;  // optional
   char*id;  // optional
-  char*location_type;  // optional
-  char*mail_address1;  // optional
-  char*mail_address2;  // optional
-  char*mail_city;  // optional
-  char*mail_country;  // optional
-  char*mail_postal_code;  // optional
-  char*mail_state_province;  // optional
+  char*locationtype;  // optional
+  char*mailaddress1;  // optional
+  char*mailaddress2;  // optional
+  char*mailcity;  // optional
+  char*mailcountry;  // optional
+  char*mailpostalcode;  // optional
+  char*mailstateprovince;  // optional
   char*modified;  // optional
   char*name;  // optional
-  char*name_of_business;  // optional
-  char*note;  // optional
-  char*postal_code;  // optional
-  char*state_province;  // optional
-  char*unique_id;  // optional
+  char*nameofbusiness;  // optional
+  char*notes;  // optional
+  char*postalcode;  // optional
+  char*stateprovince;  // optional
+  char*uniqueid;  // optional
   int64_t version;  // optional
 } Location;
 
@@ -478,26 +478,26 @@ typedef struct {
 typedef struct {
   char*address1;  // optional
   char*address2;  // optional
-  char*billing_id;  // optional
+  char*billingid;  // optional
   char*city;  // optional
   char*country;  // optional
   char*created;  // optional
-  char*custom_reference;  // optional
+  char*customreference;  // optional
   char*id;  // optional
-  char*location_type;  // optional
-  char*mail_address1;  // optional
-  char*mail_address2;  // optional
-  char*mail_city;  // optional
-  char*mail_country;  // optional
-  char*mail_postal_code;  // optional
-  char*mail_state_province;  // optional
+  char*locationtype;  // optional
+  char*mailaddress1;  // optional
+  char*mailaddress2;  // optional
+  char*mailcity;  // optional
+  char*mailcountry;  // optional
+  char*mailpostalcode;  // optional
+  char*mailstateprovince;  // optional
   char*modified;  // optional
   char*name;  // optional
-  char*name_of_business;  // optional
-  char*note;  // optional
-  char*postal_code;  // optional
-  char*state_province;  // optional
-  char*unique_id;  // optional
+  char*nameofbusiness;  // optional
+  char*notes;  // optional
+  char*postalcode;  // optional
+  char*stateprovince;  // optional
+  char*uniqueid;  // optional
   int64_t version;  // optional
 } LocationListMatch;
 
@@ -505,26 +505,26 @@ typedef struct {
 typedef struct {
   char*address1;  // optional
   char*address2;  // optional
-  char*billing_id;  // optional
+  char*billingid;  // optional
   char*city;  // optional
   char*country;  // optional
   char*created;  // optional
-  char*custom_reference;  // optional
+  char*customreference;  // optional
   char*id;  // optional
-  char*location_type;  // optional
-  char*mail_address1;  // optional
-  char*mail_address2;  // optional
-  char*mail_city;  // optional
-  char*mail_country;  // optional
-  char*mail_postal_code;  // optional
-  char*mail_state_province;  // optional
+  char*locationtype;  // optional
+  char*mailaddress1;  // optional
+  char*mailaddress2;  // optional
+  char*mailcity;  // optional
+  char*mailcountry;  // optional
+  char*mailpostalcode;  // optional
+  char*mailstateprovince;  // optional
   char*modified;  // optional
   char*name;  // optional
-  char*name_of_business;  // optional
-  char*note;  // optional
-  char*postal_code;  // optional
-  char*state_province;  // optional
-  char*unique_id;  // optional
+  char*nameofbusiness;  // optional
+  char*notes;  // optional
+  char*postalcode;  // optional
+  char*stateprovince;  // optional
+  char*uniqueid;  // optional
   int64_t version;  // optional
 } LocationCreateData;
 
@@ -535,19 +535,19 @@ typedef struct {
 
 // Partner is the typed data model for the partner entity.
 typedef struct {
-  char*billing_id;  // optional
-  bool client_can_order_equipment;  // optional
+  char*billingid;  // optional
+  bool clientcanorderequipment;  // optional
   voxgig_value*contact;  // optional
   char*created;  // optional
   char*id;  // optional
-  bool is_active;  // optional
+  bool isactive;  // optional
   voxgig_value*location;
   char*modified;  // optional
   char*name;  // optional
   voxgig_value*parent;  // optional
-  char*partner_id;  // optional
+  char*partnerid;  // optional
   char*reference;  // optional
-  char*verification_phrase;  // optional
+  char*verificationphrase;  // optional
   int64_t version;  // optional
 } Partner;
 
@@ -558,37 +558,37 @@ typedef struct {
 
 // PartnerListMatch is the typed request payload for Partner.list.
 typedef struct {
-  char*billing_id;  // optional
-  bool client_can_order_equipment;  // optional
+  char*billingid;  // optional
+  bool clientcanorderequipment;  // optional
   voxgig_value*contact;  // optional
   char*created;  // optional
   char*id;  // optional
-  bool is_active;  // optional
+  bool isactive;  // optional
   voxgig_value*location;  // optional
   char*modified;  // optional
   char*name;  // optional
   voxgig_value*parent;  // optional
-  char*partner_id;  // optional
+  char*partnerid;  // optional
   char*reference;  // optional
-  char*verification_phrase;  // optional
+  char*verificationphrase;  // optional
   int64_t version;  // optional
 } PartnerListMatch;
 
 // PartnerCreateData is the typed request payload for Partner.create.
 typedef struct {
-  char*billing_id;  // optional
-  bool client_can_order_equipment;  // optional
+  char*billingid;  // optional
+  bool clientcanorderequipment;  // optional
   voxgig_value*contact;  // optional
   char*created;  // optional
   char*id;  // optional
-  bool is_active;  // optional
+  bool isactive;  // optional
   voxgig_value*location;
   char*modified;  // optional
   char*name;  // optional
   voxgig_value*parent;  // optional
-  char*partner_id;  // optional
+  char*partnerid;  // optional
   char*reference;  // optional
-  char*verification_phrase;  // optional
+  char*verificationphrase;  // optional
   int64_t version;  // optional
 } PartnerCreateData;
 
@@ -597,15 +597,15 @@ typedef struct {
   char*carrier;  // optional
   voxgig_value*client;  // optional
   char*created;  // optional
-  char*date_received;  // optional
-  char*date_shipped;  // optional
-  voxgig_value*dc_kif;  // optional
+  char*datereceived;  // optional
+  char*dateshipped;  // optional
+  voxgig_value*dckif;  // optional
   char*id;  // optional
-  voxgig_value*item;  // optional
+  voxgig_value*items;  // optional
   voxgig_value*kif;  // optional
   char*modified;  // optional
   voxgig_value*partner;  // optional
-  char*shipment_type;  // optional
+  char*shipmenttype;  // optional
   char*tracking;  // optional
   int64_t version;  // optional
 } Shipment;
@@ -620,15 +620,15 @@ typedef struct {
   char*carrier;  // optional
   voxgig_value*client;  // optional
   char*created;  // optional
-  char*date_received;  // optional
-  char*date_shipped;  // optional
-  voxgig_value*dc_kif;  // optional
+  char*datereceived;  // optional
+  char*dateshipped;  // optional
+  voxgig_value*dckif;  // optional
   char*id;  // optional
-  voxgig_value*item;  // optional
+  voxgig_value*items;  // optional
   voxgig_value*kif;  // optional
   char*modified;  // optional
   voxgig_value*partner;  // optional
-  char*shipment_type;  // optional
+  char*shipmenttype;  // optional
   char*tracking;  // optional
   int64_t version;  // optional
 } ShipmentListMatch;
@@ -638,15 +638,15 @@ typedef struct {
   char*carrier;  // optional
   voxgig_value*client;  // optional
   char*created;  // optional
-  char*date_received;  // optional
-  char*date_shipped;  // optional
-  voxgig_value*dc_kif;  // optional
+  char*datereceived;  // optional
+  char*dateshipped;  // optional
+  voxgig_value*dckif;  // optional
   char*id;  // optional
-  voxgig_value*item;  // optional
+  voxgig_value*items;  // optional
   voxgig_value*kif;  // optional
   char*modified;  // optional
   voxgig_value*partner;  // optional
-  char*shipment_type;  // optional
+  char*shipmenttype;  // optional
   char*tracking;  // optional
   int64_t version;  // optional
 } ShipmentCreateData;
@@ -659,6 +659,7 @@ typedef struct {
 // SuccessCreateData is the typed request payload for Success.create.
 typedef struct {
   char*share_partner_to;
+  bool success;  // optional
 } SuccessCreateData;
 
 // SuccessRemoveMatch is the typed request payload for Success.remove.
@@ -668,30 +669,30 @@ typedef struct {
 
 // Transaction is the typed data model for the transaction entity.
 typedef struct {
-  char*alternate_key;  // optional
+  char*alternatekey;  // optional
   voxgig_value*client;  // optional
-  char*client_ref;  // optional
+  char*clientref;  // optional
   char*created;  // optional
   int64_t decrypted;  // optional
-  char*device_name;  // optional
-  voxgig_value*direct_partner;  // optional
+  char*devicename;  // optional
+  voxgig_value*directpartner;  // optional
   int64_t encrypted;  // optional
-  char*end_date;  // optional
-  char*err_code;  // optional
-  char*err_message;  // optional
+  char*enddate;  // optional
+  char*errcode;  // optional
+  char*errmessage;  // optional
   char*id;  // optional
-  char*ip_address;  // optional
-  bool is_virtual;  // optional
-  char*key_type;  // optional
+  char*ipaddress;  // optional
+  bool isvirtual;  // optional
+  char*keytype;  // optional
   voxgig_value*location;
-  char*message_id;  // optional
+  char*messageid;  // optional
   char*method;  // optional
   voxgig_value*partner;  // optional
   char*reference;  // optional
-  char*serial_number;  // optional
-  char*start_date;  // optional
+  char*serialnumber;  // optional
+  char*startdate;  // optional
   bool success;  // optional
-  char*transaction_source;  // optional
+  char*transactionsource;  // optional
 } Transaction;
 
 // TransactionLoadMatch is the typed request payload for Transaction.load.
@@ -701,73 +702,73 @@ typedef struct {
 
 // TransactionListMatch is the typed request payload for Transaction.list.
 typedef struct {
-  char*alternate_key;  // optional
+  char*alternatekey;  // optional
   voxgig_value*client;  // optional
-  char*client_ref;  // optional
+  char*clientref;  // optional
   char*created;  // optional
   int64_t decrypted;  // optional
-  char*device_name;  // optional
-  voxgig_value*direct_partner;  // optional
+  char*devicename;  // optional
+  voxgig_value*directpartner;  // optional
   int64_t encrypted;  // optional
-  char*end_date;  // optional
-  char*err_code;  // optional
-  char*err_message;  // optional
+  char*enddate;  // optional
+  char*errcode;  // optional
+  char*errmessage;  // optional
   char*id;  // optional
-  char*ip_address;  // optional
-  bool is_virtual;  // optional
-  char*key_type;  // optional
+  char*ipaddress;  // optional
+  bool isvirtual;  // optional
+  char*keytype;  // optional
   voxgig_value*location;  // optional
-  char*message_id;  // optional
+  char*messageid;  // optional
   char*method;  // optional
   voxgig_value*partner;  // optional
   char*reference;  // optional
-  char*serial_number;  // optional
-  char*start_date;  // optional
+  char*serialnumber;  // optional
+  char*startdate;  // optional
   bool success;  // optional
-  char*transaction_source;  // optional
+  char*transactionsource;  // optional
 } TransactionListMatch;
 
 // TransactionCreateData is the typed request payload for Transaction.create.
 typedef struct {
-  char*alternate_key;  // optional
+  char*alternatekey;  // optional
   voxgig_value*client;  // optional
-  char*client_ref;  // optional
+  char*clientref;  // optional
   char*created;  // optional
   int64_t decrypted;  // optional
-  char*device_name;  // optional
-  voxgig_value*direct_partner;  // optional
+  char*devicename;  // optional
+  voxgig_value*directpartner;  // optional
   int64_t encrypted;  // optional
-  char*end_date;  // optional
-  char*err_code;  // optional
-  char*err_message;  // optional
+  char*enddate;  // optional
+  char*errcode;  // optional
+  char*errmessage;  // optional
   char*id;  // optional
-  char*ip_address;  // optional
-  bool is_virtual;  // optional
-  char*key_type;  // optional
+  char*ipaddress;  // optional
+  bool isvirtual;  // optional
+  char*keytype;  // optional
   voxgig_value*location;
-  char*message_id;  // optional
+  char*messageid;  // optional
   char*method;  // optional
   voxgig_value*partner;  // optional
   char*reference;  // optional
-  char*serial_number;  // optional
-  char*start_date;  // optional
+  char*serialnumber;  // optional
+  char*startdate;  // optional
   bool success;  // optional
-  char*transaction_source;  // optional
+  char*transactionsource;  // optional
 } TransactionCreateData;
 
 // UpdateResult is the typed data model for the update_result entity.
 typedef struct {
   voxgig_value*client;  // optional
   char*email;  // optional
-  char*first_name;  // optional
+  char*firstname;  // optional
   char*id;  // optional
-  bool is_active;  // optional
+  bool isactive;  // optional
   voxgig_value*kif;  // optional
-  char*last_name;  // optional
+  char*lastname;  // optional
   voxgig_value*partner;  // optional
   char*phone;  // optional
-  char*user_name;  // optional
-  voxgig_value*user_role;  // optional
+  char*username;  // optional
+  voxgig_value*userrole;  // optional
   int64_t version;  // optional
 } UpdateResult;
 
@@ -775,15 +776,15 @@ typedef struct {
 typedef struct {
   voxgig_value*client;  // optional
   char*email;  // optional
-  char*first_name;  // optional
+  char*firstname;  // optional
   char*id;  // optional
-  bool is_active;  // optional
+  bool isactive;  // optional
   voxgig_value*kif;  // optional
-  char*last_name;  // optional
+  char*lastname;  // optional
   voxgig_value*partner;  // optional
   char*phone;  // optional
-  char*user_name;  // optional
-  voxgig_value*user_role;  // optional
+  char*username;  // optional
+  voxgig_value*userrole;  // optional
   int64_t version;  // optional
 } UpdateResultListMatch;
 
@@ -791,21 +792,32 @@ typedef struct {
 typedef struct {
   voxgig_value*client;  // optional
   char*email;  // optional
-  char*first_name;  // optional
+  char*firstname;  // optional
   char*id;  // optional
-  bool is_active;  // optional
+  bool isactive;  // optional
   voxgig_value*kif;  // optional
-  char*last_name;  // optional
+  char*lastname;  // optional
   voxgig_value*partner;  // optional
   char*phone;  // optional
-  char*user_name;  // optional
-  voxgig_value*user_role;  // optional
+  char*username;  // optional
+  voxgig_value*userrole;  // optional
   int64_t version;  // optional
 } UpdateResultCreateData;
 
 // UpdateResultUpdateData is the typed request payload for UpdateResult.update.
 typedef struct {
   char*id;
+  voxgig_value*client;  // optional
+  char*email;  // optional
+  char*firstname;  // optional
+  bool isactive;  // optional
+  voxgig_value*kif;  // optional
+  char*lastname;  // optional
+  voxgig_value*partner;  // optional
+  char*phone;  // optional
+  char*username;  // optional
+  voxgig_value*userrole;  // optional
+  int64_t version;  // optional
 } UpdateResultUpdateData;
 
 // User is the typed data model for the user entity.
@@ -813,16 +825,16 @@ typedef struct {
   voxgig_value*client;  // optional
   char*created;  // optional
   char*email;  // optional
-  char*first_name;  // optional
+  char*firstname;  // optional
   char*id;  // optional
-  bool is_active;  // optional
+  bool isactive;  // optional
   voxgig_value*kif;  // optional
-  char*last_name;  // optional
+  char*lastname;  // optional
   char*modified;  // optional
   voxgig_value*partner;  // optional
   char*phone;  // optional
-  char*user_name;  // optional
-  voxgig_value*user_role;  // optional
+  char*username;  // optional
+  voxgig_value*userrole;  // optional
   int64_t version;  // optional
 } User;
 

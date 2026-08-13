@@ -37,7 +37,7 @@ class DeviceStateEntity extends BluefinDecryptxP2peEntityBase<DeviceState> {
 
 
 
-  async list(this: any, reqmatch?: DeviceStateListMatch, ctrl?: Control): Promise<DeviceState[]> {
+  async list(this: any, reqmatch?: DeviceStateListMatch, ctrl?: Control): Promise<DeviceStateEntity[]> {
 
     const utility = this._utility
 

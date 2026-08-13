@@ -21,17 +21,17 @@ main: kit: entity: shipment: {
       type: "`$STRING`"
     }
     {
-      name: "date_received"
+      name: "dateReceived"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "date_shipped"
+      name: "dateShipped"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "dc_kif"
+      name: "dcKif"
       req: false
       type: "`$OBJECT`"
     }
@@ -41,7 +41,7 @@ main: kit: entity: shipment: {
       type: "`$STRING`"
     }
     {
-      name: "item"
+      name: "items"
       req: false
       type: "`$ARRAY`"
     }
@@ -61,7 +61,7 @@ main: kit: entity: shipment: {
       type: "`$OBJECT`"
     }
     {
-      name: "shipment_type"
+      name: "shipmentType"
       req: false
       type: "`$STRING`"
     }

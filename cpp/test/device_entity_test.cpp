@@ -38,15 +38,15 @@ static DeviceSetup device_basic_setup(const Value& extra) {
   if (!idmap.is_map()) idmap = vmap();
 
   Value env = env_override(vmap({
-    {"BLUEFINDECRYPTXP_PE_TEST_DEVICE_ENTID", idmap},
-    {"BLUEFINDECRYPTXP_PE_TEST_LIVE", Value("FALSE")},
-    {"BLUEFINDECRYPTXP_PE_TEST_EXPLAIN", Value("FALSE")}
+    {"BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_ENTID", idmap},
+    {"BLUEFIN_DECRYPTX_P2PE_TEST_LIVE", Value("FALSE")},
+    {"BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN", Value("FALSE")}
   }));
 
-  Value idmap_resolved = Helpers::toMapAny(getp(env, "BLUEFINDECRYPTXP_PE_TEST_DEVICE_ENTID"));
+  Value idmap_resolved = Helpers::toMapAny(getp(env, "BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_ENTID"));
   if (!idmap_resolved.is_map()) idmap_resolved = idmap;
 
-  bool live = getp(env, "BLUEFINDECRYPTXP_PE_TEST_LIVE") == Value("TRUE");
+  bool live = getp(env, "BLUEFIN_DECRYPTX_P2PE_TEST_LIVE") == Value("TRUE");
 
   DeviceSetup s;
   s.client = client;
@@ -64,6 +64,7 @@ static void device_entity_instance() {
   auto ent = testsdk->device();
   ASSERT_EQ(ent->getName(), std::string("device"), "entity name");
 }
+
 
 static void device_entity_stream() {
   // stream() runs the list op through the full pipeline and returns the
@@ -101,7 +102,7 @@ static void device_entity_basic() {
   if (!device_ref01_data.is_map()) device_ref01_data = vmap();
   setp(device_ref01_data, "serial_number", getp(setup.idmap, "serial_number01"));
   {
-    Value device_ref01_data_result = device_ref01_ent->create(Struct::clone(device_ref01_data), Value::undef());
+    Value device_ref01_data_result = device_ref01_ent->create(Struct::clone(device_ref01_data), Value::undef())->data();
     device_ref01_data = Helpers::toMapAny(device_ref01_data_result);
     if (!device_ref01_data.is_map()) device_ref01_data = vmap();
     ASSERT_TRUE(device_ref01_data.is_map(), "expected create result to be a map");
@@ -110,7 +111,10 @@ static void device_entity_basic() {
 
   // LIST
   Value device_ref01_match = vmap();
-  Value device_ref01_list = device_ref01_ent->list(Struct::clone(device_ref01_match), Value::undef());
+  auto device_ref01_list_ents = device_ref01_ent->list(Struct::clone(device_ref01_match), Value::undef());
+  // list resolves to one ENTITY per record; the flow asserts on the records.
+  Value device_ref01_list = vlist();
+  for (const auto& e : device_ref01_list_ents) { device_ref01_list.as_list()->push_back(e->data()); }
   ASSERT_TRUE(device_ref01_list.is_list(), "expected list result to be an array");
   {
     std::vector<Value> found = Struct::select(entity_list_to_data(device_ref01_list), vmap({{"id", getp(device_ref01_data, "id")}}));
@@ -119,7 +123,7 @@ static void device_entity_basic() {
 
   // LOAD
   Value device_ref01_match_dt0 = vmap({{"id", getp(device_ref01_data, "id")}});
-  Value device_ref01_data_dt0_loaded = device_ref01_ent->load(Struct::clone(device_ref01_match_dt0), Value::undef());
+  Value device_ref01_data_dt0_loaded = device_ref01_ent->load(Struct::clone(device_ref01_match_dt0), Value::undef())->data();
   Value device_ref01_data_dt0_load_result = Helpers::toMapAny(device_ref01_data_dt0_loaded);
   ASSERT_TRUE(device_ref01_data_dt0_load_result.is_map(), "expected load result to be a map");
   ASSERT_EQ_VAL(getp(device_ref01_data_dt0_load_result, "id"), getp(device_ref01_data, "id"), "expected load result id to match");

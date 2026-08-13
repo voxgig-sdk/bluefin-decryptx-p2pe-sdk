@@ -172,12 +172,12 @@ attestation = BluefinDecryptxP2pe.attestation(sdk)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `client` | `map()` | No |  |
-| `complete_date` | `String.t()` | No |  |
+| `completeDate` | `String.t()` | No |  |
 | `created` | `String.t()` | No |  |
 | `device` | `map()` | No |  |
 | `id` | `String.t()` | No |  |
 | `name` | `String.t()` | No |  |
-| `note` | `String.t()` | No |  |
+| `notes` | `String.t()` | No |  |
 
 ### Operations
 
@@ -247,9 +247,9 @@ client = BluefinDecryptxP2pe.client(sdk)
 | --- | --- | --- | --- |
 | `contact` | `map()` | No |  |
 | `created` | `String.t()` | No |  |
-| `direct_partner` | `map()` | No |  |
+| `directPartner` | `map()` | No |  |
 | `id` | `String.t()` | No |  |
-| `is_active` | `boolean()` | No |  |
+| `isActive` | `boolean()` | No |  |
 | `location` | `map()` | Yes |  |
 | `mid` | `String.t()` | No |  |
 | `modified` | `String.t()` | No |  |
@@ -432,33 +432,33 @@ device = BluefinDecryptxP2pe.device(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `activated_by` | `map()` | Yes |  |
-| `activation_date` | `String.t()` | No |  |
-| `alternate_key` | `String.t()` | No |  |
-| `audit_next_date` | `String.t()` | No |  |
-| `audit_notification_date` | `String.t()` | No |  |
+| `activatedBy` | `map()` | Yes |  |
+| `activationDate` | `String.t()` | No |  |
+| `alternateKey` | `String.t()` | No |  |
+| `auditNextDate` | `String.t()` | No |  |
+| `auditNotificationDate` | `String.t()` | No |  |
 | `client` | `map()` | No |  |
 | `created` | `String.t()` | No |  |
-| `created_by` | `map()` | Yes |  |
-| `device_build` | `map()` | No |  |
-| `device_state` | `map()` | No |  |
-| `device_type` | `map()` | No |  |
-| `error_counter` | `integer()` | No |  |
-| `error_last_date` | `String.t()` | No |  |
+| `createdBy` | `map()` | Yes |  |
+| `deviceBuild` | `map()` | No |  |
+| `deviceState` | `map()` | No |  |
+| `deviceType` | `map()` | No |  |
+| `errorCounter` | `integer()` | No |  |
+| `errorLastDate` | `String.t()` | No |  |
 | `id` | `String.t()` | No |  |
-| `initialized_by` | `map()` | Yes |  |
-| `initialized_date` | `String.t()` | No |  |
-| `inject_key` | `map()` | No |  |
-| `is_virtual` | `boolean()` | No |  |
+| `initializedBy` | `map()` | Yes |  |
+| `initializedDate` | `String.t()` | No |  |
+| `injectKey` | `map()` | No |  |
+| `isVirtual` | `boolean()` | No |  |
 | `kif` | `map()` | No |  |
-| `last_activity_date` | `String.t()` | No |  |
+| `lastActivityDate` | `String.t()` | No |  |
 | `location` | `map()` | Yes |  |
 | `modified` | `String.t()` | No |  |
-| `modified_by` | `map()` | Yes |  |
+| `modifiedBy` | `map()` | Yes |  |
 | `name` | `String.t()` | No |  |
-| `note` | `String.t()` | No |  |
+| `notes` | `String.t()` | No |  |
 | `partner` | `map()` | No |  |
-| `serial_number` | `String.t()` | No |  |
+| `serialNumber` | `String.t()` | No |  |
 | `version` | `integer()` | No |  |
 
 ### Operations
@@ -469,11 +469,11 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```elixir
 record = BluefinDecryptxP2pe.Entity.Device.create(device, BluefinDecryptxP2pe.Helpers.deep(%{
-  "activated_by" => %{},  # map()
-  "created_by" => %{},  # map()
-  "initialized_by" => %{},  # map()
+  "activatedBy" => %{},  # map()
+  "createdBy" => %{},  # map()
+  "initializedBy" => %{},  # map()
   "location" => %{},  # map()
-  "modified_by" => %{},  # map()
+  "modifiedBy" => %{},  # map()
 }))
 ```
 
@@ -532,21 +532,21 @@ device_build = BluefinDecryptxP2pe.device_build(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `app_version` | `String.t()` | No |  |
-| `build_number` | `String.t()` | No |  |
-| `config_file_name` | `String.t()` | No |  |
+| `appVersion` | `String.t()` | No |  |
+| `buildNumber` | `String.t()` | No |  |
+| `configFileName` | `String.t()` | No |  |
 | `created` | `String.t()` | No |  |
-| `device_type` | `String.t()` | No |  |
-| `firmware_version` | `String.t()` | No |  |
-| `hardware_version` | `String.t()` | No |  |
+| `deviceType` | `String.t()` | No |  |
+| `firmwareVersion` | `String.t()` | No |  |
+| `hardwareVersion` | `String.t()` | No |  |
 | `id` | `integer()` | No |  |
-| `is_active` | `boolean()` | No |  |
+| `isActive` | `boolean()` | No |  |
 | `modified` | `String.t()` | No |  |
 | `name` | `String.t()` | No |  |
-| `note` | `String.t()` | No |  |
+| `notes` | `String.t()` | No |  |
 | `version` | `integer()` | No |  |
-| `white_listing_bin_range` | `String.t()` | No |  |
-| `white_listing_used` | `boolean()` | No |  |
+| `whiteListingBinRanges` | `String.t()` | No |  |
+| `whiteListingUsed` | `boolean()` | No |  |
 
 ### Operations
 
@@ -605,18 +605,18 @@ device_custody_detail = BluefinDecryptxP2pe.device_custody_detail(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `complete_date` | `String.t()` | No |  |
+| `completeDate` | `String.t()` | No |  |
 | `created` | `String.t()` | No |  |
-| `created_by` | `map()` | Yes |  |
+| `createdBy` | `map()` | Yes |  |
 | `custodian` | `map()` | Yes |  |
 | `device` | `map()` | No |  |
 | `id` | `integer()` | No |  |
 | `location` | `map()` | Yes |  |
 | `modified` | `String.t()` | No |  |
-| `modified_by` | `map()` | Yes |  |
-| `note` | `String.t()` | No |  |
+| `modifiedBy` | `map()` | Yes |  |
+| `notes` | `String.t()` | No |  |
 | `status` | `map()` | No |  |
-| `transfer_method` | `map()` | No |  |
+| `transferMethod` | `map()` | No |  |
 | `version` | `integer()` | No |  |
 
 ### Operations
@@ -668,18 +668,18 @@ device_custody_list = BluefinDecryptxP2pe.device_custody_list(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `complete_date` | `String.t()` | No |  |
+| `completeDate` | `String.t()` | No |  |
 | `created` | `String.t()` | No |  |
-| `created_by` | `map()` | Yes |  |
+| `createdBy` | `map()` | Yes |  |
 | `custodian` | `map()` | Yes |  |
 | `device` | `map()` | No |  |
 | `id` | `integer()` | No |  |
 | `location` | `map()` | Yes |  |
 | `modified` | `String.t()` | No |  |
-| `modified_by` | `map()` | Yes |  |
-| `note` | `String.t()` | No |  |
+| `modifiedBy` | `map()` | Yes |  |
+| `notes` | `String.t()` | No |  |
 | `status` | `map()` | No |  |
-| `transfer_method` | `map()` | No |  |
+| `transferMethod` | `map()` | No |  |
 | `version` | `integer()` | No |  |
 
 ### Operations
@@ -942,16 +942,16 @@ device_type = BluefinDecryptxP2pe.device_type(sdk)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `created` | `String.t()` | No |  |
-| `device_type_mode` | `String.t()` | No |  |
-| `hardware_version` | `String.t()` | No |  |
+| `deviceTypeMode` | `String.t()` | No |  |
+| `hardwareVersion` | `String.t()` | No |  |
 | `id` | `String.t()` | No |  |
-| `is_active` | `boolean()` | No |  |
+| `isActive` | `boolean()` | No |  |
 | `manufacturer` | `String.t()` | No |  |
 | `model` | `String.t()` | No |  |
 | `modified` | `String.t()` | No |  |
 | `name` | `String.t()` | No |  |
-| `photo_url` | `String.t()` | No |  |
-| `product_name` | `String.t()` | No |  |
+| `photoUrl` | `String.t()` | No |  |
+| `productName` | `String.t()` | No |  |
 | `version` | `integer()` | No |  |
 
 ### Operations
@@ -1013,9 +1013,9 @@ inject_key = BluefinDecryptxP2pe.inject_key(sdk)
 | --- | --- | --- | --- |
 | `created` | `String.t()` | No |  |
 | `id` | `String.t()` | No |  |
-| `is_active` | `boolean()` | No |  |
-| `is_p2_pe` | `boolean()` | No |  |
-| `key_type` | `String.t()` | No |  |
+| `isActive` | `boolean()` | No |  |
+| `isP2PE` | `boolean()` | No |  |
+| `keyType` | `String.t()` | No |  |
 | `modified` | `String.t()` | No |  |
 | `name` | `String.t()` | No |  |
 | `version` | `integer()` | No |  |
@@ -1131,26 +1131,26 @@ location = BluefinDecryptxP2pe.location(sdk)
 | --- | --- | --- | --- |
 | `address1` | `String.t()` | No |  |
 | `address2` | `String.t()` | No |  |
-| `billing_id` | `String.t()` | No |  |
+| `billingId` | `String.t()` | No |  |
 | `city` | `String.t()` | No |  |
 | `country` | `String.t()` | No |  |
 | `created` | `String.t()` | No |  |
-| `custom_reference` | `String.t()` | No |  |
+| `customReference` | `String.t()` | No |  |
 | `id` | `String.t()` | No |  |
-| `location_type` | `String.t()` | No |  |
-| `mail_address1` | `String.t()` | No |  |
-| `mail_address2` | `String.t()` | No |  |
-| `mail_city` | `String.t()` | No |  |
-| `mail_country` | `String.t()` | No |  |
-| `mail_postal_code` | `String.t()` | No |  |
-| `mail_state_province` | `String.t()` | No |  |
+| `locationType` | `String.t()` | No |  |
+| `mailAddress1` | `String.t()` | No |  |
+| `mailAddress2` | `String.t()` | No |  |
+| `mailCity` | `String.t()` | No |  |
+| `mailCountry` | `String.t()` | No |  |
+| `mailPostalCode` | `String.t()` | No |  |
+| `mailStateProvince` | `String.t()` | No |  |
 | `modified` | `String.t()` | No |  |
 | `name` | `String.t()` | No |  |
-| `name_of_business` | `String.t()` | No |  |
-| `note` | `String.t()` | No |  |
-| `postal_code` | `String.t()` | No |  |
-| `state_province` | `String.t()` | No |  |
-| `unique_id` | `String.t()` | No |  |
+| `nameOfBusiness` | `String.t()` | No |  |
+| `notes` | `String.t()` | No |  |
+| `postalCode` | `String.t()` | No |  |
+| `stateProvince` | `String.t()` | No |  |
+| `uniqueId` | `String.t()` | No |  |
 | `version` | `integer()` | No |  |
 
 ### Operations
@@ -1227,19 +1227,19 @@ partner = BluefinDecryptxP2pe.partner(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `billing_id` | `String.t()` | No |  |
-| `client_can_order_equipment` | `boolean()` | No |  |
+| `billingId` | `String.t()` | No |  |
+| `clientCanOrderEquipment` | `boolean()` | No |  |
 | `contact` | `map()` | No |  |
 | `created` | `String.t()` | No |  |
 | `id` | `String.t()` | No |  |
-| `is_active` | `boolean()` | No |  |
+| `isActive` | `boolean()` | No |  |
 | `location` | `map()` | Yes |  |
 | `modified` | `String.t()` | No |  |
 | `name` | `String.t()` | No |  |
 | `parent` | `map()` | No |  |
-| `partner_id` | `String.t()` | No |  |
+| `partnerId` | `String.t()` | No |  |
 | `reference` | `String.t()` | No |  |
-| `verification_phrase` | `String.t()` | No |  |
+| `verificationPhrase` | `String.t()` | No |  |
 | `version` | `integer()` | No |  |
 
 ### Operations
@@ -1312,15 +1312,15 @@ shipment = BluefinDecryptxP2pe.shipment(sdk)
 | `carrier` | `String.t()` | No |  |
 | `client` | `map()` | No |  |
 | `created` | `String.t()` | No |  |
-| `date_received` | `String.t()` | No |  |
-| `date_shipped` | `String.t()` | No |  |
-| `dc_kif` | `map()` | No |  |
+| `dateReceived` | `String.t()` | No |  |
+| `dateShipped` | `String.t()` | No |  |
+| `dcKif` | `map()` | No |  |
 | `id` | `String.t()` | No |  |
-| `item` | `list()` | No |  |
+| `items` | `list()` | No |  |
 | `kif` | `map()` | No |  |
 | `modified` | `String.t()` | No |  |
 | `partner` | `map()` | No |  |
-| `shipment_type` | `String.t()` | No |  |
+| `shipmentType` | `String.t()` | No |  |
 | `tracking` | `String.t()` | No |  |
 | `version` | `integer()` | No |  |
 
@@ -1451,30 +1451,30 @@ transaction = BluefinDecryptxP2pe.transaction(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `alternate_key` | `String.t()` | No |  |
+| `alternateKey` | `String.t()` | No |  |
 | `client` | `map()` | No |  |
-| `client_ref` | `String.t()` | No |  |
+| `clientRef` | `String.t()` | No |  |
 | `created` | `String.t()` | No |  |
 | `decrypted` | `integer()` | No |  |
-| `device_name` | `String.t()` | No |  |
-| `direct_partner` | `map()` | No |  |
+| `deviceName` | `String.t()` | No |  |
+| `directPartner` | `map()` | No |  |
 | `encrypted` | `integer()` | No |  |
-| `end_date` | `String.t()` | No |  |
-| `err_code` | `String.t()` | No |  |
-| `err_message` | `String.t()` | No |  |
+| `endDate` | `String.t()` | No |  |
+| `errCode` | `String.t()` | No |  |
+| `errMessage` | `String.t()` | No |  |
 | `id` | `String.t()` | No |  |
-| `ip_address` | `String.t()` | No |  |
-| `is_virtual` | `boolean()` | No |  |
-| `key_type` | `String.t()` | No |  |
+| `ipAddress` | `String.t()` | No |  |
+| `isVirtual` | `boolean()` | No |  |
+| `keyType` | `String.t()` | No |  |
 | `location` | `map()` | Yes |  |
-| `message_id` | `String.t()` | No |  |
+| `messageId` | `String.t()` | No |  |
 | `method` | `String.t()` | No |  |
 | `partner` | `map()` | No |  |
 | `reference` | `String.t()` | No |  |
-| `serial_number` | `String.t()` | No |  |
-| `start_date` | `String.t()` | No |  |
+| `serialNumber` | `String.t()` | No |  |
+| `startDate` | `String.t()` | No |  |
 | `success` | `boolean()` | No |  |
-| `transaction_source` | `String.t()` | No |  |
+| `transactionSource` | `String.t()` | No |  |
 
 ### Operations
 
@@ -1545,15 +1545,15 @@ update_result = BluefinDecryptxP2pe.update_result(sdk)
 | --- | --- | --- | --- |
 | `client` | `map()` | No |  |
 | `email` | `String.t()` | No |  |
-| `first_name` | `String.t()` | No |  |
+| `firstName` | `String.t()` | No |  |
 | `id` | `String.t()` | No |  |
-| `is_active` | `boolean()` | No |  |
+| `isActive` | `boolean()` | No |  |
 | `kif` | `map()` | No |  |
-| `last_name` | `String.t()` | No |  |
+| `lastName` | `String.t()` | No |  |
 | `partner` | `map()` | No |  |
 | `phone` | `String.t()` | No |  |
-| `user_name` | `String.t()` | No |  |
-| `user_role` | `map()` | No |  |
+| `userName` | `String.t()` | No |  |
+| `userRole` | `map()` | No |  |
 | `version` | `integer()` | No |  |
 
 ### Operations
@@ -1628,16 +1628,16 @@ user = BluefinDecryptxP2pe.user(sdk)
 | `client` | `map()` | No |  |
 | `created` | `String.t()` | No |  |
 | `email` | `String.t()` | No |  |
-| `first_name` | `String.t()` | No |  |
+| `firstName` | `String.t()` | No |  |
 | `id` | `String.t()` | No |  |
-| `is_active` | `boolean()` | No |  |
+| `isActive` | `boolean()` | No |  |
 | `kif` | `map()` | No |  |
-| `last_name` | `String.t()` | No |  |
+| `lastName` | `String.t()` | No |  |
 | `modified` | `String.t()` | No |  |
 | `partner` | `map()` | No |  |
 | `phone` | `String.t()` | No |  |
-| `user_name` | `String.t()` | No |  |
-| `user_role` | `map()` | No |  |
+| `userName` | `String.t()` | No |  |
+| `userRole` | `map()` | No |  |
 | `version` | `integer()` | No |  |
 
 ### Operations

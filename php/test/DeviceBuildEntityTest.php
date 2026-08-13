@@ -72,7 +72,7 @@ class DeviceBuildEntityTest extends TestCase
         // The basic flow consumes synthetic IDs from the fixture. In live mode
         // without an *_ENTID env override, those IDs hit the live API and 4xx.
         if (!empty($setup["synthetic_only"])) {
-            $this->markTestSkipped("live entity test uses synthetic IDs from fixture — set BLUEFINDECRYPTXP_PE_TEST_DEVICE_BUILD_ENTID JSON to run live");
+            $this->markTestSkipped("live entity test uses synthetic IDs from fixture — set BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_BUILD_ENTID JSON to run live");
             return;
         }
         $client = $setup["client"];
@@ -97,7 +97,7 @@ class DeviceBuildEntityTest extends TestCase
             "id" => $device_build_ref01_data["id"],
         ];
         $device_build_ref01_data_dt0_loaded = $device_build_ref01_ent->load($device_build_ref01_match_dt0, null);
-        $device_build_ref01_data_dt0_load_result = Helpers::to_map($device_build_ref01_data_dt0_loaded);
+        $device_build_ref01_data_dt0_load_result = Helpers::to_map(is_object($device_build_ref01_data_dt0_loaded) && method_exists($device_build_ref01_data_dt0_loaded, 'data_get') ? $device_build_ref01_data_dt0_loaded->data_get() : $device_build_ref01_data_dt0_loaded);
         $this->assertNotNull($device_build_ref01_data_dt0_load_result);
         $this->assertEquals($device_build_ref01_data_dt0_load_result["id"], $device_build_ref01_data["id"]);
 
@@ -126,39 +126,39 @@ function device_build_basic_setup($extra)
     // Detect ENTID env override before envOverride consumes it. When live
     // mode is on without a real override, the basic test runs against synthetic
     // IDs from the fixture and 4xx's. Surface this so the test can skip.
-    $entid_env_raw = getenv("BLUEFINDECRYPTXP_PE_TEST_DEVICE_BUILD_ENTID");
+    $entid_env_raw = getenv("BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_BUILD_ENTID");
     $idmap_overridden = $entid_env_raw !== false && str_starts_with(trim($entid_env_raw), "{");
 
     $env = Runner::env_override([
-        "BLUEFINDECRYPTXP_PE_TEST_DEVICE_BUILD_ENTID" => $idmap,
-        "BLUEFINDECRYPTXP_PE_TEST_LIVE" => "FALSE",
-        "BLUEFINDECRYPTXP_PE_TEST_EXPLAIN" => "FALSE",
-        "BLUEFINDECRYPTXP_PE_APIKEY" => "NONE",
+        "BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_BUILD_ENTID" => $idmap,
+        "BLUEFIN_DECRYPTX_P2PE_TEST_LIVE" => "FALSE",
+        "BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN" => "FALSE",
+        "BLUEFIN_DECRYPTX_P2PE_APIKEY" => "NONE",
     ]);
 
     $idmap_resolved = Helpers::to_map(
-        $env["BLUEFINDECRYPTXP_PE_TEST_DEVICE_BUILD_ENTID"]);
+        $env["BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_BUILD_ENTID"]);
     if ($idmap_resolved === null) {
         $idmap_resolved = Helpers::to_map($idmap);
     }
 
-    if ($env["BLUEFINDECRYPTXP_PE_TEST_LIVE"] === "TRUE") {
+    if ($env["BLUEFIN_DECRYPTX_P2PE_TEST_LIVE"] === "TRUE") {
         $merged_opts = Vs::merge([
             [
-                "apikey" => $env["BLUEFINDECRYPTXP_PE_APIKEY"],
+                "apikey" => $env["BLUEFIN_DECRYPTX_P2PE_APIKEY"],
             ],
             $extra ?? [],
         ]);
         $client = new BluefinDecryptxP2peSDK(Helpers::to_map($merged_opts));
     }
 
-    $live = $env["BLUEFINDECRYPTXP_PE_TEST_LIVE"] === "TRUE";
+    $live = $env["BLUEFIN_DECRYPTX_P2PE_TEST_LIVE"] === "TRUE";
     return [
         "client" => $client,
         "data" => $entity_data,
         "idmap" => $idmap_resolved,
         "env" => $env,
-        "explain" => $env["BLUEFINDECRYPTXP_PE_TEST_EXPLAIN"] === "TRUE",
+        "explain" => $env["BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN"] === "TRUE",
         "live" => $live,
         "synthetic_only" => $live && !$idmap_overridden,
         "now" => (int)(microtime(true) * 1000),

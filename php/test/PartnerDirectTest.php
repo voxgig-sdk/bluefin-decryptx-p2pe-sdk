@@ -121,16 +121,16 @@ function partner_direct_setup($mockres)
     $calls = new \ArrayObject();
 
     $env = Runner::env_override([
-        "BLUEFINDECRYPTXP_PE_TEST_PARTNER_ENTID" => [],
-        "BLUEFINDECRYPTXP_PE_TEST_LIVE" => "FALSE",
-        "BLUEFINDECRYPTXP_PE_APIKEY" => "NONE",
+        "BLUEFIN_DECRYPTX_P2PE_TEST_PARTNER_ENTID" => [],
+        "BLUEFIN_DECRYPTX_P2PE_TEST_LIVE" => "FALSE",
+        "BLUEFIN_DECRYPTX_P2PE_APIKEY" => "NONE",
     ]);
 
-    $live = $env["BLUEFINDECRYPTXP_PE_TEST_LIVE"] === "TRUE";
+    $live = $env["BLUEFIN_DECRYPTX_P2PE_TEST_LIVE"] === "TRUE";
 
     if ($live) {
         $merged_opts = [
-            "apikey" => $env["BLUEFINDECRYPTXP_PE_APIKEY"],
+            "apikey" => $env["BLUEFIN_DECRYPTX_P2PE_APIKEY"],
         ];
         $client = new BluefinDecryptxP2peSDK($merged_opts);
         return [

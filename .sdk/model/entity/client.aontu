@@ -22,7 +22,7 @@ main: kit: entity: client: {
       type: "`$STRING`"
     }
     {
-      name: "direct_partner"
+      name: "directPartner"
       req: false
       type: "`$OBJECT`"
     }
@@ -32,7 +32,7 @@ main: kit: entity: client: {
       type: "`$STRING`"
     }
     {
-      name: "is_active"
+      name: "isActive"
       req: false
       type: "`$BOOLEAN`"
     }

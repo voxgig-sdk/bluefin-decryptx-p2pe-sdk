@@ -14,6 +14,8 @@ typedef struct client_entity {
   voxgig_value* data;     // Map
   voxgig_value* mtch;     // Map
   Context* entctx;
+  // Set once a successful `remove` resolves on this instance.
+  bool deleted;
 } client_entity;
 
 typedef void (*client_postdone_fn)(client_entity* self, Context* ctx);
@@ -24,11 +26,14 @@ static const char* client_get_name(Entity* e);
 static Entity* client_make(Entity* e);
 static voxgig_value* client_data(Entity* e, voxgig_value* args);
 static voxgig_value* client_matchv(Entity* e, voxgig_value* args);
-static voxgig_value* client_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
-static voxgig_value* client_list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
-static voxgig_value* client_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
-static voxgig_value* client_update(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
-static voxgig_value* client_remove(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+// Ops resolve to the ENTITY (`list` to a NULL-terminated array of them).
+static Entity* client_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static Entity** client_list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static Entity* client_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
+static Entity* client_update(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
+static Entity* client_remove(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static void client_mark_deleted(Entity* e);
+static bool client_deleted(Entity* e);
 
 static Context* client_ent_ctx(client_entity* self) {
   return self->entctx;
@@ -250,7 +255,7 @@ static void client_load_postdone(client_entity* self, Context* ctx) {
   }
 }
 
-static voxgig_value* client_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err) {
+static Entity* client_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err) {
   client_entity* self = (client_entity*)e;
   CtxSpec cs;
   memset(&cs, 0, sizeof(cs));
@@ -260,7 +265,14 @@ static voxgig_value* client_load(Entity* e, voxgig_value* reqmatch, voxgig_value
   cs.data = self->data;
   cs.reqmatch = reqmatch;
   Context* ctx = make_context_util(cs, client_ent_ctx(self));
-  return client_run_op(self, ctx, client_load_postdone, err);
+  client_run_op(self, ctx, client_load_postdone, err);
+  if (*err) return NULL;
+
+  // The operation resolves to THIS entity: run_op has just absorbed the
+  // result into it, and the caller reaches the record through vt->data.
+  // See AGENTS.md "Entity operations return ENTITIES".
+
+  return e;
 }
 
 
@@ -273,7 +285,7 @@ static void client_list_postdone(client_entity* self, Context* ctx) {
   }
 }
 
-static voxgig_value* client_list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err) {
+static Entity** client_list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err) {
   client_entity* self = (client_entity*)e;
   CtxSpec cs;
   memset(&cs, 0, sizeof(cs));
@@ -283,7 +295,24 @@ static voxgig_value* client_list(Entity* e, voxgig_value* reqmatch, voxgig_value
   cs.data = self->data;
   cs.reqmatch = reqmatch;
   Context* ctx = make_context_util(cs, client_ent_ctx(self));
-  return client_run_op(self, ctx, client_list_postdone, err);
+  voxgig_value* out = client_run_op(self, ctx, client_list_postdone, err);
+  if (*err) return NULL;
+
+  // `list` resolves to one ENTITY per record. make_result cannot build them
+  // here - it works in voxgig_value, which has no slot for an entity - so the
+  // op does, mirroring what the dynamic targets get from make_result. The
+  // array is NULL-terminated.
+  size_t n = voxgig_is_list(out) ? voxgig_as_list(out)->len : 0;
+  Entity** items = (Entity**)calloc(n + 1, sizeof(Entity*));
+  for (size_t i = 0; i < n; i++) {
+    voxgig_value* entry = voxgig_as_list(out)->items[i];
+    Entity* ent = e->vt->make(e);
+    if (voxgig_is_map(entry)) ent->vt->data(ent, entry);
+    items[i] = ent;
+  }
+  items[n] = NULL;
+
+  return items;
 }
 
 
@@ -299,7 +328,7 @@ static void client_create_postdone(client_entity* self, Context* ctx) {
   }
 }
 
-static voxgig_value* client_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err) {
+static Entity* client_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err) {
   client_entity* self = (client_entity*)e;
   CtxSpec cs;
   memset(&cs, 0, sizeof(cs));
@@ -309,11 +338,18 @@ static voxgig_value* client_create(Entity* e, voxgig_value* reqdata, voxgig_valu
   cs.data = self->data;
   cs.reqdata = reqdata;
   Context* ctx = make_context_util(cs, client_ent_ctx(self));
-  return client_run_op(self, ctx, client_create_postdone, err);
+  client_run_op(self, ctx, client_create_postdone, err);
+  if (*err) return NULL;
+
+  // The operation resolves to THIS entity: run_op has just absorbed the
+  // result into it, and the caller reaches the record through vt->data.
+  // See AGENTS.md "Entity operations return ENTITIES".
+
+  return e;
 }
 
 
-static voxgig_value* client_update(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* client_update(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("update", "client");
   return NULL;
@@ -333,7 +369,7 @@ static void client_remove_postdone(client_entity* self, Context* ctx) {
   }
 }
 
-static voxgig_value* client_remove(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err) {
+static Entity* client_remove(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err) {
   client_entity* self = (client_entity*)e;
   CtxSpec cs;
   memset(&cs, 0, sizeof(cs));
@@ -343,15 +379,38 @@ static voxgig_value* client_remove(Entity* e, voxgig_value* reqmatch, voxgig_val
   cs.data = self->data;
   cs.reqmatch = reqmatch;
   Context* ctx = make_context_util(cs, client_ent_ctx(self));
-  return client_run_op(self, ctx, client_remove_postdone, err);
+  client_run_op(self, ctx, client_remove_postdone, err);
+  if (*err) return NULL;
+
+  // The operation resolves to THIS entity: run_op has just absorbed the
+  // result into it, and the caller reaches the record through vt->data.
+  // See AGENTS.md "Entity operations return ENTITIES".
+
+  // A removed entity keeps its data but is no longer a live record.
+  self->deleted = true;
+
+  return e;
 }
 
+
+// `remove` resolves to the entity, marked. The instance KEEPS the data it
+// held - a caller can still read what was deleted - but it is no longer a
+// live record.
+static void client_mark_deleted(Entity* e) {
+  ((client_entity*)e)->deleted = true;
+}
+
+static bool client_deleted(Entity* e) {
+  return ((client_entity*)e)->deleted;
+}
 
 static const EntityVT client_VT = {
   client_get_name,
   client_make,
   client_data,
   client_matchv,
+  client_mark_deleted,
+  client_deleted,
   client_load,
   client_list,
   client_create,

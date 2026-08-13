@@ -6,27 +6,27 @@ main: kit: entity: device: {
 
   fields: [
     {
-      name: "activated_by"
+      name: "activatedBy"
       req: true
       type: "`$OBJECT`"
     }
     {
-      name: "activation_date"
+      name: "activationDate"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "alternate_key"
+      name: "alternateKey"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "audit_next_date"
+      name: "auditNextDate"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "audit_notification_date"
+      name: "auditNotificationDate"
       req: false
       type: "`$STRING`"
     }
@@ -41,32 +41,32 @@ main: kit: entity: device: {
       type: "`$STRING`"
     }
     {
-      name: "created_by"
+      name: "createdBy"
       req: true
       type: "`$OBJECT`"
     }
     {
-      name: "device_build"
+      name: "deviceBuild"
       req: false
       type: "`$OBJECT`"
     }
     {
-      name: "device_state"
+      name: "deviceState"
       req: false
       type: "`$OBJECT`"
     }
     {
-      name: "device_type"
+      name: "deviceType"
       req: false
       type: "`$OBJECT`"
     }
     {
-      name: "error_counter"
+      name: "errorCounter"
       req: false
       type: "`$INTEGER`"
     }
     {
-      name: "error_last_date"
+      name: "errorLastDate"
       req: false
       type: "`$STRING`"
     }
@@ -76,22 +76,22 @@ main: kit: entity: device: {
       type: "`$STRING`"
     }
     {
-      name: "initialized_by"
+      name: "initializedBy"
       req: true
       type: "`$OBJECT`"
     }
     {
-      name: "initialized_date"
+      name: "initializedDate"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "inject_key"
+      name: "injectKey"
       req: false
       type: "`$OBJECT`"
     }
     {
-      name: "is_virtual"
+      name: "isVirtual"
       req: false
       type: "`$BOOLEAN`"
     }
@@ -101,7 +101,7 @@ main: kit: entity: device: {
       type: "`$OBJECT`"
     }
     {
-      name: "last_activity_date"
+      name: "lastActivityDate"
       req: false
       type: "`$STRING`"
     }
@@ -116,7 +116,7 @@ main: kit: entity: device: {
       type: "`$STRING`"
     }
     {
-      name: "modified_by"
+      name: "modifiedBy"
       req: true
       type: "`$OBJECT`"
     }
@@ -126,7 +126,7 @@ main: kit: entity: device: {
       type: "`$STRING`"
     }
     {
-      name: "note"
+      name: "notes"
       req: false
       type: "`$STRING`"
     }
@@ -136,7 +136,7 @@ main: kit: entity: device: {
       type: "`$OBJECT`"
     }
     {
-      name: "serial_number"
+      name: "serialNumber"
       req: false
       type: "`$STRING`"
     }

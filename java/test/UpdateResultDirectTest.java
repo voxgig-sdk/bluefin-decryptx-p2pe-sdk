@@ -84,24 +84,24 @@ public class UpdateResultDirectTest {
     final List<Map<String, Object>> calls = new ArrayList<>();
 
     Map<String, Object> envm = new LinkedHashMap<>();
-    envm.put("BLUEFINDECRYPTXP_PE_TEST_UPDATE_RESULT_ENTID", new LinkedHashMap<>());
-    envm.put("BLUEFINDECRYPTXP_PE_TEST_LIVE", "FALSE");
-    envm.put("BLUEFINDECRYPTXP_PE_APIKEY", "NONE");
+    envm.put("BLUEFIN_DECRYPTX_P2PE_TEST_UPDATE_RESULT_ENTID", new LinkedHashMap<>());
+    envm.put("BLUEFIN_DECRYPTX_P2PE_TEST_LIVE", "FALSE");
+    envm.put("BLUEFIN_DECRYPTX_P2PE_APIKEY", "NONE");
     Map<String, Object> env = RunnerSupport.envOverride(envm);
 
-    boolean live = "TRUE".equals(env.get("BLUEFINDECRYPTXP_PE_TEST_LIVE"));
+    boolean live = "TRUE".equals(env.get("BLUEFIN_DECRYPTX_P2PE_TEST_LIVE"));
 
     DirectSetup setup = new DirectSetup();
     setup.calls = calls;
 
     if (live) {
       Map<String, Object> mergedOpts = new LinkedHashMap<>();
-      mergedOpts.put("apikey", env.get("BLUEFINDECRYPTXP_PE_APIKEY"));
+      mergedOpts.put("apikey", env.get("BLUEFIN_DECRYPTX_P2PE_APIKEY"));
       setup.client = new BluefinDecryptxP2peSDK(mergedOpts);
       setup.live = true;
 
       Map<String, Object> idmap = new LinkedHashMap<>();
-      Object entidRaw = env.get("BLUEFINDECRYPTXP_PE_TEST_UPDATE_RESULT_ENTID");
+      Object entidRaw = env.get("BLUEFIN_DECRYPTX_P2PE_TEST_UPDATE_RESULT_ENTID");
       if (entidRaw instanceof String && ((String) entidRaw).startsWith("{")) {
         Map<String, Object> parsed = Helpers.toMapAny(Json.parseOrNull((String) entidRaw));
         if (parsed != null) {

@@ -35,7 +35,7 @@ object AttestationEntityTest {
       var attestationRef01Data = Helpers.toMapAny(Struct.getprop(
           Struct.getpath(entityData, "new.attestation"), "attestation_ref01"))
       val attestationRef01DataResult = attestationRef01Ent.create(attestationRef01Data, null)
-      attestationRef01Data = Helpers.toMapAny(attestationRef01DataResult)
+      attestationRef01Data = Helpers.toMapAny(attestationRef01DataResult match { case e: SdkEntity => e.data(); case o => o })
       rep.check("attestation.create.map", attestationRef01Data != null, "expected create result to be a map")
       rep.check("attestation.create.id", attestationRef01Data != null && attestationRef01Data.get("id") != null, "expected created entity to have an id")
 
@@ -52,7 +52,7 @@ object AttestationEntityTest {
       val attestationRef01MatchDt0 = new LinkedHashMap[String, Object]()
       attestationRef01MatchDt0.put("id", attestationRef01Data.get("id"))
       val attestationRef01DataDt0Loaded = attestationRef01Ent.load(attestationRef01MatchDt0, null)
-      val attestationRef01DataDt0LoadResult = Helpers.toMapAny(attestationRef01DataDt0Loaded)
+      val attestationRef01DataDt0LoadResult = Helpers.toMapAny(attestationRef01DataDt0Loaded match { case e: SdkEntity => e.data(); case o => o })
       rep.check("attestation.load.map", attestationRef01DataDt0LoadResult != null, "expected load result to be a map")
       rep.eq("attestation.load.id", attestationRef01Data.get("id"), attestationRef01DataDt0LoadResult.get("id"))
     }

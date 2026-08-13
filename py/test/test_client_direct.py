@@ -3,9 +3,9 @@
 import json
 import pytest
 
-from utility.voxgig_struct import voxgig_struct as vs
+from bluefindecryptxp2pe_sdk.utility.voxgig_struct import voxgig_struct as vs
 from bluefindecryptxp2pe_sdk import BluefinDecryptxP2peSDK
-from core import helpers
+from bluefindecryptxp2pe_sdk.core import helpers
 from test import runner
 
 
@@ -105,16 +105,16 @@ def _client_direct_setup(mockres):
     calls = []
 
     env = runner.env_override({
-        "BLUEFINDECRYPTXP_PE_TEST_CLIENT_ENTID": {},
-        "BLUEFINDECRYPTXP_PE_TEST_LIVE": "FALSE",
-        "BLUEFINDECRYPTXP_PE_APIKEY": "NONE",
+        "BLUEFIN_DECRYPTX_P2PE_TEST_CLIENT_ENTID": {},
+        "BLUEFIN_DECRYPTX_P2PE_TEST_LIVE": "FALSE",
+        "BLUEFIN_DECRYPTX_P2PE_APIKEY": "NONE",
     })
 
-    live = env.get("BLUEFINDECRYPTXP_PE_TEST_LIVE") == "TRUE"
+    live = env.get("BLUEFIN_DECRYPTX_P2PE_TEST_LIVE") == "TRUE"
 
     if live:
         merged_opts = {
-            "apikey": env.get("BLUEFINDECRYPTXP_PE_APIKEY"),
+            "apikey": env.get("BLUEFIN_DECRYPTX_P2PE_APIKEY"),
         }
         client = BluefinDecryptxP2peSDK(merged_opts)
         return {

@@ -80,16 +80,16 @@ function device_custody_list_direct_setup(mockres)
   local calls = {}
 
   local env = runner.env_override({
-    ["BLUEFINDECRYPTXP_PE_TEST_DEVICE_CUSTODY_LIST_ENTID"] = {},
-    ["BLUEFINDECRYPTXP_PE_TEST_LIVE"] = "FALSE",
-    ["BLUEFINDECRYPTXP_PE_APIKEY"] = "NONE",
+    ["BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_CUSTODY_LIST_ENTID"] = {},
+    ["BLUEFIN_DECRYPTX_P2PE_TEST_LIVE"] = "FALSE",
+    ["BLUEFIN_DECRYPTX_P2PE_APIKEY"] = "NONE",
   })
 
-  local live = env["BLUEFINDECRYPTXP_PE_TEST_LIVE"] == "TRUE"
+  local live = env["BLUEFIN_DECRYPTX_P2PE_TEST_LIVE"] == "TRUE"
 
   if live then
     local merged_opts = {
-      apikey = env["BLUEFINDECRYPTXP_PE_APIKEY"],
+      apikey = env["BLUEFIN_DECRYPTX_P2PE_APIKEY"],
     }
     local client = sdk.new(merged_opts)
     return {

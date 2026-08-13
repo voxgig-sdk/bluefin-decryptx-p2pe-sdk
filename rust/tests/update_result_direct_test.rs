@@ -27,16 +27,16 @@ fn update_result_direct_setup(mockres: Value) -> UpdateResultDirectSetup {
     let calls: Rc<RefCell<Vec<Value>>> = Rc::new(RefCell::new(Vec::new()));
 
     let env = env_override(jo(vec![
-        ("BLUEFINDECRYPTXP_PE_TEST_UPDATE_RESULT_ENTID", Value::empty_map()),
-        ("BLUEFINDECRYPTXP_PE_TEST_LIVE", Value::str("FALSE")),
-        ("BLUEFINDECRYPTXP_PE_APIKEY", Value::str("NONE")),
+        ("BLUEFIN_DECRYPTX_P2PE_TEST_UPDATE_RESULT_ENTID", Value::empty_map()),
+        ("BLUEFIN_DECRYPTX_P2PE_TEST_LIVE", Value::str("FALSE")),
+        ("BLUEFIN_DECRYPTX_P2PE_APIKEY", Value::str("NONE")),
     ]));
 
-    let live = getp(&env, "BLUEFINDECRYPTXP_PE_TEST_LIVE") == Value::str("TRUE");
+    let live = getp(&env, "BLUEFIN_DECRYPTX_P2PE_TEST_LIVE") == Value::str("TRUE");
 
     if live {
-        let client = BluefinDecryptxP2peSDK::new(jo(vec![("apikey", getp(&env, "BLUEFINDECRYPTXP_PE_APIKEY"))]));
-        let idmap = match to_map(&getp(&env, "BLUEFINDECRYPTXP_PE_TEST_UPDATE_RESULT_ENTID")) {
+        let client = BluefinDecryptxP2peSDK::new(jo(vec![("apikey", getp(&env, "BLUEFIN_DECRYPTX_P2PE_APIKEY"))]));
+        let idmap = match to_map(&getp(&env, "BLUEFIN_DECRYPTX_P2PE_TEST_UPDATE_RESULT_ENTID")) {
             Value::Map(m) => Value::Map(m),
             _ => Value::empty_map(),
         };

@@ -16,7 +16,7 @@ main: kit: entity: location: {
       type: "`$STRING`"
     }
     {
-      name: "billing_id"
+      name: "billingId"
       req: false
       type: "`$STRING`"
     }
@@ -36,7 +36,7 @@ main: kit: entity: location: {
       type: "`$STRING`"
     }
     {
-      name: "custom_reference"
+      name: "customReference"
       req: false
       type: "`$STRING`"
     }
@@ -46,37 +46,37 @@ main: kit: entity: location: {
       type: "`$STRING`"
     }
     {
-      name: "location_type"
+      name: "locationType"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "mail_address1"
+      name: "mailAddress1"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "mail_address2"
+      name: "mailAddress2"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "mail_city"
+      name: "mailCity"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "mail_country"
+      name: "mailCountry"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "mail_postal_code"
+      name: "mailPostalCode"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "mail_state_province"
+      name: "mailStateProvince"
       req: false
       type: "`$STRING`"
     }
@@ -91,27 +91,27 @@ main: kit: entity: location: {
       type: "`$STRING`"
     }
     {
-      name: "name_of_business"
+      name: "nameOfBusiness"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "note"
+      name: "notes"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "postal_code"
+      name: "postalCode"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "state_province"
+      name: "stateProvince"
       req: false
       type: "`$STRING`"
     }
     {
-      name: "unique_id"
+      name: "uniqueId"
       req: false
       type: "`$STRING`"
     }

@@ -38,15 +38,15 @@ static PartnerSetup partner_basic_setup(const Value& extra) {
   if (!idmap.is_map()) idmap = vmap();
 
   Value env = env_override(vmap({
-    {"BLUEFINDECRYPTXP_PE_TEST_PARTNER_ENTID", idmap},
-    {"BLUEFINDECRYPTXP_PE_TEST_LIVE", Value("FALSE")},
-    {"BLUEFINDECRYPTXP_PE_TEST_EXPLAIN", Value("FALSE")}
+    {"BLUEFIN_DECRYPTX_P2PE_TEST_PARTNER_ENTID", idmap},
+    {"BLUEFIN_DECRYPTX_P2PE_TEST_LIVE", Value("FALSE")},
+    {"BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN", Value("FALSE")}
   }));
 
-  Value idmap_resolved = Helpers::toMapAny(getp(env, "BLUEFINDECRYPTXP_PE_TEST_PARTNER_ENTID"));
+  Value idmap_resolved = Helpers::toMapAny(getp(env, "BLUEFIN_DECRYPTX_P2PE_TEST_PARTNER_ENTID"));
   if (!idmap_resolved.is_map()) idmap_resolved = idmap;
 
-  bool live = getp(env, "BLUEFINDECRYPTXP_PE_TEST_LIVE") == Value("TRUE");
+  bool live = getp(env, "BLUEFIN_DECRYPTX_P2PE_TEST_LIVE") == Value("TRUE");
 
   PartnerSetup s;
   s.client = client;
@@ -64,6 +64,7 @@ static void partner_entity_instance() {
   auto ent = testsdk->partner();
   ASSERT_EQ(ent->getName(), std::string("partner"), "entity name");
 }
+
 
 static void partner_entity_stream() {
   // stream() runs the list op through the full pipeline and returns the
@@ -100,7 +101,7 @@ static void partner_entity_basic() {
   Value partner_ref01_data = Helpers::toMapAny(getp(Struct::getpath(setup.data, {"new", "partner"}), "partner_ref01"));
   if (!partner_ref01_data.is_map()) partner_ref01_data = vmap();
   {
-    Value partner_ref01_data_result = partner_ref01_ent->create(Struct::clone(partner_ref01_data), Value::undef());
+    Value partner_ref01_data_result = partner_ref01_ent->create(Struct::clone(partner_ref01_data), Value::undef())->data();
     partner_ref01_data = Helpers::toMapAny(partner_ref01_data_result);
     if (!partner_ref01_data.is_map()) partner_ref01_data = vmap();
     ASSERT_TRUE(partner_ref01_data.is_map(), "expected create result to be a map");
@@ -109,7 +110,10 @@ static void partner_entity_basic() {
 
   // LIST
   Value partner_ref01_match = vmap();
-  Value partner_ref01_list = partner_ref01_ent->list(Struct::clone(partner_ref01_match), Value::undef());
+  auto partner_ref01_list_ents = partner_ref01_ent->list(Struct::clone(partner_ref01_match), Value::undef());
+  // list resolves to one ENTITY per record; the flow asserts on the records.
+  Value partner_ref01_list = vlist();
+  for (const auto& e : partner_ref01_list_ents) { partner_ref01_list.as_list()->push_back(e->data()); }
   ASSERT_TRUE(partner_ref01_list.is_list(), "expected list result to be an array");
   {
     std::vector<Value> found = Struct::select(entity_list_to_data(partner_ref01_list), vmap({{"id", getp(partner_ref01_data, "id")}}));
@@ -118,7 +122,7 @@ static void partner_entity_basic() {
 
   // LOAD
   Value partner_ref01_match_dt0 = vmap({{"id", getp(partner_ref01_data, "id")}});
-  Value partner_ref01_data_dt0_loaded = partner_ref01_ent->load(Struct::clone(partner_ref01_match_dt0), Value::undef());
+  Value partner_ref01_data_dt0_loaded = partner_ref01_ent->load(Struct::clone(partner_ref01_match_dt0), Value::undef())->data();
   Value partner_ref01_data_dt0_load_result = Helpers::toMapAny(partner_ref01_data_dt0_loaded);
   ASSERT_TRUE(partner_ref01_data_dt0_load_result.is_map(), "expected load result to be a map");
   ASSERT_EQ_VAL(getp(partner_ref01_data_dt0_load_result, "id"), getp(partner_ref01_data, "id"), "expected load result id to match");

@@ -38,15 +38,15 @@ static DeviceStateSetup device_state_basic_setup(const Value& extra) {
   if (!idmap.is_map()) idmap = vmap();
 
   Value env = env_override(vmap({
-    {"BLUEFINDECRYPTXP_PE_TEST_DEVICE_STATE_ENTID", idmap},
-    {"BLUEFINDECRYPTXP_PE_TEST_LIVE", Value("FALSE")},
-    {"BLUEFINDECRYPTXP_PE_TEST_EXPLAIN", Value("FALSE")}
+    {"BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_STATE_ENTID", idmap},
+    {"BLUEFIN_DECRYPTX_P2PE_TEST_LIVE", Value("FALSE")},
+    {"BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN", Value("FALSE")}
   }));
 
-  Value idmap_resolved = Helpers::toMapAny(getp(env, "BLUEFINDECRYPTXP_PE_TEST_DEVICE_STATE_ENTID"));
+  Value idmap_resolved = Helpers::toMapAny(getp(env, "BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_STATE_ENTID"));
   if (!idmap_resolved.is_map()) idmap_resolved = idmap;
 
-  bool live = getp(env, "BLUEFINDECRYPTXP_PE_TEST_LIVE") == Value("TRUE");
+  bool live = getp(env, "BLUEFIN_DECRYPTX_P2PE_TEST_LIVE") == Value("TRUE");
 
   DeviceStateSetup s;
   s.client = client;
@@ -64,6 +64,7 @@ static void device_state_entity_instance() {
   auto ent = testsdk->device_state();
   ASSERT_EQ(ent->getName(), std::string("device_state"), "entity name");
 }
+
 
 static void device_state_entity_stream() {
   // stream() runs the list op through the full pipeline and returns the
@@ -110,7 +111,10 @@ static void device_state_entity_basic() {
   // LIST
   auto device_state_ref01_ent = client->device_state();
   Value device_state_ref01_match = vmap();
-  Value device_state_ref01_list = device_state_ref01_ent->list(Struct::clone(device_state_ref01_match), Value::undef());
+  auto device_state_ref01_list_ents = device_state_ref01_ent->list(Struct::clone(device_state_ref01_match), Value::undef());
+  // list resolves to one ENTITY per record; the flow asserts on the records.
+  Value device_state_ref01_list = vlist();
+  for (const auto& e : device_state_ref01_list_ents) { device_state_ref01_list.as_list()->push_back(e->data()); }
   ASSERT_TRUE(device_state_ref01_list.is_list(), "expected list result to be an array");
 
 }

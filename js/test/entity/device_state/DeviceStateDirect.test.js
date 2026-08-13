@@ -17,6 +17,10 @@ describe('DeviceStateDirect', async () => {
 
   test('direct-exists', async () => {
     const sdk = new BluefinDecryptxP2peSDK({
+      // Concrete base: a live construction must satisfy any server
+      // variables a templated base URL declares; overriding base with a
+      // literal (as the direct flow tests do) sidesteps the requirement.
+      base: 'http://localhost:8080',
       system: { fetch: async () => ({}) }
     })
     assert('function' === typeof sdk.direct)
@@ -55,19 +59,19 @@ function directSetup(mockres) {
   const calls = []
 
   const env = envOverride({
-    'BLUEFINDECRYPTXP_PE_TEST_DEVICE_STATE_ENTID': {},
-    'BLUEFINDECRYPTXP_PE_TEST_LIVE': 'FALSE',
-    'BLUEFINDECRYPTXP_PE_APIKEY': 'NONE',
+    'BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_STATE_ENTID': {},
+    'BLUEFIN_DECRYPTX_P2PE_TEST_LIVE': 'FALSE',
+    'BLUEFIN_DECRYPTX_P2PE_APIKEY': 'NONE',
   })
 
-  const live = 'TRUE' === env.BLUEFINDECRYPTXP_PE_TEST_LIVE
+  const live = 'TRUE' === env.BLUEFIN_DECRYPTX_P2PE_TEST_LIVE
 
   if (live) {
     const client = new BluefinDecryptxP2peSDK({
-      apikey: env.BLUEFINDECRYPTXP_PE_APIKEY,
+      apikey: env.BLUEFIN_DECRYPTX_P2PE_APIKEY,
     })
 
-    let idmap = env['BLUEFINDECRYPTXP_PE_TEST_DEVICE_STATE_ENTID']
+    let idmap = env['BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_STATE_ENTID']
     if ('string' === typeof idmap && idmap.startsWith('{')) {
       idmap = JSON.parse(idmap)
     }

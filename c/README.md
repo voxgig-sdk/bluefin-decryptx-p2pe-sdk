@@ -84,7 +84,7 @@ if (err) {
 
 ```c
 // Create — returns the bare created record
-voxgig_value* created = attestation->vt->create(attestation, cmap(2, "client", v_map(), "complete_date", v_str("example_complete_date")), NULL, &err);
+voxgig_value* created = attestation->vt->create(attestation, cmap(2, "client", v_map(), "completeDate", v_str("example_completeDate")), NULL, &err);
 
 ```
 
@@ -319,12 +319,12 @@ On error, `ok` is `false` and `err` carries the error value.
 | Field | Description |
 | --- | --- |
 | `client` |  |
-| `complete_date` |  |
+| `completeDate` |  |
 | `created` |  |
 | `device` |  |
 | `id` |  |
 | `name` |  |
-| `note` |  |
+| `notes` |  |
 
 Operations: Create, List, Load.
 
@@ -336,9 +336,9 @@ API path: `/attestations`
 | --- | --- |
 | `contact` |  |
 | `created` |  |
-| `direct_partner` |  |
+| `directPartner` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `location` |  |
 | `mid` |  |
 | `modified` |  |
@@ -373,33 +373,33 @@ API path: `/decryption`
 
 | Field | Description |
 | --- | --- |
-| `activated_by` |  |
-| `activation_date` |  |
-| `alternate_key` |  |
-| `audit_next_date` |  |
-| `audit_notification_date` |  |
+| `activatedBy` |  |
+| `activationDate` |  |
+| `alternateKey` |  |
+| `auditNextDate` |  |
+| `auditNotificationDate` |  |
 | `client` |  |
 | `created` |  |
-| `created_by` |  |
-| `device_build` |  |
-| `device_state` |  |
-| `device_type` |  |
-| `error_counter` |  |
-| `error_last_date` |  |
+| `createdBy` |  |
+| `deviceBuild` |  |
+| `deviceState` |  |
+| `deviceType` |  |
+| `errorCounter` |  |
+| `errorLastDate` |  |
 | `id` |  |
-| `initialized_by` |  |
-| `initialized_date` |  |
-| `inject_key` |  |
-| `is_virtual` |  |
+| `initializedBy` |  |
+| `initializedDate` |  |
+| `injectKey` |  |
+| `isVirtual` |  |
 | `kif` |  |
-| `last_activity_date` |  |
+| `lastActivityDate` |  |
 | `location` |  |
 | `modified` |  |
-| `modified_by` |  |
+| `modifiedBy` |  |
 | `name` |  |
-| `note` |  |
+| `notes` |  |
 | `partner` |  |
-| `serial_number` |  |
+| `serialNumber` |  |
 | `version` |  |
 
 Operations: Create, List, Load.
@@ -410,21 +410,21 @@ API path: `/devices`
 
 | Field | Description |
 | --- | --- |
-| `app_version` |  |
-| `build_number` |  |
-| `config_file_name` |  |
+| `appVersion` |  |
+| `buildNumber` |  |
+| `configFileName` |  |
 | `created` |  |
-| `device_type` |  |
-| `firmware_version` |  |
-| `hardware_version` |  |
+| `deviceType` |  |
+| `firmwareVersion` |  |
+| `hardwareVersion` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `modified` |  |
 | `name` |  |
-| `note` |  |
+| `notes` |  |
 | `version` |  |
-| `white_listing_bin_range` |  |
-| `white_listing_used` |  |
+| `whiteListingBinRanges` |  |
+| `whiteListingUsed` |  |
 
 Operations: List, Load.
 
@@ -434,18 +434,18 @@ API path: `/deviceBuilds`
 
 | Field | Description |
 | --- | --- |
-| `complete_date` |  |
+| `completeDate` |  |
 | `created` |  |
-| `created_by` |  |
+| `createdBy` |  |
 | `custodian` |  |
 | `device` |  |
 | `id` |  |
 | `location` |  |
 | `modified` |  |
-| `modified_by` |  |
-| `note` |  |
+| `modifiedBy` |  |
+| `notes` |  |
 | `status` |  |
-| `transfer_method` |  |
+| `transferMethod` |  |
 | `version` |  |
 
 Operations: Load.
@@ -456,18 +456,18 @@ API path: `/devices/{serialNumber}/{deviceType}/custody/{id}`
 
 | Field | Description |
 | --- | --- |
-| `complete_date` |  |
+| `completeDate` |  |
 | `created` |  |
-| `created_by` |  |
+| `createdBy` |  |
 | `custodian` |  |
 | `device` |  |
 | `id` |  |
 | `location` |  |
 | `modified` |  |
-| `modified_by` |  |
-| `note` |  |
+| `modifiedBy` |  |
+| `notes` |  |
 | `status` |  |
-| `transfer_method` |  |
+| `transferMethod` |  |
 | `version` |  |
 
 Operations: List.
@@ -521,16 +521,16 @@ API path: `/deviceStates`
 | Field | Description |
 | --- | --- |
 | `created` |  |
-| `device_type_mode` |  |
-| `hardware_version` |  |
+| `deviceTypeMode` |  |
+| `hardwareVersion` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `manufacturer` |  |
 | `model` |  |
 | `modified` |  |
 | `name` |  |
-| `photo_url` |  |
-| `product_name` |  |
+| `photoUrl` |  |
+| `productName` |  |
 | `version` |  |
 
 Operations: List, Load.
@@ -543,9 +543,9 @@ API path: `/deviceTypes`
 | --- | --- |
 | `created` |  |
 | `id` |  |
-| `is_active` |  |
-| `is_p2_pe` |  |
-| `key_type` |  |
+| `isActive` |  |
+| `isP2PE` |  |
+| `keyType` |  |
 | `modified` |  |
 | `name` |  |
 | `version` |  |
@@ -571,26 +571,26 @@ API path: `/kifs`
 | --- | --- |
 | `address1` |  |
 | `address2` |  |
-| `billing_id` |  |
+| `billingId` |  |
 | `city` |  |
 | `country` |  |
 | `created` |  |
-| `custom_reference` |  |
+| `customReference` |  |
 | `id` |  |
-| `location_type` |  |
-| `mail_address1` |  |
-| `mail_address2` |  |
-| `mail_city` |  |
-| `mail_country` |  |
-| `mail_postal_code` |  |
-| `mail_state_province` |  |
+| `locationType` |  |
+| `mailAddress1` |  |
+| `mailAddress2` |  |
+| `mailCity` |  |
+| `mailCountry` |  |
+| `mailPostalCode` |  |
+| `mailStateProvince` |  |
 | `modified` |  |
 | `name` |  |
-| `name_of_business` |  |
-| `note` |  |
-| `postal_code` |  |
-| `state_province` |  |
-| `unique_id` |  |
+| `nameOfBusiness` |  |
+| `notes` |  |
+| `postalCode` |  |
+| `stateProvince` |  |
+| `uniqueId` |  |
 | `version` |  |
 
 Operations: Create, List, Load, Remove.
@@ -601,19 +601,19 @@ API path: `/locations`
 
 | Field | Description |
 | --- | --- |
-| `billing_id` |  |
-| `client_can_order_equipment` |  |
+| `billingId` |  |
+| `clientCanOrderEquipment` |  |
 | `contact` |  |
 | `created` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `location` |  |
 | `modified` |  |
 | `name` |  |
 | `parent` |  |
-| `partner_id` |  |
+| `partnerId` |  |
 | `reference` |  |
-| `verification_phrase` |  |
+| `verificationPhrase` |  |
 | `version` |  |
 
 Operations: Create, List, Load.
@@ -627,15 +627,15 @@ API path: `/partners`
 | `carrier` |  |
 | `client` |  |
 | `created` |  |
-| `date_received` |  |
-| `date_shipped` |  |
-| `dc_kif` |  |
+| `dateReceived` |  |
+| `dateShipped` |  |
+| `dcKif` |  |
 | `id` |  |
-| `item` |  |
+| `items` |  |
 | `kif` |  |
 | `modified` |  |
 | `partner` |  |
-| `shipment_type` |  |
+| `shipmentType` |  |
 | `tracking` |  |
 | `version` |  |
 
@@ -657,30 +657,30 @@ API path: `/virtualDevices/{sharePartnerTo}`
 
 | Field | Description |
 | --- | --- |
-| `alternate_key` |  |
+| `alternateKey` |  |
 | `client` |  |
-| `client_ref` |  |
+| `clientRef` |  |
 | `created` |  |
 | `decrypted` |  |
-| `device_name` |  |
-| `direct_partner` |  |
+| `deviceName` |  |
+| `directPartner` |  |
 | `encrypted` |  |
-| `end_date` |  |
-| `err_code` |  |
-| `err_message` |  |
+| `endDate` |  |
+| `errCode` |  |
+| `errMessage` |  |
 | `id` |  |
-| `ip_address` |  |
-| `is_virtual` |  |
-| `key_type` |  |
+| `ipAddress` |  |
+| `isVirtual` |  |
+| `keyType` |  |
 | `location` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `method` |  |
 | `partner` |  |
 | `reference` |  |
-| `serial_number` |  |
-| `start_date` |  |
+| `serialNumber` |  |
+| `startDate` |  |
 | `success` |  |
-| `transaction_source` |  |
+| `transactionSource` |  |
 
 Operations: Create, List, Load.
 
@@ -692,15 +692,15 @@ API path: `/transactions`
 | --- | --- |
 | `client` |  |
 | `email` |  |
-| `first_name` |  |
+| `firstName` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `kif` |  |
-| `last_name` |  |
+| `lastName` |  |
 | `partner` |  |
 | `phone` |  |
-| `user_name` |  |
-| `user_role` |  |
+| `userName` |  |
+| `userRole` |  |
 | `version` |  |
 
 Operations: Create, List, Update.
@@ -714,16 +714,16 @@ API path: `/users`
 | `client` |  |
 | `created` |  |
 | `email` |  |
-| `first_name` |  |
+| `firstName` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `kif` |  |
-| `last_name` |  |
+| `lastName` |  |
 | `modified` |  |
 | `partner` |  |
 | `phone` |  |
-| `user_name` |  |
-| `user_role` |  |
+| `userName` |  |
+| `userRole` |  |
 | `version` |  |
 
 Operations: Load, Remove.
@@ -752,12 +752,12 @@ Create an instance: `Entity* attestation = bluefindecryptxp2pe_attestation(clien
 | Field | Type | Description |
 | --- | --- | --- |
 | `client` | `voxgig_value* (map)` |  |
-| `complete_date` | `char*` |  |
+| `completeDate` | `char*` |  |
 | `created` | `char*` |  |
 | `device` | `voxgig_value* (map)` |  |
 | `id` | `char*` |  |
 | `name` | `char*` |  |
-| `note` | `char*` |  |
+| `notes` | `char*` |  |
 
 #### Example: Load
 
@@ -800,9 +800,9 @@ Create an instance: `Entity* client = bluefindecryptxp2pe_client(client, NULL);`
 | --- | --- | --- |
 | `contact` | `voxgig_value* (map)` |  |
 | `created` | `char*` |  |
-| `direct_partner` | `voxgig_value* (map)` |  |
+| `directPartner` | `voxgig_value* (map)` |  |
 | `id` | `char*` |  |
-| `is_active` | `bool` |  |
+| `isActive` | `bool` |  |
 | `location` | `voxgig_value* (map)` |  |
 | `mid` | `char*` |  |
 | `modified` | `char*` |  |
@@ -895,33 +895,33 @@ Create an instance: `Entity* device = bluefindecryptxp2pe_device(client, NULL);`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `activated_by` | `voxgig_value* (map)` |  |
-| `activation_date` | `char*` |  |
-| `alternate_key` | `char*` |  |
-| `audit_next_date` | `char*` |  |
-| `audit_notification_date` | `char*` |  |
+| `activatedBy` | `voxgig_value* (map)` |  |
+| `activationDate` | `char*` |  |
+| `alternateKey` | `char*` |  |
+| `auditNextDate` | `char*` |  |
+| `auditNotificationDate` | `char*` |  |
 | `client` | `voxgig_value* (map)` |  |
 | `created` | `char*` |  |
-| `created_by` | `voxgig_value* (map)` |  |
-| `device_build` | `voxgig_value* (map)` |  |
-| `device_state` | `voxgig_value* (map)` |  |
-| `device_type` | `voxgig_value* (map)` |  |
-| `error_counter` | `int64_t` |  |
-| `error_last_date` | `char*` |  |
+| `createdBy` | `voxgig_value* (map)` |  |
+| `deviceBuild` | `voxgig_value* (map)` |  |
+| `deviceState` | `voxgig_value* (map)` |  |
+| `deviceType` | `voxgig_value* (map)` |  |
+| `errorCounter` | `int64_t` |  |
+| `errorLastDate` | `char*` |  |
 | `id` | `char*` |  |
-| `initialized_by` | `voxgig_value* (map)` |  |
-| `initialized_date` | `char*` |  |
-| `inject_key` | `voxgig_value* (map)` |  |
-| `is_virtual` | `bool` |  |
+| `initializedBy` | `voxgig_value* (map)` |  |
+| `initializedDate` | `char*` |  |
+| `injectKey` | `voxgig_value* (map)` |  |
+| `isVirtual` | `bool` |  |
 | `kif` | `voxgig_value* (map)` |  |
-| `last_activity_date` | `char*` |  |
+| `lastActivityDate` | `char*` |  |
 | `location` | `voxgig_value* (map)` |  |
 | `modified` | `char*` |  |
-| `modified_by` | `voxgig_value* (map)` |  |
+| `modifiedBy` | `voxgig_value* (map)` |  |
 | `name` | `char*` |  |
-| `note` | `char*` |  |
+| `notes` | `char*` |  |
 | `partner` | `voxgig_value* (map)` |  |
-| `serial_number` | `char*` |  |
+| `serialNumber` | `char*` |  |
 | `version` | `int64_t` |  |
 
 #### Example: Load
@@ -943,11 +943,11 @@ voxgig_value* devices = device->vt->list(device, NULL, NULL, &err);
 ```c
 Entity* device = bluefindecryptxp2pe_device(client, NULL);
 voxgig_value* device_rec = device->vt->create(device, cmap(5,
-    "activated_by", v_map(),  // voxgig_value* (map)
-    "created_by", v_map(),  // voxgig_value* (map)
-    "initialized_by", v_map(),  // voxgig_value* (map)
+    "activatedBy", v_map(),  // voxgig_value* (map)
+    "createdBy", v_map(),  // voxgig_value* (map)
+    "initializedBy", v_map(),  // voxgig_value* (map)
     "location", v_map(),  // voxgig_value* (map)
-    "modified_by", v_map())  // voxgig_value* (map)
+    "modifiedBy", v_map())  // voxgig_value* (map)
 , NULL, &err);
 ```
 
@@ -967,21 +967,21 @@ Create an instance: `Entity* device_build = bluefindecryptxp2pe_device_build(cli
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `app_version` | `char*` |  |
-| `build_number` | `char*` |  |
-| `config_file_name` | `char*` |  |
+| `appVersion` | `char*` |  |
+| `buildNumber` | `char*` |  |
+| `configFileName` | `char*` |  |
 | `created` | `char*` |  |
-| `device_type` | `char*` |  |
-| `firmware_version` | `char*` |  |
-| `hardware_version` | `char*` |  |
+| `deviceType` | `char*` |  |
+| `firmwareVersion` | `char*` |  |
+| `hardwareVersion` | `char*` |  |
 | `id` | `int64_t` |  |
-| `is_active` | `bool` |  |
+| `isActive` | `bool` |  |
 | `modified` | `char*` |  |
 | `name` | `char*` |  |
-| `note` | `char*` |  |
+| `notes` | `char*` |  |
 | `version` | `int64_t` |  |
-| `white_listing_bin_range` | `char*` |  |
-| `white_listing_used` | `bool` |  |
+| `whiteListingBinRanges` | `char*` |  |
+| `whiteListingUsed` | `bool` |  |
 
 #### Example: Load
 
@@ -1012,18 +1012,18 @@ Create an instance: `Entity* device_custody_detail = bluefindecryptxp2pe_device_
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `complete_date` | `char*` |  |
+| `completeDate` | `char*` |  |
 | `created` | `char*` |  |
-| `created_by` | `voxgig_value* (map)` |  |
+| `createdBy` | `voxgig_value* (map)` |  |
 | `custodian` | `voxgig_value* (map)` |  |
 | `device` | `voxgig_value* (map)` |  |
 | `id` | `int64_t` |  |
 | `location` | `voxgig_value* (map)` |  |
 | `modified` | `char*` |  |
-| `modified_by` | `voxgig_value* (map)` |  |
-| `note` | `char*` |  |
+| `modifiedBy` | `voxgig_value* (map)` |  |
+| `notes` | `char*` |  |
 | `status` | `voxgig_value* (map)` |  |
-| `transfer_method` | `voxgig_value* (map)` |  |
+| `transferMethod` | `voxgig_value* (map)` |  |
 | `version` | `int64_t` |  |
 
 #### Example: Load
@@ -1048,18 +1048,18 @@ Create an instance: `Entity* device_custody_list = bluefindecryptxp2pe_device_cu
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `complete_date` | `char*` |  |
+| `completeDate` | `char*` |  |
 | `created` | `char*` |  |
-| `created_by` | `voxgig_value* (map)` |  |
+| `createdBy` | `voxgig_value* (map)` |  |
 | `custodian` | `voxgig_value* (map)` |  |
 | `device` | `voxgig_value* (map)` |  |
 | `id` | `int64_t` |  |
 | `location` | `voxgig_value* (map)` |  |
 | `modified` | `char*` |  |
-| `modified_by` | `voxgig_value* (map)` |  |
-| `note` | `char*` |  |
+| `modifiedBy` | `voxgig_value* (map)` |  |
+| `notes` | `char*` |  |
 | `status` | `voxgig_value* (map)` |  |
-| `transfer_method` | `voxgig_value* (map)` |  |
+| `transferMethod` | `voxgig_value* (map)` |  |
 | `version` | `int64_t` |  |
 
 #### Example: List
@@ -1188,16 +1188,16 @@ Create an instance: `Entity* device_type = bluefindecryptxp2pe_device_type(clien
 | Field | Type | Description |
 | --- | --- | --- |
 | `created` | `char*` |  |
-| `device_type_mode` | `char*` |  |
-| `hardware_version` | `char*` |  |
+| `deviceTypeMode` | `char*` |  |
+| `hardwareVersion` | `char*` |  |
 | `id` | `char*` |  |
-| `is_active` | `bool` |  |
+| `isActive` | `bool` |  |
 | `manufacturer` | `char*` |  |
 | `model` | `char*` |  |
 | `modified` | `char*` |  |
 | `name` | `char*` |  |
-| `photo_url` | `char*` |  |
-| `product_name` | `char*` |  |
+| `photoUrl` | `char*` |  |
+| `productName` | `char*` |  |
 | `version` | `int64_t` |  |
 
 #### Example: Load
@@ -1232,9 +1232,9 @@ Create an instance: `Entity* inject_key = bluefindecryptxp2pe_inject_key(client,
 | --- | --- | --- |
 | `created` | `char*` |  |
 | `id` | `char*` |  |
-| `is_active` | `bool` |  |
-| `is_p2_pe` | `bool` |  |
-| `key_type` | `char*` |  |
+| `isActive` | `bool` |  |
+| `isP2PE` | `bool` |  |
+| `keyType` | `char*` |  |
 | `modified` | `char*` |  |
 | `name` | `char*` |  |
 | `version` | `int64_t` |  |
@@ -1298,26 +1298,26 @@ Create an instance: `Entity* location = bluefindecryptxp2pe_location(client, NUL
 | --- | --- | --- |
 | `address1` | `char*` |  |
 | `address2` | `char*` |  |
-| `billing_id` | `char*` |  |
+| `billingId` | `char*` |  |
 | `city` | `char*` |  |
 | `country` | `char*` |  |
 | `created` | `char*` |  |
-| `custom_reference` | `char*` |  |
+| `customReference` | `char*` |  |
 | `id` | `char*` |  |
-| `location_type` | `char*` |  |
-| `mail_address1` | `char*` |  |
-| `mail_address2` | `char*` |  |
-| `mail_city` | `char*` |  |
-| `mail_country` | `char*` |  |
-| `mail_postal_code` | `char*` |  |
-| `mail_state_province` | `char*` |  |
+| `locationType` | `char*` |  |
+| `mailAddress1` | `char*` |  |
+| `mailAddress2` | `char*` |  |
+| `mailCity` | `char*` |  |
+| `mailCountry` | `char*` |  |
+| `mailPostalCode` | `char*` |  |
+| `mailStateProvince` | `char*` |  |
 | `modified` | `char*` |  |
 | `name` | `char*` |  |
-| `name_of_business` | `char*` |  |
-| `note` | `char*` |  |
-| `postal_code` | `char*` |  |
-| `state_province` | `char*` |  |
-| `unique_id` | `char*` |  |
+| `nameOfBusiness` | `char*` |  |
+| `notes` | `char*` |  |
+| `postalCode` | `char*` |  |
+| `stateProvince` | `char*` |  |
+| `uniqueId` | `char*` |  |
 | `version` | `int64_t` |  |
 
 #### Example: Load
@@ -1358,19 +1358,19 @@ Create an instance: `Entity* partner = bluefindecryptxp2pe_partner(client, NULL)
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `billing_id` | `char*` |  |
-| `client_can_order_equipment` | `bool` |  |
+| `billingId` | `char*` |  |
+| `clientCanOrderEquipment` | `bool` |  |
 | `contact` | `voxgig_value* (map)` |  |
 | `created` | `char*` |  |
 | `id` | `char*` |  |
-| `is_active` | `bool` |  |
+| `isActive` | `bool` |  |
 | `location` | `voxgig_value* (map)` |  |
 | `modified` | `char*` |  |
 | `name` | `char*` |  |
 | `parent` | `voxgig_value* (map)` |  |
-| `partner_id` | `char*` |  |
+| `partnerId` | `char*` |  |
 | `reference` | `char*` |  |
-| `verification_phrase` | `char*` |  |
+| `verificationPhrase` | `char*` |  |
 | `version` | `int64_t` |  |
 
 #### Example: Load
@@ -1416,15 +1416,15 @@ Create an instance: `Entity* shipment = bluefindecryptxp2pe_shipment(client, NUL
 | `carrier` | `char*` |  |
 | `client` | `voxgig_value* (map)` |  |
 | `created` | `char*` |  |
-| `date_received` | `char*` |  |
-| `date_shipped` | `char*` |  |
-| `dc_kif` | `voxgig_value* (map)` |  |
+| `dateReceived` | `char*` |  |
+| `dateShipped` | `char*` |  |
+| `dcKif` | `voxgig_value* (map)` |  |
 | `id` | `char*` |  |
-| `item` | `voxgig_value* (list)` |  |
+| `items` | `voxgig_value* (list)` |  |
 | `kif` | `voxgig_value* (map)` |  |
 | `modified` | `char*` |  |
 | `partner` | `voxgig_value* (map)` |  |
-| `shipment_type` | `char*` |  |
+| `shipmentType` | `char*` |  |
 | `tracking` | `char*` |  |
 | `version` | `int64_t` |  |
 
@@ -1493,30 +1493,30 @@ Create an instance: `Entity* transaction = bluefindecryptxp2pe_transaction(clien
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `alternate_key` | `char*` |  |
+| `alternateKey` | `char*` |  |
 | `client` | `voxgig_value* (map)` |  |
-| `client_ref` | `char*` |  |
+| `clientRef` | `char*` |  |
 | `created` | `char*` |  |
 | `decrypted` | `int64_t` |  |
-| `device_name` | `char*` |  |
-| `direct_partner` | `voxgig_value* (map)` |  |
+| `deviceName` | `char*` |  |
+| `directPartner` | `voxgig_value* (map)` |  |
 | `encrypted` | `int64_t` |  |
-| `end_date` | `char*` |  |
-| `err_code` | `char*` |  |
-| `err_message` | `char*` |  |
+| `endDate` | `char*` |  |
+| `errCode` | `char*` |  |
+| `errMessage` | `char*` |  |
 | `id` | `char*` |  |
-| `ip_address` | `char*` |  |
-| `is_virtual` | `bool` |  |
-| `key_type` | `char*` |  |
+| `ipAddress` | `char*` |  |
+| `isVirtual` | `bool` |  |
+| `keyType` | `char*` |  |
 | `location` | `voxgig_value* (map)` |  |
-| `message_id` | `char*` |  |
+| `messageId` | `char*` |  |
 | `method` | `char*` |  |
 | `partner` | `voxgig_value* (map)` |  |
 | `reference` | `char*` |  |
-| `serial_number` | `char*` |  |
-| `start_date` | `char*` |  |
+| `serialNumber` | `char*` |  |
+| `startDate` | `char*` |  |
 | `success` | `bool` |  |
-| `transaction_source` | `char*` |  |
+| `transactionSource` | `char*` |  |
 
 #### Example: Load
 
@@ -1560,15 +1560,15 @@ Create an instance: `Entity* update_result = bluefindecryptxp2pe_update_result(c
 | --- | --- | --- |
 | `client` | `voxgig_value* (map)` |  |
 | `email` | `char*` |  |
-| `first_name` | `char*` |  |
+| `firstName` | `char*` |  |
 | `id` | `char*` |  |
-| `is_active` | `bool` |  |
+| `isActive` | `bool` |  |
 | `kif` | `voxgig_value* (map)` |  |
-| `last_name` | `char*` |  |
+| `lastName` | `char*` |  |
 | `partner` | `voxgig_value* (map)` |  |
 | `phone` | `char*` |  |
-| `user_name` | `char*` |  |
-| `user_role` | `voxgig_value* (map)` |  |
+| `userName` | `char*` |  |
+| `userRole` | `voxgig_value* (map)` |  |
 | `version` | `int64_t` |  |
 
 #### Example: List
@@ -1604,16 +1604,16 @@ Create an instance: `Entity* user = bluefindecryptxp2pe_user(client, NULL);`
 | `client` | `voxgig_value* (map)` |  |
 | `created` | `char*` |  |
 | `email` | `char*` |  |
-| `first_name` | `char*` |  |
+| `firstName` | `char*` |  |
 | `id` | `char*` |  |
-| `is_active` | `bool` |  |
+| `isActive` | `bool` |  |
 | `kif` | `voxgig_value* (map)` |  |
-| `last_name` | `char*` |  |
+| `lastName` | `char*` |  |
 | `modified` | `char*` |  |
 | `partner` | `voxgig_value* (map)` |  |
 | `phone` | `char*` |  |
-| `user_name` | `char*` |  |
-| `user_role` | `voxgig_value* (map)` |  |
+| `userName` | `char*` |  |
+| `userRole` | `voxgig_value* (map)` |  |
 | `version` | `int64_t` |  |
 
 #### Example: Load

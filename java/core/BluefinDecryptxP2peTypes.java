@@ -20,21 +20,21 @@ public final class BluefinDecryptxP2peTypes {
 
   private BluefinDecryptxP2peTypes() {}
 
-  public record Attestation(Map<String, Object> client, String complete_date, String created, Map<String, Object> device, String id, String name, String note) {}
+  public record Attestation(Map<String, Object> client, String completeDate, String created, Map<String, Object> device, String id, String name, String notes) {}
 
   public record AttestationLoadMatch(String id) {}
 
-  public record AttestationListMatch(Map<String, Object> client, String complete_date, String created, Map<String, Object> device, String id, String name, String note) {}
+  public record AttestationListMatch(Map<String, Object> client, String completeDate, String created, Map<String, Object> device, String id, String name, String notes) {}
 
-  public record AttestationCreateData(Map<String, Object> client, String complete_date, String created, Map<String, Object> device, String id, String name, String note) {}
+  public record AttestationCreateData(Map<String, Object> client, String completeDate, String created, Map<String, Object> device, String id, String name, String notes) {}
 
-  public record Client(Map<String, Object> contact, String created, Map<String, Object> direct_partner, String id, Boolean is_active, Map<String, Object> location, String mid, String modified, String name, Map<String, Object> partner, Long version) {}
+  public record Client(Map<String, Object> contact, String created, Map<String, Object> directPartner, String id, Boolean isActive, Map<String, Object> location, String mid, String modified, String name, Map<String, Object> partner, Long version) {}
 
   public record ClientLoadMatch(String id) {}
 
-  public record ClientListMatch(Map<String, Object> contact, String created, Map<String, Object> direct_partner, String id, Boolean is_active, Map<String, Object> location, String mid, String modified, String name, Map<String, Object> partner, Long version) {}
+  public record ClientListMatch(Map<String, Object> contact, String created, Map<String, Object> directPartner, String id, Boolean isActive, Map<String, Object> location, String mid, String modified, String name, Map<String, Object> partner, Long version) {}
 
-  public record ClientCreateData(Map<String, Object> contact, String created, Map<String, Object> direct_partner, String id, Boolean is_active, Map<String, Object> location, String mid, String modified, String name, Map<String, Object> partner, Long version) {}
+  public record ClientCreateData(Map<String, Object> contact, String created, Map<String, Object> directPartner, String id, Boolean isActive, Map<String, Object> location, String mid, String modified, String name, Map<String, Object> partner, Long version) {}
 
   public record ClientRemoveMatch(String id) {}
 
@@ -46,25 +46,25 @@ public final class BluefinDecryptxP2peTypes {
 
   public record DecryptionCreateData(Boolean success) {}
 
-  public record Device(Map<String, Object> activated_by, String activation_date, String alternate_key, String audit_next_date, String audit_notification_date, Map<String, Object> client, String created, Map<String, Object> created_by, Map<String, Object> device_build, Map<String, Object> device_state, Map<String, Object> device_type, Long error_counter, String error_last_date, String id, Map<String, Object> initialized_by, String initialized_date, Map<String, Object> inject_key, Boolean is_virtual, Map<String, Object> kif, String last_activity_date, Map<String, Object> location, String modified, Map<String, Object> modified_by, String name, String note, Map<String, Object> partner, String serial_number, Long version) {}
+  public record Device(Map<String, Object> activatedBy, String activationDate, String alternateKey, String auditNextDate, String auditNotificationDate, Map<String, Object> client, String created, Map<String, Object> createdBy, Map<String, Object> deviceBuild, Map<String, Object> deviceState, Map<String, Object> deviceType, Long errorCounter, String errorLastDate, String id, Map<String, Object> initializedBy, String initializedDate, Map<String, Object> injectKey, Boolean isVirtual, Map<String, Object> kif, String lastActivityDate, Map<String, Object> location, String modified, Map<String, Object> modifiedBy, String name, String notes, Map<String, Object> partner, String serialNumber, Long version) {}
 
   public record DeviceLoadMatch(String device_type, String serial_number, String id) {}
 
-  public record DeviceListMatch(Map<String, Object> activated_by, String activation_date, String alternate_key, String audit_next_date, String audit_notification_date, Map<String, Object> client, String created, Map<String, Object> created_by, Map<String, Object> device_build, Map<String, Object> device_state, Map<String, Object> device_type, Long error_counter, String error_last_date, String id, Map<String, Object> initialized_by, String initialized_date, Map<String, Object> inject_key, Boolean is_virtual, Map<String, Object> kif, String last_activity_date, Map<String, Object> location, String modified, Map<String, Object> modified_by, String name, String note, Map<String, Object> partner, String serial_number, Long version) {}
+  public record DeviceListMatch(Map<String, Object> activatedBy, String activationDate, String alternateKey, String auditNextDate, String auditNotificationDate, Map<String, Object> client, String created, Map<String, Object> createdBy, Map<String, Object> deviceBuild, Map<String, Object> deviceState, Map<String, Object> deviceType, Long errorCounter, String errorLastDate, String id, Map<String, Object> initializedBy, String initializedDate, Map<String, Object> injectKey, Boolean isVirtual, Map<String, Object> kif, String lastActivityDate, Map<String, Object> location, String modified, Map<String, Object> modifiedBy, String name, String notes, Map<String, Object> partner, String serialNumber, Long version) {}
 
-  public record DeviceCreateData(Map<String, Object> activated_by, String activation_date, String alternate_key, String audit_next_date, String audit_notification_date, Map<String, Object> client, String created, Map<String, Object> created_by, Map<String, Object> device_build, Map<String, Object> device_state, Map<String, Object> device_type, Long error_counter, String error_last_date, String id, Map<String, Object> initialized_by, String initialized_date, Map<String, Object> inject_key, Boolean is_virtual, Map<String, Object> kif, String last_activity_date, Map<String, Object> location, String modified, Map<String, Object> modified_by, String name, String note, Map<String, Object> partner, String serial_number, Long version) {}
+  public record DeviceCreateData(Map<String, Object> activatedBy, String activationDate, String alternateKey, String auditNextDate, String auditNotificationDate, Map<String, Object> client, String created, Map<String, Object> createdBy, Map<String, Object> deviceBuild, Map<String, Object> deviceState, Map<String, Object> deviceType, Long errorCounter, String errorLastDate, String id, Map<String, Object> initializedBy, String initializedDate, Map<String, Object> injectKey, Boolean isVirtual, Map<String, Object> kif, String lastActivityDate, Map<String, Object> location, String modified, Map<String, Object> modifiedBy, String name, String notes, Map<String, Object> partner, String serialNumber, Long version) {}
 
-  public record DeviceBuild(String app_version, String build_number, String config_file_name, String created, String device_type, String firmware_version, String hardware_version, Long id, Boolean is_active, String modified, String name, String note, Long version, String white_listing_bin_range, Boolean white_listing_used) {}
+  public record DeviceBuild(String appVersion, String buildNumber, String configFileName, String created, String deviceType, String firmwareVersion, String hardwareVersion, Long id, Boolean isActive, String modified, String name, String notes, Long version, String whiteListingBinRanges, Boolean whiteListingUsed) {}
 
   public record DeviceBuildLoadMatch(String id) {}
 
-  public record DeviceBuildListMatch(String app_version, String build_number, String config_file_name, String created, String device_type, String firmware_version, String hardware_version, Long id, Boolean is_active, String modified, String name, String note, Long version, String white_listing_bin_range, Boolean white_listing_used) {}
+  public record DeviceBuildListMatch(String appVersion, String buildNumber, String configFileName, String created, String deviceType, String firmwareVersion, String hardwareVersion, Long id, Boolean isActive, String modified, String name, String notes, Long version, String whiteListingBinRanges, Boolean whiteListingUsed) {}
 
-  public record DeviceCustodyDetail(String complete_date, String created, Map<String, Object> created_by, Map<String, Object> custodian, Map<String, Object> device, Long id, Map<String, Object> location, String modified, Map<String, Object> modified_by, String note, Map<String, Object> status, Map<String, Object> transfer_method, Long version) {}
+  public record DeviceCustodyDetail(String completeDate, String created, Map<String, Object> createdBy, Map<String, Object> custodian, Map<String, Object> device, Long id, Map<String, Object> location, String modified, Map<String, Object> modifiedBy, String notes, Map<String, Object> status, Map<String, Object> transferMethod, Long version) {}
 
   public record DeviceCustodyDetailLoadMatch(String device_type, String id, String serial_number) {}
 
-  public record DeviceCustodyList(String complete_date, String created, Map<String, Object> created_by, Map<String, Object> custodian, Map<String, Object> device, Long id, Map<String, Object> location, String modified, Map<String, Object> modified_by, String note, Map<String, Object> status, Map<String, Object> transfer_method, Long version) {}
+  public record DeviceCustodyList(String completeDate, String created, Map<String, Object> createdBy, Map<String, Object> custodian, Map<String, Object> device, Long id, Map<String, Object> location, String modified, Map<String, Object> modifiedBy, String notes, Map<String, Object> status, Map<String, Object> transferMethod, Long version) {}
 
   public record DeviceCustodyListListMatch(String device_type, String serial_number) {}
 
@@ -84,71 +84,71 @@ public final class BluefinDecryptxP2peTypes {
 
   public record DeviceStateListMatch(Long id, String name) {}
 
-  public record DeviceType(String created, String device_type_mode, String hardware_version, String id, Boolean is_active, String manufacturer, String model, String modified, String name, String photo_url, String product_name, Long version) {}
+  public record DeviceType(String created, String deviceTypeMode, String hardwareVersion, String id, Boolean isActive, String manufacturer, String model, String modified, String name, String photoUrl, String productName, Long version) {}
 
   public record DeviceTypeLoadMatch(String id) {}
 
-  public record DeviceTypeListMatch(String created, String device_type_mode, String hardware_version, String id, Boolean is_active, String manufacturer, String model, String modified, String name, String photo_url, String product_name, Long version) {}
+  public record DeviceTypeListMatch(String created, String deviceTypeMode, String hardwareVersion, String id, Boolean isActive, String manufacturer, String model, String modified, String name, String photoUrl, String productName, Long version) {}
 
-  public record InjectKey(String created, String id, Boolean is_active, Boolean is_p2_pe, String key_type, String modified, String name, Long version) {}
+  public record InjectKey(String created, String id, Boolean isActive, Boolean isP2PE, String keyType, String modified, String name, Long version) {}
 
   public record InjectKeyLoadMatch(String id) {}
 
-  public record InjectKeyListMatch(String created, String id, Boolean is_active, Boolean is_p2_pe, String key_type, String modified, String name, Long version) {}
+  public record InjectKeyListMatch(String created, String id, Boolean isActive, Boolean isP2PE, String keyType, String modified, String name, Long version) {}
 
   public record Kif(Long id, String name) {}
 
   public record KifListMatch(Long id, String name) {}
 
-  public record Location(String address1, String address2, String billing_id, String city, String country, String created, String custom_reference, String id, String location_type, String mail_address1, String mail_address2, String mail_city, String mail_country, String mail_postal_code, String mail_state_province, String modified, String name, String name_of_business, String note, String postal_code, String state_province, String unique_id, Long version) {}
+  public record Location(String address1, String address2, String billingId, String city, String country, String created, String customReference, String id, String locationType, String mailAddress1, String mailAddress2, String mailCity, String mailCountry, String mailPostalCode, String mailStateProvince, String modified, String name, String nameOfBusiness, String notes, String postalCode, String stateProvince, String uniqueId, Long version) {}
 
   public record LocationLoadMatch(String id) {}
 
-  public record LocationListMatch(String address1, String address2, String billing_id, String city, String country, String created, String custom_reference, String id, String location_type, String mail_address1, String mail_address2, String mail_city, String mail_country, String mail_postal_code, String mail_state_province, String modified, String name, String name_of_business, String note, String postal_code, String state_province, String unique_id, Long version) {}
+  public record LocationListMatch(String address1, String address2, String billingId, String city, String country, String created, String customReference, String id, String locationType, String mailAddress1, String mailAddress2, String mailCity, String mailCountry, String mailPostalCode, String mailStateProvince, String modified, String name, String nameOfBusiness, String notes, String postalCode, String stateProvince, String uniqueId, Long version) {}
 
-  public record LocationCreateData(String address1, String address2, String billing_id, String city, String country, String created, String custom_reference, String id, String location_type, String mail_address1, String mail_address2, String mail_city, String mail_country, String mail_postal_code, String mail_state_province, String modified, String name, String name_of_business, String note, String postal_code, String state_province, String unique_id, Long version) {}
+  public record LocationCreateData(String address1, String address2, String billingId, String city, String country, String created, String customReference, String id, String locationType, String mailAddress1, String mailAddress2, String mailCity, String mailCountry, String mailPostalCode, String mailStateProvince, String modified, String name, String nameOfBusiness, String notes, String postalCode, String stateProvince, String uniqueId, Long version) {}
 
   public record LocationRemoveMatch(String id) {}
 
-  public record Partner(String billing_id, Boolean client_can_order_equipment, Map<String, Object> contact, String created, String id, Boolean is_active, Map<String, Object> location, String modified, String name, Map<String, Object> parent, String partner_id, String reference, String verification_phrase, Long version) {}
+  public record Partner(String billingId, Boolean clientCanOrderEquipment, Map<String, Object> contact, String created, String id, Boolean isActive, Map<String, Object> location, String modified, String name, Map<String, Object> parent, String partnerId, String reference, String verificationPhrase, Long version) {}
 
   public record PartnerLoadMatch(String id) {}
 
-  public record PartnerListMatch(String billing_id, Boolean client_can_order_equipment, Map<String, Object> contact, String created, String id, Boolean is_active, Map<String, Object> location, String modified, String name, Map<String, Object> parent, String partner_id, String reference, String verification_phrase, Long version) {}
+  public record PartnerListMatch(String billingId, Boolean clientCanOrderEquipment, Map<String, Object> contact, String created, String id, Boolean isActive, Map<String, Object> location, String modified, String name, Map<String, Object> parent, String partnerId, String reference, String verificationPhrase, Long version) {}
 
-  public record PartnerCreateData(String billing_id, Boolean client_can_order_equipment, Map<String, Object> contact, String created, String id, Boolean is_active, Map<String, Object> location, String modified, String name, Map<String, Object> parent, String partner_id, String reference, String verification_phrase, Long version) {}
+  public record PartnerCreateData(String billingId, Boolean clientCanOrderEquipment, Map<String, Object> contact, String created, String id, Boolean isActive, Map<String, Object> location, String modified, String name, Map<String, Object> parent, String partnerId, String reference, String verificationPhrase, Long version) {}
 
-  public record Shipment(String carrier, Map<String, Object> client, String created, String date_received, String date_shipped, Map<String, Object> dc_kif, String id, List<Object> item, Map<String, Object> kif, String modified, Map<String, Object> partner, String shipment_type, String tracking, Long version) {}
+  public record Shipment(String carrier, Map<String, Object> client, String created, String dateReceived, String dateShipped, Map<String, Object> dcKif, String id, List<Object> items, Map<String, Object> kif, String modified, Map<String, Object> partner, String shipmentType, String tracking, Long version) {}
 
   public record ShipmentLoadMatch(String id) {}
 
-  public record ShipmentListMatch(String carrier, Map<String, Object> client, String created, String date_received, String date_shipped, Map<String, Object> dc_kif, String id, List<Object> item, Map<String, Object> kif, String modified, Map<String, Object> partner, String shipment_type, String tracking, Long version) {}
+  public record ShipmentListMatch(String carrier, Map<String, Object> client, String created, String dateReceived, String dateShipped, Map<String, Object> dcKif, String id, List<Object> items, Map<String, Object> kif, String modified, Map<String, Object> partner, String shipmentType, String tracking, Long version) {}
 
-  public record ShipmentCreateData(String carrier, Map<String, Object> client, String created, String date_received, String date_shipped, Map<String, Object> dc_kif, String id, List<Object> item, Map<String, Object> kif, String modified, Map<String, Object> partner, String shipment_type, String tracking, Long version) {}
+  public record ShipmentCreateData(String carrier, Map<String, Object> client, String created, String dateReceived, String dateShipped, Map<String, Object> dcKif, String id, List<Object> items, Map<String, Object> kif, String modified, Map<String, Object> partner, String shipmentType, String tracking, Long version) {}
 
   public record Success(Boolean success) {}
 
-  public record SuccessCreateData(String share_partner_to) {}
+  public record SuccessCreateData(String share_partner_to, Boolean success) {}
 
   public record SuccessRemoveMatch(String share_partner_to) {}
 
-  public record Transaction(String alternate_key, Map<String, Object> client, String client_ref, String created, Long decrypted, String device_name, Map<String, Object> direct_partner, Long encrypted, String end_date, String err_code, String err_message, String id, String ip_address, Boolean is_virtual, String key_type, Map<String, Object> location, String message_id, String method, Map<String, Object> partner, String reference, String serial_number, String start_date, Boolean success, String transaction_source) {}
+  public record Transaction(String alternateKey, Map<String, Object> client, String clientRef, String created, Long decrypted, String deviceName, Map<String, Object> directPartner, Long encrypted, String endDate, String errCode, String errMessage, String id, String ipAddress, Boolean isVirtual, String keyType, Map<String, Object> location, String messageId, String method, Map<String, Object> partner, String reference, String serialNumber, String startDate, Boolean success, String transactionSource) {}
 
   public record TransactionLoadMatch(String id) {}
 
-  public record TransactionListMatch(String alternate_key, Map<String, Object> client, String client_ref, String created, Long decrypted, String device_name, Map<String, Object> direct_partner, Long encrypted, String end_date, String err_code, String err_message, String id, String ip_address, Boolean is_virtual, String key_type, Map<String, Object> location, String message_id, String method, Map<String, Object> partner, String reference, String serial_number, String start_date, Boolean success, String transaction_source) {}
+  public record TransactionListMatch(String alternateKey, Map<String, Object> client, String clientRef, String created, Long decrypted, String deviceName, Map<String, Object> directPartner, Long encrypted, String endDate, String errCode, String errMessage, String id, String ipAddress, Boolean isVirtual, String keyType, Map<String, Object> location, String messageId, String method, Map<String, Object> partner, String reference, String serialNumber, String startDate, Boolean success, String transactionSource) {}
 
-  public record TransactionCreateData(String alternate_key, Map<String, Object> client, String client_ref, String created, Long decrypted, String device_name, Map<String, Object> direct_partner, Long encrypted, String end_date, String err_code, String err_message, String id, String ip_address, Boolean is_virtual, String key_type, Map<String, Object> location, String message_id, String method, Map<String, Object> partner, String reference, String serial_number, String start_date, Boolean success, String transaction_source) {}
+  public record TransactionCreateData(String alternateKey, Map<String, Object> client, String clientRef, String created, Long decrypted, String deviceName, Map<String, Object> directPartner, Long encrypted, String endDate, String errCode, String errMessage, String id, String ipAddress, Boolean isVirtual, String keyType, Map<String, Object> location, String messageId, String method, Map<String, Object> partner, String reference, String serialNumber, String startDate, Boolean success, String transactionSource) {}
 
-  public record UpdateResult(Map<String, Object> client, String email, String first_name, String id, Boolean is_active, Map<String, Object> kif, String last_name, Map<String, Object> partner, String phone, String user_name, Map<String, Object> user_role, Long version) {}
+  public record UpdateResult(Map<String, Object> client, String email, String firstName, String id, Boolean isActive, Map<String, Object> kif, String lastName, Map<String, Object> partner, String phone, String userName, Map<String, Object> userRole, Long version) {}
 
-  public record UpdateResultListMatch(Map<String, Object> client, String email, String first_name, String id, Boolean is_active, Map<String, Object> kif, String last_name, Map<String, Object> partner, String phone, String user_name, Map<String, Object> user_role, Long version) {}
+  public record UpdateResultListMatch(Map<String, Object> client, String email, String firstName, String id, Boolean isActive, Map<String, Object> kif, String lastName, Map<String, Object> partner, String phone, String userName, Map<String, Object> userRole, Long version) {}
 
-  public record UpdateResultCreateData(Map<String, Object> client, String email, String first_name, String id, Boolean is_active, Map<String, Object> kif, String last_name, Map<String, Object> partner, String phone, String user_name, Map<String, Object> user_role, Long version) {}
+  public record UpdateResultCreateData(Map<String, Object> client, String email, String firstName, String id, Boolean isActive, Map<String, Object> kif, String lastName, Map<String, Object> partner, String phone, String userName, Map<String, Object> userRole, Long version) {}
 
-  public record UpdateResultUpdateData(String id) {}
+  public record UpdateResultUpdateData(String id, Map<String, Object> client, String email, String firstName, Boolean isActive, Map<String, Object> kif, String lastName, Map<String, Object> partner, String phone, String userName, Map<String, Object> userRole, Long version) {}
 
-  public record User(Map<String, Object> client, String created, String email, String first_name, String id, Boolean is_active, Map<String, Object> kif, String last_name, String modified, Map<String, Object> partner, String phone, String user_name, Map<String, Object> user_role, Long version) {}
+  public record User(Map<String, Object> client, String created, String email, String firstName, String id, Boolean isActive, Map<String, Object> kif, String lastName, String modified, Map<String, Object> partner, String phone, String userName, Map<String, Object> userRole, Long version) {}
 
   public record UserLoadMatch(String id) {}
 

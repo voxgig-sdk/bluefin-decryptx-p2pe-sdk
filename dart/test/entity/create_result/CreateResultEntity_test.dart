@@ -21,7 +21,7 @@ void tests() {
 
     test('basic', (t) async {
 
-      final live = 'TRUE' == Platform.environment['BLUEFIN_DECRYPTX_P_PE_TEST_LIVE'];
+      final live = 'TRUE' == Platform.environment['BLUEFIN_DECRYPTX_P2PE_TEST_LIVE'];
       for (final op in ['create']) {
         if (maybeSkipControl(t, 'entityOp', 'create_result.' + op, live)) {
           return;
@@ -33,7 +33,7 @@ void tests() {
       // fixture (entity TestData.json). Those don't exist on the live API.
       // Skip live runs unless the user provided a real ENTID env override.
       if (true == setup['syntheticOnly']) {
-        t.skip('live entity test uses synthetic IDs from fixture — set BLUEFIN_DECRYPTX_P_PE_TEST_CREATE_RESULT_ENTID JSON to run live');
+        t.skip('live entity test uses synthetic IDs from fixture — set BLUEFIN_DECRYPTX_P2PE_TEST_CREATE_RESULT_ENTID JSON to run live');
         return;
       }
       final client = setup['client'];
@@ -49,7 +49,7 @@ void tests() {
       create_result_ref01_data['device_type'] = setup['idmap']['device_type01'];
       create_result_ref01_data['serial_number'] = setup['idmap']['serial_number01'];
 
-      create_result_ref01_data = await create_result_ref01_ent.create(create_result_ref01_data);
+      create_result_ref01_data = (await create_result_ref01_ent.create(create_result_ref01_data)).data();
       ok(null != create_result_ref01_data);
 
 
@@ -92,25 +92,25 @@ Map<String, dynamic> basicSetup([dynamic extra]) {
   // override those synthetic IDs reach the live API and 4xx. Surface this
   // to the test so it can skip rather than fail.
   final idmapEnvVal =
-      Platform.environment['BLUEFIN_DECRYPTX_P_PE_TEST_CREATE_RESULT_ENTID'];
+      Platform.environment['BLUEFIN_DECRYPTX_P2PE_TEST_CREATE_RESULT_ENTID'];
   final idmapOverridden =
       null != idmapEnvVal && idmapEnvVal.trim().startsWith('{');
 
   final env = envOverride({
-    'BLUEFIN_DECRYPTX_P_PE_TEST_CREATE_RESULT_ENTID': idmap,
-    'BLUEFIN_DECRYPTX_P_PE_TEST_LIVE': 'FALSE',
-    'BLUEFIN_DECRYPTX_P_PE_TEST_EXPLAIN': 'FALSE',
-    'BLUEFIN_DECRYPTX_P_PE_APIKEY': 'NONE',
+    'BLUEFIN_DECRYPTX_P2PE_TEST_CREATE_RESULT_ENTID': idmap,
+    'BLUEFIN_DECRYPTX_P2PE_TEST_LIVE': 'FALSE',
+    'BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN': 'FALSE',
+    'BLUEFIN_DECRYPTX_P2PE_APIKEY': 'NONE',
   });
 
-  idmap = env['BLUEFIN_DECRYPTX_P_PE_TEST_CREATE_RESULT_ENTID'];
+  idmap = env['BLUEFIN_DECRYPTX_P2PE_TEST_CREATE_RESULT_ENTID'];
 
-  final live = 'TRUE' == env['BLUEFIN_DECRYPTX_P_PE_TEST_LIVE'];
+  final live = 'TRUE' == env['BLUEFIN_DECRYPTX_P2PE_TEST_LIVE'];
 
   if (live) {
     client = BluefinDecryptxP2peSDK(merge([
       <String, dynamic>{
-        'apikey': env['BLUEFIN_DECRYPTX_P_PE_APIKEY'],
+        'apikey': env['BLUEFIN_DECRYPTX_P2PE_APIKEY'],
       },
       extra
     ]));
@@ -123,7 +123,7 @@ Map<String, dynamic> basicSetup([dynamic extra]) {
     'client': client,
     'struct': struct,
     'data': entityData,
-    'explain': 'TRUE' == env['BLUEFIN_DECRYPTX_P_PE_TEST_EXPLAIN'],
+    'explain': 'TRUE' == env['BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN'],
     'live': live,
     'syntheticOnly': live && !idmapOverridden,
     'now': DateTime.now().millisecondsSinceEpoch,

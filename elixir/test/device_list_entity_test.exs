@@ -34,7 +34,8 @@ defmodule BluefinDecryptxP2pe.DeviceListEntityTest do
     if id != nil do
       sdk = mk_sdk()
       ent = BluefinDecryptxP2pe.device_list(sdk)
-      rec = BluefinDecryptxP2pe.Entity.DeviceList.load(ent, S.jm(["id", id]))
+      loaded = BluefinDecryptxP2pe.Entity.DeviceList.load(ent, S.jm(["id", id]))
+      rec = BluefinDecryptxP2pe.EntityBase.data_get(loaded)
       assert S.ismap(rec)
       assert S.getprop(rec, "id") == id
     end

@@ -14,6 +14,8 @@ typedef struct kif_entity {
   voxgig_value* data;     // Map
   voxgig_value* mtch;     // Map
   Context* entctx;
+  // Set once a successful `remove` resolves on this instance.
+  bool deleted;
 } kif_entity;
 
 typedef void (*kif_postdone_fn)(kif_entity* self, Context* ctx);
@@ -24,11 +26,14 @@ static const char* kif_get_name(Entity* e);
 static Entity* kif_make(Entity* e);
 static voxgig_value* kif_data(Entity* e, voxgig_value* args);
 static voxgig_value* kif_matchv(Entity* e, voxgig_value* args);
-static voxgig_value* kif_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
-static voxgig_value* kif_list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
-static voxgig_value* kif_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
-static voxgig_value* kif_update(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
-static voxgig_value* kif_remove(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+// Ops resolve to the ENTITY (`list` to a NULL-terminated array of them).
+static Entity* kif_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static Entity** kif_list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static Entity* kif_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
+static Entity* kif_update(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
+static Entity* kif_remove(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static void kif_mark_deleted(Entity* e);
+static bool kif_deleted(Entity* e);
 
 static Context* kif_ent_ctx(kif_entity* self) {
   return self->entctx;
@@ -236,7 +241,7 @@ static voxgig_value* kif_matchv(Entity* e, voxgig_value* args) {
   return voxgig_clone(self->mtch);
 }
 
-static voxgig_value* kif_load(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* kif_load(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("load", "kif");
   return NULL;
@@ -251,7 +256,7 @@ static void kif_list_postdone(kif_entity* self, Context* ctx) {
   }
 }
 
-static voxgig_value* kif_list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err) {
+static Entity** kif_list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err) {
   kif_entity* self = (kif_entity*)e;
   CtxSpec cs;
   memset(&cs, 0, sizeof(cs));
@@ -261,26 +266,54 @@ static voxgig_value* kif_list(Entity* e, voxgig_value* reqmatch, voxgig_value* c
   cs.data = self->data;
   cs.reqmatch = reqmatch;
   Context* ctx = make_context_util(cs, kif_ent_ctx(self));
-  return kif_run_op(self, ctx, kif_list_postdone, err);
+  voxgig_value* out = kif_run_op(self, ctx, kif_list_postdone, err);
+  if (*err) return NULL;
+
+  // `list` resolves to one ENTITY per record. make_result cannot build them
+  // here - it works in voxgig_value, which has no slot for an entity - so the
+  // op does, mirroring what the dynamic targets get from make_result. The
+  // array is NULL-terminated.
+  size_t n = voxgig_is_list(out) ? voxgig_as_list(out)->len : 0;
+  Entity** items = (Entity**)calloc(n + 1, sizeof(Entity*));
+  for (size_t i = 0; i < n; i++) {
+    voxgig_value* entry = voxgig_as_list(out)->items[i];
+    Entity* ent = e->vt->make(e);
+    if (voxgig_is_map(entry)) ent->vt->data(ent, entry);
+    items[i] = ent;
+  }
+  items[n] = NULL;
+
+  return items;
 }
 
 
-static voxgig_value* kif_create(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* kif_create(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("create", "kif");
   return NULL;
 }
 
-static voxgig_value* kif_update(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* kif_update(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("update", "kif");
   return NULL;
 }
 
-static voxgig_value* kif_remove(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* kif_remove(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("remove", "kif");
   return NULL;
+}
+
+// `remove` resolves to the entity, marked. The instance KEEPS the data it
+// held - a caller can still read what was deleted - but it is no longer a
+// live record.
+static void kif_mark_deleted(Entity* e) {
+  ((kif_entity*)e)->deleted = true;
+}
+
+static bool kif_deleted(Entity* e) {
+  return ((kif_entity*)e)->deleted;
 }
 
 static const EntityVT kif_VT = {
@@ -288,6 +321,8 @@ static const EntityVT kif_VT = {
   kif_make,
   kif_data,
   kif_matchv,
+  kif_mark_deleted,
+  kif_deleted,
   kif_load,
   kif_list,
   kif_create,

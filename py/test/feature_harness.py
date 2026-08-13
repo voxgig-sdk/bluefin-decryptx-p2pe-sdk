@@ -14,12 +14,12 @@ from __future__ import annotations
 
 from urllib.parse import quote
 
-from config import make_config
-from features import _make_feature
-from core.control import BluefinDecryptxP2peControl
-from core.error import BluefinDecryptxP2peError
-from core.result import BluefinDecryptxP2peResult
-from core.spec import BluefinDecryptxP2peSpec
+from bluefindecryptxp2pe_sdk.config import make_config
+from bluefindecryptxp2pe_sdk.features import _make_feature
+from bluefindecryptxp2pe_sdk.core.control import BluefinDecryptxP2peControl
+from bluefindecryptxp2pe_sdk.core.error import BluefinDecryptxP2peError
+from bluefindecryptxp2pe_sdk.core.result import BluefinDecryptxP2peResult
+from bluefindecryptxp2pe_sdk.core.spec import BluefinDecryptxP2peSpec
 
 
 # True when this SDK was generated with the named feature.

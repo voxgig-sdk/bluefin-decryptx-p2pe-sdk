@@ -199,12 +199,12 @@ const attestation = client.attestation(h.vnull());
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `client` | `Value (object)` | No |  |
-| `complete_date` | `[]const u8` | No |  |
+| `completeDate` | `[]const u8` | No |  |
 | `created` | `[]const u8` | No |  |
 | `device` | `Value (object)` | No |  |
 | `id` | `[]const u8` | No |  |
 | `name` | `[]const u8` | No |  |
-| `note` | `[]const u8` | No |  |
+| `notes` | `[]const u8` | No |  |
 
 ### Operations
 
@@ -275,9 +275,9 @@ const client = client.client(h.vnull());
 | --- | --- | --- | --- |
 | `contact` | `Value (object)` | No |  |
 | `created` | `[]const u8` | No |  |
-| `direct_partner` | `Value (object)` | No |  |
+| `directPartner` | `Value (object)` | No |  |
 | `id` | `[]const u8` | No |  |
-| `is_active` | `bool` | No |  |
+| `isActive` | `bool` | No |  |
 | `location` | `Value (object)` | Yes |  |
 | `mid` | `[]const u8` | No |  |
 | `modified` | `[]const u8` | No |  |
@@ -291,9 +291,9 @@ const client = client.client(h.vnull());
 | --- | --- | --- | --- | --- |
 | `contact` | - | Yes | - | - |
 | `created` | - | - | - | - |
-| `direct_partner` | - | - | - | - |
+| `directPartner` | - | - | - | - |
 | `id` | - | - | - | - |
-| `is_active` | - | - | - | - |
+| `isActive` | - | - | - | - |
 | `location` | - | - | - | - |
 | `mid` | - | - | - | - |
 | `modified` | - | - | - | - |
@@ -470,33 +470,33 @@ const device = client.device(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `activated_by` | `Value (object)` | Yes |  |
-| `activation_date` | `[]const u8` | No |  |
-| `alternate_key` | `[]const u8` | No |  |
-| `audit_next_date` | `[]const u8` | No |  |
-| `audit_notification_date` | `[]const u8` | No |  |
+| `activatedBy` | `Value (object)` | Yes |  |
+| `activationDate` | `[]const u8` | No |  |
+| `alternateKey` | `[]const u8` | No |  |
+| `auditNextDate` | `[]const u8` | No |  |
+| `auditNotificationDate` | `[]const u8` | No |  |
 | `client` | `Value (object)` | No |  |
 | `created` | `[]const u8` | No |  |
-| `created_by` | `Value (object)` | Yes |  |
-| `device_build` | `Value (object)` | No |  |
-| `device_state` | `Value (object)` | No |  |
-| `device_type` | `Value (object)` | No |  |
-| `error_counter` | `i64` | No |  |
-| `error_last_date` | `[]const u8` | No |  |
+| `createdBy` | `Value (object)` | Yes |  |
+| `deviceBuild` | `Value (object)` | No |  |
+| `deviceState` | `Value (object)` | No |  |
+| `deviceType` | `Value (object)` | No |  |
+| `errorCounter` | `i64` | No |  |
+| `errorLastDate` | `[]const u8` | No |  |
 | `id` | `[]const u8` | No |  |
-| `initialized_by` | `Value (object)` | Yes |  |
-| `initialized_date` | `[]const u8` | No |  |
-| `inject_key` | `Value (object)` | No |  |
-| `is_virtual` | `bool` | No |  |
+| `initializedBy` | `Value (object)` | Yes |  |
+| `initializedDate` | `[]const u8` | No |  |
+| `injectKey` | `Value (object)` | No |  |
+| `isVirtual` | `bool` | No |  |
 | `kif` | `Value (object)` | No |  |
-| `last_activity_date` | `[]const u8` | No |  |
+| `lastActivityDate` | `[]const u8` | No |  |
 | `location` | `Value (object)` | Yes |  |
 | `modified` | `[]const u8` | No |  |
-| `modified_by` | `Value (object)` | Yes |  |
+| `modifiedBy` | `Value (object)` | Yes |  |
 | `name` | `[]const u8` | No |  |
-| `note` | `[]const u8` | No |  |
+| `notes` | `[]const u8` | No |  |
 | `partner` | `Value (object)` | No |  |
-| `serial_number` | `[]const u8` | No |  |
+| `serialNumber` | `[]const u8` | No |  |
 | `version` | `i64` | No |  |
 
 ### Operations
@@ -507,11 +507,11 @@ Create a new entity with the given data. `.ok` carries the created entity data.
 
 ```zig
 switch (client.device(h.vnull()).create(h.jo(&.{
-    .{ "activated_by", h.omap() }, // Value (object)
-    .{ "created_by", h.omap() }, // Value (object)
-    .{ "initialized_by", h.omap() }, // Value (object)
+    .{ "activatedBy", h.omap() }, // Value (object)
+    .{ "createdBy", h.omap() }, // Value (object)
+    .{ "initializedBy", h.omap() }, // Value (object)
     .{ "location", h.omap() }, // Value (object)
-    .{ "modified_by", h.omap() }, // Value (object)
+    .{ "modifiedBy", h.omap() }, // Value (object)
 }), h.vnull())) {
     .ok => |result| std.debug.print("{s}\n", .{h.stringify(result)}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
@@ -571,21 +571,21 @@ const device_build = client.device_build(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `app_version` | `[]const u8` | No |  |
-| `build_number` | `[]const u8` | No |  |
-| `config_file_name` | `[]const u8` | No |  |
+| `appVersion` | `[]const u8` | No |  |
+| `buildNumber` | `[]const u8` | No |  |
+| `configFileName` | `[]const u8` | No |  |
 | `created` | `[]const u8` | No |  |
-| `device_type` | `[]const u8` | No |  |
-| `firmware_version` | `[]const u8` | No |  |
-| `hardware_version` | `[]const u8` | No |  |
+| `deviceType` | `[]const u8` | No |  |
+| `firmwareVersion` | `[]const u8` | No |  |
+| `hardwareVersion` | `[]const u8` | No |  |
 | `id` | `i64` | No |  |
-| `is_active` | `bool` | No |  |
+| `isActive` | `bool` | No |  |
 | `modified` | `[]const u8` | No |  |
 | `name` | `[]const u8` | No |  |
-| `note` | `[]const u8` | No |  |
+| `notes` | `[]const u8` | No |  |
 | `version` | `i64` | No |  |
-| `white_listing_bin_range` | `[]const u8` | No |  |
-| `white_listing_used` | `bool` | No |  |
+| `whiteListingBinRanges` | `[]const u8` | No |  |
+| `whiteListingUsed` | `bool` | No |  |
 
 ### Operations
 
@@ -642,18 +642,18 @@ const device_custody_detail = client.device_custody_detail(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `complete_date` | `[]const u8` | No |  |
+| `completeDate` | `[]const u8` | No |  |
 | `created` | `[]const u8` | No |  |
-| `created_by` | `Value (object)` | Yes |  |
+| `createdBy` | `Value (object)` | Yes |  |
 | `custodian` | `Value (object)` | Yes |  |
 | `device` | `Value (object)` | No |  |
 | `id` | `i64` | No |  |
 | `location` | `Value (object)` | Yes |  |
 | `modified` | `[]const u8` | No |  |
-| `modified_by` | `Value (object)` | Yes |  |
-| `note` | `[]const u8` | No |  |
+| `modifiedBy` | `Value (object)` | Yes |  |
+| `notes` | `[]const u8` | No |  |
 | `status` | `Value (object)` | No |  |
-| `transfer_method` | `Value (object)` | No |  |
+| `transferMethod` | `Value (object)` | No |  |
 | `version` | `i64` | No |  |
 
 ### Operations
@@ -700,18 +700,18 @@ const device_custody_list = client.device_custody_list(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `complete_date` | `[]const u8` | No |  |
+| `completeDate` | `[]const u8` | No |  |
 | `created` | `[]const u8` | No |  |
-| `created_by` | `Value (object)` | Yes |  |
+| `createdBy` | `Value (object)` | Yes |  |
 | `custodian` | `Value (object)` | Yes |  |
 | `device` | `Value (object)` | No |  |
 | `id` | `i64` | No |  |
 | `location` | `Value (object)` | Yes |  |
 | `modified` | `[]const u8` | No |  |
-| `modified_by` | `Value (object)` | Yes |  |
-| `note` | `[]const u8` | No |  |
+| `modifiedBy` | `Value (object)` | Yes |  |
+| `notes` | `[]const u8` | No |  |
 | `status` | `Value (object)` | No |  |
-| `transfer_method` | `Value (object)` | No |  |
+| `transferMethod` | `Value (object)` | No |  |
 | `version` | `i64` | No |  |
 
 ### Operations
@@ -949,16 +949,16 @@ const device_type = client.device_type(h.vnull());
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `created` | `[]const u8` | No |  |
-| `device_type_mode` | `[]const u8` | No |  |
-| `hardware_version` | `[]const u8` | No |  |
+| `deviceTypeMode` | `[]const u8` | No |  |
+| `hardwareVersion` | `[]const u8` | No |  |
 | `id` | `[]const u8` | No |  |
-| `is_active` | `bool` | No |  |
+| `isActive` | `bool` | No |  |
 | `manufacturer` | `[]const u8` | No |  |
 | `model` | `[]const u8` | No |  |
 | `modified` | `[]const u8` | No |  |
 | `name` | `[]const u8` | No |  |
-| `photo_url` | `[]const u8` | No |  |
-| `product_name` | `[]const u8` | No |  |
+| `photoUrl` | `[]const u8` | No |  |
+| `productName` | `[]const u8` | No |  |
 | `version` | `i64` | No |  |
 
 ### Operations
@@ -1018,9 +1018,9 @@ const inject_key = client.inject_key(h.vnull());
 | --- | --- | --- | --- |
 | `created` | `[]const u8` | No |  |
 | `id` | `[]const u8` | No |  |
-| `is_active` | `bool` | No |  |
-| `is_p2_pe` | `bool` | No |  |
-| `key_type` | `[]const u8` | No |  |
+| `isActive` | `bool` | No |  |
+| `isP2PE` | `bool` | No |  |
+| `keyType` | `[]const u8` | No |  |
 | `modified` | `[]const u8` | No |  |
 | `name` | `[]const u8` | No |  |
 | `version` | `i64` | No |  |
@@ -1129,26 +1129,26 @@ const location = client.location(h.vnull());
 | --- | --- | --- | --- |
 | `address1` | `[]const u8` | No |  |
 | `address2` | `[]const u8` | No |  |
-| `billing_id` | `[]const u8` | No |  |
+| `billingId` | `[]const u8` | No |  |
 | `city` | `[]const u8` | No |  |
 | `country` | `[]const u8` | No |  |
 | `created` | `[]const u8` | No |  |
-| `custom_reference` | `[]const u8` | No |  |
+| `customReference` | `[]const u8` | No |  |
 | `id` | `[]const u8` | No |  |
-| `location_type` | `[]const u8` | No |  |
-| `mail_address1` | `[]const u8` | No |  |
-| `mail_address2` | `[]const u8` | No |  |
-| `mail_city` | `[]const u8` | No |  |
-| `mail_country` | `[]const u8` | No |  |
-| `mail_postal_code` | `[]const u8` | No |  |
-| `mail_state_province` | `[]const u8` | No |  |
+| `locationType` | `[]const u8` | No |  |
+| `mailAddress1` | `[]const u8` | No |  |
+| `mailAddress2` | `[]const u8` | No |  |
+| `mailCity` | `[]const u8` | No |  |
+| `mailCountry` | `[]const u8` | No |  |
+| `mailPostalCode` | `[]const u8` | No |  |
+| `mailStateProvince` | `[]const u8` | No |  |
 | `modified` | `[]const u8` | No |  |
 | `name` | `[]const u8` | No |  |
-| `name_of_business` | `[]const u8` | No |  |
-| `note` | `[]const u8` | No |  |
-| `postal_code` | `[]const u8` | No |  |
-| `state_province` | `[]const u8` | No |  |
-| `unique_id` | `[]const u8` | No |  |
+| `nameOfBusiness` | `[]const u8` | No |  |
+| `notes` | `[]const u8` | No |  |
+| `postalCode` | `[]const u8` | No |  |
+| `stateProvince` | `[]const u8` | No |  |
+| `uniqueId` | `[]const u8` | No |  |
 | `version` | `i64` | No |  |
 
 ### Operations
@@ -1229,38 +1229,38 @@ const partner = client.partner(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `billing_id` | `[]const u8` | No |  |
-| `client_can_order_equipment` | `bool` | No |  |
+| `billingId` | `[]const u8` | No |  |
+| `clientCanOrderEquipment` | `bool` | No |  |
 | `contact` | `Value (object)` | No |  |
 | `created` | `[]const u8` | No |  |
 | `id` | `[]const u8` | No |  |
-| `is_active` | `bool` | No |  |
+| `isActive` | `bool` | No |  |
 | `location` | `Value (object)` | Yes |  |
 | `modified` | `[]const u8` | No |  |
 | `name` | `[]const u8` | No |  |
 | `parent` | `Value (object)` | No |  |
-| `partner_id` | `[]const u8` | No |  |
+| `partnerId` | `[]const u8` | No |  |
 | `reference` | `[]const u8` | No |  |
-| `verification_phrase` | `[]const u8` | No |  |
+| `verificationPhrase` | `[]const u8` | No |  |
 | `version` | `i64` | No |  |
 
 ### Field Usage by Operation
 
 | Field | load | list | create |
 | --- | --- | --- | --- |
-| `billing_id` | - | - | - |
-| `client_can_order_equipment` | - | - | - |
+| `billingId` | - | - | - |
+| `clientCanOrderEquipment` | - | - | - |
 | `contact` | - | Yes | - |
 | `created` | - | - | - |
 | `id` | - | - | - |
-| `is_active` | - | - | - |
+| `isActive` | - | - | - |
 | `location` | - | - | - |
 | `modified` | - | - | - |
 | `name` | - | - | - |
 | `parent` | - | - | - |
-| `partner_id` | - | - | - |
+| `partnerId` | - | - | - |
 | `reference` | - | - | - |
-| `verification_phrase` | - | - | - |
+| `verificationPhrase` | - | - | - |
 | `version` | - | - | - |
 
 ### Operations
@@ -1334,15 +1334,15 @@ const shipment = client.shipment(h.vnull());
 | `carrier` | `[]const u8` | No |  |
 | `client` | `Value (object)` | No |  |
 | `created` | `[]const u8` | No |  |
-| `date_received` | `[]const u8` | No |  |
-| `date_shipped` | `[]const u8` | No |  |
-| `dc_kif` | `Value (object)` | No |  |
+| `dateReceived` | `[]const u8` | No |  |
+| `dateShipped` | `[]const u8` | No |  |
+| `dcKif` | `Value (object)` | No |  |
 | `id` | `[]const u8` | No |  |
-| `item` | `Value (array)` | No |  |
+| `items` | `Value (array)` | No |  |
 | `kif` | `Value (object)` | No |  |
 | `modified` | `[]const u8` | No |  |
 | `partner` | `Value (object)` | No |  |
-| `shipment_type` | `[]const u8` | No |  |
+| `shipmentType` | `[]const u8` | No |  |
 | `tracking` | `[]const u8` | No |  |
 | `version` | `i64` | No |  |
 
@@ -1472,30 +1472,30 @@ const transaction = client.transaction(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `alternate_key` | `[]const u8` | No |  |
+| `alternateKey` | `[]const u8` | No |  |
 | `client` | `Value (object)` | No |  |
-| `client_ref` | `[]const u8` | No |  |
+| `clientRef` | `[]const u8` | No |  |
 | `created` | `[]const u8` | No |  |
 | `decrypted` | `i64` | No |  |
-| `device_name` | `[]const u8` | No |  |
-| `direct_partner` | `Value (object)` | No |  |
+| `deviceName` | `[]const u8` | No |  |
+| `directPartner` | `Value (object)` | No |  |
 | `encrypted` | `i64` | No |  |
-| `end_date` | `[]const u8` | No |  |
-| `err_code` | `[]const u8` | No |  |
-| `err_message` | `[]const u8` | No |  |
+| `endDate` | `[]const u8` | No |  |
+| `errCode` | `[]const u8` | No |  |
+| `errMessage` | `[]const u8` | No |  |
 | `id` | `[]const u8` | No |  |
-| `ip_address` | `[]const u8` | No |  |
-| `is_virtual` | `bool` | No |  |
-| `key_type` | `[]const u8` | No |  |
+| `ipAddress` | `[]const u8` | No |  |
+| `isVirtual` | `bool` | No |  |
+| `keyType` | `[]const u8` | No |  |
 | `location` | `Value (object)` | Yes |  |
-| `message_id` | `[]const u8` | No |  |
+| `messageId` | `[]const u8` | No |  |
 | `method` | `[]const u8` | No |  |
 | `partner` | `Value (object)` | No |  |
 | `reference` | `[]const u8` | No |  |
-| `serial_number` | `[]const u8` | No |  |
-| `start_date` | `[]const u8` | No |  |
+| `serialNumber` | `[]const u8` | No |  |
+| `startDate` | `[]const u8` | No |  |
 | `success` | `bool` | No |  |
-| `transaction_source` | `[]const u8` | No |  |
+| `transactionSource` | `[]const u8` | No |  |
 
 ### Operations
 
@@ -1567,15 +1567,15 @@ const update_result = client.update_result(h.vnull());
 | --- | --- | --- | --- |
 | `client` | `Value (object)` | No |  |
 | `email` | `[]const u8` | No |  |
-| `first_name` | `[]const u8` | No |  |
+| `firstName` | `[]const u8` | No |  |
 | `id` | `[]const u8` | No |  |
-| `is_active` | `bool` | No |  |
+| `isActive` | `bool` | No |  |
 | `kif` | `Value (object)` | No |  |
-| `last_name` | `[]const u8` | No |  |
+| `lastName` | `[]const u8` | No |  |
 | `partner` | `Value (object)` | No |  |
 | `phone` | `[]const u8` | No |  |
-| `user_name` | `[]const u8` | No |  |
-| `user_role` | `Value (object)` | No |  |
+| `userName` | `[]const u8` | No |  |
+| `userRole` | `Value (object)` | No |  |
 | `version` | `i64` | No |  |
 
 ### Operations
@@ -1651,16 +1651,16 @@ const user = client.user(h.vnull());
 | `client` | `Value (object)` | No |  |
 | `created` | `[]const u8` | No |  |
 | `email` | `[]const u8` | No |  |
-| `first_name` | `[]const u8` | No |  |
+| `firstName` | `[]const u8` | No |  |
 | `id` | `[]const u8` | No |  |
-| `is_active` | `bool` | No |  |
+| `isActive` | `bool` | No |  |
 | `kif` | `Value (object)` | No |  |
-| `last_name` | `[]const u8` | No |  |
+| `lastName` | `[]const u8` | No |  |
 | `modified` | `[]const u8` | No |  |
 | `partner` | `Value (object)` | No |  |
 | `phone` | `[]const u8` | No |  |
-| `user_name` | `[]const u8` | No |  |
-| `user_role` | `Value (object)` | No |  |
+| `userName` | `[]const u8` | No |  |
+| `userRole` | `Value (object)` | No |  |
 | `version` | `i64` | No |  |
 
 ### Operations

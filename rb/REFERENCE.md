@@ -179,12 +179,12 @@ attestation = client.Attestation
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `client` | `Hash` | No |  |
-| `complete_date` | `String` | No |  |
+| `completeDate` | `String` | No |  |
 | `created` | `String` | No |  |
 | `device` | `Hash` | No |  |
 | `id` | `String` | No |  |
 | `name` | `String` | No |  |
-| `note` | `String` | No |  |
+| `notes` | `String` | No |  |
 
 ### Operations
 
@@ -255,9 +255,9 @@ client_ = client.Client
 | --- | --- | --- | --- |
 | `contact` | `Hash` | No |  |
 | `created` | `String` | No |  |
-| `direct_partner` | `Hash` | No |  |
+| `directPartner` | `Hash` | No |  |
 | `id` | `String` | No |  |
-| `is_active` | `Boolean` | No |  |
+| `isActive` | `Boolean` | No |  |
 | `location` | `Hash` | Yes |  |
 | `mid` | `String` | No |  |
 | `modified` | `String` | No |  |
@@ -271,9 +271,9 @@ client_ = client.Client
 | --- | --- | --- | --- | --- |
 | `contact` | - | Yes | - | - |
 | `created` | - | - | - | - |
-| `direct_partner` | - | - | - | - |
+| `directPartner` | - | - | - | - |
 | `id` | - | - | - | - |
-| `is_active` | - | - | - | - |
+| `isActive` | - | - | - | - |
 | `location` | - | - | - | - |
 | `mid` | - | - | - | - |
 | `modified` | - | - | - | - |
@@ -459,33 +459,33 @@ device = client.Device
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `activated_by` | `Hash` | Yes |  |
-| `activation_date` | `String` | No |  |
-| `alternate_key` | `String` | No |  |
-| `audit_next_date` | `String` | No |  |
-| `audit_notification_date` | `String` | No |  |
+| `activatedBy` | `Hash` | Yes |  |
+| `activationDate` | `String` | No |  |
+| `alternateKey` | `String` | No |  |
+| `auditNextDate` | `String` | No |  |
+| `auditNotificationDate` | `String` | No |  |
 | `client` | `Hash` | No |  |
 | `created` | `String` | No |  |
-| `created_by` | `Hash` | Yes |  |
-| `device_build` | `Hash` | No |  |
-| `device_state` | `Hash` | No |  |
-| `device_type` | `Hash` | No |  |
-| `error_counter` | `Integer` | No |  |
-| `error_last_date` | `String` | No |  |
+| `createdBy` | `Hash` | Yes |  |
+| `deviceBuild` | `Hash` | No |  |
+| `deviceState` | `Hash` | No |  |
+| `deviceType` | `Hash` | No |  |
+| `errorCounter` | `Integer` | No |  |
+| `errorLastDate` | `String` | No |  |
 | `id` | `String` | No |  |
-| `initialized_by` | `Hash` | Yes |  |
-| `initialized_date` | `String` | No |  |
-| `inject_key` | `Hash` | No |  |
-| `is_virtual` | `Boolean` | No |  |
+| `initializedBy` | `Hash` | Yes |  |
+| `initializedDate` | `String` | No |  |
+| `injectKey` | `Hash` | No |  |
+| `isVirtual` | `Boolean` | No |  |
 | `kif` | `Hash` | No |  |
-| `last_activity_date` | `String` | No |  |
+| `lastActivityDate` | `String` | No |  |
 | `location` | `Hash` | Yes |  |
 | `modified` | `String` | No |  |
-| `modified_by` | `Hash` | Yes |  |
+| `modifiedBy` | `Hash` | Yes |  |
 | `name` | `String` | No |  |
-| `note` | `String` | No |  |
+| `notes` | `String` | No |  |
 | `partner` | `Hash` | No |  |
-| `serial_number` | `String` | No |  |
+| `serialNumber` | `String` | No |  |
 | `version` | `Integer` | No |  |
 
 ### Operations
@@ -496,11 +496,11 @@ Create a new entity with the given data. Raises on error.
 
 ```ruby
 result = client.Device.create({
-  "activated_by" => {}, # Hash
-  "created_by" => {}, # Hash
-  "initialized_by" => {}, # Hash
+  "activatedBy" => {}, # Hash
+  "createdBy" => {}, # Hash
+  "initializedBy" => {}, # Hash
   "location" => {}, # Hash
-  "modified_by" => {}, # Hash
+  "modifiedBy" => {}, # Hash
 })
 ```
 
@@ -560,21 +560,21 @@ device_build = client.DeviceBuild
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `app_version` | `String` | No |  |
-| `build_number` | `String` | No |  |
-| `config_file_name` | `String` | No |  |
+| `appVersion` | `String` | No |  |
+| `buildNumber` | `String` | No |  |
+| `configFileName` | `String` | No |  |
 | `created` | `String` | No |  |
-| `device_type` | `String` | No |  |
-| `firmware_version` | `String` | No |  |
-| `hardware_version` | `String` | No |  |
+| `deviceType` | `String` | No |  |
+| `firmwareVersion` | `String` | No |  |
+| `hardwareVersion` | `String` | No |  |
 | `id` | `Integer` | No |  |
-| `is_active` | `Boolean` | No |  |
+| `isActive` | `Boolean` | No |  |
 | `modified` | `String` | No |  |
 | `name` | `String` | No |  |
-| `note` | `String` | No |  |
+| `notes` | `String` | No |  |
 | `version` | `Integer` | No |  |
-| `white_listing_bin_range` | `String` | No |  |
-| `white_listing_used` | `Boolean` | No |  |
+| `whiteListingBinRanges` | `String` | No |  |
+| `whiteListingUsed` | `Boolean` | No |  |
 
 ### Operations
 
@@ -634,18 +634,18 @@ device_custody_detail = client.DeviceCustodyDetail
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `complete_date` | `String` | No |  |
+| `completeDate` | `String` | No |  |
 | `created` | `String` | No |  |
-| `created_by` | `Hash` | Yes |  |
+| `createdBy` | `Hash` | Yes |  |
 | `custodian` | `Hash` | Yes |  |
 | `device` | `Hash` | No |  |
 | `id` | `Integer` | No |  |
 | `location` | `Hash` | Yes |  |
 | `modified` | `String` | No |  |
-| `modified_by` | `Hash` | Yes |  |
-| `note` | `String` | No |  |
+| `modifiedBy` | `Hash` | Yes |  |
+| `notes` | `String` | No |  |
 | `status` | `Hash` | No |  |
-| `transfer_method` | `Hash` | No |  |
+| `transferMethod` | `Hash` | No |  |
 | `version` | `Integer` | No |  |
 
 ### Operations
@@ -698,18 +698,18 @@ device_custody_list = client.DeviceCustodyList
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `complete_date` | `String` | No |  |
+| `completeDate` | `String` | No |  |
 | `created` | `String` | No |  |
-| `created_by` | `Hash` | Yes |  |
+| `createdBy` | `Hash` | Yes |  |
 | `custodian` | `Hash` | Yes |  |
 | `device` | `Hash` | No |  |
 | `id` | `Integer` | No |  |
 | `location` | `Hash` | Yes |  |
 | `modified` | `String` | No |  |
-| `modified_by` | `Hash` | Yes |  |
-| `note` | `String` | No |  |
+| `modifiedBy` | `Hash` | Yes |  |
+| `notes` | `String` | No |  |
 | `status` | `Hash` | No |  |
-| `transfer_method` | `Hash` | No |  |
+| `transferMethod` | `Hash` | No |  |
 | `version` | `Integer` | No |  |
 
 ### Operations
@@ -977,16 +977,16 @@ device_type = client.DeviceType
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `created` | `String` | No |  |
-| `device_type_mode` | `String` | No |  |
-| `hardware_version` | `String` | No |  |
+| `deviceTypeMode` | `String` | No |  |
+| `hardwareVersion` | `String` | No |  |
 | `id` | `String` | No |  |
-| `is_active` | `Boolean` | No |  |
+| `isActive` | `Boolean` | No |  |
 | `manufacturer` | `String` | No |  |
 | `model` | `String` | No |  |
 | `modified` | `String` | No |  |
 | `name` | `String` | No |  |
-| `photo_url` | `String` | No |  |
-| `product_name` | `String` | No |  |
+| `photoUrl` | `String` | No |  |
+| `productName` | `String` | No |  |
 | `version` | `Integer` | No |  |
 
 ### Operations
@@ -1049,9 +1049,9 @@ inject_key = client.InjectKey
 | --- | --- | --- | --- |
 | `created` | `String` | No |  |
 | `id` | `String` | No |  |
-| `is_active` | `Boolean` | No |  |
-| `is_p2_pe` | `Boolean` | No |  |
-| `key_type` | `String` | No |  |
+| `isActive` | `Boolean` | No |  |
+| `isP2PE` | `Boolean` | No |  |
+| `keyType` | `String` | No |  |
 | `modified` | `String` | No |  |
 | `name` | `String` | No |  |
 | `version` | `Integer` | No |  |
@@ -1169,26 +1169,26 @@ location = client.Location
 | --- | --- | --- | --- |
 | `address1` | `String` | No |  |
 | `address2` | `String` | No |  |
-| `billing_id` | `String` | No |  |
+| `billingId` | `String` | No |  |
 | `city` | `String` | No |  |
 | `country` | `String` | No |  |
 | `created` | `String` | No |  |
-| `custom_reference` | `String` | No |  |
+| `customReference` | `String` | No |  |
 | `id` | `String` | No |  |
-| `location_type` | `String` | No |  |
-| `mail_address1` | `String` | No |  |
-| `mail_address2` | `String` | No |  |
-| `mail_city` | `String` | No |  |
-| `mail_country` | `String` | No |  |
-| `mail_postal_code` | `String` | No |  |
-| `mail_state_province` | `String` | No |  |
+| `locationType` | `String` | No |  |
+| `mailAddress1` | `String` | No |  |
+| `mailAddress2` | `String` | No |  |
+| `mailCity` | `String` | No |  |
+| `mailCountry` | `String` | No |  |
+| `mailPostalCode` | `String` | No |  |
+| `mailStateProvince` | `String` | No |  |
 | `modified` | `String` | No |  |
 | `name` | `String` | No |  |
-| `name_of_business` | `String` | No |  |
-| `note` | `String` | No |  |
-| `postal_code` | `String` | No |  |
-| `state_province` | `String` | No |  |
-| `unique_id` | `String` | No |  |
+| `nameOfBusiness` | `String` | No |  |
+| `notes` | `String` | No |  |
+| `postalCode` | `String` | No |  |
+| `stateProvince` | `String` | No |  |
+| `uniqueId` | `String` | No |  |
 | `version` | `Integer` | No |  |
 
 ### Operations
@@ -1266,38 +1266,38 @@ partner = client.Partner
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `billing_id` | `String` | No |  |
-| `client_can_order_equipment` | `Boolean` | No |  |
+| `billingId` | `String` | No |  |
+| `clientCanOrderEquipment` | `Boolean` | No |  |
 | `contact` | `Hash` | No |  |
 | `created` | `String` | No |  |
 | `id` | `String` | No |  |
-| `is_active` | `Boolean` | No |  |
+| `isActive` | `Boolean` | No |  |
 | `location` | `Hash` | Yes |  |
 | `modified` | `String` | No |  |
 | `name` | `String` | No |  |
 | `parent` | `Hash` | No |  |
-| `partner_id` | `String` | No |  |
+| `partnerId` | `String` | No |  |
 | `reference` | `String` | No |  |
-| `verification_phrase` | `String` | No |  |
+| `verificationPhrase` | `String` | No |  |
 | `version` | `Integer` | No |  |
 
 ### Field Usage by Operation
 
 | Field | load | list | create |
 | --- | --- | --- | --- |
-| `billing_id` | - | - | - |
-| `client_can_order_equipment` | - | - | - |
+| `billingId` | - | - | - |
+| `clientCanOrderEquipment` | - | - | - |
 | `contact` | - | Yes | - |
 | `created` | - | - | - |
 | `id` | - | - | - |
-| `is_active` | - | - | - |
+| `isActive` | - | - | - |
 | `location` | - | - | - |
 | `modified` | - | - | - |
 | `name` | - | - | - |
 | `parent` | - | - | - |
-| `partner_id` | - | - | - |
+| `partnerId` | - | - | - |
 | `reference` | - | - | - |
-| `verification_phrase` | - | - | - |
+| `verificationPhrase` | - | - | - |
 | `version` | - | - | - |
 
 ### Operations
@@ -1371,15 +1371,15 @@ shipment = client.Shipment
 | `carrier` | `String` | No |  |
 | `client` | `Hash` | No |  |
 | `created` | `String` | No |  |
-| `date_received` | `String` | No |  |
-| `date_shipped` | `String` | No |  |
-| `dc_kif` | `Hash` | No |  |
+| `dateReceived` | `String` | No |  |
+| `dateShipped` | `String` | No |  |
+| `dcKif` | `Hash` | No |  |
 | `id` | `String` | No |  |
-| `item` | `Array` | No |  |
+| `items` | `Array` | No |  |
 | `kif` | `Hash` | No |  |
 | `modified` | `String` | No |  |
 | `partner` | `Hash` | No |  |
-| `shipment_type` | `String` | No |  |
+| `shipmentType` | `String` | No |  |
 | `tracking` | `String` | No |  |
 | `version` | `Integer` | No |  |
 
@@ -1512,30 +1512,30 @@ transaction = client.Transaction
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `alternate_key` | `String` | No |  |
+| `alternateKey` | `String` | No |  |
 | `client` | `Hash` | No |  |
-| `client_ref` | `String` | No |  |
+| `clientRef` | `String` | No |  |
 | `created` | `String` | No |  |
 | `decrypted` | `Integer` | No |  |
-| `device_name` | `String` | No |  |
-| `direct_partner` | `Hash` | No |  |
+| `deviceName` | `String` | No |  |
+| `directPartner` | `Hash` | No |  |
 | `encrypted` | `Integer` | No |  |
-| `end_date` | `String` | No |  |
-| `err_code` | `String` | No |  |
-| `err_message` | `String` | No |  |
+| `endDate` | `String` | No |  |
+| `errCode` | `String` | No |  |
+| `errMessage` | `String` | No |  |
 | `id` | `String` | No |  |
-| `ip_address` | `String` | No |  |
-| `is_virtual` | `Boolean` | No |  |
-| `key_type` | `String` | No |  |
+| `ipAddress` | `String` | No |  |
+| `isVirtual` | `Boolean` | No |  |
+| `keyType` | `String` | No |  |
 | `location` | `Hash` | Yes |  |
-| `message_id` | `String` | No |  |
+| `messageId` | `String` | No |  |
 | `method` | `String` | No |  |
 | `partner` | `Hash` | No |  |
 | `reference` | `String` | No |  |
-| `serial_number` | `String` | No |  |
-| `start_date` | `String` | No |  |
+| `serialNumber` | `String` | No |  |
+| `startDate` | `String` | No |  |
 | `success` | `Boolean` | No |  |
-| `transaction_source` | `String` | No |  |
+| `transactionSource` | `String` | No |  |
 
 ### Operations
 
@@ -1607,15 +1607,15 @@ update_result = client.UpdateResult
 | --- | --- | --- | --- |
 | `client` | `Hash` | No |  |
 | `email` | `String` | No |  |
-| `first_name` | `String` | No |  |
+| `firstName` | `String` | No |  |
 | `id` | `String` | No |  |
-| `is_active` | `Boolean` | No |  |
+| `isActive` | `Boolean` | No |  |
 | `kif` | `Hash` | No |  |
-| `last_name` | `String` | No |  |
+| `lastName` | `String` | No |  |
 | `partner` | `Hash` | No |  |
 | `phone` | `String` | No |  |
-| `user_name` | `String` | No |  |
-| `user_role` | `Hash` | No |  |
+| `userName` | `String` | No |  |
+| `userRole` | `Hash` | No |  |
 | `version` | `Integer` | No |  |
 
 ### Operations
@@ -1691,16 +1691,16 @@ user = client.User
 | `client` | `Hash` | No |  |
 | `created` | `String` | No |  |
 | `email` | `String` | No |  |
-| `first_name` | `String` | No |  |
+| `firstName` | `String` | No |  |
 | `id` | `String` | No |  |
-| `is_active` | `Boolean` | No |  |
+| `isActive` | `Boolean` | No |  |
 | `kif` | `Hash` | No |  |
-| `last_name` | `String` | No |  |
+| `lastName` | `String` | No |  |
 | `modified` | `String` | No |  |
 | `partner` | `Hash` | No |  |
 | `phone` | `String` | No |  |
-| `user_name` | `String` | No |  |
-| `user_role` | `Hash` | No |  |
+| `userName` | `String` | No |  |
+| `userRole` | `Hash` | No |  |
 | `version` | `Integer` | No |  |
 
 ### Operations

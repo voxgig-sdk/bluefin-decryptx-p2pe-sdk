@@ -88,7 +88,7 @@ end
 attestation = BluefinDecryptxP2pe.attestation(sdk)
 
 # Create — returns the bare created record
-created = BluefinDecryptxP2pe.Entity.Attestation.create(attestation, H.deep(%{"client" => %{}, "complete_date" => "example_complete_date"}))
+created = BluefinDecryptxP2pe.Entity.Attestation.create(attestation, H.deep(%{"client" => %{}, "completeDate" => "example_completeDate"}))
 
 ```
 
@@ -324,12 +324,12 @@ On error, `ok` is `false` and `err` carries the error value.
 | Field | Description |
 | --- | --- |
 | `client` |  |
-| `complete_date` |  |
+| `completeDate` |  |
 | `created` |  |
 | `device` |  |
 | `id` |  |
 | `name` |  |
-| `note` |  |
+| `notes` |  |
 
 Operations: Create, List, Load.
 
@@ -341,9 +341,9 @@ API path: `/attestations`
 | --- | --- |
 | `contact` |  |
 | `created` |  |
-| `direct_partner` |  |
+| `directPartner` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `location` |  |
 | `mid` |  |
 | `modified` |  |
@@ -378,33 +378,33 @@ API path: `/decryption`
 
 | Field | Description |
 | --- | --- |
-| `activated_by` |  |
-| `activation_date` |  |
-| `alternate_key` |  |
-| `audit_next_date` |  |
-| `audit_notification_date` |  |
+| `activatedBy` |  |
+| `activationDate` |  |
+| `alternateKey` |  |
+| `auditNextDate` |  |
+| `auditNotificationDate` |  |
 | `client` |  |
 | `created` |  |
-| `created_by` |  |
-| `device_build` |  |
-| `device_state` |  |
-| `device_type` |  |
-| `error_counter` |  |
-| `error_last_date` |  |
+| `createdBy` |  |
+| `deviceBuild` |  |
+| `deviceState` |  |
+| `deviceType` |  |
+| `errorCounter` |  |
+| `errorLastDate` |  |
 | `id` |  |
-| `initialized_by` |  |
-| `initialized_date` |  |
-| `inject_key` |  |
-| `is_virtual` |  |
+| `initializedBy` |  |
+| `initializedDate` |  |
+| `injectKey` |  |
+| `isVirtual` |  |
 | `kif` |  |
-| `last_activity_date` |  |
+| `lastActivityDate` |  |
 | `location` |  |
 | `modified` |  |
-| `modified_by` |  |
+| `modifiedBy` |  |
 | `name` |  |
-| `note` |  |
+| `notes` |  |
 | `partner` |  |
-| `serial_number` |  |
+| `serialNumber` |  |
 | `version` |  |
 
 Operations: Create, List, Load.
@@ -415,21 +415,21 @@ API path: `/devices`
 
 | Field | Description |
 | --- | --- |
-| `app_version` |  |
-| `build_number` |  |
-| `config_file_name` |  |
+| `appVersion` |  |
+| `buildNumber` |  |
+| `configFileName` |  |
 | `created` |  |
-| `device_type` |  |
-| `firmware_version` |  |
-| `hardware_version` |  |
+| `deviceType` |  |
+| `firmwareVersion` |  |
+| `hardwareVersion` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `modified` |  |
 | `name` |  |
-| `note` |  |
+| `notes` |  |
 | `version` |  |
-| `white_listing_bin_range` |  |
-| `white_listing_used` |  |
+| `whiteListingBinRanges` |  |
+| `whiteListingUsed` |  |
 
 Operations: List, Load.
 
@@ -439,18 +439,18 @@ API path: `/deviceBuilds`
 
 | Field | Description |
 | --- | --- |
-| `complete_date` |  |
+| `completeDate` |  |
 | `created` |  |
-| `created_by` |  |
+| `createdBy` |  |
 | `custodian` |  |
 | `device` |  |
 | `id` |  |
 | `location` |  |
 | `modified` |  |
-| `modified_by` |  |
-| `note` |  |
+| `modifiedBy` |  |
+| `notes` |  |
 | `status` |  |
-| `transfer_method` |  |
+| `transferMethod` |  |
 | `version` |  |
 
 Operations: Load.
@@ -461,18 +461,18 @@ API path: `/devices/{serialNumber}/{deviceType}/custody/{id}`
 
 | Field | Description |
 | --- | --- |
-| `complete_date` |  |
+| `completeDate` |  |
 | `created` |  |
-| `created_by` |  |
+| `createdBy` |  |
 | `custodian` |  |
 | `device` |  |
 | `id` |  |
 | `location` |  |
 | `modified` |  |
-| `modified_by` |  |
-| `note` |  |
+| `modifiedBy` |  |
+| `notes` |  |
 | `status` |  |
-| `transfer_method` |  |
+| `transferMethod` |  |
 | `version` |  |
 
 Operations: List.
@@ -526,16 +526,16 @@ API path: `/deviceStates`
 | Field | Description |
 | --- | --- |
 | `created` |  |
-| `device_type_mode` |  |
-| `hardware_version` |  |
+| `deviceTypeMode` |  |
+| `hardwareVersion` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `manufacturer` |  |
 | `model` |  |
 | `modified` |  |
 | `name` |  |
-| `photo_url` |  |
-| `product_name` |  |
+| `photoUrl` |  |
+| `productName` |  |
 | `version` |  |
 
 Operations: List, Load.
@@ -548,9 +548,9 @@ API path: `/deviceTypes`
 | --- | --- |
 | `created` |  |
 | `id` |  |
-| `is_active` |  |
-| `is_p2_pe` |  |
-| `key_type` |  |
+| `isActive` |  |
+| `isP2PE` |  |
+| `keyType` |  |
 | `modified` |  |
 | `name` |  |
 | `version` |  |
@@ -576,26 +576,26 @@ API path: `/kifs`
 | --- | --- |
 | `address1` |  |
 | `address2` |  |
-| `billing_id` |  |
+| `billingId` |  |
 | `city` |  |
 | `country` |  |
 | `created` |  |
-| `custom_reference` |  |
+| `customReference` |  |
 | `id` |  |
-| `location_type` |  |
-| `mail_address1` |  |
-| `mail_address2` |  |
-| `mail_city` |  |
-| `mail_country` |  |
-| `mail_postal_code` |  |
-| `mail_state_province` |  |
+| `locationType` |  |
+| `mailAddress1` |  |
+| `mailAddress2` |  |
+| `mailCity` |  |
+| `mailCountry` |  |
+| `mailPostalCode` |  |
+| `mailStateProvince` |  |
 | `modified` |  |
 | `name` |  |
-| `name_of_business` |  |
-| `note` |  |
-| `postal_code` |  |
-| `state_province` |  |
-| `unique_id` |  |
+| `nameOfBusiness` |  |
+| `notes` |  |
+| `postalCode` |  |
+| `stateProvince` |  |
+| `uniqueId` |  |
 | `version` |  |
 
 Operations: Create, List, Load, Remove.
@@ -606,19 +606,19 @@ API path: `/locations`
 
 | Field | Description |
 | --- | --- |
-| `billing_id` |  |
-| `client_can_order_equipment` |  |
+| `billingId` |  |
+| `clientCanOrderEquipment` |  |
 | `contact` |  |
 | `created` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `location` |  |
 | `modified` |  |
 | `name` |  |
 | `parent` |  |
-| `partner_id` |  |
+| `partnerId` |  |
 | `reference` |  |
-| `verification_phrase` |  |
+| `verificationPhrase` |  |
 | `version` |  |
 
 Operations: Create, List, Load.
@@ -632,15 +632,15 @@ API path: `/partners`
 | `carrier` |  |
 | `client` |  |
 | `created` |  |
-| `date_received` |  |
-| `date_shipped` |  |
-| `dc_kif` |  |
+| `dateReceived` |  |
+| `dateShipped` |  |
+| `dcKif` |  |
 | `id` |  |
-| `item` |  |
+| `items` |  |
 | `kif` |  |
 | `modified` |  |
 | `partner` |  |
-| `shipment_type` |  |
+| `shipmentType` |  |
 | `tracking` |  |
 | `version` |  |
 
@@ -662,30 +662,30 @@ API path: `/virtualDevices/{sharePartnerTo}`
 
 | Field | Description |
 | --- | --- |
-| `alternate_key` |  |
+| `alternateKey` |  |
 | `client` |  |
-| `client_ref` |  |
+| `clientRef` |  |
 | `created` |  |
 | `decrypted` |  |
-| `device_name` |  |
-| `direct_partner` |  |
+| `deviceName` |  |
+| `directPartner` |  |
 | `encrypted` |  |
-| `end_date` |  |
-| `err_code` |  |
-| `err_message` |  |
+| `endDate` |  |
+| `errCode` |  |
+| `errMessage` |  |
 | `id` |  |
-| `ip_address` |  |
-| `is_virtual` |  |
-| `key_type` |  |
+| `ipAddress` |  |
+| `isVirtual` |  |
+| `keyType` |  |
 | `location` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `method` |  |
 | `partner` |  |
 | `reference` |  |
-| `serial_number` |  |
-| `start_date` |  |
+| `serialNumber` |  |
+| `startDate` |  |
 | `success` |  |
-| `transaction_source` |  |
+| `transactionSource` |  |
 
 Operations: Create, List, Load.
 
@@ -697,15 +697,15 @@ API path: `/transactions`
 | --- | --- |
 | `client` |  |
 | `email` |  |
-| `first_name` |  |
+| `firstName` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `kif` |  |
-| `last_name` |  |
+| `lastName` |  |
 | `partner` |  |
 | `phone` |  |
-| `user_name` |  |
-| `user_role` |  |
+| `userName` |  |
+| `userRole` |  |
 | `version` |  |
 
 Operations: Create, List, Update.
@@ -719,16 +719,16 @@ API path: `/users`
 | `client` |  |
 | `created` |  |
 | `email` |  |
-| `first_name` |  |
+| `firstName` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `kif` |  |
-| `last_name` |  |
+| `lastName` |  |
 | `modified` |  |
 | `partner` |  |
 | `phone` |  |
-| `user_name` |  |
-| `user_role` |  |
+| `userName` |  |
+| `userRole` |  |
 | `version` |  |
 
 Operations: Load, Remove.
@@ -760,12 +760,12 @@ Create a handle: `attestation = BluefinDecryptxP2pe.attestation(sdk)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `client` | `map()` |  |
-| `complete_date` | `String.t()` |  |
+| `completeDate` | `String.t()` |  |
 | `created` | `String.t()` |  |
 | `device` | `map()` |  |
 | `id` | `String.t()` |  |
 | `name` | `String.t()` |  |
-| `note` | `String.t()` |  |
+| `notes` | `String.t()` |  |
 
 #### Example: Load
 
@@ -809,9 +809,9 @@ Create a handle: `client = BluefinDecryptxP2pe.client(sdk)`
 | --- | --- | --- |
 | `contact` | `map()` |  |
 | `created` | `String.t()` |  |
-| `direct_partner` | `map()` |  |
+| `directPartner` | `map()` |  |
 | `id` | `String.t()` |  |
-| `is_active` | `boolean()` |  |
+| `isActive` | `boolean()` |  |
 | `location` | `map()` |  |
 | `mid` | `String.t()` |  |
 | `modified` | `String.t()` |  |
@@ -905,33 +905,33 @@ Create a handle: `device = BluefinDecryptxP2pe.device(sdk)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `activated_by` | `map()` |  |
-| `activation_date` | `String.t()` |  |
-| `alternate_key` | `String.t()` |  |
-| `audit_next_date` | `String.t()` |  |
-| `audit_notification_date` | `String.t()` |  |
+| `activatedBy` | `map()` |  |
+| `activationDate` | `String.t()` |  |
+| `alternateKey` | `String.t()` |  |
+| `auditNextDate` | `String.t()` |  |
+| `auditNotificationDate` | `String.t()` |  |
 | `client` | `map()` |  |
 | `created` | `String.t()` |  |
-| `created_by` | `map()` |  |
-| `device_build` | `map()` |  |
-| `device_state` | `map()` |  |
-| `device_type` | `map()` |  |
-| `error_counter` | `integer()` |  |
-| `error_last_date` | `String.t()` |  |
+| `createdBy` | `map()` |  |
+| `deviceBuild` | `map()` |  |
+| `deviceState` | `map()` |  |
+| `deviceType` | `map()` |  |
+| `errorCounter` | `integer()` |  |
+| `errorLastDate` | `String.t()` |  |
 | `id` | `String.t()` |  |
-| `initialized_by` | `map()` |  |
-| `initialized_date` | `String.t()` |  |
-| `inject_key` | `map()` |  |
-| `is_virtual` | `boolean()` |  |
+| `initializedBy` | `map()` |  |
+| `initializedDate` | `String.t()` |  |
+| `injectKey` | `map()` |  |
+| `isVirtual` | `boolean()` |  |
 | `kif` | `map()` |  |
-| `last_activity_date` | `String.t()` |  |
+| `lastActivityDate` | `String.t()` |  |
 | `location` | `map()` |  |
 | `modified` | `String.t()` |  |
-| `modified_by` | `map()` |  |
+| `modifiedBy` | `map()` |  |
 | `name` | `String.t()` |  |
-| `note` | `String.t()` |  |
+| `notes` | `String.t()` |  |
 | `partner` | `map()` |  |
-| `serial_number` | `String.t()` |  |
+| `serialNumber` | `String.t()` |  |
 | `version` | `integer()` |  |
 
 #### Example: Load
@@ -953,11 +953,11 @@ records = BluefinDecryptxP2pe.Entity.Device.list(device)
 ```elixir
 device = BluefinDecryptxP2pe.device(sdk)
 record = BluefinDecryptxP2pe.Entity.Device.create(device, BluefinDecryptxP2pe.Helpers.deep(%{
-  "activated_by" => %{},  # map()
-  "created_by" => %{},  # map()
-  "initialized_by" => %{},  # map()
+  "activatedBy" => %{},  # map()
+  "createdBy" => %{},  # map()
+  "initializedBy" => %{},  # map()
   "location" => %{},  # map()
-  "modified_by" => %{},  # map()
+  "modifiedBy" => %{},  # map()
 }))
 ```
 
@@ -977,21 +977,21 @@ Create a handle: `device_build = BluefinDecryptxP2pe.device_build(sdk)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `app_version` | `String.t()` |  |
-| `build_number` | `String.t()` |  |
-| `config_file_name` | `String.t()` |  |
+| `appVersion` | `String.t()` |  |
+| `buildNumber` | `String.t()` |  |
+| `configFileName` | `String.t()` |  |
 | `created` | `String.t()` |  |
-| `device_type` | `String.t()` |  |
-| `firmware_version` | `String.t()` |  |
-| `hardware_version` | `String.t()` |  |
+| `deviceType` | `String.t()` |  |
+| `firmwareVersion` | `String.t()` |  |
+| `hardwareVersion` | `String.t()` |  |
 | `id` | `integer()` |  |
-| `is_active` | `boolean()` |  |
+| `isActive` | `boolean()` |  |
 | `modified` | `String.t()` |  |
 | `name` | `String.t()` |  |
-| `note` | `String.t()` |  |
+| `notes` | `String.t()` |  |
 | `version` | `integer()` |  |
-| `white_listing_bin_range` | `String.t()` |  |
-| `white_listing_used` | `boolean()` |  |
+| `whiteListingBinRanges` | `String.t()` |  |
+| `whiteListingUsed` | `boolean()` |  |
 
 #### Example: Load
 
@@ -1022,18 +1022,18 @@ Create a handle: `device_custody_detail = BluefinDecryptxP2pe.device_custody_det
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `complete_date` | `String.t()` |  |
+| `completeDate` | `String.t()` |  |
 | `created` | `String.t()` |  |
-| `created_by` | `map()` |  |
+| `createdBy` | `map()` |  |
 | `custodian` | `map()` |  |
 | `device` | `map()` |  |
 | `id` | `integer()` |  |
 | `location` | `map()` |  |
 | `modified` | `String.t()` |  |
-| `modified_by` | `map()` |  |
-| `note` | `String.t()` |  |
+| `modifiedBy` | `map()` |  |
+| `notes` | `String.t()` |  |
 | `status` | `map()` |  |
-| `transfer_method` | `map()` |  |
+| `transferMethod` | `map()` |  |
 | `version` | `integer()` |  |
 
 #### Example: Load
@@ -1058,18 +1058,18 @@ Create a handle: `device_custody_list = BluefinDecryptxP2pe.device_custody_list(
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `complete_date` | `String.t()` |  |
+| `completeDate` | `String.t()` |  |
 | `created` | `String.t()` |  |
-| `created_by` | `map()` |  |
+| `createdBy` | `map()` |  |
 | `custodian` | `map()` |  |
 | `device` | `map()` |  |
 | `id` | `integer()` |  |
 | `location` | `map()` |  |
 | `modified` | `String.t()` |  |
-| `modified_by` | `map()` |  |
-| `note` | `String.t()` |  |
+| `modifiedBy` | `map()` |  |
+| `notes` | `String.t()` |  |
 | `status` | `map()` |  |
-| `transfer_method` | `map()` |  |
+| `transferMethod` | `map()` |  |
 | `version` | `integer()` |  |
 
 #### Example: List
@@ -1198,16 +1198,16 @@ Create a handle: `device_type = BluefinDecryptxP2pe.device_type(sdk)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `created` | `String.t()` |  |
-| `device_type_mode` | `String.t()` |  |
-| `hardware_version` | `String.t()` |  |
+| `deviceTypeMode` | `String.t()` |  |
+| `hardwareVersion` | `String.t()` |  |
 | `id` | `String.t()` |  |
-| `is_active` | `boolean()` |  |
+| `isActive` | `boolean()` |  |
 | `manufacturer` | `String.t()` |  |
 | `model` | `String.t()` |  |
 | `modified` | `String.t()` |  |
 | `name` | `String.t()` |  |
-| `photo_url` | `String.t()` |  |
-| `product_name` | `String.t()` |  |
+| `photoUrl` | `String.t()` |  |
+| `productName` | `String.t()` |  |
 | `version` | `integer()` |  |
 
 #### Example: Load
@@ -1242,9 +1242,9 @@ Create a handle: `inject_key = BluefinDecryptxP2pe.inject_key(sdk)`
 | --- | --- | --- |
 | `created` | `String.t()` |  |
 | `id` | `String.t()` |  |
-| `is_active` | `boolean()` |  |
-| `is_p2_pe` | `boolean()` |  |
-| `key_type` | `String.t()` |  |
+| `isActive` | `boolean()` |  |
+| `isP2PE` | `boolean()` |  |
+| `keyType` | `String.t()` |  |
 | `modified` | `String.t()` |  |
 | `name` | `String.t()` |  |
 | `version` | `integer()` |  |
@@ -1308,26 +1308,26 @@ Create a handle: `location = BluefinDecryptxP2pe.location(sdk)`
 | --- | --- | --- |
 | `address1` | `String.t()` |  |
 | `address2` | `String.t()` |  |
-| `billing_id` | `String.t()` |  |
+| `billingId` | `String.t()` |  |
 | `city` | `String.t()` |  |
 | `country` | `String.t()` |  |
 | `created` | `String.t()` |  |
-| `custom_reference` | `String.t()` |  |
+| `customReference` | `String.t()` |  |
 | `id` | `String.t()` |  |
-| `location_type` | `String.t()` |  |
-| `mail_address1` | `String.t()` |  |
-| `mail_address2` | `String.t()` |  |
-| `mail_city` | `String.t()` |  |
-| `mail_country` | `String.t()` |  |
-| `mail_postal_code` | `String.t()` |  |
-| `mail_state_province` | `String.t()` |  |
+| `locationType` | `String.t()` |  |
+| `mailAddress1` | `String.t()` |  |
+| `mailAddress2` | `String.t()` |  |
+| `mailCity` | `String.t()` |  |
+| `mailCountry` | `String.t()` |  |
+| `mailPostalCode` | `String.t()` |  |
+| `mailStateProvince` | `String.t()` |  |
 | `modified` | `String.t()` |  |
 | `name` | `String.t()` |  |
-| `name_of_business` | `String.t()` |  |
-| `note` | `String.t()` |  |
-| `postal_code` | `String.t()` |  |
-| `state_province` | `String.t()` |  |
-| `unique_id` | `String.t()` |  |
+| `nameOfBusiness` | `String.t()` |  |
+| `notes` | `String.t()` |  |
+| `postalCode` | `String.t()` |  |
+| `stateProvince` | `String.t()` |  |
+| `uniqueId` | `String.t()` |  |
 | `version` | `integer()` |  |
 
 #### Example: Load
@@ -1369,19 +1369,19 @@ Create a handle: `partner = BluefinDecryptxP2pe.partner(sdk)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `billing_id` | `String.t()` |  |
-| `client_can_order_equipment` | `boolean()` |  |
+| `billingId` | `String.t()` |  |
+| `clientCanOrderEquipment` | `boolean()` |  |
 | `contact` | `map()` |  |
 | `created` | `String.t()` |  |
 | `id` | `String.t()` |  |
-| `is_active` | `boolean()` |  |
+| `isActive` | `boolean()` |  |
 | `location` | `map()` |  |
 | `modified` | `String.t()` |  |
 | `name` | `String.t()` |  |
 | `parent` | `map()` |  |
-| `partner_id` | `String.t()` |  |
+| `partnerId` | `String.t()` |  |
 | `reference` | `String.t()` |  |
-| `verification_phrase` | `String.t()` |  |
+| `verificationPhrase` | `String.t()` |  |
 | `version` | `integer()` |  |
 
 #### Example: Load
@@ -1427,15 +1427,15 @@ Create a handle: `shipment = BluefinDecryptxP2pe.shipment(sdk)`
 | `carrier` | `String.t()` |  |
 | `client` | `map()` |  |
 | `created` | `String.t()` |  |
-| `date_received` | `String.t()` |  |
-| `date_shipped` | `String.t()` |  |
-| `dc_kif` | `map()` |  |
+| `dateReceived` | `String.t()` |  |
+| `dateShipped` | `String.t()` |  |
+| `dcKif` | `map()` |  |
 | `id` | `String.t()` |  |
-| `item` | `list()` |  |
+| `items` | `list()` |  |
 | `kif` | `map()` |  |
 | `modified` | `String.t()` |  |
 | `partner` | `map()` |  |
-| `shipment_type` | `String.t()` |  |
+| `shipmentType` | `String.t()` |  |
 | `tracking` | `String.t()` |  |
 | `version` | `integer()` |  |
 
@@ -1505,30 +1505,30 @@ Create a handle: `transaction = BluefinDecryptxP2pe.transaction(sdk)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `alternate_key` | `String.t()` |  |
+| `alternateKey` | `String.t()` |  |
 | `client` | `map()` |  |
-| `client_ref` | `String.t()` |  |
+| `clientRef` | `String.t()` |  |
 | `created` | `String.t()` |  |
 | `decrypted` | `integer()` |  |
-| `device_name` | `String.t()` |  |
-| `direct_partner` | `map()` |  |
+| `deviceName` | `String.t()` |  |
+| `directPartner` | `map()` |  |
 | `encrypted` | `integer()` |  |
-| `end_date` | `String.t()` |  |
-| `err_code` | `String.t()` |  |
-| `err_message` | `String.t()` |  |
+| `endDate` | `String.t()` |  |
+| `errCode` | `String.t()` |  |
+| `errMessage` | `String.t()` |  |
 | `id` | `String.t()` |  |
-| `ip_address` | `String.t()` |  |
-| `is_virtual` | `boolean()` |  |
-| `key_type` | `String.t()` |  |
+| `ipAddress` | `String.t()` |  |
+| `isVirtual` | `boolean()` |  |
+| `keyType` | `String.t()` |  |
 | `location` | `map()` |  |
-| `message_id` | `String.t()` |  |
+| `messageId` | `String.t()` |  |
 | `method` | `String.t()` |  |
 | `partner` | `map()` |  |
 | `reference` | `String.t()` |  |
-| `serial_number` | `String.t()` |  |
-| `start_date` | `String.t()` |  |
+| `serialNumber` | `String.t()` |  |
+| `startDate` | `String.t()` |  |
 | `success` | `boolean()` |  |
-| `transaction_source` | `String.t()` |  |
+| `transactionSource` | `String.t()` |  |
 
 #### Example: Load
 
@@ -1572,15 +1572,15 @@ Create a handle: `update_result = BluefinDecryptxP2pe.update_result(sdk)`
 | --- | --- | --- |
 | `client` | `map()` |  |
 | `email` | `String.t()` |  |
-| `first_name` | `String.t()` |  |
+| `firstName` | `String.t()` |  |
 | `id` | `String.t()` |  |
-| `is_active` | `boolean()` |  |
+| `isActive` | `boolean()` |  |
 | `kif` | `map()` |  |
-| `last_name` | `String.t()` |  |
+| `lastName` | `String.t()` |  |
 | `partner` | `map()` |  |
 | `phone` | `String.t()` |  |
-| `user_name` | `String.t()` |  |
-| `user_role` | `map()` |  |
+| `userName` | `String.t()` |  |
+| `userRole` | `map()` |  |
 | `version` | `integer()` |  |
 
 #### Example: List
@@ -1617,16 +1617,16 @@ Create a handle: `user = BluefinDecryptxP2pe.user(sdk)`
 | `client` | `map()` |  |
 | `created` | `String.t()` |  |
 | `email` | `String.t()` |  |
-| `first_name` | `String.t()` |  |
+| `firstName` | `String.t()` |  |
 | `id` | `String.t()` |  |
-| `is_active` | `boolean()` |  |
+| `isActive` | `boolean()` |  |
 | `kif` | `map()` |  |
-| `last_name` | `String.t()` |  |
+| `lastName` | `String.t()` |  |
 | `modified` | `String.t()` |  |
 | `partner` | `map()` |  |
 | `phone` | `String.t()` |  |
-| `user_name` | `String.t()` |  |
-| `user_role` | `map()` |  |
+| `userName` | `String.t()` |  |
+| `userRole` | `map()` |  |
 | `version` | `integer()` |  |
 
 #### Example: Load

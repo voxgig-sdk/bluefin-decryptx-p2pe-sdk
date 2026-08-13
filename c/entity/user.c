@@ -14,6 +14,8 @@ typedef struct user_entity {
   voxgig_value* data;     // Map
   voxgig_value* mtch;     // Map
   Context* entctx;
+  // Set once a successful `remove` resolves on this instance.
+  bool deleted;
 } user_entity;
 
 typedef void (*user_postdone_fn)(user_entity* self, Context* ctx);
@@ -24,11 +26,14 @@ static const char* user_get_name(Entity* e);
 static Entity* user_make(Entity* e);
 static voxgig_value* user_data(Entity* e, voxgig_value* args);
 static voxgig_value* user_matchv(Entity* e, voxgig_value* args);
-static voxgig_value* user_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
-static voxgig_value* user_list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
-static voxgig_value* user_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
-static voxgig_value* user_update(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
-static voxgig_value* user_remove(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+// Ops resolve to the ENTITY (`list` to a NULL-terminated array of them).
+static Entity* user_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static Entity** user_list(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static Entity* user_create(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
+static Entity* user_update(Entity* e, voxgig_value* reqdata, voxgig_value* ctrl, PNError** err);
+static Entity* user_remove(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err);
+static void user_mark_deleted(Entity* e);
+static bool user_deleted(Entity* e);
 
 static Context* user_ent_ctx(user_entity* self) {
   return self->entctx;
@@ -250,7 +255,7 @@ static void user_load_postdone(user_entity* self, Context* ctx) {
   }
 }
 
-static voxgig_value* user_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err) {
+static Entity* user_load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err) {
   user_entity* self = (user_entity*)e;
   CtxSpec cs;
   memset(&cs, 0, sizeof(cs));
@@ -260,23 +265,30 @@ static voxgig_value* user_load(Entity* e, voxgig_value* reqmatch, voxgig_value* 
   cs.data = self->data;
   cs.reqmatch = reqmatch;
   Context* ctx = make_context_util(cs, user_ent_ctx(self));
-  return user_run_op(self, ctx, user_load_postdone, err);
+  user_run_op(self, ctx, user_load_postdone, err);
+  if (*err) return NULL;
+
+  // The operation resolves to THIS entity: run_op has just absorbed the
+  // result into it, and the caller reaches the record through vt->data.
+  // See AGENTS.md "Entity operations return ENTITIES".
+
+  return e;
 }
 
 
-static voxgig_value* user_list(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity** user_list(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("list", "user");
   return NULL;
 }
 
-static voxgig_value* user_create(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* user_create(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("create", "user");
   return NULL;
 }
 
-static voxgig_value* user_update(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
+static Entity* user_update(Entity* e, voxgig_value* reqarg, voxgig_value* ctrl, PNError** err) {
   (void)e; (void)reqarg; (void)ctrl;
   *err = unsupported_op("update", "user");
   return NULL;
@@ -296,7 +308,7 @@ static void user_remove_postdone(user_entity* self, Context* ctx) {
   }
 }
 
-static voxgig_value* user_remove(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err) {
+static Entity* user_remove(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err) {
   user_entity* self = (user_entity*)e;
   CtxSpec cs;
   memset(&cs, 0, sizeof(cs));
@@ -306,15 +318,38 @@ static voxgig_value* user_remove(Entity* e, voxgig_value* reqmatch, voxgig_value
   cs.data = self->data;
   cs.reqmatch = reqmatch;
   Context* ctx = make_context_util(cs, user_ent_ctx(self));
-  return user_run_op(self, ctx, user_remove_postdone, err);
+  user_run_op(self, ctx, user_remove_postdone, err);
+  if (*err) return NULL;
+
+  // The operation resolves to THIS entity: run_op has just absorbed the
+  // result into it, and the caller reaches the record through vt->data.
+  // See AGENTS.md "Entity operations return ENTITIES".
+
+  // A removed entity keeps its data but is no longer a live record.
+  self->deleted = true;
+
+  return e;
 }
 
+
+// `remove` resolves to the entity, marked. The instance KEEPS the data it
+// held - a caller can still read what was deleted - but it is no longer a
+// live record.
+static void user_mark_deleted(Entity* e) {
+  ((user_entity*)e)->deleted = true;
+}
+
+static bool user_deleted(Entity* e) {
+  return ((user_entity*)e)->deleted;
+}
 
 static const EntityVT user_VT = {
   user_get_name,
   user_make,
   user_data,
   user_matchv,
+  user_mark_deleted,
+  user_deleted,
   user_load,
   user_list,
   user_create,

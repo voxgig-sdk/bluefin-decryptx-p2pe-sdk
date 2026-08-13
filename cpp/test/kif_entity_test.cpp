@@ -38,15 +38,15 @@ static KifSetup kif_basic_setup(const Value& extra) {
   if (!idmap.is_map()) idmap = vmap();
 
   Value env = env_override(vmap({
-    {"BLUEFINDECRYPTXP_PE_TEST_KIF_ENTID", idmap},
-    {"BLUEFINDECRYPTXP_PE_TEST_LIVE", Value("FALSE")},
-    {"BLUEFINDECRYPTXP_PE_TEST_EXPLAIN", Value("FALSE")}
+    {"BLUEFIN_DECRYPTX_P2PE_TEST_KIF_ENTID", idmap},
+    {"BLUEFIN_DECRYPTX_P2PE_TEST_LIVE", Value("FALSE")},
+    {"BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN", Value("FALSE")}
   }));
 
-  Value idmap_resolved = Helpers::toMapAny(getp(env, "BLUEFINDECRYPTXP_PE_TEST_KIF_ENTID"));
+  Value idmap_resolved = Helpers::toMapAny(getp(env, "BLUEFIN_DECRYPTX_P2PE_TEST_KIF_ENTID"));
   if (!idmap_resolved.is_map()) idmap_resolved = idmap;
 
-  bool live = getp(env, "BLUEFINDECRYPTXP_PE_TEST_LIVE") == Value("TRUE");
+  bool live = getp(env, "BLUEFIN_DECRYPTX_P2PE_TEST_LIVE") == Value("TRUE");
 
   KifSetup s;
   s.client = client;
@@ -64,6 +64,7 @@ static void kif_entity_instance() {
   auto ent = testsdk->kif();
   ASSERT_EQ(ent->getName(), std::string("kif"), "entity name");
 }
+
 
 static void kif_entity_stream() {
   // stream() runs the list op through the full pipeline and returns the
@@ -110,7 +111,10 @@ static void kif_entity_basic() {
   // LIST
   auto kif_ref01_ent = client->kif();
   Value kif_ref01_match = vmap();
-  Value kif_ref01_list = kif_ref01_ent->list(Struct::clone(kif_ref01_match), Value::undef());
+  auto kif_ref01_list_ents = kif_ref01_ent->list(Struct::clone(kif_ref01_match), Value::undef());
+  // list resolves to one ENTITY per record; the flow asserts on the records.
+  Value kif_ref01_list = vlist();
+  for (const auto& e : kif_ref01_list_ents) { kif_ref01_list.as_list()->push_back(e->data()); }
   ASSERT_TRUE(kif_ref01_list.is_list(), "expected list result to be an array");
 
 }

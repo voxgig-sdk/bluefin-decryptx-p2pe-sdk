@@ -54,7 +54,7 @@ for (const attestation of attestations) {
 ```js
 const created = await client.Attestation().create({
   client: {},
-  complete_date: 'example_complete_date',
+  completeDate: 'example_completeDate',
 })
 console.log(created)
 ```
@@ -150,7 +150,8 @@ Create a mock client for unit testing — no server required:
 const client = BluefinDecryptxP2peSDK.test()
 
 const devicetype = await client.DeviceType().list()
-// devicetype is a bare entity populated with mock response data
+// devicetype is the entity, populated with mock response data
+// — call devicetype.data() for the record itself
 console.log(devicetype)
 ```
 
@@ -339,12 +340,12 @@ The `prepare()` method returns:
 | Field | Description |
 | --- | --- |
 | `client` |  |
-| `complete_date` |  |
+| `completeDate` |  |
 | `created` |  |
 | `device` |  |
 | `id` |  |
 | `name` |  |
-| `note` |  |
+| `notes` |  |
 
 Operations: create, list, load.
 
@@ -356,9 +357,9 @@ API path: `/attestations`
 | --- | --- |
 | `contact` |  |
 | `created` |  |
-| `direct_partner` |  |
+| `directPartner` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `location` |  |
 | `mid` |  |
 | `modified` |  |
@@ -393,33 +394,33 @@ API path: `/decryption`
 
 | Field | Description |
 | --- | --- |
-| `activated_by` |  |
-| `activation_date` |  |
-| `alternate_key` |  |
-| `audit_next_date` |  |
-| `audit_notification_date` |  |
+| `activatedBy` |  |
+| `activationDate` |  |
+| `alternateKey` |  |
+| `auditNextDate` |  |
+| `auditNotificationDate` |  |
 | `client` |  |
 | `created` |  |
-| `created_by` |  |
-| `device_build` |  |
-| `device_state` |  |
-| `device_type` |  |
-| `error_counter` |  |
-| `error_last_date` |  |
+| `createdBy` |  |
+| `deviceBuild` |  |
+| `deviceState` |  |
+| `deviceType` |  |
+| `errorCounter` |  |
+| `errorLastDate` |  |
 | `id` |  |
-| `initialized_by` |  |
-| `initialized_date` |  |
-| `inject_key` |  |
-| `is_virtual` |  |
+| `initializedBy` |  |
+| `initializedDate` |  |
+| `injectKey` |  |
+| `isVirtual` |  |
 | `kif` |  |
-| `last_activity_date` |  |
+| `lastActivityDate` |  |
 | `location` |  |
 | `modified` |  |
-| `modified_by` |  |
+| `modifiedBy` |  |
 | `name` |  |
-| `note` |  |
+| `notes` |  |
 | `partner` |  |
-| `serial_number` |  |
+| `serialNumber` |  |
 | `version` |  |
 
 Operations: create, list, load.
@@ -430,21 +431,21 @@ API path: `/devices`
 
 | Field | Description |
 | --- | --- |
-| `app_version` |  |
-| `build_number` |  |
-| `config_file_name` |  |
+| `appVersion` |  |
+| `buildNumber` |  |
+| `configFileName` |  |
 | `created` |  |
-| `device_type` |  |
-| `firmware_version` |  |
-| `hardware_version` |  |
+| `deviceType` |  |
+| `firmwareVersion` |  |
+| `hardwareVersion` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `modified` |  |
 | `name` |  |
-| `note` |  |
+| `notes` |  |
 | `version` |  |
-| `white_listing_bin_range` |  |
-| `white_listing_used` |  |
+| `whiteListingBinRanges` |  |
+| `whiteListingUsed` |  |
 
 Operations: list, load.
 
@@ -454,18 +455,18 @@ API path: `/deviceBuilds`
 
 | Field | Description |
 | --- | --- |
-| `complete_date` |  |
+| `completeDate` |  |
 | `created` |  |
-| `created_by` |  |
+| `createdBy` |  |
 | `custodian` |  |
 | `device` |  |
 | `id` |  |
 | `location` |  |
 | `modified` |  |
-| `modified_by` |  |
-| `note` |  |
+| `modifiedBy` |  |
+| `notes` |  |
 | `status` |  |
-| `transfer_method` |  |
+| `transferMethod` |  |
 | `version` |  |
 
 Operations: load.
@@ -476,18 +477,18 @@ API path: `/devices/{serialNumber}/{deviceType}/custody/{id}`
 
 | Field | Description |
 | --- | --- |
-| `complete_date` |  |
+| `completeDate` |  |
 | `created` |  |
-| `created_by` |  |
+| `createdBy` |  |
 | `custodian` |  |
 | `device` |  |
 | `id` |  |
 | `location` |  |
 | `modified` |  |
-| `modified_by` |  |
-| `note` |  |
+| `modifiedBy` |  |
+| `notes` |  |
 | `status` |  |
-| `transfer_method` |  |
+| `transferMethod` |  |
 | `version` |  |
 
 Operations: list.
@@ -541,16 +542,16 @@ API path: `/deviceStates`
 | Field | Description |
 | --- | --- |
 | `created` |  |
-| `device_type_mode` |  |
-| `hardware_version` |  |
+| `deviceTypeMode` |  |
+| `hardwareVersion` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `manufacturer` |  |
 | `model` |  |
 | `modified` |  |
 | `name` |  |
-| `photo_url` |  |
-| `product_name` |  |
+| `photoUrl` |  |
+| `productName` |  |
 | `version` |  |
 
 Operations: list, load.
@@ -563,9 +564,9 @@ API path: `/deviceTypes`
 | --- | --- |
 | `created` |  |
 | `id` |  |
-| `is_active` |  |
-| `is_p2_pe` |  |
-| `key_type` |  |
+| `isActive` |  |
+| `isP2PE` |  |
+| `keyType` |  |
 | `modified` |  |
 | `name` |  |
 | `version` |  |
@@ -591,26 +592,26 @@ API path: `/kifs`
 | --- | --- |
 | `address1` |  |
 | `address2` |  |
-| `billing_id` |  |
+| `billingId` |  |
 | `city` |  |
 | `country` |  |
 | `created` |  |
-| `custom_reference` |  |
+| `customReference` |  |
 | `id` |  |
-| `location_type` |  |
-| `mail_address1` |  |
-| `mail_address2` |  |
-| `mail_city` |  |
-| `mail_country` |  |
-| `mail_postal_code` |  |
-| `mail_state_province` |  |
+| `locationType` |  |
+| `mailAddress1` |  |
+| `mailAddress2` |  |
+| `mailCity` |  |
+| `mailCountry` |  |
+| `mailPostalCode` |  |
+| `mailStateProvince` |  |
 | `modified` |  |
 | `name` |  |
-| `name_of_business` |  |
-| `note` |  |
-| `postal_code` |  |
-| `state_province` |  |
-| `unique_id` |  |
+| `nameOfBusiness` |  |
+| `notes` |  |
+| `postalCode` |  |
+| `stateProvince` |  |
+| `uniqueId` |  |
 | `version` |  |
 
 Operations: create, list, load, remove.
@@ -621,19 +622,19 @@ API path: `/locations`
 
 | Field | Description |
 | --- | --- |
-| `billing_id` |  |
-| `client_can_order_equipment` |  |
+| `billingId` |  |
+| `clientCanOrderEquipment` |  |
 | `contact` |  |
 | `created` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `location` |  |
 | `modified` |  |
 | `name` |  |
 | `parent` |  |
-| `partner_id` |  |
+| `partnerId` |  |
 | `reference` |  |
-| `verification_phrase` |  |
+| `verificationPhrase` |  |
 | `version` |  |
 
 Operations: create, list, load.
@@ -647,15 +648,15 @@ API path: `/partners`
 | `carrier` |  |
 | `client` |  |
 | `created` |  |
-| `date_received` |  |
-| `date_shipped` |  |
-| `dc_kif` |  |
+| `dateReceived` |  |
+| `dateShipped` |  |
+| `dcKif` |  |
 | `id` |  |
-| `item` |  |
+| `items` |  |
 | `kif` |  |
 | `modified` |  |
 | `partner` |  |
-| `shipment_type` |  |
+| `shipmentType` |  |
 | `tracking` |  |
 | `version` |  |
 
@@ -677,30 +678,30 @@ API path: `/virtualDevices/{sharePartnerTo}`
 
 | Field | Description |
 | --- | --- |
-| `alternate_key` |  |
+| `alternateKey` |  |
 | `client` |  |
-| `client_ref` |  |
+| `clientRef` |  |
 | `created` |  |
 | `decrypted` |  |
-| `device_name` |  |
-| `direct_partner` |  |
+| `deviceName` |  |
+| `directPartner` |  |
 | `encrypted` |  |
-| `end_date` |  |
-| `err_code` |  |
-| `err_message` |  |
+| `endDate` |  |
+| `errCode` |  |
+| `errMessage` |  |
 | `id` |  |
-| `ip_address` |  |
-| `is_virtual` |  |
-| `key_type` |  |
+| `ipAddress` |  |
+| `isVirtual` |  |
+| `keyType` |  |
 | `location` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `method` |  |
 | `partner` |  |
 | `reference` |  |
-| `serial_number` |  |
-| `start_date` |  |
+| `serialNumber` |  |
+| `startDate` |  |
 | `success` |  |
-| `transaction_source` |  |
+| `transactionSource` |  |
 
 Operations: create, list, load.
 
@@ -712,15 +713,15 @@ API path: `/transactions`
 | --- | --- |
 | `client` |  |
 | `email` |  |
-| `first_name` |  |
+| `firstName` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `kif` |  |
-| `last_name` |  |
+| `lastName` |  |
 | `partner` |  |
 | `phone` |  |
-| `user_name` |  |
-| `user_role` |  |
+| `userName` |  |
+| `userRole` |  |
 | `version` |  |
 
 Operations: create, list, update.
@@ -734,16 +735,16 @@ API path: `/users`
 | `client` |  |
 | `created` |  |
 | `email` |  |
-| `first_name` |  |
+| `firstName` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `kif` |  |
-| `last_name` |  |
+| `lastName` |  |
 | `modified` |  |
 | `partner` |  |
 | `phone` |  |
-| `user_name` |  |
-| `user_role` |  |
+| `userName` |  |
+| `userRole` |  |
 | `version` |  |
 
 Operations: load, remove.
@@ -772,12 +773,12 @@ Create an instance: `const attestation = client.Attestation()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `client` | `Object` |  |
-| `complete_date` | `string` |  |
+| `completeDate` | `string` |  |
 | `created` | `string` |  |
 | `device` | `Object` |  |
 | `id` | `string` |  |
 | `name` | `string` |  |
-| `note` | `string` |  |
+| `notes` | `string` |  |
 
 #### Example: Load
 
@@ -818,9 +819,9 @@ Create an instance: `const client_ = client.Client()`
 | --- | --- | --- |
 | `contact` | `Object` |  |
 | `created` | `string` |  |
-| `direct_partner` | `Object` |  |
+| `directPartner` | `Object` |  |
 | `id` | `string` |  |
-| `is_active` | `boolean` |  |
+| `isActive` | `boolean` |  |
 | `location` | `Object` |  |
 | `mid` | `string` |  |
 | `modified` | `string` |  |
@@ -909,33 +910,33 @@ Create an instance: `const device = client.Device()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `activated_by` | `Object` |  |
-| `activation_date` | `string` |  |
-| `alternate_key` | `string` |  |
-| `audit_next_date` | `string` |  |
-| `audit_notification_date` | `string` |  |
+| `activatedBy` | `Object` |  |
+| `activationDate` | `string` |  |
+| `alternateKey` | `string` |  |
+| `auditNextDate` | `string` |  |
+| `auditNotificationDate` | `string` |  |
 | `client` | `Object` |  |
 | `created` | `string` |  |
-| `created_by` | `Object` |  |
-| `device_build` | `Object` |  |
-| `device_state` | `Object` |  |
-| `device_type` | `Object` |  |
-| `error_counter` | `number` |  |
-| `error_last_date` | `string` |  |
+| `createdBy` | `Object` |  |
+| `deviceBuild` | `Object` |  |
+| `deviceState` | `Object` |  |
+| `deviceType` | `Object` |  |
+| `errorCounter` | `number` |  |
+| `errorLastDate` | `string` |  |
 | `id` | `string` |  |
-| `initialized_by` | `Object` |  |
-| `initialized_date` | `string` |  |
-| `inject_key` | `Object` |  |
-| `is_virtual` | `boolean` |  |
+| `initializedBy` | `Object` |  |
+| `initializedDate` | `string` |  |
+| `injectKey` | `Object` |  |
+| `isVirtual` | `boolean` |  |
 | `kif` | `Object` |  |
-| `last_activity_date` | `string` |  |
+| `lastActivityDate` | `string` |  |
 | `location` | `Object` |  |
 | `modified` | `string` |  |
-| `modified_by` | `Object` |  |
+| `modifiedBy` | `Object` |  |
 | `name` | `string` |  |
-| `note` | `string` |  |
+| `notes` | `string` |  |
 | `partner` | `Object` |  |
-| `serial_number` | `string` |  |
+| `serialNumber` | `string` |  |
 | `version` | `number` |  |
 
 #### Example: Load
@@ -954,11 +955,11 @@ const devices = await client.Device().list()
 
 ```ts
 const device = await client.Device().create({
-  activated_by: {},
-  created_by: {},
-  initialized_by: {},
+  activatedBy: {},
+  createdBy: {},
+  initializedBy: {},
   location: {},
-  modified_by: {},
+  modifiedBy: {},
 })
 ```
 
@@ -978,21 +979,21 @@ Create an instance: `const device_build = client.DeviceBuild()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `app_version` | `string` |  |
-| `build_number` | `string` |  |
-| `config_file_name` | `string` |  |
+| `appVersion` | `string` |  |
+| `buildNumber` | `string` |  |
+| `configFileName` | `string` |  |
 | `created` | `string` |  |
-| `device_type` | `string` |  |
-| `firmware_version` | `string` |  |
-| `hardware_version` | `string` |  |
+| `deviceType` | `string` |  |
+| `firmwareVersion` | `string` |  |
+| `hardwareVersion` | `string` |  |
 | `id` | `number` |  |
-| `is_active` | `boolean` |  |
+| `isActive` | `boolean` |  |
 | `modified` | `string` |  |
 | `name` | `string` |  |
-| `note` | `string` |  |
+| `notes` | `string` |  |
 | `version` | `number` |  |
-| `white_listing_bin_range` | `string` |  |
-| `white_listing_used` | `boolean` |  |
+| `whiteListingBinRanges` | `string` |  |
+| `whiteListingUsed` | `boolean` |  |
 
 #### Example: Load
 
@@ -1021,18 +1022,18 @@ Create an instance: `const device_custody_detail = client.DeviceCustodyDetail()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `complete_date` | `string` |  |
+| `completeDate` | `string` |  |
 | `created` | `string` |  |
-| `created_by` | `Object` |  |
+| `createdBy` | `Object` |  |
 | `custodian` | `Object` |  |
 | `device` | `Object` |  |
 | `id` | `number` |  |
 | `location` | `Object` |  |
 | `modified` | `string` |  |
-| `modified_by` | `Object` |  |
-| `note` | `string` |  |
+| `modifiedBy` | `Object` |  |
+| `notes` | `string` |  |
 | `status` | `Object` |  |
-| `transfer_method` | `Object` |  |
+| `transferMethod` | `Object` |  |
 | `version` | `number` |  |
 
 #### Example: Load
@@ -1056,24 +1057,24 @@ Create an instance: `const device_custody_list = client.DeviceCustodyList()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `complete_date` | `string` |  |
+| `completeDate` | `string` |  |
 | `created` | `string` |  |
-| `created_by` | `Object` |  |
+| `createdBy` | `Object` |  |
 | `custodian` | `Object` |  |
 | `device` | `Object` |  |
 | `id` | `number` |  |
 | `location` | `Object` |  |
 | `modified` | `string` |  |
-| `modified_by` | `Object` |  |
-| `note` | `string` |  |
+| `modifiedBy` | `Object` |  |
+| `notes` | `string` |  |
 | `status` | `Object` |  |
-| `transfer_method` | `Object` |  |
+| `transferMethod` | `Object` |  |
 | `version` | `number` |  |
 
 #### Example: List
 
 ```ts
-const device_custody_lists = await client.DeviceCustodyList().list()
+const device_custody_lists = await client.DeviceCustodyList().list({ device_type: "example", serial_number: "example" })
 ```
 
 
@@ -1191,16 +1192,16 @@ Create an instance: `const device_type = client.DeviceType()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `created` | `string` |  |
-| `device_type_mode` | `string` |  |
-| `hardware_version` | `string` |  |
+| `deviceTypeMode` | `string` |  |
+| `hardwareVersion` | `string` |  |
 | `id` | `string` |  |
-| `is_active` | `boolean` |  |
+| `isActive` | `boolean` |  |
 | `manufacturer` | `string` |  |
 | `model` | `string` |  |
 | `modified` | `string` |  |
 | `name` | `string` |  |
-| `photo_url` | `string` |  |
-| `product_name` | `string` |  |
+| `photoUrl` | `string` |  |
+| `productName` | `string` |  |
 | `version` | `number` |  |
 
 #### Example: Load
@@ -1233,9 +1234,9 @@ Create an instance: `const inject_key = client.InjectKey()`
 | --- | --- | --- |
 | `created` | `string` |  |
 | `id` | `string` |  |
-| `is_active` | `boolean` |  |
-| `is_p2_pe` | `boolean` |  |
-| `key_type` | `string` |  |
+| `isActive` | `boolean` |  |
+| `isP2PE` | `boolean` |  |
+| `keyType` | `string` |  |
 | `modified` | `string` |  |
 | `name` | `string` |  |
 | `version` | `number` |  |
@@ -1296,26 +1297,26 @@ Create an instance: `const location = client.Location()`
 | --- | --- | --- |
 | `address1` | `string` |  |
 | `address2` | `string` |  |
-| `billing_id` | `string` |  |
+| `billingId` | `string` |  |
 | `city` | `string` |  |
 | `country` | `string` |  |
 | `created` | `string` |  |
-| `custom_reference` | `string` |  |
+| `customReference` | `string` |  |
 | `id` | `string` |  |
-| `location_type` | `string` |  |
-| `mail_address1` | `string` |  |
-| `mail_address2` | `string` |  |
-| `mail_city` | `string` |  |
-| `mail_country` | `string` |  |
-| `mail_postal_code` | `string` |  |
-| `mail_state_province` | `string` |  |
+| `locationType` | `string` |  |
+| `mailAddress1` | `string` |  |
+| `mailAddress2` | `string` |  |
+| `mailCity` | `string` |  |
+| `mailCountry` | `string` |  |
+| `mailPostalCode` | `string` |  |
+| `mailStateProvince` | `string` |  |
 | `modified` | `string` |  |
 | `name` | `string` |  |
-| `name_of_business` | `string` |  |
-| `note` | `string` |  |
-| `postal_code` | `string` |  |
-| `state_province` | `string` |  |
-| `unique_id` | `string` |  |
+| `nameOfBusiness` | `string` |  |
+| `notes` | `string` |  |
+| `postalCode` | `string` |  |
+| `stateProvince` | `string` |  |
+| `uniqueId` | `string` |  |
 | `version` | `number` |  |
 
 #### Example: Load
@@ -1354,19 +1355,19 @@ Create an instance: `const partner = client.Partner()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `billing_id` | `string` |  |
-| `client_can_order_equipment` | `boolean` |  |
+| `billingId` | `string` |  |
+| `clientCanOrderEquipment` | `boolean` |  |
 | `contact` | `Object` |  |
 | `created` | `string` |  |
 | `id` | `string` |  |
-| `is_active` | `boolean` |  |
+| `isActive` | `boolean` |  |
 | `location` | `Object` |  |
 | `modified` | `string` |  |
 | `name` | `string` |  |
 | `parent` | `Object` |  |
-| `partner_id` | `string` |  |
+| `partnerId` | `string` |  |
 | `reference` | `string` |  |
-| `verification_phrase` | `string` |  |
+| `verificationPhrase` | `string` |  |
 | `version` | `number` |  |
 
 #### Example: Load
@@ -1409,15 +1410,15 @@ Create an instance: `const shipment = client.Shipment()`
 | `carrier` | `string` |  |
 | `client` | `Object` |  |
 | `created` | `string` |  |
-| `date_received` | `string` |  |
-| `date_shipped` | `string` |  |
-| `dc_kif` | `Object` |  |
+| `dateReceived` | `string` |  |
+| `dateShipped` | `string` |  |
+| `dcKif` | `Object` |  |
 | `id` | `string` |  |
-| `item` | `Array` |  |
+| `items` | `Array` |  |
 | `kif` | `Object` |  |
 | `modified` | `string` |  |
 | `partner` | `Object` |  |
-| `shipment_type` | `string` |  |
+| `shipmentType` | `string` |  |
 | `tracking` | `string` |  |
 | `version` | `number` |  |
 
@@ -1483,30 +1484,30 @@ Create an instance: `const transaction = client.Transaction()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `alternate_key` | `string` |  |
+| `alternateKey` | `string` |  |
 | `client` | `Object` |  |
-| `client_ref` | `string` |  |
+| `clientRef` | `string` |  |
 | `created` | `string` |  |
 | `decrypted` | `number` |  |
-| `device_name` | `string` |  |
-| `direct_partner` | `Object` |  |
+| `deviceName` | `string` |  |
+| `directPartner` | `Object` |  |
 | `encrypted` | `number` |  |
-| `end_date` | `string` |  |
-| `err_code` | `string` |  |
-| `err_message` | `string` |  |
+| `endDate` | `string` |  |
+| `errCode` | `string` |  |
+| `errMessage` | `string` |  |
 | `id` | `string` |  |
-| `ip_address` | `string` |  |
-| `is_virtual` | `boolean` |  |
-| `key_type` | `string` |  |
+| `ipAddress` | `string` |  |
+| `isVirtual` | `boolean` |  |
+| `keyType` | `string` |  |
 | `location` | `Object` |  |
-| `message_id` | `string` |  |
+| `messageId` | `string` |  |
 | `method` | `string` |  |
 | `partner` | `Object` |  |
 | `reference` | `string` |  |
-| `serial_number` | `string` |  |
-| `start_date` | `string` |  |
+| `serialNumber` | `string` |  |
+| `startDate` | `string` |  |
 | `success` | `boolean` |  |
-| `transaction_source` | `string` |  |
+| `transactionSource` | `string` |  |
 
 #### Example: Load
 
@@ -1547,15 +1548,15 @@ Create an instance: `const update_result = client.UpdateResult()`
 | --- | --- | --- |
 | `client` | `Object` |  |
 | `email` | `string` |  |
-| `first_name` | `string` |  |
+| `firstName` | `string` |  |
 | `id` | `string` |  |
-| `is_active` | `boolean` |  |
+| `isActive` | `boolean` |  |
 | `kif` | `Object` |  |
-| `last_name` | `string` |  |
+| `lastName` | `string` |  |
 | `partner` | `Object` |  |
 | `phone` | `string` |  |
-| `user_name` | `string` |  |
-| `user_role` | `Object` |  |
+| `userName` | `string` |  |
+| `userRole` | `Object` |  |
 | `version` | `number` |  |
 
 #### Example: List
@@ -1590,16 +1591,16 @@ Create an instance: `const user = client.User()`
 | `client` | `Object` |  |
 | `created` | `string` |  |
 | `email` | `string` |  |
-| `first_name` | `string` |  |
+| `firstName` | `string` |  |
 | `id` | `string` |  |
-| `is_active` | `boolean` |  |
+| `isActive` | `boolean` |  |
 | `kif` | `Object` |  |
-| `last_name` | `string` |  |
+| `lastName` | `string` |  |
 | `modified` | `string` |  |
 | `partner` | `Object` |  |
 | `phone` | `string` |  |
-| `user_name` | `string` |  |
-| `user_role` | `Object` |  |
+| `userName` | `string` |  |
+| `userRole` | `Object` |  |
 | `version` | `number` |  |
 
 #### Example: Load

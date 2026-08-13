@@ -38,15 +38,15 @@ static InjectKeySetup inject_key_basic_setup(const Value& extra) {
   if (!idmap.is_map()) idmap = vmap();
 
   Value env = env_override(vmap({
-    {"BLUEFINDECRYPTXP_PE_TEST_INJECT_KEY_ENTID", idmap},
-    {"BLUEFINDECRYPTXP_PE_TEST_LIVE", Value("FALSE")},
-    {"BLUEFINDECRYPTXP_PE_TEST_EXPLAIN", Value("FALSE")}
+    {"BLUEFIN_DECRYPTX_P2PE_TEST_INJECT_KEY_ENTID", idmap},
+    {"BLUEFIN_DECRYPTX_P2PE_TEST_LIVE", Value("FALSE")},
+    {"BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN", Value("FALSE")}
   }));
 
-  Value idmap_resolved = Helpers::toMapAny(getp(env, "BLUEFINDECRYPTXP_PE_TEST_INJECT_KEY_ENTID"));
+  Value idmap_resolved = Helpers::toMapAny(getp(env, "BLUEFIN_DECRYPTX_P2PE_TEST_INJECT_KEY_ENTID"));
   if (!idmap_resolved.is_map()) idmap_resolved = idmap;
 
-  bool live = getp(env, "BLUEFINDECRYPTXP_PE_TEST_LIVE") == Value("TRUE");
+  bool live = getp(env, "BLUEFIN_DECRYPTX_P2PE_TEST_LIVE") == Value("TRUE");
 
   InjectKeySetup s;
   s.client = client;
@@ -64,6 +64,7 @@ static void inject_key_entity_instance() {
   auto ent = testsdk->inject_key();
   ASSERT_EQ(ent->getName(), std::string("inject_key"), "entity name");
 }
+
 
 static void inject_key_entity_stream() {
   // stream() runs the list op through the full pipeline and returns the
@@ -110,12 +111,15 @@ static void inject_key_entity_basic() {
   // LIST
   auto inject_key_ref01_ent = client->inject_key();
   Value inject_key_ref01_match = vmap();
-  Value inject_key_ref01_list = inject_key_ref01_ent->list(Struct::clone(inject_key_ref01_match), Value::undef());
+  auto inject_key_ref01_list_ents = inject_key_ref01_ent->list(Struct::clone(inject_key_ref01_match), Value::undef());
+  // list resolves to one ENTITY per record; the flow asserts on the records.
+  Value inject_key_ref01_list = vlist();
+  for (const auto& e : inject_key_ref01_list_ents) { inject_key_ref01_list.as_list()->push_back(e->data()); }
   ASSERT_TRUE(inject_key_ref01_list.is_list(), "expected list result to be an array");
 
   // LOAD
   Value inject_key_ref01_match_dt0 = vmap({{"id", getp(inject_key_ref01_data, "id")}});
-  Value inject_key_ref01_data_dt0_loaded = inject_key_ref01_ent->load(Struct::clone(inject_key_ref01_match_dt0), Value::undef());
+  Value inject_key_ref01_data_dt0_loaded = inject_key_ref01_ent->load(Struct::clone(inject_key_ref01_match_dt0), Value::undef())->data();
   Value inject_key_ref01_data_dt0_load_result = Helpers::toMapAny(inject_key_ref01_data_dt0_loaded);
   ASSERT_TRUE(inject_key_ref01_data_dt0_load_result.is_map(), "expected load result to be a map");
   ASSERT_EQ_VAL(getp(inject_key_ref01_data_dt0_load_result, "id"), getp(inject_key_ref01_data, "id"), "expected load result id to match");

@@ -3,44 +3,44 @@
     "device_type": {
       "DEVICE_TYPE00": {
         "created": "s78",
-        "device_type_mode": "s79",
-        "hardware_version": "s7a",
+        "deviceTypeMode": "s79",
+        "hardwareVersion": "s7a",
         "id": "DEVICE_TYPE00",
-        "is_active": true,
+        "isActive": true,
         "manufacturer": "s7d",
         "model": "s7e",
         "modified": "s7f",
         "name": "s80",
-        "photo_url": "s81",
-        "product_name": "s82",
+        "photoUrl": "s81",
+        "productName": "s82",
         "version": "s83"
       },
       "DEVICE_TYPE01": {
         "created": "sf0",
-        "device_type_mode": "sf1",
-        "hardware_version": "sf2",
+        "deviceTypeMode": "sf1",
+        "hardwareVersion": "sf2",
         "id": "DEVICE_TYPE01",
-        "is_active": true,
+        "isActive": true,
         "manufacturer": "sf5",
         "model": "sf6",
         "modified": "sf7",
         "name": "sf8",
-        "photo_url": "sf9",
-        "product_name": "sfa",
+        "photoUrl": "sf9",
+        "productName": "sfa",
         "version": "sfb"
       },
       "DEVICE_TYPE02": {
         "created": "s168",
-        "device_type_mode": "s169",
-        "hardware_version": "s16a",
+        "deviceTypeMode": "s169",
+        "hardwareVersion": "s16a",
         "id": "DEVICE_TYPE02",
-        "is_active": true,
+        "isActive": true,
         "manufacturer": "s16d",
         "model": "s16e",
         "modified": "s16f",
         "name": "s170",
-        "photo_url": "s171",
-        "product_name": "s172",
+        "photoUrl": "s171",
+        "productName": "s172",
         "version": "s173"
       }
     }
@@ -49,15 +49,15 @@
     "device_type": {
       "device_type_ref01": {
         "created": "s1e0",
-        "device_type_mode": "s1e1",
-        "hardware_version": "s1e2",
-        "is_active": true,
+        "deviceTypeMode": "s1e1",
+        "hardwareVersion": "s1e2",
+        "isActive": true,
         "manufacturer": "s1e5",
         "model": "s1e6",
         "modified": "s1e7",
         "name": "s1e8",
-        "photo_url": "s1e9",
-        "product_name": "s1ea",
+        "photoUrl": "s1e9",
+        "productName": "s1ea",
         "version": "s1eb"
       }
     }

@@ -176,12 +176,12 @@ local attestation = client:Attestation(nil)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `client` | `table` | No |  |
-| `complete_date` | `string` | No |  |
+| `completeDate` | `string` | No |  |
 | `created` | `string` | No |  |
 | `device` | `table` | No |  |
 | `id` | `string` | No |  |
 | `name` | `string` | No |  |
-| `note` | `string` | No |  |
+| `notes` | `string` | No |  |
 
 ### Operations
 
@@ -252,9 +252,9 @@ local client_ = client:Client(nil)
 | --- | --- | --- | --- |
 | `contact` | `table` | No |  |
 | `created` | `string` | No |  |
-| `direct_partner` | `table` | No |  |
+| `directPartner` | `table` | No |  |
 | `id` | `string` | No |  |
-| `is_active` | `boolean` | No |  |
+| `isActive` | `boolean` | No |  |
 | `location` | `table` | Yes |  |
 | `mid` | `string` | No |  |
 | `modified` | `string` | No |  |
@@ -268,9 +268,9 @@ local client_ = client:Client(nil)
 | --- | --- | --- | --- | --- |
 | `contact` | - | Yes | - | - |
 | `created` | - | - | - | - |
-| `direct_partner` | - | - | - | - |
+| `directPartner` | - | - | - | - |
 | `id` | - | - | - | - |
-| `is_active` | - | - | - | - |
+| `isActive` | - | - | - | - |
 | `location` | - | - | - | - |
 | `mid` | - | - | - | - |
 | `modified` | - | - | - | - |
@@ -456,33 +456,33 @@ local device = client:Device(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `activated_by` | `table` | Yes |  |
-| `activation_date` | `string` | No |  |
-| `alternate_key` | `string` | No |  |
-| `audit_next_date` | `string` | No |  |
-| `audit_notification_date` | `string` | No |  |
+| `activatedBy` | `table` | Yes |  |
+| `activationDate` | `string` | No |  |
+| `alternateKey` | `string` | No |  |
+| `auditNextDate` | `string` | No |  |
+| `auditNotificationDate` | `string` | No |  |
 | `client` | `table` | No |  |
 | `created` | `string` | No |  |
-| `created_by` | `table` | Yes |  |
-| `device_build` | `table` | No |  |
-| `device_state` | `table` | No |  |
-| `device_type` | `table` | No |  |
-| `error_counter` | `number` | No |  |
-| `error_last_date` | `string` | No |  |
+| `createdBy` | `table` | Yes |  |
+| `deviceBuild` | `table` | No |  |
+| `deviceState` | `table` | No |  |
+| `deviceType` | `table` | No |  |
+| `errorCounter` | `number` | No |  |
+| `errorLastDate` | `string` | No |  |
 | `id` | `string` | No |  |
-| `initialized_by` | `table` | Yes |  |
-| `initialized_date` | `string` | No |  |
-| `inject_key` | `table` | No |  |
-| `is_virtual` | `boolean` | No |  |
+| `initializedBy` | `table` | Yes |  |
+| `initializedDate` | `string` | No |  |
+| `injectKey` | `table` | No |  |
+| `isVirtual` | `boolean` | No |  |
 | `kif` | `table` | No |  |
-| `last_activity_date` | `string` | No |  |
+| `lastActivityDate` | `string` | No |  |
 | `location` | `table` | Yes |  |
 | `modified` | `string` | No |  |
-| `modified_by` | `table` | Yes |  |
+| `modifiedBy` | `table` | Yes |  |
 | `name` | `string` | No |  |
-| `note` | `string` | No |  |
+| `notes` | `string` | No |  |
 | `partner` | `table` | No |  |
-| `serial_number` | `string` | No |  |
+| `serialNumber` | `string` | No |  |
 | `version` | `number` | No |  |
 
 ### Operations
@@ -493,11 +493,11 @@ Create a new entity with the given data.
 
 ```lua
 local result, err = client:Device():create({
-  activated_by = --[[ table ]],
-  created_by = --[[ table ]],
-  initialized_by = --[[ table ]],
+  activatedBy = --[[ table ]],
+  createdBy = --[[ table ]],
+  initializedBy = --[[ table ]],
   location = --[[ table ]],
-  modified_by = --[[ table ]],
+  modifiedBy = --[[ table ]],
 })
 ```
 
@@ -557,21 +557,21 @@ local device_build = client:DeviceBuild(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `app_version` | `string` | No |  |
-| `build_number` | `string` | No |  |
-| `config_file_name` | `string` | No |  |
+| `appVersion` | `string` | No |  |
+| `buildNumber` | `string` | No |  |
+| `configFileName` | `string` | No |  |
 | `created` | `string` | No |  |
-| `device_type` | `string` | No |  |
-| `firmware_version` | `string` | No |  |
-| `hardware_version` | `string` | No |  |
+| `deviceType` | `string` | No |  |
+| `firmwareVersion` | `string` | No |  |
+| `hardwareVersion` | `string` | No |  |
 | `id` | `number` | No |  |
-| `is_active` | `boolean` | No |  |
+| `isActive` | `boolean` | No |  |
 | `modified` | `string` | No |  |
 | `name` | `string` | No |  |
-| `note` | `string` | No |  |
+| `notes` | `string` | No |  |
 | `version` | `number` | No |  |
-| `white_listing_bin_range` | `string` | No |  |
-| `white_listing_used` | `boolean` | No |  |
+| `whiteListingBinRanges` | `string` | No |  |
+| `whiteListingUsed` | `boolean` | No |  |
 
 ### Operations
 
@@ -631,18 +631,18 @@ local device_custody_detail = client:DeviceCustodyDetail(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `complete_date` | `string` | No |  |
+| `completeDate` | `string` | No |  |
 | `created` | `string` | No |  |
-| `created_by` | `table` | Yes |  |
+| `createdBy` | `table` | Yes |  |
 | `custodian` | `table` | Yes |  |
 | `device` | `table` | No |  |
 | `id` | `number` | No |  |
 | `location` | `table` | Yes |  |
 | `modified` | `string` | No |  |
-| `modified_by` | `table` | Yes |  |
-| `note` | `string` | No |  |
+| `modifiedBy` | `table` | Yes |  |
+| `notes` | `string` | No |  |
 | `status` | `table` | No |  |
-| `transfer_method` | `table` | No |  |
+| `transferMethod` | `table` | No |  |
 | `version` | `number` | No |  |
 
 ### Operations
@@ -695,18 +695,18 @@ local device_custody_list = client:DeviceCustodyList(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `complete_date` | `string` | No |  |
+| `completeDate` | `string` | No |  |
 | `created` | `string` | No |  |
-| `created_by` | `table` | Yes |  |
+| `createdBy` | `table` | Yes |  |
 | `custodian` | `table` | Yes |  |
 | `device` | `table` | No |  |
 | `id` | `number` | No |  |
 | `location` | `table` | Yes |  |
 | `modified` | `string` | No |  |
-| `modified_by` | `table` | Yes |  |
-| `note` | `string` | No |  |
+| `modifiedBy` | `table` | Yes |  |
+| `notes` | `string` | No |  |
 | `status` | `table` | No |  |
-| `transfer_method` | `table` | No |  |
+| `transferMethod` | `table` | No |  |
 | `version` | `number` | No |  |
 
 ### Operations
@@ -974,16 +974,16 @@ local device_type = client:DeviceType(nil)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `created` | `string` | No |  |
-| `device_type_mode` | `string` | No |  |
-| `hardware_version` | `string` | No |  |
+| `deviceTypeMode` | `string` | No |  |
+| `hardwareVersion` | `string` | No |  |
 | `id` | `string` | No |  |
-| `is_active` | `boolean` | No |  |
+| `isActive` | `boolean` | No |  |
 | `manufacturer` | `string` | No |  |
 | `model` | `string` | No |  |
 | `modified` | `string` | No |  |
 | `name` | `string` | No |  |
-| `photo_url` | `string` | No |  |
-| `product_name` | `string` | No |  |
+| `photoUrl` | `string` | No |  |
+| `productName` | `string` | No |  |
 | `version` | `number` | No |  |
 
 ### Operations
@@ -1046,9 +1046,9 @@ local inject_key = client:InjectKey(nil)
 | --- | --- | --- | --- |
 | `created` | `string` | No |  |
 | `id` | `string` | No |  |
-| `is_active` | `boolean` | No |  |
-| `is_p2_pe` | `boolean` | No |  |
-| `key_type` | `string` | No |  |
+| `isActive` | `boolean` | No |  |
+| `isP2PE` | `boolean` | No |  |
+| `keyType` | `string` | No |  |
 | `modified` | `string` | No |  |
 | `name` | `string` | No |  |
 | `version` | `number` | No |  |
@@ -1166,26 +1166,26 @@ local location = client:Location(nil)
 | --- | --- | --- | --- |
 | `address1` | `string` | No |  |
 | `address2` | `string` | No |  |
-| `billing_id` | `string` | No |  |
+| `billingId` | `string` | No |  |
 | `city` | `string` | No |  |
 | `country` | `string` | No |  |
 | `created` | `string` | No |  |
-| `custom_reference` | `string` | No |  |
+| `customReference` | `string` | No |  |
 | `id` | `string` | No |  |
-| `location_type` | `string` | No |  |
-| `mail_address1` | `string` | No |  |
-| `mail_address2` | `string` | No |  |
-| `mail_city` | `string` | No |  |
-| `mail_country` | `string` | No |  |
-| `mail_postal_code` | `string` | No |  |
-| `mail_state_province` | `string` | No |  |
+| `locationType` | `string` | No |  |
+| `mailAddress1` | `string` | No |  |
+| `mailAddress2` | `string` | No |  |
+| `mailCity` | `string` | No |  |
+| `mailCountry` | `string` | No |  |
+| `mailPostalCode` | `string` | No |  |
+| `mailStateProvince` | `string` | No |  |
 | `modified` | `string` | No |  |
 | `name` | `string` | No |  |
-| `name_of_business` | `string` | No |  |
-| `note` | `string` | No |  |
-| `postal_code` | `string` | No |  |
-| `state_province` | `string` | No |  |
-| `unique_id` | `string` | No |  |
+| `nameOfBusiness` | `string` | No |  |
+| `notes` | `string` | No |  |
+| `postalCode` | `string` | No |  |
+| `stateProvince` | `string` | No |  |
+| `uniqueId` | `string` | No |  |
 | `version` | `number` | No |  |
 
 ### Operations
@@ -1263,38 +1263,38 @@ local partner = client:Partner(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `billing_id` | `string` | No |  |
-| `client_can_order_equipment` | `boolean` | No |  |
+| `billingId` | `string` | No |  |
+| `clientCanOrderEquipment` | `boolean` | No |  |
 | `contact` | `table` | No |  |
 | `created` | `string` | No |  |
 | `id` | `string` | No |  |
-| `is_active` | `boolean` | No |  |
+| `isActive` | `boolean` | No |  |
 | `location` | `table` | Yes |  |
 | `modified` | `string` | No |  |
 | `name` | `string` | No |  |
 | `parent` | `table` | No |  |
-| `partner_id` | `string` | No |  |
+| `partnerId` | `string` | No |  |
 | `reference` | `string` | No |  |
-| `verification_phrase` | `string` | No |  |
+| `verificationPhrase` | `string` | No |  |
 | `version` | `number` | No |  |
 
 ### Field Usage by Operation
 
 | Field | load | list | create |
 | --- | --- | --- | --- |
-| `billing_id` | - | - | - |
-| `client_can_order_equipment` | - | - | - |
+| `billingId` | - | - | - |
+| `clientCanOrderEquipment` | - | - | - |
 | `contact` | - | Yes | - |
 | `created` | - | - | - |
 | `id` | - | - | - |
-| `is_active` | - | - | - |
+| `isActive` | - | - | - |
 | `location` | - | - | - |
 | `modified` | - | - | - |
 | `name` | - | - | - |
 | `parent` | - | - | - |
-| `partner_id` | - | - | - |
+| `partnerId` | - | - | - |
 | `reference` | - | - | - |
-| `verification_phrase` | - | - | - |
+| `verificationPhrase` | - | - | - |
 | `version` | - | - | - |
 
 ### Operations
@@ -1368,15 +1368,15 @@ local shipment = client:Shipment(nil)
 | `carrier` | `string` | No |  |
 | `client` | `table` | No |  |
 | `created` | `string` | No |  |
-| `date_received` | `string` | No |  |
-| `date_shipped` | `string` | No |  |
-| `dc_kif` | `table` | No |  |
+| `dateReceived` | `string` | No |  |
+| `dateShipped` | `string` | No |  |
+| `dcKif` | `table` | No |  |
 | `id` | `string` | No |  |
-| `item` | `table` | No |  |
+| `items` | `table` | No |  |
 | `kif` | `table` | No |  |
 | `modified` | `string` | No |  |
 | `partner` | `table` | No |  |
-| `shipment_type` | `string` | No |  |
+| `shipmentType` | `string` | No |  |
 | `tracking` | `string` | No |  |
 | `version` | `number` | No |  |
 
@@ -1509,30 +1509,30 @@ local transaction = client:Transaction(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `alternate_key` | `string` | No |  |
+| `alternateKey` | `string` | No |  |
 | `client` | `table` | No |  |
-| `client_ref` | `string` | No |  |
+| `clientRef` | `string` | No |  |
 | `created` | `string` | No |  |
 | `decrypted` | `number` | No |  |
-| `device_name` | `string` | No |  |
-| `direct_partner` | `table` | No |  |
+| `deviceName` | `string` | No |  |
+| `directPartner` | `table` | No |  |
 | `encrypted` | `number` | No |  |
-| `end_date` | `string` | No |  |
-| `err_code` | `string` | No |  |
-| `err_message` | `string` | No |  |
+| `endDate` | `string` | No |  |
+| `errCode` | `string` | No |  |
+| `errMessage` | `string` | No |  |
 | `id` | `string` | No |  |
-| `ip_address` | `string` | No |  |
-| `is_virtual` | `boolean` | No |  |
-| `key_type` | `string` | No |  |
+| `ipAddress` | `string` | No |  |
+| `isVirtual` | `boolean` | No |  |
+| `keyType` | `string` | No |  |
 | `location` | `table` | Yes |  |
-| `message_id` | `string` | No |  |
+| `messageId` | `string` | No |  |
 | `method` | `string` | No |  |
 | `partner` | `table` | No |  |
 | `reference` | `string` | No |  |
-| `serial_number` | `string` | No |  |
-| `start_date` | `string` | No |  |
+| `serialNumber` | `string` | No |  |
+| `startDate` | `string` | No |  |
 | `success` | `boolean` | No |  |
-| `transaction_source` | `string` | No |  |
+| `transactionSource` | `string` | No |  |
 
 ### Operations
 
@@ -1604,15 +1604,15 @@ local update_result = client:UpdateResult(nil)
 | --- | --- | --- | --- |
 | `client` | `table` | No |  |
 | `email` | `string` | No |  |
-| `first_name` | `string` | No |  |
+| `firstName` | `string` | No |  |
 | `id` | `string` | No |  |
-| `is_active` | `boolean` | No |  |
+| `isActive` | `boolean` | No |  |
 | `kif` | `table` | No |  |
-| `last_name` | `string` | No |  |
+| `lastName` | `string` | No |  |
 | `partner` | `table` | No |  |
 | `phone` | `string` | No |  |
-| `user_name` | `string` | No |  |
-| `user_role` | `table` | No |  |
+| `userName` | `string` | No |  |
+| `userRole` | `table` | No |  |
 | `version` | `number` | No |  |
 
 ### Operations
@@ -1688,16 +1688,16 @@ local user = client:User(nil)
 | `client` | `table` | No |  |
 | `created` | `string` | No |  |
 | `email` | `string` | No |  |
-| `first_name` | `string` | No |  |
+| `firstName` | `string` | No |  |
 | `id` | `string` | No |  |
-| `is_active` | `boolean` | No |  |
+| `isActive` | `boolean` | No |  |
 | `kif` | `table` | No |  |
-| `last_name` | `string` | No |  |
+| `lastName` | `string` | No |  |
 | `modified` | `string` | No |  |
 | `partner` | `table` | No |  |
 | `phone` | `string` | No |  |
-| `user_name` | `string` | No |  |
-| `user_role` | `table` | No |  |
+| `userName` | `string` | No |  |
+| `userRole` | `table` | No |  |
 | `version` | `number` | No |  |
 
 ### Operations

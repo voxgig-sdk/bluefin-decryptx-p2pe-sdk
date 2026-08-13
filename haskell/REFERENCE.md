@@ -178,41 +178,43 @@ Prepare a fetch definition without sending. Returns the `fetchdef` and raises on
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `client` | `Value` | No |  |
-| `complete_date` | `String` | No |  |
+| `completeDate` | `String` | No |  |
 | `created` | `String` | No |  |
 | `device` | `Value` | No |  |
 | `id` | `String` | No |  |
 | `name` | `String` | No |  |
-| `note` | `String` | No |  |
+| `notes` | `String` | No |  |
 
 ### Operations
 
-#### `eCreate ent data ctrl :: IO Value`
+#### `eCreate ent data ctrl :: IO Entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
 
 ```haskell
   ent <- Sdk.attestation sdk VNoval
   d <- jo
     []
   ctrl <- emptyMap
-  result <- Sdk.eCreate ent d ctrl
+  result <- Sdk.eCreate ent d ctrl   -- the ENTITY
+  d2 <- Sdk.eDataGet result
 ```
 
-#### `eList ent match ctrl :: IO Value`
+#### `eList ent match ctrl :: IO [Entity]`
 
-List entities matching the given criteria. The match is optional — pass an empty map to list all records. Returns a list `Value` and raises on error.
+List entities matching the given criteria. The match is optional — pass an empty map to list all records. Resolves to one ENTITY per record and raises on error.
 
 ```haskell
   ent <- Sdk.attestation sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
-  results <- Sdk.eList ent match ctrl
+  results <- Sdk.eList ent match ctrl   -- one ENTITY per record
+  datas <- mapM Sdk.eDataGet results
 ```
 
-#### `eLoad ent match ctrl :: IO Value`
+#### `eLoad ent match ctrl :: IO Entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
 
 ```haskell
   ent <- Sdk.attestation sdk VNoval
@@ -258,9 +260,9 @@ The entity name.
 | --- | --- | --- | --- |
 | `contact` | `Value` | No |  |
 | `created` | `String` | No |  |
-| `direct_partner` | `Value` | No |  |
+| `directPartner` | `Value` | No |  |
 | `id` | `String` | No |  |
-| `is_active` | `Bool` | No |  |
+| `isActive` | `Bool` | No |  |
 | `location` | `Value` | Yes |  |
 | `mid` | `String` | No |  |
 | `modified` | `String` | No |  |
@@ -274,9 +276,9 @@ The entity name.
 | --- | --- | --- | --- | --- |
 | `contact` | - | Yes | - | - |
 | `created` | - | - | - | - |
-| `direct_partner` | - | - | - | - |
+| `directPartner` | - | - | - | - |
 | `id` | - | - | - | - |
-| `is_active` | - | - | - | - |
+| `isActive` | - | - | - | - |
 | `location` | - | - | - | - |
 | `mid` | - | - | - | - |
 | `modified` | - | - | - | - |
@@ -286,9 +288,9 @@ The entity name.
 
 ### Operations
 
-#### `eCreate ent data ctrl :: IO Value`
+#### `eCreate ent data ctrl :: IO Entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
 
 ```haskell
   ent <- Sdk.client sdk VNoval
@@ -296,23 +298,25 @@ Create a new entity with the given data. Returns the created entity data and rai
     [ ("location", VNoval)   -- Value
     ]
   ctrl <- emptyMap
-  result <- Sdk.eCreate ent d ctrl
+  result <- Sdk.eCreate ent d ctrl   -- the ENTITY
+  d2 <- Sdk.eDataGet result
 ```
 
-#### `eList ent match ctrl :: IO Value`
+#### `eList ent match ctrl :: IO [Entity]`
 
-List entities matching the given criteria. The match is optional — pass an empty map to list all records. Returns a list `Value` and raises on error.
+List entities matching the given criteria. The match is optional — pass an empty map to list all records. Resolves to one ENTITY per record and raises on error.
 
 ```haskell
   ent <- Sdk.client sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
-  results <- Sdk.eList ent match ctrl
+  results <- Sdk.eList ent match ctrl   -- one ENTITY per record
+  datas <- mapM Sdk.eDataGet results
 ```
 
-#### `eLoad ent match ctrl :: IO Value`
+#### `eLoad ent match ctrl :: IO Entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
 
 ```haskell
   ent <- Sdk.client sdk VNoval
@@ -321,9 +325,9 @@ Load a single entity matching the given criteria. Returns the entity data and ra
   result <- Sdk.eLoad ent match ctrl
 ```
 
-#### `eRemove ent match ctrl :: IO Value`
+#### `eRemove ent match ctrl :: IO Entity`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Resolves to the ENTITY, marked deleted (`eDeleted`); it keeps the data it held. Raises on error.
 
 ```haskell
   ent <- Sdk.client sdk VNoval
@@ -365,9 +369,9 @@ The entity name.
 
 ### Operations
 
-#### `eCreate ent data ctrl :: IO Value`
+#### `eCreate ent data ctrl :: IO Entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
 
 ```haskell
   ent <- Sdk.create_result sdk VNoval
@@ -376,7 +380,8 @@ Create a new entity with the given data. Returns the created entity data and rai
     , ("serial_number", VStr "example_serial_number")   -- String
     ]
   ctrl <- emptyMap
-  result <- Sdk.eCreate ent d ctrl
+  result <- Sdk.eCreate ent d ctrl   -- the ENTITY
+  d2 <- Sdk.eDataGet result
 ```
 
 ### Common Fields
@@ -418,16 +423,17 @@ The entity name.
 
 ### Operations
 
-#### `eCreate ent data ctrl :: IO Value`
+#### `eCreate ent data ctrl :: IO Entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
 
 ```haskell
   ent <- Sdk.decryption sdk VNoval
   d <- jo
     []
   ctrl <- emptyMap
-  result <- Sdk.eCreate ent d ctrl
+  result <- Sdk.eCreate ent d ctrl   -- the ENTITY
+  d2 <- Sdk.eDataGet result
 ```
 
 ### Common Fields
@@ -465,68 +471,70 @@ The entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `activated_by` | `Value` | Yes |  |
-| `activation_date` | `String` | No |  |
-| `alternate_key` | `String` | No |  |
-| `audit_next_date` | `String` | No |  |
-| `audit_notification_date` | `String` | No |  |
+| `activatedBy` | `Value` | Yes |  |
+| `activationDate` | `String` | No |  |
+| `alternateKey` | `String` | No |  |
+| `auditNextDate` | `String` | No |  |
+| `auditNotificationDate` | `String` | No |  |
 | `client` | `Value` | No |  |
 | `created` | `String` | No |  |
-| `created_by` | `Value` | Yes |  |
-| `device_build` | `Value` | No |  |
-| `device_state` | `Value` | No |  |
-| `device_type` | `Value` | No |  |
-| `error_counter` | `Int` | No |  |
-| `error_last_date` | `String` | No |  |
+| `createdBy` | `Value` | Yes |  |
+| `deviceBuild` | `Value` | No |  |
+| `deviceState` | `Value` | No |  |
+| `deviceType` | `Value` | No |  |
+| `errorCounter` | `Int` | No |  |
+| `errorLastDate` | `String` | No |  |
 | `id` | `String` | No |  |
-| `initialized_by` | `Value` | Yes |  |
-| `initialized_date` | `String` | No |  |
-| `inject_key` | `Value` | No |  |
-| `is_virtual` | `Bool` | No |  |
+| `initializedBy` | `Value` | Yes |  |
+| `initializedDate` | `String` | No |  |
+| `injectKey` | `Value` | No |  |
+| `isVirtual` | `Bool` | No |  |
 | `kif` | `Value` | No |  |
-| `last_activity_date` | `String` | No |  |
+| `lastActivityDate` | `String` | No |  |
 | `location` | `Value` | Yes |  |
 | `modified` | `String` | No |  |
-| `modified_by` | `Value` | Yes |  |
+| `modifiedBy` | `Value` | Yes |  |
 | `name` | `String` | No |  |
-| `note` | `String` | No |  |
+| `notes` | `String` | No |  |
 | `partner` | `Value` | No |  |
-| `serial_number` | `String` | No |  |
+| `serialNumber` | `String` | No |  |
 | `version` | `Int` | No |  |
 
 ### Operations
 
-#### `eCreate ent data ctrl :: IO Value`
+#### `eCreate ent data ctrl :: IO Entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
 
 ```haskell
   ent <- Sdk.device sdk VNoval
   d <- jo
-    [ ("activated_by", VNoval)   -- Value
-    , ("created_by", VNoval)   -- Value
-    , ("initialized_by", VNoval)   -- Value
+    [ ("activatedBy", VNoval)   -- Value
+    , ("createdBy", VNoval)   -- Value
+    , ("initializedBy", VNoval)   -- Value
     , ("location", VNoval)   -- Value
-    , ("modified_by", VNoval)   -- Value
+    , ("modifiedBy", VNoval)   -- Value
     ]
   ctrl <- emptyMap
-  result <- Sdk.eCreate ent d ctrl
+  result <- Sdk.eCreate ent d ctrl   -- the ENTITY
+  d2 <- Sdk.eDataGet result
 ```
 
-#### `eList ent match ctrl :: IO Value`
+#### `eList ent match ctrl :: IO [Entity]`
 
-List entities matching the given criteria. The match is optional — pass an empty map to list all records. Returns a list `Value` and raises on error.
+List entities matching the given criteria. The match is optional — pass an empty map to list all records. Resolves to one ENTITY per record and raises on error.
 
 ```haskell
   ent <- Sdk.device sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
-  results <- Sdk.eList ent match ctrl
+  results <- Sdk.eList ent match ctrl   -- one ENTITY per record
+  datas <- mapM Sdk.eDataGet results
 ```
 
-#### `eLoad ent match ctrl :: IO Value`
+#### `eLoad ent match ctrl :: IO Entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
 
 ```haskell
   ent <- Sdk.device sdk VNoval
@@ -570,38 +578,39 @@ The entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `app_version` | `String` | No |  |
-| `build_number` | `String` | No |  |
-| `config_file_name` | `String` | No |  |
+| `appVersion` | `String` | No |  |
+| `buildNumber` | `String` | No |  |
+| `configFileName` | `String` | No |  |
 | `created` | `String` | No |  |
-| `device_type` | `String` | No |  |
-| `firmware_version` | `String` | No |  |
-| `hardware_version` | `String` | No |  |
+| `deviceType` | `String` | No |  |
+| `firmwareVersion` | `String` | No |  |
+| `hardwareVersion` | `String` | No |  |
 | `id` | `Int` | No |  |
-| `is_active` | `Bool` | No |  |
+| `isActive` | `Bool` | No |  |
 | `modified` | `String` | No |  |
 | `name` | `String` | No |  |
-| `note` | `String` | No |  |
+| `notes` | `String` | No |  |
 | `version` | `Int` | No |  |
-| `white_listing_bin_range` | `String` | No |  |
-| `white_listing_used` | `Bool` | No |  |
+| `whiteListingBinRanges` | `String` | No |  |
+| `whiteListingUsed` | `Bool` | No |  |
 
 ### Operations
 
-#### `eList ent match ctrl :: IO Value`
+#### `eList ent match ctrl :: IO [Entity]`
 
-List entities matching the given criteria. The match is optional — pass an empty map to list all records. Returns a list `Value` and raises on error.
+List entities matching the given criteria. The match is optional — pass an empty map to list all records. Resolves to one ENTITY per record and raises on error.
 
 ```haskell
   ent <- Sdk.device_build sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
-  results <- Sdk.eList ent match ctrl
+  results <- Sdk.eList ent match ctrl   -- one ENTITY per record
+  datas <- mapM Sdk.eDataGet results
 ```
 
-#### `eLoad ent match ctrl :: IO Value`
+#### `eLoad ent match ctrl :: IO Entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
 
 ```haskell
   ent <- Sdk.device_build sdk VNoval
@@ -645,25 +654,25 @@ The entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `complete_date` | `String` | No |  |
+| `completeDate` | `String` | No |  |
 | `created` | `String` | No |  |
-| `created_by` | `Value` | Yes |  |
+| `createdBy` | `Value` | Yes |  |
 | `custodian` | `Value` | Yes |  |
 | `device` | `Value` | No |  |
 | `id` | `Int` | No |  |
 | `location` | `Value` | Yes |  |
 | `modified` | `String` | No |  |
-| `modified_by` | `Value` | Yes |  |
-| `note` | `String` | No |  |
+| `modifiedBy` | `Value` | Yes |  |
+| `notes` | `String` | No |  |
 | `status` | `Value` | No |  |
-| `transfer_method` | `Value` | No |  |
+| `transferMethod` | `Value` | No |  |
 | `version` | `Int` | No |  |
 
 ### Operations
 
-#### `eLoad ent match ctrl :: IO Value`
+#### `eLoad ent match ctrl :: IO Entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
 
 ```haskell
   ent <- Sdk.device_custody_detail sdk VNoval
@@ -707,31 +716,32 @@ The entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `complete_date` | `String` | No |  |
+| `completeDate` | `String` | No |  |
 | `created` | `String` | No |  |
-| `created_by` | `Value` | Yes |  |
+| `createdBy` | `Value` | Yes |  |
 | `custodian` | `Value` | Yes |  |
 | `device` | `Value` | No |  |
 | `id` | `Int` | No |  |
 | `location` | `Value` | Yes |  |
 | `modified` | `String` | No |  |
-| `modified_by` | `Value` | Yes |  |
-| `note` | `String` | No |  |
+| `modifiedBy` | `Value` | Yes |  |
+| `notes` | `String` | No |  |
 | `status` | `Value` | No |  |
-| `transfer_method` | `Value` | No |  |
+| `transferMethod` | `Value` | No |  |
 | `version` | `Int` | No |  |
 
 ### Operations
 
-#### `eList ent match ctrl :: IO Value`
+#### `eList ent match ctrl :: IO [Entity]`
 
-List entities matching the given criteria. The match is optional — pass an empty map to list all records. Returns a list `Value` and raises on error.
+List entities matching the given criteria. The match is optional — pass an empty map to list all records. Resolves to one ENTITY per record and raises on error.
 
 ```haskell
   ent <- Sdk.device_custody_list sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
-  results <- Sdk.eList ent match ctrl
+  results <- Sdk.eList ent match ctrl   -- one ENTITY per record
+  datas <- mapM Sdk.eDataGet results
 ```
 
 ### Common Fields
@@ -774,9 +784,9 @@ The entity name.
 
 ### Operations
 
-#### `eLoad ent match ctrl :: IO Value`
+#### `eLoad ent match ctrl :: IO Entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
 
 ```haskell
   ent <- Sdk.device_list sdk VNoval
@@ -824,9 +834,9 @@ The entity name.
 
 ### Operations
 
-#### `eCreate ent data ctrl :: IO Value`
+#### `eCreate ent data ctrl :: IO Entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
 
 ```haskell
   ent <- Sdk.device_receive_result sdk VNoval
@@ -834,7 +844,8 @@ Create a new entity with the given data. Returns the created entity data and rai
     [ ("success", VBool True)   -- Bool
     ]
   ctrl <- emptyMap
-  result <- Sdk.eCreate ent d ctrl
+  result <- Sdk.eCreate ent d ctrl   -- the ENTITY
+  d2 <- Sdk.eDataGet result
 ```
 
 ### Common Fields
@@ -876,9 +887,9 @@ The entity name.
 
 ### Operations
 
-#### `eCreate ent data ctrl :: IO Value`
+#### `eCreate ent data ctrl :: IO Entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
 
 ```haskell
   ent <- Sdk.device_rki_activate_result sdk VNoval
@@ -886,7 +897,8 @@ Create a new entity with the given data. Returns the created entity data and rai
     [ ("success", VBool True)   -- Bool
     ]
   ctrl <- emptyMap
-  result <- Sdk.eCreate ent d ctrl
+  result <- Sdk.eCreate ent d ctrl   -- the ENTITY
+  d2 <- Sdk.eDataGet result
 ```
 
 ### Common Fields
@@ -929,15 +941,16 @@ The entity name.
 
 ### Operations
 
-#### `eList ent match ctrl :: IO Value`
+#### `eList ent match ctrl :: IO [Entity]`
 
-List entities matching the given criteria. The match is optional — pass an empty map to list all records. Returns a list `Value` and raises on error.
+List entities matching the given criteria. The match is optional — pass an empty map to list all records. Resolves to one ENTITY per record and raises on error.
 
 ```haskell
   ent <- Sdk.device_state sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
-  results <- Sdk.eList ent match ctrl
+  results <- Sdk.eList ent match ctrl   -- one ENTITY per record
+  datas <- mapM Sdk.eDataGet results
 ```
 
 ### Common Fields
@@ -976,34 +989,35 @@ The entity name.
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `created` | `String` | No |  |
-| `device_type_mode` | `String` | No |  |
-| `hardware_version` | `String` | No |  |
+| `deviceTypeMode` | `String` | No |  |
+| `hardwareVersion` | `String` | No |  |
 | `id` | `String` | No |  |
-| `is_active` | `Bool` | No |  |
+| `isActive` | `Bool` | No |  |
 | `manufacturer` | `String` | No |  |
 | `model` | `String` | No |  |
 | `modified` | `String` | No |  |
 | `name` | `String` | No |  |
-| `photo_url` | `String` | No |  |
-| `product_name` | `String` | No |  |
+| `photoUrl` | `String` | No |  |
+| `productName` | `String` | No |  |
 | `version` | `Int` | No |  |
 
 ### Operations
 
-#### `eList ent match ctrl :: IO Value`
+#### `eList ent match ctrl :: IO [Entity]`
 
-List entities matching the given criteria. The match is optional — pass an empty map to list all records. Returns a list `Value` and raises on error.
+List entities matching the given criteria. The match is optional — pass an empty map to list all records. Resolves to one ENTITY per record and raises on error.
 
 ```haskell
   ent <- Sdk.device_type sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
-  results <- Sdk.eList ent match ctrl
+  results <- Sdk.eList ent match ctrl   -- one ENTITY per record
+  datas <- mapM Sdk.eDataGet results
 ```
 
-#### `eLoad ent match ctrl :: IO Value`
+#### `eLoad ent match ctrl :: IO Entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
 
 ```haskell
   ent <- Sdk.device_type sdk VNoval
@@ -1049,29 +1063,30 @@ The entity name.
 | --- | --- | --- | --- |
 | `created` | `String` | No |  |
 | `id` | `String` | No |  |
-| `is_active` | `Bool` | No |  |
-| `is_p2_pe` | `Bool` | No |  |
-| `key_type` | `String` | No |  |
+| `isActive` | `Bool` | No |  |
+| `isP2PE` | `Bool` | No |  |
+| `keyType` | `String` | No |  |
 | `modified` | `String` | No |  |
 | `name` | `String` | No |  |
 | `version` | `Int` | No |  |
 
 ### Operations
 
-#### `eList ent match ctrl :: IO Value`
+#### `eList ent match ctrl :: IO [Entity]`
 
-List entities matching the given criteria. The match is optional — pass an empty map to list all records. Returns a list `Value` and raises on error.
+List entities matching the given criteria. The match is optional — pass an empty map to list all records. Resolves to one ENTITY per record and raises on error.
 
 ```haskell
   ent <- Sdk.inject_key sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
-  results <- Sdk.eList ent match ctrl
+  results <- Sdk.eList ent match ctrl   -- one ENTITY per record
+  datas <- mapM Sdk.eDataGet results
 ```
 
-#### `eLoad ent match ctrl :: IO Value`
+#### `eLoad ent match ctrl :: IO Entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
 
 ```haskell
   ent <- Sdk.inject_key sdk VNoval
@@ -1120,15 +1135,16 @@ The entity name.
 
 ### Operations
 
-#### `eList ent match ctrl :: IO Value`
+#### `eList ent match ctrl :: IO [Entity]`
 
-List entities matching the given criteria. The match is optional — pass an empty map to list all records. Returns a list `Value` and raises on error.
+List entities matching the given criteria. The match is optional — pass an empty map to list all records. Resolves to one ENTITY per record and raises on error.
 
 ```haskell
   ent <- Sdk.kif sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
-  results <- Sdk.eList ent match ctrl
+  results <- Sdk.eList ent match ctrl   -- one ENTITY per record
+  datas <- mapM Sdk.eDataGet results
 ```
 
 ### Common Fields
@@ -1168,56 +1184,58 @@ The entity name.
 | --- | --- | --- | --- |
 | `address1` | `String` | No |  |
 | `address2` | `String` | No |  |
-| `billing_id` | `String` | No |  |
+| `billingId` | `String` | No |  |
 | `city` | `String` | No |  |
 | `country` | `String` | No |  |
 | `created` | `String` | No |  |
-| `custom_reference` | `String` | No |  |
+| `customReference` | `String` | No |  |
 | `id` | `String` | No |  |
-| `location_type` | `String` | No |  |
-| `mail_address1` | `String` | No |  |
-| `mail_address2` | `String` | No |  |
-| `mail_city` | `String` | No |  |
-| `mail_country` | `String` | No |  |
-| `mail_postal_code` | `String` | No |  |
-| `mail_state_province` | `String` | No |  |
+| `locationType` | `String` | No |  |
+| `mailAddress1` | `String` | No |  |
+| `mailAddress2` | `String` | No |  |
+| `mailCity` | `String` | No |  |
+| `mailCountry` | `String` | No |  |
+| `mailPostalCode` | `String` | No |  |
+| `mailStateProvince` | `String` | No |  |
 | `modified` | `String` | No |  |
 | `name` | `String` | No |  |
-| `name_of_business` | `String` | No |  |
-| `note` | `String` | No |  |
-| `postal_code` | `String` | No |  |
-| `state_province` | `String` | No |  |
-| `unique_id` | `String` | No |  |
+| `nameOfBusiness` | `String` | No |  |
+| `notes` | `String` | No |  |
+| `postalCode` | `String` | No |  |
+| `stateProvince` | `String` | No |  |
+| `uniqueId` | `String` | No |  |
 | `version` | `Int` | No |  |
 
 ### Operations
 
-#### `eCreate ent data ctrl :: IO Value`
+#### `eCreate ent data ctrl :: IO Entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
 
 ```haskell
   ent <- Sdk.location sdk VNoval
   d <- jo
     []
   ctrl <- emptyMap
-  result <- Sdk.eCreate ent d ctrl
+  result <- Sdk.eCreate ent d ctrl   -- the ENTITY
+  d2 <- Sdk.eDataGet result
 ```
 
-#### `eList ent match ctrl :: IO Value`
+#### `eList ent match ctrl :: IO [Entity]`
 
-List entities matching the given criteria. The match is optional — pass an empty map to list all records. Returns a list `Value` and raises on error.
+List entities matching the given criteria. The match is optional — pass an empty map to list all records. Resolves to one ENTITY per record and raises on error.
 
 ```haskell
   ent <- Sdk.location sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
-  results <- Sdk.eList ent match ctrl
+  results <- Sdk.eList ent match ctrl   -- one ENTITY per record
+  datas <- mapM Sdk.eDataGet results
 ```
 
-#### `eLoad ent match ctrl :: IO Value`
+#### `eLoad ent match ctrl :: IO Entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
 
 ```haskell
   ent <- Sdk.location sdk VNoval
@@ -1226,9 +1244,9 @@ Load a single entity matching the given criteria. Returns the entity data and ra
   result <- Sdk.eLoad ent match ctrl
 ```
 
-#### `eRemove ent match ctrl :: IO Value`
+#### `eRemove ent match ctrl :: IO Entity`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Resolves to the ENTITY, marked deleted (`eDeleted`); it keeps the data it held. Raises on error.
 
 ```haskell
   ent <- Sdk.location sdk VNoval
@@ -1272,45 +1290,45 @@ The entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `billing_id` | `String` | No |  |
-| `client_can_order_equipment` | `Bool` | No |  |
+| `billingId` | `String` | No |  |
+| `clientCanOrderEquipment` | `Bool` | No |  |
 | `contact` | `Value` | No |  |
 | `created` | `String` | No |  |
 | `id` | `String` | No |  |
-| `is_active` | `Bool` | No |  |
+| `isActive` | `Bool` | No |  |
 | `location` | `Value` | Yes |  |
 | `modified` | `String` | No |  |
 | `name` | `String` | No |  |
 | `parent` | `Value` | No |  |
-| `partner_id` | `String` | No |  |
+| `partnerId` | `String` | No |  |
 | `reference` | `String` | No |  |
-| `verification_phrase` | `String` | No |  |
+| `verificationPhrase` | `String` | No |  |
 | `version` | `Int` | No |  |
 
 ### Field Usage by Operation
 
 | Field | load | list | create |
 | --- | --- | --- | --- |
-| `billing_id` | - | - | - |
-| `client_can_order_equipment` | - | - | - |
+| `billingId` | - | - | - |
+| `clientCanOrderEquipment` | - | - | - |
 | `contact` | - | Yes | - |
 | `created` | - | - | - |
 | `id` | - | - | - |
-| `is_active` | - | - | - |
+| `isActive` | - | - | - |
 | `location` | - | - | - |
 | `modified` | - | - | - |
 | `name` | - | - | - |
 | `parent` | - | - | - |
-| `partner_id` | - | - | - |
+| `partnerId` | - | - | - |
 | `reference` | - | - | - |
-| `verification_phrase` | - | - | - |
+| `verificationPhrase` | - | - | - |
 | `version` | - | - | - |
 
 ### Operations
 
-#### `eCreate ent data ctrl :: IO Value`
+#### `eCreate ent data ctrl :: IO Entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
 
 ```haskell
   ent <- Sdk.partner sdk VNoval
@@ -1318,23 +1336,25 @@ Create a new entity with the given data. Returns the created entity data and rai
     [ ("location", VNoval)   -- Value
     ]
   ctrl <- emptyMap
-  result <- Sdk.eCreate ent d ctrl
+  result <- Sdk.eCreate ent d ctrl   -- the ENTITY
+  d2 <- Sdk.eDataGet result
 ```
 
-#### `eList ent match ctrl :: IO Value`
+#### `eList ent match ctrl :: IO [Entity]`
 
-List entities matching the given criteria. The match is optional — pass an empty map to list all records. Returns a list `Value` and raises on error.
+List entities matching the given criteria. The match is optional — pass an empty map to list all records. Resolves to one ENTITY per record and raises on error.
 
 ```haskell
   ent <- Sdk.partner sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
-  results <- Sdk.eList ent match ctrl
+  results <- Sdk.eList ent match ctrl   -- one ENTITY per record
+  datas <- mapM Sdk.eDataGet results
 ```
 
-#### `eLoad ent match ctrl :: IO Value`
+#### `eLoad ent match ctrl :: IO Entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
 
 ```haskell
   ent <- Sdk.partner sdk VNoval
@@ -1381,46 +1401,48 @@ The entity name.
 | `carrier` | `String` | No |  |
 | `client` | `Value` | No |  |
 | `created` | `String` | No |  |
-| `date_received` | `String` | No |  |
-| `date_shipped` | `String` | No |  |
-| `dc_kif` | `Value` | No |  |
+| `dateReceived` | `String` | No |  |
+| `dateShipped` | `String` | No |  |
+| `dcKif` | `Value` | No |  |
 | `id` | `String` | No |  |
-| `item` | `[Value]` | No |  |
+| `items` | `[Value]` | No |  |
 | `kif` | `Value` | No |  |
 | `modified` | `String` | No |  |
 | `partner` | `Value` | No |  |
-| `shipment_type` | `String` | No |  |
+| `shipmentType` | `String` | No |  |
 | `tracking` | `String` | No |  |
 | `version` | `Int` | No |  |
 
 ### Operations
 
-#### `eCreate ent data ctrl :: IO Value`
+#### `eCreate ent data ctrl :: IO Entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
 
 ```haskell
   ent <- Sdk.shipment sdk VNoval
   d <- jo
     []
   ctrl <- emptyMap
-  result <- Sdk.eCreate ent d ctrl
+  result <- Sdk.eCreate ent d ctrl   -- the ENTITY
+  d2 <- Sdk.eDataGet result
 ```
 
-#### `eList ent match ctrl :: IO Value`
+#### `eList ent match ctrl :: IO [Entity]`
 
-List entities matching the given criteria. The match is optional — pass an empty map to list all records. Returns a list `Value` and raises on error.
+List entities matching the given criteria. The match is optional — pass an empty map to list all records. Resolves to one ENTITY per record and raises on error.
 
 ```haskell
   ent <- Sdk.shipment sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
-  results <- Sdk.eList ent match ctrl
+  results <- Sdk.eList ent match ctrl   -- one ENTITY per record
+  datas <- mapM Sdk.eDataGet results
 ```
 
-#### `eLoad ent match ctrl :: IO Value`
+#### `eLoad ent match ctrl :: IO Entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
 
 ```haskell
   ent <- Sdk.shipment sdk VNoval
@@ -1468,9 +1490,9 @@ The entity name.
 
 ### Operations
 
-#### `eCreate ent data ctrl :: IO Value`
+#### `eCreate ent data ctrl :: IO Entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
 
 ```haskell
   ent <- Sdk.success sdk VNoval
@@ -1478,12 +1500,13 @@ Create a new entity with the given data. Returns the created entity data and rai
     [ ("share_partner_to", VStr "example_share_partner_to")   -- String
     ]
   ctrl <- emptyMap
-  result <- Sdk.eCreate ent d ctrl
+  result <- Sdk.eCreate ent d ctrl   -- the ENTITY
+  d2 <- Sdk.eDataGet result
 ```
 
-#### `eRemove ent match ctrl :: IO Value`
+#### `eRemove ent match ctrl :: IO Entity`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Resolves to the ENTITY, marked deleted (`eDeleted`); it keeps the data it held. Raises on error.
 
 ```haskell
   ent <- Sdk.success sdk VNoval
@@ -1527,36 +1550,36 @@ The entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `alternate_key` | `String` | No |  |
+| `alternateKey` | `String` | No |  |
 | `client` | `Value` | No |  |
-| `client_ref` | `String` | No |  |
+| `clientRef` | `String` | No |  |
 | `created` | `String` | No |  |
 | `decrypted` | `Int` | No |  |
-| `device_name` | `String` | No |  |
-| `direct_partner` | `Value` | No |  |
+| `deviceName` | `String` | No |  |
+| `directPartner` | `Value` | No |  |
 | `encrypted` | `Int` | No |  |
-| `end_date` | `String` | No |  |
-| `err_code` | `String` | No |  |
-| `err_message` | `String` | No |  |
+| `endDate` | `String` | No |  |
+| `errCode` | `String` | No |  |
+| `errMessage` | `String` | No |  |
 | `id` | `String` | No |  |
-| `ip_address` | `String` | No |  |
-| `is_virtual` | `Bool` | No |  |
-| `key_type` | `String` | No |  |
+| `ipAddress` | `String` | No |  |
+| `isVirtual` | `Bool` | No |  |
+| `keyType` | `String` | No |  |
 | `location` | `Value` | Yes |  |
-| `message_id` | `String` | No |  |
+| `messageId` | `String` | No |  |
 | `method` | `String` | No |  |
 | `partner` | `Value` | No |  |
 | `reference` | `String` | No |  |
-| `serial_number` | `String` | No |  |
-| `start_date` | `String` | No |  |
+| `serialNumber` | `String` | No |  |
+| `startDate` | `String` | No |  |
 | `success` | `Bool` | No |  |
-| `transaction_source` | `String` | No |  |
+| `transactionSource` | `String` | No |  |
 
 ### Operations
 
-#### `eCreate ent data ctrl :: IO Value`
+#### `eCreate ent data ctrl :: IO Entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
 
 ```haskell
   ent <- Sdk.transaction sdk VNoval
@@ -1564,23 +1587,25 @@ Create a new entity with the given data. Returns the created entity data and rai
     [ ("location", VNoval)   -- Value
     ]
   ctrl <- emptyMap
-  result <- Sdk.eCreate ent d ctrl
+  result <- Sdk.eCreate ent d ctrl   -- the ENTITY
+  d2 <- Sdk.eDataGet result
 ```
 
-#### `eList ent match ctrl :: IO Value`
+#### `eList ent match ctrl :: IO [Entity]`
 
-List entities matching the given criteria. The match is optional — pass an empty map to list all records. Returns a list `Value` and raises on error.
+List entities matching the given criteria. The match is optional — pass an empty map to list all records. Resolves to one ENTITY per record and raises on error.
 
 ```haskell
   ent <- Sdk.transaction sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
-  results <- Sdk.eList ent match ctrl
+  results <- Sdk.eList ent match ctrl   -- one ENTITY per record
+  datas <- mapM Sdk.eDataGet results
 ```
 
-#### `eLoad ent match ctrl :: IO Value`
+#### `eLoad ent match ctrl :: IO Entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
 
 ```haskell
   ent <- Sdk.transaction sdk VNoval
@@ -1626,45 +1651,47 @@ The entity name.
 | --- | --- | --- | --- |
 | `client` | `Value` | No |  |
 | `email` | `String` | No |  |
-| `first_name` | `String` | No |  |
+| `firstName` | `String` | No |  |
 | `id` | `String` | No |  |
-| `is_active` | `Bool` | No |  |
+| `isActive` | `Bool` | No |  |
 | `kif` | `Value` | No |  |
-| `last_name` | `String` | No |  |
+| `lastName` | `String` | No |  |
 | `partner` | `Value` | No |  |
 | `phone` | `String` | No |  |
-| `user_name` | `String` | No |  |
-| `user_role` | `Value` | No |  |
+| `userName` | `String` | No |  |
+| `userRole` | `Value` | No |  |
 | `version` | `Int` | No |  |
 
 ### Operations
 
-#### `eCreate ent data ctrl :: IO Value`
+#### `eCreate ent data ctrl :: IO Entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
 
 ```haskell
   ent <- Sdk.update_result sdk VNoval
   d <- jo
     []
   ctrl <- emptyMap
-  result <- Sdk.eCreate ent d ctrl
+  result <- Sdk.eCreate ent d ctrl   -- the ENTITY
+  d2 <- Sdk.eDataGet result
 ```
 
-#### `eList ent match ctrl :: IO Value`
+#### `eList ent match ctrl :: IO [Entity]`
 
-List entities matching the given criteria. The match is optional — pass an empty map to list all records. Returns a list `Value` and raises on error.
+List entities matching the given criteria. The match is optional — pass an empty map to list all records. Resolves to one ENTITY per record and raises on error.
 
 ```haskell
   ent <- Sdk.update_result sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
-  results <- Sdk.eList ent match ctrl
+  results <- Sdk.eList ent match ctrl   -- one ENTITY per record
+  datas <- mapM Sdk.eDataGet results
 ```
 
-#### `eUpdate ent data ctrl :: IO Value`
+#### `eUpdate ent data ctrl :: IO Entity`
 
-Update an existing entity. The data must include the entity `id`. Returns the updated entity data and raises on error.
+Update an existing entity. The data must include the entity `id`. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
 
 ```haskell
   ent <- Sdk.update_result sdk VNoval
@@ -1672,7 +1699,8 @@ Update an existing entity. The data must include the entity `id`. Returns the up
     [ ("id", VStr "id")
     ]  -- fields to update
   ctrl <- emptyMap
-  result <- Sdk.eUpdate ent d ctrl
+  result <- Sdk.eUpdate ent d ctrl   -- the ENTITY
+  d2 <- Sdk.eDataGet result
 ```
 
 ### Common Fields
@@ -1713,23 +1741,23 @@ The entity name.
 | `client` | `Value` | No |  |
 | `created` | `String` | No |  |
 | `email` | `String` | No |  |
-| `first_name` | `String` | No |  |
+| `firstName` | `String` | No |  |
 | `id` | `String` | No |  |
-| `is_active` | `Bool` | No |  |
+| `isActive` | `Bool` | No |  |
 | `kif` | `Value` | No |  |
-| `last_name` | `String` | No |  |
+| `lastName` | `String` | No |  |
 | `modified` | `String` | No |  |
 | `partner` | `Value` | No |  |
 | `phone` | `String` | No |  |
-| `user_name` | `String` | No |  |
-| `user_role` | `Value` | No |  |
+| `userName` | `String` | No |  |
+| `userRole` | `Value` | No |  |
 | `version` | `Int` | No |  |
 
 ### Operations
 
-#### `eLoad ent match ctrl :: IO Value`
+#### `eLoad ent match ctrl :: IO Entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
 
 ```haskell
   ent <- Sdk.user sdk VNoval
@@ -1738,9 +1766,9 @@ Load a single entity matching the given criteria. Returns the entity data and ra
   result <- Sdk.eLoad ent match ctrl
 ```
 
-#### `eRemove ent match ctrl :: IO Value`
+#### `eRemove ent match ctrl :: IO Entity`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Resolves to the ENTITY, marked deleted (`eDeleted`); it keeps the data it held. Raises on error.
 
 ```haskell
   ent <- Sdk.user sdk VNoval

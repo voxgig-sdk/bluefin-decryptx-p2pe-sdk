@@ -35,7 +35,7 @@ object UpdateResultEntityTest {
       var updateResultRef01Data = Helpers.toMapAny(Struct.getprop(
           Struct.getpath(entityData, "new.update_result"), "update_result_ref01"))
       val updateResultRef01DataResult = updateResultRef01Ent.create(updateResultRef01Data, null)
-      updateResultRef01Data = Helpers.toMapAny(updateResultRef01DataResult)
+      updateResultRef01Data = Helpers.toMapAny(updateResultRef01DataResult match { case e: SdkEntity => e.data(); case o => o })
       rep.check("update_result.create.map", updateResultRef01Data != null, "expected create result to be a map")
       rep.check("update_result.create.id", updateResultRef01Data != null && updateResultRef01Data.get("id") != null, "expected created entity to have an id")
 
@@ -55,7 +55,7 @@ object UpdateResultEntityTest {
       val updateResultRef01MarkdefUp0Value = "Mark01-update_result_ref01_" + now
       updateResultRef01DataUp0Up.put(updateResultRef01MarkdefUp0Name, updateResultRef01MarkdefUp0Value)
       val updateResultRef01ResdataUp0Result = updateResultRef01Ent.update(updateResultRef01DataUp0Up, null)
-      val updateResultRef01ResdataUp0 = Helpers.toMapAny(updateResultRef01ResdataUp0Result)
+      val updateResultRef01ResdataUp0 = Helpers.toMapAny(updateResultRef01ResdataUp0Result match { case e: SdkEntity => e.data(); case o => o })
       rep.check("update_result.update.map", updateResultRef01ResdataUp0 != null, "expected update result to be a map")
       rep.eq("update_result.update.id", updateResultRef01DataUp0Up.get("id"), updateResultRef01ResdataUp0.get("id"))
       rep.eq("update_result.update.mark", updateResultRef01MarkdefUp0Value, updateResultRef01ResdataUp0.get(updateResultRef01MarkdefUp0Name))

@@ -42,7 +42,7 @@ object CreateResultEntityTest {
       createResultRef01Data.put("device_type", idmap.get("device_type01"))
       createResultRef01Data.put("serial_number", idmap.get("serial_number01"))
       val createResultRef01DataResult = createResultRef01Ent.create(createResultRef01Data, null)
-      createResultRef01Data = Helpers.toMapAny(createResultRef01DataResult)
+      createResultRef01Data = Helpers.toMapAny(createResultRef01DataResult match { case e: SdkEntity => e.data(); case o => o })
       rep.check("create_result.create.map", createResultRef01Data != null, "expected create result to be a map")
     }
   }

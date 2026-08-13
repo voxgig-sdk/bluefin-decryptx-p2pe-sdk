@@ -16,11 +16,11 @@
 import pytest
 
 from bluefindecryptxp2pe_sdk import BluefinDecryptxP2peSDK
-from core.error import BluefinDecryptxP2peError
-from core.result import BluefinDecryptxP2peResult
-from core.response import BluefinDecryptxP2peResponse
-from core.spec import BluefinDecryptxP2peSpec
-from feature.base_feature import BluefinDecryptxP2peBaseFeature
+from bluefindecryptxp2pe_sdk.core.error import BluefinDecryptxP2peError
+from bluefindecryptxp2pe_sdk.core.result import BluefinDecryptxP2peResult
+from bluefindecryptxp2pe_sdk.core.response import BluefinDecryptxP2peResponse
+from bluefindecryptxp2pe_sdk.core.spec import BluefinDecryptxP2peSpec
+from bluefindecryptxp2pe_sdk.feature.base_feature import BluefinDecryptxP2peBaseFeature
 
 
 def _client():

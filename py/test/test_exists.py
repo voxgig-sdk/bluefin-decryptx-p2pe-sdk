@@ -1,4 +1,4 @@
-# ProjectName SDK exists test
+# BluefinDecryptxP2pe SDK exists test
 
 import pytest
 from bluefindecryptxp2pe_sdk import BluefinDecryptxP2peSDK

@@ -38,15 +38,15 @@ static LocationSetup location_basic_setup(const Value& extra) {
   if (!idmap.is_map()) idmap = vmap();
 
   Value env = env_override(vmap({
-    {"BLUEFINDECRYPTXP_PE_TEST_LOCATION_ENTID", idmap},
-    {"BLUEFINDECRYPTXP_PE_TEST_LIVE", Value("FALSE")},
-    {"BLUEFINDECRYPTXP_PE_TEST_EXPLAIN", Value("FALSE")}
+    {"BLUEFIN_DECRYPTX_P2PE_TEST_LOCATION_ENTID", idmap},
+    {"BLUEFIN_DECRYPTX_P2PE_TEST_LIVE", Value("FALSE")},
+    {"BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN", Value("FALSE")}
   }));
 
-  Value idmap_resolved = Helpers::toMapAny(getp(env, "BLUEFINDECRYPTXP_PE_TEST_LOCATION_ENTID"));
+  Value idmap_resolved = Helpers::toMapAny(getp(env, "BLUEFIN_DECRYPTX_P2PE_TEST_LOCATION_ENTID"));
   if (!idmap_resolved.is_map()) idmap_resolved = idmap;
 
-  bool live = getp(env, "BLUEFINDECRYPTXP_PE_TEST_LIVE") == Value("TRUE");
+  bool live = getp(env, "BLUEFIN_DECRYPTX_P2PE_TEST_LIVE") == Value("TRUE");
 
   LocationSetup s;
   s.client = client;
@@ -64,6 +64,7 @@ static void location_entity_instance() {
   auto ent = testsdk->location();
   ASSERT_EQ(ent->getName(), std::string("location"), "entity name");
 }
+
 
 static void location_entity_stream() {
   // stream() runs the list op through the full pipeline and returns the
@@ -100,7 +101,7 @@ static void location_entity_basic() {
   Value location_ref01_data = Helpers::toMapAny(getp(Struct::getpath(setup.data, {"new", "location"}), "location_ref01"));
   if (!location_ref01_data.is_map()) location_ref01_data = vmap();
   {
-    Value location_ref01_data_result = location_ref01_ent->create(Struct::clone(location_ref01_data), Value::undef());
+    Value location_ref01_data_result = location_ref01_ent->create(Struct::clone(location_ref01_data), Value::undef())->data();
     location_ref01_data = Helpers::toMapAny(location_ref01_data_result);
     if (!location_ref01_data.is_map()) location_ref01_data = vmap();
     ASSERT_TRUE(location_ref01_data.is_map(), "expected create result to be a map");
@@ -109,7 +110,10 @@ static void location_entity_basic() {
 
   // LIST
   Value location_ref01_match = vmap();
-  Value location_ref01_list = location_ref01_ent->list(Struct::clone(location_ref01_match), Value::undef());
+  auto location_ref01_list_ents = location_ref01_ent->list(Struct::clone(location_ref01_match), Value::undef());
+  // list resolves to one ENTITY per record; the flow asserts on the records.
+  Value location_ref01_list = vlist();
+  for (const auto& e : location_ref01_list_ents) { location_ref01_list.as_list()->push_back(e->data()); }
   ASSERT_TRUE(location_ref01_list.is_list(), "expected list result to be an array");
   {
     std::vector<Value> found = Struct::select(entity_list_to_data(location_ref01_list), vmap({{"id", getp(location_ref01_data, "id")}}));
@@ -118,7 +122,7 @@ static void location_entity_basic() {
 
   // LOAD
   Value location_ref01_match_dt0 = vmap({{"id", getp(location_ref01_data, "id")}});
-  Value location_ref01_data_dt0_loaded = location_ref01_ent->load(Struct::clone(location_ref01_match_dt0), Value::undef());
+  Value location_ref01_data_dt0_loaded = location_ref01_ent->load(Struct::clone(location_ref01_match_dt0), Value::undef())->data();
   Value location_ref01_data_dt0_load_result = Helpers::toMapAny(location_ref01_data_dt0_loaded);
   ASSERT_TRUE(location_ref01_data_dt0_load_result.is_map(), "expected load result to be a map");
   ASSERT_EQ_VAL(getp(location_ref01_data_dt0_load_result, "id"), getp(location_ref01_data, "id"), "expected load result id to match");
@@ -131,7 +135,10 @@ static void location_entity_basic() {
 
   // LIST
   Value location_ref01_match_rt0 = vmap();
-  Value location_ref01_list_rt0 = location_ref01_ent->list(Struct::clone(location_ref01_match_rt0), Value::undef());
+  auto location_ref01_list_rt0_ents = location_ref01_ent->list(Struct::clone(location_ref01_match_rt0), Value::undef());
+  // list resolves to one ENTITY per record; the flow asserts on the records.
+  Value location_ref01_list_rt0 = vlist();
+  for (const auto& e : location_ref01_list_rt0_ents) { location_ref01_list_rt0.as_list()->push_back(e->data()); }
   ASSERT_TRUE(location_ref01_list_rt0.is_list(), "expected list result to be an array");
   {
     std::vector<Value> found = Struct::select(entity_list_to_data(location_ref01_list_rt0), vmap({{"id", getp(location_ref01_data, "id")}}));

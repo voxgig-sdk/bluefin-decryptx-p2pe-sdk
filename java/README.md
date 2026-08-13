@@ -56,7 +56,7 @@ catch (RuntimeException err) {
 ### 3. Load a devicecustodydetail
 
 DeviceCustodyDetail is nested under device_type, so provide the `device_type`.
-`load()` returns the bare record (as `Object`) and raises on error.
+`load()` returns the ENTITY — call data() for the record — and raises on error.
 
 ```java
 try {
@@ -71,8 +71,8 @@ catch (RuntimeException err) {
 ### 4. Create, update, and remove
 
 ```java
-// Create — returns the bare created record (as Object)
-Object created = client.attestation(null).create(Map.of("client", Map.of(), "complete_date", "example_complete_date"), null);
+// Create — returns the ENTITY (call data() for the record)
+Object created = client.attestation(null).create(Map.of("client", Map.of(), "completeDate", "example_completeDate"), null);
 
 ```
 
@@ -151,7 +151,8 @@ Create a mock client for unit testing — no server required:
 ```java
 BluefinDecryptxP2peSDK client = BluefinDecryptxP2peSDK.testSDK(null, null);
 
-// Entity ops return the bare record and raise on error.
+// Entity ops return the ENTITY and raises on error;
+// call data() for the record.
 Object deviceType = client.deviceType(null).list(null, null);
 // deviceType holds the mock response record
 System.out.println(deviceType);
@@ -272,7 +273,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (a `Map` for single-entity
+Entity operations return the ENTITY (call data() for the record) (a `Map` for single-entity
 ops, an aggregate `List` for `list`) as `Object` and raise on error. Wrap
 calls in `try`/`catch` to handle failures.
 
@@ -295,12 +296,12 @@ On error, `ok` is `false` and `err` contains the error value.
 | Field | Description |
 | --- | --- |
 | `client` |  |
-| `complete_date` |  |
+| `completeDate` |  |
 | `created` |  |
 | `device` |  |
 | `id` |  |
 | `name` |  |
-| `note` |  |
+| `notes` |  |
 
 Operations: create, list, load.
 
@@ -312,9 +313,9 @@ API path: `/attestations`
 | --- | --- |
 | `contact` |  |
 | `created` |  |
-| `direct_partner` |  |
+| `directPartner` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `location` |  |
 | `mid` |  |
 | `modified` |  |
@@ -349,33 +350,33 @@ API path: `/decryption`
 
 | Field | Description |
 | --- | --- |
-| `activated_by` |  |
-| `activation_date` |  |
-| `alternate_key` |  |
-| `audit_next_date` |  |
-| `audit_notification_date` |  |
+| `activatedBy` |  |
+| `activationDate` |  |
+| `alternateKey` |  |
+| `auditNextDate` |  |
+| `auditNotificationDate` |  |
 | `client` |  |
 | `created` |  |
-| `created_by` |  |
-| `device_build` |  |
-| `device_state` |  |
-| `device_type` |  |
-| `error_counter` |  |
-| `error_last_date` |  |
+| `createdBy` |  |
+| `deviceBuild` |  |
+| `deviceState` |  |
+| `deviceType` |  |
+| `errorCounter` |  |
+| `errorLastDate` |  |
 | `id` |  |
-| `initialized_by` |  |
-| `initialized_date` |  |
-| `inject_key` |  |
-| `is_virtual` |  |
+| `initializedBy` |  |
+| `initializedDate` |  |
+| `injectKey` |  |
+| `isVirtual` |  |
 | `kif` |  |
-| `last_activity_date` |  |
+| `lastActivityDate` |  |
 | `location` |  |
 | `modified` |  |
-| `modified_by` |  |
+| `modifiedBy` |  |
 | `name` |  |
-| `note` |  |
+| `notes` |  |
 | `partner` |  |
-| `serial_number` |  |
+| `serialNumber` |  |
 | `version` |  |
 
 Operations: create, list, load.
@@ -386,21 +387,21 @@ API path: `/devices`
 
 | Field | Description |
 | --- | --- |
-| `app_version` |  |
-| `build_number` |  |
-| `config_file_name` |  |
+| `appVersion` |  |
+| `buildNumber` |  |
+| `configFileName` |  |
 | `created` |  |
-| `device_type` |  |
-| `firmware_version` |  |
-| `hardware_version` |  |
+| `deviceType` |  |
+| `firmwareVersion` |  |
+| `hardwareVersion` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `modified` |  |
 | `name` |  |
-| `note` |  |
+| `notes` |  |
 | `version` |  |
-| `white_listing_bin_range` |  |
-| `white_listing_used` |  |
+| `whiteListingBinRanges` |  |
+| `whiteListingUsed` |  |
 
 Operations: list, load.
 
@@ -410,18 +411,18 @@ API path: `/deviceBuilds`
 
 | Field | Description |
 | --- | --- |
-| `complete_date` |  |
+| `completeDate` |  |
 | `created` |  |
-| `created_by` |  |
+| `createdBy` |  |
 | `custodian` |  |
 | `device` |  |
 | `id` |  |
 | `location` |  |
 | `modified` |  |
-| `modified_by` |  |
-| `note` |  |
+| `modifiedBy` |  |
+| `notes` |  |
 | `status` |  |
-| `transfer_method` |  |
+| `transferMethod` |  |
 | `version` |  |
 
 Operations: load.
@@ -432,18 +433,18 @@ API path: `/devices/{serialNumber}/{deviceType}/custody/{id}`
 
 | Field | Description |
 | --- | --- |
-| `complete_date` |  |
+| `completeDate` |  |
 | `created` |  |
-| `created_by` |  |
+| `createdBy` |  |
 | `custodian` |  |
 | `device` |  |
 | `id` |  |
 | `location` |  |
 | `modified` |  |
-| `modified_by` |  |
-| `note` |  |
+| `modifiedBy` |  |
+| `notes` |  |
 | `status` |  |
-| `transfer_method` |  |
+| `transferMethod` |  |
 | `version` |  |
 
 Operations: list.
@@ -497,16 +498,16 @@ API path: `/deviceStates`
 | Field | Description |
 | --- | --- |
 | `created` |  |
-| `device_type_mode` |  |
-| `hardware_version` |  |
+| `deviceTypeMode` |  |
+| `hardwareVersion` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `manufacturer` |  |
 | `model` |  |
 | `modified` |  |
 | `name` |  |
-| `photo_url` |  |
-| `product_name` |  |
+| `photoUrl` |  |
+| `productName` |  |
 | `version` |  |
 
 Operations: list, load.
@@ -519,9 +520,9 @@ API path: `/deviceTypes`
 | --- | --- |
 | `created` |  |
 | `id` |  |
-| `is_active` |  |
-| `is_p2_pe` |  |
-| `key_type` |  |
+| `isActive` |  |
+| `isP2PE` |  |
+| `keyType` |  |
 | `modified` |  |
 | `name` |  |
 | `version` |  |
@@ -547,26 +548,26 @@ API path: `/kifs`
 | --- | --- |
 | `address1` |  |
 | `address2` |  |
-| `billing_id` |  |
+| `billingId` |  |
 | `city` |  |
 | `country` |  |
 | `created` |  |
-| `custom_reference` |  |
+| `customReference` |  |
 | `id` |  |
-| `location_type` |  |
-| `mail_address1` |  |
-| `mail_address2` |  |
-| `mail_city` |  |
-| `mail_country` |  |
-| `mail_postal_code` |  |
-| `mail_state_province` |  |
+| `locationType` |  |
+| `mailAddress1` |  |
+| `mailAddress2` |  |
+| `mailCity` |  |
+| `mailCountry` |  |
+| `mailPostalCode` |  |
+| `mailStateProvince` |  |
 | `modified` |  |
 | `name` |  |
-| `name_of_business` |  |
-| `note` |  |
-| `postal_code` |  |
-| `state_province` |  |
-| `unique_id` |  |
+| `nameOfBusiness` |  |
+| `notes` |  |
+| `postalCode` |  |
+| `stateProvince` |  |
+| `uniqueId` |  |
 | `version` |  |
 
 Operations: create, list, load, remove.
@@ -577,19 +578,19 @@ API path: `/locations`
 
 | Field | Description |
 | --- | --- |
-| `billing_id` |  |
-| `client_can_order_equipment` |  |
+| `billingId` |  |
+| `clientCanOrderEquipment` |  |
 | `contact` |  |
 | `created` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `location` |  |
 | `modified` |  |
 | `name` |  |
 | `parent` |  |
-| `partner_id` |  |
+| `partnerId` |  |
 | `reference` |  |
-| `verification_phrase` |  |
+| `verificationPhrase` |  |
 | `version` |  |
 
 Operations: create, list, load.
@@ -603,15 +604,15 @@ API path: `/partners`
 | `carrier` |  |
 | `client` |  |
 | `created` |  |
-| `date_received` |  |
-| `date_shipped` |  |
-| `dc_kif` |  |
+| `dateReceived` |  |
+| `dateShipped` |  |
+| `dcKif` |  |
 | `id` |  |
-| `item` |  |
+| `items` |  |
 | `kif` |  |
 | `modified` |  |
 | `partner` |  |
-| `shipment_type` |  |
+| `shipmentType` |  |
 | `tracking` |  |
 | `version` |  |
 
@@ -633,30 +634,30 @@ API path: `/virtualDevices/{sharePartnerTo}`
 
 | Field | Description |
 | --- | --- |
-| `alternate_key` |  |
+| `alternateKey` |  |
 | `client` |  |
-| `client_ref` |  |
+| `clientRef` |  |
 | `created` |  |
 | `decrypted` |  |
-| `device_name` |  |
-| `direct_partner` |  |
+| `deviceName` |  |
+| `directPartner` |  |
 | `encrypted` |  |
-| `end_date` |  |
-| `err_code` |  |
-| `err_message` |  |
+| `endDate` |  |
+| `errCode` |  |
+| `errMessage` |  |
 | `id` |  |
-| `ip_address` |  |
-| `is_virtual` |  |
-| `key_type` |  |
+| `ipAddress` |  |
+| `isVirtual` |  |
+| `keyType` |  |
 | `location` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `method` |  |
 | `partner` |  |
 | `reference` |  |
-| `serial_number` |  |
-| `start_date` |  |
+| `serialNumber` |  |
+| `startDate` |  |
 | `success` |  |
-| `transaction_source` |  |
+| `transactionSource` |  |
 
 Operations: create, list, load.
 
@@ -668,15 +669,15 @@ API path: `/transactions`
 | --- | --- |
 | `client` |  |
 | `email` |  |
-| `first_name` |  |
+| `firstName` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `kif` |  |
-| `last_name` |  |
+| `lastName` |  |
 | `partner` |  |
 | `phone` |  |
-| `user_name` |  |
-| `user_role` |  |
+| `userName` |  |
+| `userRole` |  |
 | `version` |  |
 
 Operations: create, list, update.
@@ -690,16 +691,16 @@ API path: `/users`
 | `client` |  |
 | `created` |  |
 | `email` |  |
-| `first_name` |  |
+| `firstName` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `kif` |  |
-| `last_name` |  |
+| `lastName` |  |
 | `modified` |  |
 | `partner` |  |
 | `phone` |  |
-| `user_name` |  |
-| `user_role` |  |
+| `userName` |  |
+| `userRole` |  |
 | `version` |  |
 
 Operations: load, remove.
@@ -728,12 +729,12 @@ Create an instance: `SdkEntity attestation = client.attestation(null);`
 | Field | Type | Description |
 | --- | --- | --- |
 | `client` | `Map<String, Object>` |  |
-| `complete_date` | `String` |  |
+| `completeDate` | `String` |  |
 | `created` | `String` |  |
 | `device` | `Map<String, Object>` |  |
 | `id` | `String` |  |
 | `name` | `String` |  |
-| `note` | `String` |  |
+| `notes` | `String` |  |
 
 #### Example: Load
 
@@ -774,9 +775,9 @@ Create an instance: `SdkEntity client = client.client(null);`
 | --- | --- | --- |
 | `contact` | `Map<String, Object>` |  |
 | `created` | `String` |  |
-| `direct_partner` | `Map<String, Object>` |  |
+| `directPartner` | `Map<String, Object>` |  |
 | `id` | `String` |  |
-| `is_active` | `Boolean` |  |
+| `isActive` | `Boolean` |  |
 | `location` | `Map<String, Object>` |  |
 | `mid` | `String` |  |
 | `modified` | `String` |  |
@@ -865,33 +866,33 @@ Create an instance: `SdkEntity device = client.device(null);`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `activated_by` | `Map<String, Object>` |  |
-| `activation_date` | `String` |  |
-| `alternate_key` | `String` |  |
-| `audit_next_date` | `String` |  |
-| `audit_notification_date` | `String` |  |
+| `activatedBy` | `Map<String, Object>` |  |
+| `activationDate` | `String` |  |
+| `alternateKey` | `String` |  |
+| `auditNextDate` | `String` |  |
+| `auditNotificationDate` | `String` |  |
 | `client` | `Map<String, Object>` |  |
 | `created` | `String` |  |
-| `created_by` | `Map<String, Object>` |  |
-| `device_build` | `Map<String, Object>` |  |
-| `device_state` | `Map<String, Object>` |  |
-| `device_type` | `Map<String, Object>` |  |
-| `error_counter` | `Long` |  |
-| `error_last_date` | `String` |  |
+| `createdBy` | `Map<String, Object>` |  |
+| `deviceBuild` | `Map<String, Object>` |  |
+| `deviceState` | `Map<String, Object>` |  |
+| `deviceType` | `Map<String, Object>` |  |
+| `errorCounter` | `Long` |  |
+| `errorLastDate` | `String` |  |
 | `id` | `String` |  |
-| `initialized_by` | `Map<String, Object>` |  |
-| `initialized_date` | `String` |  |
-| `inject_key` | `Map<String, Object>` |  |
-| `is_virtual` | `Boolean` |  |
+| `initializedBy` | `Map<String, Object>` |  |
+| `initializedDate` | `String` |  |
+| `injectKey` | `Map<String, Object>` |  |
+| `isVirtual` | `Boolean` |  |
 | `kif` | `Map<String, Object>` |  |
-| `last_activity_date` | `String` |  |
+| `lastActivityDate` | `String` |  |
 | `location` | `Map<String, Object>` |  |
 | `modified` | `String` |  |
-| `modified_by` | `Map<String, Object>` |  |
+| `modifiedBy` | `Map<String, Object>` |  |
 | `name` | `String` |  |
-| `note` | `String` |  |
+| `notes` | `String` |  |
 | `partner` | `Map<String, Object>` |  |
-| `serial_number` | `String` |  |
+| `serialNumber` | `String` |  |
 | `version` | `Long` |  |
 
 #### Example: Load
@@ -910,11 +911,11 @@ Object deviceList = client.device(null).list(null, null);
 
 ```java
 Object device = client.device(null).create(Map.of(
-    "activated_by", Map.of(),  // Map<String, Object>
-    "created_by", Map.of(),  // Map<String, Object>
-    "initialized_by", Map.of(),  // Map<String, Object>
+    "activatedBy", Map.of(),  // Map<String, Object>
+    "createdBy", Map.of(),  // Map<String, Object>
+    "initializedBy", Map.of(),  // Map<String, Object>
     "location", Map.of(),  // Map<String, Object>
-    "modified_by", Map.of()  // Map<String, Object>
+    "modifiedBy", Map.of()  // Map<String, Object>
 ), null);
 ```
 
@@ -934,21 +935,21 @@ Create an instance: `SdkEntity deviceBuild = client.deviceBuild(null);`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `app_version` | `String` |  |
-| `build_number` | `String` |  |
-| `config_file_name` | `String` |  |
+| `appVersion` | `String` |  |
+| `buildNumber` | `String` |  |
+| `configFileName` | `String` |  |
 | `created` | `String` |  |
-| `device_type` | `String` |  |
-| `firmware_version` | `String` |  |
-| `hardware_version` | `String` |  |
+| `deviceType` | `String` |  |
+| `firmwareVersion` | `String` |  |
+| `hardwareVersion` | `String` |  |
 | `id` | `Long` |  |
-| `is_active` | `Boolean` |  |
+| `isActive` | `Boolean` |  |
 | `modified` | `String` |  |
 | `name` | `String` |  |
-| `note` | `String` |  |
+| `notes` | `String` |  |
 | `version` | `Long` |  |
-| `white_listing_bin_range` | `String` |  |
-| `white_listing_used` | `Boolean` |  |
+| `whiteListingBinRanges` | `String` |  |
+| `whiteListingUsed` | `Boolean` |  |
 
 #### Example: Load
 
@@ -977,18 +978,18 @@ Create an instance: `SdkEntity deviceCustodyDetail = client.deviceCustodyDetail(
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `complete_date` | `String` |  |
+| `completeDate` | `String` |  |
 | `created` | `String` |  |
-| `created_by` | `Map<String, Object>` |  |
+| `createdBy` | `Map<String, Object>` |  |
 | `custodian` | `Map<String, Object>` |  |
 | `device` | `Map<String, Object>` |  |
 | `id` | `Long` |  |
 | `location` | `Map<String, Object>` |  |
 | `modified` | `String` |  |
-| `modified_by` | `Map<String, Object>` |  |
-| `note` | `String` |  |
+| `modifiedBy` | `Map<String, Object>` |  |
+| `notes` | `String` |  |
 | `status` | `Map<String, Object>` |  |
-| `transfer_method` | `Map<String, Object>` |  |
+| `transferMethod` | `Map<String, Object>` |  |
 | `version` | `Long` |  |
 
 #### Example: Load
@@ -1012,18 +1013,18 @@ Create an instance: `SdkEntity deviceCustodyList = client.deviceCustodyList(null
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `complete_date` | `String` |  |
+| `completeDate` | `String` |  |
 | `created` | `String` |  |
-| `created_by` | `Map<String, Object>` |  |
+| `createdBy` | `Map<String, Object>` |  |
 | `custodian` | `Map<String, Object>` |  |
 | `device` | `Map<String, Object>` |  |
 | `id` | `Long` |  |
 | `location` | `Map<String, Object>` |  |
 | `modified` | `String` |  |
-| `modified_by` | `Map<String, Object>` |  |
-| `note` | `String` |  |
+| `modifiedBy` | `Map<String, Object>` |  |
+| `notes` | `String` |  |
 | `status` | `Map<String, Object>` |  |
-| `transfer_method` | `Map<String, Object>` |  |
+| `transferMethod` | `Map<String, Object>` |  |
 | `version` | `Long` |  |
 
 #### Example: List
@@ -1147,16 +1148,16 @@ Create an instance: `SdkEntity deviceType = client.deviceType(null);`
 | Field | Type | Description |
 | --- | --- | --- |
 | `created` | `String` |  |
-| `device_type_mode` | `String` |  |
-| `hardware_version` | `String` |  |
+| `deviceTypeMode` | `String` |  |
+| `hardwareVersion` | `String` |  |
 | `id` | `String` |  |
-| `is_active` | `Boolean` |  |
+| `isActive` | `Boolean` |  |
 | `manufacturer` | `String` |  |
 | `model` | `String` |  |
 | `modified` | `String` |  |
 | `name` | `String` |  |
-| `photo_url` | `String` |  |
-| `product_name` | `String` |  |
+| `photoUrl` | `String` |  |
+| `productName` | `String` |  |
 | `version` | `Long` |  |
 
 #### Example: Load
@@ -1189,9 +1190,9 @@ Create an instance: `SdkEntity injectKey = client.injectKey(null);`
 | --- | --- | --- |
 | `created` | `String` |  |
 | `id` | `String` |  |
-| `is_active` | `Boolean` |  |
-| `is_p2_pe` | `Boolean` |  |
-| `key_type` | `String` |  |
+| `isActive` | `Boolean` |  |
+| `isP2PE` | `Boolean` |  |
+| `keyType` | `String` |  |
 | `modified` | `String` |  |
 | `name` | `String` |  |
 | `version` | `Long` |  |
@@ -1252,26 +1253,26 @@ Create an instance: `SdkEntity location = client.location(null);`
 | --- | --- | --- |
 | `address1` | `String` |  |
 | `address2` | `String` |  |
-| `billing_id` | `String` |  |
+| `billingId` | `String` |  |
 | `city` | `String` |  |
 | `country` | `String` |  |
 | `created` | `String` |  |
-| `custom_reference` | `String` |  |
+| `customReference` | `String` |  |
 | `id` | `String` |  |
-| `location_type` | `String` |  |
-| `mail_address1` | `String` |  |
-| `mail_address2` | `String` |  |
-| `mail_city` | `String` |  |
-| `mail_country` | `String` |  |
-| `mail_postal_code` | `String` |  |
-| `mail_state_province` | `String` |  |
+| `locationType` | `String` |  |
+| `mailAddress1` | `String` |  |
+| `mailAddress2` | `String` |  |
+| `mailCity` | `String` |  |
+| `mailCountry` | `String` |  |
+| `mailPostalCode` | `String` |  |
+| `mailStateProvince` | `String` |  |
 | `modified` | `String` |  |
 | `name` | `String` |  |
-| `name_of_business` | `String` |  |
-| `note` | `String` |  |
-| `postal_code` | `String` |  |
-| `state_province` | `String` |  |
-| `unique_id` | `String` |  |
+| `nameOfBusiness` | `String` |  |
+| `notes` | `String` |  |
+| `postalCode` | `String` |  |
+| `stateProvince` | `String` |  |
+| `uniqueId` | `String` |  |
 | `version` | `Long` |  |
 
 #### Example: Load
@@ -1310,19 +1311,19 @@ Create an instance: `SdkEntity partner = client.partner(null);`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `billing_id` | `String` |  |
-| `client_can_order_equipment` | `Boolean` |  |
+| `billingId` | `String` |  |
+| `clientCanOrderEquipment` | `Boolean` |  |
 | `contact` | `Map<String, Object>` |  |
 | `created` | `String` |  |
 | `id` | `String` |  |
-| `is_active` | `Boolean` |  |
+| `isActive` | `Boolean` |  |
 | `location` | `Map<String, Object>` |  |
 | `modified` | `String` |  |
 | `name` | `String` |  |
 | `parent` | `Map<String, Object>` |  |
-| `partner_id` | `String` |  |
+| `partnerId` | `String` |  |
 | `reference` | `String` |  |
-| `verification_phrase` | `String` |  |
+| `verificationPhrase` | `String` |  |
 | `version` | `Long` |  |
 
 #### Example: Load
@@ -1365,15 +1366,15 @@ Create an instance: `SdkEntity shipment = client.shipment(null);`
 | `carrier` | `String` |  |
 | `client` | `Map<String, Object>` |  |
 | `created` | `String` |  |
-| `date_received` | `String` |  |
-| `date_shipped` | `String` |  |
-| `dc_kif` | `Map<String, Object>` |  |
+| `dateReceived` | `String` |  |
+| `dateShipped` | `String` |  |
+| `dcKif` | `Map<String, Object>` |  |
 | `id` | `String` |  |
-| `item` | `List<Object>` |  |
+| `items` | `List<Object>` |  |
 | `kif` | `Map<String, Object>` |  |
 | `modified` | `String` |  |
 | `partner` | `Map<String, Object>` |  |
-| `shipment_type` | `String` |  |
+| `shipmentType` | `String` |  |
 | `tracking` | `String` |  |
 | `version` | `Long` |  |
 
@@ -1439,30 +1440,30 @@ Create an instance: `SdkEntity transaction = client.transaction(null);`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `alternate_key` | `String` |  |
+| `alternateKey` | `String` |  |
 | `client` | `Map<String, Object>` |  |
-| `client_ref` | `String` |  |
+| `clientRef` | `String` |  |
 | `created` | `String` |  |
 | `decrypted` | `Long` |  |
-| `device_name` | `String` |  |
-| `direct_partner` | `Map<String, Object>` |  |
+| `deviceName` | `String` |  |
+| `directPartner` | `Map<String, Object>` |  |
 | `encrypted` | `Long` |  |
-| `end_date` | `String` |  |
-| `err_code` | `String` |  |
-| `err_message` | `String` |  |
+| `endDate` | `String` |  |
+| `errCode` | `String` |  |
+| `errMessage` | `String` |  |
 | `id` | `String` |  |
-| `ip_address` | `String` |  |
-| `is_virtual` | `Boolean` |  |
-| `key_type` | `String` |  |
+| `ipAddress` | `String` |  |
+| `isVirtual` | `Boolean` |  |
+| `keyType` | `String` |  |
 | `location` | `Map<String, Object>` |  |
-| `message_id` | `String` |  |
+| `messageId` | `String` |  |
 | `method` | `String` |  |
 | `partner` | `Map<String, Object>` |  |
 | `reference` | `String` |  |
-| `serial_number` | `String` |  |
-| `start_date` | `String` |  |
+| `serialNumber` | `String` |  |
+| `startDate` | `String` |  |
 | `success` | `Boolean` |  |
-| `transaction_source` | `String` |  |
+| `transactionSource` | `String` |  |
 
 #### Example: Load
 
@@ -1503,15 +1504,15 @@ Create an instance: `SdkEntity updateResult = client.updateResult(null);`
 | --- | --- | --- |
 | `client` | `Map<String, Object>` |  |
 | `email` | `String` |  |
-| `first_name` | `String` |  |
+| `firstName` | `String` |  |
 | `id` | `String` |  |
-| `is_active` | `Boolean` |  |
+| `isActive` | `Boolean` |  |
 | `kif` | `Map<String, Object>` |  |
-| `last_name` | `String` |  |
+| `lastName` | `String` |  |
 | `partner` | `Map<String, Object>` |  |
 | `phone` | `String` |  |
-| `user_name` | `String` |  |
-| `user_role` | `Map<String, Object>` |  |
+| `userName` | `String` |  |
+| `userRole` | `Map<String, Object>` |  |
 | `version` | `Long` |  |
 
 #### Example: List
@@ -1546,16 +1547,16 @@ Create an instance: `SdkEntity user = client.user(null);`
 | `client` | `Map<String, Object>` |  |
 | `created` | `String` |  |
 | `email` | `String` |  |
-| `first_name` | `String` |  |
+| `firstName` | `String` |  |
 | `id` | `String` |  |
-| `is_active` | `Boolean` |  |
+| `isActive` | `Boolean` |  |
 | `kif` | `Map<String, Object>` |  |
-| `last_name` | `String` |  |
+| `lastName` | `String` |  |
 | `modified` | `String` |  |
 | `partner` | `Map<String, Object>` |  |
 | `phone` | `String` |  |
-| `user_name` | `String` |  |
-| `user_role` | `Map<String, Object>` |  |
+| `userName` | `String` |  |
+| `userRole` | `Map<String, Object>` |  |
 | `version` | `Long` |  |
 
 #### Example: Load

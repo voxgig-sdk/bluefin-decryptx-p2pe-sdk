@@ -38,7 +38,7 @@ class TransactionEntity extends BluefinDecryptxP2peEntityBase<Transaction> {
 
 
 
-  async load(this: any, reqmatch?: TransactionLoadMatch, ctrl?: Control): Promise<Transaction> {
+  async load(this: any, reqmatch?: TransactionLoadMatch, ctrl?: Control): Promise<TransactionEntity> {
 
     const utility = this._utility
 
@@ -129,7 +129,15 @@ class TransactionEntity extends BluefinDecryptxP2peEntityBase<Transaction> {
         }
       }
 
-      return done(ctx)
+      const out = done(ctx)
+
+      // An operation resolves to the ENTITY, not the raw data — the record
+      // has just been absorbed into this instance and is reached through
+      // data(). `done` still runs: it completes the pipeline and raises on
+      // failure, and when throwing is disabled it hands back the error
+      // payload, which passes through unchanged. See AGENTS.md "Entity
+      // operations return ENTITIES".
+      return (ctx.result && ctx.result.ok) ? this : out
     }
     catch (err: any) {
 
@@ -151,7 +159,7 @@ class TransactionEntity extends BluefinDecryptxP2peEntityBase<Transaction> {
 
 
 
-  async list(this: any, reqmatch?: TransactionListMatch, ctrl?: Control): Promise<Transaction[]> {
+  async list(this: any, reqmatch?: TransactionListMatch, ctrl?: Control): Promise<TransactionEntity[]> {
 
     const utility = this._utility
 
@@ -260,7 +268,7 @@ class TransactionEntity extends BluefinDecryptxP2peEntityBase<Transaction> {
 
 
 
-  async create(this: any, reqdata?: TransactionCreateData, ctrl?: Control): Promise<Transaction> {
+  async create(this: any, reqdata?: TransactionCreateData, ctrl?: Control): Promise<TransactionEntity> {
 
     const utility = this._utility
     const {
@@ -346,7 +354,15 @@ class TransactionEntity extends BluefinDecryptxP2peEntityBase<Transaction> {
         }
       }
 
-      return done(ctx)
+      const out = done(ctx)
+
+      // An operation resolves to the ENTITY, not the raw data — the record
+      // has just been absorbed into this instance and is reached through
+      // data(). `done` still runs: it completes the pipeline and raises on
+      // failure, and when throwing is disabled it hands back the error
+      // payload, which passes through unchanged. See AGENTS.md "Entity
+      // operations return ENTITIES".
+      return (ctx.result && ctx.result.ok) ? this : out
     }
     catch (err: any) {
 

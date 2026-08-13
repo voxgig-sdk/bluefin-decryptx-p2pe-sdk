@@ -37,7 +37,7 @@ class KifEntity extends BluefinDecryptxP2peEntityBase<Kif> {
 
 
 
-  async list(this: any, reqmatch?: KifListMatch, ctrl?: Control): Promise<Kif[]> {
+  async list(this: any, reqmatch?: KifListMatch, ctrl?: Control): Promise<KifEntity[]> {
 
     const utility = this._utility
 

@@ -190,12 +190,12 @@ Entity* attestation = bluefindecryptxp2pe_attestation(client, NULL);
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `client` | `voxgig_value* (map)` | No |  |
-| `complete_date` | `char*` | No |  |
+| `completeDate` | `char*` | No |  |
 | `created` | `char*` | No |  |
 | `device` | `voxgig_value* (map)` | No |  |
 | `id` | `char*` | No |  |
 | `name` | `char*` | No |  |
-| `note` | `char*` | No |  |
+| `notes` | `char*` | No |  |
 
 ### Operations
 
@@ -262,9 +262,9 @@ Entity* client = bluefindecryptxp2pe_client(client, NULL);
 | --- | --- | --- | --- |
 | `contact` | `voxgig_value* (map)` | No |  |
 | `created` | `char*` | No |  |
-| `direct_partner` | `voxgig_value* (map)` | No |  |
+| `directPartner` | `voxgig_value* (map)` | No |  |
 | `id` | `char*` | No |  |
-| `is_active` | `bool` | No |  |
+| `isActive` | `bool` | No |  |
 | `location` | `voxgig_value* (map)` | Yes |  |
 | `mid` | `char*` | No |  |
 | `modified` | `char*` | No |  |
@@ -278,9 +278,9 @@ Entity* client = bluefindecryptxp2pe_client(client, NULL);
 | --- | --- | --- | --- | --- |
 | `contact` | - | Yes | - | - |
 | `created` | - | - | - | - |
-| `direct_partner` | - | - | - | - |
+| `directPartner` | - | - | - | - |
 | `id` | - | - | - | - |
-| `is_active` | - | - | - | - |
+| `isActive` | - | - | - | - |
 | `location` | - | - | - | - |
 | `mid` | - | - | - | - |
 | `modified` | - | - | - | - |
@@ -447,33 +447,33 @@ Entity* device = bluefindecryptxp2pe_device(client, NULL);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `activated_by` | `voxgig_value* (map)` | Yes |  |
-| `activation_date` | `char*` | No |  |
-| `alternate_key` | `char*` | No |  |
-| `audit_next_date` | `char*` | No |  |
-| `audit_notification_date` | `char*` | No |  |
+| `activatedBy` | `voxgig_value* (map)` | Yes |  |
+| `activationDate` | `char*` | No |  |
+| `alternateKey` | `char*` | No |  |
+| `auditNextDate` | `char*` | No |  |
+| `auditNotificationDate` | `char*` | No |  |
 | `client` | `voxgig_value* (map)` | No |  |
 | `created` | `char*` | No |  |
-| `created_by` | `voxgig_value* (map)` | Yes |  |
-| `device_build` | `voxgig_value* (map)` | No |  |
-| `device_state` | `voxgig_value* (map)` | No |  |
-| `device_type` | `voxgig_value* (map)` | No |  |
-| `error_counter` | `int64_t` | No |  |
-| `error_last_date` | `char*` | No |  |
+| `createdBy` | `voxgig_value* (map)` | Yes |  |
+| `deviceBuild` | `voxgig_value* (map)` | No |  |
+| `deviceState` | `voxgig_value* (map)` | No |  |
+| `deviceType` | `voxgig_value* (map)` | No |  |
+| `errorCounter` | `int64_t` | No |  |
+| `errorLastDate` | `char*` | No |  |
 | `id` | `char*` | No |  |
-| `initialized_by` | `voxgig_value* (map)` | Yes |  |
-| `initialized_date` | `char*` | No |  |
-| `inject_key` | `voxgig_value* (map)` | No |  |
-| `is_virtual` | `bool` | No |  |
+| `initializedBy` | `voxgig_value* (map)` | Yes |  |
+| `initializedDate` | `char*` | No |  |
+| `injectKey` | `voxgig_value* (map)` | No |  |
+| `isVirtual` | `bool` | No |  |
 | `kif` | `voxgig_value* (map)` | No |  |
-| `last_activity_date` | `char*` | No |  |
+| `lastActivityDate` | `char*` | No |  |
 | `location` | `voxgig_value* (map)` | Yes |  |
 | `modified` | `char*` | No |  |
-| `modified_by` | `voxgig_value* (map)` | Yes |  |
+| `modifiedBy` | `voxgig_value* (map)` | Yes |  |
 | `name` | `char*` | No |  |
-| `note` | `char*` | No |  |
+| `notes` | `char*` | No |  |
 | `partner` | `voxgig_value* (map)` | No |  |
-| `serial_number` | `char*` | No |  |
+| `serialNumber` | `char*` | No |  |
 | `version` | `int64_t` | No |  |
 
 ### Operations
@@ -485,11 +485,11 @@ Create a new entity with the given data. Returns the created entity data and set
 ```c
 Entity* device = bluefindecryptxp2pe_device(client, NULL);
 voxgig_value* result = device->vt->create(device, cmap(5,
-    "activated_by", v_map(),  // voxgig_value* (map)
-    "created_by", v_map(),  // voxgig_value* (map)
-    "initialized_by", v_map(),  // voxgig_value* (map)
+    "activatedBy", v_map(),  // voxgig_value* (map)
+    "createdBy", v_map(),  // voxgig_value* (map)
+    "initializedBy", v_map(),  // voxgig_value* (map)
     "location", v_map(),  // voxgig_value* (map)
-    "modified_by", v_map())  // voxgig_value* (map)
+    "modifiedBy", v_map())  // voxgig_value* (map)
 , NULL, &err);
 ```
 
@@ -545,21 +545,21 @@ Entity* device_build = bluefindecryptxp2pe_device_build(client, NULL);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `app_version` | `char*` | No |  |
-| `build_number` | `char*` | No |  |
-| `config_file_name` | `char*` | No |  |
+| `appVersion` | `char*` | No |  |
+| `buildNumber` | `char*` | No |  |
+| `configFileName` | `char*` | No |  |
 | `created` | `char*` | No |  |
-| `device_type` | `char*` | No |  |
-| `firmware_version` | `char*` | No |  |
-| `hardware_version` | `char*` | No |  |
+| `deviceType` | `char*` | No |  |
+| `firmwareVersion` | `char*` | No |  |
+| `hardwareVersion` | `char*` | No |  |
 | `id` | `int64_t` | No |  |
-| `is_active` | `bool` | No |  |
+| `isActive` | `bool` | No |  |
 | `modified` | `char*` | No |  |
 | `name` | `char*` | No |  |
-| `note` | `char*` | No |  |
+| `notes` | `char*` | No |  |
 | `version` | `int64_t` | No |  |
-| `white_listing_bin_range` | `char*` | No |  |
-| `white_listing_used` | `bool` | No |  |
+| `whiteListingBinRanges` | `char*` | No |  |
+| `whiteListingUsed` | `bool` | No |  |
 
 ### Operations
 
@@ -615,18 +615,18 @@ Entity* device_custody_detail = bluefindecryptxp2pe_device_custody_detail(client
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `complete_date` | `char*` | No |  |
+| `completeDate` | `char*` | No |  |
 | `created` | `char*` | No |  |
-| `created_by` | `voxgig_value* (map)` | Yes |  |
+| `createdBy` | `voxgig_value* (map)` | Yes |  |
 | `custodian` | `voxgig_value* (map)` | Yes |  |
 | `device` | `voxgig_value* (map)` | No |  |
 | `id` | `int64_t` | No |  |
 | `location` | `voxgig_value* (map)` | Yes |  |
 | `modified` | `char*` | No |  |
-| `modified_by` | `voxgig_value* (map)` | Yes |  |
-| `note` | `char*` | No |  |
+| `modifiedBy` | `voxgig_value* (map)` | Yes |  |
+| `notes` | `char*` | No |  |
 | `status` | `voxgig_value* (map)` | No |  |
-| `transfer_method` | `voxgig_value* (map)` | No |  |
+| `transferMethod` | `voxgig_value* (map)` | No |  |
 | `version` | `int64_t` | No |  |
 
 ### Operations
@@ -671,18 +671,18 @@ Entity* device_custody_list = bluefindecryptxp2pe_device_custody_list(client, NU
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `complete_date` | `char*` | No |  |
+| `completeDate` | `char*` | No |  |
 | `created` | `char*` | No |  |
-| `created_by` | `voxgig_value* (map)` | Yes |  |
+| `createdBy` | `voxgig_value* (map)` | Yes |  |
 | `custodian` | `voxgig_value* (map)` | Yes |  |
 | `device` | `voxgig_value* (map)` | No |  |
 | `id` | `int64_t` | No |  |
 | `location` | `voxgig_value* (map)` | Yes |  |
 | `modified` | `char*` | No |  |
-| `modified_by` | `voxgig_value* (map)` | Yes |  |
-| `note` | `char*` | No |  |
+| `modifiedBy` | `voxgig_value* (map)` | Yes |  |
+| `notes` | `char*` | No |  |
 | `status` | `voxgig_value* (map)` | No |  |
-| `transfer_method` | `voxgig_value* (map)` | No |  |
+| `transferMethod` | `voxgig_value* (map)` | No |  |
 | `version` | `int64_t` | No |  |
 
 ### Operations
@@ -916,16 +916,16 @@ Entity* device_type = bluefindecryptxp2pe_device_type(client, NULL);
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `created` | `char*` | No |  |
-| `device_type_mode` | `char*` | No |  |
-| `hardware_version` | `char*` | No |  |
+| `deviceTypeMode` | `char*` | No |  |
+| `hardwareVersion` | `char*` | No |  |
 | `id` | `char*` | No |  |
-| `is_active` | `bool` | No |  |
+| `isActive` | `bool` | No |  |
 | `manufacturer` | `char*` | No |  |
 | `model` | `char*` | No |  |
 | `modified` | `char*` | No |  |
 | `name` | `char*` | No |  |
-| `photo_url` | `char*` | No |  |
-| `product_name` | `char*` | No |  |
+| `photoUrl` | `char*` | No |  |
+| `productName` | `char*` | No |  |
 | `version` | `int64_t` | No |  |
 
 ### Operations
@@ -984,9 +984,9 @@ Entity* inject_key = bluefindecryptxp2pe_inject_key(client, NULL);
 | --- | --- | --- | --- |
 | `created` | `char*` | No |  |
 | `id` | `char*` | No |  |
-| `is_active` | `bool` | No |  |
-| `is_p2_pe` | `bool` | No |  |
-| `key_type` | `char*` | No |  |
+| `isActive` | `bool` | No |  |
+| `isP2PE` | `bool` | No |  |
+| `keyType` | `char*` | No |  |
 | `modified` | `char*` | No |  |
 | `name` | `char*` | No |  |
 | `version` | `int64_t` | No |  |
@@ -1095,26 +1095,26 @@ Entity* location = bluefindecryptxp2pe_location(client, NULL);
 | --- | --- | --- | --- |
 | `address1` | `char*` | No |  |
 | `address2` | `char*` | No |  |
-| `billing_id` | `char*` | No |  |
+| `billingId` | `char*` | No |  |
 | `city` | `char*` | No |  |
 | `country` | `char*` | No |  |
 | `created` | `char*` | No |  |
-| `custom_reference` | `char*` | No |  |
+| `customReference` | `char*` | No |  |
 | `id` | `char*` | No |  |
-| `location_type` | `char*` | No |  |
-| `mail_address1` | `char*` | No |  |
-| `mail_address2` | `char*` | No |  |
-| `mail_city` | `char*` | No |  |
-| `mail_country` | `char*` | No |  |
-| `mail_postal_code` | `char*` | No |  |
-| `mail_state_province` | `char*` | No |  |
+| `locationType` | `char*` | No |  |
+| `mailAddress1` | `char*` | No |  |
+| `mailAddress2` | `char*` | No |  |
+| `mailCity` | `char*` | No |  |
+| `mailCountry` | `char*` | No |  |
+| `mailPostalCode` | `char*` | No |  |
+| `mailStateProvince` | `char*` | No |  |
 | `modified` | `char*` | No |  |
 | `name` | `char*` | No |  |
-| `name_of_business` | `char*` | No |  |
-| `note` | `char*` | No |  |
-| `postal_code` | `char*` | No |  |
-| `state_province` | `char*` | No |  |
-| `unique_id` | `char*` | No |  |
+| `nameOfBusiness` | `char*` | No |  |
+| `notes` | `char*` | No |  |
+| `postalCode` | `char*` | No |  |
+| `stateProvince` | `char*` | No |  |
+| `uniqueId` | `char*` | No |  |
 | `version` | `int64_t` | No |  |
 
 ### Operations
@@ -1189,38 +1189,38 @@ Entity* partner = bluefindecryptxp2pe_partner(client, NULL);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `billing_id` | `char*` | No |  |
-| `client_can_order_equipment` | `bool` | No |  |
+| `billingId` | `char*` | No |  |
+| `clientCanOrderEquipment` | `bool` | No |  |
 | `contact` | `voxgig_value* (map)` | No |  |
 | `created` | `char*` | No |  |
 | `id` | `char*` | No |  |
-| `is_active` | `bool` | No |  |
+| `isActive` | `bool` | No |  |
 | `location` | `voxgig_value* (map)` | Yes |  |
 | `modified` | `char*` | No |  |
 | `name` | `char*` | No |  |
 | `parent` | `voxgig_value* (map)` | No |  |
-| `partner_id` | `char*` | No |  |
+| `partnerId` | `char*` | No |  |
 | `reference` | `char*` | No |  |
-| `verification_phrase` | `char*` | No |  |
+| `verificationPhrase` | `char*` | No |  |
 | `version` | `int64_t` | No |  |
 
 ### Field Usage by Operation
 
 | Field | load | list | create |
 | --- | --- | --- | --- |
-| `billing_id` | - | - | - |
-| `client_can_order_equipment` | - | - | - |
+| `billingId` | - | - | - |
+| `clientCanOrderEquipment` | - | - | - |
 | `contact` | - | Yes | - |
 | `created` | - | - | - |
 | `id` | - | - | - |
-| `is_active` | - | - | - |
+| `isActive` | - | - | - |
 | `location` | - | - | - |
 | `modified` | - | - | - |
 | `name` | - | - | - |
 | `parent` | - | - | - |
-| `partner_id` | - | - | - |
+| `partnerId` | - | - | - |
 | `reference` | - | - | - |
-| `verification_phrase` | - | - | - |
+| `verificationPhrase` | - | - | - |
 | `version` | - | - | - |
 
 ### Operations
@@ -1291,15 +1291,15 @@ Entity* shipment = bluefindecryptxp2pe_shipment(client, NULL);
 | `carrier` | `char*` | No |  |
 | `client` | `voxgig_value* (map)` | No |  |
 | `created` | `char*` | No |  |
-| `date_received` | `char*` | No |  |
-| `date_shipped` | `char*` | No |  |
-| `dc_kif` | `voxgig_value* (map)` | No |  |
+| `dateReceived` | `char*` | No |  |
+| `dateShipped` | `char*` | No |  |
+| `dcKif` | `voxgig_value* (map)` | No |  |
 | `id` | `char*` | No |  |
-| `item` | `voxgig_value* (list)` | No |  |
+| `items` | `voxgig_value* (list)` | No |  |
 | `kif` | `voxgig_value* (map)` | No |  |
 | `modified` | `char*` | No |  |
 | `partner` | `voxgig_value* (map)` | No |  |
-| `shipment_type` | `char*` | No |  |
+| `shipmentType` | `char*` | No |  |
 | `tracking` | `char*` | No |  |
 | `version` | `int64_t` | No |  |
 
@@ -1421,30 +1421,30 @@ Entity* transaction = bluefindecryptxp2pe_transaction(client, NULL);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `alternate_key` | `char*` | No |  |
+| `alternateKey` | `char*` | No |  |
 | `client` | `voxgig_value* (map)` | No |  |
-| `client_ref` | `char*` | No |  |
+| `clientRef` | `char*` | No |  |
 | `created` | `char*` | No |  |
 | `decrypted` | `int64_t` | No |  |
-| `device_name` | `char*` | No |  |
-| `direct_partner` | `voxgig_value* (map)` | No |  |
+| `deviceName` | `char*` | No |  |
+| `directPartner` | `voxgig_value* (map)` | No |  |
 | `encrypted` | `int64_t` | No |  |
-| `end_date` | `char*` | No |  |
-| `err_code` | `char*` | No |  |
-| `err_message` | `char*` | No |  |
+| `endDate` | `char*` | No |  |
+| `errCode` | `char*` | No |  |
+| `errMessage` | `char*` | No |  |
 | `id` | `char*` | No |  |
-| `ip_address` | `char*` | No |  |
-| `is_virtual` | `bool` | No |  |
-| `key_type` | `char*` | No |  |
+| `ipAddress` | `char*` | No |  |
+| `isVirtual` | `bool` | No |  |
+| `keyType` | `char*` | No |  |
 | `location` | `voxgig_value* (map)` | Yes |  |
-| `message_id` | `char*` | No |  |
+| `messageId` | `char*` | No |  |
 | `method` | `char*` | No |  |
 | `partner` | `voxgig_value* (map)` | No |  |
 | `reference` | `char*` | No |  |
-| `serial_number` | `char*` | No |  |
-| `start_date` | `char*` | No |  |
+| `serialNumber` | `char*` | No |  |
+| `startDate` | `char*` | No |  |
 | `success` | `bool` | No |  |
-| `transaction_source` | `char*` | No |  |
+| `transactionSource` | `char*` | No |  |
 
 ### Operations
 
@@ -1513,15 +1513,15 @@ Entity* update_result = bluefindecryptxp2pe_update_result(client, NULL);
 | --- | --- | --- | --- |
 | `client` | `voxgig_value* (map)` | No |  |
 | `email` | `char*` | No |  |
-| `first_name` | `char*` | No |  |
+| `firstName` | `char*` | No |  |
 | `id` | `char*` | No |  |
-| `is_active` | `bool` | No |  |
+| `isActive` | `bool` | No |  |
 | `kif` | `voxgig_value* (map)` | No |  |
-| `last_name` | `char*` | No |  |
+| `lastName` | `char*` | No |  |
 | `partner` | `voxgig_value* (map)` | No |  |
 | `phone` | `char*` | No |  |
-| `user_name` | `char*` | No |  |
-| `user_role` | `voxgig_value* (map)` | No |  |
+| `userName` | `char*` | No |  |
+| `userRole` | `voxgig_value* (map)` | No |  |
 | `version` | `int64_t` | No |  |
 
 ### Operations
@@ -1590,16 +1590,16 @@ Entity* user = bluefindecryptxp2pe_user(client, NULL);
 | `client` | `voxgig_value* (map)` | No |  |
 | `created` | `char*` | No |  |
 | `email` | `char*` | No |  |
-| `first_name` | `char*` | No |  |
+| `firstName` | `char*` | No |  |
 | `id` | `char*` | No |  |
-| `is_active` | `bool` | No |  |
+| `isActive` | `bool` | No |  |
 | `kif` | `voxgig_value* (map)` | No |  |
-| `last_name` | `char*` | No |  |
+| `lastName` | `char*` | No |  |
 | `modified` | `char*` | No |  |
 | `partner` | `voxgig_value* (map)` | No |  |
 | `phone` | `char*` | No |  |
-| `user_name` | `char*` | No |  |
-| `user_role` | `voxgig_value* (map)` | No |  |
+| `userName` | `char*` | No |  |
+| `userRole` | `voxgig_value* (map)` | No |  |
 | `version` | `int64_t` | No |  |
 
 ### Operations

@@ -2,51 +2,51 @@
   "existing": {
     "partner": {
       "PARTNER00": {
-        "billing_id": "BILLING01",
-        "client_can_order_equipment": false,
+        "billingId": "s8c",
+        "clientCanOrderEquipment": false,
         "contact": {},
         "created": "s8f",
         "id": "PARTNER00",
-        "is_active": false,
+        "isActive": false,
         "location": {},
         "modified": "s93",
         "name": "s94",
         "parent": {},
-        "partner_id": "PARTNER01",
+        "partnerId": "s96",
         "reference": "s97",
-        "verification_phrase": "s98",
+        "verificationPhrase": "s98",
         "version": "s99"
       },
       "PARTNER01": {
-        "billing_id": "BILLING01",
-        "client_can_order_equipment": false,
+        "billingId": "s118",
+        "clientCanOrderEquipment": false,
         "contact": {},
         "created": "s11b",
         "id": "PARTNER01",
-        "is_active": false,
+        "isActive": false,
         "location": {},
         "modified": "s11f",
         "name": "s120",
         "parent": {},
-        "partner_id": "PARTNER01",
+        "partnerId": "s122",
         "reference": "s123",
-        "verification_phrase": "s124",
+        "verificationPhrase": "s124",
         "version": "s125"
       },
       "PARTNER02": {
-        "billing_id": "BILLING01",
-        "client_can_order_equipment": false,
+        "billingId": "s1a4",
+        "clientCanOrderEquipment": false,
         "contact": {},
         "created": "s1a7",
         "id": "PARTNER02",
-        "is_active": false,
+        "isActive": false,
         "location": {},
         "modified": "s1ab",
         "name": "s1ac",
         "parent": {},
-        "partner_id": "PARTNER01",
+        "partnerId": "s1ae",
         "reference": "s1af",
-        "verification_phrase": "s1b0",
+        "verificationPhrase": "s1b0",
         "version": "s1b1"
       }
     }
@@ -54,18 +54,18 @@
   "new": {
     "partner": {
       "partner_ref01": {
-        "billing_id": "BILLING01",
-        "client_can_order_equipment": false,
+        "billingId": "s230",
+        "clientCanOrderEquipment": false,
         "contact": {},
         "created": "s233",
-        "is_active": false,
+        "isActive": false,
         "location": {},
         "modified": "s237",
         "name": "s238",
         "parent": {},
-        "partner_id": "PARTNER01",
+        "partnerId": "s23a",
         "reference": "s23b",
-        "verification_phrase": "s23c",
+        "verificationPhrase": "s23c",
         "version": "s23d"
       }
     }

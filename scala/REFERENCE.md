@@ -196,12 +196,12 @@ val attestation = client.attestation(null)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `client` | `java.util.Map[String, Object]` | No |  |
-| `complete_date` | `String` | No |  |
+| `completeDate` | `String` | No |  |
 | `created` | `String` | No |  |
 | `device` | `java.util.Map[String, Object]` | No |  |
 | `id` | `String` | No |  |
 | `name` | `String` | No |  |
-| `note` | `String` | No |  |
+| `notes` | `String` | No |  |
 
 ### Operations
 
@@ -264,9 +264,9 @@ val client = client.client(null)
 | --- | --- | --- | --- |
 | `contact` | `java.util.Map[String, Object]` | No |  |
 | `created` | `String` | No |  |
-| `direct_partner` | `java.util.Map[String, Object]` | No |  |
+| `directPartner` | `java.util.Map[String, Object]` | No |  |
 | `id` | `String` | No |  |
-| `is_active` | `java.lang.Boolean` | No |  |
+| `isActive` | `java.lang.Boolean` | No |  |
 | `location` | `java.util.Map[String, Object]` | Yes |  |
 | `mid` | `String` | No |  |
 | `modified` | `String` | No |  |
@@ -280,9 +280,9 @@ val client = client.client(null)
 | --- | --- | --- | --- | --- |
 | `contact` | - | Yes | - | - |
 | `created` | - | - | - | - |
-| `direct_partner` | - | - | - | - |
+| `directPartner` | - | - | - | - |
 | `id` | - | - | - | - |
-| `is_active` | - | - | - | - |
+| `isActive` | - | - | - | - |
 | `location` | - | - | - | - |
 | `mid` | - | - | - | - |
 | `modified` | - | - | - | - |
@@ -442,33 +442,33 @@ val device = client.device(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `activated_by` | `java.util.Map[String, Object]` | Yes |  |
-| `activation_date` | `String` | No |  |
-| `alternate_key` | `String` | No |  |
-| `audit_next_date` | `String` | No |  |
-| `audit_notification_date` | `String` | No |  |
+| `activatedBy` | `java.util.Map[String, Object]` | Yes |  |
+| `activationDate` | `String` | No |  |
+| `alternateKey` | `String` | No |  |
+| `auditNextDate` | `String` | No |  |
+| `auditNotificationDate` | `String` | No |  |
 | `client` | `java.util.Map[String, Object]` | No |  |
 | `created` | `String` | No |  |
-| `created_by` | `java.util.Map[String, Object]` | Yes |  |
-| `device_build` | `java.util.Map[String, Object]` | No |  |
-| `device_state` | `java.util.Map[String, Object]` | No |  |
-| `device_type` | `java.util.Map[String, Object]` | No |  |
-| `error_counter` | `java.lang.Long` | No |  |
-| `error_last_date` | `String` | No |  |
+| `createdBy` | `java.util.Map[String, Object]` | Yes |  |
+| `deviceBuild` | `java.util.Map[String, Object]` | No |  |
+| `deviceState` | `java.util.Map[String, Object]` | No |  |
+| `deviceType` | `java.util.Map[String, Object]` | No |  |
+| `errorCounter` | `java.lang.Long` | No |  |
+| `errorLastDate` | `String` | No |  |
 | `id` | `String` | No |  |
-| `initialized_by` | `java.util.Map[String, Object]` | Yes |  |
-| `initialized_date` | `String` | No |  |
-| `inject_key` | `java.util.Map[String, Object]` | No |  |
-| `is_virtual` | `java.lang.Boolean` | No |  |
+| `initializedBy` | `java.util.Map[String, Object]` | Yes |  |
+| `initializedDate` | `String` | No |  |
+| `injectKey` | `java.util.Map[String, Object]` | No |  |
+| `isVirtual` | `java.lang.Boolean` | No |  |
 | `kif` | `java.util.Map[String, Object]` | No |  |
-| `last_activity_date` | `String` | No |  |
+| `lastActivityDate` | `String` | No |  |
 | `location` | `java.util.Map[String, Object]` | Yes |  |
 | `modified` | `String` | No |  |
-| `modified_by` | `java.util.Map[String, Object]` | Yes |  |
+| `modifiedBy` | `java.util.Map[String, Object]` | Yes |  |
 | `name` | `String` | No |  |
-| `note` | `String` | No |  |
+| `notes` | `String` | No |  |
 | `partner` | `java.util.Map[String, Object]` | No |  |
-| `serial_number` | `String` | No |  |
+| `serialNumber` | `String` | No |  |
 | `version` | `java.lang.Long` | No |  |
 
 ### Operations
@@ -479,11 +479,11 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 ```scala
 val result = client.device(null).create(java.util.Map.of(
-    "activated_by", java.util.Map.of(),  // java.util.Map[String, Object]
-    "created_by", java.util.Map.of(),  // java.util.Map[String, Object]
-    "initialized_by", java.util.Map.of(),  // java.util.Map[String, Object]
+    "activatedBy", java.util.Map.of(),  // java.util.Map[String, Object]
+    "createdBy", java.util.Map.of(),  // java.util.Map[String, Object]
+    "initializedBy", java.util.Map.of(),  // java.util.Map[String, Object]
     "location", java.util.Map.of(),  // java.util.Map[String, Object]
-    "modified_by", java.util.Map.of()  // java.util.Map[String, Object]
+    "modifiedBy", java.util.Map.of()  // java.util.Map[String, Object]
 ), null)
 ```
 
@@ -535,21 +535,21 @@ val deviceBuild = client.deviceBuild(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `app_version` | `String` | No |  |
-| `build_number` | `String` | No |  |
-| `config_file_name` | `String` | No |  |
+| `appVersion` | `String` | No |  |
+| `buildNumber` | `String` | No |  |
+| `configFileName` | `String` | No |  |
 | `created` | `String` | No |  |
-| `device_type` | `String` | No |  |
-| `firmware_version` | `String` | No |  |
-| `hardware_version` | `String` | No |  |
+| `deviceType` | `String` | No |  |
+| `firmwareVersion` | `String` | No |  |
+| `hardwareVersion` | `String` | No |  |
 | `id` | `java.lang.Long` | No |  |
-| `is_active` | `java.lang.Boolean` | No |  |
+| `isActive` | `java.lang.Boolean` | No |  |
 | `modified` | `String` | No |  |
 | `name` | `String` | No |  |
-| `note` | `String` | No |  |
+| `notes` | `String` | No |  |
 | `version` | `java.lang.Long` | No |  |
-| `white_listing_bin_range` | `String` | No |  |
-| `white_listing_used` | `java.lang.Boolean` | No |  |
+| `whiteListingBinRanges` | `String` | No |  |
+| `whiteListingUsed` | `java.lang.Boolean` | No |  |
 
 ### Operations
 
@@ -601,18 +601,18 @@ val deviceCustodyDetail = client.deviceCustodyDetail(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `complete_date` | `String` | No |  |
+| `completeDate` | `String` | No |  |
 | `created` | `String` | No |  |
-| `created_by` | `java.util.Map[String, Object]` | Yes |  |
+| `createdBy` | `java.util.Map[String, Object]` | Yes |  |
 | `custodian` | `java.util.Map[String, Object]` | Yes |  |
 | `device` | `java.util.Map[String, Object]` | No |  |
 | `id` | `java.lang.Long` | No |  |
 | `location` | `java.util.Map[String, Object]` | Yes |  |
 | `modified` | `String` | No |  |
-| `modified_by` | `java.util.Map[String, Object]` | Yes |  |
-| `note` | `String` | No |  |
+| `modifiedBy` | `java.util.Map[String, Object]` | Yes |  |
+| `notes` | `String` | No |  |
 | `status` | `java.util.Map[String, Object]` | No |  |
-| `transfer_method` | `java.util.Map[String, Object]` | No |  |
+| `transferMethod` | `java.util.Map[String, Object]` | No |  |
 | `version` | `java.lang.Long` | No |  |
 
 ### Operations
@@ -656,18 +656,18 @@ val deviceCustodyList = client.deviceCustodyList(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `complete_date` | `String` | No |  |
+| `completeDate` | `String` | No |  |
 | `created` | `String` | No |  |
-| `created_by` | `java.util.Map[String, Object]` | Yes |  |
+| `createdBy` | `java.util.Map[String, Object]` | Yes |  |
 | `custodian` | `java.util.Map[String, Object]` | Yes |  |
 | `device` | `java.util.Map[String, Object]` | No |  |
 | `id` | `java.lang.Long` | No |  |
 | `location` | `java.util.Map[String, Object]` | Yes |  |
 | `modified` | `String` | No |  |
-| `modified_by` | `java.util.Map[String, Object]` | Yes |  |
-| `note` | `String` | No |  |
+| `modifiedBy` | `java.util.Map[String, Object]` | Yes |  |
+| `notes` | `String` | No |  |
 | `status` | `java.util.Map[String, Object]` | No |  |
-| `transfer_method` | `java.util.Map[String, Object]` | No |  |
+| `transferMethod` | `java.util.Map[String, Object]` | No |  |
 | `version` | `java.lang.Long` | No |  |
 
 ### Operations
@@ -892,16 +892,16 @@ val deviceType = client.deviceType(null)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `created` | `String` | No |  |
-| `device_type_mode` | `String` | No |  |
-| `hardware_version` | `String` | No |  |
+| `deviceTypeMode` | `String` | No |  |
+| `hardwareVersion` | `String` | No |  |
 | `id` | `String` | No |  |
-| `is_active` | `java.lang.Boolean` | No |  |
+| `isActive` | `java.lang.Boolean` | No |  |
 | `manufacturer` | `String` | No |  |
 | `model` | `String` | No |  |
 | `modified` | `String` | No |  |
 | `name` | `String` | No |  |
-| `photo_url` | `String` | No |  |
-| `product_name` | `String` | No |  |
+| `photoUrl` | `String` | No |  |
+| `productName` | `String` | No |  |
 | `version` | `java.lang.Long` | No |  |
 
 ### Operations
@@ -956,9 +956,9 @@ val injectKey = client.injectKey(null)
 | --- | --- | --- | --- |
 | `created` | `String` | No |  |
 | `id` | `String` | No |  |
-| `is_active` | `java.lang.Boolean` | No |  |
-| `is_p2_pe` | `java.lang.Boolean` | No |  |
-| `key_type` | `String` | No |  |
+| `isActive` | `java.lang.Boolean` | No |  |
+| `isP2PE` | `java.lang.Boolean` | No |  |
+| `keyType` | `String` | No |  |
 | `modified` | `String` | No |  |
 | `name` | `String` | No |  |
 | `version` | `java.lang.Long` | No |  |
@@ -1060,26 +1060,26 @@ val location = client.location(null)
 | --- | --- | --- | --- |
 | `address1` | `String` | No |  |
 | `address2` | `String` | No |  |
-| `billing_id` | `String` | No |  |
+| `billingId` | `String` | No |  |
 | `city` | `String` | No |  |
 | `country` | `String` | No |  |
 | `created` | `String` | No |  |
-| `custom_reference` | `String` | No |  |
+| `customReference` | `String` | No |  |
 | `id` | `String` | No |  |
-| `location_type` | `String` | No |  |
-| `mail_address1` | `String` | No |  |
-| `mail_address2` | `String` | No |  |
-| `mail_city` | `String` | No |  |
-| `mail_country` | `String` | No |  |
-| `mail_postal_code` | `String` | No |  |
-| `mail_state_province` | `String` | No |  |
+| `locationType` | `String` | No |  |
+| `mailAddress1` | `String` | No |  |
+| `mailAddress2` | `String` | No |  |
+| `mailCity` | `String` | No |  |
+| `mailCountry` | `String` | No |  |
+| `mailPostalCode` | `String` | No |  |
+| `mailStateProvince` | `String` | No |  |
 | `modified` | `String` | No |  |
 | `name` | `String` | No |  |
-| `name_of_business` | `String` | No |  |
-| `note` | `String` | No |  |
-| `postal_code` | `String` | No |  |
-| `state_province` | `String` | No |  |
-| `unique_id` | `String` | No |  |
+| `nameOfBusiness` | `String` | No |  |
+| `notes` | `String` | No |  |
+| `postalCode` | `String` | No |  |
+| `stateProvince` | `String` | No |  |
+| `uniqueId` | `String` | No |  |
 | `version` | `java.lang.Long` | No |  |
 
 ### Operations
@@ -1149,38 +1149,38 @@ val partner = client.partner(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `billing_id` | `String` | No |  |
-| `client_can_order_equipment` | `java.lang.Boolean` | No |  |
+| `billingId` | `String` | No |  |
+| `clientCanOrderEquipment` | `java.lang.Boolean` | No |  |
 | `contact` | `java.util.Map[String, Object]` | No |  |
 | `created` | `String` | No |  |
 | `id` | `String` | No |  |
-| `is_active` | `java.lang.Boolean` | No |  |
+| `isActive` | `java.lang.Boolean` | No |  |
 | `location` | `java.util.Map[String, Object]` | Yes |  |
 | `modified` | `String` | No |  |
 | `name` | `String` | No |  |
 | `parent` | `java.util.Map[String, Object]` | No |  |
-| `partner_id` | `String` | No |  |
+| `partnerId` | `String` | No |  |
 | `reference` | `String` | No |  |
-| `verification_phrase` | `String` | No |  |
+| `verificationPhrase` | `String` | No |  |
 | `version` | `java.lang.Long` | No |  |
 
 ### Field Usage by Operation
 
 | Field | load | list | create |
 | --- | --- | --- | --- |
-| `billing_id` | - | - | - |
-| `client_can_order_equipment` | - | - | - |
+| `billingId` | - | - | - |
+| `clientCanOrderEquipment` | - | - | - |
 | `contact` | - | Yes | - |
 | `created` | - | - | - |
 | `id` | - | - | - |
-| `is_active` | - | - | - |
+| `isActive` | - | - | - |
 | `location` | - | - | - |
 | `modified` | - | - | - |
 | `name` | - | - | - |
 | `parent` | - | - | - |
-| `partner_id` | - | - | - |
+| `partnerId` | - | - | - |
 | `reference` | - | - | - |
-| `verification_phrase` | - | - | - |
+| `verificationPhrase` | - | - | - |
 | `version` | - | - | - |
 
 ### Operations
@@ -1246,15 +1246,15 @@ val shipment = client.shipment(null)
 | `carrier` | `String` | No |  |
 | `client` | `java.util.Map[String, Object]` | No |  |
 | `created` | `String` | No |  |
-| `date_received` | `String` | No |  |
-| `date_shipped` | `String` | No |  |
-| `dc_kif` | `java.util.Map[String, Object]` | No |  |
+| `dateReceived` | `String` | No |  |
+| `dateShipped` | `String` | No |  |
+| `dcKif` | `java.util.Map[String, Object]` | No |  |
 | `id` | `String` | No |  |
-| `item` | `java.util.List[Object]` | No |  |
+| `items` | `java.util.List[Object]` | No |  |
 | `kif` | `java.util.Map[String, Object]` | No |  |
 | `modified` | `String` | No |  |
 | `partner` | `java.util.Map[String, Object]` | No |  |
-| `shipment_type` | `String` | No |  |
+| `shipmentType` | `String` | No |  |
 | `tracking` | `String` | No |  |
 | `version` | `java.lang.Long` | No |  |
 
@@ -1370,30 +1370,30 @@ val transaction = client.transaction(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `alternate_key` | `String` | No |  |
+| `alternateKey` | `String` | No |  |
 | `client` | `java.util.Map[String, Object]` | No |  |
-| `client_ref` | `String` | No |  |
+| `clientRef` | `String` | No |  |
 | `created` | `String` | No |  |
 | `decrypted` | `java.lang.Long` | No |  |
-| `device_name` | `String` | No |  |
-| `direct_partner` | `java.util.Map[String, Object]` | No |  |
+| `deviceName` | `String` | No |  |
+| `directPartner` | `java.util.Map[String, Object]` | No |  |
 | `encrypted` | `java.lang.Long` | No |  |
-| `end_date` | `String` | No |  |
-| `err_code` | `String` | No |  |
-| `err_message` | `String` | No |  |
+| `endDate` | `String` | No |  |
+| `errCode` | `String` | No |  |
+| `errMessage` | `String` | No |  |
 | `id` | `String` | No |  |
-| `ip_address` | `String` | No |  |
-| `is_virtual` | `java.lang.Boolean` | No |  |
-| `key_type` | `String` | No |  |
+| `ipAddress` | `String` | No |  |
+| `isVirtual` | `java.lang.Boolean` | No |  |
+| `keyType` | `String` | No |  |
 | `location` | `java.util.Map[String, Object]` | Yes |  |
-| `message_id` | `String` | No |  |
+| `messageId` | `String` | No |  |
 | `method` | `String` | No |  |
 | `partner` | `java.util.Map[String, Object]` | No |  |
 | `reference` | `String` | No |  |
-| `serial_number` | `String` | No |  |
-| `start_date` | `String` | No |  |
+| `serialNumber` | `String` | No |  |
+| `startDate` | `String` | No |  |
 | `success` | `java.lang.Boolean` | No |  |
-| `transaction_source` | `String` | No |  |
+| `transactionSource` | `String` | No |  |
 
 ### Operations
 
@@ -1457,15 +1457,15 @@ val updateResult = client.updateResult(null)
 | --- | --- | --- | --- |
 | `client` | `java.util.Map[String, Object]` | No |  |
 | `email` | `String` | No |  |
-| `first_name` | `String` | No |  |
+| `firstName` | `String` | No |  |
 | `id` | `String` | No |  |
-| `is_active` | `java.lang.Boolean` | No |  |
+| `isActive` | `java.lang.Boolean` | No |  |
 | `kif` | `java.util.Map[String, Object]` | No |  |
-| `last_name` | `String` | No |  |
+| `lastName` | `String` | No |  |
 | `partner` | `java.util.Map[String, Object]` | No |  |
 | `phone` | `String` | No |  |
-| `user_name` | `String` | No |  |
-| `user_role` | `java.util.Map[String, Object]` | No |  |
+| `userName` | `String` | No |  |
+| `userRole` | `java.util.Map[String, Object]` | No |  |
 | `version` | `java.lang.Long` | No |  |
 
 ### Operations
@@ -1532,16 +1532,16 @@ val user = client.user(null)
 | `client` | `java.util.Map[String, Object]` | No |  |
 | `created` | `String` | No |  |
 | `email` | `String` | No |  |
-| `first_name` | `String` | No |  |
+| `firstName` | `String` | No |  |
 | `id` | `String` | No |  |
-| `is_active` | `java.lang.Boolean` | No |  |
+| `isActive` | `java.lang.Boolean` | No |  |
 | `kif` | `java.util.Map[String, Object]` | No |  |
-| `last_name` | `String` | No |  |
+| `lastName` | `String` | No |  |
 | `modified` | `String` | No |  |
 | `partner` | `java.util.Map[String, Object]` | No |  |
 | `phone` | `String` | No |  |
-| `user_name` | `String` | No |  |
-| `user_role` | `java.util.Map[String, Object]` | No |  |
+| `userName` | `String` | No |  |
+| `userRole` | `java.util.Map[String, Object]` | No |  |
 | `version` | `java.lang.Long` | No |  |
 
 ### Operations

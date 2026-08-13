@@ -11,7 +11,7 @@ main: kit: entity: attestation: {
       type: "`$OBJECT`"
     }
     {
-      name: "complete_date"
+      name: "completeDate"
       req: false
       type: "`$STRING`"
     }
@@ -36,7 +36,7 @@ main: kit: entity: attestation: {
       type: "`$STRING`"
     }
     {
-      name: "note"
+      name: "notes"
       req: false
       type: "`$STRING`"
     }

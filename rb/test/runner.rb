@@ -23,8 +23,8 @@ module BluefinDecryptxP2peTestRunner
   end
 
   def self.env_override(m)
-    live = getenv("BLUEFINDECRYPTXP2PE_TEST_LIVE")
-    override = getenv("BLUEFINDECRYPTXP2PE_TEST_OVERRIDE")
+    live = getenv("BLUEFIN_DECRYPTX_P2PE_TEST_LIVE")
+    override = getenv("BLUEFIN_DECRYPTX_P2PE_TEST_OVERRIDE")
 
     if live == "TRUE" || override == "TRUE"
       m.each_key do |key|
@@ -44,8 +44,8 @@ module BluefinDecryptxP2peTestRunner
       end
     end
 
-    explain = getenv("BLUEFINDECRYPTXP2PE_TEST_EXPLAIN")
-    m["BLUEFINDECRYPTXP2PE_TEST_EXPLAIN"] = explain if explain && !explain.empty?
+    explain = getenv("BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN")
+    m["BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN"] = explain if explain && !explain.empty?
 
     m
   end

@@ -40,7 +40,7 @@ class UpdateResultEntityTest {
     }
     Assumptions.assumeFalse(
       setup.syntheticOnly,
-      "live entity test uses synthetic IDs from fixture — set BLUEFINDECRYPTXP_PE_TEST_UPDATE_RESULT_ENTID JSON to run live",
+      "live entity test uses synthetic IDs from fixture — set BLUEFIN_DECRYPTX_P2PE_TEST_UPDATE_RESULT_ENTID JSON to run live",
     )
     val client = setup.client
 
@@ -50,7 +50,7 @@ class UpdateResultEntityTest {
         Struct.getpath(setup.data, "new.update_result"), "update_result_ref01")) ?: linkedMapOf())
 
     val updateResultRef01DataResult = updateResultRef01Ent.create(updateResultRef01Data, null)
-    updateResultRef01Data = Helpers.toMapAny(updateResultRef01DataResult) ?: linkedMapOf()
+    updateResultRef01Data = Helpers.toMapAny(if (updateResultRef01DataResult is SdkEntity) updateResultRef01DataResult.data() else updateResultRef01DataResult) ?: linkedMapOf()
     assertNotNull(updateResultRef01Data, "expected create result to be a map")
     assertNotNull(updateResultRef01Data["id"], "expected created entity to have an id")
 
@@ -76,7 +76,7 @@ class UpdateResultEntityTest {
     updateResultRef01DataUp0Up[updateResultRef01MarkdefUp0Name] = updateResultRef01MarkdefUp0Value
 
     val updateResultRef01ResdataUp0Result = updateResultRef01Ent.update(updateResultRef01DataUp0Up, null)
-    val updateResultRef01ResdataUp0 = Helpers.toMapAny(updateResultRef01ResdataUp0Result) ?: linkedMapOf()
+    val updateResultRef01ResdataUp0 = Helpers.toMapAny(if (updateResultRef01ResdataUp0Result is SdkEntity) updateResultRef01ResdataUp0Result.data() else updateResultRef01ResdataUp0Result) ?: linkedMapOf()
     assertNotNull(updateResultRef01ResdataUp0, "expected update result to be a map")
     assertEquals(updateResultRef01DataUp0Up["id"], updateResultRef01ResdataUp0["id"],
         "expected update result id to match")
@@ -148,25 +148,25 @@ class UpdateResultEntityTest {
           "}]}"))
 
       // Detect ENTID env override before envOverride consumes it.
-      val entidEnvRaw = RunnerSupport.getenv("BLUEFINDECRYPTXP_PE_TEST_UPDATE_RESULT_ENTID")
+      val entidEnvRaw = RunnerSupport.getenv("BLUEFIN_DECRYPTX_P2PE_TEST_UPDATE_RESULT_ENTID")
       val idmapOverridden = entidEnvRaw != null && entidEnvRaw.trim().startsWith("{")
 
       val envm = linkedMapOf<String, Any?>()
-      envm["BLUEFINDECRYPTXP_PE_TEST_UPDATE_RESULT_ENTID"] = idmap
-      envm["BLUEFINDECRYPTXP_PE_TEST_LIVE"] = "FALSE"
-      envm["BLUEFINDECRYPTXP_PE_TEST_EXPLAIN"] = "FALSE"
-      envm["BLUEFINDECRYPTXP_PE_APIKEY"] = "NONE"
+      envm["BLUEFIN_DECRYPTX_P2PE_TEST_UPDATE_RESULT_ENTID"] = idmap
+      envm["BLUEFIN_DECRYPTX_P2PE_TEST_LIVE"] = "FALSE"
+      envm["BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN"] = "FALSE"
+      envm["BLUEFIN_DECRYPTX_P2PE_APIKEY"] = "NONE"
       val env = RunnerSupport.envOverride(envm)
 
-      var idmapResolved = Helpers.toMapAny(env["BLUEFINDECRYPTXP_PE_TEST_UPDATE_RESULT_ENTID"])
+      var idmapResolved = Helpers.toMapAny(env["BLUEFIN_DECRYPTX_P2PE_TEST_UPDATE_RESULT_ENTID"])
       if (idmapResolved == null) {
         idmapResolved = Helpers.toMapAny(idmap) ?: linkedMapOf()
       }
 
-      val live = "TRUE" == env["BLUEFINDECRYPTXP_PE_TEST_LIVE"]
+      val live = "TRUE" == env["BLUEFIN_DECRYPTX_P2PE_TEST_LIVE"]
       if (live) {
         val liveOpts = linkedMapOf<String, Any?>()
-        liveOpts["apikey"] = env["BLUEFINDECRYPTXP_PE_APIKEY"]
+        liveOpts["apikey"] = env["BLUEFIN_DECRYPTX_P2PE_APIKEY"]
         val mergedOpts = Struct.merge(Struct.jt(liveOpts, extra))
         client = BluefinDecryptxP2peSDK(Helpers.toMapAny(mergedOpts))
       }
@@ -176,7 +176,7 @@ class UpdateResultEntityTest {
       setup.data = entityData
       setup.idmap = idmapResolved
       setup.env = env
-      setup.explain = "TRUE" == env["BLUEFINDECRYPTXP_PE_TEST_EXPLAIN"]
+      setup.explain = "TRUE" == env["BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN"]
       setup.live = live
       setup.syntheticOnly = live && !idmapOverridden
       setup.now = System.currentTimeMillis()

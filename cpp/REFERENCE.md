@@ -176,12 +176,12 @@ auto attestation = client->attestation();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `client` | `std::map<std::string, Value>` | No |  |
-| `complete_date` | `std::string` | No |  |
+| `completeDate` | `std::string` | No |  |
 | `created` | `std::string` | No |  |
 | `device` | `std::map<std::string, Value>` | No |  |
 | `id` | `std::string` | No |  |
 | `name` | `std::string` | No |  |
-| `note` | `std::string` | No |  |
+| `notes` | `std::string` | No |  |
 
 ### Operations
 
@@ -246,9 +246,9 @@ auto client = client->client();
 | --- | --- | --- | --- |
 | `contact` | `std::map<std::string, Value>` | No |  |
 | `created` | `std::string` | No |  |
-| `direct_partner` | `std::map<std::string, Value>` | No |  |
+| `directPartner` | `std::map<std::string, Value>` | No |  |
 | `id` | `std::string` | No |  |
-| `is_active` | `bool` | No |  |
+| `isActive` | `bool` | No |  |
 | `location` | `std::map<std::string, Value>` | Yes |  |
 | `mid` | `std::string` | No |  |
 | `modified` | `std::string` | No |  |
@@ -262,9 +262,9 @@ auto client = client->client();
 | --- | --- | --- | --- | --- |
 | `contact` | - | Yes | - | - |
 | `created` | - | - | - | - |
-| `direct_partner` | - | - | - | - |
+| `directPartner` | - | - | - | - |
 | `id` | - | - | - | - |
-| `is_active` | - | - | - | - |
+| `isActive` | - | - | - | - |
 | `location` | - | - | - | - |
 | `mid` | - | - | - | - |
 | `modified` | - | - | - | - |
@@ -426,33 +426,33 @@ auto device = client->device();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `activated_by` | `std::map<std::string, Value>` | Yes |  |
-| `activation_date` | `std::string` | No |  |
-| `alternate_key` | `std::string` | No |  |
-| `audit_next_date` | `std::string` | No |  |
-| `audit_notification_date` | `std::string` | No |  |
+| `activatedBy` | `std::map<std::string, Value>` | Yes |  |
+| `activationDate` | `std::string` | No |  |
+| `alternateKey` | `std::string` | No |  |
+| `auditNextDate` | `std::string` | No |  |
+| `auditNotificationDate` | `std::string` | No |  |
 | `client` | `std::map<std::string, Value>` | No |  |
 | `created` | `std::string` | No |  |
-| `created_by` | `std::map<std::string, Value>` | Yes |  |
-| `device_build` | `std::map<std::string, Value>` | No |  |
-| `device_state` | `std::map<std::string, Value>` | No |  |
-| `device_type` | `std::map<std::string, Value>` | No |  |
-| `error_counter` | `int64_t` | No |  |
-| `error_last_date` | `std::string` | No |  |
+| `createdBy` | `std::map<std::string, Value>` | Yes |  |
+| `deviceBuild` | `std::map<std::string, Value>` | No |  |
+| `deviceState` | `std::map<std::string, Value>` | No |  |
+| `deviceType` | `std::map<std::string, Value>` | No |  |
+| `errorCounter` | `int64_t` | No |  |
+| `errorLastDate` | `std::string` | No |  |
 | `id` | `std::string` | No |  |
-| `initialized_by` | `std::map<std::string, Value>` | Yes |  |
-| `initialized_date` | `std::string` | No |  |
-| `inject_key` | `std::map<std::string, Value>` | No |  |
-| `is_virtual` | `bool` | No |  |
+| `initializedBy` | `std::map<std::string, Value>` | Yes |  |
+| `initializedDate` | `std::string` | No |  |
+| `injectKey` | `std::map<std::string, Value>` | No |  |
+| `isVirtual` | `bool` | No |  |
 | `kif` | `std::map<std::string, Value>` | No |  |
-| `last_activity_date` | `std::string` | No |  |
+| `lastActivityDate` | `std::string` | No |  |
 | `location` | `std::map<std::string, Value>` | Yes |  |
 | `modified` | `std::string` | No |  |
-| `modified_by` | `std::map<std::string, Value>` | Yes |  |
+| `modifiedBy` | `std::map<std::string, Value>` | Yes |  |
 | `name` | `std::string` | No |  |
-| `note` | `std::string` | No |  |
+| `notes` | `std::string` | No |  |
 | `partner` | `std::map<std::string, Value>` | No |  |
-| `serial_number` | `std::string` | No |  |
+| `serialNumber` | `std::string` | No |  |
 | `version` | `int64_t` | No |  |
 
 ### Operations
@@ -463,11 +463,11 @@ Create a new entity with the given data. Returns the created entity data and thr
 
 ```cpp
 Value result = client->device()->create(vmap({
-    {"activated_by", vmap()},  // std::map<std::string, Value>
-    {"created_by", vmap()},  // std::map<std::string, Value>
-    {"initialized_by", vmap()},  // std::map<std::string, Value>
+    {"activatedBy", vmap()},  // std::map<std::string, Value>
+    {"createdBy", vmap()},  // std::map<std::string, Value>
+    {"initializedBy", vmap()},  // std::map<std::string, Value>
     {"location", vmap()},  // std::map<std::string, Value>
-    {"modified_by", vmap()},  // std::map<std::string, Value>
+    {"modifiedBy", vmap()},  // std::map<std::string, Value>
 }), Value::undef());
 ```
 
@@ -521,21 +521,21 @@ auto device_build = client->device_build();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `app_version` | `std::string` | No |  |
-| `build_number` | `std::string` | No |  |
-| `config_file_name` | `std::string` | No |  |
+| `appVersion` | `std::string` | No |  |
+| `buildNumber` | `std::string` | No |  |
+| `configFileName` | `std::string` | No |  |
 | `created` | `std::string` | No |  |
-| `device_type` | `std::string` | No |  |
-| `firmware_version` | `std::string` | No |  |
-| `hardware_version` | `std::string` | No |  |
+| `deviceType` | `std::string` | No |  |
+| `firmwareVersion` | `std::string` | No |  |
+| `hardwareVersion` | `std::string` | No |  |
 | `id` | `int64_t` | No |  |
-| `is_active` | `bool` | No |  |
+| `isActive` | `bool` | No |  |
 | `modified` | `std::string` | No |  |
 | `name` | `std::string` | No |  |
-| `note` | `std::string` | No |  |
+| `notes` | `std::string` | No |  |
 | `version` | `int64_t` | No |  |
-| `white_listing_bin_range` | `std::string` | No |  |
-| `white_listing_used` | `bool` | No |  |
+| `whiteListingBinRanges` | `std::string` | No |  |
+| `whiteListingUsed` | `bool` | No |  |
 
 ### Operations
 
@@ -589,18 +589,18 @@ auto device_custody_detail = client->device_custody_detail();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `complete_date` | `std::string` | No |  |
+| `completeDate` | `std::string` | No |  |
 | `created` | `std::string` | No |  |
-| `created_by` | `std::map<std::string, Value>` | Yes |  |
+| `createdBy` | `std::map<std::string, Value>` | Yes |  |
 | `custodian` | `std::map<std::string, Value>` | Yes |  |
 | `device` | `std::map<std::string, Value>` | No |  |
 | `id` | `int64_t` | No |  |
 | `location` | `std::map<std::string, Value>` | Yes |  |
 | `modified` | `std::string` | No |  |
-| `modified_by` | `std::map<std::string, Value>` | Yes |  |
-| `note` | `std::string` | No |  |
+| `modifiedBy` | `std::map<std::string, Value>` | Yes |  |
+| `notes` | `std::string` | No |  |
 | `status` | `std::map<std::string, Value>` | No |  |
-| `transfer_method` | `std::map<std::string, Value>` | No |  |
+| `transferMethod` | `std::map<std::string, Value>` | No |  |
 | `version` | `int64_t` | No |  |
 
 ### Operations
@@ -644,18 +644,18 @@ auto device_custody_list = client->device_custody_list();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `complete_date` | `std::string` | No |  |
+| `completeDate` | `std::string` | No |  |
 | `created` | `std::string` | No |  |
-| `created_by` | `std::map<std::string, Value>` | Yes |  |
+| `createdBy` | `std::map<std::string, Value>` | Yes |  |
 | `custodian` | `std::map<std::string, Value>` | Yes |  |
 | `device` | `std::map<std::string, Value>` | No |  |
 | `id` | `int64_t` | No |  |
 | `location` | `std::map<std::string, Value>` | Yes |  |
 | `modified` | `std::string` | No |  |
-| `modified_by` | `std::map<std::string, Value>` | Yes |  |
-| `note` | `std::string` | No |  |
+| `modifiedBy` | `std::map<std::string, Value>` | Yes |  |
+| `notes` | `std::string` | No |  |
 | `status` | `std::map<std::string, Value>` | No |  |
-| `transfer_method` | `std::map<std::string, Value>` | No |  |
+| `transferMethod` | `std::map<std::string, Value>` | No |  |
 | `version` | `int64_t` | No |  |
 
 ### Operations
@@ -884,16 +884,16 @@ auto device_type = client->device_type();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `created` | `std::string` | No |  |
-| `device_type_mode` | `std::string` | No |  |
-| `hardware_version` | `std::string` | No |  |
+| `deviceTypeMode` | `std::string` | No |  |
+| `hardwareVersion` | `std::string` | No |  |
 | `id` | `std::string` | No |  |
-| `is_active` | `bool` | No |  |
+| `isActive` | `bool` | No |  |
 | `manufacturer` | `std::string` | No |  |
 | `model` | `std::string` | No |  |
 | `modified` | `std::string` | No |  |
 | `name` | `std::string` | No |  |
-| `photo_url` | `std::string` | No |  |
-| `product_name` | `std::string` | No |  |
+| `photoUrl` | `std::string` | No |  |
+| `productName` | `std::string` | No |  |
 | `version` | `int64_t` | No |  |
 
 ### Operations
@@ -950,9 +950,9 @@ auto inject_key = client->inject_key();
 | --- | --- | --- | --- |
 | `created` | `std::string` | No |  |
 | `id` | `std::string` | No |  |
-| `is_active` | `bool` | No |  |
-| `is_p2_pe` | `bool` | No |  |
-| `key_type` | `std::string` | No |  |
+| `isActive` | `bool` | No |  |
+| `isP2PE` | `bool` | No |  |
+| `keyType` | `std::string` | No |  |
 | `modified` | `std::string` | No |  |
 | `name` | `std::string` | No |  |
 | `version` | `int64_t` | No |  |
@@ -1058,26 +1058,26 @@ auto location = client->location();
 | --- | --- | --- | --- |
 | `address1` | `std::string` | No |  |
 | `address2` | `std::string` | No |  |
-| `billing_id` | `std::string` | No |  |
+| `billingId` | `std::string` | No |  |
 | `city` | `std::string` | No |  |
 | `country` | `std::string` | No |  |
 | `created` | `std::string` | No |  |
-| `custom_reference` | `std::string` | No |  |
+| `customReference` | `std::string` | No |  |
 | `id` | `std::string` | No |  |
-| `location_type` | `std::string` | No |  |
-| `mail_address1` | `std::string` | No |  |
-| `mail_address2` | `std::string` | No |  |
-| `mail_city` | `std::string` | No |  |
-| `mail_country` | `std::string` | No |  |
-| `mail_postal_code` | `std::string` | No |  |
-| `mail_state_province` | `std::string` | No |  |
+| `locationType` | `std::string` | No |  |
+| `mailAddress1` | `std::string` | No |  |
+| `mailAddress2` | `std::string` | No |  |
+| `mailCity` | `std::string` | No |  |
+| `mailCountry` | `std::string` | No |  |
+| `mailPostalCode` | `std::string` | No |  |
+| `mailStateProvince` | `std::string` | No |  |
 | `modified` | `std::string` | No |  |
 | `name` | `std::string` | No |  |
-| `name_of_business` | `std::string` | No |  |
-| `note` | `std::string` | No |  |
-| `postal_code` | `std::string` | No |  |
-| `state_province` | `std::string` | No |  |
-| `unique_id` | `std::string` | No |  |
+| `nameOfBusiness` | `std::string` | No |  |
+| `notes` | `std::string` | No |  |
+| `postalCode` | `std::string` | No |  |
+| `stateProvince` | `std::string` | No |  |
+| `uniqueId` | `std::string` | No |  |
 | `version` | `int64_t` | No |  |
 
 ### Operations
@@ -1149,38 +1149,38 @@ auto partner = client->partner();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `billing_id` | `std::string` | No |  |
-| `client_can_order_equipment` | `bool` | No |  |
+| `billingId` | `std::string` | No |  |
+| `clientCanOrderEquipment` | `bool` | No |  |
 | `contact` | `std::map<std::string, Value>` | No |  |
 | `created` | `std::string` | No |  |
 | `id` | `std::string` | No |  |
-| `is_active` | `bool` | No |  |
+| `isActive` | `bool` | No |  |
 | `location` | `std::map<std::string, Value>` | Yes |  |
 | `modified` | `std::string` | No |  |
 | `name` | `std::string` | No |  |
 | `parent` | `std::map<std::string, Value>` | No |  |
-| `partner_id` | `std::string` | No |  |
+| `partnerId` | `std::string` | No |  |
 | `reference` | `std::string` | No |  |
-| `verification_phrase` | `std::string` | No |  |
+| `verificationPhrase` | `std::string` | No |  |
 | `version` | `int64_t` | No |  |
 
 ### Field Usage by Operation
 
 | Field | load | list | create |
 | --- | --- | --- | --- |
-| `billing_id` | - | - | - |
-| `client_can_order_equipment` | - | - | - |
+| `billingId` | - | - | - |
+| `clientCanOrderEquipment` | - | - | - |
 | `contact` | - | Yes | - |
 | `created` | - | - | - |
 | `id` | - | - | - |
-| `is_active` | - | - | - |
+| `isActive` | - | - | - |
 | `location` | - | - | - |
 | `modified` | - | - | - |
 | `name` | - | - | - |
 | `parent` | - | - | - |
-| `partner_id` | - | - | - |
+| `partnerId` | - | - | - |
 | `reference` | - | - | - |
-| `verification_phrase` | - | - | - |
+| `verificationPhrase` | - | - | - |
 | `version` | - | - | - |
 
 ### Operations
@@ -1248,15 +1248,15 @@ auto shipment = client->shipment();
 | `carrier` | `std::string` | No |  |
 | `client` | `std::map<std::string, Value>` | No |  |
 | `created` | `std::string` | No |  |
-| `date_received` | `std::string` | No |  |
-| `date_shipped` | `std::string` | No |  |
-| `dc_kif` | `std::map<std::string, Value>` | No |  |
+| `dateReceived` | `std::string` | No |  |
+| `dateShipped` | `std::string` | No |  |
+| `dcKif` | `std::map<std::string, Value>` | No |  |
 | `id` | `std::string` | No |  |
-| `item` | `std::vector<Value>` | No |  |
+| `items` | `std::vector<Value>` | No |  |
 | `kif` | `std::map<std::string, Value>` | No |  |
 | `modified` | `std::string` | No |  |
 | `partner` | `std::map<std::string, Value>` | No |  |
-| `shipment_type` | `std::string` | No |  |
+| `shipmentType` | `std::string` | No |  |
 | `tracking` | `std::string` | No |  |
 | `version` | `int64_t` | No |  |
 
@@ -1374,30 +1374,30 @@ auto transaction = client->transaction();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `alternate_key` | `std::string` | No |  |
+| `alternateKey` | `std::string` | No |  |
 | `client` | `std::map<std::string, Value>` | No |  |
-| `client_ref` | `std::string` | No |  |
+| `clientRef` | `std::string` | No |  |
 | `created` | `std::string` | No |  |
 | `decrypted` | `int64_t` | No |  |
-| `device_name` | `std::string` | No |  |
-| `direct_partner` | `std::map<std::string, Value>` | No |  |
+| `deviceName` | `std::string` | No |  |
+| `directPartner` | `std::map<std::string, Value>` | No |  |
 | `encrypted` | `int64_t` | No |  |
-| `end_date` | `std::string` | No |  |
-| `err_code` | `std::string` | No |  |
-| `err_message` | `std::string` | No |  |
+| `endDate` | `std::string` | No |  |
+| `errCode` | `std::string` | No |  |
+| `errMessage` | `std::string` | No |  |
 | `id` | `std::string` | No |  |
-| `ip_address` | `std::string` | No |  |
-| `is_virtual` | `bool` | No |  |
-| `key_type` | `std::string` | No |  |
+| `ipAddress` | `std::string` | No |  |
+| `isVirtual` | `bool` | No |  |
+| `keyType` | `std::string` | No |  |
 | `location` | `std::map<std::string, Value>` | Yes |  |
-| `message_id` | `std::string` | No |  |
+| `messageId` | `std::string` | No |  |
 | `method` | `std::string` | No |  |
 | `partner` | `std::map<std::string, Value>` | No |  |
 | `reference` | `std::string` | No |  |
-| `serial_number` | `std::string` | No |  |
-| `start_date` | `std::string` | No |  |
+| `serialNumber` | `std::string` | No |  |
+| `startDate` | `std::string` | No |  |
 | `success` | `bool` | No |  |
-| `transaction_source` | `std::string` | No |  |
+| `transactionSource` | `std::string` | No |  |
 
 ### Operations
 
@@ -1463,15 +1463,15 @@ auto update_result = client->update_result();
 | --- | --- | --- | --- |
 | `client` | `std::map<std::string, Value>` | No |  |
 | `email` | `std::string` | No |  |
-| `first_name` | `std::string` | No |  |
+| `firstName` | `std::string` | No |  |
 | `id` | `std::string` | No |  |
-| `is_active` | `bool` | No |  |
+| `isActive` | `bool` | No |  |
 | `kif` | `std::map<std::string, Value>` | No |  |
-| `last_name` | `std::string` | No |  |
+| `lastName` | `std::string` | No |  |
 | `partner` | `std::map<std::string, Value>` | No |  |
 | `phone` | `std::string` | No |  |
-| `user_name` | `std::string` | No |  |
-| `user_role` | `std::map<std::string, Value>` | No |  |
+| `userName` | `std::string` | No |  |
+| `userRole` | `std::map<std::string, Value>` | No |  |
 | `version` | `int64_t` | No |  |
 
 ### Operations
@@ -1541,16 +1541,16 @@ auto user = client->user();
 | `client` | `std::map<std::string, Value>` | No |  |
 | `created` | `std::string` | No |  |
 | `email` | `std::string` | No |  |
-| `first_name` | `std::string` | No |  |
+| `firstName` | `std::string` | No |  |
 | `id` | `std::string` | No |  |
-| `is_active` | `bool` | No |  |
+| `isActive` | `bool` | No |  |
 | `kif` | `std::map<std::string, Value>` | No |  |
-| `last_name` | `std::string` | No |  |
+| `lastName` | `std::string` | No |  |
 | `modified` | `std::string` | No |  |
 | `partner` | `std::map<std::string, Value>` | No |  |
 | `phone` | `std::string` | No |  |
-| `user_name` | `std::string` | No |  |
-| `user_role` | `std::map<std::string, Value>` | No |  |
+| `userName` | `std::string` | No |  |
+| `userRole` | `std::map<std::string, Value>` | No |  |
 | `version` | `int64_t` | No |  |
 
 ### Operations

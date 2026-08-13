@@ -61,7 +61,7 @@ test('stream', (t) async {
 
     test('basic', (t) async {
 
-      final live = 'TRUE' == Platform.environment['BLUEFIN_DECRYPTX_P_PE_TEST_LIVE'];
+      final live = 'TRUE' == Platform.environment['BLUEFIN_DECRYPTX_P2PE_TEST_LIVE'];
       for (final op in ['create', 'list', 'load']) {
         if (maybeSkipControl(t, 'entityOp', 'attestation.' + op, live)) {
           return;
@@ -73,7 +73,7 @@ test('stream', (t) async {
       // fixture (entity TestData.json). Those don't exist on the live API.
       // Skip live runs unless the user provided a real ENTID env override.
       if (true == setup['syntheticOnly']) {
-        t.skip('live entity test uses synthetic IDs from fixture — set BLUEFIN_DECRYPTX_P_PE_TEST_ATTESTATION_ENTID JSON to run live');
+        t.skip('live entity test uses synthetic IDs from fixture — set BLUEFIN_DECRYPTX_P2PE_TEST_ATTESTATION_ENTID JSON to run live');
         return;
       }
       final client = setup['client'];
@@ -87,14 +87,14 @@ test('stream', (t) async {
       final attestation_ref01_ent = client.Attestation();
       dynamic attestation_ref01_data = setup['data']['new']['attestation']['attestation_ref01'];
 
-      attestation_ref01_data = await attestation_ref01_ent.create(attestation_ref01_data);
+      attestation_ref01_data = (await attestation_ref01_ent.create(attestation_ref01_data)).data();
       ok(null != attestation_ref01_data['id']);
 
 
       // LIST
       final attestation_ref01_match = <String, dynamic>{};
 
-      final attestation_ref01_list = await attestation_ref01_ent.list(attestation_ref01_match);
+      final attestation_ref01_list = (await attestation_ref01_ent.list(attestation_ref01_match)).map((e) => e.data()).toList();
 
       ok(!isempty(select(
           (attestation_ref01_list as List).map((e) => e.data()).toList(),
@@ -104,7 +104,7 @@ test('stream', (t) async {
       // LOAD
       final attestation_ref01_match_dt0 = <String, dynamic>{};
       attestation_ref01_match_dt0['id'] = attestation_ref01_data['id'];
-      final attestation_ref01_data_dt0 = await attestation_ref01_ent.load(attestation_ref01_match_dt0);
+      final attestation_ref01_data_dt0 = (await attestation_ref01_ent.load(attestation_ref01_match_dt0)).data();
       ok(attestation_ref01_data_dt0['id'] == attestation_ref01_data['id']);
 
 
@@ -147,25 +147,25 @@ Map<String, dynamic> basicSetup([dynamic extra]) {
   // override those synthetic IDs reach the live API and 4xx. Surface this
   // to the test so it can skip rather than fail.
   final idmapEnvVal =
-      Platform.environment['BLUEFIN_DECRYPTX_P_PE_TEST_ATTESTATION_ENTID'];
+      Platform.environment['BLUEFIN_DECRYPTX_P2PE_TEST_ATTESTATION_ENTID'];
   final idmapOverridden =
       null != idmapEnvVal && idmapEnvVal.trim().startsWith('{');
 
   final env = envOverride({
-    'BLUEFIN_DECRYPTX_P_PE_TEST_ATTESTATION_ENTID': idmap,
-    'BLUEFIN_DECRYPTX_P_PE_TEST_LIVE': 'FALSE',
-    'BLUEFIN_DECRYPTX_P_PE_TEST_EXPLAIN': 'FALSE',
-    'BLUEFIN_DECRYPTX_P_PE_APIKEY': 'NONE',
+    'BLUEFIN_DECRYPTX_P2PE_TEST_ATTESTATION_ENTID': idmap,
+    'BLUEFIN_DECRYPTX_P2PE_TEST_LIVE': 'FALSE',
+    'BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN': 'FALSE',
+    'BLUEFIN_DECRYPTX_P2PE_APIKEY': 'NONE',
   });
 
-  idmap = env['BLUEFIN_DECRYPTX_P_PE_TEST_ATTESTATION_ENTID'];
+  idmap = env['BLUEFIN_DECRYPTX_P2PE_TEST_ATTESTATION_ENTID'];
 
-  final live = 'TRUE' == env['BLUEFIN_DECRYPTX_P_PE_TEST_LIVE'];
+  final live = 'TRUE' == env['BLUEFIN_DECRYPTX_P2PE_TEST_LIVE'];
 
   if (live) {
     client = BluefinDecryptxP2peSDK(merge([
       <String, dynamic>{
-        'apikey': env['BLUEFIN_DECRYPTX_P_PE_APIKEY'],
+        'apikey': env['BLUEFIN_DECRYPTX_P2PE_APIKEY'],
       },
       extra
     ]));
@@ -178,7 +178,7 @@ Map<String, dynamic> basicSetup([dynamic extra]) {
     'client': client,
     'struct': struct,
     'data': entityData,
-    'explain': 'TRUE' == env['BLUEFIN_DECRYPTX_P_PE_TEST_EXPLAIN'],
+    'explain': 'TRUE' == env['BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN'],
     'live': live,
     'syntheticOnly': live && !idmapOverridden,
     'now': DateTime.now().millisecondsSinceEpoch,

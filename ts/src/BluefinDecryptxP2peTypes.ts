@@ -7,12 +7,12 @@
 
 export interface Attestation {
   client?: Record<string, any>
-  complete_date?: string
+  completeDate?: string
   created?: string
   device?: Record<string, any>
   id?: string
   name?: string
-  note?: string
+  notes?: string
 }
 
 export interface AttestationLoadMatch {
@@ -21,30 +21,30 @@ export interface AttestationLoadMatch {
 
 export interface AttestationListMatch {
   client?: Record<string, any>
-  complete_date?: string
+  completeDate?: string
   created?: string
   device?: Record<string, any>
   id?: string
   name?: string
-  note?: string
+  notes?: string
 }
 
 export interface AttestationCreateData {
   client?: Record<string, any>
-  complete_date?: string
+  completeDate?: string
   created?: string
   device?: Record<string, any>
   id?: string
   name?: string
-  note?: string
+  notes?: string
 }
 
 export interface Client {
   contact?: Record<string, any>
   created?: string
-  direct_partner?: Record<string, any>
+  directPartner?: Record<string, any>
   id?: string
-  is_active?: boolean
+  isActive?: boolean
   location: Record<string, any>
   mid?: string
   modified?: string
@@ -60,9 +60,9 @@ export interface ClientLoadMatch {
 export interface ClientListMatch {
   contact?: Record<string, any>
   created?: string
-  direct_partner?: Record<string, any>
+  directPartner?: Record<string, any>
   id?: string
-  is_active?: boolean
+  isActive?: boolean
   location?: Record<string, any>
   mid?: string
   modified?: string
@@ -74,9 +74,9 @@ export interface ClientListMatch {
 export interface ClientCreateData {
   contact?: Record<string, any>
   created?: string
-  direct_partner?: Record<string, any>
+  directPartner?: Record<string, any>
   id?: string
-  is_active?: boolean
+  isActive?: boolean
   location: Record<string, any>
   mid?: string
   modified?: string
@@ -106,33 +106,33 @@ export interface DecryptionCreateData {
 }
 
 export interface Device {
-  activated_by: Record<string, any>
-  activation_date?: string
-  alternate_key?: string
-  audit_next_date?: string
-  audit_notification_date?: string
+  activatedBy: Record<string, any>
+  activationDate?: string
+  alternateKey?: string
+  auditNextDate?: string
+  auditNotificationDate?: string
   client?: Record<string, any>
   created?: string
-  created_by: Record<string, any>
-  device_build?: Record<string, any>
-  device_state?: Record<string, any>
-  device_type?: Record<string, any>
-  error_counter?: number
-  error_last_date?: string
+  createdBy: Record<string, any>
+  deviceBuild?: Record<string, any>
+  deviceState?: Record<string, any>
+  deviceType?: Record<string, any>
+  errorCounter?: number
+  errorLastDate?: string
   id?: string
-  initialized_by: Record<string, any>
-  initialized_date?: string
-  inject_key?: Record<string, any>
-  is_virtual?: boolean
+  initializedBy: Record<string, any>
+  initializedDate?: string
+  injectKey?: Record<string, any>
+  isVirtual?: boolean
   kif?: Record<string, any>
-  last_activity_date?: string
+  lastActivityDate?: string
   location: Record<string, any>
   modified?: string
-  modified_by: Record<string, any>
+  modifiedBy: Record<string, any>
   name?: string
-  note?: string
+  notes?: string
   partner?: Record<string, any>
-  serial_number?: string
+  serialNumber?: string
   version?: number
 }
 
@@ -143,83 +143,83 @@ export interface DeviceLoadMatch {
 }
 
 export interface DeviceListMatch {
-  activated_by?: Record<string, any>
-  activation_date?: string
-  alternate_key?: string
-  audit_next_date?: string
-  audit_notification_date?: string
+  activatedBy?: Record<string, any>
+  activationDate?: string
+  alternateKey?: string
+  auditNextDate?: string
+  auditNotificationDate?: string
   client?: Record<string, any>
   created?: string
-  created_by?: Record<string, any>
-  device_build?: Record<string, any>
-  device_state?: Record<string, any>
-  device_type?: Record<string, any>
-  error_counter?: number
-  error_last_date?: string
+  createdBy?: Record<string, any>
+  deviceBuild?: Record<string, any>
+  deviceState?: Record<string, any>
+  deviceType?: Record<string, any>
+  errorCounter?: number
+  errorLastDate?: string
   id?: string
-  initialized_by?: Record<string, any>
-  initialized_date?: string
-  inject_key?: Record<string, any>
-  is_virtual?: boolean
+  initializedBy?: Record<string, any>
+  initializedDate?: string
+  injectKey?: Record<string, any>
+  isVirtual?: boolean
   kif?: Record<string, any>
-  last_activity_date?: string
+  lastActivityDate?: string
   location?: Record<string, any>
   modified?: string
-  modified_by?: Record<string, any>
+  modifiedBy?: Record<string, any>
   name?: string
-  note?: string
+  notes?: string
   partner?: Record<string, any>
-  serial_number?: string
+  serialNumber?: string
   version?: number
 }
 
 export interface DeviceCreateData {
-  activated_by: Record<string, any>
-  activation_date?: string
-  alternate_key?: string
-  audit_next_date?: string
-  audit_notification_date?: string
+  activatedBy: Record<string, any>
+  activationDate?: string
+  alternateKey?: string
+  auditNextDate?: string
+  auditNotificationDate?: string
   client?: Record<string, any>
   created?: string
-  created_by: Record<string, any>
-  device_build?: Record<string, any>
-  device_state?: Record<string, any>
-  device_type?: Record<string, any>
-  error_counter?: number
-  error_last_date?: string
+  createdBy: Record<string, any>
+  deviceBuild?: Record<string, any>
+  deviceState?: Record<string, any>
+  deviceType?: Record<string, any>
+  errorCounter?: number
+  errorLastDate?: string
   id?: string
-  initialized_by: Record<string, any>
-  initialized_date?: string
-  inject_key?: Record<string, any>
-  is_virtual?: boolean
+  initializedBy: Record<string, any>
+  initializedDate?: string
+  injectKey?: Record<string, any>
+  isVirtual?: boolean
   kif?: Record<string, any>
-  last_activity_date?: string
+  lastActivityDate?: string
   location: Record<string, any>
   modified?: string
-  modified_by: Record<string, any>
+  modifiedBy: Record<string, any>
   name?: string
-  note?: string
+  notes?: string
   partner?: Record<string, any>
-  serial_number?: string
+  serialNumber?: string
   version?: number
 }
 
 export interface DeviceBuild {
-  app_version?: string
-  build_number?: string
-  config_file_name?: string
+  appVersion?: string
+  buildNumber?: string
+  configFileName?: string
   created?: string
-  device_type?: string
-  firmware_version?: string
-  hardware_version?: string
+  deviceType?: string
+  firmwareVersion?: string
+  hardwareVersion?: string
   id?: number
-  is_active?: boolean
+  isActive?: boolean
   modified?: string
   name?: string
-  note?: string
+  notes?: string
   version?: number
-  white_listing_bin_range?: string
-  white_listing_used?: boolean
+  whiteListingBinRanges?: string
+  whiteListingUsed?: boolean
 }
 
 export interface DeviceBuildLoadMatch {
@@ -227,36 +227,36 @@ export interface DeviceBuildLoadMatch {
 }
 
 export interface DeviceBuildListMatch {
-  app_version?: string
-  build_number?: string
-  config_file_name?: string
+  appVersion?: string
+  buildNumber?: string
+  configFileName?: string
   created?: string
-  device_type?: string
-  firmware_version?: string
-  hardware_version?: string
+  deviceType?: string
+  firmwareVersion?: string
+  hardwareVersion?: string
   id?: number
-  is_active?: boolean
+  isActive?: boolean
   modified?: string
   name?: string
-  note?: string
+  notes?: string
   version?: number
-  white_listing_bin_range?: string
-  white_listing_used?: boolean
+  whiteListingBinRanges?: string
+  whiteListingUsed?: boolean
 }
 
 export interface DeviceCustodyDetail {
-  complete_date?: string
+  completeDate?: string
   created?: string
-  created_by: Record<string, any>
+  createdBy: Record<string, any>
   custodian: Record<string, any>
   device?: Record<string, any>
   id?: number
   location: Record<string, any>
   modified?: string
-  modified_by: Record<string, any>
-  note?: string
+  modifiedBy: Record<string, any>
+  notes?: string
   status?: Record<string, any>
-  transfer_method?: Record<string, any>
+  transferMethod?: Record<string, any>
   version?: number
 }
 
@@ -267,18 +267,18 @@ export interface DeviceCustodyDetailLoadMatch {
 }
 
 export interface DeviceCustodyList {
-  complete_date?: string
+  completeDate?: string
   created?: string
-  created_by: Record<string, any>
+  createdBy: Record<string, any>
   custodian: Record<string, any>
   device?: Record<string, any>
   id?: number
   location: Record<string, any>
   modified?: string
-  modified_by: Record<string, any>
-  note?: string
+  modifiedBy: Record<string, any>
+  notes?: string
   status?: Record<string, any>
-  transfer_method?: Record<string, any>
+  transferMethod?: Record<string, any>
   version?: number
 }
 
@@ -324,16 +324,16 @@ export interface DeviceStateListMatch {
 
 export interface DeviceType {
   created?: string
-  device_type_mode?: string
-  hardware_version?: string
+  deviceTypeMode?: string
+  hardwareVersion?: string
   id?: string
-  is_active?: boolean
+  isActive?: boolean
   manufacturer?: string
   model?: string
   modified?: string
   name?: string
-  photo_url?: string
-  product_name?: string
+  photoUrl?: string
+  productName?: string
   version?: number
 }
 
@@ -343,25 +343,25 @@ export interface DeviceTypeLoadMatch {
 
 export interface DeviceTypeListMatch {
   created?: string
-  device_type_mode?: string
-  hardware_version?: string
+  deviceTypeMode?: string
+  hardwareVersion?: string
   id?: string
-  is_active?: boolean
+  isActive?: boolean
   manufacturer?: string
   model?: string
   modified?: string
   name?: string
-  photo_url?: string
-  product_name?: string
+  photoUrl?: string
+  productName?: string
   version?: number
 }
 
 export interface InjectKey {
   created?: string
   id?: string
-  is_active?: boolean
-  is_p2_pe?: boolean
-  key_type?: string
+  isActive?: boolean
+  isP2PE?: boolean
+  keyType?: string
   modified?: string
   name?: string
   version?: number
@@ -374,9 +374,9 @@ export interface InjectKeyLoadMatch {
 export interface InjectKeyListMatch {
   created?: string
   id?: string
-  is_active?: boolean
-  is_p2_pe?: boolean
-  key_type?: string
+  isActive?: boolean
+  isP2PE?: boolean
+  keyType?: string
   modified?: string
   name?: string
   version?: number
@@ -395,26 +395,26 @@ export interface KifListMatch {
 export interface Location {
   address1?: string
   address2?: string
-  billing_id?: string
+  billingId?: string
   city?: string
   country?: string
   created?: string
-  custom_reference?: string
+  customReference?: string
   id?: string
-  location_type?: string
-  mail_address1?: string
-  mail_address2?: string
-  mail_city?: string
-  mail_country?: string
-  mail_postal_code?: string
-  mail_state_province?: string
+  locationType?: string
+  mailAddress1?: string
+  mailAddress2?: string
+  mailCity?: string
+  mailCountry?: string
+  mailPostalCode?: string
+  mailStateProvince?: string
   modified?: string
   name?: string
-  name_of_business?: string
-  note?: string
-  postal_code?: string
-  state_province?: string
-  unique_id?: string
+  nameOfBusiness?: string
+  notes?: string
+  postalCode?: string
+  stateProvince?: string
+  uniqueId?: string
   version?: number
 }
 
@@ -425,52 +425,52 @@ export interface LocationLoadMatch {
 export interface LocationListMatch {
   address1?: string
   address2?: string
-  billing_id?: string
+  billingId?: string
   city?: string
   country?: string
   created?: string
-  custom_reference?: string
+  customReference?: string
   id?: string
-  location_type?: string
-  mail_address1?: string
-  mail_address2?: string
-  mail_city?: string
-  mail_country?: string
-  mail_postal_code?: string
-  mail_state_province?: string
+  locationType?: string
+  mailAddress1?: string
+  mailAddress2?: string
+  mailCity?: string
+  mailCountry?: string
+  mailPostalCode?: string
+  mailStateProvince?: string
   modified?: string
   name?: string
-  name_of_business?: string
-  note?: string
-  postal_code?: string
-  state_province?: string
-  unique_id?: string
+  nameOfBusiness?: string
+  notes?: string
+  postalCode?: string
+  stateProvince?: string
+  uniqueId?: string
   version?: number
 }
 
 export interface LocationCreateData {
   address1?: string
   address2?: string
-  billing_id?: string
+  billingId?: string
   city?: string
   country?: string
   created?: string
-  custom_reference?: string
+  customReference?: string
   id?: string
-  location_type?: string
-  mail_address1?: string
-  mail_address2?: string
-  mail_city?: string
-  mail_country?: string
-  mail_postal_code?: string
-  mail_state_province?: string
+  locationType?: string
+  mailAddress1?: string
+  mailAddress2?: string
+  mailCity?: string
+  mailCountry?: string
+  mailPostalCode?: string
+  mailStateProvince?: string
   modified?: string
   name?: string
-  name_of_business?: string
-  note?: string
-  postal_code?: string
-  state_province?: string
-  unique_id?: string
+  nameOfBusiness?: string
+  notes?: string
+  postalCode?: string
+  stateProvince?: string
+  uniqueId?: string
   version?: number
 }
 
@@ -479,19 +479,19 @@ export interface LocationRemoveMatch {
 }
 
 export interface Partner {
-  billing_id?: string
-  client_can_order_equipment?: boolean
+  billingId?: string
+  clientCanOrderEquipment?: boolean
   contact?: Record<string, any>
   created?: string
   id?: string
-  is_active?: boolean
+  isActive?: boolean
   location: Record<string, any>
   modified?: string
   name?: string
   parent?: Record<string, any>
-  partner_id?: string
+  partnerId?: string
   reference?: string
-  verification_phrase?: string
+  verificationPhrase?: string
   version?: number
 }
 
@@ -500,36 +500,36 @@ export interface PartnerLoadMatch {
 }
 
 export interface PartnerListMatch {
-  billing_id?: string
-  client_can_order_equipment?: boolean
+  billingId?: string
+  clientCanOrderEquipment?: boolean
   contact?: Record<string, any>
   created?: string
   id?: string
-  is_active?: boolean
+  isActive?: boolean
   location?: Record<string, any>
   modified?: string
   name?: string
   parent?: Record<string, any>
-  partner_id?: string
+  partnerId?: string
   reference?: string
-  verification_phrase?: string
+  verificationPhrase?: string
   version?: number
 }
 
 export interface PartnerCreateData {
-  billing_id?: string
-  client_can_order_equipment?: boolean
+  billingId?: string
+  clientCanOrderEquipment?: boolean
   contact?: Record<string, any>
   created?: string
   id?: string
-  is_active?: boolean
+  isActive?: boolean
   location: Record<string, any>
   modified?: string
   name?: string
   parent?: Record<string, any>
-  partner_id?: string
+  partnerId?: string
   reference?: string
-  verification_phrase?: string
+  verificationPhrase?: string
   version?: number
 }
 
@@ -537,15 +537,15 @@ export interface Shipment {
   carrier?: string
   client?: Record<string, any>
   created?: string
-  date_received?: string
-  date_shipped?: string
-  dc_kif?: Record<string, any>
+  dateReceived?: string
+  dateShipped?: string
+  dcKif?: Record<string, any>
   id?: string
-  item?: any[]
+  items?: any[]
   kif?: Record<string, any>
   modified?: string
   partner?: Record<string, any>
-  shipment_type?: string
+  shipmentType?: string
   tracking?: string
   version?: number
 }
@@ -558,15 +558,15 @@ export interface ShipmentListMatch {
   carrier?: string
   client?: Record<string, any>
   created?: string
-  date_received?: string
-  date_shipped?: string
-  dc_kif?: Record<string, any>
+  dateReceived?: string
+  dateShipped?: string
+  dcKif?: Record<string, any>
   id?: string
-  item?: any[]
+  items?: any[]
   kif?: Record<string, any>
   modified?: string
   partner?: Record<string, any>
-  shipment_type?: string
+  shipmentType?: string
   tracking?: string
   version?: number
 }
@@ -575,15 +575,15 @@ export interface ShipmentCreateData {
   carrier?: string
   client?: Record<string, any>
   created?: string
-  date_received?: string
-  date_shipped?: string
-  dc_kif?: Record<string, any>
+  dateReceived?: string
+  dateShipped?: string
+  dcKif?: Record<string, any>
   id?: string
-  item?: any[]
+  items?: any[]
   kif?: Record<string, any>
   modified?: string
   partner?: Record<string, any>
-  shipment_type?: string
+  shipmentType?: string
   tracking?: string
   version?: number
 }
@@ -594,6 +594,7 @@ export interface Success {
 
 export interface SuccessCreateData {
   share_partner_to: string
+  success?: boolean
 }
 
 export interface SuccessRemoveMatch {
@@ -601,30 +602,30 @@ export interface SuccessRemoveMatch {
 }
 
 export interface Transaction {
-  alternate_key?: string
+  alternateKey?: string
   client?: Record<string, any>
-  client_ref?: string
+  clientRef?: string
   created?: string
   decrypted?: number
-  device_name?: string
-  direct_partner?: Record<string, any>
+  deviceName?: string
+  directPartner?: Record<string, any>
   encrypted?: number
-  end_date?: string
-  err_code?: string
-  err_message?: string
+  endDate?: string
+  errCode?: string
+  errMessage?: string
   id?: string
-  ip_address?: string
-  is_virtual?: boolean
-  key_type?: string
+  ipAddress?: string
+  isVirtual?: boolean
+  keyType?: string
   location: Record<string, any>
-  message_id?: string
+  messageId?: string
   method?: string
   partner?: Record<string, any>
   reference?: string
-  serial_number?: string
-  start_date?: string
+  serialNumber?: string
+  startDate?: string
   success?: boolean
-  transaction_source?: string
+  transactionSource?: string
 }
 
 export interface TransactionLoadMatch {
@@ -632,122 +633,133 @@ export interface TransactionLoadMatch {
 }
 
 export interface TransactionListMatch {
-  alternate_key?: string
+  alternateKey?: string
   client?: Record<string, any>
-  client_ref?: string
+  clientRef?: string
   created?: string
   decrypted?: number
-  device_name?: string
-  direct_partner?: Record<string, any>
+  deviceName?: string
+  directPartner?: Record<string, any>
   encrypted?: number
-  end_date?: string
-  err_code?: string
-  err_message?: string
+  endDate?: string
+  errCode?: string
+  errMessage?: string
   id?: string
-  ip_address?: string
-  is_virtual?: boolean
-  key_type?: string
+  ipAddress?: string
+  isVirtual?: boolean
+  keyType?: string
   location?: Record<string, any>
-  message_id?: string
+  messageId?: string
   method?: string
   partner?: Record<string, any>
   reference?: string
-  serial_number?: string
-  start_date?: string
+  serialNumber?: string
+  startDate?: string
   success?: boolean
-  transaction_source?: string
+  transactionSource?: string
 }
 
 export interface TransactionCreateData {
-  alternate_key?: string
+  alternateKey?: string
   client?: Record<string, any>
-  client_ref?: string
+  clientRef?: string
   created?: string
   decrypted?: number
-  device_name?: string
-  direct_partner?: Record<string, any>
+  deviceName?: string
+  directPartner?: Record<string, any>
   encrypted?: number
-  end_date?: string
-  err_code?: string
-  err_message?: string
+  endDate?: string
+  errCode?: string
+  errMessage?: string
   id?: string
-  ip_address?: string
-  is_virtual?: boolean
-  key_type?: string
+  ipAddress?: string
+  isVirtual?: boolean
+  keyType?: string
   location: Record<string, any>
-  message_id?: string
+  messageId?: string
   method?: string
   partner?: Record<string, any>
   reference?: string
-  serial_number?: string
-  start_date?: string
+  serialNumber?: string
+  startDate?: string
   success?: boolean
-  transaction_source?: string
+  transactionSource?: string
 }
 
 export interface UpdateResult {
   client?: Record<string, any>
   email?: string
-  first_name?: string
+  firstName?: string
   id?: string
-  is_active?: boolean
+  isActive?: boolean
   kif?: Record<string, any>
-  last_name?: string
+  lastName?: string
   partner?: Record<string, any>
   phone?: string
-  user_name?: string
-  user_role?: Record<string, any>
+  userName?: string
+  userRole?: Record<string, any>
   version?: number
 }
 
 export interface UpdateResultListMatch {
   client?: Record<string, any>
   email?: string
-  first_name?: string
+  firstName?: string
   id?: string
-  is_active?: boolean
+  isActive?: boolean
   kif?: Record<string, any>
-  last_name?: string
+  lastName?: string
   partner?: Record<string, any>
   phone?: string
-  user_name?: string
-  user_role?: Record<string, any>
+  userName?: string
+  userRole?: Record<string, any>
   version?: number
 }
 
 export interface UpdateResultCreateData {
   client?: Record<string, any>
   email?: string
-  first_name?: string
+  firstName?: string
   id?: string
-  is_active?: boolean
+  isActive?: boolean
   kif?: Record<string, any>
-  last_name?: string
+  lastName?: string
   partner?: Record<string, any>
   phone?: string
-  user_name?: string
-  user_role?: Record<string, any>
+  userName?: string
+  userRole?: Record<string, any>
   version?: number
 }
 
 export interface UpdateResultUpdateData {
   id: string
+  client?: Record<string, any>
+  email?: string
+  firstName?: string
+  isActive?: boolean
+  kif?: Record<string, any>
+  lastName?: string
+  partner?: Record<string, any>
+  phone?: string
+  userName?: string
+  userRole?: Record<string, any>
+  version?: number
 }
 
 export interface User {
   client?: Record<string, any>
   created?: string
   email?: string
-  first_name?: string
+  firstName?: string
   id?: string
-  is_active?: boolean
+  isActive?: boolean
   kif?: Record<string, any>
-  last_name?: string
+  lastName?: string
   modified?: string
   partner?: Record<string, any>
   phone?: string
-  user_name?: string
-  user_role?: Record<string, any>
+  userName?: string
+  userRole?: Record<string, any>
   version?: number
 }
 

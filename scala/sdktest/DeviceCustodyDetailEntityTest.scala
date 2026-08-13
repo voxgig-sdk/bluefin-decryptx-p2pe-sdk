@@ -43,7 +43,7 @@ object DeviceCustodyDetailEntityTest {
       val deviceCustodyDetailRef01MatchDt0 = new LinkedHashMap[String, Object]()
       deviceCustodyDetailRef01MatchDt0.put("id", deviceCustodyDetailRef01Data.get("id"))
       val deviceCustodyDetailRef01DataDt0Loaded = deviceCustodyDetailRef01Ent.load(deviceCustodyDetailRef01MatchDt0, null)
-      val deviceCustodyDetailRef01DataDt0LoadResult = Helpers.toMapAny(deviceCustodyDetailRef01DataDt0Loaded)
+      val deviceCustodyDetailRef01DataDt0LoadResult = Helpers.toMapAny(deviceCustodyDetailRef01DataDt0Loaded match { case e: SdkEntity => e.data(); case o => o })
       rep.check("device_custody_detail.load.map", deviceCustodyDetailRef01DataDt0LoadResult != null, "expected load result to be a map")
       rep.eq("device_custody_detail.load.id", deviceCustodyDetailRef01Data.get("id"), deviceCustodyDetailRef01DataDt0LoadResult.get("id"))
     }

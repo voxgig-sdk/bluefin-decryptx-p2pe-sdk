@@ -52,7 +52,7 @@ DeviceCustodyDetail is nested under device_type, so provide the `device_type`.
 
 ```ruby
 begin
-  # load returns the bare DeviceCustodyDetail record (raises on error).
+  # load returns the ENTITY — call data_get for the DeviceCustodyDetail record (raises on error).
   devicecustodydetail = client.DeviceCustodyDetail.load({ "device_type" => "example_device_type", "serial_number" => "example_serial_number", "id" => "example_id" })
   puts devicecustodydetail
 rescue => err
@@ -63,8 +63,8 @@ end
 ### 4. Create, update, and remove
 
 ```ruby
-# create returns the bare created Attestation record.
-created = client.Attestation.create({ "client" => {}, "complete_date" => "example_complete_date" })
+# create returns the ENTITY — call data_get for the created Attestation record.
+created = client.Attestation.create({ "client" => {}, "completeDate" => "example_completeDate" })
 
 ```
 
@@ -146,7 +146,8 @@ client = BluefinDecryptxP2peSDK.test({
   "entity" => { "devicetype" => { "test01" => { "id" => "test01" } } },
 })
 
-# Entity ops return the bare mock record (raises on error).
+# Entity ops return the ENTITY (raises on error);
+# call data_get for the mock record.
 devicetype = client.DeviceType.list()
 puts devicetype
 ```
@@ -291,12 +292,12 @@ returns a result `Hash` with these keys:
 | Field | Description |
 | --- | --- |
 | `client` |  |
-| `complete_date` |  |
+| `completeDate` |  |
 | `created` |  |
 | `device` |  |
 | `id` |  |
 | `name` |  |
-| `note` |  |
+| `notes` |  |
 
 Operations: Create, List, Load.
 
@@ -308,9 +309,9 @@ API path: `/attestations`
 | --- | --- |
 | `contact` |  |
 | `created` |  |
-| `direct_partner` |  |
+| `directPartner` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `location` |  |
 | `mid` |  |
 | `modified` |  |
@@ -345,33 +346,33 @@ API path: `/decryption`
 
 | Field | Description |
 | --- | --- |
-| `activated_by` |  |
-| `activation_date` |  |
-| `alternate_key` |  |
-| `audit_next_date` |  |
-| `audit_notification_date` |  |
+| `activatedBy` |  |
+| `activationDate` |  |
+| `alternateKey` |  |
+| `auditNextDate` |  |
+| `auditNotificationDate` |  |
 | `client` |  |
 | `created` |  |
-| `created_by` |  |
-| `device_build` |  |
-| `device_state` |  |
-| `device_type` |  |
-| `error_counter` |  |
-| `error_last_date` |  |
+| `createdBy` |  |
+| `deviceBuild` |  |
+| `deviceState` |  |
+| `deviceType` |  |
+| `errorCounter` |  |
+| `errorLastDate` |  |
 | `id` |  |
-| `initialized_by` |  |
-| `initialized_date` |  |
-| `inject_key` |  |
-| `is_virtual` |  |
+| `initializedBy` |  |
+| `initializedDate` |  |
+| `injectKey` |  |
+| `isVirtual` |  |
 | `kif` |  |
-| `last_activity_date` |  |
+| `lastActivityDate` |  |
 | `location` |  |
 | `modified` |  |
-| `modified_by` |  |
+| `modifiedBy` |  |
 | `name` |  |
-| `note` |  |
+| `notes` |  |
 | `partner` |  |
-| `serial_number` |  |
+| `serialNumber` |  |
 | `version` |  |
 
 Operations: Create, List, Load.
@@ -382,21 +383,21 @@ API path: `/devices`
 
 | Field | Description |
 | --- | --- |
-| `app_version` |  |
-| `build_number` |  |
-| `config_file_name` |  |
+| `appVersion` |  |
+| `buildNumber` |  |
+| `configFileName` |  |
 | `created` |  |
-| `device_type` |  |
-| `firmware_version` |  |
-| `hardware_version` |  |
+| `deviceType` |  |
+| `firmwareVersion` |  |
+| `hardwareVersion` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `modified` |  |
 | `name` |  |
-| `note` |  |
+| `notes` |  |
 | `version` |  |
-| `white_listing_bin_range` |  |
-| `white_listing_used` |  |
+| `whiteListingBinRanges` |  |
+| `whiteListingUsed` |  |
 
 Operations: List, Load.
 
@@ -406,18 +407,18 @@ API path: `/deviceBuilds`
 
 | Field | Description |
 | --- | --- |
-| `complete_date` |  |
+| `completeDate` |  |
 | `created` |  |
-| `created_by` |  |
+| `createdBy` |  |
 | `custodian` |  |
 | `device` |  |
 | `id` |  |
 | `location` |  |
 | `modified` |  |
-| `modified_by` |  |
-| `note` |  |
+| `modifiedBy` |  |
+| `notes` |  |
 | `status` |  |
-| `transfer_method` |  |
+| `transferMethod` |  |
 | `version` |  |
 
 Operations: Load.
@@ -428,18 +429,18 @@ API path: `/devices/{serialNumber}/{deviceType}/custody/{id}`
 
 | Field | Description |
 | --- | --- |
-| `complete_date` |  |
+| `completeDate` |  |
 | `created` |  |
-| `created_by` |  |
+| `createdBy` |  |
 | `custodian` |  |
 | `device` |  |
 | `id` |  |
 | `location` |  |
 | `modified` |  |
-| `modified_by` |  |
-| `note` |  |
+| `modifiedBy` |  |
+| `notes` |  |
 | `status` |  |
-| `transfer_method` |  |
+| `transferMethod` |  |
 | `version` |  |
 
 Operations: List.
@@ -493,16 +494,16 @@ API path: `/deviceStates`
 | Field | Description |
 | --- | --- |
 | `created` |  |
-| `device_type_mode` |  |
-| `hardware_version` |  |
+| `deviceTypeMode` |  |
+| `hardwareVersion` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `manufacturer` |  |
 | `model` |  |
 | `modified` |  |
 | `name` |  |
-| `photo_url` |  |
-| `product_name` |  |
+| `photoUrl` |  |
+| `productName` |  |
 | `version` |  |
 
 Operations: List, Load.
@@ -515,9 +516,9 @@ API path: `/deviceTypes`
 | --- | --- |
 | `created` |  |
 | `id` |  |
-| `is_active` |  |
-| `is_p2_pe` |  |
-| `key_type` |  |
+| `isActive` |  |
+| `isP2PE` |  |
+| `keyType` |  |
 | `modified` |  |
 | `name` |  |
 | `version` |  |
@@ -543,26 +544,26 @@ API path: `/kifs`
 | --- | --- |
 | `address1` |  |
 | `address2` |  |
-| `billing_id` |  |
+| `billingId` |  |
 | `city` |  |
 | `country` |  |
 | `created` |  |
-| `custom_reference` |  |
+| `customReference` |  |
 | `id` |  |
-| `location_type` |  |
-| `mail_address1` |  |
-| `mail_address2` |  |
-| `mail_city` |  |
-| `mail_country` |  |
-| `mail_postal_code` |  |
-| `mail_state_province` |  |
+| `locationType` |  |
+| `mailAddress1` |  |
+| `mailAddress2` |  |
+| `mailCity` |  |
+| `mailCountry` |  |
+| `mailPostalCode` |  |
+| `mailStateProvince` |  |
 | `modified` |  |
 | `name` |  |
-| `name_of_business` |  |
-| `note` |  |
-| `postal_code` |  |
-| `state_province` |  |
-| `unique_id` |  |
+| `nameOfBusiness` |  |
+| `notes` |  |
+| `postalCode` |  |
+| `stateProvince` |  |
+| `uniqueId` |  |
 | `version` |  |
 
 Operations: Create, List, Load, Remove.
@@ -573,19 +574,19 @@ API path: `/locations`
 
 | Field | Description |
 | --- | --- |
-| `billing_id` |  |
-| `client_can_order_equipment` |  |
+| `billingId` |  |
+| `clientCanOrderEquipment` |  |
 | `contact` |  |
 | `created` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `location` |  |
 | `modified` |  |
 | `name` |  |
 | `parent` |  |
-| `partner_id` |  |
+| `partnerId` |  |
 | `reference` |  |
-| `verification_phrase` |  |
+| `verificationPhrase` |  |
 | `version` |  |
 
 Operations: Create, List, Load.
@@ -599,15 +600,15 @@ API path: `/partners`
 | `carrier` |  |
 | `client` |  |
 | `created` |  |
-| `date_received` |  |
-| `date_shipped` |  |
-| `dc_kif` |  |
+| `dateReceived` |  |
+| `dateShipped` |  |
+| `dcKif` |  |
 | `id` |  |
-| `item` |  |
+| `items` |  |
 | `kif` |  |
 | `modified` |  |
 | `partner` |  |
-| `shipment_type` |  |
+| `shipmentType` |  |
 | `tracking` |  |
 | `version` |  |
 
@@ -629,30 +630,30 @@ API path: `/virtualDevices/{sharePartnerTo}`
 
 | Field | Description |
 | --- | --- |
-| `alternate_key` |  |
+| `alternateKey` |  |
 | `client` |  |
-| `client_ref` |  |
+| `clientRef` |  |
 | `created` |  |
 | `decrypted` |  |
-| `device_name` |  |
-| `direct_partner` |  |
+| `deviceName` |  |
+| `directPartner` |  |
 | `encrypted` |  |
-| `end_date` |  |
-| `err_code` |  |
-| `err_message` |  |
+| `endDate` |  |
+| `errCode` |  |
+| `errMessage` |  |
 | `id` |  |
-| `ip_address` |  |
-| `is_virtual` |  |
-| `key_type` |  |
+| `ipAddress` |  |
+| `isVirtual` |  |
+| `keyType` |  |
 | `location` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `method` |  |
 | `partner` |  |
 | `reference` |  |
-| `serial_number` |  |
-| `start_date` |  |
+| `serialNumber` |  |
+| `startDate` |  |
 | `success` |  |
-| `transaction_source` |  |
+| `transactionSource` |  |
 
 Operations: Create, List, Load.
 
@@ -664,15 +665,15 @@ API path: `/transactions`
 | --- | --- |
 | `client` |  |
 | `email` |  |
-| `first_name` |  |
+| `firstName` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `kif` |  |
-| `last_name` |  |
+| `lastName` |  |
 | `partner` |  |
 | `phone` |  |
-| `user_name` |  |
-| `user_role` |  |
+| `userName` |  |
+| `userRole` |  |
 | `version` |  |
 
 Operations: Create, List, Update.
@@ -686,16 +687,16 @@ API path: `/users`
 | `client` |  |
 | `created` |  |
 | `email` |  |
-| `first_name` |  |
+| `firstName` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `kif` |  |
-| `last_name` |  |
+| `lastName` |  |
 | `modified` |  |
 | `partner` |  |
 | `phone` |  |
-| `user_name` |  |
-| `user_role` |  |
+| `userName` |  |
+| `userRole` |  |
 | `version` |  |
 
 Operations: Load, Remove.
@@ -724,17 +725,17 @@ Create an instance: `attestation = client.Attestation`
 | Field | Type | Description |
 | --- | --- | --- |
 | `client` | `Hash` |  |
-| `complete_date` | `String` |  |
+| `completeDate` | `String` |  |
 | `created` | `String` |  |
 | `device` | `Hash` |  |
 | `id` | `String` |  |
 | `name` | `String` |  |
-| `note` | `String` |  |
+| `notes` | `String` |  |
 
 #### Example: Load
 
 ```ruby
-# load returns the bare Attestation record (raises on error).
+# load returns the ENTITY — call data_get for the Attestation record (raises on error).
 attestation = client.Attestation.load({ "id" => "attestation_id" })
 ```
 
@@ -772,9 +773,9 @@ Create an instance: `client_ = client.Client`
 | --- | --- | --- |
 | `contact` | `Hash` |  |
 | `created` | `String` |  |
-| `direct_partner` | `Hash` |  |
+| `directPartner` | `Hash` |  |
 | `id` | `String` |  |
-| `is_active` | `Boolean` |  |
+| `isActive` | `Boolean` |  |
 | `location` | `Hash` |  |
 | `mid` | `String` |  |
 | `modified` | `String` |  |
@@ -785,7 +786,7 @@ Create an instance: `client_ = client.Client`
 #### Example: Load
 
 ```ruby
-# load returns the bare Client record (raises on error).
+# load returns the ENTITY — call data_get for the Client record (raises on error).
 client_ = client.Client.load({ "id" => "client_id" })
 ```
 
@@ -865,39 +866,39 @@ Create an instance: `device = client.Device`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `activated_by` | `Hash` |  |
-| `activation_date` | `String` |  |
-| `alternate_key` | `String` |  |
-| `audit_next_date` | `String` |  |
-| `audit_notification_date` | `String` |  |
+| `activatedBy` | `Hash` |  |
+| `activationDate` | `String` |  |
+| `alternateKey` | `String` |  |
+| `auditNextDate` | `String` |  |
+| `auditNotificationDate` | `String` |  |
 | `client` | `Hash` |  |
 | `created` | `String` |  |
-| `created_by` | `Hash` |  |
-| `device_build` | `Hash` |  |
-| `device_state` | `Hash` |  |
-| `device_type` | `Hash` |  |
-| `error_counter` | `Integer` |  |
-| `error_last_date` | `String` |  |
+| `createdBy` | `Hash` |  |
+| `deviceBuild` | `Hash` |  |
+| `deviceState` | `Hash` |  |
+| `deviceType` | `Hash` |  |
+| `errorCounter` | `Integer` |  |
+| `errorLastDate` | `String` |  |
 | `id` | `String` |  |
-| `initialized_by` | `Hash` |  |
-| `initialized_date` | `String` |  |
-| `inject_key` | `Hash` |  |
-| `is_virtual` | `Boolean` |  |
+| `initializedBy` | `Hash` |  |
+| `initializedDate` | `String` |  |
+| `injectKey` | `Hash` |  |
+| `isVirtual` | `Boolean` |  |
 | `kif` | `Hash` |  |
-| `last_activity_date` | `String` |  |
+| `lastActivityDate` | `String` |  |
 | `location` | `Hash` |  |
 | `modified` | `String` |  |
-| `modified_by` | `Hash` |  |
+| `modifiedBy` | `Hash` |  |
 | `name` | `String` |  |
-| `note` | `String` |  |
+| `notes` | `String` |  |
 | `partner` | `Hash` |  |
-| `serial_number` | `String` |  |
+| `serialNumber` | `String` |  |
 | `version` | `Integer` |  |
 
 #### Example: Load
 
 ```ruby
-# load returns the bare Device record (raises on error).
+# load returns the ENTITY — call data_get for the Device record (raises on error).
 device = client.Device.load({ "id" => "device_id" })
 ```
 
@@ -912,11 +913,11 @@ devices = client.Device.list
 
 ```ruby
 device = client.Device.create({
-  "activated_by" => {}, # Hash
-  "created_by" => {}, # Hash
-  "initialized_by" => {}, # Hash
+  "activatedBy" => {}, # Hash
+  "createdBy" => {}, # Hash
+  "initializedBy" => {}, # Hash
   "location" => {}, # Hash
-  "modified_by" => {}, # Hash
+  "modifiedBy" => {}, # Hash
 })
 ```
 
@@ -936,26 +937,26 @@ Create an instance: `device_build = client.DeviceBuild`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `app_version` | `String` |  |
-| `build_number` | `String` |  |
-| `config_file_name` | `String` |  |
+| `appVersion` | `String` |  |
+| `buildNumber` | `String` |  |
+| `configFileName` | `String` |  |
 | `created` | `String` |  |
-| `device_type` | `String` |  |
-| `firmware_version` | `String` |  |
-| `hardware_version` | `String` |  |
+| `deviceType` | `String` |  |
+| `firmwareVersion` | `String` |  |
+| `hardwareVersion` | `String` |  |
 | `id` | `Integer` |  |
-| `is_active` | `Boolean` |  |
+| `isActive` | `Boolean` |  |
 | `modified` | `String` |  |
 | `name` | `String` |  |
-| `note` | `String` |  |
+| `notes` | `String` |  |
 | `version` | `Integer` |  |
-| `white_listing_bin_range` | `String` |  |
-| `white_listing_used` | `Boolean` |  |
+| `whiteListingBinRanges` | `String` |  |
+| `whiteListingUsed` | `Boolean` |  |
 
 #### Example: Load
 
 ```ruby
-# load returns the bare DeviceBuild record (raises on error).
+# load returns the ENTITY — call data_get for the DeviceBuild record (raises on error).
 device_build = client.DeviceBuild.load({ "id" => "device_build_id" })
 ```
 
@@ -981,24 +982,24 @@ Create an instance: `device_custody_detail = client.DeviceCustodyDetail`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `complete_date` | `String` |  |
+| `completeDate` | `String` |  |
 | `created` | `String` |  |
-| `created_by` | `Hash` |  |
+| `createdBy` | `Hash` |  |
 | `custodian` | `Hash` |  |
 | `device` | `Hash` |  |
 | `id` | `Integer` |  |
 | `location` | `Hash` |  |
 | `modified` | `String` |  |
-| `modified_by` | `Hash` |  |
-| `note` | `String` |  |
+| `modifiedBy` | `Hash` |  |
+| `notes` | `String` |  |
 | `status` | `Hash` |  |
-| `transfer_method` | `Hash` |  |
+| `transferMethod` | `Hash` |  |
 | `version` | `Integer` |  |
 
 #### Example: Load
 
 ```ruby
-# load returns the bare DeviceCustodyDetail record (raises on error).
+# load returns the ENTITY — call data_get for the DeviceCustodyDetail record (raises on error).
 device_custody_detail = client.DeviceCustodyDetail.load({ "id" => "device_custody_detail_id", "device_type" => "device_type", "serial_number" => "serial_number" })
 ```
 
@@ -1017,18 +1018,18 @@ Create an instance: `device_custody_list = client.DeviceCustodyList`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `complete_date` | `String` |  |
+| `completeDate` | `String` |  |
 | `created` | `String` |  |
-| `created_by` | `Hash` |  |
+| `createdBy` | `Hash` |  |
 | `custodian` | `Hash` |  |
 | `device` | `Hash` |  |
 | `id` | `Integer` |  |
 | `location` | `Hash` |  |
 | `modified` | `String` |  |
-| `modified_by` | `Hash` |  |
-| `note` | `String` |  |
+| `modifiedBy` | `Hash` |  |
+| `notes` | `String` |  |
 | `status` | `Hash` |  |
-| `transfer_method` | `Hash` |  |
+| `transferMethod` | `Hash` |  |
 | `version` | `Integer` |  |
 
 #### Example: List
@@ -1059,7 +1060,7 @@ Create an instance: `device_list = client.DeviceList`
 #### Example: Load
 
 ```ruby
-# load returns the bare DeviceList record (raises on error).
+# load returns the ENTITY — call data_get for the DeviceList record (raises on error).
 device_list = client.DeviceList.load({ "share_partner_to" => "share_partner_to" })
 ```
 
@@ -1155,22 +1156,22 @@ Create an instance: `device_type = client.DeviceType`
 | Field | Type | Description |
 | --- | --- | --- |
 | `created` | `String` |  |
-| `device_type_mode` | `String` |  |
-| `hardware_version` | `String` |  |
+| `deviceTypeMode` | `String` |  |
+| `hardwareVersion` | `String` |  |
 | `id` | `String` |  |
-| `is_active` | `Boolean` |  |
+| `isActive` | `Boolean` |  |
 | `manufacturer` | `String` |  |
 | `model` | `String` |  |
 | `modified` | `String` |  |
 | `name` | `String` |  |
-| `photo_url` | `String` |  |
-| `product_name` | `String` |  |
+| `photoUrl` | `String` |  |
+| `productName` | `String` |  |
 | `version` | `Integer` |  |
 
 #### Example: Load
 
 ```ruby
-# load returns the bare DeviceType record (raises on error).
+# load returns the ENTITY — call data_get for the DeviceType record (raises on error).
 device_type = client.DeviceType.load({ "id" => "device_type_id" })
 ```
 
@@ -1199,9 +1200,9 @@ Create an instance: `inject_key = client.InjectKey`
 | --- | --- | --- |
 | `created` | `String` |  |
 | `id` | `String` |  |
-| `is_active` | `Boolean` |  |
-| `is_p2_pe` | `Boolean` |  |
-| `key_type` | `String` |  |
+| `isActive` | `Boolean` |  |
+| `isP2PE` | `Boolean` |  |
+| `keyType` | `String` |  |
 | `modified` | `String` |  |
 | `name` | `String` |  |
 | `version` | `Integer` |  |
@@ -1209,7 +1210,7 @@ Create an instance: `inject_key = client.InjectKey`
 #### Example: Load
 
 ```ruby
-# load returns the bare InjectKey record (raises on error).
+# load returns the ENTITY — call data_get for the InjectKey record (raises on error).
 inject_key = client.InjectKey.load({ "id" => "inject_key_id" })
 ```
 
@@ -1265,32 +1266,32 @@ Create an instance: `location = client.Location`
 | --- | --- | --- |
 | `address1` | `String` |  |
 | `address2` | `String` |  |
-| `billing_id` | `String` |  |
+| `billingId` | `String` |  |
 | `city` | `String` |  |
 | `country` | `String` |  |
 | `created` | `String` |  |
-| `custom_reference` | `String` |  |
+| `customReference` | `String` |  |
 | `id` | `String` |  |
-| `location_type` | `String` |  |
-| `mail_address1` | `String` |  |
-| `mail_address2` | `String` |  |
-| `mail_city` | `String` |  |
-| `mail_country` | `String` |  |
-| `mail_postal_code` | `String` |  |
-| `mail_state_province` | `String` |  |
+| `locationType` | `String` |  |
+| `mailAddress1` | `String` |  |
+| `mailAddress2` | `String` |  |
+| `mailCity` | `String` |  |
+| `mailCountry` | `String` |  |
+| `mailPostalCode` | `String` |  |
+| `mailStateProvince` | `String` |  |
 | `modified` | `String` |  |
 | `name` | `String` |  |
-| `name_of_business` | `String` |  |
-| `note` | `String` |  |
-| `postal_code` | `String` |  |
-| `state_province` | `String` |  |
-| `unique_id` | `String` |  |
+| `nameOfBusiness` | `String` |  |
+| `notes` | `String` |  |
+| `postalCode` | `String` |  |
+| `stateProvince` | `String` |  |
+| `uniqueId` | `String` |  |
 | `version` | `Integer` |  |
 
 #### Example: Load
 
 ```ruby
-# load returns the bare Location record (raises on error).
+# load returns the ENTITY — call data_get for the Location record (raises on error).
 location = client.Location.load({ "id" => "location_id" })
 ```
 
@@ -1325,25 +1326,25 @@ Create an instance: `partner = client.Partner`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `billing_id` | `String` |  |
-| `client_can_order_equipment` | `Boolean` |  |
+| `billingId` | `String` |  |
+| `clientCanOrderEquipment` | `Boolean` |  |
 | `contact` | `Hash` |  |
 | `created` | `String` |  |
 | `id` | `String` |  |
-| `is_active` | `Boolean` |  |
+| `isActive` | `Boolean` |  |
 | `location` | `Hash` |  |
 | `modified` | `String` |  |
 | `name` | `String` |  |
 | `parent` | `Hash` |  |
-| `partner_id` | `String` |  |
+| `partnerId` | `String` |  |
 | `reference` | `String` |  |
-| `verification_phrase` | `String` |  |
+| `verificationPhrase` | `String` |  |
 | `version` | `Integer` |  |
 
 #### Example: Load
 
 ```ruby
-# load returns the bare Partner record (raises on error).
+# load returns the ENTITY — call data_get for the Partner record (raises on error).
 partner = client.Partner.load({ "id" => "partner_id" })
 ```
 
@@ -1382,22 +1383,22 @@ Create an instance: `shipment = client.Shipment`
 | `carrier` | `String` |  |
 | `client` | `Hash` |  |
 | `created` | `String` |  |
-| `date_received` | `String` |  |
-| `date_shipped` | `String` |  |
-| `dc_kif` | `Hash` |  |
+| `dateReceived` | `String` |  |
+| `dateShipped` | `String` |  |
+| `dcKif` | `Hash` |  |
 | `id` | `String` |  |
-| `item` | `Array` |  |
+| `items` | `Array` |  |
 | `kif` | `Hash` |  |
 | `modified` | `String` |  |
 | `partner` | `Hash` |  |
-| `shipment_type` | `String` |  |
+| `shipmentType` | `String` |  |
 | `tracking` | `String` |  |
 | `version` | `Integer` |  |
 
 #### Example: Load
 
 ```ruby
-# load returns the bare Shipment record (raises on error).
+# load returns the ENTITY — call data_get for the Shipment record (raises on error).
 shipment = client.Shipment.load({ "id" => "shipment_id" })
 ```
 
@@ -1458,35 +1459,35 @@ Create an instance: `transaction = client.Transaction`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `alternate_key` | `String` |  |
+| `alternateKey` | `String` |  |
 | `client` | `Hash` |  |
-| `client_ref` | `String` |  |
+| `clientRef` | `String` |  |
 | `created` | `String` |  |
 | `decrypted` | `Integer` |  |
-| `device_name` | `String` |  |
-| `direct_partner` | `Hash` |  |
+| `deviceName` | `String` |  |
+| `directPartner` | `Hash` |  |
 | `encrypted` | `Integer` |  |
-| `end_date` | `String` |  |
-| `err_code` | `String` |  |
-| `err_message` | `String` |  |
+| `endDate` | `String` |  |
+| `errCode` | `String` |  |
+| `errMessage` | `String` |  |
 | `id` | `String` |  |
-| `ip_address` | `String` |  |
-| `is_virtual` | `Boolean` |  |
-| `key_type` | `String` |  |
+| `ipAddress` | `String` |  |
+| `isVirtual` | `Boolean` |  |
+| `keyType` | `String` |  |
 | `location` | `Hash` |  |
-| `message_id` | `String` |  |
+| `messageId` | `String` |  |
 | `method` | `String` |  |
 | `partner` | `Hash` |  |
 | `reference` | `String` |  |
-| `serial_number` | `String` |  |
-| `start_date` | `String` |  |
+| `serialNumber` | `String` |  |
+| `startDate` | `String` |  |
 | `success` | `Boolean` |  |
-| `transaction_source` | `String` |  |
+| `transactionSource` | `String` |  |
 
 #### Example: Load
 
 ```ruby
-# load returns the bare Transaction record (raises on error).
+# load returns the ENTITY — call data_get for the Transaction record (raises on error).
 transaction = client.Transaction.load({ "id" => "transaction_id" })
 ```
 
@@ -1524,15 +1525,15 @@ Create an instance: `update_result = client.UpdateResult`
 | --- | --- | --- |
 | `client` | `Hash` |  |
 | `email` | `String` |  |
-| `first_name` | `String` |  |
+| `firstName` | `String` |  |
 | `id` | `String` |  |
-| `is_active` | `Boolean` |  |
+| `isActive` | `Boolean` |  |
 | `kif` | `Hash` |  |
-| `last_name` | `String` |  |
+| `lastName` | `String` |  |
 | `partner` | `Hash` |  |
 | `phone` | `String` |  |
-| `user_name` | `String` |  |
-| `user_role` | `Hash` |  |
+| `userName` | `String` |  |
+| `userRole` | `Hash` |  |
 | `version` | `Integer` |  |
 
 #### Example: List
@@ -1568,22 +1569,22 @@ Create an instance: `user = client.User`
 | `client` | `Hash` |  |
 | `created` | `String` |  |
 | `email` | `String` |  |
-| `first_name` | `String` |  |
+| `firstName` | `String` |  |
 | `id` | `String` |  |
-| `is_active` | `Boolean` |  |
+| `isActive` | `Boolean` |  |
 | `kif` | `Hash` |  |
-| `last_name` | `String` |  |
+| `lastName` | `String` |  |
 | `modified` | `String` |  |
 | `partner` | `Hash` |  |
 | `phone` | `String` |  |
-| `user_name` | `String` |  |
-| `user_role` | `Hash` |  |
+| `userName` | `String` |  |
+| `userRole` | `Hash` |  |
 | `version` | `Integer` |  |
 
 #### Example: Load
 
 ```ruby
-# load returns the bare User record (raises on error).
+# load returns the ENTITY — call data_get for the User record (raises on error).
 user = client.User.load({ "id" => "user_id" })
 ```
 

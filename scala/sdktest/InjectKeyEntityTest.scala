@@ -43,7 +43,7 @@ object InjectKeyEntityTest {
       val injectKeyRef01MatchDt0 = new LinkedHashMap[String, Object]()
       injectKeyRef01MatchDt0.put("id", injectKeyRef01Data.get("id"))
       val injectKeyRef01DataDt0Loaded = injectKeyRef01Ent.load(injectKeyRef01MatchDt0, null)
-      val injectKeyRef01DataDt0LoadResult = Helpers.toMapAny(injectKeyRef01DataDt0Loaded)
+      val injectKeyRef01DataDt0LoadResult = Helpers.toMapAny(injectKeyRef01DataDt0Loaded match { case e: SdkEntity => e.data(); case o => o })
       rep.check("inject_key.load.map", injectKeyRef01DataDt0LoadResult != null, "expected load result to be a map")
       rep.eq("inject_key.load.id", injectKeyRef01Data.get("id"), injectKeyRef01DataDt0LoadResult.get("id"))
     }

@@ -77,7 +77,7 @@ catch (Exception err)
 
 ```csharp
 // Create — returns the bare created record (as object?)
-var created = client.Attestation().Create(new Dictionary<string, object?> { ["client"] = new Dictionary<string, object?>(), ["complete_date"] = "example_complete_date" });
+var created = client.Attestation().Create(new Dictionary<string, object?> { ["client"] = new Dictionary<string, object?>(), ["completeDate"] = "example_completeDate" });
 
 ```
 
@@ -312,12 +312,12 @@ On error, `ok` is `false` and `err` contains the error value.
 | Field | Description |
 | --- | --- |
 | `client` |  |
-| `complete_date` |  |
+| `completeDate` |  |
 | `created` |  |
 | `device` |  |
 | `id` |  |
 | `name` |  |
-| `note` |  |
+| `notes` |  |
 
 Operations: Create, List, Load.
 
@@ -329,9 +329,9 @@ API path: `/attestations`
 | --- | --- |
 | `contact` |  |
 | `created` |  |
-| `direct_partner` |  |
+| `directPartner` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `location` |  |
 | `mid` |  |
 | `modified` |  |
@@ -366,33 +366,33 @@ API path: `/decryption`
 
 | Field | Description |
 | --- | --- |
-| `activated_by` |  |
-| `activation_date` |  |
-| `alternate_key` |  |
-| `audit_next_date` |  |
-| `audit_notification_date` |  |
+| `activatedBy` |  |
+| `activationDate` |  |
+| `alternateKey` |  |
+| `auditNextDate` |  |
+| `auditNotificationDate` |  |
 | `client` |  |
 | `created` |  |
-| `created_by` |  |
-| `device_build` |  |
-| `device_state` |  |
-| `device_type` |  |
-| `error_counter` |  |
-| `error_last_date` |  |
+| `createdBy` |  |
+| `deviceBuild` |  |
+| `deviceState` |  |
+| `deviceType` |  |
+| `errorCounter` |  |
+| `errorLastDate` |  |
 | `id` |  |
-| `initialized_by` |  |
-| `initialized_date` |  |
-| `inject_key` |  |
-| `is_virtual` |  |
+| `initializedBy` |  |
+| `initializedDate` |  |
+| `injectKey` |  |
+| `isVirtual` |  |
 | `kif` |  |
-| `last_activity_date` |  |
+| `lastActivityDate` |  |
 | `location` |  |
 | `modified` |  |
-| `modified_by` |  |
+| `modifiedBy` |  |
 | `name` |  |
-| `note` |  |
+| `notes` |  |
 | `partner` |  |
-| `serial_number` |  |
+| `serialNumber` |  |
 | `version` |  |
 
 Operations: Create, List, Load.
@@ -403,21 +403,21 @@ API path: `/devices`
 
 | Field | Description |
 | --- | --- |
-| `app_version` |  |
-| `build_number` |  |
-| `config_file_name` |  |
+| `appVersion` |  |
+| `buildNumber` |  |
+| `configFileName` |  |
 | `created` |  |
-| `device_type` |  |
-| `firmware_version` |  |
-| `hardware_version` |  |
+| `deviceType` |  |
+| `firmwareVersion` |  |
+| `hardwareVersion` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `modified` |  |
 | `name` |  |
-| `note` |  |
+| `notes` |  |
 | `version` |  |
-| `white_listing_bin_range` |  |
-| `white_listing_used` |  |
+| `whiteListingBinRanges` |  |
+| `whiteListingUsed` |  |
 
 Operations: List, Load.
 
@@ -427,18 +427,18 @@ API path: `/deviceBuilds`
 
 | Field | Description |
 | --- | --- |
-| `complete_date` |  |
+| `completeDate` |  |
 | `created` |  |
-| `created_by` |  |
+| `createdBy` |  |
 | `custodian` |  |
 | `device` |  |
 | `id` |  |
 | `location` |  |
 | `modified` |  |
-| `modified_by` |  |
-| `note` |  |
+| `modifiedBy` |  |
+| `notes` |  |
 | `status` |  |
-| `transfer_method` |  |
+| `transferMethod` |  |
 | `version` |  |
 
 Operations: Load.
@@ -449,18 +449,18 @@ API path: `/devices/{serialNumber}/{deviceType}/custody/{id}`
 
 | Field | Description |
 | --- | --- |
-| `complete_date` |  |
+| `completeDate` |  |
 | `created` |  |
-| `created_by` |  |
+| `createdBy` |  |
 | `custodian` |  |
 | `device` |  |
 | `id` |  |
 | `location` |  |
 | `modified` |  |
-| `modified_by` |  |
-| `note` |  |
+| `modifiedBy` |  |
+| `notes` |  |
 | `status` |  |
-| `transfer_method` |  |
+| `transferMethod` |  |
 | `version` |  |
 
 Operations: List.
@@ -514,16 +514,16 @@ API path: `/deviceStates`
 | Field | Description |
 | --- | --- |
 | `created` |  |
-| `device_type_mode` |  |
-| `hardware_version` |  |
+| `deviceTypeMode` |  |
+| `hardwareVersion` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `manufacturer` |  |
 | `model` |  |
 | `modified` |  |
 | `name` |  |
-| `photo_url` |  |
-| `product_name` |  |
+| `photoUrl` |  |
+| `productName` |  |
 | `version` |  |
 
 Operations: List, Load.
@@ -536,9 +536,9 @@ API path: `/deviceTypes`
 | --- | --- |
 | `created` |  |
 | `id` |  |
-| `is_active` |  |
-| `is_p2_pe` |  |
-| `key_type` |  |
+| `isActive` |  |
+| `isP2PE` |  |
+| `keyType` |  |
 | `modified` |  |
 | `name` |  |
 | `version` |  |
@@ -564,26 +564,26 @@ API path: `/kifs`
 | --- | --- |
 | `address1` |  |
 | `address2` |  |
-| `billing_id` |  |
+| `billingId` |  |
 | `city` |  |
 | `country` |  |
 | `created` |  |
-| `custom_reference` |  |
+| `customReference` |  |
 | `id` |  |
-| `location_type` |  |
-| `mail_address1` |  |
-| `mail_address2` |  |
-| `mail_city` |  |
-| `mail_country` |  |
-| `mail_postal_code` |  |
-| `mail_state_province` |  |
+| `locationType` |  |
+| `mailAddress1` |  |
+| `mailAddress2` |  |
+| `mailCity` |  |
+| `mailCountry` |  |
+| `mailPostalCode` |  |
+| `mailStateProvince` |  |
 | `modified` |  |
 | `name` |  |
-| `name_of_business` |  |
-| `note` |  |
-| `postal_code` |  |
-| `state_province` |  |
-| `unique_id` |  |
+| `nameOfBusiness` |  |
+| `notes` |  |
+| `postalCode` |  |
+| `stateProvince` |  |
+| `uniqueId` |  |
 | `version` |  |
 
 Operations: Create, List, Load, Remove.
@@ -594,19 +594,19 @@ API path: `/locations`
 
 | Field | Description |
 | --- | --- |
-| `billing_id` |  |
-| `client_can_order_equipment` |  |
+| `billingId` |  |
+| `clientCanOrderEquipment` |  |
 | `contact` |  |
 | `created` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `location` |  |
 | `modified` |  |
 | `name` |  |
 | `parent` |  |
-| `partner_id` |  |
+| `partnerId` |  |
 | `reference` |  |
-| `verification_phrase` |  |
+| `verificationPhrase` |  |
 | `version` |  |
 
 Operations: Create, List, Load.
@@ -620,15 +620,15 @@ API path: `/partners`
 | `carrier` |  |
 | `client` |  |
 | `created` |  |
-| `date_received` |  |
-| `date_shipped` |  |
-| `dc_kif` |  |
+| `dateReceived` |  |
+| `dateShipped` |  |
+| `dcKif` |  |
 | `id` |  |
-| `item` |  |
+| `items` |  |
 | `kif` |  |
 | `modified` |  |
 | `partner` |  |
-| `shipment_type` |  |
+| `shipmentType` |  |
 | `tracking` |  |
 | `version` |  |
 
@@ -650,30 +650,30 @@ API path: `/virtualDevices/{sharePartnerTo}`
 
 | Field | Description |
 | --- | --- |
-| `alternate_key` |  |
+| `alternateKey` |  |
 | `client` |  |
-| `client_ref` |  |
+| `clientRef` |  |
 | `created` |  |
 | `decrypted` |  |
-| `device_name` |  |
-| `direct_partner` |  |
+| `deviceName` |  |
+| `directPartner` |  |
 | `encrypted` |  |
-| `end_date` |  |
-| `err_code` |  |
-| `err_message` |  |
+| `endDate` |  |
+| `errCode` |  |
+| `errMessage` |  |
 | `id` |  |
-| `ip_address` |  |
-| `is_virtual` |  |
-| `key_type` |  |
+| `ipAddress` |  |
+| `isVirtual` |  |
+| `keyType` |  |
 | `location` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `method` |  |
 | `partner` |  |
 | `reference` |  |
-| `serial_number` |  |
-| `start_date` |  |
+| `serialNumber` |  |
+| `startDate` |  |
 | `success` |  |
-| `transaction_source` |  |
+| `transactionSource` |  |
 
 Operations: Create, List, Load.
 
@@ -685,15 +685,15 @@ API path: `/transactions`
 | --- | --- |
 | `client` |  |
 | `email` |  |
-| `first_name` |  |
+| `firstName` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `kif` |  |
-| `last_name` |  |
+| `lastName` |  |
 | `partner` |  |
 | `phone` |  |
-| `user_name` |  |
-| `user_role` |  |
+| `userName` |  |
+| `userRole` |  |
 | `version` |  |
 
 Operations: Create, List, Update.
@@ -707,16 +707,16 @@ API path: `/users`
 | `client` |  |
 | `created` |  |
 | `email` |  |
-| `first_name` |  |
+| `firstName` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `kif` |  |
-| `last_name` |  |
+| `lastName` |  |
 | `modified` |  |
 | `partner` |  |
 | `phone` |  |
-| `user_name` |  |
-| `user_role` |  |
+| `userName` |  |
+| `userRole` |  |
 | `version` |  |
 
 Operations: Load, Remove.
@@ -745,12 +745,12 @@ Create an instance: `var attestation = client.Attestation();`
 | Field | Type | Description |
 | --- | --- | --- |
 | `client` | `Dictionary<string, object?>` |  |
-| `complete_date` | `string` |  |
+| `completeDate` | `string` |  |
 | `created` | `string` |  |
 | `device` | `Dictionary<string, object?>` |  |
 | `id` | `string` |  |
 | `name` | `string` |  |
-| `note` | `string` |  |
+| `notes` | `string` |  |
 
 #### Example: Load
 
@@ -792,9 +792,9 @@ Create an instance: `var client = client.Client();`
 | --- | --- | --- |
 | `contact` | `Dictionary<string, object?>` |  |
 | `created` | `string` |  |
-| `direct_partner` | `Dictionary<string, object?>` |  |
+| `directPartner` | `Dictionary<string, object?>` |  |
 | `id` | `string` |  |
-| `is_active` | `bool` |  |
+| `isActive` | `bool` |  |
 | `location` | `Dictionary<string, object?>` |  |
 | `mid` | `string` |  |
 | `modified` | `string` |  |
@@ -886,33 +886,33 @@ Create an instance: `var device = client.Device();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `activated_by` | `Dictionary<string, object?>` |  |
-| `activation_date` | `string` |  |
-| `alternate_key` | `string` |  |
-| `audit_next_date` | `string` |  |
-| `audit_notification_date` | `string` |  |
+| `activatedBy` | `Dictionary<string, object?>` |  |
+| `activationDate` | `string` |  |
+| `alternateKey` | `string` |  |
+| `auditNextDate` | `string` |  |
+| `auditNotificationDate` | `string` |  |
 | `client` | `Dictionary<string, object?>` |  |
 | `created` | `string` |  |
-| `created_by` | `Dictionary<string, object?>` |  |
-| `device_build` | `Dictionary<string, object?>` |  |
-| `device_state` | `Dictionary<string, object?>` |  |
-| `device_type` | `Dictionary<string, object?>` |  |
-| `error_counter` | `long` |  |
-| `error_last_date` | `string` |  |
+| `createdBy` | `Dictionary<string, object?>` |  |
+| `deviceBuild` | `Dictionary<string, object?>` |  |
+| `deviceState` | `Dictionary<string, object?>` |  |
+| `deviceType` | `Dictionary<string, object?>` |  |
+| `errorCounter` | `long` |  |
+| `errorLastDate` | `string` |  |
 | `id` | `string` |  |
-| `initialized_by` | `Dictionary<string, object?>` |  |
-| `initialized_date` | `string` |  |
-| `inject_key` | `Dictionary<string, object?>` |  |
-| `is_virtual` | `bool` |  |
+| `initializedBy` | `Dictionary<string, object?>` |  |
+| `initializedDate` | `string` |  |
+| `injectKey` | `Dictionary<string, object?>` |  |
+| `isVirtual` | `bool` |  |
 | `kif` | `Dictionary<string, object?>` |  |
-| `last_activity_date` | `string` |  |
+| `lastActivityDate` | `string` |  |
 | `location` | `Dictionary<string, object?>` |  |
 | `modified` | `string` |  |
-| `modified_by` | `Dictionary<string, object?>` |  |
+| `modifiedBy` | `Dictionary<string, object?>` |  |
 | `name` | `string` |  |
-| `note` | `string` |  |
+| `notes` | `string` |  |
 | `partner` | `Dictionary<string, object?>` |  |
-| `serial_number` | `string` |  |
+| `serialNumber` | `string` |  |
 | `version` | `long` |  |
 
 #### Example: Load
@@ -932,11 +932,11 @@ var deviceList = client.Device().List(null);
 ```csharp
 var device = client.Device().Create(new Dictionary<string, object?>
 {
-    ["activated_by"] = new Dictionary<string, object?>(),  // Dictionary<string, object?>
-    ["created_by"] = new Dictionary<string, object?>(),  // Dictionary<string, object?>
-    ["initialized_by"] = new Dictionary<string, object?>(),  // Dictionary<string, object?>
+    ["activatedBy"] = new Dictionary<string, object?>(),  // Dictionary<string, object?>
+    ["createdBy"] = new Dictionary<string, object?>(),  // Dictionary<string, object?>
+    ["initializedBy"] = new Dictionary<string, object?>(),  // Dictionary<string, object?>
     ["location"] = new Dictionary<string, object?>(),  // Dictionary<string, object?>
-    ["modified_by"] = new Dictionary<string, object?>(),  // Dictionary<string, object?>
+    ["modifiedBy"] = new Dictionary<string, object?>(),  // Dictionary<string, object?>
 });
 ```
 
@@ -956,21 +956,21 @@ Create an instance: `var deviceBuild = client.DeviceBuild();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `app_version` | `string` |  |
-| `build_number` | `string` |  |
-| `config_file_name` | `string` |  |
+| `appVersion` | `string` |  |
+| `buildNumber` | `string` |  |
+| `configFileName` | `string` |  |
 | `created` | `string` |  |
-| `device_type` | `string` |  |
-| `firmware_version` | `string` |  |
-| `hardware_version` | `string` |  |
+| `deviceType` | `string` |  |
+| `firmwareVersion` | `string` |  |
+| `hardwareVersion` | `string` |  |
 | `id` | `long` |  |
-| `is_active` | `bool` |  |
+| `isActive` | `bool` |  |
 | `modified` | `string` |  |
 | `name` | `string` |  |
-| `note` | `string` |  |
+| `notes` | `string` |  |
 | `version` | `long` |  |
-| `white_listing_bin_range` | `string` |  |
-| `white_listing_used` | `bool` |  |
+| `whiteListingBinRanges` | `string` |  |
+| `whiteListingUsed` | `bool` |  |
 
 #### Example: Load
 
@@ -999,18 +999,18 @@ Create an instance: `var deviceCustodyDetail = client.DeviceCustodyDetail();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `complete_date` | `string` |  |
+| `completeDate` | `string` |  |
 | `created` | `string` |  |
-| `created_by` | `Dictionary<string, object?>` |  |
+| `createdBy` | `Dictionary<string, object?>` |  |
 | `custodian` | `Dictionary<string, object?>` |  |
 | `device` | `Dictionary<string, object?>` |  |
 | `id` | `long` |  |
 | `location` | `Dictionary<string, object?>` |  |
 | `modified` | `string` |  |
-| `modified_by` | `Dictionary<string, object?>` |  |
-| `note` | `string` |  |
+| `modifiedBy` | `Dictionary<string, object?>` |  |
+| `notes` | `string` |  |
 | `status` | `Dictionary<string, object?>` |  |
-| `transfer_method` | `Dictionary<string, object?>` |  |
+| `transferMethod` | `Dictionary<string, object?>` |  |
 | `version` | `long` |  |
 
 #### Example: Load
@@ -1034,18 +1034,18 @@ Create an instance: `var deviceCustodyList = client.DeviceCustodyList();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `complete_date` | `string` |  |
+| `completeDate` | `string` |  |
 | `created` | `string` |  |
-| `created_by` | `Dictionary<string, object?>` |  |
+| `createdBy` | `Dictionary<string, object?>` |  |
 | `custodian` | `Dictionary<string, object?>` |  |
 | `device` | `Dictionary<string, object?>` |  |
 | `id` | `long` |  |
 | `location` | `Dictionary<string, object?>` |  |
 | `modified` | `string` |  |
-| `modified_by` | `Dictionary<string, object?>` |  |
-| `note` | `string` |  |
+| `modifiedBy` | `Dictionary<string, object?>` |  |
+| `notes` | `string` |  |
 | `status` | `Dictionary<string, object?>` |  |
-| `transfer_method` | `Dictionary<string, object?>` |  |
+| `transferMethod` | `Dictionary<string, object?>` |  |
 | `version` | `long` |  |
 
 #### Example: List
@@ -1171,16 +1171,16 @@ Create an instance: `var deviceType = client.DeviceType();`
 | Field | Type | Description |
 | --- | --- | --- |
 | `created` | `string` |  |
-| `device_type_mode` | `string` |  |
-| `hardware_version` | `string` |  |
+| `deviceTypeMode` | `string` |  |
+| `hardwareVersion` | `string` |  |
 | `id` | `string` |  |
-| `is_active` | `bool` |  |
+| `isActive` | `bool` |  |
 | `manufacturer` | `string` |  |
 | `model` | `string` |  |
 | `modified` | `string` |  |
 | `name` | `string` |  |
-| `photo_url` | `string` |  |
-| `product_name` | `string` |  |
+| `photoUrl` | `string` |  |
+| `productName` | `string` |  |
 | `version` | `long` |  |
 
 #### Example: Load
@@ -1213,9 +1213,9 @@ Create an instance: `var injectKey = client.InjectKey();`
 | --- | --- | --- |
 | `created` | `string` |  |
 | `id` | `string` |  |
-| `is_active` | `bool` |  |
-| `is_p2_pe` | `bool` |  |
-| `key_type` | `string` |  |
+| `isActive` | `bool` |  |
+| `isP2PE` | `bool` |  |
+| `keyType` | `string` |  |
 | `modified` | `string` |  |
 | `name` | `string` |  |
 | `version` | `long` |  |
@@ -1276,26 +1276,26 @@ Create an instance: `var location = client.Location();`
 | --- | --- | --- |
 | `address1` | `string` |  |
 | `address2` | `string` |  |
-| `billing_id` | `string` |  |
+| `billingId` | `string` |  |
 | `city` | `string` |  |
 | `country` | `string` |  |
 | `created` | `string` |  |
-| `custom_reference` | `string` |  |
+| `customReference` | `string` |  |
 | `id` | `string` |  |
-| `location_type` | `string` |  |
-| `mail_address1` | `string` |  |
-| `mail_address2` | `string` |  |
-| `mail_city` | `string` |  |
-| `mail_country` | `string` |  |
-| `mail_postal_code` | `string` |  |
-| `mail_state_province` | `string` |  |
+| `locationType` | `string` |  |
+| `mailAddress1` | `string` |  |
+| `mailAddress2` | `string` |  |
+| `mailCity` | `string` |  |
+| `mailCountry` | `string` |  |
+| `mailPostalCode` | `string` |  |
+| `mailStateProvince` | `string` |  |
 | `modified` | `string` |  |
 | `name` | `string` |  |
-| `name_of_business` | `string` |  |
-| `note` | `string` |  |
-| `postal_code` | `string` |  |
-| `state_province` | `string` |  |
-| `unique_id` | `string` |  |
+| `nameOfBusiness` | `string` |  |
+| `notes` | `string` |  |
+| `postalCode` | `string` |  |
+| `stateProvince` | `string` |  |
+| `uniqueId` | `string` |  |
 | `version` | `long` |  |
 
 #### Example: Load
@@ -1335,19 +1335,19 @@ Create an instance: `var partner = client.Partner();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `billing_id` | `string` |  |
-| `client_can_order_equipment` | `bool` |  |
+| `billingId` | `string` |  |
+| `clientCanOrderEquipment` | `bool` |  |
 | `contact` | `Dictionary<string, object?>` |  |
 | `created` | `string` |  |
 | `id` | `string` |  |
-| `is_active` | `bool` |  |
+| `isActive` | `bool` |  |
 | `location` | `Dictionary<string, object?>` |  |
 | `modified` | `string` |  |
 | `name` | `string` |  |
 | `parent` | `Dictionary<string, object?>` |  |
-| `partner_id` | `string` |  |
+| `partnerId` | `string` |  |
 | `reference` | `string` |  |
-| `verification_phrase` | `string` |  |
+| `verificationPhrase` | `string` |  |
 | `version` | `long` |  |
 
 #### Example: Load
@@ -1391,15 +1391,15 @@ Create an instance: `var shipment = client.Shipment();`
 | `carrier` | `string` |  |
 | `client` | `Dictionary<string, object?>` |  |
 | `created` | `string` |  |
-| `date_received` | `string` |  |
-| `date_shipped` | `string` |  |
-| `dc_kif` | `Dictionary<string, object?>` |  |
+| `dateReceived` | `string` |  |
+| `dateShipped` | `string` |  |
+| `dcKif` | `Dictionary<string, object?>` |  |
 | `id` | `string` |  |
-| `item` | `List<object?>` |  |
+| `items` | `List<object?>` |  |
 | `kif` | `Dictionary<string, object?>` |  |
 | `modified` | `string` |  |
 | `partner` | `Dictionary<string, object?>` |  |
-| `shipment_type` | `string` |  |
+| `shipmentType` | `string` |  |
 | `tracking` | `string` |  |
 | `version` | `long` |  |
 
@@ -1467,30 +1467,30 @@ Create an instance: `var transaction = client.Transaction();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `alternate_key` | `string` |  |
+| `alternateKey` | `string` |  |
 | `client` | `Dictionary<string, object?>` |  |
-| `client_ref` | `string` |  |
+| `clientRef` | `string` |  |
 | `created` | `string` |  |
 | `decrypted` | `long` |  |
-| `device_name` | `string` |  |
-| `direct_partner` | `Dictionary<string, object?>` |  |
+| `deviceName` | `string` |  |
+| `directPartner` | `Dictionary<string, object?>` |  |
 | `encrypted` | `long` |  |
-| `end_date` | `string` |  |
-| `err_code` | `string` |  |
-| `err_message` | `string` |  |
+| `endDate` | `string` |  |
+| `errCode` | `string` |  |
+| `errMessage` | `string` |  |
 | `id` | `string` |  |
-| `ip_address` | `string` |  |
-| `is_virtual` | `bool` |  |
-| `key_type` | `string` |  |
+| `ipAddress` | `string` |  |
+| `isVirtual` | `bool` |  |
+| `keyType` | `string` |  |
 | `location` | `Dictionary<string, object?>` |  |
-| `message_id` | `string` |  |
+| `messageId` | `string` |  |
 | `method` | `string` |  |
 | `partner` | `Dictionary<string, object?>` |  |
 | `reference` | `string` |  |
-| `serial_number` | `string` |  |
-| `start_date` | `string` |  |
+| `serialNumber` | `string` |  |
+| `startDate` | `string` |  |
 | `success` | `bool` |  |
-| `transaction_source` | `string` |  |
+| `transactionSource` | `string` |  |
 
 #### Example: Load
 
@@ -1532,15 +1532,15 @@ Create an instance: `var updateResult = client.UpdateResult();`
 | --- | --- | --- |
 | `client` | `Dictionary<string, object?>` |  |
 | `email` | `string` |  |
-| `first_name` | `string` |  |
+| `firstName` | `string` |  |
 | `id` | `string` |  |
-| `is_active` | `bool` |  |
+| `isActive` | `bool` |  |
 | `kif` | `Dictionary<string, object?>` |  |
-| `last_name` | `string` |  |
+| `lastName` | `string` |  |
 | `partner` | `Dictionary<string, object?>` |  |
 | `phone` | `string` |  |
-| `user_name` | `string` |  |
-| `user_role` | `Dictionary<string, object?>` |  |
+| `userName` | `string` |  |
+| `userRole` | `Dictionary<string, object?>` |  |
 | `version` | `long` |  |
 
 #### Example: List
@@ -1576,16 +1576,16 @@ Create an instance: `var user = client.User();`
 | `client` | `Dictionary<string, object?>` |  |
 | `created` | `string` |  |
 | `email` | `string` |  |
-| `first_name` | `string` |  |
+| `firstName` | `string` |  |
 | `id` | `string` |  |
-| `is_active` | `bool` |  |
+| `isActive` | `bool` |  |
 | `kif` | `Dictionary<string, object?>` |  |
-| `last_name` | `string` |  |
+| `lastName` | `string` |  |
 | `modified` | `string` |  |
 | `partner` | `Dictionary<string, object?>` |  |
 | `phone` | `string` |  |
-| `user_name` | `string` |  |
-| `user_role` | `Dictionary<string, object?>` |  |
+| `userName` | `string` |  |
+| `userRole` | `Dictionary<string, object?>` |  |
 | `version` | `long` |  |
 
 #### Example: Load

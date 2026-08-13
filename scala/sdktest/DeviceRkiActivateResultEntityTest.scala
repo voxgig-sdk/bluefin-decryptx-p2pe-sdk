@@ -35,7 +35,7 @@ object DeviceRkiActivateResultEntityTest {
       var deviceRkiActivateResultRef01Data = Helpers.toMapAny(Struct.getprop(
           Struct.getpath(entityData, "new.device_rki_activate_result"), "device_rki_activate_result_ref01"))
       val deviceRkiActivateResultRef01DataResult = deviceRkiActivateResultRef01Ent.create(deviceRkiActivateResultRef01Data, null)
-      deviceRkiActivateResultRef01Data = Helpers.toMapAny(deviceRkiActivateResultRef01DataResult)
+      deviceRkiActivateResultRef01Data = Helpers.toMapAny(deviceRkiActivateResultRef01DataResult match { case e: SdkEntity => e.data(); case o => o })
       rep.check("device_rki_activate_result.create.map", deviceRkiActivateResultRef01Data != null, "expected create result to be a map")
     }
   }

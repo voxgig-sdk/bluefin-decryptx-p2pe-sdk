@@ -175,12 +175,12 @@ Prepare a fetch definition without sending. Returns the `fetchdef` and raises on
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `client` | `map` | No |  |
-| `complete_date` | `string` | No |  |
+| `completeDate` | `string` | No |  |
 | `created` | `string` | No |  |
 | `device` | `map` | No |  |
 | `id` | `string` | No |  |
 | `name` | `string` | No |  |
-| `note` | `string` | No |  |
+| `notes` | `string` | No |  |
 
 ### Operations
 
@@ -258,9 +258,9 @@ Return the entity name.
 | --- | --- | --- | --- |
 | `contact` | `map` | No |  |
 | `created` | `string` | No |  |
-| `direct_partner` | `map` | No |  |
+| `directPartner` | `map` | No |  |
 | `id` | `string` | No |  |
-| `is_active` | `boolean` | No |  |
+| `isActive` | `boolean` | No |  |
 | `location` | `map` | Yes |  |
 | `mid` | `string` | No |  |
 | `modified` | `string` | No |  |
@@ -274,9 +274,9 @@ Return the entity name.
 | --- | --- | --- | --- | --- |
 | `contact` | - | Yes | - | - |
 | `created` | - | - | - | - |
-| `direct_partner` | - | - | - | - |
+| `directPartner` | - | - | - | - |
 | `id` | - | - | - | - |
-| `is_active` | - | - | - | - |
+| `isActive` | - | - | - | - |
 | `location` | - | - | - | - |
 | `mid` | - | - | - | - |
 | `modified` | - | - | - | - |
@@ -481,33 +481,33 @@ Return the entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `activated_by` | `map` | Yes |  |
-| `activation_date` | `string` | No |  |
-| `alternate_key` | `string` | No |  |
-| `audit_next_date` | `string` | No |  |
-| `audit_notification_date` | `string` | No |  |
+| `activatedBy` | `map` | Yes |  |
+| `activationDate` | `string` | No |  |
+| `alternateKey` | `string` | No |  |
+| `auditNextDate` | `string` | No |  |
+| `auditNotificationDate` | `string` | No |  |
 | `client` | `map` | No |  |
 | `created` | `string` | No |  |
-| `created_by` | `map` | Yes |  |
-| `device_build` | `map` | No |  |
-| `device_state` | `map` | No |  |
-| `device_type` | `map` | No |  |
-| `error_counter` | `long` | No |  |
-| `error_last_date` | `string` | No |  |
+| `createdBy` | `map` | Yes |  |
+| `deviceBuild` | `map` | No |  |
+| `deviceState` | `map` | No |  |
+| `deviceType` | `map` | No |  |
+| `errorCounter` | `long` | No |  |
+| `errorLastDate` | `string` | No |  |
 | `id` | `string` | No |  |
-| `initialized_by` | `map` | Yes |  |
-| `initialized_date` | `string` | No |  |
-| `inject_key` | `map` | No |  |
-| `is_virtual` | `boolean` | No |  |
+| `initializedBy` | `map` | Yes |  |
+| `initializedDate` | `string` | No |  |
+| `injectKey` | `map` | No |  |
+| `isVirtual` | `boolean` | No |  |
 | `kif` | `map` | No |  |
-| `last_activity_date` | `string` | No |  |
+| `lastActivityDate` | `string` | No |  |
 | `location` | `map` | Yes |  |
 | `modified` | `string` | No |  |
-| `modified_by` | `map` | Yes |  |
+| `modifiedBy` | `map` | Yes |  |
 | `name` | `string` | No |  |
-| `note` | `string` | No |  |
+| `notes` | `string` | No |  |
 | `partner` | `map` | No |  |
-| `serial_number` | `string` | No |  |
+| `serialNumber` | `string` | No |  |
 | `version` | `long` | No |  |
 
 ### Operations
@@ -520,11 +520,11 @@ Create a new entity with the given data. Returns the created entity data and rai
 (def result
   (e-device/create (api/device client nil)
     (vs/jm
-      "activated_by" (vs/jm)  ;; map
-      "created_by" (vs/jm)  ;; map
-      "initialized_by" (vs/jm)  ;; map
+      "activatedBy" (vs/jm)  ;; map
+      "createdBy" (vs/jm)  ;; map
+      "initializedBy" (vs/jm)  ;; map
       "location" (vs/jm)  ;; map
-      "modified_by" (vs/jm)  ;; map
+      "modifiedBy" (vs/jm)  ;; map
       )
     nil))
 ```
@@ -589,21 +589,21 @@ Return the entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `app_version` | `string` | No |  |
-| `build_number` | `string` | No |  |
-| `config_file_name` | `string` | No |  |
+| `appVersion` | `string` | No |  |
+| `buildNumber` | `string` | No |  |
+| `configFileName` | `string` | No |  |
 | `created` | `string` | No |  |
-| `device_type` | `string` | No |  |
-| `firmware_version` | `string` | No |  |
-| `hardware_version` | `string` | No |  |
+| `deviceType` | `string` | No |  |
+| `firmwareVersion` | `string` | No |  |
+| `hardwareVersion` | `string` | No |  |
 | `id` | `long` | No |  |
-| `is_active` | `boolean` | No |  |
+| `isActive` | `boolean` | No |  |
 | `modified` | `string` | No |  |
 | `name` | `string` | No |  |
-| `note` | `string` | No |  |
+| `notes` | `string` | No |  |
 | `version` | `long` | No |  |
-| `white_listing_bin_range` | `string` | No |  |
-| `white_listing_used` | `boolean` | No |  |
+| `whiteListingBinRanges` | `string` | No |  |
+| `whiteListingUsed` | `boolean` | No |  |
 
 ### Operations
 
@@ -667,18 +667,18 @@ Return the entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `complete_date` | `string` | No |  |
+| `completeDate` | `string` | No |  |
 | `created` | `string` | No |  |
-| `created_by` | `map` | Yes |  |
+| `createdBy` | `map` | Yes |  |
 | `custodian` | `map` | Yes |  |
 | `device` | `map` | No |  |
 | `id` | `long` | No |  |
 | `location` | `map` | Yes |  |
 | `modified` | `string` | No |  |
-| `modified_by` | `map` | Yes |  |
-| `note` | `string` | No |  |
+| `modifiedBy` | `map` | Yes |  |
+| `notes` | `string` | No |  |
 | `status` | `map` | No |  |
-| `transfer_method` | `map` | No |  |
+| `transferMethod` | `map` | No |  |
 | `version` | `long` | No |  |
 
 ### Operations
@@ -734,18 +734,18 @@ Return the entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `complete_date` | `string` | No |  |
+| `completeDate` | `string` | No |  |
 | `created` | `string` | No |  |
-| `created_by` | `map` | Yes |  |
+| `createdBy` | `map` | Yes |  |
 | `custodian` | `map` | Yes |  |
 | `device` | `map` | No |  |
 | `id` | `long` | No |  |
 | `location` | `map` | Yes |  |
 | `modified` | `string` | No |  |
-| `modified_by` | `map` | Yes |  |
-| `note` | `string` | No |  |
+| `modifiedBy` | `map` | Yes |  |
+| `notes` | `string` | No |  |
 | `status` | `map` | No |  |
-| `transfer_method` | `map` | No |  |
+| `transferMethod` | `map` | No |  |
 | `version` | `long` | No |  |
 
 ### Operations
@@ -1036,16 +1036,16 @@ Return the entity name.
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `created` | `string` | No |  |
-| `device_type_mode` | `string` | No |  |
-| `hardware_version` | `string` | No |  |
+| `deviceTypeMode` | `string` | No |  |
+| `hardwareVersion` | `string` | No |  |
 | `id` | `string` | No |  |
-| `is_active` | `boolean` | No |  |
+| `isActive` | `boolean` | No |  |
 | `manufacturer` | `string` | No |  |
 | `model` | `string` | No |  |
 | `modified` | `string` | No |  |
 | `name` | `string` | No |  |
-| `photo_url` | `string` | No |  |
-| `product_name` | `string` | No |  |
+| `photoUrl` | `string` | No |  |
+| `productName` | `string` | No |  |
 | `version` | `long` | No |  |
 
 ### Operations
@@ -1112,9 +1112,9 @@ Return the entity name.
 | --- | --- | --- | --- |
 | `created` | `string` | No |  |
 | `id` | `string` | No |  |
-| `is_active` | `boolean` | No |  |
-| `is_p2_pe` | `boolean` | No |  |
-| `key_type` | `string` | No |  |
+| `isActive` | `boolean` | No |  |
+| `isP2PE` | `boolean` | No |  |
+| `keyType` | `string` | No |  |
 | `modified` | `string` | No |  |
 | `name` | `string` | No |  |
 | `version` | `long` | No |  |
@@ -1240,26 +1240,26 @@ Return the entity name.
 | --- | --- | --- | --- |
 | `address1` | `string` | No |  |
 | `address2` | `string` | No |  |
-| `billing_id` | `string` | No |  |
+| `billingId` | `string` | No |  |
 | `city` | `string` | No |  |
 | `country` | `string` | No |  |
 | `created` | `string` | No |  |
-| `custom_reference` | `string` | No |  |
+| `customReference` | `string` | No |  |
 | `id` | `string` | No |  |
-| `location_type` | `string` | No |  |
-| `mail_address1` | `string` | No |  |
-| `mail_address2` | `string` | No |  |
-| `mail_city` | `string` | No |  |
-| `mail_country` | `string` | No |  |
-| `mail_postal_code` | `string` | No |  |
-| `mail_state_province` | `string` | No |  |
+| `locationType` | `string` | No |  |
+| `mailAddress1` | `string` | No |  |
+| `mailAddress2` | `string` | No |  |
+| `mailCity` | `string` | No |  |
+| `mailCountry` | `string` | No |  |
+| `mailPostalCode` | `string` | No |  |
+| `mailStateProvince` | `string` | No |  |
 | `modified` | `string` | No |  |
 | `name` | `string` | No |  |
-| `name_of_business` | `string` | No |  |
-| `note` | `string` | No |  |
-| `postal_code` | `string` | No |  |
-| `state_province` | `string` | No |  |
-| `unique_id` | `string` | No |  |
+| `nameOfBusiness` | `string` | No |  |
+| `notes` | `string` | No |  |
+| `postalCode` | `string` | No |  |
+| `stateProvince` | `string` | No |  |
+| `uniqueId` | `string` | No |  |
 | `version` | `long` | No |  |
 
 ### Operations
@@ -1344,38 +1344,38 @@ Return the entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `billing_id` | `string` | No |  |
-| `client_can_order_equipment` | `boolean` | No |  |
+| `billingId` | `string` | No |  |
+| `clientCanOrderEquipment` | `boolean` | No |  |
 | `contact` | `map` | No |  |
 | `created` | `string` | No |  |
 | `id` | `string` | No |  |
-| `is_active` | `boolean` | No |  |
+| `isActive` | `boolean` | No |  |
 | `location` | `map` | Yes |  |
 | `modified` | `string` | No |  |
 | `name` | `string` | No |  |
 | `parent` | `map` | No |  |
-| `partner_id` | `string` | No |  |
+| `partnerId` | `string` | No |  |
 | `reference` | `string` | No |  |
-| `verification_phrase` | `string` | No |  |
+| `verificationPhrase` | `string` | No |  |
 | `version` | `long` | No |  |
 
 ### Field Usage by Operation
 
 | Field | load | list | create |
 | --- | --- | --- | --- |
-| `billing_id` | - | - | - |
-| `client_can_order_equipment` | - | - | - |
+| `billingId` | - | - | - |
+| `clientCanOrderEquipment` | - | - | - |
 | `contact` | - | Yes | - |
 | `created` | - | - | - |
 | `id` | - | - | - |
-| `is_active` | - | - | - |
+| `isActive` | - | - | - |
 | `location` | - | - | - |
 | `modified` | - | - | - |
 | `name` | - | - | - |
 | `parent` | - | - | - |
-| `partner_id` | - | - | - |
+| `partnerId` | - | - | - |
 | `reference` | - | - | - |
-| `verification_phrase` | - | - | - |
+| `verificationPhrase` | - | - | - |
 | `version` | - | - | - |
 
 ### Operations
@@ -1456,15 +1456,15 @@ Return the entity name.
 | `carrier` | `string` | No |  |
 | `client` | `map` | No |  |
 | `created` | `string` | No |  |
-| `date_received` | `string` | No |  |
-| `date_shipped` | `string` | No |  |
-| `dc_kif` | `map` | No |  |
+| `dateReceived` | `string` | No |  |
+| `dateShipped` | `string` | No |  |
+| `dcKif` | `map` | No |  |
 | `id` | `string` | No |  |
-| `item` | `vector` | No |  |
+| `items` | `vector` | No |  |
 | `kif` | `map` | No |  |
 | `modified` | `string` | No |  |
 | `partner` | `map` | No |  |
-| `shipment_type` | `string` | No |  |
+| `shipmentType` | `string` | No |  |
 | `tracking` | `string` | No |  |
 | `version` | `long` | No |  |
 
@@ -1610,30 +1610,30 @@ Return the entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `alternate_key` | `string` | No |  |
+| `alternateKey` | `string` | No |  |
 | `client` | `map` | No |  |
-| `client_ref` | `string` | No |  |
+| `clientRef` | `string` | No |  |
 | `created` | `string` | No |  |
 | `decrypted` | `long` | No |  |
-| `device_name` | `string` | No |  |
-| `direct_partner` | `map` | No |  |
+| `deviceName` | `string` | No |  |
+| `directPartner` | `map` | No |  |
 | `encrypted` | `long` | No |  |
-| `end_date` | `string` | No |  |
-| `err_code` | `string` | No |  |
-| `err_message` | `string` | No |  |
+| `endDate` | `string` | No |  |
+| `errCode` | `string` | No |  |
+| `errMessage` | `string` | No |  |
 | `id` | `string` | No |  |
-| `ip_address` | `string` | No |  |
-| `is_virtual` | `boolean` | No |  |
-| `key_type` | `string` | No |  |
+| `ipAddress` | `string` | No |  |
+| `isVirtual` | `boolean` | No |  |
+| `keyType` | `string` | No |  |
 | `location` | `map` | Yes |  |
-| `message_id` | `string` | No |  |
+| `messageId` | `string` | No |  |
 | `method` | `string` | No |  |
 | `partner` | `map` | No |  |
 | `reference` | `string` | No |  |
-| `serial_number` | `string` | No |  |
-| `start_date` | `string` | No |  |
+| `serialNumber` | `string` | No |  |
+| `startDate` | `string` | No |  |
 | `success` | `boolean` | No |  |
-| `transaction_source` | `string` | No |  |
+| `transactionSource` | `string` | No |  |
 
 ### Operations
 
@@ -1712,15 +1712,15 @@ Return the entity name.
 | --- | --- | --- | --- |
 | `client` | `map` | No |  |
 | `email` | `string` | No |  |
-| `first_name` | `string` | No |  |
+| `firstName` | `string` | No |  |
 | `id` | `string` | No |  |
-| `is_active` | `boolean` | No |  |
+| `isActive` | `boolean` | No |  |
 | `kif` | `map` | No |  |
-| `last_name` | `string` | No |  |
+| `lastName` | `string` | No |  |
 | `partner` | `map` | No |  |
 | `phone` | `string` | No |  |
-| `user_name` | `string` | No |  |
-| `user_role` | `map` | No |  |
+| `userName` | `string` | No |  |
+| `userRole` | `map` | No |  |
 | `version` | `long` | No |  |
 
 ### Operations
@@ -1806,16 +1806,16 @@ Return the entity name.
 | `client` | `map` | No |  |
 | `created` | `string` | No |  |
 | `email` | `string` | No |  |
-| `first_name` | `string` | No |  |
+| `firstName` | `string` | No |  |
 | `id` | `string` | No |  |
-| `is_active` | `boolean` | No |  |
+| `isActive` | `boolean` | No |  |
 | `kif` | `map` | No |  |
-| `last_name` | `string` | No |  |
+| `lastName` | `string` | No |  |
 | `modified` | `string` | No |  |
 | `partner` | `map` | No |  |
 | `phone` | `string` | No |  |
-| `user_name` | `string` | No |  |
-| `user_role` | `map` | No |  |
+| `userName` | `string` | No |  |
+| `userRole` | `map` | No |  |
 | `version` | `long` | No |  |
 
 ### Operations

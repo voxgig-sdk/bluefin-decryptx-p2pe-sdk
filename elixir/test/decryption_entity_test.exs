@@ -31,7 +31,8 @@ defmodule BluefinDecryptxP2pe.DecryptionEntityTest do
   test "should create then read back" do
     sdk = BluefinDecryptxP2pe.test(S.jm(["entity", S.jm(["decryption", S.jm([])])]))
     ent = BluefinDecryptxP2pe.decryption(sdk)
-    made = BluefinDecryptxP2pe.Entity.Decryption.create(ent, S.jm(["name", "test-create"]))
+    created = BluefinDecryptxP2pe.Entity.Decryption.create(ent, S.jm(["name", "test-create"]))
+    made = BluefinDecryptxP2pe.EntityBase.data_get(created)
     assert S.ismap(made)
     assert S.getprop(made, "id") != nil
   end

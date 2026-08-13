@@ -24,6 +24,7 @@ require_relative 'prepare_method'
 require_relative 'prepare_params'
 require_relative 'prepare_path'
 require_relative 'prepare_query'
+require_relative 'graphql'
 require_relative 'result_basic'
 require_relative 'result_body'
 require_relative 'result_headers'
@@ -55,6 +56,8 @@ BluefinDecryptxP2peUtility.registrar = ->(u) {
   u.prepare_params = BluefinDecryptxP2peUtilities::PrepareParams
   u.prepare_path = BluefinDecryptxP2peUtilities::PreparePath
   u.prepare_query = BluefinDecryptxP2peUtilities::PrepareQuery
+  u.graphql_body = BluefinDecryptxP2peUtilities::GraphqlBody
+  u.graphql_errors = BluefinDecryptxP2peUtilities::GraphqlErrors
   u.result_basic = BluefinDecryptxP2peUtilities::ResultBasic
   u.result_body = BluefinDecryptxP2peUtilities::ResultBody
   u.result_headers = BluefinDecryptxP2peUtilities::ResultHeaders

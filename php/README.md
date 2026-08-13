@@ -53,7 +53,7 @@ DeviceCustodyDetail is nested under device_type, so provide the `device_type`.
 
 ```php
 try {
-    // load() returns the bare DeviceCustodyDetail record (throws on error).
+    // load() returns the ENTITY — call data_get() for the DeviceCustodyDetail record (throws on error).
     $devicecustodydetail = $client->DeviceCustodyDetail()->load(["device_type" => "example_device_type", "serial_number" => "example_serial_number", "id" => "example_id"]);
     print_r($devicecustodydetail);
 } catch (\Throwable $err) {
@@ -64,8 +64,8 @@ try {
 ### 4. Create, update, and remove
 
 ```php
-// create() returns the bare created Attestation record.
-$created = $client->Attestation()->create(["client" => [], "complete_date" => "example_complete_date"]);
+// create() returns the ENTITY — call data_get() for the created Attestation record.
+$created = $client->Attestation()->create(["client" => [], "completeDate" => "example_completeDate"]);
 
 ```
 
@@ -152,7 +152,8 @@ $client = BluefinDecryptxP2peSDK::test([
     "entity" => ["devicetype" => ["test01" => ["id" => "test01"]]],
 ]);
 
-// Entity ops return the bare mock record (throws on error).
+// Entity ops return the ENTITY (throws on error);
+// call data_get() for the mock record.
 $devicetype = $client->DeviceType()->list();
 print_r($devicetype);
 ```
@@ -278,7 +279,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (an `array` for single-entity
+Entity operations return the ENTITY (call data_get() for the record) (an `array` for single-entity
 ops, a `list` for `list`) and throw on error. Wrap calls in
 `try`/`catch` to handle failures.
 
@@ -301,12 +302,12 @@ On error, `ok` is `false` and `$err` contains the error value.
 | Field | Description |
 | --- | --- |
 | `client` |  |
-| `complete_date` |  |
+| `completeDate` |  |
 | `created` |  |
 | `device` |  |
 | `id` |  |
 | `name` |  |
-| `note` |  |
+| `notes` |  |
 
 Operations: Create, List, Load.
 
@@ -318,9 +319,9 @@ API path: `/attestations`
 | --- | --- |
 | `contact` |  |
 | `created` |  |
-| `direct_partner` |  |
+| `directPartner` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `location` |  |
 | `mid` |  |
 | `modified` |  |
@@ -355,33 +356,33 @@ API path: `/decryption`
 
 | Field | Description |
 | --- | --- |
-| `activated_by` |  |
-| `activation_date` |  |
-| `alternate_key` |  |
-| `audit_next_date` |  |
-| `audit_notification_date` |  |
+| `activatedBy` |  |
+| `activationDate` |  |
+| `alternateKey` |  |
+| `auditNextDate` |  |
+| `auditNotificationDate` |  |
 | `client` |  |
 | `created` |  |
-| `created_by` |  |
-| `device_build` |  |
-| `device_state` |  |
-| `device_type` |  |
-| `error_counter` |  |
-| `error_last_date` |  |
+| `createdBy` |  |
+| `deviceBuild` |  |
+| `deviceState` |  |
+| `deviceType` |  |
+| `errorCounter` |  |
+| `errorLastDate` |  |
 | `id` |  |
-| `initialized_by` |  |
-| `initialized_date` |  |
-| `inject_key` |  |
-| `is_virtual` |  |
+| `initializedBy` |  |
+| `initializedDate` |  |
+| `injectKey` |  |
+| `isVirtual` |  |
 | `kif` |  |
-| `last_activity_date` |  |
+| `lastActivityDate` |  |
 | `location` |  |
 | `modified` |  |
-| `modified_by` |  |
+| `modifiedBy` |  |
 | `name` |  |
-| `note` |  |
+| `notes` |  |
 | `partner` |  |
-| `serial_number` |  |
+| `serialNumber` |  |
 | `version` |  |
 
 Operations: Create, List, Load.
@@ -392,21 +393,21 @@ API path: `/devices`
 
 | Field | Description |
 | --- | --- |
-| `app_version` |  |
-| `build_number` |  |
-| `config_file_name` |  |
+| `appVersion` |  |
+| `buildNumber` |  |
+| `configFileName` |  |
 | `created` |  |
-| `device_type` |  |
-| `firmware_version` |  |
-| `hardware_version` |  |
+| `deviceType` |  |
+| `firmwareVersion` |  |
+| `hardwareVersion` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `modified` |  |
 | `name` |  |
-| `note` |  |
+| `notes` |  |
 | `version` |  |
-| `white_listing_bin_range` |  |
-| `white_listing_used` |  |
+| `whiteListingBinRanges` |  |
+| `whiteListingUsed` |  |
 
 Operations: List, Load.
 
@@ -416,18 +417,18 @@ API path: `/deviceBuilds`
 
 | Field | Description |
 | --- | --- |
-| `complete_date` |  |
+| `completeDate` |  |
 | `created` |  |
-| `created_by` |  |
+| `createdBy` |  |
 | `custodian` |  |
 | `device` |  |
 | `id` |  |
 | `location` |  |
 | `modified` |  |
-| `modified_by` |  |
-| `note` |  |
+| `modifiedBy` |  |
+| `notes` |  |
 | `status` |  |
-| `transfer_method` |  |
+| `transferMethod` |  |
 | `version` |  |
 
 Operations: Load.
@@ -438,18 +439,18 @@ API path: `/devices/{serialNumber}/{deviceType}/custody/{id}`
 
 | Field | Description |
 | --- | --- |
-| `complete_date` |  |
+| `completeDate` |  |
 | `created` |  |
-| `created_by` |  |
+| `createdBy` |  |
 | `custodian` |  |
 | `device` |  |
 | `id` |  |
 | `location` |  |
 | `modified` |  |
-| `modified_by` |  |
-| `note` |  |
+| `modifiedBy` |  |
+| `notes` |  |
 | `status` |  |
-| `transfer_method` |  |
+| `transferMethod` |  |
 | `version` |  |
 
 Operations: List.
@@ -503,16 +504,16 @@ API path: `/deviceStates`
 | Field | Description |
 | --- | --- |
 | `created` |  |
-| `device_type_mode` |  |
-| `hardware_version` |  |
+| `deviceTypeMode` |  |
+| `hardwareVersion` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `manufacturer` |  |
 | `model` |  |
 | `modified` |  |
 | `name` |  |
-| `photo_url` |  |
-| `product_name` |  |
+| `photoUrl` |  |
+| `productName` |  |
 | `version` |  |
 
 Operations: List, Load.
@@ -525,9 +526,9 @@ API path: `/deviceTypes`
 | --- | --- |
 | `created` |  |
 | `id` |  |
-| `is_active` |  |
-| `is_p2_pe` |  |
-| `key_type` |  |
+| `isActive` |  |
+| `isP2PE` |  |
+| `keyType` |  |
 | `modified` |  |
 | `name` |  |
 | `version` |  |
@@ -553,26 +554,26 @@ API path: `/kifs`
 | --- | --- |
 | `address1` |  |
 | `address2` |  |
-| `billing_id` |  |
+| `billingId` |  |
 | `city` |  |
 | `country` |  |
 | `created` |  |
-| `custom_reference` |  |
+| `customReference` |  |
 | `id` |  |
-| `location_type` |  |
-| `mail_address1` |  |
-| `mail_address2` |  |
-| `mail_city` |  |
-| `mail_country` |  |
-| `mail_postal_code` |  |
-| `mail_state_province` |  |
+| `locationType` |  |
+| `mailAddress1` |  |
+| `mailAddress2` |  |
+| `mailCity` |  |
+| `mailCountry` |  |
+| `mailPostalCode` |  |
+| `mailStateProvince` |  |
 | `modified` |  |
 | `name` |  |
-| `name_of_business` |  |
-| `note` |  |
-| `postal_code` |  |
-| `state_province` |  |
-| `unique_id` |  |
+| `nameOfBusiness` |  |
+| `notes` |  |
+| `postalCode` |  |
+| `stateProvince` |  |
+| `uniqueId` |  |
 | `version` |  |
 
 Operations: Create, List, Load, Remove.
@@ -583,19 +584,19 @@ API path: `/locations`
 
 | Field | Description |
 | --- | --- |
-| `billing_id` |  |
-| `client_can_order_equipment` |  |
+| `billingId` |  |
+| `clientCanOrderEquipment` |  |
 | `contact` |  |
 | `created` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `location` |  |
 | `modified` |  |
 | `name` |  |
 | `parent` |  |
-| `partner_id` |  |
+| `partnerId` |  |
 | `reference` |  |
-| `verification_phrase` |  |
+| `verificationPhrase` |  |
 | `version` |  |
 
 Operations: Create, List, Load.
@@ -609,15 +610,15 @@ API path: `/partners`
 | `carrier` |  |
 | `client` |  |
 | `created` |  |
-| `date_received` |  |
-| `date_shipped` |  |
-| `dc_kif` |  |
+| `dateReceived` |  |
+| `dateShipped` |  |
+| `dcKif` |  |
 | `id` |  |
-| `item` |  |
+| `items` |  |
 | `kif` |  |
 | `modified` |  |
 | `partner` |  |
-| `shipment_type` |  |
+| `shipmentType` |  |
 | `tracking` |  |
 | `version` |  |
 
@@ -639,30 +640,30 @@ API path: `/virtualDevices/{sharePartnerTo}`
 
 | Field | Description |
 | --- | --- |
-| `alternate_key` |  |
+| `alternateKey` |  |
 | `client` |  |
-| `client_ref` |  |
+| `clientRef` |  |
 | `created` |  |
 | `decrypted` |  |
-| `device_name` |  |
-| `direct_partner` |  |
+| `deviceName` |  |
+| `directPartner` |  |
 | `encrypted` |  |
-| `end_date` |  |
-| `err_code` |  |
-| `err_message` |  |
+| `endDate` |  |
+| `errCode` |  |
+| `errMessage` |  |
 | `id` |  |
-| `ip_address` |  |
-| `is_virtual` |  |
-| `key_type` |  |
+| `ipAddress` |  |
+| `isVirtual` |  |
+| `keyType` |  |
 | `location` |  |
-| `message_id` |  |
+| `messageId` |  |
 | `method` |  |
 | `partner` |  |
 | `reference` |  |
-| `serial_number` |  |
-| `start_date` |  |
+| `serialNumber` |  |
+| `startDate` |  |
 | `success` |  |
-| `transaction_source` |  |
+| `transactionSource` |  |
 
 Operations: Create, List, Load.
 
@@ -674,15 +675,15 @@ API path: `/transactions`
 | --- | --- |
 | `client` |  |
 | `email` |  |
-| `first_name` |  |
+| `firstName` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `kif` |  |
-| `last_name` |  |
+| `lastName` |  |
 | `partner` |  |
 | `phone` |  |
-| `user_name` |  |
-| `user_role` |  |
+| `userName` |  |
+| `userRole` |  |
 | `version` |  |
 
 Operations: Create, List, Update.
@@ -696,16 +697,16 @@ API path: `/users`
 | `client` |  |
 | `created` |  |
 | `email` |  |
-| `first_name` |  |
+| `firstName` |  |
 | `id` |  |
-| `is_active` |  |
+| `isActive` |  |
 | `kif` |  |
-| `last_name` |  |
+| `lastName` |  |
 | `modified` |  |
 | `partner` |  |
 | `phone` |  |
-| `user_name` |  |
-| `user_role` |  |
+| `userName` |  |
+| `userRole` |  |
 | `version` |  |
 
 Operations: Load, Remove.
@@ -734,17 +735,17 @@ Create an instance: `$attestation = $client->Attestation();`
 | Field | Type | Description |
 | --- | --- | --- |
 | `client` | `array` |  |
-| `complete_date` | `string` |  |
+| `completeDate` | `string` |  |
 | `created` | `string` |  |
 | `device` | `array` |  |
 | `id` | `string` |  |
 | `name` | `string` |  |
-| `note` | `string` |  |
+| `notes` | `string` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the bare Attestation record (throws on error).
+// load() returns the ENTITY — call data_get() for the Attestation record (throws on error).
 $attestation = $client->Attestation()->load(["id" => "attestation_id"]);
 ```
 
@@ -782,9 +783,9 @@ Create an instance: `$client = $client->Client();`
 | --- | --- | --- |
 | `contact` | `array` |  |
 | `created` | `string` |  |
-| `direct_partner` | `array` |  |
+| `directPartner` | `array` |  |
 | `id` | `string` |  |
-| `is_active` | `bool` |  |
+| `isActive` | `bool` |  |
 | `location` | `array` |  |
 | `mid` | `string` |  |
 | `modified` | `string` |  |
@@ -795,7 +796,7 @@ Create an instance: `$client = $client->Client();`
 #### Example: Load
 
 ```php
-// load() returns the bare Client record (throws on error).
+// load() returns the ENTITY — call data_get() for the Client record (throws on error).
 $client = $client->Client()->load(["id" => "client_id"]);
 ```
 
@@ -875,39 +876,39 @@ Create an instance: `$device = $client->Device();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `activated_by` | `array` |  |
-| `activation_date` | `string` |  |
-| `alternate_key` | `string` |  |
-| `audit_next_date` | `string` |  |
-| `audit_notification_date` | `string` |  |
+| `activatedBy` | `array` |  |
+| `activationDate` | `string` |  |
+| `alternateKey` | `string` |  |
+| `auditNextDate` | `string` |  |
+| `auditNotificationDate` | `string` |  |
 | `client` | `array` |  |
 | `created` | `string` |  |
-| `created_by` | `array` |  |
-| `device_build` | `array` |  |
-| `device_state` | `array` |  |
-| `device_type` | `array` |  |
-| `error_counter` | `int` |  |
-| `error_last_date` | `string` |  |
+| `createdBy` | `array` |  |
+| `deviceBuild` | `array` |  |
+| `deviceState` | `array` |  |
+| `deviceType` | `array` |  |
+| `errorCounter` | `int` |  |
+| `errorLastDate` | `string` |  |
 | `id` | `string` |  |
-| `initialized_by` | `array` |  |
-| `initialized_date` | `string` |  |
-| `inject_key` | `array` |  |
-| `is_virtual` | `bool` |  |
+| `initializedBy` | `array` |  |
+| `initializedDate` | `string` |  |
+| `injectKey` | `array` |  |
+| `isVirtual` | `bool` |  |
 | `kif` | `array` |  |
-| `last_activity_date` | `string` |  |
+| `lastActivityDate` | `string` |  |
 | `location` | `array` |  |
 | `modified` | `string` |  |
-| `modified_by` | `array` |  |
+| `modifiedBy` | `array` |  |
 | `name` | `string` |  |
-| `note` | `string` |  |
+| `notes` | `string` |  |
 | `partner` | `array` |  |
-| `serial_number` | `string` |  |
+| `serialNumber` | `string` |  |
 | `version` | `int` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the bare Device record (throws on error).
+// load() returns the ENTITY — call data_get() for the Device record (throws on error).
 $device = $client->Device()->load(["id" => "device_id"]);
 ```
 
@@ -922,11 +923,11 @@ $devices = $client->Device()->list();
 
 ```php
 $device = $client->Device()->create([
-    "activated_by" => null, // array
-    "created_by" => null, // array
-    "initialized_by" => null, // array
+    "activatedBy" => null, // array
+    "createdBy" => null, // array
+    "initializedBy" => null, // array
     "location" => null, // array
-    "modified_by" => null, // array
+    "modifiedBy" => null, // array
 ]);
 ```
 
@@ -946,26 +947,26 @@ Create an instance: `$device_build = $client->DeviceBuild();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `app_version` | `string` |  |
-| `build_number` | `string` |  |
-| `config_file_name` | `string` |  |
+| `appVersion` | `string` |  |
+| `buildNumber` | `string` |  |
+| `configFileName` | `string` |  |
 | `created` | `string` |  |
-| `device_type` | `string` |  |
-| `firmware_version` | `string` |  |
-| `hardware_version` | `string` |  |
+| `deviceType` | `string` |  |
+| `firmwareVersion` | `string` |  |
+| `hardwareVersion` | `string` |  |
 | `id` | `int` |  |
-| `is_active` | `bool` |  |
+| `isActive` | `bool` |  |
 | `modified` | `string` |  |
 | `name` | `string` |  |
-| `note` | `string` |  |
+| `notes` | `string` |  |
 | `version` | `int` |  |
-| `white_listing_bin_range` | `string` |  |
-| `white_listing_used` | `bool` |  |
+| `whiteListingBinRanges` | `string` |  |
+| `whiteListingUsed` | `bool` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the bare DeviceBuild record (throws on error).
+// load() returns the ENTITY — call data_get() for the DeviceBuild record (throws on error).
 $device_build = $client->DeviceBuild()->load(["id" => "device_build_id"]);
 ```
 
@@ -991,24 +992,24 @@ Create an instance: `$device_custody_detail = $client->DeviceCustodyDetail();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `complete_date` | `string` |  |
+| `completeDate` | `string` |  |
 | `created` | `string` |  |
-| `created_by` | `array` |  |
+| `createdBy` | `array` |  |
 | `custodian` | `array` |  |
 | `device` | `array` |  |
 | `id` | `int` |  |
 | `location` | `array` |  |
 | `modified` | `string` |  |
-| `modified_by` | `array` |  |
-| `note` | `string` |  |
+| `modifiedBy` | `array` |  |
+| `notes` | `string` |  |
 | `status` | `array` |  |
-| `transfer_method` | `array` |  |
+| `transferMethod` | `array` |  |
 | `version` | `int` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the bare DeviceCustodyDetail record (throws on error).
+// load() returns the ENTITY — call data_get() for the DeviceCustodyDetail record (throws on error).
 $device_custody_detail = $client->DeviceCustodyDetail()->load(["id" => "device_custody_detail_id", "device_type" => "device_type", "serial_number" => "serial_number"]);
 ```
 
@@ -1027,18 +1028,18 @@ Create an instance: `$device_custody_list = $client->DeviceCustodyList();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `complete_date` | `string` |  |
+| `completeDate` | `string` |  |
 | `created` | `string` |  |
-| `created_by` | `array` |  |
+| `createdBy` | `array` |  |
 | `custodian` | `array` |  |
 | `device` | `array` |  |
 | `id` | `int` |  |
 | `location` | `array` |  |
 | `modified` | `string` |  |
-| `modified_by` | `array` |  |
-| `note` | `string` |  |
+| `modifiedBy` | `array` |  |
+| `notes` | `string` |  |
 | `status` | `array` |  |
-| `transfer_method` | `array` |  |
+| `transferMethod` | `array` |  |
 | `version` | `int` |  |
 
 #### Example: List
@@ -1069,7 +1070,7 @@ Create an instance: `$device_list = $client->DeviceList();`
 #### Example: Load
 
 ```php
-// load() returns the bare DeviceList record (throws on error).
+// load() returns the ENTITY — call data_get() for the DeviceList record (throws on error).
 $device_list = $client->DeviceList()->load(["share_partner_to" => "share_partner_to"]);
 ```
 
@@ -1165,22 +1166,22 @@ Create an instance: `$device_type = $client->DeviceType();`
 | Field | Type | Description |
 | --- | --- | --- |
 | `created` | `string` |  |
-| `device_type_mode` | `string` |  |
-| `hardware_version` | `string` |  |
+| `deviceTypeMode` | `string` |  |
+| `hardwareVersion` | `string` |  |
 | `id` | `string` |  |
-| `is_active` | `bool` |  |
+| `isActive` | `bool` |  |
 | `manufacturer` | `string` |  |
 | `model` | `string` |  |
 | `modified` | `string` |  |
 | `name` | `string` |  |
-| `photo_url` | `string` |  |
-| `product_name` | `string` |  |
+| `photoUrl` | `string` |  |
+| `productName` | `string` |  |
 | `version` | `int` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the bare DeviceType record (throws on error).
+// load() returns the ENTITY — call data_get() for the DeviceType record (throws on error).
 $device_type = $client->DeviceType()->load(["id" => "device_type_id"]);
 ```
 
@@ -1209,9 +1210,9 @@ Create an instance: `$inject_key = $client->InjectKey();`
 | --- | --- | --- |
 | `created` | `string` |  |
 | `id` | `string` |  |
-| `is_active` | `bool` |  |
-| `is_p2_pe` | `bool` |  |
-| `key_type` | `string` |  |
+| `isActive` | `bool` |  |
+| `isP2PE` | `bool` |  |
+| `keyType` | `string` |  |
 | `modified` | `string` |  |
 | `name` | `string` |  |
 | `version` | `int` |  |
@@ -1219,7 +1220,7 @@ Create an instance: `$inject_key = $client->InjectKey();`
 #### Example: Load
 
 ```php
-// load() returns the bare InjectKey record (throws on error).
+// load() returns the ENTITY — call data_get() for the InjectKey record (throws on error).
 $inject_key = $client->InjectKey()->load(["id" => "inject_key_id"]);
 ```
 
@@ -1275,32 +1276,32 @@ Create an instance: `$location = $client->Location();`
 | --- | --- | --- |
 | `address1` | `string` |  |
 | `address2` | `string` |  |
-| `billing_id` | `string` |  |
+| `billingId` | `string` |  |
 | `city` | `string` |  |
 | `country` | `string` |  |
 | `created` | `string` |  |
-| `custom_reference` | `string` |  |
+| `customReference` | `string` |  |
 | `id` | `string` |  |
-| `location_type` | `string` |  |
-| `mail_address1` | `string` |  |
-| `mail_address2` | `string` |  |
-| `mail_city` | `string` |  |
-| `mail_country` | `string` |  |
-| `mail_postal_code` | `string` |  |
-| `mail_state_province` | `string` |  |
+| `locationType` | `string` |  |
+| `mailAddress1` | `string` |  |
+| `mailAddress2` | `string` |  |
+| `mailCity` | `string` |  |
+| `mailCountry` | `string` |  |
+| `mailPostalCode` | `string` |  |
+| `mailStateProvince` | `string` |  |
 | `modified` | `string` |  |
 | `name` | `string` |  |
-| `name_of_business` | `string` |  |
-| `note` | `string` |  |
-| `postal_code` | `string` |  |
-| `state_province` | `string` |  |
-| `unique_id` | `string` |  |
+| `nameOfBusiness` | `string` |  |
+| `notes` | `string` |  |
+| `postalCode` | `string` |  |
+| `stateProvince` | `string` |  |
+| `uniqueId` | `string` |  |
 | `version` | `int` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the bare Location record (throws on error).
+// load() returns the ENTITY — call data_get() for the Location record (throws on error).
 $location = $client->Location()->load(["id" => "location_id"]);
 ```
 
@@ -1335,25 +1336,25 @@ Create an instance: `$partner = $client->Partner();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `billing_id` | `string` |  |
-| `client_can_order_equipment` | `bool` |  |
+| `billingId` | `string` |  |
+| `clientCanOrderEquipment` | `bool` |  |
 | `contact` | `array` |  |
 | `created` | `string` |  |
 | `id` | `string` |  |
-| `is_active` | `bool` |  |
+| `isActive` | `bool` |  |
 | `location` | `array` |  |
 | `modified` | `string` |  |
 | `name` | `string` |  |
 | `parent` | `array` |  |
-| `partner_id` | `string` |  |
+| `partnerId` | `string` |  |
 | `reference` | `string` |  |
-| `verification_phrase` | `string` |  |
+| `verificationPhrase` | `string` |  |
 | `version` | `int` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the bare Partner record (throws on error).
+// load() returns the ENTITY — call data_get() for the Partner record (throws on error).
 $partner = $client->Partner()->load(["id" => "partner_id"]);
 ```
 
@@ -1392,22 +1393,22 @@ Create an instance: `$shipment = $client->Shipment();`
 | `carrier` | `string` |  |
 | `client` | `array` |  |
 | `created` | `string` |  |
-| `date_received` | `string` |  |
-| `date_shipped` | `string` |  |
-| `dc_kif` | `array` |  |
+| `dateReceived` | `string` |  |
+| `dateShipped` | `string` |  |
+| `dcKif` | `array` |  |
 | `id` | `string` |  |
-| `item` | `array` |  |
+| `items` | `array` |  |
 | `kif` | `array` |  |
 | `modified` | `string` |  |
 | `partner` | `array` |  |
-| `shipment_type` | `string` |  |
+| `shipmentType` | `string` |  |
 | `tracking` | `string` |  |
 | `version` | `int` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the bare Shipment record (throws on error).
+// load() returns the ENTITY — call data_get() for the Shipment record (throws on error).
 $shipment = $client->Shipment()->load(["id" => "shipment_id"]);
 ```
 
@@ -1468,35 +1469,35 @@ Create an instance: `$transaction = $client->Transaction();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `alternate_key` | `string` |  |
+| `alternateKey` | `string` |  |
 | `client` | `array` |  |
-| `client_ref` | `string` |  |
+| `clientRef` | `string` |  |
 | `created` | `string` |  |
 | `decrypted` | `int` |  |
-| `device_name` | `string` |  |
-| `direct_partner` | `array` |  |
+| `deviceName` | `string` |  |
+| `directPartner` | `array` |  |
 | `encrypted` | `int` |  |
-| `end_date` | `string` |  |
-| `err_code` | `string` |  |
-| `err_message` | `string` |  |
+| `endDate` | `string` |  |
+| `errCode` | `string` |  |
+| `errMessage` | `string` |  |
 | `id` | `string` |  |
-| `ip_address` | `string` |  |
-| `is_virtual` | `bool` |  |
-| `key_type` | `string` |  |
+| `ipAddress` | `string` |  |
+| `isVirtual` | `bool` |  |
+| `keyType` | `string` |  |
 | `location` | `array` |  |
-| `message_id` | `string` |  |
+| `messageId` | `string` |  |
 | `method` | `string` |  |
 | `partner` | `array` |  |
 | `reference` | `string` |  |
-| `serial_number` | `string` |  |
-| `start_date` | `string` |  |
+| `serialNumber` | `string` |  |
+| `startDate` | `string` |  |
 | `success` | `bool` |  |
-| `transaction_source` | `string` |  |
+| `transactionSource` | `string` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the bare Transaction record (throws on error).
+// load() returns the ENTITY — call data_get() for the Transaction record (throws on error).
 $transaction = $client->Transaction()->load(["id" => "transaction_id"]);
 ```
 
@@ -1534,15 +1535,15 @@ Create an instance: `$update_result = $client->UpdateResult();`
 | --- | --- | --- |
 | `client` | `array` |  |
 | `email` | `string` |  |
-| `first_name` | `string` |  |
+| `firstName` | `string` |  |
 | `id` | `string` |  |
-| `is_active` | `bool` |  |
+| `isActive` | `bool` |  |
 | `kif` | `array` |  |
-| `last_name` | `string` |  |
+| `lastName` | `string` |  |
 | `partner` | `array` |  |
 | `phone` | `string` |  |
-| `user_name` | `string` |  |
-| `user_role` | `array` |  |
+| `userName` | `string` |  |
+| `userRole` | `array` |  |
 | `version` | `int` |  |
 
 #### Example: List
@@ -1578,22 +1579,22 @@ Create an instance: `$user = $client->User();`
 | `client` | `array` |  |
 | `created` | `string` |  |
 | `email` | `string` |  |
-| `first_name` | `string` |  |
+| `firstName` | `string` |  |
 | `id` | `string` |  |
-| `is_active` | `bool` |  |
+| `isActive` | `bool` |  |
 | `kif` | `array` |  |
-| `last_name` | `string` |  |
+| `lastName` | `string` |  |
 | `modified` | `string` |  |
 | `partner` | `array` |  |
 | `phone` | `string` |  |
-| `user_name` | `string` |  |
-| `user_role` | `array` |  |
+| `userName` | `string` |  |
+| `userRole` | `array` |  |
 | `version` | `int` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the bare User record (throws on error).
+// load() returns the ENTITY — call data_get() for the User record (throws on error).
 $user = $client->User()->load(["id" => "user_id"]);
 ```
 

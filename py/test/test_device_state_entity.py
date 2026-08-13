@@ -6,9 +6,9 @@ import time
 
 import pytest
 
-from utility.voxgig_struct import voxgig_struct as vs
+from bluefindecryptxp2pe_sdk.utility.voxgig_struct import voxgig_struct as vs
 from bluefindecryptxp2pe_sdk import BluefinDecryptxP2peSDK
-from core import helpers
+from bluefindecryptxp2pe_sdk.core import helpers
 
 _TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 from test import runner
@@ -42,7 +42,7 @@ class TestDeviceStateEntity:
         assert len(seen) == 3
 
         # Inbound: streaming active -> yields each item from the feature.
-        from config import make_config
+        from bluefindecryptxp2pe_sdk.config import make_config
         cfg = make_config()
         if isinstance(cfg.get("feature"), dict) and "streaming" in cfg["feature"]:
             sdk = BluefinDecryptxP2peSDK.test(
@@ -70,7 +70,7 @@ class TestDeviceStateEntity:
         # without an *_ENTID env override, those IDs hit the live API and 4xx.
         if setup.get("synthetic_only"):
             pytest.skip("live entity test uses synthetic IDs from fixture — "
-                        "set BLUEFINDECRYPTXP_PE_TEST_DEVICE_STATE_ENTID JSON to run live")
+                        "set BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_STATE_ENTID JSON to run live")
         client = setup["client"]
 
         # Bootstrap entity data from existing test data.
@@ -118,37 +118,37 @@ def _device_state_basic_setup(extra):
     # mode is on without a real override, the basic test runs against synthetic
     # IDs from the fixture and 4xx's. We surface this so the test can skip.
     _entid_env_raw = os.environ.get(
-        "BLUEFINDECRYPTXP_PE_TEST_DEVICE_STATE_ENTID")
+        "BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_STATE_ENTID")
     _idmap_overridden = _entid_env_raw is not None and _entid_env_raw.strip().startswith("{")
 
     env = runner.env_override({
-        "BLUEFINDECRYPTXP_PE_TEST_DEVICE_STATE_ENTID": idmap,
-        "BLUEFINDECRYPTXP_PE_TEST_LIVE": "FALSE",
-        "BLUEFINDECRYPTXP_PE_TEST_EXPLAIN": "FALSE",
-        "BLUEFINDECRYPTXP_PE_APIKEY": "NONE",
+        "BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_STATE_ENTID": idmap,
+        "BLUEFIN_DECRYPTX_P2PE_TEST_LIVE": "FALSE",
+        "BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN": "FALSE",
+        "BLUEFIN_DECRYPTX_P2PE_APIKEY": "NONE",
     })
 
     idmap_resolved = helpers.to_map(
-        env.get("BLUEFINDECRYPTXP_PE_TEST_DEVICE_STATE_ENTID"))
+        env.get("BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_STATE_ENTID"))
     if idmap_resolved is None:
         idmap_resolved = helpers.to_map(idmap)
 
-    if env.get("BLUEFINDECRYPTXP_PE_TEST_LIVE") == "TRUE":
+    if env.get("BLUEFIN_DECRYPTX_P2PE_TEST_LIVE") == "TRUE":
         merged_opts = vs.merge([
             {
-                "apikey": env.get("BLUEFINDECRYPTXP_PE_APIKEY"),
+                "apikey": env.get("BLUEFIN_DECRYPTX_P2PE_APIKEY"),
             },
             extra or {},
         ])
         client = BluefinDecryptxP2peSDK(helpers.to_map(merged_opts))
 
-    _live = env.get("BLUEFINDECRYPTXP_PE_TEST_LIVE") == "TRUE"
+    _live = env.get("BLUEFIN_DECRYPTX_P2PE_TEST_LIVE") == "TRUE"
     return {
         "client": client,
         "data": entity_data,
         "idmap": idmap_resolved,
         "env": env,
-        "explain": env.get("BLUEFINDECRYPTXP_PE_TEST_EXPLAIN") == "TRUE",
+        "explain": env.get("BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN") == "TRUE",
         "live": _live,
         "synthetic_only": _live and not _idmap_overridden,
         "now": int(time.time() * 1000),

@@ -22,7 +22,7 @@ All calls to our Management APIs support basic and HMAC authentication. For inst
 
 Basic authentication is a simple authentication scheme built into the HTTP protocol, the client sends HTTP requests with an Authorization header that contains the word *'Basic'*, followed by a space and a base64-encoded string username:password. For example, for the username and password, user and password, the authentication header is as follows:
 ~~~
-#Authorization: Basic base64(user:pasword)
+//Authorization: Basic base64(user:pasword)
 ~~~
 Output:
 ~~~

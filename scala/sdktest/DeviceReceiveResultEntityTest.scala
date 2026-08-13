@@ -35,7 +35,7 @@ object DeviceReceiveResultEntityTest {
       var deviceReceiveResultRef01Data = Helpers.toMapAny(Struct.getprop(
           Struct.getpath(entityData, "new.device_receive_result"), "device_receive_result_ref01"))
       val deviceReceiveResultRef01DataResult = deviceReceiveResultRef01Ent.create(deviceReceiveResultRef01Data, null)
-      deviceReceiveResultRef01Data = Helpers.toMapAny(deviceReceiveResultRef01DataResult)
+      deviceReceiveResultRef01Data = Helpers.toMapAny(deviceReceiveResultRef01DataResult match { case e: SdkEntity => e.data(); case o => o })
       rep.check("device_receive_result.create.map", deviceReceiveResultRef01Data != null, "expected create result to be a map")
     }
   }

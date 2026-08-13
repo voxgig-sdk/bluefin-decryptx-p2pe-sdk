@@ -35,7 +35,7 @@ object DecryptionEntityTest {
       var decryptionRef01Data = Helpers.toMapAny(Struct.getprop(
           Struct.getpath(entityData, "new.decryption"), "decryption_ref01"))
       val decryptionRef01DataResult = decryptionRef01Ent.create(decryptionRef01Data, null)
-      decryptionRef01Data = Helpers.toMapAny(decryptionRef01DataResult)
+      decryptionRef01Data = Helpers.toMapAny(decryptionRef01DataResult match { case e: SdkEntity => e.data(); case o => o })
       rep.check("decryption.create.map", decryptionRef01Data != null, "expected create result to be a map")
     }
   }

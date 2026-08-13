@@ -26,8 +26,8 @@ import {
 describe('CreateResultEntity', async () => {
 
   // Per-test live pacing. Delay is read from sdk-test-control.json's
-  // `test.live.delayMs`; only sleeps when BLUEFINDECRYPTXP2PE_TEST_LIVE=TRUE.
-  afterEach(liveDelay('BLUEFINDECRYPTXP2PE_TEST_LIVE'))
+  // `test.live.delayMs`; only sleeps when BLUEFIN_DECRYPTX_P2PE_TEST_LIVE=TRUE.
+  afterEach(liveDelay('BLUEFIN_DECRYPTX_P2PE_TEST_LIVE'))
 
   test('instance', async () => {
     const testsdk = BluefinDecryptxP2peSDK.test()
@@ -38,7 +38,7 @@ describe('CreateResultEntity', async () => {
 
   test('basic', async (t) => {
 
-    const live = 'TRUE' === process.env.BLUEFIN_DECRYPTX_P_PE_TEST_LIVE
+    const live = 'TRUE' === process.env.BLUEFIN_DECRYPTX_P2PE_TEST_LIVE
     for (const op of ['create']) {
       if (maybeSkipControl(t, 'entityOp', 'create_result.' + op, live)) return
     }
@@ -48,7 +48,7 @@ describe('CreateResultEntity', async () => {
     // fixture (entity TestData.json). Those don't exist on the live API.
     // Skip live runs unless the user provided a real ENTID env override.
     if (setup.syntheticOnly) {
-      t.skip('live entity test uses synthetic IDs from fixture — set BLUEFIN_DECRYPTX_P_PE_TEST_CREATE_RESULT_ENTID JSON to run live')
+      t.skip('live entity test uses synthetic IDs from fixture — set BLUEFIN_DECRYPTX_P2PE_TEST_CREATE_RESULT_ENTID JSON to run live')
       return
     }
     const client = setup.client
@@ -64,7 +64,7 @@ describe('CreateResultEntity', async () => {
     create_result_ref01_data['device_type'] = setup.idmap['device_type01']
     create_result_ref01_data['serial_number'] = setup.idmap['serial_number01']
 
-    create_result_ref01_data = await create_result_ref01_ent.create(create_result_ref01_data)
+    create_result_ref01_data = (await create_result_ref01_ent.create(create_result_ref01_data)).data()
     assert(null != create_result_ref01_data)
 
 
@@ -108,24 +108,24 @@ function basicSetup(extra?: any) {
   // basic flow consumes synthetic IDs from the fixture file; without an
   // override those synthetic IDs reach the live API and 4xx. Surface this
   // to the test so it can skip rather than fail.
-  const idmapEnvVal = process.env['BLUEFIN_DECRYPTX_P_PE_TEST_CREATE_RESULT_ENTID']
+  const idmapEnvVal = process.env['BLUEFIN_DECRYPTX_P2PE_TEST_CREATE_RESULT_ENTID']
   const idmapOverridden = null != idmapEnvVal && idmapEnvVal.trim().startsWith('{')
 
   const env = envOverride({
-    'BLUEFIN_DECRYPTX_P_PE_TEST_CREATE_RESULT_ENTID': idmap,
-    'BLUEFIN_DECRYPTX_P_PE_TEST_LIVE': 'FALSE',
-    'BLUEFIN_DECRYPTX_P_PE_TEST_EXPLAIN': 'FALSE',
-    'BLUEFIN_DECRYPTX_P_PE_APIKEY': 'NONE',
+    'BLUEFIN_DECRYPTX_P2PE_TEST_CREATE_RESULT_ENTID': idmap,
+    'BLUEFIN_DECRYPTX_P2PE_TEST_LIVE': 'FALSE',
+    'BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN': 'FALSE',
+    'BLUEFIN_DECRYPTX_P2PE_APIKEY': 'NONE',
   })
 
-  idmap = env['BLUEFIN_DECRYPTX_P_PE_TEST_CREATE_RESULT_ENTID']
+  idmap = env['BLUEFIN_DECRYPTX_P2PE_TEST_CREATE_RESULT_ENTID']
 
-  const live = 'TRUE' === env.BLUEFIN_DECRYPTX_P_PE_TEST_LIVE
+  const live = 'TRUE' === env.BLUEFIN_DECRYPTX_P2PE_TEST_LIVE
 
   if (live) {
     client = new BluefinDecryptxP2peSDK(merge([
       {
-        apikey: env.BLUEFIN_DECRYPTX_P_PE_APIKEY,
+        apikey: env.BLUEFIN_DECRYPTX_P2PE_APIKEY,
       },
       extra
     ]))
@@ -138,7 +138,7 @@ function basicSetup(extra?: any) {
     client,
     struct,
     data: entityData,
-    explain: 'TRUE' === env.BLUEFIN_DECRYPTX_P_PE_TEST_EXPLAIN,
+    explain: 'TRUE' === env.BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN,
     live,
     syntheticOnly: live && !idmapOverridden,
     now: Date.now(),

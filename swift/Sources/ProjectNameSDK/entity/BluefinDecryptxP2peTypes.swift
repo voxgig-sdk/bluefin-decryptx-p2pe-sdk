@@ -18,7 +18,7 @@ public struct Attestation {
   public var device: VMap?
   public var id: String?
   public var name: String?
-  public var note: String?
+  public var notes: String?
 }
 
 /// AttestationLoadMatch is the typed request payload for Attestation.load.
@@ -34,7 +34,7 @@ public struct AttestationListMatch {
   public var device: VMap?
   public var id: String?
   public var name: String?
-  public var note: String?
+  public var notes: String?
 }
 
 /// AttestationCreateData is the typed request payload for Attestation.create.
@@ -45,7 +45,7 @@ public struct AttestationCreateData {
   public var device: VMap?
   public var id: String?
   public var name: String?
-  public var note: String?
+  public var notes: String?
 }
 
 /// Client is the typed data model for the client entity.
@@ -149,7 +149,7 @@ public struct Device {
   public var modified: String?
   public var modifiedBy: VMap
   public var name: String?
-  public var note: String?
+  public var notes: String?
   public var partner: VMap?
   public var serialNumber: String?
   public var version: Int?
@@ -188,7 +188,7 @@ public struct DeviceListMatch {
   public var modified: String?
   public var modifiedBy: VMap?
   public var name: String?
-  public var note: String?
+  public var notes: String?
   public var partner: VMap?
   public var serialNumber: String?
   public var version: Int?
@@ -220,7 +220,7 @@ public struct DeviceCreateData {
   public var modified: String?
   public var modifiedBy: VMap
   public var name: String?
-  public var note: String?
+  public var notes: String?
   public var partner: VMap?
   public var serialNumber: String?
   public var version: Int?
@@ -239,9 +239,9 @@ public struct DeviceBuild {
   public var isActive: Bool?
   public var modified: String?
   public var name: String?
-  public var note: String?
+  public var notes: String?
   public var version: Int?
-  public var whiteListingBinRange: String?
+  public var whiteListingBinRanges: String?
   public var whiteListingUsed: Bool?
 }
 
@@ -263,9 +263,9 @@ public struct DeviceBuildListMatch {
   public var isActive: Bool?
   public var modified: String?
   public var name: String?
-  public var note: String?
+  public var notes: String?
   public var version: Int?
-  public var whiteListingBinRange: String?
+  public var whiteListingBinRanges: String?
   public var whiteListingUsed: Bool?
 }
 
@@ -280,7 +280,7 @@ public struct DeviceCustodyDetail {
   public var location: VMap
   public var modified: String?
   public var modifiedBy: VMap
-  public var note: String?
+  public var notes: String?
   public var status: VMap?
   public var transferMethod: VMap?
   public var version: Int?
@@ -304,7 +304,7 @@ public struct DeviceCustodyList {
   public var location: VMap
   public var modified: String?
   public var modifiedBy: VMap
-  public var note: String?
+  public var notes: String?
   public var status: VMap?
   public var transferMethod: VMap?
   public var version: Int?
@@ -457,7 +457,7 @@ public struct Location {
   public var modified: String?
   public var name: String?
   public var nameOfBusiness: String?
-  public var note: String?
+  public var notes: String?
   public var postalCode: String?
   public var stateProvince: String?
   public var uniqueId: String?
@@ -489,7 +489,7 @@ public struct LocationListMatch {
   public var modified: String?
   public var name: String?
   public var nameOfBusiness: String?
-  public var note: String?
+  public var notes: String?
   public var postalCode: String?
   public var stateProvince: String?
   public var uniqueId: String?
@@ -516,7 +516,7 @@ public struct LocationCreateData {
   public var modified: String?
   public var name: String?
   public var nameOfBusiness: String?
-  public var note: String?
+  public var notes: String?
   public var postalCode: String?
   public var stateProvince: String?
   public var uniqueId: String?
@@ -596,7 +596,7 @@ public struct Shipment {
   public var dateShipped: String?
   public var dcKif: VMap?
   public var id: String?
-  public var item: [Value]?
+  public var items: [Value]?
   public var kif: VMap?
   public var modified: String?
   public var partner: VMap?
@@ -619,7 +619,7 @@ public struct ShipmentListMatch {
   public var dateShipped: String?
   public var dcKif: VMap?
   public var id: String?
-  public var item: [Value]?
+  public var items: [Value]?
   public var kif: VMap?
   public var modified: String?
   public var partner: VMap?
@@ -637,7 +637,7 @@ public struct ShipmentCreateData {
   public var dateShipped: String?
   public var dcKif: VMap?
   public var id: String?
-  public var item: [Value]?
+  public var items: [Value]?
   public var kif: VMap?
   public var modified: String?
   public var partner: VMap?
@@ -654,6 +654,7 @@ public struct Success {
 /// SuccessCreateData is the typed request payload for Success.create.
 public struct SuccessCreateData {
   public var sharePartnerTo: String
+  public var success: Bool?
 }
 
 /// SuccessRemoveMatch is the typed request payload for Success.remove.
@@ -801,6 +802,17 @@ public struct UpdateResultCreateData {
 /// UpdateResultUpdateData is the typed request payload for UpdateResult.update.
 public struct UpdateResultUpdateData {
   public var id: String
+  public var client: VMap?
+  public var email: String?
+  public var firstName: String?
+  public var isActive: Bool?
+  public var kif: VMap?
+  public var lastName: String?
+  public var partner: VMap?
+  public var phone: String?
+  public var userName: String?
+  public var userRole: VMap?
+  public var version: Int?
 }
 
 /// User is the typed data model for the user entity.

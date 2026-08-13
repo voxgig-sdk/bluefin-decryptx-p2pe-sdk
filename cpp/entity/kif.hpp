@@ -26,13 +26,13 @@ public:
     return std::make_shared<KifEntity>(this->client, opts);
   }
 
-  Value load(const Value& reqmatch, const Value& ctrl) override {
+  SdkEntityPtr load(const Value& reqmatch, const Value& ctrl) override {
       (void)reqmatch; (void)ctrl;
       throw Helpers::unsupportedOp("load", this->name_);
     }
 
 
-    Value list(const Value& reqmatch, const Value& ctrl) override {
+    std::vector<SdkEntityPtr> list(const Value& reqmatch, const Value& ctrl) override {
       CtxSpec cs;
       cs.setOpname("list");
       cs.ctrlMap = ctrl.is_map() ? ctrl : vmap();
@@ -41,27 +41,43 @@ public:
       cs.reqmatch = reqmatch.is_map() ? reqmatch : vmap();
       CtxPtr ctx = this->utility->makeContext(cs, this->entctx);
   
-      return runOp(ctx, [this, ctx]() {
+      Value out = runOp(ctx, [this, ctx]() {
         if (ctx->result) {
           if (ctx->result->resmatch.is_map()) {
             this->match_ = ctx->result->resmatch;
           }
         }
       });
+  
+      // `list` resolves to one ENTITY per record. makeResult cannot build them
+      // here - it works in Value, which has no slot for an entity - so the op
+      // does, mirroring what the dynamic targets get from makeResult.
+      std::vector<SdkEntityPtr> items;
+      if (out.is_list()) {
+        for (const auto& entry : *out.as_list()) {
+          SdkEntityPtr ent = std::static_pointer_cast<SdkEntity>(this->make());
+          if (entry.is_map()) {
+            ent->data(entry);
+          }
+          items.push_back(ent);
+        }
+      }
+  
+      return items;
     }
   
 
-  Value create(const Value& reqdata, const Value& ctrl) override {
+  SdkEntityPtr create(const Value& reqdata, const Value& ctrl) override {
       (void)reqdata; (void)ctrl;
       throw Helpers::unsupportedOp("create", this->name_);
     }
 
-  Value update(const Value& reqdata, const Value& ctrl) override {
+  SdkEntityPtr update(const Value& reqdata, const Value& ctrl) override {
       (void)reqdata; (void)ctrl;
       throw Helpers::unsupportedOp("update", this->name_);
     }
 
-  Value remove(const Value& reqmatch, const Value& ctrl) override {
+  SdkEntityPtr remove(const Value& reqmatch, const Value& ctrl) override {
       (void)reqmatch; (void)ctrl;
       throw Helpers::unsupportedOp("remove", this->name_);
     }

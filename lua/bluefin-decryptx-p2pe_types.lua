@@ -8,40 +8,40 @@
 
 ---@class Attestation
 ---@field client? table
----@field complete_date? string
+---@field completeDate? string
 ---@field created? string
 ---@field device? table
 ---@field id? string
 ---@field name? string
----@field note? string
+---@field notes? string
 
 ---@class AttestationLoadMatch
 ---@field id string
 
 ---@class AttestationListMatch
 ---@field client? table
----@field complete_date? string
+---@field completeDate? string
 ---@field created? string
 ---@field device? table
 ---@field id? string
 ---@field name? string
----@field note? string
+---@field notes? string
 
 ---@class AttestationCreateData
 ---@field client? table
----@field complete_date? string
+---@field completeDate? string
 ---@field created? string
 ---@field device? table
 ---@field id? string
 ---@field name? string
----@field note? string
+---@field notes? string
 
 ---@class Client
 ---@field contact? table
 ---@field created? string
----@field direct_partner? table
+---@field directPartner? table
 ---@field id? string
----@field is_active? boolean
+---@field isActive? boolean
 ---@field location table
 ---@field mid? string
 ---@field modified? string
@@ -55,9 +55,9 @@
 ---@class ClientListMatch
 ---@field contact? table
 ---@field created? string
----@field direct_partner? table
+---@field directPartner? table
 ---@field id? string
----@field is_active? boolean
+---@field isActive? boolean
 ---@field location? table
 ---@field mid? string
 ---@field modified? string
@@ -68,9 +68,9 @@
 ---@class ClientCreateData
 ---@field contact? table
 ---@field created? string
----@field direct_partner? table
+---@field directPartner? table
 ---@field id? string
----@field is_active? boolean
+---@field isActive? boolean
 ---@field location table
 ---@field mid? string
 ---@field modified? string
@@ -94,33 +94,33 @@
 ---@field success? boolean
 
 ---@class Device
----@field activated_by table
----@field activation_date? string
----@field alternate_key? string
----@field audit_next_date? string
----@field audit_notification_date? string
+---@field activatedBy table
+---@field activationDate? string
+---@field alternateKey? string
+---@field auditNextDate? string
+---@field auditNotificationDate? string
 ---@field client? table
 ---@field created? string
----@field created_by table
----@field device_build? table
----@field device_state? table
----@field device_type? table
----@field error_counter? number
----@field error_last_date? string
+---@field createdBy table
+---@field deviceBuild? table
+---@field deviceState? table
+---@field deviceType? table
+---@field errorCounter? number
+---@field errorLastDate? string
 ---@field id? string
----@field initialized_by table
----@field initialized_date? string
----@field inject_key? table
----@field is_virtual? boolean
+---@field initializedBy table
+---@field initializedDate? string
+---@field injectKey? table
+---@field isVirtual? boolean
 ---@field kif? table
----@field last_activity_date? string
+---@field lastActivityDate? string
 ---@field location table
 ---@field modified? string
----@field modified_by table
+---@field modifiedBy table
 ---@field name? string
----@field note? string
+---@field notes? string
 ---@field partner? table
----@field serial_number? string
+---@field serialNumber? string
 ---@field version? number
 
 ---@class DeviceLoadMatch
@@ -129,115 +129,115 @@
 ---@field id? string
 
 ---@class DeviceListMatch
----@field activated_by? table
----@field activation_date? string
----@field alternate_key? string
----@field audit_next_date? string
----@field audit_notification_date? string
+---@field activatedBy? table
+---@field activationDate? string
+---@field alternateKey? string
+---@field auditNextDate? string
+---@field auditNotificationDate? string
 ---@field client? table
 ---@field created? string
----@field created_by? table
----@field device_build? table
----@field device_state? table
----@field device_type? table
----@field error_counter? number
----@field error_last_date? string
+---@field createdBy? table
+---@field deviceBuild? table
+---@field deviceState? table
+---@field deviceType? table
+---@field errorCounter? number
+---@field errorLastDate? string
 ---@field id? string
----@field initialized_by? table
----@field initialized_date? string
----@field inject_key? table
----@field is_virtual? boolean
+---@field initializedBy? table
+---@field initializedDate? string
+---@field injectKey? table
+---@field isVirtual? boolean
 ---@field kif? table
----@field last_activity_date? string
+---@field lastActivityDate? string
 ---@field location? table
 ---@field modified? string
----@field modified_by? table
+---@field modifiedBy? table
 ---@field name? string
----@field note? string
+---@field notes? string
 ---@field partner? table
----@field serial_number? string
+---@field serialNumber? string
 ---@field version? number
 
 ---@class DeviceCreateData
----@field activated_by table
----@field activation_date? string
----@field alternate_key? string
----@field audit_next_date? string
----@field audit_notification_date? string
+---@field activatedBy table
+---@field activationDate? string
+---@field alternateKey? string
+---@field auditNextDate? string
+---@field auditNotificationDate? string
 ---@field client? table
 ---@field created? string
----@field created_by table
----@field device_build? table
----@field device_state? table
----@field device_type? table
----@field error_counter? number
----@field error_last_date? string
+---@field createdBy table
+---@field deviceBuild? table
+---@field deviceState? table
+---@field deviceType? table
+---@field errorCounter? number
+---@field errorLastDate? string
 ---@field id? string
----@field initialized_by table
----@field initialized_date? string
----@field inject_key? table
----@field is_virtual? boolean
+---@field initializedBy table
+---@field initializedDate? string
+---@field injectKey? table
+---@field isVirtual? boolean
 ---@field kif? table
----@field last_activity_date? string
+---@field lastActivityDate? string
 ---@field location table
 ---@field modified? string
----@field modified_by table
+---@field modifiedBy table
 ---@field name? string
----@field note? string
+---@field notes? string
 ---@field partner? table
----@field serial_number? string
+---@field serialNumber? string
 ---@field version? number
 
 ---@class DeviceBuild
----@field app_version? string
----@field build_number? string
----@field config_file_name? string
+---@field appVersion? string
+---@field buildNumber? string
+---@field configFileName? string
 ---@field created? string
----@field device_type? string
----@field firmware_version? string
----@field hardware_version? string
+---@field deviceType? string
+---@field firmwareVersion? string
+---@field hardwareVersion? string
 ---@field id? number
----@field is_active? boolean
+---@field isActive? boolean
 ---@field modified? string
 ---@field name? string
----@field note? string
+---@field notes? string
 ---@field version? number
----@field white_listing_bin_range? string
----@field white_listing_used? boolean
+---@field whiteListingBinRanges? string
+---@field whiteListingUsed? boolean
 
 ---@class DeviceBuildLoadMatch
 ---@field id string
 
 ---@class DeviceBuildListMatch
----@field app_version? string
----@field build_number? string
----@field config_file_name? string
+---@field appVersion? string
+---@field buildNumber? string
+---@field configFileName? string
 ---@field created? string
----@field device_type? string
----@field firmware_version? string
----@field hardware_version? string
+---@field deviceType? string
+---@field firmwareVersion? string
+---@field hardwareVersion? string
 ---@field id? number
----@field is_active? boolean
+---@field isActive? boolean
 ---@field modified? string
 ---@field name? string
----@field note? string
+---@field notes? string
 ---@field version? number
----@field white_listing_bin_range? string
----@field white_listing_used? boolean
+---@field whiteListingBinRanges? string
+---@field whiteListingUsed? boolean
 
 ---@class DeviceCustodyDetail
----@field complete_date? string
+---@field completeDate? string
 ---@field created? string
----@field created_by table
+---@field createdBy table
 ---@field custodian table
 ---@field device? table
 ---@field id? number
 ---@field location table
 ---@field modified? string
----@field modified_by table
----@field note? string
+---@field modifiedBy table
+---@field notes? string
 ---@field status? table
----@field transfer_method? table
+---@field transferMethod? table
 ---@field version? number
 
 ---@class DeviceCustodyDetailLoadMatch
@@ -246,18 +246,18 @@
 ---@field serial_number string
 
 ---@class DeviceCustodyList
----@field complete_date? string
+---@field completeDate? string
 ---@field created? string
----@field created_by table
+---@field createdBy table
 ---@field custodian table
 ---@field device? table
 ---@field id? number
 ---@field location table
 ---@field modified? string
----@field modified_by table
----@field note? string
+---@field modifiedBy table
+---@field notes? string
 ---@field status? table
----@field transfer_method? table
+---@field transferMethod? table
 ---@field version? number
 
 ---@class DeviceCustodyListListMatch
@@ -293,16 +293,16 @@
 
 ---@class DeviceType
 ---@field created? string
----@field device_type_mode? string
----@field hardware_version? string
+---@field deviceTypeMode? string
+---@field hardwareVersion? string
 ---@field id? string
----@field is_active? boolean
+---@field isActive? boolean
 ---@field manufacturer? string
 ---@field model? string
 ---@field modified? string
 ---@field name? string
----@field photo_url? string
----@field product_name? string
+---@field photoUrl? string
+---@field productName? string
 ---@field version? number
 
 ---@class DeviceTypeLoadMatch
@@ -310,24 +310,24 @@
 
 ---@class DeviceTypeListMatch
 ---@field created? string
----@field device_type_mode? string
----@field hardware_version? string
+---@field deviceTypeMode? string
+---@field hardwareVersion? string
 ---@field id? string
----@field is_active? boolean
+---@field isActive? boolean
 ---@field manufacturer? string
 ---@field model? string
 ---@field modified? string
 ---@field name? string
----@field photo_url? string
----@field product_name? string
+---@field photoUrl? string
+---@field productName? string
 ---@field version? number
 
 ---@class InjectKey
 ---@field created? string
 ---@field id? string
----@field is_active? boolean
----@field is_p2_pe? boolean
----@field key_type? string
+---@field isActive? boolean
+---@field isP2PE? boolean
+---@field keyType? string
 ---@field modified? string
 ---@field name? string
 ---@field version? number
@@ -338,9 +338,9 @@
 ---@class InjectKeyListMatch
 ---@field created? string
 ---@field id? string
----@field is_active? boolean
----@field is_p2_pe? boolean
----@field key_type? string
+---@field isActive? boolean
+---@field isP2PE? boolean
+---@field keyType? string
 ---@field modified? string
 ---@field name? string
 ---@field version? number
@@ -356,26 +356,26 @@
 ---@class Location
 ---@field address1? string
 ---@field address2? string
----@field billing_id? string
+---@field billingId? string
 ---@field city? string
 ---@field country? string
 ---@field created? string
----@field custom_reference? string
+---@field customReference? string
 ---@field id? string
----@field location_type? string
----@field mail_address1? string
----@field mail_address2? string
----@field mail_city? string
----@field mail_country? string
----@field mail_postal_code? string
----@field mail_state_province? string
+---@field locationType? string
+---@field mailAddress1? string
+---@field mailAddress2? string
+---@field mailCity? string
+---@field mailCountry? string
+---@field mailPostalCode? string
+---@field mailStateProvince? string
 ---@field modified? string
 ---@field name? string
----@field name_of_business? string
----@field note? string
----@field postal_code? string
----@field state_province? string
----@field unique_id? string
+---@field nameOfBusiness? string
+---@field notes? string
+---@field postalCode? string
+---@field stateProvince? string
+---@field uniqueId? string
 ---@field version? number
 
 ---@class LocationLoadMatch
@@ -384,120 +384,120 @@
 ---@class LocationListMatch
 ---@field address1? string
 ---@field address2? string
----@field billing_id? string
+---@field billingId? string
 ---@field city? string
 ---@field country? string
 ---@field created? string
----@field custom_reference? string
+---@field customReference? string
 ---@field id? string
----@field location_type? string
----@field mail_address1? string
----@field mail_address2? string
----@field mail_city? string
----@field mail_country? string
----@field mail_postal_code? string
----@field mail_state_province? string
+---@field locationType? string
+---@field mailAddress1? string
+---@field mailAddress2? string
+---@field mailCity? string
+---@field mailCountry? string
+---@field mailPostalCode? string
+---@field mailStateProvince? string
 ---@field modified? string
 ---@field name? string
----@field name_of_business? string
----@field note? string
----@field postal_code? string
----@field state_province? string
----@field unique_id? string
+---@field nameOfBusiness? string
+---@field notes? string
+---@field postalCode? string
+---@field stateProvince? string
+---@field uniqueId? string
 ---@field version? number
 
 ---@class LocationCreateData
 ---@field address1? string
 ---@field address2? string
----@field billing_id? string
+---@field billingId? string
 ---@field city? string
 ---@field country? string
 ---@field created? string
----@field custom_reference? string
+---@field customReference? string
 ---@field id? string
----@field location_type? string
----@field mail_address1? string
----@field mail_address2? string
----@field mail_city? string
----@field mail_country? string
----@field mail_postal_code? string
----@field mail_state_province? string
+---@field locationType? string
+---@field mailAddress1? string
+---@field mailAddress2? string
+---@field mailCity? string
+---@field mailCountry? string
+---@field mailPostalCode? string
+---@field mailStateProvince? string
 ---@field modified? string
 ---@field name? string
----@field name_of_business? string
----@field note? string
----@field postal_code? string
----@field state_province? string
----@field unique_id? string
+---@field nameOfBusiness? string
+---@field notes? string
+---@field postalCode? string
+---@field stateProvince? string
+---@field uniqueId? string
 ---@field version? number
 
 ---@class LocationRemoveMatch
 ---@field id string
 
 ---@class Partner
----@field billing_id? string
----@field client_can_order_equipment? boolean
+---@field billingId? string
+---@field clientCanOrderEquipment? boolean
 ---@field contact? table
 ---@field created? string
 ---@field id? string
----@field is_active? boolean
+---@field isActive? boolean
 ---@field location table
 ---@field modified? string
 ---@field name? string
 ---@field parent? table
----@field partner_id? string
+---@field partnerId? string
 ---@field reference? string
----@field verification_phrase? string
+---@field verificationPhrase? string
 ---@field version? number
 
 ---@class PartnerLoadMatch
 ---@field id string
 
 ---@class PartnerListMatch
----@field billing_id? string
----@field client_can_order_equipment? boolean
+---@field billingId? string
+---@field clientCanOrderEquipment? boolean
 ---@field contact? table
 ---@field created? string
 ---@field id? string
----@field is_active? boolean
+---@field isActive? boolean
 ---@field location? table
 ---@field modified? string
 ---@field name? string
 ---@field parent? table
----@field partner_id? string
+---@field partnerId? string
 ---@field reference? string
----@field verification_phrase? string
+---@field verificationPhrase? string
 ---@field version? number
 
 ---@class PartnerCreateData
----@field billing_id? string
----@field client_can_order_equipment? boolean
+---@field billingId? string
+---@field clientCanOrderEquipment? boolean
 ---@field contact? table
 ---@field created? string
 ---@field id? string
----@field is_active? boolean
+---@field isActive? boolean
 ---@field location table
 ---@field modified? string
 ---@field name? string
 ---@field parent? table
----@field partner_id? string
+---@field partnerId? string
 ---@field reference? string
----@field verification_phrase? string
+---@field verificationPhrase? string
 ---@field version? number
 
 ---@class Shipment
 ---@field carrier? string
 ---@field client? table
 ---@field created? string
----@field date_received? string
----@field date_shipped? string
----@field dc_kif? table
+---@field dateReceived? string
+---@field dateShipped? string
+---@field dcKif? table
 ---@field id? string
----@field item? table
+---@field items? table
 ---@field kif? table
 ---@field modified? string
 ---@field partner? table
----@field shipment_type? string
+---@field shipmentType? string
 ---@field tracking? string
 ---@field version? number
 
@@ -508,15 +508,15 @@
 ---@field carrier? string
 ---@field client? table
 ---@field created? string
----@field date_received? string
----@field date_shipped? string
----@field dc_kif? table
+---@field dateReceived? string
+---@field dateShipped? string
+---@field dcKif? table
 ---@field id? string
----@field item? table
+---@field items? table
 ---@field kif? table
 ---@field modified? string
 ---@field partner? table
----@field shipment_type? string
+---@field shipmentType? string
 ---@field tracking? string
 ---@field version? number
 
@@ -524,15 +524,15 @@
 ---@field carrier? string
 ---@field client? table
 ---@field created? string
----@field date_received? string
----@field date_shipped? string
----@field dc_kif? table
+---@field dateReceived? string
+---@field dateShipped? string
+---@field dcKif? table
 ---@field id? string
----@field item? table
+---@field items? table
 ---@field kif? table
 ---@field modified? string
 ---@field partner? table
----@field shipment_type? string
+---@field shipmentType? string
 ---@field tracking? string
 ---@field version? number
 
@@ -541,150 +541,162 @@
 
 ---@class SuccessCreateData
 ---@field share_partner_to string
+---@field success? boolean
 
 ---@class SuccessRemoveMatch
 ---@field share_partner_to string
 
 ---@class Transaction
----@field alternate_key? string
+---@field alternateKey? string
 ---@field client? table
----@field client_ref? string
+---@field clientRef? string
 ---@field created? string
 ---@field decrypted? number
----@field device_name? string
----@field direct_partner? table
+---@field deviceName? string
+---@field directPartner? table
 ---@field encrypted? number
----@field end_date? string
----@field err_code? string
----@field err_message? string
+---@field endDate? string
+---@field errCode? string
+---@field errMessage? string
 ---@field id? string
----@field ip_address? string
----@field is_virtual? boolean
----@field key_type? string
+---@field ipAddress? string
+---@field isVirtual? boolean
+---@field keyType? string
 ---@field location table
----@field message_id? string
+---@field messageId? string
 ---@field method? string
 ---@field partner? table
 ---@field reference? string
----@field serial_number? string
----@field start_date? string
+---@field serialNumber? string
+---@field startDate? string
 ---@field success? boolean
----@field transaction_source? string
+---@field transactionSource? string
 
 ---@class TransactionLoadMatch
 ---@field id string
 
 ---@class TransactionListMatch
----@field alternate_key? string
+---@field alternateKey? string
 ---@field client? table
----@field client_ref? string
+---@field clientRef? string
 ---@field created? string
 ---@field decrypted? number
----@field device_name? string
----@field direct_partner? table
+---@field deviceName? string
+---@field directPartner? table
 ---@field encrypted? number
----@field end_date? string
----@field err_code? string
----@field err_message? string
+---@field endDate? string
+---@field errCode? string
+---@field errMessage? string
 ---@field id? string
----@field ip_address? string
----@field is_virtual? boolean
----@field key_type? string
+---@field ipAddress? string
+---@field isVirtual? boolean
+---@field keyType? string
 ---@field location? table
----@field message_id? string
+---@field messageId? string
 ---@field method? string
 ---@field partner? table
 ---@field reference? string
----@field serial_number? string
----@field start_date? string
+---@field serialNumber? string
+---@field startDate? string
 ---@field success? boolean
----@field transaction_source? string
+---@field transactionSource? string
 
 ---@class TransactionCreateData
----@field alternate_key? string
+---@field alternateKey? string
 ---@field client? table
----@field client_ref? string
+---@field clientRef? string
 ---@field created? string
 ---@field decrypted? number
----@field device_name? string
----@field direct_partner? table
+---@field deviceName? string
+---@field directPartner? table
 ---@field encrypted? number
----@field end_date? string
----@field err_code? string
----@field err_message? string
+---@field endDate? string
+---@field errCode? string
+---@field errMessage? string
 ---@field id? string
----@field ip_address? string
----@field is_virtual? boolean
----@field key_type? string
+---@field ipAddress? string
+---@field isVirtual? boolean
+---@field keyType? string
 ---@field location table
----@field message_id? string
+---@field messageId? string
 ---@field method? string
 ---@field partner? table
 ---@field reference? string
----@field serial_number? string
----@field start_date? string
+---@field serialNumber? string
+---@field startDate? string
 ---@field success? boolean
----@field transaction_source? string
+---@field transactionSource? string
 
 ---@class UpdateResult
 ---@field client? table
 ---@field email? string
----@field first_name? string
+---@field firstName? string
 ---@field id? string
----@field is_active? boolean
+---@field isActive? boolean
 ---@field kif? table
----@field last_name? string
+---@field lastName? string
 ---@field partner? table
 ---@field phone? string
----@field user_name? string
----@field user_role? table
+---@field userName? string
+---@field userRole? table
 ---@field version? number
 
 ---@class UpdateResultListMatch
 ---@field client? table
 ---@field email? string
----@field first_name? string
+---@field firstName? string
 ---@field id? string
----@field is_active? boolean
+---@field isActive? boolean
 ---@field kif? table
----@field last_name? string
+---@field lastName? string
 ---@field partner? table
 ---@field phone? string
----@field user_name? string
----@field user_role? table
+---@field userName? string
+---@field userRole? table
 ---@field version? number
 
 ---@class UpdateResultCreateData
 ---@field client? table
 ---@field email? string
----@field first_name? string
+---@field firstName? string
 ---@field id? string
----@field is_active? boolean
+---@field isActive? boolean
 ---@field kif? table
----@field last_name? string
+---@field lastName? string
 ---@field partner? table
 ---@field phone? string
----@field user_name? string
----@field user_role? table
+---@field userName? string
+---@field userRole? table
 ---@field version? number
 
 ---@class UpdateResultUpdateData
 ---@field id string
+---@field client? table
+---@field email? string
+---@field firstName? string
+---@field isActive? boolean
+---@field kif? table
+---@field lastName? string
+---@field partner? table
+---@field phone? string
+---@field userName? string
+---@field userRole? table
+---@field version? number
 
 ---@class User
 ---@field client? table
 ---@field created? string
 ---@field email? string
----@field first_name? string
+---@field firstName? string
 ---@field id? string
----@field is_active? boolean
+---@field isActive? boolean
 ---@field kif? table
----@field last_name? string
+---@field lastName? string
 ---@field modified? string
 ---@field partner? table
 ---@field phone? string
----@field user_name? string
----@field user_role? table
+---@field userName? string
+---@field userRole? table
 ---@field version? number
 
 ---@class UserLoadMatch

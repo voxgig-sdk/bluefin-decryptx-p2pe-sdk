@@ -6,7 +6,7 @@ main: kit: entity: device_custody_detail: {
 
   fields: [
     {
-      name: "complete_date"
+      name: "completeDate"
       req: false
       type: "`$STRING`"
     }
@@ -16,7 +16,7 @@ main: kit: entity: device_custody_detail: {
       type: "`$STRING`"
     }
     {
-      name: "created_by"
+      name: "createdBy"
       req: true
       type: "`$OBJECT`"
     }
@@ -46,12 +46,12 @@ main: kit: entity: device_custody_detail: {
       type: "`$STRING`"
     }
     {
-      name: "modified_by"
+      name: "modifiedBy"
       req: true
       type: "`$OBJECT`"
     }
     {
-      name: "note"
+      name: "notes"
       req: false
       type: "`$STRING`"
     }
@@ -61,7 +61,7 @@ main: kit: entity: device_custody_detail: {
       type: "`$OBJECT`"
     }
     {
-      name: "transfer_method"
+      name: "transferMethod"
       req: false
       type: "`$OBJECT`"
     }

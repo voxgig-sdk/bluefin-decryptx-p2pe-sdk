@@ -72,8 +72,8 @@ public final class RunnerSupport {
   }
 
   public static Map<String, Object> envOverride(Map<String, Object> m) {
-    if ("TRUE".equals(getenv("BLUEFINDECRYPTXP2PE_TEST_LIVE"))
-        || "TRUE".equals(getenv("BLUEFINDECRYPTXP2PE_TEST_OVERRIDE"))) {
+    if ("TRUE".equals(getenv("BLUEFIN_DECRYPTX_P2PE_TEST_LIVE"))
+        || "TRUE".equals(getenv("BLUEFIN_DECRYPTX_P2PE_TEST_OVERRIDE"))) {
       for (String key : new ArrayList<>(m.keySet())) {
         String envval = getenv(key);
         if (envval != null && !envval.isEmpty()) {
@@ -90,9 +90,9 @@ public final class RunnerSupport {
       }
     }
 
-    String explain = getenv("BLUEFINDECRYPTXP2PE_TEST_EXPLAIN");
+    String explain = getenv("BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN");
     if (explain != null && !explain.isEmpty()) {
-      m.put("BLUEFINDECRYPTXP2PE_TEST_EXPLAIN", explain);
+      m.put("BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN", explain);
     }
 
     return m;

@@ -6,13 +6,13 @@
 
 using Voxgig.Struct;
 
-using static BluefinDecryptxP2peSdk.Feature.FeatureOptions;
+using static ProjectNameSdk.Feature.FeatureOptions;
 
-namespace BluefinDecryptxP2peSdk.Feature;
+namespace ProjectNameSdk.Feature;
 
 public class TestFeature : BaseFeature
 {
-    private BluefinDecryptxP2peSDK? _client;
+    private ProjectNameSDK? _client;
     private Dictionary<string, object?>? _options;
     private int _netcalls;
 
