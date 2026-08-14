@@ -40,7 +40,7 @@ class BluefinDecryptxP2peSDK
         $utility = new BluefinDecryptxP2peUtility();
         $this->_utility = $utility;
 
-        $config = BluefinDecryptxP2peConfig::make_config();
+        $config = BluefinDecryptxP2peConfig::shared_config();
 
         $this->_rootctx = ($utility->make_context)([
             "client" => $this,

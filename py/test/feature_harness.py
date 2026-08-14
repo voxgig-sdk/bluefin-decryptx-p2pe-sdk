@@ -14,7 +14,7 @@ from __future__ import annotations
 
 from urllib.parse import quote
 
-from bluefindecryptxp2pe_sdk.config import make_config
+from bluefindecryptxp2pe_sdk.config import shared_config
 from bluefindecryptxp2pe_sdk.features import _make_feature
 from bluefindecryptxp2pe_sdk.core.control import BluefinDecryptxP2peControl
 from bluefindecryptxp2pe_sdk.core.error import BluefinDecryptxP2peError
@@ -24,7 +24,7 @@ from bluefindecryptxp2pe_sdk.core.spec import BluefinDecryptxP2peSpec
 
 # True when this SDK was generated with the named feature.
 def has_feature(name):
-    feature = make_config().get("feature")
+    feature = shared_config().get("feature")
     return isinstance(feature, dict) and feature.get(name) is not None
 
 

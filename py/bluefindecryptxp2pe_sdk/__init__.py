@@ -23,8 +23,8 @@ class BluefinDecryptxP2peSDK:
         utility = BluefinDecryptxP2peUtility()
         self._utility = utility
 
-        from bluefindecryptxp2pe_sdk.config import make_config
-        config = make_config()
+        from bluefindecryptxp2pe_sdk.config import shared_config
+        config = shared_config()
 
         self._rootctx = utility.make_context({
             "client": self,

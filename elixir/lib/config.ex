@@ -49,53 +49,32 @@ defmodule BluefinDecryptxP2pe.Config do
         "attestation" => %{
           "fields" => [
             %{
-              "active" => true,
               "name" => "client",
-              "req" => false,
-              "type" => "`$OBJECT`",
-              "index$" => 0
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "completeDate",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 1
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "created",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 2
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "device",
-              "req" => false,
-              "type" => "`$OBJECT`",
-              "index$" => 3
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "id",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 4
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "name",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 5
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "notes",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 6
+              "type" => "`$STRING`"
             }
           ],
           "name" => "attestation",
@@ -105,7 +84,6 @@ defmodule BluefinDecryptxP2pe.Config do
               "name" => "create",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{},
                   "kind" => "http",
                   "method" => "POST",
@@ -117,22 +95,18 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "create"
+              ]
             },
             "list" => %{
               "input" => "data",
               "name" => "list",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{
                     "query" => [
                       %{
-                        "active" => true,
                         "kind" => "query",
                         "name" => "client",
                         "orig" => "client",
@@ -140,21 +114,17 @@ defmodule BluefinDecryptxP2pe.Config do
                         "type" => "`$STRING`"
                       },
                       %{
-                        "active" => true,
                         "example" => 0,
                         "kind" => "query",
                         "name" => "skip",
                         "orig" => "skip",
-                        "reqd" => false,
                         "type" => "`$INTEGER`"
                       },
                       %{
-                        "active" => true,
                         "example" => 10,
                         "kind" => "query",
                         "name" => "take",
                         "orig" => "take",
-                        "reqd" => false,
                         "type" => "`$INTEGER`"
                       }
                     ]
@@ -175,28 +145,23 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "list"
+              ]
             },
             "load" => %{
               "input" => "data",
               "name" => "load",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{
                     "params" => [
                       %{
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "id",
                         "reqd" => true,
-                        "type" => "`$STRING`",
-                        "index$" => 0
+                        "type" => "`$STRING`"
                       }
                     ]
                   },
@@ -215,11 +180,9 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "load"
+              ]
             }
           },
           "relations" => %{
@@ -229,7 +192,6 @@ defmodule BluefinDecryptxP2pe.Config do
         "client" => %{
           "fields" => [
             %{
-              "active" => true,
               "name" => "contact",
               "op" => %{
                 "list" => %{
@@ -237,79 +199,48 @@ defmodule BluefinDecryptxP2pe.Config do
                   "type" => "`$OBJECT`"
                 }
               },
-              "req" => false,
-              "type" => "`$OBJECT`",
-              "index$" => 0
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "created",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 1
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "directPartner",
-              "req" => false,
-              "type" => "`$OBJECT`",
-              "index$" => 2
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "id",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 3
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "isActive",
-              "req" => false,
-              "type" => "`$BOOLEAN`",
-              "index$" => 4
+              "type" => "`$BOOLEAN`"
             },
             %{
-              "active" => true,
               "name" => "location",
               "req" => true,
-              "type" => "`$OBJECT`",
-              "index$" => 5
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "mid",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 6
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "modified",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 7
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "name",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 8
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "partner",
-              "req" => false,
-              "type" => "`$OBJECT`",
-              "index$" => 9
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "version",
-              "req" => false,
-              "type" => "`$INTEGER`",
-              "index$" => 10
+              "type" => "`$INTEGER`"
             }
           ],
           "name" => "client",
@@ -319,7 +250,6 @@ defmodule BluefinDecryptxP2pe.Config do
               "name" => "create",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{},
                   "kind" => "http",
                   "method" => "POST",
@@ -331,22 +261,18 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "create"
+              ]
             },
             "list" => %{
               "input" => "data",
               "name" => "list",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{
                     "query" => [
                       %{
-                        "active" => true,
                         "kind" => "query",
                         "name" => "partner",
                         "orig" => "partner",
@@ -354,21 +280,17 @@ defmodule BluefinDecryptxP2pe.Config do
                         "type" => "`$STRING`"
                       },
                       %{
-                        "active" => true,
                         "example" => 0,
                         "kind" => "query",
                         "name" => "skip",
                         "orig" => "skip",
-                        "reqd" => false,
                         "type" => "`$INTEGER`"
                       },
                       %{
-                        "active" => true,
                         "example" => 10,
                         "kind" => "query",
                         "name" => "take",
                         "orig" => "take",
-                        "reqd" => false,
                         "type" => "`$INTEGER`"
                       }
                     ]
@@ -389,28 +311,23 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "list"
+              ]
             },
             "load" => %{
               "input" => "data",
               "name" => "load",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{
                     "params" => [
                       %{
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "id",
                         "reqd" => true,
-                        "type" => "`$STRING`",
-                        "index$" => 0
+                        "type" => "`$STRING`"
                       }
                     ]
                   },
@@ -429,28 +346,23 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "load"
+              ]
             },
             "remove" => %{
               "input" => "data",
               "name" => "remove",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{
                     "params" => [
                       %{
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "id",
                         "reqd" => true,
-                        "type" => "`$STRING`",
-                        "index$" => 0
+                        "type" => "`$STRING`"
                       }
                     ]
                   },
@@ -469,11 +381,9 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "remove"
+              ]
             }
           },
           "relations" => %{
@@ -489,26 +399,21 @@ defmodule BluefinDecryptxP2pe.Config do
               "name" => "create",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{
                     "params" => [
                       %{
-                        "active" => true,
                         "kind" => "param",
                         "name" => "device_type",
                         "orig" => "device_type",
                         "reqd" => true,
-                        "type" => "`$STRING`",
-                        "index$" => 0
+                        "type" => "`$STRING`"
                       },
                       %{
-                        "active" => true,
                         "kind" => "param",
                         "name" => "serial_number",
                         "orig" => "serial_number",
                         "reqd" => true,
-                        "type" => "`$STRING`",
-                        "index$" => 1
+                        "type" => "`$STRING`"
                       }
                     ]
                   },
@@ -536,11 +441,9 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "create"
+              ]
             }
           },
           "relations" => %{
@@ -554,11 +457,8 @@ defmodule BluefinDecryptxP2pe.Config do
         "decryption" => %{
           "fields" => [
             %{
-              "active" => true,
               "name" => "success",
-              "req" => false,
-              "type" => "`$BOOLEAN`",
-              "index$" => 0
+              "type" => "`$BOOLEAN`"
             }
           ],
           "name" => "decryption",
@@ -568,7 +468,6 @@ defmodule BluefinDecryptxP2pe.Config do
               "name" => "create",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{},
                   "kind" => "http",
                   "method" => "POST",
@@ -580,11 +479,9 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "create"
+              ]
             }
           },
           "relations" => %{
@@ -594,200 +491,121 @@ defmodule BluefinDecryptxP2pe.Config do
         "device" => %{
           "fields" => [
             %{
-              "active" => true,
               "name" => "activatedBy",
               "req" => true,
-              "type" => "`$OBJECT`",
-              "index$" => 0
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "activationDate",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 1
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "alternateKey",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 2
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "auditNextDate",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 3
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "auditNotificationDate",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 4
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "client",
-              "req" => false,
-              "type" => "`$OBJECT`",
-              "index$" => 5
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "created",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 6
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "createdBy",
               "req" => true,
-              "type" => "`$OBJECT`",
-              "index$" => 7
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "deviceBuild",
-              "req" => false,
-              "type" => "`$OBJECT`",
-              "index$" => 8
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "deviceState",
-              "req" => false,
-              "type" => "`$OBJECT`",
-              "index$" => 9
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "deviceType",
-              "req" => false,
-              "type" => "`$OBJECT`",
-              "index$" => 10
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "errorCounter",
-              "req" => false,
-              "type" => "`$INTEGER`",
-              "index$" => 11
+              "type" => "`$INTEGER`"
             },
             %{
-              "active" => true,
               "name" => "errorLastDate",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 12
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "id",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 13
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "initializedBy",
               "req" => true,
-              "type" => "`$OBJECT`",
-              "index$" => 14
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "initializedDate",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 15
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "injectKey",
-              "req" => false,
-              "type" => "`$OBJECT`",
-              "index$" => 16
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "isVirtual",
-              "req" => false,
-              "type" => "`$BOOLEAN`",
-              "index$" => 17
+              "type" => "`$BOOLEAN`"
             },
             %{
-              "active" => true,
               "name" => "kif",
-              "req" => false,
-              "type" => "`$OBJECT`",
-              "index$" => 18
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "lastActivityDate",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 19
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "location",
               "req" => true,
-              "type" => "`$OBJECT`",
-              "index$" => 20
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "modified",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 21
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "modifiedBy",
               "req" => true,
-              "type" => "`$OBJECT`",
-              "index$" => 22
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "name",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 23
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "notes",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 24
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "partner",
-              "req" => false,
-              "type" => "`$OBJECT`",
-              "index$" => 25
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "serialNumber",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 26
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "version",
-              "req" => false,
-              "type" => "`$INTEGER`",
-              "index$" => 27
+              "type" => "`$INTEGER`"
             }
           ],
           "name" => "device",
@@ -797,7 +615,6 @@ defmodule BluefinDecryptxP2pe.Config do
               "name" => "create",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{},
                   "kind" => "http",
                   "method" => "POST",
@@ -809,94 +626,73 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "create"
+              ]
             },
             "list" => %{
               "input" => "data",
               "name" => "list",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{
                     "query" => [
                       %{
-                        "active" => true,
                         "kind" => "query",
                         "name" => "client",
                         "orig" => "client",
-                        "reqd" => false,
                         "type" => "`$STRING`"
                       },
                       %{
-                        "active" => true,
                         "kind" => "query",
                         "name" => "device_state",
                         "orig" => "device_state",
-                        "reqd" => false,
                         "type" => "`$STRING`"
                       },
                       %{
-                        "active" => true,
                         "kind" => "query",
                         "name" => "kif",
                         "orig" => "kif",
-                        "reqd" => false,
                         "type" => "`$STRING`"
                       },
                       %{
-                        "active" => true,
                         "kind" => "query",
                         "name" => "partner",
                         "orig" => "partner",
-                        "reqd" => false,
                         "type" => "`$STRING`"
                       },
                       %{
-                        "active" => true,
                         "kind" => "query",
                         "name" => "serial_number",
                         "orig" => "serial_number",
-                        "reqd" => false,
                         "type" => "`$STRING`"
                       },
                       %{
-                        "active" => true,
                         "example" => 0,
                         "kind" => "query",
                         "name" => "skip",
                         "orig" => "skip",
-                        "reqd" => false,
                         "type" => "`$INTEGER`"
                       },
                       %{
-                        "active" => true,
                         "example" => "asc",
                         "kind" => "query",
                         "name" => "sorting_direction",
                         "orig" => "sorting_direction",
-                        "reqd" => false,
                         "type" => "`$STRING`"
                       },
                       %{
-                        "active" => true,
                         "example" => "serialnumber",
                         "kind" => "query",
                         "name" => "sorting_field",
                         "orig" => "sorting_field",
-                        "reqd" => false,
                         "type" => "`$STRING`"
                       },
                       %{
-                        "active" => true,
                         "example" => 10,
                         "kind" => "query",
                         "name" => "take",
                         "orig" => "take",
-                        "reqd" => false,
                         "type" => "`$INTEGER`"
                       }
                     ]
@@ -923,37 +719,30 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "list"
+              ]
             },
             "load" => %{
               "input" => "data",
               "name" => "load",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{
                     "params" => [
                       %{
-                        "active" => true,
                         "kind" => "param",
                         "name" => "device_type",
                         "orig" => "device_type",
                         "reqd" => true,
-                        "type" => "`$STRING`",
-                        "index$" => 0
+                        "type" => "`$STRING`"
                       },
                       %{
-                        "active" => true,
                         "kind" => "param",
                         "name" => "serial_number",
                         "orig" => "serial_number",
                         "reqd" => true,
-                        "type" => "`$STRING`",
-                        "index$" => 1
+                        "type" => "`$STRING`"
                       }
                     ]
                   },
@@ -980,21 +769,17 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 },
                 %{
-                  "active" => true,
                   "args" => %{
                     "params" => [
                       %{
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "id",
                         "reqd" => true,
-                        "type" => "`$STRING`",
-                        "index$" => 0
+                        "type" => "`$STRING`"
                       }
                     ]
                   },
@@ -1013,11 +798,9 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 1
+                  }
                 }
-              ],
-              "key$" => "load"
+              ]
             }
           },
           "relations" => %{
@@ -1031,109 +814,64 @@ defmodule BluefinDecryptxP2pe.Config do
         "device_build" => %{
           "fields" => [
             %{
-              "active" => true,
               "name" => "appVersion",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 0
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "buildNumber",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 1
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "configFileName",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 2
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "created",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 3
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "deviceType",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 4
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "firmwareVersion",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 5
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "hardwareVersion",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 6
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "id",
-              "req" => false,
-              "type" => "`$INTEGER`",
-              "index$" => 7
+              "type" => "`$INTEGER`"
             },
             %{
-              "active" => true,
               "name" => "isActive",
-              "req" => false,
-              "type" => "`$BOOLEAN`",
-              "index$" => 8
+              "type" => "`$BOOLEAN`"
             },
             %{
-              "active" => true,
               "name" => "modified",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 9
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "name",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 10
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "notes",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 11
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "version",
-              "req" => false,
-              "type" => "`$INTEGER`",
-              "index$" => 12
+              "type" => "`$INTEGER`"
             },
             %{
-              "active" => true,
               "name" => "whiteListingBinRanges",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 13
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "whiteListingUsed",
-              "req" => false,
-              "type" => "`$BOOLEAN`",
-              "index$" => 14
+              "type" => "`$BOOLEAN`"
             }
           ],
           "name" => "device_build",
@@ -1143,33 +881,26 @@ defmodule BluefinDecryptxP2pe.Config do
               "name" => "list",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{
                     "query" => [
                       %{
-                        "active" => true,
                         "kind" => "query",
                         "name" => "device_type",
                         "orig" => "device_type",
-                        "reqd" => false,
                         "type" => "`$STRING`"
                       },
                       %{
-                        "active" => true,
                         "example" => 0,
                         "kind" => "query",
                         "name" => "skip",
                         "orig" => "skip",
-                        "reqd" => false,
                         "type" => "`$INTEGER`"
                       },
                       %{
-                        "active" => true,
                         "example" => 10,
                         "kind" => "query",
                         "name" => "take",
                         "orig" => "take",
-                        "reqd" => false,
                         "type" => "`$INTEGER`"
                       }
                     ]
@@ -1190,28 +921,23 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "list"
+              ]
             },
             "load" => %{
               "input" => "data",
               "name" => "load",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{
                     "params" => [
                       %{
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "id",
                         "reqd" => true,
-                        "type" => "`$STRING`",
-                        "index$" => 0
+                        "type" => "`$STRING`"
                       }
                     ]
                   },
@@ -1230,11 +956,9 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "load"
+              ]
             }
           },
           "relations" => %{
@@ -1244,95 +968,60 @@ defmodule BluefinDecryptxP2pe.Config do
         "device_custody_detail" => %{
           "fields" => [
             %{
-              "active" => true,
               "name" => "completeDate",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 0
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "created",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 1
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "createdBy",
               "req" => true,
-              "type" => "`$OBJECT`",
-              "index$" => 2
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "custodian",
               "req" => true,
-              "type" => "`$OBJECT`",
-              "index$" => 3
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "device",
-              "req" => false,
-              "type" => "`$OBJECT`",
-              "index$" => 4
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "id",
-              "req" => false,
-              "type" => "`$INTEGER`",
-              "index$" => 5
+              "type" => "`$INTEGER`"
             },
             %{
-              "active" => true,
               "name" => "location",
               "req" => true,
-              "type" => "`$OBJECT`",
-              "index$" => 6
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "modified",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 7
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "modifiedBy",
               "req" => true,
-              "type" => "`$OBJECT`",
-              "index$" => 8
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "notes",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 9
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "status",
-              "req" => false,
-              "type" => "`$OBJECT`",
-              "index$" => 10
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "transferMethod",
-              "req" => false,
-              "type" => "`$OBJECT`",
-              "index$" => 11
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "version",
-              "req" => false,
-              "type" => "`$INTEGER`",
-              "index$" => 12
+              "type" => "`$INTEGER`"
             }
           ],
           "name" => "device_custody_detail",
@@ -1342,35 +1031,28 @@ defmodule BluefinDecryptxP2pe.Config do
               "name" => "load",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{
                     "params" => [
                       %{
-                        "active" => true,
                         "kind" => "param",
                         "name" => "device_type",
                         "orig" => "device_type",
                         "reqd" => true,
-                        "type" => "`$STRING`",
-                        "index$" => 0
+                        "type" => "`$STRING`"
                       },
                       %{
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "id",
                         "reqd" => true,
-                        "type" => "`$STRING`",
-                        "index$" => 1
+                        "type" => "`$STRING`"
                       },
                       %{
-                        "active" => true,
                         "kind" => "param",
                         "name" => "serial_number",
                         "orig" => "serial_number",
                         "reqd" => true,
-                        "type" => "`$STRING`",
-                        "index$" => 2
+                        "type" => "`$STRING`"
                       }
                     ]
                   },
@@ -1400,11 +1082,9 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "load"
+              ]
             }
           },
           "relations" => %{
@@ -1418,95 +1098,60 @@ defmodule BluefinDecryptxP2pe.Config do
         "device_custody_list" => %{
           "fields" => [
             %{
-              "active" => true,
               "name" => "completeDate",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 0
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "created",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 1
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "createdBy",
               "req" => true,
-              "type" => "`$OBJECT`",
-              "index$" => 2
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "custodian",
               "req" => true,
-              "type" => "`$OBJECT`",
-              "index$" => 3
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "device",
-              "req" => false,
-              "type" => "`$OBJECT`",
-              "index$" => 4
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "id",
-              "req" => false,
-              "type" => "`$INTEGER`",
-              "index$" => 5
+              "type" => "`$INTEGER`"
             },
             %{
-              "active" => true,
               "name" => "location",
               "req" => true,
-              "type" => "`$OBJECT`",
-              "index$" => 6
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "modified",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 7
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "modifiedBy",
               "req" => true,
-              "type" => "`$OBJECT`",
-              "index$" => 8
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "notes",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 9
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "status",
-              "req" => false,
-              "type" => "`$OBJECT`",
-              "index$" => 10
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "transferMethod",
-              "req" => false,
-              "type" => "`$OBJECT`",
-              "index$" => 11
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "version",
-              "req" => false,
-              "type" => "`$INTEGER`",
-              "index$" => 12
+              "type" => "`$INTEGER`"
             }
           ],
           "name" => "device_custody_list",
@@ -1516,45 +1161,36 @@ defmodule BluefinDecryptxP2pe.Config do
               "name" => "list",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{
                     "params" => [
                       %{
-                        "active" => true,
                         "kind" => "param",
                         "name" => "device_type",
                         "orig" => "device_type",
                         "reqd" => true,
-                        "type" => "`$STRING`",
-                        "index$" => 0
+                        "type" => "`$STRING`"
                       },
                       %{
-                        "active" => true,
                         "kind" => "param",
                         "name" => "serial_number",
                         "orig" => "serial_number",
                         "reqd" => true,
-                        "type" => "`$STRING`",
-                        "index$" => 1
+                        "type" => "`$STRING`"
                       }
                     ],
                     "query" => [
                       %{
-                        "active" => true,
                         "example" => 0,
                         "kind" => "query",
                         "name" => "skip",
                         "orig" => "skip",
-                        "reqd" => false,
                         "type" => "`$INTEGER`"
                       },
                       %{
-                        "active" => true,
                         "example" => 10,
                         "kind" => "query",
                         "name" => "take",
                         "orig" => "take",
-                        "reqd" => false,
                         "type" => "`$INTEGER`"
                       }
                     ]
@@ -1585,11 +1221,9 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "list"
+              ]
             }
           },
           "relations" => %{
@@ -1603,18 +1237,12 @@ defmodule BluefinDecryptxP2pe.Config do
         "device_list" => %{
           "fields" => [
             %{
-              "active" => true,
               "name" => "data",
-              "req" => false,
-              "type" => "`$ARRAY`",
-              "index$" => 0
+              "type" => "`$ARRAY`"
             },
             %{
-              "active" => true,
               "name" => "total",
-              "req" => false,
-              "type" => "`$INTEGER`",
-              "index$" => 1
+              "type" => "`$INTEGER`"
             }
           ],
           "name" => "device_list",
@@ -1624,54 +1252,43 @@ defmodule BluefinDecryptxP2pe.Config do
               "name" => "load",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{
                     "params" => [
                       %{
-                        "active" => true,
                         "kind" => "param",
                         "name" => "share_partner_to",
                         "orig" => "share_partner_to",
                         "reqd" => true,
-                        "type" => "`$STRING`",
-                        "index$" => 0
+                        "type" => "`$STRING`"
                       }
                     ],
                     "query" => [
                       %{
-                        "active" => true,
                         "example" => 0,
                         "kind" => "query",
                         "name" => "skip",
                         "orig" => "skip",
-                        "reqd" => false,
                         "type" => "`$INTEGER`"
                       },
                       %{
-                        "active" => true,
                         "example" => "asc",
                         "kind" => "query",
                         "name" => "sorting_direction",
                         "orig" => "sorting_direction",
-                        "reqd" => false,
                         "type" => "`$STRING`"
                       },
                       %{
-                        "active" => true,
                         "example" => "serialnumber",
                         "kind" => "query",
                         "name" => "sorting_field",
                         "orig" => "sorting_field",
-                        "reqd" => false,
                         "type" => "`$STRING`"
                       },
                       %{
-                        "active" => true,
                         "example" => 10,
                         "kind" => "query",
                         "name" => "take",
                         "orig" => "take",
-                        "reqd" => false,
                         "type" => "`$INTEGER`"
                       }
                     ]
@@ -1700,11 +1317,9 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "load"
+              ]
             }
           },
           "relations" => %{
@@ -1718,11 +1333,9 @@ defmodule BluefinDecryptxP2pe.Config do
         "device_receive_result" => %{
           "fields" => [
             %{
-              "active" => true,
               "name" => "success",
               "req" => true,
-              "type" => "`$BOOLEAN`",
-              "index$" => 0
+              "type" => "`$BOOLEAN`"
             }
           ],
           "name" => "device_receive_result",
@@ -1732,7 +1345,6 @@ defmodule BluefinDecryptxP2pe.Config do
               "name" => "create",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{},
                   "kind" => "http",
                   "method" => "POST",
@@ -1745,11 +1357,9 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "create"
+              ]
             }
           },
           "relations" => %{
@@ -1759,11 +1369,9 @@ defmodule BluefinDecryptxP2pe.Config do
         "device_rki_activate_result" => %{
           "fields" => [
             %{
-              "active" => true,
               "name" => "success",
               "req" => true,
-              "type" => "`$BOOLEAN`",
-              "index$" => 0
+              "type" => "`$BOOLEAN`"
             }
           ],
           "name" => "device_rki_activate_result",
@@ -1773,7 +1381,6 @@ defmodule BluefinDecryptxP2pe.Config do
               "name" => "create",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{},
                   "kind" => "http",
                   "method" => "POST",
@@ -1787,11 +1394,9 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "create"
+              ]
             }
           },
           "relations" => %{
@@ -1801,18 +1406,12 @@ defmodule BluefinDecryptxP2pe.Config do
         "device_state" => %{
           "fields" => [
             %{
-              "active" => true,
               "name" => "id",
-              "req" => false,
-              "type" => "`$INTEGER`",
-              "index$" => 0
+              "type" => "`$INTEGER`"
             },
             %{
-              "active" => true,
               "name" => "name",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 1
+              "type" => "`$STRING`"
             }
           ],
           "name" => "device_state",
@@ -1822,7 +1421,6 @@ defmodule BluefinDecryptxP2pe.Config do
               "name" => "list",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{},
                   "kind" => "http",
                   "method" => "GET",
@@ -1834,11 +1432,9 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "list"
+              ]
             }
           },
           "relations" => %{
@@ -1848,88 +1444,52 @@ defmodule BluefinDecryptxP2pe.Config do
         "device_type" => %{
           "fields" => [
             %{
-              "active" => true,
               "name" => "created",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 0
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "deviceTypeMode",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 1
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "hardwareVersion",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 2
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "id",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 3
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "isActive",
-              "req" => false,
-              "type" => "`$BOOLEAN`",
-              "index$" => 4
+              "type" => "`$BOOLEAN`"
             },
             %{
-              "active" => true,
               "name" => "manufacturer",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 5
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "model",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 6
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "modified",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 7
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "name",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 8
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "photoUrl",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 9
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "productName",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 10
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "version",
-              "req" => false,
-              "type" => "`$INTEGER`",
-              "index$" => 11
+              "type" => "`$INTEGER`"
             }
           ],
           "name" => "device_type",
@@ -1939,7 +1499,6 @@ defmodule BluefinDecryptxP2pe.Config do
               "name" => "list",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{},
                   "kind" => "http",
                   "method" => "GET",
@@ -1951,28 +1510,23 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "list"
+              ]
             },
             "load" => %{
               "input" => "data",
               "name" => "load",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{
                     "params" => [
                       %{
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "id",
                         "reqd" => true,
-                        "type" => "`$STRING`",
-                        "index$" => 0
+                        "type" => "`$STRING`"
                       }
                     ]
                   },
@@ -1991,11 +1545,9 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "load"
+              ]
             }
           },
           "relations" => %{
@@ -2005,60 +1557,36 @@ defmodule BluefinDecryptxP2pe.Config do
         "inject_key" => %{
           "fields" => [
             %{
-              "active" => true,
               "name" => "created",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 0
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "id",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 1
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "isActive",
-              "req" => false,
-              "type" => "`$BOOLEAN`",
-              "index$" => 2
+              "type" => "`$BOOLEAN`"
             },
             %{
-              "active" => true,
               "name" => "isP2PE",
-              "req" => false,
-              "type" => "`$BOOLEAN`",
-              "index$" => 3
+              "type" => "`$BOOLEAN`"
             },
             %{
-              "active" => true,
               "name" => "keyType",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 4
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "modified",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 5
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "name",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 6
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "version",
-              "req" => false,
-              "type" => "`$INTEGER`",
-              "index$" => 7
+              "type" => "`$INTEGER`"
             }
           ],
           "name" => "inject_key",
@@ -2068,7 +1596,6 @@ defmodule BluefinDecryptxP2pe.Config do
               "name" => "list",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{},
                   "kind" => "http",
                   "method" => "GET",
@@ -2080,28 +1607,23 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "list"
+              ]
             },
             "load" => %{
               "input" => "data",
               "name" => "load",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{
                     "params" => [
                       %{
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "id",
                         "reqd" => true,
-                        "type" => "`$STRING`",
-                        "index$" => 0
+                        "type" => "`$STRING`"
                       }
                     ]
                   },
@@ -2120,11 +1642,9 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "load"
+              ]
             }
           },
           "relations" => %{
@@ -2134,18 +1654,12 @@ defmodule BluefinDecryptxP2pe.Config do
         "kif" => %{
           "fields" => [
             %{
-              "active" => true,
               "name" => "id",
-              "req" => false,
-              "type" => "`$INTEGER`",
-              "index$" => 0
+              "type" => "`$INTEGER`"
             },
             %{
-              "active" => true,
               "name" => "name",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 1
+              "type" => "`$STRING`"
             }
           ],
           "name" => "kif",
@@ -2155,7 +1669,6 @@ defmodule BluefinDecryptxP2pe.Config do
               "name" => "list",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{},
                   "kind" => "http",
                   "method" => "GET",
@@ -2167,11 +1680,9 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "list"
+              ]
             }
           },
           "relations" => %{
@@ -2181,165 +1692,96 @@ defmodule BluefinDecryptxP2pe.Config do
         "location" => %{
           "fields" => [
             %{
-              "active" => true,
               "name" => "address1",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 0
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "address2",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 1
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "billingId",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 2
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "city",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 3
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "country",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 4
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "created",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 5
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "customReference",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 6
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "id",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 7
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "locationType",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 8
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "mailAddress1",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 9
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "mailAddress2",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 10
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "mailCity",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 11
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "mailCountry",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 12
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "mailPostalCode",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 13
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "mailStateProvince",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 14
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "modified",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 15
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "name",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 16
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "nameOfBusiness",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 17
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "notes",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 18
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "postalCode",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 19
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "stateProvince",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 20
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "uniqueId",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 21
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "version",
-              "req" => false,
-              "type" => "`$INTEGER`",
-              "index$" => 22
+              "type" => "`$INTEGER`"
             }
           ],
           "name" => "location",
@@ -2349,7 +1791,6 @@ defmodule BluefinDecryptxP2pe.Config do
               "name" => "create",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{},
                   "kind" => "http",
                   "method" => "POST",
@@ -2361,22 +1802,18 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "create"
+              ]
             },
             "list" => %{
               "input" => "data",
               "name" => "list",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{
                     "query" => [
                       %{
-                        "active" => true,
                         "kind" => "query",
                         "name" => "client",
                         "orig" => "client",
@@ -2384,21 +1821,17 @@ defmodule BluefinDecryptxP2pe.Config do
                         "type" => "`$STRING`"
                       },
                       %{
-                        "active" => true,
                         "example" => 0,
                         "kind" => "query",
                         "name" => "skip",
                         "orig" => "skip",
-                        "reqd" => false,
                         "type" => "`$INTEGER`"
                       },
                       %{
-                        "active" => true,
                         "example" => 10,
                         "kind" => "query",
                         "name" => "take",
                         "orig" => "take",
-                        "reqd" => false,
                         "type" => "`$INTEGER`"
                       }
                     ]
@@ -2419,28 +1852,23 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "list"
+              ]
             },
             "load" => %{
               "input" => "data",
               "name" => "load",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{
                     "params" => [
                       %{
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "id",
                         "reqd" => true,
-                        "type" => "`$STRING`",
-                        "index$" => 0
+                        "type" => "`$STRING`"
                       }
                     ]
                   },
@@ -2459,28 +1887,23 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "load"
+              ]
             },
             "remove" => %{
               "input" => "data",
               "name" => "remove",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{
                     "params" => [
                       %{
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "id",
                         "reqd" => true,
-                        "type" => "`$STRING`",
-                        "index$" => 0
+                        "type" => "`$STRING`"
                       }
                     ]
                   },
@@ -2499,11 +1922,9 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "remove"
+              ]
             }
           },
           "relations" => %{
@@ -2513,21 +1934,14 @@ defmodule BluefinDecryptxP2pe.Config do
         "partner" => %{
           "fields" => [
             %{
-              "active" => true,
               "name" => "billingId",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 0
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "clientCanOrderEquipment",
-              "req" => false,
-              "type" => "`$BOOLEAN`",
-              "index$" => 1
+              "type" => "`$BOOLEAN`"
             },
             %{
-              "active" => true,
               "name" => "contact",
               "op" => %{
                 "list" => %{
@@ -2535,86 +1949,52 @@ defmodule BluefinDecryptxP2pe.Config do
                   "type" => "`$OBJECT`"
                 }
               },
-              "req" => false,
-              "type" => "`$OBJECT`",
-              "index$" => 2
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "created",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 3
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "id",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 4
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "isActive",
-              "req" => false,
-              "type" => "`$BOOLEAN`",
-              "index$" => 5
+              "type" => "`$BOOLEAN`"
             },
             %{
-              "active" => true,
               "name" => "location",
               "req" => true,
-              "type" => "`$OBJECT`",
-              "index$" => 6
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "modified",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 7
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "name",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 8
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "parent",
-              "req" => false,
-              "type" => "`$OBJECT`",
-              "index$" => 9
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "partnerId",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 10
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "reference",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 11
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "verificationPhrase",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 12
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "version",
-              "req" => false,
-              "type" => "`$INTEGER`",
-              "index$" => 13
+              "type" => "`$INTEGER`"
             }
           ],
           "name" => "partner",
@@ -2624,7 +2004,6 @@ defmodule BluefinDecryptxP2pe.Config do
               "name" => "create",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{},
                   "kind" => "http",
                   "method" => "POST",
@@ -2636,44 +2015,35 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "create"
+              ]
             },
             "list" => %{
               "input" => "data",
               "name" => "list",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{
                     "query" => [
                       %{
-                        "active" => true,
                         "kind" => "query",
                         "name" => "partner",
                         "orig" => "partner",
-                        "reqd" => false,
                         "type" => "`$STRING`"
                       },
                       %{
-                        "active" => true,
                         "example" => 0,
                         "kind" => "query",
                         "name" => "skip",
                         "orig" => "skip",
-                        "reqd" => false,
                         "type" => "`$INTEGER`"
                       },
                       %{
-                        "active" => true,
                         "example" => 10,
                         "kind" => "query",
                         "name" => "take",
                         "orig" => "take",
-                        "reqd" => false,
                         "type" => "`$INTEGER`"
                       }
                     ]
@@ -2694,28 +2064,23 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "list"
+              ]
             },
             "load" => %{
               "input" => "data",
               "name" => "load",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{
                     "params" => [
                       %{
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "id",
                         "reqd" => true,
-                        "type" => "`$STRING`",
-                        "index$" => 0
+                        "type" => "`$STRING`"
                       }
                     ]
                   },
@@ -2734,11 +2099,9 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "load"
+              ]
             }
           },
           "relations" => %{
@@ -2748,102 +2111,60 @@ defmodule BluefinDecryptxP2pe.Config do
         "shipment" => %{
           "fields" => [
             %{
-              "active" => true,
               "name" => "carrier",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 0
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "client",
-              "req" => false,
-              "type" => "`$OBJECT`",
-              "index$" => 1
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "created",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 2
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "dateReceived",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 3
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "dateShipped",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 4
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "dcKif",
-              "req" => false,
-              "type" => "`$OBJECT`",
-              "index$" => 5
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "id",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 6
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "items",
-              "req" => false,
-              "type" => "`$ARRAY`",
-              "index$" => 7
+              "type" => "`$ARRAY`"
             },
             %{
-              "active" => true,
               "name" => "kif",
-              "req" => false,
-              "type" => "`$OBJECT`",
-              "index$" => 8
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "modified",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 9
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "partner",
-              "req" => false,
-              "type" => "`$OBJECT`",
-              "index$" => 10
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "shipmentType",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 11
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "tracking",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 12
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "version",
-              "req" => false,
-              "type" => "`$INTEGER`",
-              "index$" => 13
+              "type" => "`$INTEGER`"
             }
           ],
           "name" => "shipment",
@@ -2853,7 +2174,6 @@ defmodule BluefinDecryptxP2pe.Config do
               "name" => "create",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{},
                   "kind" => "http",
                   "method" => "POST",
@@ -2865,22 +2185,18 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "create"
+              ]
             },
             "list" => %{
               "input" => "data",
               "name" => "list",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{
                     "query" => [
                       %{
-                        "active" => true,
                         "kind" => "query",
                         "name" => "kif",
                         "orig" => "kif",
@@ -2888,29 +2204,23 @@ defmodule BluefinDecryptxP2pe.Config do
                         "type" => "`$STRING`"
                       },
                       %{
-                        "active" => true,
                         "kind" => "query",
                         "name" => "mode",
                         "orig" => "mode",
-                        "reqd" => false,
                         "type" => "`$STRING`"
                       },
                       %{
-                        "active" => true,
                         "example" => 0,
                         "kind" => "query",
                         "name" => "skip",
                         "orig" => "skip",
-                        "reqd" => false,
                         "type" => "`$INTEGER`"
                       },
                       %{
-                        "active" => true,
                         "example" => 10,
                         "kind" => "query",
                         "name" => "take",
                         "orig" => "take",
-                        "reqd" => false,
                         "type" => "`$INTEGER`"
                       }
                     ]
@@ -2932,28 +2242,23 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "list"
+              ]
             },
             "load" => %{
               "input" => "data",
               "name" => "load",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{
                     "params" => [
                       %{
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "id",
                         "reqd" => true,
-                        "type" => "`$STRING`",
-                        "index$" => 0
+                        "type" => "`$STRING`"
                       }
                     ]
                   },
@@ -2972,11 +2277,9 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "load"
+              ]
             }
           },
           "relations" => %{
@@ -2986,11 +2289,8 @@ defmodule BluefinDecryptxP2pe.Config do
         "success" => %{
           "fields" => [
             %{
-              "active" => true,
               "name" => "success",
-              "req" => false,
-              "type" => "`$BOOLEAN`",
-              "index$" => 0
+              "type" => "`$BOOLEAN`"
             }
           ],
           "name" => "success",
@@ -3000,17 +2300,14 @@ defmodule BluefinDecryptxP2pe.Config do
               "name" => "create",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{
                     "params" => [
                       %{
-                        "active" => true,
                         "kind" => "param",
                         "name" => "share_partner_to",
                         "orig" => "share_partner_to",
                         "reqd" => true,
-                        "type" => "`$STRING`",
-                        "index$" => 0
+                        "type" => "`$STRING`"
                       }
                     ]
                   },
@@ -3034,28 +2331,23 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "create"
+              ]
             },
             "remove" => %{
               "input" => "data",
               "name" => "remove",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{
                     "params" => [
                       %{
-                        "active" => true,
                         "kind" => "param",
                         "name" => "share_partner_to",
                         "orig" => "share_partner_to",
                         "reqd" => true,
-                        "type" => "`$STRING`",
-                        "index$" => 0
+                        "type" => "`$STRING`"
                       }
                     ]
                   },
@@ -3079,11 +2371,9 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "remove"
+              ]
             }
           },
           "relations" => %{
@@ -3097,172 +2387,101 @@ defmodule BluefinDecryptxP2pe.Config do
         "transaction" => %{
           "fields" => [
             %{
-              "active" => true,
               "name" => "alternateKey",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 0
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "client",
-              "req" => false,
-              "type" => "`$OBJECT`",
-              "index$" => 1
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "clientRef",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 2
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "created",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 3
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "decrypted",
-              "req" => false,
-              "type" => "`$INTEGER`",
-              "index$" => 4
+              "type" => "`$INTEGER`"
             },
             %{
-              "active" => true,
               "name" => "deviceName",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 5
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "directPartner",
-              "req" => false,
-              "type" => "`$OBJECT`",
-              "index$" => 6
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "encrypted",
-              "req" => false,
-              "type" => "`$INTEGER`",
-              "index$" => 7
+              "type" => "`$INTEGER`"
             },
             %{
-              "active" => true,
               "name" => "endDate",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 8
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "errCode",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 9
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "errMessage",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 10
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "id",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 11
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "ipAddress",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 12
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "isVirtual",
-              "req" => false,
-              "type" => "`$BOOLEAN`",
-              "index$" => 13
+              "type" => "`$BOOLEAN`"
             },
             %{
-              "active" => true,
               "name" => "keyType",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 14
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "location",
               "req" => true,
-              "type" => "`$OBJECT`",
-              "index$" => 15
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "messageId",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 16
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "method",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 17
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "partner",
-              "req" => false,
-              "type" => "`$OBJECT`",
-              "index$" => 18
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "reference",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 19
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "serialNumber",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 20
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "startDate",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 21
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "success",
-              "req" => false,
-              "type" => "`$BOOLEAN`",
-              "index$" => 22
+              "type" => "`$BOOLEAN`"
             },
             %{
-              "active" => true,
               "name" => "transactionSource",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 23
+              "type" => "`$STRING`"
             }
           ],
           "name" => "transaction",
@@ -3272,7 +2491,6 @@ defmodule BluefinDecryptxP2pe.Config do
               "name" => "create",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{},
                   "kind" => "http",
                   "method" => "POST",
@@ -3284,125 +2502,96 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "create"
+              ]
             },
             "list" => %{
               "input" => "data",
               "name" => "list",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{
                     "query" => [
                       %{
-                        "active" => true,
                         "kind" => "query",
                         "name" => "client",
                         "orig" => "client",
-                        "reqd" => false,
                         "type" => "`$STRING`"
                       },
                       %{
-                        "active" => true,
                         "kind" => "query",
                         "name" => "client_ref",
                         "orig" => "client_ref",
-                        "reqd" => false,
                         "type" => "`$STRING`"
                       },
                       %{
-                        "active" => true,
                         "kind" => "query",
                         "name" => "date_from",
                         "orig" => "date_from",
-                        "reqd" => false,
                         "type" => "`$STRING`"
                       },
                       %{
-                        "active" => true,
                         "kind" => "query",
                         "name" => "date_to",
                         "orig" => "date_to",
-                        "reqd" => false,
                         "type" => "`$STRING`"
                       },
                       %{
-                        "active" => true,
                         "kind" => "query",
                         "name" => "location",
                         "orig" => "location",
-                        "reqd" => false,
                         "type" => "`$STRING`"
                       },
                       %{
-                        "active" => true,
                         "kind" => "query",
                         "name" => "message_id",
                         "orig" => "message_id",
-                        "reqd" => false,
                         "type" => "`$STRING`"
                       },
                       %{
-                        "active" => true,
                         "example" => "nocount",
                         "kind" => "query",
                         "name" => "paging_mode",
                         "orig" => "paging_mode",
-                        "reqd" => false,
                         "type" => "`$STRING`"
                       },
                       %{
-                        "active" => true,
                         "kind" => "query",
                         "name" => "partner",
                         "orig" => "partner",
-                        "reqd" => false,
                         "type" => "`$STRING`"
                       },
                       %{
-                        "active" => true,
                         "kind" => "query",
                         "name" => "reference",
                         "orig" => "reference",
-                        "reqd" => false,
                         "type" => "`$STRING`"
                       },
                       %{
-                        "active" => true,
                         "kind" => "query",
                         "name" => "serial_number",
                         "orig" => "serial_number",
-                        "reqd" => false,
                         "type" => "`$STRING`"
                       },
                       %{
-                        "active" => true,
                         "example" => 0,
                         "kind" => "query",
                         "name" => "skip",
                         "orig" => "skip",
-                        "reqd" => false,
                         "type" => "`$INTEGER`"
                       },
                       %{
-                        "active" => true,
                         "kind" => "query",
                         "name" => "success",
                         "orig" => "success",
-                        "reqd" => false,
                         "type" => "`$BOOLEAN`"
                       },
                       %{
-                        "active" => true,
                         "example" => 10,
                         "kind" => "query",
                         "name" => "take",
                         "orig" => "take",
-                        "reqd" => false,
                         "type" => "`$INTEGER`"
                       }
                     ]
@@ -3433,28 +2622,23 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "list"
+              ]
             },
             "load" => %{
               "input" => "data",
               "name" => "load",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{
                     "params" => [
                       %{
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "id",
                         "reqd" => true,
-                        "type" => "`$STRING`",
-                        "index$" => 0
+                        "type" => "`$STRING`"
                       }
                     ]
                   },
@@ -3473,11 +2657,9 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "load"
+              ]
             }
           },
           "relations" => %{
@@ -3487,88 +2669,52 @@ defmodule BluefinDecryptxP2pe.Config do
         "update_result" => %{
           "fields" => [
             %{
-              "active" => true,
               "name" => "client",
-              "req" => false,
-              "type" => "`$OBJECT`",
-              "index$" => 0
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "email",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 1
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "firstName",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 2
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "id",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 3
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "isActive",
-              "req" => false,
-              "type" => "`$BOOLEAN`",
-              "index$" => 4
+              "type" => "`$BOOLEAN`"
             },
             %{
-              "active" => true,
               "name" => "kif",
-              "req" => false,
-              "type" => "`$OBJECT`",
-              "index$" => 5
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "lastName",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 6
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "partner",
-              "req" => false,
-              "type" => "`$OBJECT`",
-              "index$" => 7
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "phone",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 8
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "userName",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 9
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "userRole",
-              "req" => false,
-              "type" => "`$OBJECT`",
-              "index$" => 10
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "version",
-              "req" => false,
-              "type" => "`$INTEGER`",
-              "index$" => 11
+              "type" => "`$INTEGER`"
             }
           ],
           "name" => "update_result",
@@ -3578,7 +2724,6 @@ defmodule BluefinDecryptxP2pe.Config do
               "name" => "create",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{},
                   "kind" => "http",
                   "method" => "POST",
@@ -3590,60 +2735,47 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "create"
+              ]
             },
             "list" => %{
               "input" => "data",
               "name" => "list",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{
                     "query" => [
                       %{
-                        "active" => true,
                         "kind" => "query",
                         "name" => "client",
                         "orig" => "client",
-                        "reqd" => false,
                         "type" => "`$STRING`"
                       },
                       %{
-                        "active" => true,
                         "kind" => "query",
                         "name" => "kif",
                         "orig" => "kif",
-                        "reqd" => false,
                         "type" => "`$STRING`"
                       },
                       %{
-                        "active" => true,
                         "kind" => "query",
                         "name" => "partner",
                         "orig" => "partner",
-                        "reqd" => false,
                         "type" => "`$ANY`"
                       },
                       %{
-                        "active" => true,
                         "example" => 0,
                         "kind" => "query",
                         "name" => "skip",
                         "orig" => "skip",
-                        "reqd" => false,
                         "type" => "`$INTEGER`"
                       },
                       %{
-                        "active" => true,
                         "example" => 10,
                         "kind" => "query",
                         "name" => "take",
                         "orig" => "take",
-                        "reqd" => false,
                         "type" => "`$INTEGER`"
                       }
                     ]
@@ -3666,28 +2798,23 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "list"
+              ]
             },
             "update" => %{
               "input" => "data",
               "name" => "update",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{
                     "params" => [
                       %{
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "id",
                         "reqd" => true,
-                        "type" => "`$STRING`",
-                        "index$" => 0
+                        "type" => "`$STRING`"
                       }
                     ]
                   },
@@ -3706,21 +2833,17 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 },
                 %{
-                  "active" => true,
                   "args" => %{
                     "params" => [
                       %{
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "id",
                         "reqd" => true,
-                        "type" => "`$STRING`",
-                        "index$" => 0
+                        "type" => "`$STRING`"
                       }
                     ]
                   },
@@ -3739,21 +2862,17 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 1
+                  }
                 },
                 %{
-                  "active" => true,
                   "args" => %{
                     "params" => [
                       %{
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "id",
                         "reqd" => true,
-                        "type" => "`$STRING`",
-                        "index$" => 0
+                        "type" => "`$STRING`"
                       }
                     ]
                   },
@@ -3772,21 +2891,17 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 2
+                  }
                 },
                 %{
-                  "active" => true,
                   "args" => %{
                     "params" => [
                       %{
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "id",
                         "reqd" => true,
-                        "type" => "`$STRING`",
-                        "index$" => 0
+                        "type" => "`$STRING`"
                       }
                     ]
                   },
@@ -3805,21 +2920,17 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 3
+                  }
                 },
                 %{
-                  "active" => true,
                   "args" => %{
                     "params" => [
                       %{
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "id",
                         "reqd" => true,
-                        "type" => "`$STRING`",
-                        "index$" => 0
+                        "type" => "`$STRING`"
                       }
                     ]
                   },
@@ -3838,21 +2949,17 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 4
+                  }
                 },
                 %{
-                  "active" => true,
                   "args" => %{
                     "params" => [
                       %{
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "id",
                         "reqd" => true,
-                        "type" => "`$STRING`",
-                        "index$" => 0
+                        "type" => "`$STRING`"
                       }
                     ]
                   },
@@ -3871,21 +2978,17 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 5
+                  }
                 },
                 %{
-                  "active" => true,
                   "args" => %{
                     "params" => [
                       %{
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "id",
                         "reqd" => true,
-                        "type" => "`$STRING`",
-                        "index$" => 0
+                        "type" => "`$STRING`"
                       }
                     ]
                   },
@@ -3904,11 +3007,9 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 6
+                  }
                 }
-              ],
-              "key$" => "update"
+              ]
             }
           },
           "relations" => %{
@@ -3918,102 +3019,60 @@ defmodule BluefinDecryptxP2pe.Config do
         "user" => %{
           "fields" => [
             %{
-              "active" => true,
               "name" => "client",
-              "req" => false,
-              "type" => "`$OBJECT`",
-              "index$" => 0
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "created",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 1
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "email",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 2
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "firstName",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 3
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "id",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 4
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "isActive",
-              "req" => false,
-              "type" => "`$BOOLEAN`",
-              "index$" => 5
+              "type" => "`$BOOLEAN`"
             },
             %{
-              "active" => true,
               "name" => "kif",
-              "req" => false,
-              "type" => "`$OBJECT`",
-              "index$" => 6
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "lastName",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 7
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "modified",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 8
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "partner",
-              "req" => false,
-              "type" => "`$OBJECT`",
-              "index$" => 9
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "phone",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 10
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "userName",
-              "req" => false,
-              "type" => "`$STRING`",
-              "index$" => 11
+              "type" => "`$STRING`"
             },
             %{
-              "active" => true,
               "name" => "userRole",
-              "req" => false,
-              "type" => "`$OBJECT`",
-              "index$" => 12
+              "type" => "`$OBJECT`"
             },
             %{
-              "active" => true,
               "name" => "version",
-              "req" => false,
-              "type" => "`$INTEGER`",
-              "index$" => 13
+              "type" => "`$INTEGER`"
             }
           ],
           "name" => "user",
@@ -4023,17 +3082,14 @@ defmodule BluefinDecryptxP2pe.Config do
               "name" => "load",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{
                     "params" => [
                       %{
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "id",
                         "reqd" => true,
-                        "type" => "`$STRING`",
-                        "index$" => 0
+                        "type" => "`$STRING`"
                       }
                     ]
                   },
@@ -4052,28 +3108,23 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "load"
+              ]
             },
             "remove" => %{
               "input" => "data",
               "name" => "remove",
               "points" => [
                 %{
-                  "active" => true,
                   "args" => %{
                     "params" => [
                       %{
-                        "active" => true,
                         "kind" => "param",
                         "name" => "id",
                         "orig" => "id",
                         "reqd" => true,
-                        "type" => "`$STRING`",
-                        "index$" => 0
+                        "type" => "`$STRING`"
                       }
                     ]
                   },
@@ -4092,11 +3143,9 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  },
-                  "index$" => 0
+                  }
                 }
-              ],
-              "key$" => "remove"
+              ]
             }
           },
           "relations" => %{

@@ -40,7 +40,7 @@ class InjectKeyEntityTest extends TestCase
         $this->assertCount(3, $seen);
 
         // Inbound: streaming active -> yields each item from the feature.
-        $cfg = BluefinDecryptxP2peConfig::make_config();
+        $cfg = BluefinDecryptxP2peConfig::shared_config();
         if (isset($cfg["feature"]) && is_array($cfg["feature"]) && isset($cfg["feature"]["streaming"])) {
             $sdk = BluefinDecryptxP2peSDK::test($seed, ["feature" => ["streaming" => ["active" => true]]]);
             $got = [];

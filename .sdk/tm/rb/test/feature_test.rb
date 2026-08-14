@@ -15,7 +15,7 @@ require_relative "../BluefinDecryptxP2pe_sdk"
 module BluefinDecryptxP2peFeatureHarness
   # True when this SDK was generated with the named feature.
   def self.has_feature?(name)
-    f = BluefinDecryptxP2peConfig.make_config["feature"]
+    f = BluefinDecryptxP2peConfig.shared_config["feature"]
     f.is_a?(Hash) && !f[name].nil?
   end
 

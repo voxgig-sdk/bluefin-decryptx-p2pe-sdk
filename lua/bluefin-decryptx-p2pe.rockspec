@@ -23,6 +23,7 @@ build = {
   modules = {
     ["bluefin-decryptx-p2pe_sdk"] = "bluefin-decryptx-p2pe_sdk.lua",
     ["config"] = "config.lua",
+    ["config_shared"] = "config_shared.lua",
     ["features"] = "features.lua",
   }
 }

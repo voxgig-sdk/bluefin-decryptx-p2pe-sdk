@@ -28,7 +28,7 @@ class BluefinDecryptxP2peSDK
     utility = BluefinDecryptxP2peUtility.new
     @_utility = utility
 
-    config = BluefinDecryptxP2peConfig.make_config
+    config = BluefinDecryptxP2peConfig.shared_config
 
     @_rootctx = utility.make_context.call({
       "client" => self,

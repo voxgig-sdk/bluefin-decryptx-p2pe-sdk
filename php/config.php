@@ -5,6 +5,29 @@ declare(strict_types=1);
 
 class BluefinDecryptxP2peConfig
 {
+    /** @var array<string,mixed>|null */
+    private static ?array $shared_config = null;
+
+    /**
+     * Return the process-wide config, built once on first use. The SDK reads
+     * the config on every request and never writes to it, so one instance is
+     * shared by every client rather than rebuilt per client.
+     *
+     * PHP arrays are copy-on-write, so callers that do mutate the result get
+     * their own copy and cannot disturb the shared one.
+     */
+    public static function shared_config(): array
+    {
+        if (self::$shared_config === null) {
+            self::$shared_config = self::make_config();
+        }
+        return self::$shared_config;
+    }
+
+    /**
+     * Build a fresh, fully materialised config array. Every call rebuilds the
+     * whole structure, so prefer shared_config unless you need a private copy.
+     */
     public static function make_config(): array
     {
         return [
@@ -55,53 +78,32 @@ class BluefinDecryptxP2peConfig
         'attestation' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'client',
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 0,
             ],
             [
-              'active' => true,
               'name' => 'completeDate',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 1,
             ],
             [
-              'active' => true,
               'name' => 'created',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 2,
             ],
             [
-              'active' => true,
               'name' => 'device',
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 3,
             ],
             [
-              'active' => true,
               'name' => 'id',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 4,
             ],
             [
-              'active' => true,
               'name' => 'name',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 5,
             ],
             [
-              'active' => true,
               'name' => 'notes',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 6,
             ],
           ],
           'name' => 'attestation',
@@ -111,7 +113,6 @@ class BluefinDecryptxP2peConfig
               'name' => 'create',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [],
                   'kind' => 'http',
                   'method' => 'POST',
@@ -124,21 +125,17 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'create',
             ],
             'list' => [
               'input' => 'data',
               'name' => 'list',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'query' => [
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'client',
                         'orig' => 'client',
@@ -146,21 +143,17 @@ class BluefinDecryptxP2peConfig
                         'type' => '`$STRING`',
                       ],
                       [
-                        'active' => true,
                         'example' => 0,
                         'kind' => 'query',
                         'name' => 'skip',
                         'orig' => 'skip',
-                        'reqd' => false,
                         'type' => '`$INTEGER`',
                       ],
                       [
-                        'active' => true,
                         'example' => 10,
                         'kind' => 'query',
                         'name' => 'take',
                         'orig' => 'take',
-                        'reqd' => false,
                         'type' => '`$INTEGER`',
                       ],
                     ],
@@ -182,27 +175,22 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'list',
             ],
             'load' => [
               'input' => 'data',
               'name' => 'load',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'id',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -222,10 +210,8 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'load',
             ],
           ],
           'relations' => [
@@ -235,7 +221,6 @@ class BluefinDecryptxP2peConfig
         'client' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'contact',
               'op' => [
                 'list' => [
@@ -243,79 +228,48 @@ class BluefinDecryptxP2peConfig
                   'type' => '`$OBJECT`',
                 ],
               ],
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 0,
             ],
             [
-              'active' => true,
               'name' => 'created',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 1,
             ],
             [
-              'active' => true,
               'name' => 'directPartner',
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 2,
             ],
             [
-              'active' => true,
               'name' => 'id',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 3,
             ],
             [
-              'active' => true,
               'name' => 'isActive',
-              'req' => false,
               'type' => '`$BOOLEAN`',
-              'index$' => 4,
             ],
             [
-              'active' => true,
               'name' => 'location',
               'req' => true,
               'type' => '`$OBJECT`',
-              'index$' => 5,
             ],
             [
-              'active' => true,
               'name' => 'mid',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 6,
             ],
             [
-              'active' => true,
               'name' => 'modified',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 7,
             ],
             [
-              'active' => true,
               'name' => 'name',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 8,
             ],
             [
-              'active' => true,
               'name' => 'partner',
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 9,
             ],
             [
-              'active' => true,
               'name' => 'version',
-              'req' => false,
               'type' => '`$INTEGER`',
-              'index$' => 10,
             ],
           ],
           'name' => 'client',
@@ -325,7 +279,6 @@ class BluefinDecryptxP2peConfig
               'name' => 'create',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [],
                   'kind' => 'http',
                   'method' => 'POST',
@@ -338,21 +291,17 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'create',
             ],
             'list' => [
               'input' => 'data',
               'name' => 'list',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'query' => [
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'partner',
                         'orig' => 'partner',
@@ -360,21 +309,17 @@ class BluefinDecryptxP2peConfig
                         'type' => '`$STRING`',
                       ],
                       [
-                        'active' => true,
                         'example' => 0,
                         'kind' => 'query',
                         'name' => 'skip',
                         'orig' => 'skip',
-                        'reqd' => false,
                         'type' => '`$INTEGER`',
                       ],
                       [
-                        'active' => true,
                         'example' => 10,
                         'kind' => 'query',
                         'name' => 'take',
                         'orig' => 'take',
-                        'reqd' => false,
                         'type' => '`$INTEGER`',
                       ],
                     ],
@@ -396,27 +341,22 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'list',
             ],
             'load' => [
               'input' => 'data',
               'name' => 'load',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'id',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -436,27 +376,22 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'load',
             ],
             'remove' => [
               'input' => 'data',
               'name' => 'remove',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'id',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -476,10 +411,8 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'remove',
             ],
           ],
           'relations' => [
@@ -495,26 +428,21 @@ class BluefinDecryptxP2peConfig
               'name' => 'create',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'device_type',
                         'orig' => 'device_type',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'serial_number',
                         'orig' => 'serial_number',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 1,
                       ],
                     ],
                   ],
@@ -543,10 +471,8 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'create',
             ],
           ],
           'relations' => [
@@ -560,11 +486,8 @@ class BluefinDecryptxP2peConfig
         'decryption' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'success',
-              'req' => false,
               'type' => '`$BOOLEAN`',
-              'index$' => 0,
             ],
           ],
           'name' => 'decryption',
@@ -574,7 +497,6 @@ class BluefinDecryptxP2peConfig
               'name' => 'create',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [],
                   'kind' => 'http',
                   'method' => 'POST',
@@ -587,10 +509,8 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'create',
             ],
           ],
           'relations' => [
@@ -600,200 +520,121 @@ class BluefinDecryptxP2peConfig
         'device' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'activatedBy',
               'req' => true,
               'type' => '`$OBJECT`',
-              'index$' => 0,
             ],
             [
-              'active' => true,
               'name' => 'activationDate',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 1,
             ],
             [
-              'active' => true,
               'name' => 'alternateKey',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 2,
             ],
             [
-              'active' => true,
               'name' => 'auditNextDate',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 3,
             ],
             [
-              'active' => true,
               'name' => 'auditNotificationDate',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 4,
             ],
             [
-              'active' => true,
               'name' => 'client',
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 5,
             ],
             [
-              'active' => true,
               'name' => 'created',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 6,
             ],
             [
-              'active' => true,
               'name' => 'createdBy',
               'req' => true,
               'type' => '`$OBJECT`',
-              'index$' => 7,
             ],
             [
-              'active' => true,
               'name' => 'deviceBuild',
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 8,
             ],
             [
-              'active' => true,
               'name' => 'deviceState',
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 9,
             ],
             [
-              'active' => true,
               'name' => 'deviceType',
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 10,
             ],
             [
-              'active' => true,
               'name' => 'errorCounter',
-              'req' => false,
               'type' => '`$INTEGER`',
-              'index$' => 11,
             ],
             [
-              'active' => true,
               'name' => 'errorLastDate',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 12,
             ],
             [
-              'active' => true,
               'name' => 'id',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 13,
             ],
             [
-              'active' => true,
               'name' => 'initializedBy',
               'req' => true,
               'type' => '`$OBJECT`',
-              'index$' => 14,
             ],
             [
-              'active' => true,
               'name' => 'initializedDate',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 15,
             ],
             [
-              'active' => true,
               'name' => 'injectKey',
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 16,
             ],
             [
-              'active' => true,
               'name' => 'isVirtual',
-              'req' => false,
               'type' => '`$BOOLEAN`',
-              'index$' => 17,
             ],
             [
-              'active' => true,
               'name' => 'kif',
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 18,
             ],
             [
-              'active' => true,
               'name' => 'lastActivityDate',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 19,
             ],
             [
-              'active' => true,
               'name' => 'location',
               'req' => true,
               'type' => '`$OBJECT`',
-              'index$' => 20,
             ],
             [
-              'active' => true,
               'name' => 'modified',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 21,
             ],
             [
-              'active' => true,
               'name' => 'modifiedBy',
               'req' => true,
               'type' => '`$OBJECT`',
-              'index$' => 22,
             ],
             [
-              'active' => true,
               'name' => 'name',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 23,
             ],
             [
-              'active' => true,
               'name' => 'notes',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 24,
             ],
             [
-              'active' => true,
               'name' => 'partner',
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 25,
             ],
             [
-              'active' => true,
               'name' => 'serialNumber',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 26,
             ],
             [
-              'active' => true,
               'name' => 'version',
-              'req' => false,
               'type' => '`$INTEGER`',
-              'index$' => 27,
             ],
           ],
           'name' => 'device',
@@ -803,7 +644,6 @@ class BluefinDecryptxP2peConfig
               'name' => 'create',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [],
                   'kind' => 'http',
                   'method' => 'POST',
@@ -816,93 +656,72 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'create',
             ],
             'list' => [
               'input' => 'data',
               'name' => 'list',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'query' => [
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'client',
                         'orig' => 'client',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'device_state',
                         'orig' => 'device_state',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'kif',
                         'orig' => 'kif',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'partner',
                         'orig' => 'partner',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'serial_number',
                         'orig' => 'serial_number',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                       [
-                        'active' => true,
                         'example' => 0,
                         'kind' => 'query',
                         'name' => 'skip',
                         'orig' => 'skip',
-                        'reqd' => false,
                         'type' => '`$INTEGER`',
                       ],
                       [
-                        'active' => true,
                         'example' => 'asc',
                         'kind' => 'query',
                         'name' => 'sorting_direction',
                         'orig' => 'sorting_direction',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                       [
-                        'active' => true,
                         'example' => 'serialnumber',
                         'kind' => 'query',
                         'name' => 'sorting_field',
                         'orig' => 'sorting_field',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                       [
-                        'active' => true,
                         'example' => 10,
                         'kind' => 'query',
                         'name' => 'take',
                         'orig' => 'take',
-                        'reqd' => false,
                         'type' => '`$INTEGER`',
                       ],
                     ],
@@ -930,36 +749,29 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'list',
             ],
             'load' => [
               'input' => 'data',
               'name' => 'load',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'device_type',
                         'orig' => 'device_type',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'serial_number',
                         'orig' => 'serial_number',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 1,
                       ],
                     ],
                   ],
@@ -987,20 +799,16 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'id',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -1020,10 +828,8 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 1,
                 ],
               ],
-              'key$' => 'load',
             ],
           ],
           'relations' => [
@@ -1037,109 +843,64 @@ class BluefinDecryptxP2peConfig
         'device_build' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'appVersion',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 0,
             ],
             [
-              'active' => true,
               'name' => 'buildNumber',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 1,
             ],
             [
-              'active' => true,
               'name' => 'configFileName',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 2,
             ],
             [
-              'active' => true,
               'name' => 'created',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 3,
             ],
             [
-              'active' => true,
               'name' => 'deviceType',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 4,
             ],
             [
-              'active' => true,
               'name' => 'firmwareVersion',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 5,
             ],
             [
-              'active' => true,
               'name' => 'hardwareVersion',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 6,
             ],
             [
-              'active' => true,
               'name' => 'id',
-              'req' => false,
               'type' => '`$INTEGER`',
-              'index$' => 7,
             ],
             [
-              'active' => true,
               'name' => 'isActive',
-              'req' => false,
               'type' => '`$BOOLEAN`',
-              'index$' => 8,
             ],
             [
-              'active' => true,
               'name' => 'modified',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 9,
             ],
             [
-              'active' => true,
               'name' => 'name',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 10,
             ],
             [
-              'active' => true,
               'name' => 'notes',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 11,
             ],
             [
-              'active' => true,
               'name' => 'version',
-              'req' => false,
               'type' => '`$INTEGER`',
-              'index$' => 12,
             ],
             [
-              'active' => true,
               'name' => 'whiteListingBinRanges',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 13,
             ],
             [
-              'active' => true,
               'name' => 'whiteListingUsed',
-              'req' => false,
               'type' => '`$BOOLEAN`',
-              'index$' => 14,
             ],
           ],
           'name' => 'device_build',
@@ -1149,33 +910,26 @@ class BluefinDecryptxP2peConfig
               'name' => 'list',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'query' => [
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'device_type',
                         'orig' => 'device_type',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                       [
-                        'active' => true,
                         'example' => 0,
                         'kind' => 'query',
                         'name' => 'skip',
                         'orig' => 'skip',
-                        'reqd' => false,
                         'type' => '`$INTEGER`',
                       ],
                       [
-                        'active' => true,
                         'example' => 10,
                         'kind' => 'query',
                         'name' => 'take',
                         'orig' => 'take',
-                        'reqd' => false,
                         'type' => '`$INTEGER`',
                       ],
                     ],
@@ -1197,27 +951,22 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'list',
             ],
             'load' => [
               'input' => 'data',
               'name' => 'load',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'id',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -1237,10 +986,8 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'load',
             ],
           ],
           'relations' => [
@@ -1250,95 +997,60 @@ class BluefinDecryptxP2peConfig
         'device_custody_detail' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'completeDate',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 0,
             ],
             [
-              'active' => true,
               'name' => 'created',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 1,
             ],
             [
-              'active' => true,
               'name' => 'createdBy',
               'req' => true,
               'type' => '`$OBJECT`',
-              'index$' => 2,
             ],
             [
-              'active' => true,
               'name' => 'custodian',
               'req' => true,
               'type' => '`$OBJECT`',
-              'index$' => 3,
             ],
             [
-              'active' => true,
               'name' => 'device',
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 4,
             ],
             [
-              'active' => true,
               'name' => 'id',
-              'req' => false,
               'type' => '`$INTEGER`',
-              'index$' => 5,
             ],
             [
-              'active' => true,
               'name' => 'location',
               'req' => true,
               'type' => '`$OBJECT`',
-              'index$' => 6,
             ],
             [
-              'active' => true,
               'name' => 'modified',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 7,
             ],
             [
-              'active' => true,
               'name' => 'modifiedBy',
               'req' => true,
               'type' => '`$OBJECT`',
-              'index$' => 8,
             ],
             [
-              'active' => true,
               'name' => 'notes',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 9,
             ],
             [
-              'active' => true,
               'name' => 'status',
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 10,
             ],
             [
-              'active' => true,
               'name' => 'transferMethod',
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 11,
             ],
             [
-              'active' => true,
               'name' => 'version',
-              'req' => false,
               'type' => '`$INTEGER`',
-              'index$' => 12,
             ],
           ],
           'name' => 'device_custody_detail',
@@ -1348,35 +1060,28 @@ class BluefinDecryptxP2peConfig
               'name' => 'load',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'device_type',
                         'orig' => 'device_type',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'id',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 1,
                       ],
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'serial_number',
                         'orig' => 'serial_number',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 2,
                       ],
                     ],
                   ],
@@ -1407,10 +1112,8 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'load',
             ],
           ],
           'relations' => [
@@ -1424,95 +1127,60 @@ class BluefinDecryptxP2peConfig
         'device_custody_list' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'completeDate',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 0,
             ],
             [
-              'active' => true,
               'name' => 'created',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 1,
             ],
             [
-              'active' => true,
               'name' => 'createdBy',
               'req' => true,
               'type' => '`$OBJECT`',
-              'index$' => 2,
             ],
             [
-              'active' => true,
               'name' => 'custodian',
               'req' => true,
               'type' => '`$OBJECT`',
-              'index$' => 3,
             ],
             [
-              'active' => true,
               'name' => 'device',
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 4,
             ],
             [
-              'active' => true,
               'name' => 'id',
-              'req' => false,
               'type' => '`$INTEGER`',
-              'index$' => 5,
             ],
             [
-              'active' => true,
               'name' => 'location',
               'req' => true,
               'type' => '`$OBJECT`',
-              'index$' => 6,
             ],
             [
-              'active' => true,
               'name' => 'modified',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 7,
             ],
             [
-              'active' => true,
               'name' => 'modifiedBy',
               'req' => true,
               'type' => '`$OBJECT`',
-              'index$' => 8,
             ],
             [
-              'active' => true,
               'name' => 'notes',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 9,
             ],
             [
-              'active' => true,
               'name' => 'status',
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 10,
             ],
             [
-              'active' => true,
               'name' => 'transferMethod',
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 11,
             ],
             [
-              'active' => true,
               'name' => 'version',
-              'req' => false,
               'type' => '`$INTEGER`',
-              'index$' => 12,
             ],
           ],
           'name' => 'device_custody_list',
@@ -1522,45 +1190,36 @@ class BluefinDecryptxP2peConfig
               'name' => 'list',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'device_type',
                         'orig' => 'device_type',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'serial_number',
                         'orig' => 'serial_number',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 1,
                       ],
                     ],
                     'query' => [
                       [
-                        'active' => true,
                         'example' => 0,
                         'kind' => 'query',
                         'name' => 'skip',
                         'orig' => 'skip',
-                        'reqd' => false,
                         'type' => '`$INTEGER`',
                       ],
                       [
-                        'active' => true,
                         'example' => 10,
                         'kind' => 'query',
                         'name' => 'take',
                         'orig' => 'take',
-                        'reqd' => false,
                         'type' => '`$INTEGER`',
                       ],
                     ],
@@ -1592,10 +1251,8 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'list',
             ],
           ],
           'relations' => [
@@ -1609,18 +1266,12 @@ class BluefinDecryptxP2peConfig
         'device_list' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'data',
-              'req' => false,
               'type' => '`$ARRAY`',
-              'index$' => 0,
             ],
             [
-              'active' => true,
               'name' => 'total',
-              'req' => false,
               'type' => '`$INTEGER`',
-              'index$' => 1,
             ],
           ],
           'name' => 'device_list',
@@ -1630,54 +1281,43 @@ class BluefinDecryptxP2peConfig
               'name' => 'load',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'share_partner_to',
                         'orig' => 'share_partner_to',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                     'query' => [
                       [
-                        'active' => true,
                         'example' => 0,
                         'kind' => 'query',
                         'name' => 'skip',
                         'orig' => 'skip',
-                        'reqd' => false,
                         'type' => '`$INTEGER`',
                       ],
                       [
-                        'active' => true,
                         'example' => 'asc',
                         'kind' => 'query',
                         'name' => 'sorting_direction',
                         'orig' => 'sorting_direction',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                       [
-                        'active' => true,
                         'example' => 'serialnumber',
                         'kind' => 'query',
                         'name' => 'sorting_field',
                         'orig' => 'sorting_field',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                       [
-                        'active' => true,
                         'example' => 10,
                         'kind' => 'query',
                         'name' => 'take',
                         'orig' => 'take',
-                        'reqd' => false,
                         'type' => '`$INTEGER`',
                       ],
                     ],
@@ -1707,10 +1347,8 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'load',
             ],
           ],
           'relations' => [
@@ -1724,11 +1362,9 @@ class BluefinDecryptxP2peConfig
         'device_receive_result' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'success',
               'req' => true,
               'type' => '`$BOOLEAN`',
-              'index$' => 0,
             ],
           ],
           'name' => 'device_receive_result',
@@ -1738,7 +1374,6 @@ class BluefinDecryptxP2peConfig
               'name' => 'create',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [],
                   'kind' => 'http',
                   'method' => 'POST',
@@ -1752,10 +1387,8 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'create',
             ],
           ],
           'relations' => [
@@ -1765,11 +1398,9 @@ class BluefinDecryptxP2peConfig
         'device_rki_activate_result' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'success',
               'req' => true,
               'type' => '`$BOOLEAN`',
-              'index$' => 0,
             ],
           ],
           'name' => 'device_rki_activate_result',
@@ -1779,7 +1410,6 @@ class BluefinDecryptxP2peConfig
               'name' => 'create',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [],
                   'kind' => 'http',
                   'method' => 'POST',
@@ -1794,10 +1424,8 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'create',
             ],
           ],
           'relations' => [
@@ -1807,18 +1435,12 @@ class BluefinDecryptxP2peConfig
         'device_state' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'id',
-              'req' => false,
               'type' => '`$INTEGER`',
-              'index$' => 0,
             ],
             [
-              'active' => true,
               'name' => 'name',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 1,
             ],
           ],
           'name' => 'device_state',
@@ -1828,7 +1450,6 @@ class BluefinDecryptxP2peConfig
               'name' => 'list',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [],
                   'kind' => 'http',
                   'method' => 'GET',
@@ -1841,10 +1462,8 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'list',
             ],
           ],
           'relations' => [
@@ -1854,88 +1473,52 @@ class BluefinDecryptxP2peConfig
         'device_type' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'created',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 0,
             ],
             [
-              'active' => true,
               'name' => 'deviceTypeMode',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 1,
             ],
             [
-              'active' => true,
               'name' => 'hardwareVersion',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 2,
             ],
             [
-              'active' => true,
               'name' => 'id',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 3,
             ],
             [
-              'active' => true,
               'name' => 'isActive',
-              'req' => false,
               'type' => '`$BOOLEAN`',
-              'index$' => 4,
             ],
             [
-              'active' => true,
               'name' => 'manufacturer',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 5,
             ],
             [
-              'active' => true,
               'name' => 'model',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 6,
             ],
             [
-              'active' => true,
               'name' => 'modified',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 7,
             ],
             [
-              'active' => true,
               'name' => 'name',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 8,
             ],
             [
-              'active' => true,
               'name' => 'photoUrl',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 9,
             ],
             [
-              'active' => true,
               'name' => 'productName',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 10,
             ],
             [
-              'active' => true,
               'name' => 'version',
-              'req' => false,
               'type' => '`$INTEGER`',
-              'index$' => 11,
             ],
           ],
           'name' => 'device_type',
@@ -1945,7 +1528,6 @@ class BluefinDecryptxP2peConfig
               'name' => 'list',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [],
                   'kind' => 'http',
                   'method' => 'GET',
@@ -1958,27 +1540,22 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'list',
             ],
             'load' => [
               'input' => 'data',
               'name' => 'load',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'id',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -1998,10 +1575,8 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'load',
             ],
           ],
           'relations' => [
@@ -2011,60 +1586,36 @@ class BluefinDecryptxP2peConfig
         'inject_key' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'created',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 0,
             ],
             [
-              'active' => true,
               'name' => 'id',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 1,
             ],
             [
-              'active' => true,
               'name' => 'isActive',
-              'req' => false,
               'type' => '`$BOOLEAN`',
-              'index$' => 2,
             ],
             [
-              'active' => true,
               'name' => 'isP2PE',
-              'req' => false,
               'type' => '`$BOOLEAN`',
-              'index$' => 3,
             ],
             [
-              'active' => true,
               'name' => 'keyType',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 4,
             ],
             [
-              'active' => true,
               'name' => 'modified',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 5,
             ],
             [
-              'active' => true,
               'name' => 'name',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 6,
             ],
             [
-              'active' => true,
               'name' => 'version',
-              'req' => false,
               'type' => '`$INTEGER`',
-              'index$' => 7,
             ],
           ],
           'name' => 'inject_key',
@@ -2074,7 +1625,6 @@ class BluefinDecryptxP2peConfig
               'name' => 'list',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [],
                   'kind' => 'http',
                   'method' => 'GET',
@@ -2087,27 +1637,22 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'list',
             ],
             'load' => [
               'input' => 'data',
               'name' => 'load',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'id',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -2127,10 +1672,8 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'load',
             ],
           ],
           'relations' => [
@@ -2140,18 +1683,12 @@ class BluefinDecryptxP2peConfig
         'kif' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'id',
-              'req' => false,
               'type' => '`$INTEGER`',
-              'index$' => 0,
             ],
             [
-              'active' => true,
               'name' => 'name',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 1,
             ],
           ],
           'name' => 'kif',
@@ -2161,7 +1698,6 @@ class BluefinDecryptxP2peConfig
               'name' => 'list',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [],
                   'kind' => 'http',
                   'method' => 'GET',
@@ -2174,10 +1710,8 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'list',
             ],
           ],
           'relations' => [
@@ -2187,165 +1721,96 @@ class BluefinDecryptxP2peConfig
         'location' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'address1',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 0,
             ],
             [
-              'active' => true,
               'name' => 'address2',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 1,
             ],
             [
-              'active' => true,
               'name' => 'billingId',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 2,
             ],
             [
-              'active' => true,
               'name' => 'city',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 3,
             ],
             [
-              'active' => true,
               'name' => 'country',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 4,
             ],
             [
-              'active' => true,
               'name' => 'created',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 5,
             ],
             [
-              'active' => true,
               'name' => 'customReference',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 6,
             ],
             [
-              'active' => true,
               'name' => 'id',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 7,
             ],
             [
-              'active' => true,
               'name' => 'locationType',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 8,
             ],
             [
-              'active' => true,
               'name' => 'mailAddress1',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 9,
             ],
             [
-              'active' => true,
               'name' => 'mailAddress2',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 10,
             ],
             [
-              'active' => true,
               'name' => 'mailCity',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 11,
             ],
             [
-              'active' => true,
               'name' => 'mailCountry',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 12,
             ],
             [
-              'active' => true,
               'name' => 'mailPostalCode',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 13,
             ],
             [
-              'active' => true,
               'name' => 'mailStateProvince',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 14,
             ],
             [
-              'active' => true,
               'name' => 'modified',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 15,
             ],
             [
-              'active' => true,
               'name' => 'name',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 16,
             ],
             [
-              'active' => true,
               'name' => 'nameOfBusiness',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 17,
             ],
             [
-              'active' => true,
               'name' => 'notes',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 18,
             ],
             [
-              'active' => true,
               'name' => 'postalCode',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 19,
             ],
             [
-              'active' => true,
               'name' => 'stateProvince',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 20,
             ],
             [
-              'active' => true,
               'name' => 'uniqueId',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 21,
             ],
             [
-              'active' => true,
               'name' => 'version',
-              'req' => false,
               'type' => '`$INTEGER`',
-              'index$' => 22,
             ],
           ],
           'name' => 'location',
@@ -2355,7 +1820,6 @@ class BluefinDecryptxP2peConfig
               'name' => 'create',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [],
                   'kind' => 'http',
                   'method' => 'POST',
@@ -2368,21 +1832,17 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'create',
             ],
             'list' => [
               'input' => 'data',
               'name' => 'list',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'query' => [
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'client',
                         'orig' => 'client',
@@ -2390,21 +1850,17 @@ class BluefinDecryptxP2peConfig
                         'type' => '`$STRING`',
                       ],
                       [
-                        'active' => true,
                         'example' => 0,
                         'kind' => 'query',
                         'name' => 'skip',
                         'orig' => 'skip',
-                        'reqd' => false,
                         'type' => '`$INTEGER`',
                       ],
                       [
-                        'active' => true,
                         'example' => 10,
                         'kind' => 'query',
                         'name' => 'take',
                         'orig' => 'take',
-                        'reqd' => false,
                         'type' => '`$INTEGER`',
                       ],
                     ],
@@ -2426,27 +1882,22 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'list',
             ],
             'load' => [
               'input' => 'data',
               'name' => 'load',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'id',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -2466,27 +1917,22 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'load',
             ],
             'remove' => [
               'input' => 'data',
               'name' => 'remove',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'id',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -2506,10 +1952,8 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'remove',
             ],
           ],
           'relations' => [
@@ -2519,21 +1963,14 @@ class BluefinDecryptxP2peConfig
         'partner' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'billingId',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 0,
             ],
             [
-              'active' => true,
               'name' => 'clientCanOrderEquipment',
-              'req' => false,
               'type' => '`$BOOLEAN`',
-              'index$' => 1,
             ],
             [
-              'active' => true,
               'name' => 'contact',
               'op' => [
                 'list' => [
@@ -2541,86 +1978,52 @@ class BluefinDecryptxP2peConfig
                   'type' => '`$OBJECT`',
                 ],
               ],
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 2,
             ],
             [
-              'active' => true,
               'name' => 'created',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 3,
             ],
             [
-              'active' => true,
               'name' => 'id',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 4,
             ],
             [
-              'active' => true,
               'name' => 'isActive',
-              'req' => false,
               'type' => '`$BOOLEAN`',
-              'index$' => 5,
             ],
             [
-              'active' => true,
               'name' => 'location',
               'req' => true,
               'type' => '`$OBJECT`',
-              'index$' => 6,
             ],
             [
-              'active' => true,
               'name' => 'modified',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 7,
             ],
             [
-              'active' => true,
               'name' => 'name',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 8,
             ],
             [
-              'active' => true,
               'name' => 'parent',
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 9,
             ],
             [
-              'active' => true,
               'name' => 'partnerId',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 10,
             ],
             [
-              'active' => true,
               'name' => 'reference',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 11,
             ],
             [
-              'active' => true,
               'name' => 'verificationPhrase',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 12,
             ],
             [
-              'active' => true,
               'name' => 'version',
-              'req' => false,
               'type' => '`$INTEGER`',
-              'index$' => 13,
             ],
           ],
           'name' => 'partner',
@@ -2630,7 +2033,6 @@ class BluefinDecryptxP2peConfig
               'name' => 'create',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [],
                   'kind' => 'http',
                   'method' => 'POST',
@@ -2643,43 +2045,34 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'create',
             ],
             'list' => [
               'input' => 'data',
               'name' => 'list',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'query' => [
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'partner',
                         'orig' => 'partner',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                       [
-                        'active' => true,
                         'example' => 0,
                         'kind' => 'query',
                         'name' => 'skip',
                         'orig' => 'skip',
-                        'reqd' => false,
                         'type' => '`$INTEGER`',
                       ],
                       [
-                        'active' => true,
                         'example' => 10,
                         'kind' => 'query',
                         'name' => 'take',
                         'orig' => 'take',
-                        'reqd' => false,
                         'type' => '`$INTEGER`',
                       ],
                     ],
@@ -2701,27 +2094,22 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'list',
             ],
             'load' => [
               'input' => 'data',
               'name' => 'load',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'id',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -2741,10 +2129,8 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'load',
             ],
           ],
           'relations' => [
@@ -2754,102 +2140,60 @@ class BluefinDecryptxP2peConfig
         'shipment' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'carrier',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 0,
             ],
             [
-              'active' => true,
               'name' => 'client',
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 1,
             ],
             [
-              'active' => true,
               'name' => 'created',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 2,
             ],
             [
-              'active' => true,
               'name' => 'dateReceived',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 3,
             ],
             [
-              'active' => true,
               'name' => 'dateShipped',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 4,
             ],
             [
-              'active' => true,
               'name' => 'dcKif',
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 5,
             ],
             [
-              'active' => true,
               'name' => 'id',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 6,
             ],
             [
-              'active' => true,
               'name' => 'items',
-              'req' => false,
               'type' => '`$ARRAY`',
-              'index$' => 7,
             ],
             [
-              'active' => true,
               'name' => 'kif',
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 8,
             ],
             [
-              'active' => true,
               'name' => 'modified',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 9,
             ],
             [
-              'active' => true,
               'name' => 'partner',
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 10,
             ],
             [
-              'active' => true,
               'name' => 'shipmentType',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 11,
             ],
             [
-              'active' => true,
               'name' => 'tracking',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 12,
             ],
             [
-              'active' => true,
               'name' => 'version',
-              'req' => false,
               'type' => '`$INTEGER`',
-              'index$' => 13,
             ],
           ],
           'name' => 'shipment',
@@ -2859,7 +2203,6 @@ class BluefinDecryptxP2peConfig
               'name' => 'create',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [],
                   'kind' => 'http',
                   'method' => 'POST',
@@ -2872,21 +2215,17 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'create',
             ],
             'list' => [
               'input' => 'data',
               'name' => 'list',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'query' => [
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'kif',
                         'orig' => 'kif',
@@ -2894,29 +2233,23 @@ class BluefinDecryptxP2peConfig
                         'type' => '`$STRING`',
                       ],
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'mode',
                         'orig' => 'mode',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                       [
-                        'active' => true,
                         'example' => 0,
                         'kind' => 'query',
                         'name' => 'skip',
                         'orig' => 'skip',
-                        'reqd' => false,
                         'type' => '`$INTEGER`',
                       ],
                       [
-                        'active' => true,
                         'example' => 10,
                         'kind' => 'query',
                         'name' => 'take',
                         'orig' => 'take',
-                        'reqd' => false,
                         'type' => '`$INTEGER`',
                       ],
                     ],
@@ -2939,27 +2272,22 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'list',
             ],
             'load' => [
               'input' => 'data',
               'name' => 'load',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'id',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -2979,10 +2307,8 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'load',
             ],
           ],
           'relations' => [
@@ -2992,11 +2318,8 @@ class BluefinDecryptxP2peConfig
         'success' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'success',
-              'req' => false,
               'type' => '`$BOOLEAN`',
-              'index$' => 0,
             ],
           ],
           'name' => 'success',
@@ -3006,17 +2329,14 @@ class BluefinDecryptxP2peConfig
               'name' => 'create',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'share_partner_to',
                         'orig' => 'share_partner_to',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -3041,27 +2361,22 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'create',
             ],
             'remove' => [
               'input' => 'data',
               'name' => 'remove',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'share_partner_to',
                         'orig' => 'share_partner_to',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -3086,10 +2401,8 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'remove',
             ],
           ],
           'relations' => [
@@ -3103,172 +2416,101 @@ class BluefinDecryptxP2peConfig
         'transaction' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'alternateKey',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 0,
             ],
             [
-              'active' => true,
               'name' => 'client',
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 1,
             ],
             [
-              'active' => true,
               'name' => 'clientRef',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 2,
             ],
             [
-              'active' => true,
               'name' => 'created',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 3,
             ],
             [
-              'active' => true,
               'name' => 'decrypted',
-              'req' => false,
               'type' => '`$INTEGER`',
-              'index$' => 4,
             ],
             [
-              'active' => true,
               'name' => 'deviceName',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 5,
             ],
             [
-              'active' => true,
               'name' => 'directPartner',
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 6,
             ],
             [
-              'active' => true,
               'name' => 'encrypted',
-              'req' => false,
               'type' => '`$INTEGER`',
-              'index$' => 7,
             ],
             [
-              'active' => true,
               'name' => 'endDate',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 8,
             ],
             [
-              'active' => true,
               'name' => 'errCode',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 9,
             ],
             [
-              'active' => true,
               'name' => 'errMessage',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 10,
             ],
             [
-              'active' => true,
               'name' => 'id',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 11,
             ],
             [
-              'active' => true,
               'name' => 'ipAddress',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 12,
             ],
             [
-              'active' => true,
               'name' => 'isVirtual',
-              'req' => false,
               'type' => '`$BOOLEAN`',
-              'index$' => 13,
             ],
             [
-              'active' => true,
               'name' => 'keyType',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 14,
             ],
             [
-              'active' => true,
               'name' => 'location',
               'req' => true,
               'type' => '`$OBJECT`',
-              'index$' => 15,
             ],
             [
-              'active' => true,
               'name' => 'messageId',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 16,
             ],
             [
-              'active' => true,
               'name' => 'method',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 17,
             ],
             [
-              'active' => true,
               'name' => 'partner',
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 18,
             ],
             [
-              'active' => true,
               'name' => 'reference',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 19,
             ],
             [
-              'active' => true,
               'name' => 'serialNumber',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 20,
             ],
             [
-              'active' => true,
               'name' => 'startDate',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 21,
             ],
             [
-              'active' => true,
               'name' => 'success',
-              'req' => false,
               'type' => '`$BOOLEAN`',
-              'index$' => 22,
             ],
             [
-              'active' => true,
               'name' => 'transactionSource',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 23,
             ],
           ],
           'name' => 'transaction',
@@ -3278,7 +2520,6 @@ class BluefinDecryptxP2peConfig
               'name' => 'create',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [],
                   'kind' => 'http',
                   'method' => 'POST',
@@ -3291,124 +2532,95 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'create',
             ],
             'list' => [
               'input' => 'data',
               'name' => 'list',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'query' => [
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'client',
                         'orig' => 'client',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'client_ref',
                         'orig' => 'client_ref',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'date_from',
                         'orig' => 'date_from',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'date_to',
                         'orig' => 'date_to',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'location',
                         'orig' => 'location',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'message_id',
                         'orig' => 'message_id',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                       [
-                        'active' => true,
                         'example' => 'nocount',
                         'kind' => 'query',
                         'name' => 'paging_mode',
                         'orig' => 'paging_mode',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'partner',
                         'orig' => 'partner',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'reference',
                         'orig' => 'reference',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'serial_number',
                         'orig' => 'serial_number',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                       [
-                        'active' => true,
                         'example' => 0,
                         'kind' => 'query',
                         'name' => 'skip',
                         'orig' => 'skip',
-                        'reqd' => false,
                         'type' => '`$INTEGER`',
                       ],
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'success',
                         'orig' => 'success',
-                        'reqd' => false,
                         'type' => '`$BOOLEAN`',
                       ],
                       [
-                        'active' => true,
                         'example' => 10,
                         'kind' => 'query',
                         'name' => 'take',
                         'orig' => 'take',
-                        'reqd' => false,
                         'type' => '`$INTEGER`',
                       ],
                     ],
@@ -3440,27 +2652,22 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'list',
             ],
             'load' => [
               'input' => 'data',
               'name' => 'load',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'id',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -3480,10 +2687,8 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'load',
             ],
           ],
           'relations' => [
@@ -3493,88 +2698,52 @@ class BluefinDecryptxP2peConfig
         'update_result' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'client',
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 0,
             ],
             [
-              'active' => true,
               'name' => 'email',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 1,
             ],
             [
-              'active' => true,
               'name' => 'firstName',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 2,
             ],
             [
-              'active' => true,
               'name' => 'id',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 3,
             ],
             [
-              'active' => true,
               'name' => 'isActive',
-              'req' => false,
               'type' => '`$BOOLEAN`',
-              'index$' => 4,
             ],
             [
-              'active' => true,
               'name' => 'kif',
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 5,
             ],
             [
-              'active' => true,
               'name' => 'lastName',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 6,
             ],
             [
-              'active' => true,
               'name' => 'partner',
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 7,
             ],
             [
-              'active' => true,
               'name' => 'phone',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 8,
             ],
             [
-              'active' => true,
               'name' => 'userName',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 9,
             ],
             [
-              'active' => true,
               'name' => 'userRole',
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 10,
             ],
             [
-              'active' => true,
               'name' => 'version',
-              'req' => false,
               'type' => '`$INTEGER`',
-              'index$' => 11,
             ],
           ],
           'name' => 'update_result',
@@ -3584,7 +2753,6 @@ class BluefinDecryptxP2peConfig
               'name' => 'create',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [],
                   'kind' => 'http',
                   'method' => 'POST',
@@ -3597,59 +2765,46 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'create',
             ],
             'list' => [
               'input' => 'data',
               'name' => 'list',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'query' => [
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'client',
                         'orig' => 'client',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'kif',
                         'orig' => 'kif',
-                        'reqd' => false,
                         'type' => '`$STRING`',
                       ],
                       [
-                        'active' => true,
                         'kind' => 'query',
                         'name' => 'partner',
                         'orig' => 'partner',
-                        'reqd' => false,
                         'type' => '`$ANY`',
                       ],
                       [
-                        'active' => true,
                         'example' => 0,
                         'kind' => 'query',
                         'name' => 'skip',
                         'orig' => 'skip',
-                        'reqd' => false,
                         'type' => '`$INTEGER`',
                       ],
                       [
-                        'active' => true,
                         'example' => 10,
                         'kind' => 'query',
                         'name' => 'take',
                         'orig' => 'take',
-                        'reqd' => false,
                         'type' => '`$INTEGER`',
                       ],
                     ],
@@ -3673,27 +2828,22 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'list',
             ],
             'update' => [
               'input' => 'data',
               'name' => 'update',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'id',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -3713,20 +2863,16 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'id',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -3746,20 +2892,16 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 1,
                 ],
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'id',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -3779,20 +2921,16 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 2,
                 ],
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'id',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -3812,20 +2950,16 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 3,
                 ],
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'id',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -3845,20 +2979,16 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 4,
                 ],
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'id',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -3878,20 +3008,16 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 5,
                 ],
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'id',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -3911,10 +3037,8 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 6,
                 ],
               ],
-              'key$' => 'update',
             ],
           ],
           'relations' => [
@@ -3924,102 +3048,60 @@ class BluefinDecryptxP2peConfig
         'user' => [
           'fields' => [
             [
-              'active' => true,
               'name' => 'client',
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 0,
             ],
             [
-              'active' => true,
               'name' => 'created',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 1,
             ],
             [
-              'active' => true,
               'name' => 'email',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 2,
             ],
             [
-              'active' => true,
               'name' => 'firstName',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 3,
             ],
             [
-              'active' => true,
               'name' => 'id',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 4,
             ],
             [
-              'active' => true,
               'name' => 'isActive',
-              'req' => false,
               'type' => '`$BOOLEAN`',
-              'index$' => 5,
             ],
             [
-              'active' => true,
               'name' => 'kif',
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 6,
             ],
             [
-              'active' => true,
               'name' => 'lastName',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 7,
             ],
             [
-              'active' => true,
               'name' => 'modified',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 8,
             ],
             [
-              'active' => true,
               'name' => 'partner',
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 9,
             ],
             [
-              'active' => true,
               'name' => 'phone',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 10,
             ],
             [
-              'active' => true,
               'name' => 'userName',
-              'req' => false,
               'type' => '`$STRING`',
-              'index$' => 11,
             ],
             [
-              'active' => true,
               'name' => 'userRole',
-              'req' => false,
               'type' => '`$OBJECT`',
-              'index$' => 12,
             ],
             [
-              'active' => true,
               'name' => 'version',
-              'req' => false,
               'type' => '`$INTEGER`',
-              'index$' => 13,
             ],
           ],
           'name' => 'user',
@@ -4029,17 +3111,14 @@ class BluefinDecryptxP2peConfig
               'name' => 'load',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'id',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -4059,27 +3138,22 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'load',
             ],
             'remove' => [
               'input' => 'data',
               'name' => 'remove',
               'points' => [
                 [
-                  'active' => true,
                   'args' => [
                     'params' => [
                       [
-                        'active' => true,
                         'kind' => 'param',
                         'name' => 'id',
                         'orig' => 'id',
                         'reqd' => true,
                         'type' => '`$STRING`',
-                        'index$' => 0,
                       ],
                     ],
                   ],
@@ -4099,10 +3173,8 @@ class BluefinDecryptxP2peConfig
                     'req' => '`reqdata`',
                     'res' => '`body`',
                   ],
-                  'index$' => 0,
                 ],
               ],
-              'key$' => 'remove',
             ],
           ],
           'relations' => [
