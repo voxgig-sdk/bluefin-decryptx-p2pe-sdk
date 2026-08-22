@@ -183,13 +183,13 @@ fmt.Println(attestation.GetName()) // "attestation"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `client` | `map[string]any` | No |  |
-| `completeDate` | `string` | No |  |
-| `created` | `string` | No |  |
-| `device` | `map[string]any` | No |  |
-| `id` | `string` | No |  |
-| `name` | `string` | No |  |
-| `notes` | `string` | No |  |
+| `client` | `map[string]any` | No | Reference to the associated Client resource. |
+| `completeDate` | `string` | No | The date and time that the Attestation took place. |
+| `created` | `string` | No | Creation timestamp in ISO 8601 format. |
+| `device` | `map[string]any` | No | Reference to the associated Device resource. |
+| `id` | `string` | No | This resource's unique identifier. |
+| `name` | `string` | No | Text describing the attestation. |
+| `notes` | `string` | No | Free form field that allows the Client associate notes with the Attestation. |
 
 ### Operations
 
@@ -265,17 +265,17 @@ fmt.Println(client_.GetName()) // "client"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `contact` | `map[string]any` | No |  |
-| `created` | `string` | No |  |
-| `directPartner` | `map[string]any` | No |  |
-| `id` | `string` | No |  |
-| `isActive` | `bool` | No |  |
-| `location` | `map[string]any` | Yes |  |
-| `mid` | `string` | No |  |
-| `modified` | `string` | No |  |
-| `name` | `string` | No |  |
-| `partner` | `map[string]any` | No |  |
-| `version` | `int` | No |  |
+| `contact` | `map[string]any` | No | Reference to the associated User resource. |
+| `created` | `string` | No | Creation timestamp in ISO 8601 format. |
+| `directPartner` | `map[string]any` | No | Reference to the associated Partner. |
+| `id` | `string` | No | This resource's unique identifier. |
+| `isActive` | `bool` | No | This property indicates if the Client account is active or disabled. |
+| `location` | `map[string]any` | Yes | Reference to the associated Location resource. |
+| `mid` | `string` | No | Some Partners will have an merchant ids on their own software offerings. |
+| `modified` | `string` | No | Last modified timestamp. |
+| `name` | `string` | No | The Client's name. |
+| `partner` | `map[string]any` | No | Reference to the Client's root Partner. |
+| `version` | `int` | No | The number of times that this resource has been updated. |
 
 ### Field Usage by Operation
 
@@ -428,7 +428,7 @@ fmt.Println(decryption.GetName()) // "decryption"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `bool` | No |  |
+| `success` | `bool` | No | true if the payload decryption was successful. |
 
 ### Operations
 
@@ -480,34 +480,34 @@ fmt.Println(device.GetName()) // "device"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `activatedBy` | `map[string]any` | Yes |  |
-| `activationDate` | `string` | No |  |
-| `alternateKey` | `string` | No |  |
-| `auditNextDate` | `string` | No |  |
-| `auditNotificationDate` | `string` | No |  |
-| `client` | `map[string]any` | No |  |
-| `created` | `string` | No |  |
-| `createdBy` | `map[string]any` | Yes |  |
-| `deviceBuild` | `map[string]any` | No |  |
-| `deviceState` | `map[string]any` | No |  |
-| `deviceType` | `map[string]any` | No |  |
-| `errorCounter` | `int` | No |  |
-| `errorLastDate` | `string` | No |  |
-| `id` | `string` | No |  |
-| `initializedBy` | `map[string]any` | Yes |  |
-| `initializedDate` | `string` | No |  |
-| `injectKey` | `map[string]any` | No |  |
-| `isVirtual` | `bool` | No |  |
-| `kif` | `map[string]any` | No |  |
-| `lastActivityDate` | `string` | No |  |
-| `location` | `map[string]any` | Yes |  |
-| `modified` | `string` | No |  |
-| `modifiedBy` | `map[string]any` | Yes |  |
-| `name` | `string` | No |  |
-| `notes` | `string` | No |  |
-| `partner` | `map[string]any` | No |  |
-| `serialNumber` | `string` | No |  |
-| `version` | `int` | No |  |
+| `activatedBy` | `map[string]any` | Yes | Reference to the associated User resource. |
+| `activationDate` | `string` | No | Timestamp from when the Device was activated. |
+| `alternateKey` | `string` | No | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `string` | No | Date and time that the Device is due its next PCI Audit. |
+| `auditNotificationDate` | `string` | No | Date and time that a notification should be sent that a PCI audit is due. |
+| `client` | `map[string]any` | No | Reference to the associated Client resource. |
+| `created` | `string` | No | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `map[string]any` | Yes | Reference to the associated User resource. |
+| `deviceBuild` | `map[string]any` | No | Reference to the associated Device Build resource. |
+| `deviceState` | `map[string]any` | No | Reference to the associated Device State resource. |
+| `deviceType` | `map[string]any` | No | Reference to the associated Device Type resource. |
+| `errorCounter` | `int` | No | The number times the Device has been in error. |
+| `errorLastDate` | `string` | No | Timestamp from the last time that the Device had an error. |
+| `id` | `string` | No | The Device's unique identifier. |
+| `initializedBy` | `map[string]any` | Yes | Reference to the associated User resource. |
+| `initializedDate` | `string` | No | Timestamp from when the Device was initialized. |
+| `injectKey` | `map[string]any` | No | Reference to the associated Device resource. |
+| `isVirtual` | `bool` | No | Indicates if a Device is Virtual (represents a Device shared with a partner). |
+| `kif` | `map[string]any` | No | Reference to the associated KIF resource. |
+| `lastActivityDate` | `string` | No | Timestamp from the last time that the Device was used. |
+| `location` | `map[string]any` | Yes | Reference to the associated Location resource. |
+| `modified` | `string` | No | Last modified timestamp. |
+| `modifiedBy` | `map[string]any` | Yes | Reference to the associated User resource. |
+| `name` | `string` | No | The Device's name. |
+| `notes` | `string` | No | Arbitary note that can be attached to a Device entry. |
+| `partner` | `map[string]any` | No | Reference to the associated Partner. |
+| `serialNumber` | `string` | No | The Device's serial number. |
+| `version` | `int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -588,21 +588,21 @@ fmt.Println(deviceBuild.GetName()) // "device_build"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `appVersion` | `string` | No |  |
-| `buildNumber` | `string` | No |  |
-| `configFileName` | `string` | No |  |
-| `created` | `string` | No |  |
-| `deviceType` | `string` | No |  |
-| `firmwareVersion` | `string` | No |  |
-| `hardwareVersion` | `string` | No |  |
-| `id` | `int` | No |  |
-| `isActive` | `bool` | No |  |
-| `modified` | `string` | No |  |
-| `name` | `string` | No |  |
-| `notes` | `string` | No |  |
-| `version` | `int` | No |  |
-| `whiteListingBinRanges` | `string` | No |  |
-| `whiteListingUsed` | `bool` | No |  |
+| `appVersion` | `string` | No | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildNumber` | `string` | No | The Build Number. |
+| `configFileName` | `string` | No | The name of the configuration file that is uploaded to the device. |
+| `created` | `string` | No | Creation timestamp in ISO 8601 format. |
+| `deviceType` | `string` | No | The Device Type Name. |
+| `firmwareVersion` | `string` | No | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `string` | No | A list of hardware versions that this Device Build covers. |
+| `id` | `int` | No | This resource's unique identifier. |
+| `isActive` | `bool` | No | This property indicates if the device build is still active and not succeeded by subsequent build. |
+| `modified` | `string` | No | Last modified timestamp. |
+| `name` | `string` | No | The Device Builds's name. |
+| `notes` | `string` | No | Notes attached to the device build by Bluefin CISO. |
+| `version` | `int` | No | The number of times that this resource has been updated. |
+| `whiteListingBinRanges` | `string` | No | A comma separated list of BIN ranges that aren't encrypted by the terminal. |
+| `whiteListingUsed` | `bool` | No | This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal. |
 
 ### Operations
 
@@ -665,19 +665,19 @@ fmt.Println(deviceCustodyDetail.GetName()) // "device_custody_detail"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `completeDate` | `string` | No |  |
-| `created` | `string` | No |  |
-| `createdBy` | `map[string]any` | Yes |  |
-| `custodian` | `map[string]any` | Yes |  |
-| `device` | `map[string]any` | No |  |
-| `id` | `int` | No |  |
-| `location` | `map[string]any` | Yes |  |
-| `modified` | `string` | No |  |
-| `modifiedBy` | `map[string]any` | Yes |  |
-| `notes` | `string` | No |  |
-| `status` | `map[string]any` | No |  |
-| `transferMethod` | `map[string]any` | No |  |
-| `version` | `int` | No |  |
+| `completeDate` | `string` | No | The date and time that the Custody change took place. |
+| `created` | `string` | No | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `map[string]any` | Yes | Reference to the associated User resource. |
+| `custodian` | `map[string]any` | Yes | Reference to the associated User resource. |
+| `device` | `map[string]any` | No | Reference to the associated Device resource. |
+| `id` | `int` | No | This resource's unique identifier. |
+| `location` | `map[string]any` | Yes | Reference to the associated Location resource. |
+| `modified` | `string` | No | Last modified timestamp. |
+| `modifiedBy` | `map[string]any` | Yes | Reference to the associated User resource. |
+| `notes` | `string` | No | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | `map[string]any` | No | Reference to the associated Custody Status. |
+| `transferMethod` | `map[string]any` | No | Reference to the associated Transfer Method. |
+| `version` | `int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -728,19 +728,19 @@ fmt.Println(deviceCustodyList.GetName()) // "device_custody_list"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `completeDate` | `string` | No |  |
-| `created` | `string` | No |  |
-| `createdBy` | `map[string]any` | Yes |  |
-| `custodian` | `map[string]any` | Yes |  |
-| `device` | `map[string]any` | No |  |
-| `id` | `int` | No |  |
-| `location` | `map[string]any` | Yes |  |
-| `modified` | `string` | No |  |
-| `modifiedBy` | `map[string]any` | Yes |  |
-| `notes` | `string` | No |  |
-| `status` | `map[string]any` | No |  |
-| `transferMethod` | `map[string]any` | No |  |
-| `version` | `int` | No |  |
+| `completeDate` | `string` | No | The date and time that the Custody change took place. |
+| `created` | `string` | No | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `map[string]any` | Yes | Reference to the associated User resource. |
+| `custodian` | `map[string]any` | Yes | Reference to the associated User resource. |
+| `device` | `map[string]any` | No | Reference to the associated Device resource. |
+| `id` | `int` | No | This resource's unique identifier. |
+| `location` | `map[string]any` | Yes | Reference to the associated Location resource. |
+| `modified` | `string` | No | Last modified timestamp. |
+| `modifiedBy` | `map[string]any` | Yes | Reference to the associated User resource. |
+| `notes` | `string` | No | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | `map[string]any` | No | Reference to the associated Custody Status. |
+| `transferMethod` | `map[string]any` | No | Reference to the associated Transfer Method. |
+| `version` | `int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -791,8 +791,8 @@ fmt.Println(deviceList.GetName()) // "device_list"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `[]any` | No |  |
-| `total` | `int` | No |  |
+| `data` | `[]any` | No | List of Devices. |
+| `total` | `int` | No | Total number of Devices available (not the number of Users in the response). |
 
 ### Operations
 
@@ -843,7 +843,7 @@ fmt.Println(deviceReceiveResult.GetName()) // "device_receive_result"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `bool` | Yes |  |
+| `success` | `bool` | Yes | Indicates if the action succeeded. |
 
 ### Operations
 
@@ -896,7 +896,7 @@ fmt.Println(deviceRkiActivateResult.GetName()) // "device_rki_activate_result"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `bool` | Yes |  |
+| `success` | `bool` | Yes | Indicates if the RKI activation succeeded. |
 
 ### Operations
 
@@ -949,8 +949,8 @@ fmt.Println(deviceState.GetName()) // "device_state"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `int` | No |  |
-| `name` | `string` | No |  |
+| `id` | `int` | No | Unique identifier for this Device state. |
+| `name` | `string` | No | Descriptive name for this Device state. |
 
 ### Operations
 
@@ -1001,18 +1001,18 @@ fmt.Println(deviceType.GetName()) // "device_type"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created` | `string` | No |  |
-| `deviceTypeMode` | `string` | No |  |
-| `hardwareVersion` | `string` | No |  |
-| `id` | `string` | No |  |
-| `isActive` | `bool` | No |  |
-| `manufacturer` | `string` | No |  |
-| `model` | `string` | No |  |
-| `modified` | `string` | No |  |
-| `name` | `string` | No |  |
+| `created` | `string` | No | Creation timestamp in ISO 8601 format. |
+| `deviceTypeMode` | `string` | No | The Device type. |
+| `hardwareVersion` | `string` | No | The Device hardware version. |
+| `id` | `string` | No | Unique idenifier. |
+| `isActive` | `bool` | No | This property indicates if the DeviceType is active. |
+| `manufacturer` | `string` | No | The Device manufacturer. |
+| `model` | `string` | No | The Device model. |
+| `modified` | `string` | No | Last modified timestamp. |
+| `name` | `string` | No | The DeviceType name. |
 | `photoUrl` | `string` | No |  |
-| `productName` | `string` | No |  |
-| `version` | `int` | No |  |
+| `productName` | `string` | No | The Device name. |
+| `version` | `int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1075,14 +1075,14 @@ fmt.Println(injectKey.GetName()) // "inject_key"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created` | `string` | No |  |
-| `id` | `string` | No |  |
-| `isActive` | `bool` | No |  |
-| `isP2PE` | `bool` | No |  |
-| `keyType` | `string` | No |  |
-| `modified` | `string` | No |  |
-| `name` | `string` | No |  |
-| `version` | `int` | No |  |
+| `created` | `string` | No | Creation timestamp in ISO 8601 format. |
+| `id` | `string` | No | unique idenifier |
+| `isActive` | `bool` | No | Active flag, inactive keys cannot be assigned to devices. |
+| `isP2PE` | `bool` | No | Flags if a key is for a P2PE compliant cypher. |
+| `keyType` | `string` | No | The cipher type that the key works with. |
+| `modified` | `string` | No | Last modified timestamp in ISO 8601 format. |
+| `name` | `string` | No | Key name. |
+| `version` | `int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1145,8 +1145,8 @@ fmt.Println(kif.GetName()) // "kif"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `int` | No |  |
-| `name` | `string` | No |  |
+| `id` | `int` | No | This resource's unique identifier. |
+| `name` | `string` | No | The KIF's name. |
 
 ### Operations
 
@@ -1197,29 +1197,29 @@ fmt.Println(location.GetName()) // "location"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `address1` | `string` | No |  |
-| `address2` | `string` | No |  |
-| `billingId` | `string` | No |  |
-| `city` | `string` | No |  |
-| `country` | `string` | No |  |
-| `created` | `string` | No |  |
-| `customReference` | `string` | No |  |
-| `id` | `string` | No |  |
-| `locationType` | `string` | No |  |
-| `mailAddress1` | `string` | No |  |
-| `mailAddress2` | `string` | No |  |
-| `mailCity` | `string` | No |  |
-| `mailCountry` | `string` | No |  |
-| `mailPostalCode` | `string` | No |  |
-| `mailStateProvince` | `string` | No |  |
-| `modified` | `string` | No |  |
-| `name` | `string` | No |  |
-| `nameOfBusiness` | `string` | No |  |
-| `notes` | `string` | No |  |
-| `postalCode` | `string` | No |  |
-| `stateProvince` | `string` | No |  |
-| `uniqueId` | `string` | No |  |
-| `version` | `int` | No |  |
+| `address1` | `string` | No | The Location's street address. |
+| `address2` | `string` | No | The Location's street address. |
+| `billingId` | `string` | No | \? |
+| `city` | `string` | No | The Location's city. |
+| `country` | `string` | No | The Location's country. |
+| `created` | `string` | No | Creation timestamp in ISO 8601 format. |
+| `customReference` | `string` | No | A Partner specified reference for a location. |
+| `id` | `string` | No | This resource's unique identifier. |
+| `locationType` | `string` | No | The Location's clasification. |
+| `mailAddress1` | `string` | No | The Location's street address. |
+| `mailAddress2` | `string` | No | The Location's street address. |
+| `mailCity` | `string` | No | The Location's city. |
+| `mailCountry` | `string` | No | The Location's street address. |
+| `mailPostalCode` | `string` | No | The Location's postal code. |
+| `mailStateProvince` | `string` | No | The Location's street state or province. |
+| `modified` | `string` | No | Last modified timestamp. |
+| `name` | `string` | No | The Location's name. |
+| `nameOfBusiness` | `string` | No | The name of the business at this location. |
+| `notes` | `string` | No | Note for delivery driver. |
+| `postalCode` | `string` | No | The Location's postal code. |
+| `stateProvince` | `string` | No | The Location's street state or province. |
+| `uniqueId` | `string` | No | Unique Identifier for the Location. |
+| `version` | `int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1307,20 +1307,20 @@ fmt.Println(partner.GetName()) // "partner"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `billingId` | `string` | No |  |
-| `clientCanOrderEquipment` | `bool` | No |  |
-| `contact` | `map[string]any` | No |  |
-| `created` | `string` | No |  |
-| `id` | `string` | No |  |
-| `isActive` | `bool` | No |  |
-| `location` | `map[string]any` | Yes |  |
-| `modified` | `string` | No |  |
-| `name` | `string` | No |  |
-| `parent` | `map[string]any` | No |  |
-| `partnerId` | `string` | No |  |
-| `reference` | `string` | No |  |
-| `verificationPhrase` | `string` | No |  |
-| `version` | `int` | No |  |
+| `billingId` | `string` | No | The Partner's billing identifier. |
+| `clientCanOrderEquipment` | `bool` | No | This property indicates if the Partner is allowed to order Equipment. |
+| `contact` | `map[string]any` | No | Reference to the associated User resource. |
+| `created` | `string` | No | Creation timestamp in ISO 8601 format. |
+| `id` | `string` | No | This resource's unique identifier. |
+| `isActive` | `bool` | No | This property indicates if the Parter account is active or disabled. |
+| `location` | `map[string]any` | Yes | Reference to the associated Location resource. |
+| `modified` | `string` | No | Last modified timestamp. |
+| `name` | `string` | No | The Partner's name. |
+| `parent` | `map[string]any` | No | Reference to the associated Partner. |
+| `partnerId` | `string` | No | The Partner's id. |
+| `reference` | `string` | No | The Partner's reference string. |
+| `verificationPhrase` | `string` | No | The verification phrase is a message that the Partner creates. |
+| `version` | `int` | No | The number of times that this resource has been updated. |
 
 ### Field Usage by Operation
 
@@ -1416,20 +1416,20 @@ fmt.Println(shipment.GetName()) // "shipment"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `carrier` | `string` | No |  |
-| `client` | `map[string]any` | No |  |
-| `created` | `string` | No |  |
-| `dateReceived` | `string` | No |  |
-| `dateShipped` | `string` | No |  |
-| `dcKif` | `map[string]any` | No |  |
-| `id` | `string` | No |  |
+| `carrier` | `string` | No | The name of the courier. |
+| `client` | `map[string]any` | No | Reference to the associated Client resource. |
+| `created` | `string` | No | Creation timestamp in ISO 8601 format. |
+| `dateReceived` | `string` | No | The date and time that a package is recieved. |
+| `dateShipped` | `string` | No | The date and time that a package is shipped. |
+| `dcKif` | `map[string]any` | No | Reference to the associated KIF resource. |
+| `id` | `string` | No | This resource's unique identifier. |
 | `items` | `[]any` | No |  |
-| `kif` | `map[string]any` | No |  |
-| `modified` | `string` | No |  |
-| `partner` | `map[string]any` | No |  |
-| `shipmentType` | `string` | No |  |
-| `tracking` | `string` | No |  |
-| `version` | `int` | No |  |
+| `kif` | `map[string]any` | No | Reference to the associated KIF resource. |
+| `modified` | `string` | No | Last modified timestamp. |
+| `partner` | `map[string]any` | No | Reference to the associated Partner. |
+| `shipmentType` | `string` | No | The type of shipment. |
+| `tracking` | `string` | No | The courier's tracking number. |
+| `version` | `int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1505,7 +1505,7 @@ fmt.Println(success.GetName()) // "success"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `bool` | No |  |
+| `success` | `bool` | No | Indicates if the action was a success. |
 
 ### Operations
 
@@ -1570,30 +1570,30 @@ fmt.Println(transaction.GetName()) // "transaction"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `alternateKey` | `string` | No |  |
-| `client` | `map[string]any` | No |  |
-| `clientRef` | `string` | No |  |
-| `created` | `string` | No |  |
-| `decrypted` | `int` | No |  |
-| `deviceName` | `string` | No |  |
-| `directPartner` | `map[string]any` | No |  |
-| `encrypted` | `int` | No |  |
-| `endDate` | `string` | No |  |
-| `errCode` | `string` | No |  |
-| `errMessage` | `string` | No |  |
-| `id` | `string` | No |  |
-| `ipAddress` | `string` | No |  |
-| `isVirtual` | `bool` | No |  |
-| `keyType` | `string` | No |  |
-| `location` | `map[string]any` | Yes |  |
-| `messageId` | `string` | No |  |
-| `method` | `string` | No |  |
-| `partner` | `map[string]any` | No |  |
-| `reference` | `string` | No |  |
-| `serialNumber` | `string` | No |  |
-| `startDate` | `string` | No |  |
-| `success` | `bool` | No |  |
-| `transactionSource` | `string` | No |  |
+| `alternateKey` | `string` | No | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `client` | `map[string]any` | No | Reference to the associated Client resource. |
+| `clientRef` | `string` | No | Client Reference property that is included in the decrypt API call. |
+| `created` | `string` | No | Creation timestamp in ISO 8601 format. |
+| `decrypted` | `int` | No | A Transcation can process muliple decryptions. |
+| `deviceName` | `string` | No | The name of the Device that generated the payload to decrypt. |
+| `directPartner` | `map[string]any` | No | Reference to the associated Partner. |
+| `encrypted` | `int` | No | A Transcation can process muliple encryptions. |
+| `endDate` | `string` | No | Timestamp from the end of the transaction. |
+| `errCode` | `string` | No | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `string` | No | The error messge that is sent in response to a failed decrypt API call. |
+| `id` | `string` | No | This resource's unique identifier. |
+| `ipAddress` | `string` | No | The IP address of the http client that makes the decrypt API call. |
+| `isVirtual` | `bool` | No | Indicates if the Transaction came from a virtual Device. |
+| `keyType` | `string` | No | The type of cipher used during decrytion. |
+| `location` | `map[string]any` | Yes | Reference to the associated Location resource. |
+| `messageId` | `string` | No | Message ID. |
+| `method` | `string` | No | The decryption cypher/method. |
+| `partner` | `map[string]any` | No | Reference to the associated Partner. |
+| `reference` | `string` | No | The reference property that the Client includes in the decrypt API call. |
+| `serialNumber` | `string` | No | The serial number of the Device that generated the payload to decrypt. |
+| `startDate` | `string` | No | Timestamp from the beginning of the transaction. |
+| `success` | `bool` | No | The success indicator. |
+| `transactionSource` | `string` | No | The source of the Transaction. |
 
 ### Operations
 
@@ -1670,18 +1670,18 @@ fmt.Println(updateResult.GetName()) // "update_result"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `client` | `map[string]any` | No |  |
-| `email` | `string` | No |  |
-| `firstName` | `string` | No |  |
-| `id` | `string` | No |  |
-| `isActive` | `bool` | No |  |
-| `kif` | `map[string]any` | No |  |
-| `lastName` | `string` | No |  |
-| `partner` | `map[string]any` | No |  |
-| `phone` | `string` | No |  |
-| `userName` | `string` | No |  |
-| `userRole` | `map[string]any` | No |  |
-| `version` | `int` | No |  |
+| `client` | `map[string]any` | No | Reference to the associated Client resource. |
+| `email` | `string` | No | The User's email address. |
+| `firstName` | `string` | No | The User's name. |
+| `id` | `string` | No | ID of newly created resource |
+| `isActive` | `bool` | No | This property indicates if the User account is active or disabled. |
+| `kif` | `map[string]any` | No | Reference to the associated KIF resource. |
+| `lastName` | `string` | No | The User's Surname. |
+| `partner` | `map[string]any` | No | Reference to the associated Partner. |
+| `phone` | `string` | No | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | `string` | No | The User's unique username. |
+| `userRole` | `map[string]any` | No | Reference to the associated User Role. |
+| `version` | `int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1760,20 +1760,20 @@ fmt.Println(user.GetName()) // "user"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `client` | `map[string]any` | No |  |
-| `created` | `string` | No |  |
-| `email` | `string` | No |  |
-| `firstName` | `string` | No |  |
-| `id` | `string` | No |  |
-| `isActive` | `bool` | No |  |
-| `kif` | `map[string]any` | No |  |
-| `lastName` | `string` | No |  |
-| `modified` | `string` | No |  |
-| `partner` | `map[string]any` | No |  |
-| `phone` | `string` | No |  |
-| `userName` | `string` | No |  |
-| `userRole` | `map[string]any` | No |  |
-| `version` | `int` | No |  |
+| `client` | `map[string]any` | No | Reference to the associated Client resource. |
+| `created` | `string` | No | Creation timestamp in ISO 8601 format. |
+| `email` | `string` | No | The User's email address. |
+| `firstName` | `string` | No | The User's name. |
+| `id` | `string` | No | This resource's unique identifier. |
+| `isActive` | `bool` | No | This property indicates if the User account is active or disabled. |
+| `kif` | `map[string]any` | No | Reference to the associated KIF resource. |
+| `lastName` | `string` | No | The User's Surname. |
+| `modified` | `string` | No | Last modified timestamp. |
+| `partner` | `map[string]any` | No | Reference to the associated Partner. |
+| `phone` | `string` | No | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | `string` | No | The User's unique username. |
+| `userRole` | `map[string]any` | No | Reference to the associated User Role. |
+| `version` | `int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 

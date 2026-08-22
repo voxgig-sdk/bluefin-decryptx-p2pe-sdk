@@ -198,13 +198,13 @@ let attestation = client.attestation(Value::Noval);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `client` | `std::collections::HashMap<String, Value>` | No |  |
-| `completeDate` | `String` | No |  |
-| `created` | `String` | No |  |
-| `device` | `std::collections::HashMap<String, Value>` | No |  |
-| `id` | `String` | No |  |
-| `name` | `String` | No |  |
-| `notes` | `String` | No |  |
+| `client` | `std::collections::HashMap<String, Value>` | No | Reference to the associated Client resource. |
+| `completeDate` | `String` | No | The date and time that the Attestation took place. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `device` | `std::collections::HashMap<String, Value>` | No | Reference to the associated Device resource. |
+| `id` | `String` | No | This resource's unique identifier. |
+| `name` | `String` | No | Text describing the attestation. |
+| `notes` | `String` | No | Free form field that allows the Client associate notes with the Attestation. |
 
 ### Operations
 
@@ -269,17 +269,17 @@ let client = client.client(Value::Noval);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `contact` | `std::collections::HashMap<String, Value>` | No |  |
-| `created` | `String` | No |  |
-| `directPartner` | `std::collections::HashMap<String, Value>` | No |  |
-| `id` | `String` | No |  |
-| `isActive` | `bool` | No |  |
-| `location` | `std::collections::HashMap<String, Value>` | Yes |  |
-| `mid` | `String` | No |  |
-| `modified` | `String` | No |  |
-| `name` | `String` | No |  |
-| `partner` | `std::collections::HashMap<String, Value>` | No |  |
-| `version` | `i64` | No |  |
+| `contact` | `std::collections::HashMap<String, Value>` | No | Reference to the associated User resource. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `directPartner` | `std::collections::HashMap<String, Value>` | No | Reference to the associated Partner. |
+| `id` | `String` | No | This resource's unique identifier. |
+| `isActive` | `bool` | No | This property indicates if the Client account is active or disabled. |
+| `location` | `std::collections::HashMap<String, Value>` | Yes | Reference to the associated Location resource. |
+| `mid` | `String` | No | Some Partners will have an merchant ids on their own software offerings. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `name` | `String` | No | The Client's name. |
+| `partner` | `std::collections::HashMap<String, Value>` | No | Reference to the Client's root Partner. |
+| `version` | `i64` | No | The number of times that this resource has been updated. |
 
 ### Field Usage by Operation
 
@@ -409,7 +409,7 @@ let decryption = client.decryption(Value::Noval);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `bool` | No |  |
+| `success` | `bool` | No | true if the payload decryption was successful. |
 
 ### Operations
 
@@ -453,34 +453,34 @@ let device = client.device(Value::Noval);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `activatedBy` | `std::collections::HashMap<String, Value>` | Yes |  |
-| `activationDate` | `String` | No |  |
-| `alternateKey` | `String` | No |  |
-| `auditNextDate` | `String` | No |  |
-| `auditNotificationDate` | `String` | No |  |
-| `client` | `std::collections::HashMap<String, Value>` | No |  |
-| `created` | `String` | No |  |
-| `createdBy` | `std::collections::HashMap<String, Value>` | Yes |  |
-| `deviceBuild` | `std::collections::HashMap<String, Value>` | No |  |
-| `deviceState` | `std::collections::HashMap<String, Value>` | No |  |
-| `deviceType` | `std::collections::HashMap<String, Value>` | No |  |
-| `errorCounter` | `i64` | No |  |
-| `errorLastDate` | `String` | No |  |
-| `id` | `String` | No |  |
-| `initializedBy` | `std::collections::HashMap<String, Value>` | Yes |  |
-| `initializedDate` | `String` | No |  |
-| `injectKey` | `std::collections::HashMap<String, Value>` | No |  |
-| `isVirtual` | `bool` | No |  |
-| `kif` | `std::collections::HashMap<String, Value>` | No |  |
-| `lastActivityDate` | `String` | No |  |
-| `location` | `std::collections::HashMap<String, Value>` | Yes |  |
-| `modified` | `String` | No |  |
-| `modifiedBy` | `std::collections::HashMap<String, Value>` | Yes |  |
-| `name` | `String` | No |  |
-| `notes` | `String` | No |  |
-| `partner` | `std::collections::HashMap<String, Value>` | No |  |
-| `serialNumber` | `String` | No |  |
-| `version` | `i64` | No |  |
+| `activatedBy` | `std::collections::HashMap<String, Value>` | Yes | Reference to the associated User resource. |
+| `activationDate` | `String` | No | Timestamp from when the Device was activated. |
+| `alternateKey` | `String` | No | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `String` | No | Date and time that the Device is due its next PCI Audit. |
+| `auditNotificationDate` | `String` | No | Date and time that a notification should be sent that a PCI audit is due. |
+| `client` | `std::collections::HashMap<String, Value>` | No | Reference to the associated Client resource. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `std::collections::HashMap<String, Value>` | Yes | Reference to the associated User resource. |
+| `deviceBuild` | `std::collections::HashMap<String, Value>` | No | Reference to the associated Device Build resource. |
+| `deviceState` | `std::collections::HashMap<String, Value>` | No | Reference to the associated Device State resource. |
+| `deviceType` | `std::collections::HashMap<String, Value>` | No | Reference to the associated Device Type resource. |
+| `errorCounter` | `i64` | No | The number times the Device has been in error. |
+| `errorLastDate` | `String` | No | Timestamp from the last time that the Device had an error. |
+| `id` | `String` | No | The Device's unique identifier. |
+| `initializedBy` | `std::collections::HashMap<String, Value>` | Yes | Reference to the associated User resource. |
+| `initializedDate` | `String` | No | Timestamp from when the Device was initialized. |
+| `injectKey` | `std::collections::HashMap<String, Value>` | No | Reference to the associated Device resource. |
+| `isVirtual` | `bool` | No | Indicates if a Device is Virtual (represents a Device shared with a partner). |
+| `kif` | `std::collections::HashMap<String, Value>` | No | Reference to the associated KIF resource. |
+| `lastActivityDate` | `String` | No | Timestamp from the last time that the Device was used. |
+| `location` | `std::collections::HashMap<String, Value>` | Yes | Reference to the associated Location resource. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `modifiedBy` | `std::collections::HashMap<String, Value>` | Yes | Reference to the associated User resource. |
+| `name` | `String` | No | The Device's name. |
+| `notes` | `String` | No | Arbitary note that can be attached to a Device entry. |
+| `partner` | `std::collections::HashMap<String, Value>` | No | Reference to the associated Partner. |
+| `serialNumber` | `String` | No | The Device's serial number. |
+| `version` | `i64` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -550,21 +550,21 @@ let device_build = client.device_build(Value::Noval);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `appVersion` | `String` | No |  |
-| `buildNumber` | `String` | No |  |
-| `configFileName` | `String` | No |  |
-| `created` | `String` | No |  |
-| `deviceType` | `String` | No |  |
-| `firmwareVersion` | `String` | No |  |
-| `hardwareVersion` | `String` | No |  |
-| `id` | `i64` | No |  |
-| `isActive` | `bool` | No |  |
-| `modified` | `String` | No |  |
-| `name` | `String` | No |  |
-| `notes` | `String` | No |  |
-| `version` | `i64` | No |  |
-| `whiteListingBinRanges` | `String` | No |  |
-| `whiteListingUsed` | `bool` | No |  |
+| `appVersion` | `String` | No | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildNumber` | `String` | No | The Build Number. |
+| `configFileName` | `String` | No | The name of the configuration file that is uploaded to the device. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `deviceType` | `String` | No | The Device Type Name. |
+| `firmwareVersion` | `String` | No | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `String` | No | A list of hardware versions that this Device Build covers. |
+| `id` | `i64` | No | This resource's unique identifier. |
+| `isActive` | `bool` | No | This property indicates if the device build is still active and not succeeded by subsequent build. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `name` | `String` | No | The Device Builds's name. |
+| `notes` | `String` | No | Notes attached to the device build by Bluefin CISO. |
+| `version` | `i64` | No | The number of times that this resource has been updated. |
+| `whiteListingBinRanges` | `String` | No | A comma separated list of BIN ranges that aren't encrypted by the terminal. |
+| `whiteListingUsed` | `bool` | No | This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal. |
 
 ### Operations
 
@@ -620,19 +620,19 @@ let device_custody_detail = client.device_custody_detail(Value::Noval);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `completeDate` | `String` | No |  |
-| `created` | `String` | No |  |
-| `createdBy` | `std::collections::HashMap<String, Value>` | Yes |  |
-| `custodian` | `std::collections::HashMap<String, Value>` | Yes |  |
-| `device` | `std::collections::HashMap<String, Value>` | No |  |
-| `id` | `i64` | No |  |
-| `location` | `std::collections::HashMap<String, Value>` | Yes |  |
-| `modified` | `String` | No |  |
-| `modifiedBy` | `std::collections::HashMap<String, Value>` | Yes |  |
-| `notes` | `String` | No |  |
-| `status` | `std::collections::HashMap<String, Value>` | No |  |
-| `transferMethod` | `std::collections::HashMap<String, Value>` | No |  |
-| `version` | `i64` | No |  |
+| `completeDate` | `String` | No | The date and time that the Custody change took place. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `std::collections::HashMap<String, Value>` | Yes | Reference to the associated User resource. |
+| `custodian` | `std::collections::HashMap<String, Value>` | Yes | Reference to the associated User resource. |
+| `device` | `std::collections::HashMap<String, Value>` | No | Reference to the associated Device resource. |
+| `id` | `i64` | No | This resource's unique identifier. |
+| `location` | `std::collections::HashMap<String, Value>` | Yes | Reference to the associated Location resource. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `modifiedBy` | `std::collections::HashMap<String, Value>` | Yes | Reference to the associated User resource. |
+| `notes` | `String` | No | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | `std::collections::HashMap<String, Value>` | No | Reference to the associated Custody Status. |
+| `transferMethod` | `std::collections::HashMap<String, Value>` | No | Reference to the associated Transfer Method. |
+| `version` | `i64` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -675,19 +675,19 @@ let device_custody_list = client.device_custody_list(Value::Noval);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `completeDate` | `String` | No |  |
-| `created` | `String` | No |  |
-| `createdBy` | `std::collections::HashMap<String, Value>` | Yes |  |
-| `custodian` | `std::collections::HashMap<String, Value>` | Yes |  |
-| `device` | `std::collections::HashMap<String, Value>` | No |  |
-| `id` | `i64` | No |  |
-| `location` | `std::collections::HashMap<String, Value>` | Yes |  |
-| `modified` | `String` | No |  |
-| `modifiedBy` | `std::collections::HashMap<String, Value>` | Yes |  |
-| `notes` | `String` | No |  |
-| `status` | `std::collections::HashMap<String, Value>` | No |  |
-| `transferMethod` | `std::collections::HashMap<String, Value>` | No |  |
-| `version` | `i64` | No |  |
+| `completeDate` | `String` | No | The date and time that the Custody change took place. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `std::collections::HashMap<String, Value>` | Yes | Reference to the associated User resource. |
+| `custodian` | `std::collections::HashMap<String, Value>` | Yes | Reference to the associated User resource. |
+| `device` | `std::collections::HashMap<String, Value>` | No | Reference to the associated Device resource. |
+| `id` | `i64` | No | This resource's unique identifier. |
+| `location` | `std::collections::HashMap<String, Value>` | Yes | Reference to the associated Location resource. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `modifiedBy` | `std::collections::HashMap<String, Value>` | Yes | Reference to the associated User resource. |
+| `notes` | `String` | No | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | `std::collections::HashMap<String, Value>` | No | Reference to the associated Custody Status. |
+| `transferMethod` | `std::collections::HashMap<String, Value>` | No | Reference to the associated Transfer Method. |
+| `version` | `i64` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -735,8 +735,8 @@ let device_list = client.device_list(Value::Noval);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `Vec<Value>` | No |  |
-| `total` | `i64` | No |  |
+| `data` | `Vec<Value>` | No | List of Devices. |
+| `total` | `i64` | No | Total number of Devices available (not the number of Users in the response). |
 
 ### Operations
 
@@ -779,7 +779,7 @@ let device_receive_result = client.device_receive_result(Value::Noval);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `bool` | Yes |  |
+| `success` | `bool` | Yes | Indicates if the action succeeded. |
 
 ### Operations
 
@@ -824,7 +824,7 @@ let device_rki_activate_result = client.device_rki_activate_result(Value::Noval)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `bool` | Yes |  |
+| `success` | `bool` | Yes | Indicates if the RKI activation succeeded. |
 
 ### Operations
 
@@ -869,8 +869,8 @@ let device_state = client.device_state(Value::Noval);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `i64` | No |  |
-| `name` | `String` | No |  |
+| `id` | `i64` | No | Unique identifier for this Device state. |
+| `name` | `String` | No | Descriptive name for this Device state. |
 
 ### Operations
 
@@ -918,18 +918,18 @@ let device_type = client.device_type(Value::Noval);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created` | `String` | No |  |
-| `deviceTypeMode` | `String` | No |  |
-| `hardwareVersion` | `String` | No |  |
-| `id` | `String` | No |  |
-| `isActive` | `bool` | No |  |
-| `manufacturer` | `String` | No |  |
-| `model` | `String` | No |  |
-| `modified` | `String` | No |  |
-| `name` | `String` | No |  |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `deviceTypeMode` | `String` | No | The Device type. |
+| `hardwareVersion` | `String` | No | The Device hardware version. |
+| `id` | `String` | No | Unique idenifier. |
+| `isActive` | `bool` | No | This property indicates if the DeviceType is active. |
+| `manufacturer` | `String` | No | The Device manufacturer. |
+| `model` | `String` | No | The Device model. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `name` | `String` | No | The DeviceType name. |
 | `photoUrl` | `String` | No |  |
-| `productName` | `String` | No |  |
-| `version` | `i64` | No |  |
+| `productName` | `String` | No | The Device name. |
+| `version` | `i64` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -985,14 +985,14 @@ let inject_key = client.inject_key(Value::Noval);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created` | `String` | No |  |
-| `id` | `String` | No |  |
-| `isActive` | `bool` | No |  |
-| `isP2PE` | `bool` | No |  |
-| `keyType` | `String` | No |  |
-| `modified` | `String` | No |  |
-| `name` | `String` | No |  |
-| `version` | `i64` | No |  |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `id` | `String` | No | unique idenifier |
+| `isActive` | `bool` | No | Active flag, inactive keys cannot be assigned to devices. |
+| `isP2PE` | `bool` | No | Flags if a key is for a P2PE compliant cypher. |
+| `keyType` | `String` | No | The cipher type that the key works with. |
+| `modified` | `String` | No | Last modified timestamp in ISO 8601 format. |
+| `name` | `String` | No | Key name. |
+| `version` | `i64` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1048,8 +1048,8 @@ let kif = client.kif(Value::Noval);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `i64` | No |  |
-| `name` | `String` | No |  |
+| `id` | `i64` | No | This resource's unique identifier. |
+| `name` | `String` | No | The KIF's name. |
 
 ### Operations
 
@@ -1097,29 +1097,29 @@ let location = client.location(Value::Noval);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `address1` | `String` | No |  |
-| `address2` | `String` | No |  |
-| `billingId` | `String` | No |  |
-| `city` | `String` | No |  |
-| `country` | `String` | No |  |
-| `created` | `String` | No |  |
-| `customReference` | `String` | No |  |
-| `id` | `String` | No |  |
-| `locationType` | `String` | No |  |
-| `mailAddress1` | `String` | No |  |
-| `mailAddress2` | `String` | No |  |
-| `mailCity` | `String` | No |  |
-| `mailCountry` | `String` | No |  |
-| `mailPostalCode` | `String` | No |  |
-| `mailStateProvince` | `String` | No |  |
-| `modified` | `String` | No |  |
-| `name` | `String` | No |  |
-| `nameOfBusiness` | `String` | No |  |
-| `notes` | `String` | No |  |
-| `postalCode` | `String` | No |  |
-| `stateProvince` | `String` | No |  |
-| `uniqueId` | `String` | No |  |
-| `version` | `i64` | No |  |
+| `address1` | `String` | No | The Location's street address. |
+| `address2` | `String` | No | The Location's street address. |
+| `billingId` | `String` | No | \? |
+| `city` | `String` | No | The Location's city. |
+| `country` | `String` | No | The Location's country. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `customReference` | `String` | No | A Partner specified reference for a location. |
+| `id` | `String` | No | This resource's unique identifier. |
+| `locationType` | `String` | No | The Location's clasification. |
+| `mailAddress1` | `String` | No | The Location's street address. |
+| `mailAddress2` | `String` | No | The Location's street address. |
+| `mailCity` | `String` | No | The Location's city. |
+| `mailCountry` | `String` | No | The Location's street address. |
+| `mailPostalCode` | `String` | No | The Location's postal code. |
+| `mailStateProvince` | `String` | No | The Location's street state or province. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `name` | `String` | No | The Location's name. |
+| `nameOfBusiness` | `String` | No | The name of the business at this location. |
+| `notes` | `String` | No | Note for delivery driver. |
+| `postalCode` | `String` | No | The Location's postal code. |
+| `stateProvince` | `String` | No | The Location's street state or province. |
+| `uniqueId` | `String` | No | Unique Identifier for the Location. |
+| `version` | `i64` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1192,20 +1192,20 @@ let partner = client.partner(Value::Noval);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `billingId` | `String` | No |  |
-| `clientCanOrderEquipment` | `bool` | No |  |
-| `contact` | `std::collections::HashMap<String, Value>` | No |  |
-| `created` | `String` | No |  |
-| `id` | `String` | No |  |
-| `isActive` | `bool` | No |  |
-| `location` | `std::collections::HashMap<String, Value>` | Yes |  |
-| `modified` | `String` | No |  |
-| `name` | `String` | No |  |
-| `parent` | `std::collections::HashMap<String, Value>` | No |  |
-| `partnerId` | `String` | No |  |
-| `reference` | `String` | No |  |
-| `verificationPhrase` | `String` | No |  |
-| `version` | `i64` | No |  |
+| `billingId` | `String` | No | The Partner's billing identifier. |
+| `clientCanOrderEquipment` | `bool` | No | This property indicates if the Partner is allowed to order Equipment. |
+| `contact` | `std::collections::HashMap<String, Value>` | No | Reference to the associated User resource. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `id` | `String` | No | This resource's unique identifier. |
+| `isActive` | `bool` | No | This property indicates if the Parter account is active or disabled. |
+| `location` | `std::collections::HashMap<String, Value>` | Yes | Reference to the associated Location resource. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `name` | `String` | No | The Partner's name. |
+| `parent` | `std::collections::HashMap<String, Value>` | No | Reference to the associated Partner. |
+| `partnerId` | `String` | No | The Partner's id. |
+| `reference` | `String` | No | The Partner's reference string. |
+| `verificationPhrase` | `String` | No | The verification phrase is a message that the Partner creates. |
+| `version` | `i64` | No | The number of times that this resource has been updated. |
 
 ### Field Usage by Operation
 
@@ -1290,20 +1290,20 @@ let shipment = client.shipment(Value::Noval);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `carrier` | `String` | No |  |
-| `client` | `std::collections::HashMap<String, Value>` | No |  |
-| `created` | `String` | No |  |
-| `dateReceived` | `String` | No |  |
-| `dateShipped` | `String` | No |  |
-| `dcKif` | `std::collections::HashMap<String, Value>` | No |  |
-| `id` | `String` | No |  |
+| `carrier` | `String` | No | The name of the courier. |
+| `client` | `std::collections::HashMap<String, Value>` | No | Reference to the associated Client resource. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `dateReceived` | `String` | No | The date and time that a package is recieved. |
+| `dateShipped` | `String` | No | The date and time that a package is shipped. |
+| `dcKif` | `std::collections::HashMap<String, Value>` | No | Reference to the associated KIF resource. |
+| `id` | `String` | No | This resource's unique identifier. |
 | `items` | `Vec<Value>` | No |  |
-| `kif` | `std::collections::HashMap<String, Value>` | No |  |
-| `modified` | `String` | No |  |
-| `partner` | `std::collections::HashMap<String, Value>` | No |  |
-| `shipmentType` | `String` | No |  |
-| `tracking` | `String` | No |  |
-| `version` | `i64` | No |  |
+| `kif` | `std::collections::HashMap<String, Value>` | No | Reference to the associated KIF resource. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `partner` | `std::collections::HashMap<String, Value>` | No | Reference to the associated Partner. |
+| `shipmentType` | `String` | No | The type of shipment. |
+| `tracking` | `String` | No | The courier's tracking number. |
+| `version` | `i64` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1368,7 +1368,7 @@ let success = client.success(Value::Noval);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `bool` | No |  |
+| `success` | `bool` | No | Indicates if the action was a success. |
 
 ### Operations
 
@@ -1421,30 +1421,30 @@ let transaction = client.transaction(Value::Noval);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `alternateKey` | `String` | No |  |
-| `client` | `std::collections::HashMap<String, Value>` | No |  |
-| `clientRef` | `String` | No |  |
-| `created` | `String` | No |  |
-| `decrypted` | `i64` | No |  |
-| `deviceName` | `String` | No |  |
-| `directPartner` | `std::collections::HashMap<String, Value>` | No |  |
-| `encrypted` | `i64` | No |  |
-| `endDate` | `String` | No |  |
-| `errCode` | `String` | No |  |
-| `errMessage` | `String` | No |  |
-| `id` | `String` | No |  |
-| `ipAddress` | `String` | No |  |
-| `isVirtual` | `bool` | No |  |
-| `keyType` | `String` | No |  |
-| `location` | `std::collections::HashMap<String, Value>` | Yes |  |
-| `messageId` | `String` | No |  |
-| `method` | `String` | No |  |
-| `partner` | `std::collections::HashMap<String, Value>` | No |  |
-| `reference` | `String` | No |  |
-| `serialNumber` | `String` | No |  |
-| `startDate` | `String` | No |  |
-| `success` | `bool` | No |  |
-| `transactionSource` | `String` | No |  |
+| `alternateKey` | `String` | No | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `client` | `std::collections::HashMap<String, Value>` | No | Reference to the associated Client resource. |
+| `clientRef` | `String` | No | Client Reference property that is included in the decrypt API call. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `decrypted` | `i64` | No | A Transcation can process muliple decryptions. |
+| `deviceName` | `String` | No | The name of the Device that generated the payload to decrypt. |
+| `directPartner` | `std::collections::HashMap<String, Value>` | No | Reference to the associated Partner. |
+| `encrypted` | `i64` | No | A Transcation can process muliple encryptions. |
+| `endDate` | `String` | No | Timestamp from the end of the transaction. |
+| `errCode` | `String` | No | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `String` | No | The error messge that is sent in response to a failed decrypt API call. |
+| `id` | `String` | No | This resource's unique identifier. |
+| `ipAddress` | `String` | No | The IP address of the http client that makes the decrypt API call. |
+| `isVirtual` | `bool` | No | Indicates if the Transaction came from a virtual Device. |
+| `keyType` | `String` | No | The type of cipher used during decrytion. |
+| `location` | `std::collections::HashMap<String, Value>` | Yes | Reference to the associated Location resource. |
+| `messageId` | `String` | No | Message ID. |
+| `method` | `String` | No | The decryption cypher/method. |
+| `partner` | `std::collections::HashMap<String, Value>` | No | Reference to the associated Partner. |
+| `reference` | `String` | No | The reference property that the Client includes in the decrypt API call. |
+| `serialNumber` | `String` | No | The serial number of the Device that generated the payload to decrypt. |
+| `startDate` | `String` | No | Timestamp from the beginning of the transaction. |
+| `success` | `bool` | No | The success indicator. |
+| `transactionSource` | `String` | No | The source of the Transaction. |
 
 ### Operations
 
@@ -1510,18 +1510,18 @@ let update_result = client.update_result(Value::Noval);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `client` | `std::collections::HashMap<String, Value>` | No |  |
-| `email` | `String` | No |  |
-| `firstName` | `String` | No |  |
-| `id` | `String` | No |  |
-| `isActive` | `bool` | No |  |
-| `kif` | `std::collections::HashMap<String, Value>` | No |  |
-| `lastName` | `String` | No |  |
-| `partner` | `std::collections::HashMap<String, Value>` | No |  |
-| `phone` | `String` | No |  |
-| `userName` | `String` | No |  |
-| `userRole` | `std::collections::HashMap<String, Value>` | No |  |
-| `version` | `i64` | No |  |
+| `client` | `std::collections::HashMap<String, Value>` | No | Reference to the associated Client resource. |
+| `email` | `String` | No | The User's email address. |
+| `firstName` | `String` | No | The User's name. |
+| `id` | `String` | No | ID of newly created resource |
+| `isActive` | `bool` | No | This property indicates if the User account is active or disabled. |
+| `kif` | `std::collections::HashMap<String, Value>` | No | Reference to the associated KIF resource. |
+| `lastName` | `String` | No | The User's Surname. |
+| `partner` | `std::collections::HashMap<String, Value>` | No | Reference to the associated Partner. |
+| `phone` | `String` | No | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | `String` | No | The User's unique username. |
+| `userRole` | `std::collections::HashMap<String, Value>` | No | Reference to the associated User Role. |
+| `version` | `i64` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1589,20 +1589,20 @@ let user = client.user(Value::Noval);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `client` | `std::collections::HashMap<String, Value>` | No |  |
-| `created` | `String` | No |  |
-| `email` | `String` | No |  |
-| `firstName` | `String` | No |  |
-| `id` | `String` | No |  |
-| `isActive` | `bool` | No |  |
-| `kif` | `std::collections::HashMap<String, Value>` | No |  |
-| `lastName` | `String` | No |  |
-| `modified` | `String` | No |  |
-| `partner` | `std::collections::HashMap<String, Value>` | No |  |
-| `phone` | `String` | No |  |
-| `userName` | `String` | No |  |
-| `userRole` | `std::collections::HashMap<String, Value>` | No |  |
-| `version` | `i64` | No |  |
+| `client` | `std::collections::HashMap<String, Value>` | No | Reference to the associated Client resource. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `email` | `String` | No | The User's email address. |
+| `firstName` | `String` | No | The User's name. |
+| `id` | `String` | No | This resource's unique identifier. |
+| `isActive` | `bool` | No | This property indicates if the User account is active or disabled. |
+| `kif` | `std::collections::HashMap<String, Value>` | No | Reference to the associated KIF resource. |
+| `lastName` | `String` | No | The User's Surname. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `partner` | `std::collections::HashMap<String, Value>` | No | Reference to the associated Partner. |
+| `phone` | `String` | No | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | `String` | No | The User's unique username. |
+| `userRole` | `std::collections::HashMap<String, Value>` | No | Reference to the associated User Role. |
+| `version` | `i64` | No | The number of times that this resource has been updated. |
 
 ### Operations
 

@@ -41,7 +41,9 @@ sub new {
   my $utility = BluefinDecryptxP2peUtility->new;
   $self->{_utility} = $utility;
 
-  my $config = BluefinDecryptxP2peConfig::make_config();
+  # The process-wide config (sdkgen rung L2): read-only on the request path,
+  # so every client shares one rather than rebuilding it.
+  my $config = BluefinDecryptxP2peConfig::shared_config();
 
   $self->{_rootctx} = $utility->{make_context}->({
     'client' => $self,

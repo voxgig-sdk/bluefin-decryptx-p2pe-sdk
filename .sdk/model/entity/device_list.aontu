@@ -8,11 +8,13 @@ main: kit: entity: device_list: {
     {
       name: "data"
       req: false
+      short: "List of Devices."
       type: "`$ARRAY`"
     }
     {
       name: "total"
       req: false
+      short: "Total number of Devices available (not the number of Users in the response)."
       type: "`$INTEGER`"
     }
   ]

@@ -14,56 +14,67 @@ main: kit: entity: client: {
         }
       }
       req: false
+      short: "Reference to the associated User resource."
       type: "`$OBJECT`"
     }
     {
       name: "created"
       req: false
+      short: "Creation timestamp in ISO 8601 format."
       type: "`$STRING`"
     }
     {
       name: "directPartner"
       req: false
+      short: "Reference to the associated Partner."
       type: "`$OBJECT`"
     }
     {
       name: "id"
       req: false
+      short: "This resource's unique identifier."
       type: "`$STRING`"
     }
     {
       name: "isActive"
       req: false
+      short: "This property indicates if the Client account is active or disabled."
       type: "`$BOOLEAN`"
     }
     {
       name: "location"
       req: true
+      short: "Reference to the associated Location resource."
       type: "`$OBJECT`"
     }
     {
       name: "mid"
       req: false
+      short: "Some Partners will have an merchant ids on their own software offerings."
       type: "`$STRING`"
     }
     {
       name: "modified"
       req: false
+      short: "Last modified timestamp."
       type: "`$STRING`"
     }
     {
       name: "name"
       req: false
+      short: "The Client's name."
       type: "`$STRING`"
     }
     {
       name: "partner"
       req: false
+      short: "Reference to the Client's root Partner."
       type: "`$OBJECT`"
     }
     {
       name: "version"
       req: false
+      short: "The number of times that this resource has been updated."
       type: "`$INTEGER`"
     }
   ]

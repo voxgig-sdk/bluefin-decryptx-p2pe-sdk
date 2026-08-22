@@ -175,13 +175,13 @@ auto attestation = client->attestation();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `client` | `std::map<std::string, Value>` | No |  |
-| `completeDate` | `std::string` | No |  |
-| `created` | `std::string` | No |  |
-| `device` | `std::map<std::string, Value>` | No |  |
-| `id` | `std::string` | No |  |
-| `name` | `std::string` | No |  |
-| `notes` | `std::string` | No |  |
+| `client` | `std::map<std::string, Value>` | No | Reference to the associated Client resource. |
+| `completeDate` | `std::string` | No | The date and time that the Attestation took place. |
+| `created` | `std::string` | No | Creation timestamp in ISO 8601 format. |
+| `device` | `std::map<std::string, Value>` | No | Reference to the associated Device resource. |
+| `id` | `std::string` | No | This resource's unique identifier. |
+| `name` | `std::string` | No | Text describing the attestation. |
+| `notes` | `std::string` | No | Free form field that allows the Client associate notes with the Attestation. |
 
 ### Operations
 
@@ -244,17 +244,17 @@ auto client = client->client();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `contact` | `std::map<std::string, Value>` | No |  |
-| `created` | `std::string` | No |  |
-| `directPartner` | `std::map<std::string, Value>` | No |  |
-| `id` | `std::string` | No |  |
-| `isActive` | `bool` | No |  |
-| `location` | `std::map<std::string, Value>` | Yes |  |
-| `mid` | `std::string` | No |  |
-| `modified` | `std::string` | No |  |
-| `name` | `std::string` | No |  |
-| `partner` | `std::map<std::string, Value>` | No |  |
-| `version` | `int64_t` | No |  |
+| `contact` | `std::map<std::string, Value>` | No | Reference to the associated User resource. |
+| `created` | `std::string` | No | Creation timestamp in ISO 8601 format. |
+| `directPartner` | `std::map<std::string, Value>` | No | Reference to the associated Partner. |
+| `id` | `std::string` | No | This resource's unique identifier. |
+| `isActive` | `bool` | No | This property indicates if the Client account is active or disabled. |
+| `location` | `std::map<std::string, Value>` | Yes | Reference to the associated Location resource. |
+| `mid` | `std::string` | No | Some Partners will have an merchant ids on their own software offerings. |
+| `modified` | `std::string` | No | Last modified timestamp. |
+| `name` | `std::string` | No | The Client's name. |
+| `partner` | `std::map<std::string, Value>` | No | Reference to the Client's root Partner. |
+| `version` | `int64_t` | No | The number of times that this resource has been updated. |
 
 ### Field Usage by Operation
 
@@ -382,7 +382,7 @@ auto decryption = client->decryption();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `bool` | No |  |
+| `success` | `bool` | No | true if the payload decryption was successful. |
 
 ### Operations
 
@@ -426,34 +426,34 @@ auto device = client->device();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `activatedBy` | `std::map<std::string, Value>` | Yes |  |
-| `activationDate` | `std::string` | No |  |
-| `alternateKey` | `std::string` | No |  |
-| `auditNextDate` | `std::string` | No |  |
-| `auditNotificationDate` | `std::string` | No |  |
-| `client` | `std::map<std::string, Value>` | No |  |
-| `created` | `std::string` | No |  |
-| `createdBy` | `std::map<std::string, Value>` | Yes |  |
-| `deviceBuild` | `std::map<std::string, Value>` | No |  |
-| `deviceState` | `std::map<std::string, Value>` | No |  |
-| `deviceType` | `std::map<std::string, Value>` | No |  |
-| `errorCounter` | `int64_t` | No |  |
-| `errorLastDate` | `std::string` | No |  |
-| `id` | `std::string` | No |  |
-| `initializedBy` | `std::map<std::string, Value>` | Yes |  |
-| `initializedDate` | `std::string` | No |  |
-| `injectKey` | `std::map<std::string, Value>` | No |  |
-| `isVirtual` | `bool` | No |  |
-| `kif` | `std::map<std::string, Value>` | No |  |
-| `lastActivityDate` | `std::string` | No |  |
-| `location` | `std::map<std::string, Value>` | Yes |  |
-| `modified` | `std::string` | No |  |
-| `modifiedBy` | `std::map<std::string, Value>` | Yes |  |
-| `name` | `std::string` | No |  |
-| `notes` | `std::string` | No |  |
-| `partner` | `std::map<std::string, Value>` | No |  |
-| `serialNumber` | `std::string` | No |  |
-| `version` | `int64_t` | No |  |
+| `activatedBy` | `std::map<std::string, Value>` | Yes | Reference to the associated User resource. |
+| `activationDate` | `std::string` | No | Timestamp from when the Device was activated. |
+| `alternateKey` | `std::string` | No | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `std::string` | No | Date and time that the Device is due its next PCI Audit. |
+| `auditNotificationDate` | `std::string` | No | Date and time that a notification should be sent that a PCI audit is due. |
+| `client` | `std::map<std::string, Value>` | No | Reference to the associated Client resource. |
+| `created` | `std::string` | No | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `std::map<std::string, Value>` | Yes | Reference to the associated User resource. |
+| `deviceBuild` | `std::map<std::string, Value>` | No | Reference to the associated Device Build resource. |
+| `deviceState` | `std::map<std::string, Value>` | No | Reference to the associated Device State resource. |
+| `deviceType` | `std::map<std::string, Value>` | No | Reference to the associated Device Type resource. |
+| `errorCounter` | `int64_t` | No | The number times the Device has been in error. |
+| `errorLastDate` | `std::string` | No | Timestamp from the last time that the Device had an error. |
+| `id` | `std::string` | No | The Device's unique identifier. |
+| `initializedBy` | `std::map<std::string, Value>` | Yes | Reference to the associated User resource. |
+| `initializedDate` | `std::string` | No | Timestamp from when the Device was initialized. |
+| `injectKey` | `std::map<std::string, Value>` | No | Reference to the associated Device resource. |
+| `isVirtual` | `bool` | No | Indicates if a Device is Virtual (represents a Device shared with a partner). |
+| `kif` | `std::map<std::string, Value>` | No | Reference to the associated KIF resource. |
+| `lastActivityDate` | `std::string` | No | Timestamp from the last time that the Device was used. |
+| `location` | `std::map<std::string, Value>` | Yes | Reference to the associated Location resource. |
+| `modified` | `std::string` | No | Last modified timestamp. |
+| `modifiedBy` | `std::map<std::string, Value>` | Yes | Reference to the associated User resource. |
+| `name` | `std::string` | No | The Device's name. |
+| `notes` | `std::string` | No | Arbitary note that can be attached to a Device entry. |
+| `partner` | `std::map<std::string, Value>` | No | Reference to the associated Partner. |
+| `serialNumber` | `std::string` | No | The Device's serial number. |
+| `version` | `int64_t` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -521,21 +521,21 @@ auto device_build = client->device_build();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `appVersion` | `std::string` | No |  |
-| `buildNumber` | `std::string` | No |  |
-| `configFileName` | `std::string` | No |  |
-| `created` | `std::string` | No |  |
-| `deviceType` | `std::string` | No |  |
-| `firmwareVersion` | `std::string` | No |  |
-| `hardwareVersion` | `std::string` | No |  |
-| `id` | `int64_t` | No |  |
-| `isActive` | `bool` | No |  |
-| `modified` | `std::string` | No |  |
-| `name` | `std::string` | No |  |
-| `notes` | `std::string` | No |  |
-| `version` | `int64_t` | No |  |
-| `whiteListingBinRanges` | `std::string` | No |  |
-| `whiteListingUsed` | `bool` | No |  |
+| `appVersion` | `std::string` | No | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildNumber` | `std::string` | No | The Build Number. |
+| `configFileName` | `std::string` | No | The name of the configuration file that is uploaded to the device. |
+| `created` | `std::string` | No | Creation timestamp in ISO 8601 format. |
+| `deviceType` | `std::string` | No | The Device Type Name. |
+| `firmwareVersion` | `std::string` | No | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `std::string` | No | A list of hardware versions that this Device Build covers. |
+| `id` | `int64_t` | No | This resource's unique identifier. |
+| `isActive` | `bool` | No | This property indicates if the device build is still active and not succeeded by subsequent build. |
+| `modified` | `std::string` | No | Last modified timestamp. |
+| `name` | `std::string` | No | The Device Builds's name. |
+| `notes` | `std::string` | No | Notes attached to the device build by Bluefin CISO. |
+| `version` | `int64_t` | No | The number of times that this resource has been updated. |
+| `whiteListingBinRanges` | `std::string` | No | A comma separated list of BIN ranges that aren't encrypted by the terminal. |
+| `whiteListingUsed` | `bool` | No | This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal. |
 
 ### Operations
 
@@ -589,19 +589,19 @@ auto device_custody_detail = client->device_custody_detail();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `completeDate` | `std::string` | No |  |
-| `created` | `std::string` | No |  |
-| `createdBy` | `std::map<std::string, Value>` | Yes |  |
-| `custodian` | `std::map<std::string, Value>` | Yes |  |
-| `device` | `std::map<std::string, Value>` | No |  |
-| `id` | `int64_t` | No |  |
-| `location` | `std::map<std::string, Value>` | Yes |  |
-| `modified` | `std::string` | No |  |
-| `modifiedBy` | `std::map<std::string, Value>` | Yes |  |
-| `notes` | `std::string` | No |  |
-| `status` | `std::map<std::string, Value>` | No |  |
-| `transferMethod` | `std::map<std::string, Value>` | No |  |
-| `version` | `int64_t` | No |  |
+| `completeDate` | `std::string` | No | The date and time that the Custody change took place. |
+| `created` | `std::string` | No | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `std::map<std::string, Value>` | Yes | Reference to the associated User resource. |
+| `custodian` | `std::map<std::string, Value>` | Yes | Reference to the associated User resource. |
+| `device` | `std::map<std::string, Value>` | No | Reference to the associated Device resource. |
+| `id` | `int64_t` | No | This resource's unique identifier. |
+| `location` | `std::map<std::string, Value>` | Yes | Reference to the associated Location resource. |
+| `modified` | `std::string` | No | Last modified timestamp. |
+| `modifiedBy` | `std::map<std::string, Value>` | Yes | Reference to the associated User resource. |
+| `notes` | `std::string` | No | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | `std::map<std::string, Value>` | No | Reference to the associated Custody Status. |
+| `transferMethod` | `std::map<std::string, Value>` | No | Reference to the associated Transfer Method. |
+| `version` | `int64_t` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -644,19 +644,19 @@ auto device_custody_list = client->device_custody_list();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `completeDate` | `std::string` | No |  |
-| `created` | `std::string` | No |  |
-| `createdBy` | `std::map<std::string, Value>` | Yes |  |
-| `custodian` | `std::map<std::string, Value>` | Yes |  |
-| `device` | `std::map<std::string, Value>` | No |  |
-| `id` | `int64_t` | No |  |
-| `location` | `std::map<std::string, Value>` | Yes |  |
-| `modified` | `std::string` | No |  |
-| `modifiedBy` | `std::map<std::string, Value>` | Yes |  |
-| `notes` | `std::string` | No |  |
-| `status` | `std::map<std::string, Value>` | No |  |
-| `transferMethod` | `std::map<std::string, Value>` | No |  |
-| `version` | `int64_t` | No |  |
+| `completeDate` | `std::string` | No | The date and time that the Custody change took place. |
+| `created` | `std::string` | No | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `std::map<std::string, Value>` | Yes | Reference to the associated User resource. |
+| `custodian` | `std::map<std::string, Value>` | Yes | Reference to the associated User resource. |
+| `device` | `std::map<std::string, Value>` | No | Reference to the associated Device resource. |
+| `id` | `int64_t` | No | This resource's unique identifier. |
+| `location` | `std::map<std::string, Value>` | Yes | Reference to the associated Location resource. |
+| `modified` | `std::string` | No | Last modified timestamp. |
+| `modifiedBy` | `std::map<std::string, Value>` | Yes | Reference to the associated User resource. |
+| `notes` | `std::string` | No | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | `std::map<std::string, Value>` | No | Reference to the associated Custody Status. |
+| `transferMethod` | `std::map<std::string, Value>` | No | Reference to the associated Transfer Method. |
+| `version` | `int64_t` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -702,8 +702,8 @@ auto device_list = client->device_list();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `std::vector<Value>` | No |  |
-| `total` | `int64_t` | No |  |
+| `data` | `std::vector<Value>` | No | List of Devices. |
+| `total` | `int64_t` | No | Total number of Devices available (not the number of Users in the response). |
 
 ### Operations
 
@@ -746,7 +746,7 @@ auto device_receive_result = client->device_receive_result();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `bool` | Yes |  |
+| `success` | `bool` | Yes | Indicates if the action succeeded. |
 
 ### Operations
 
@@ -791,7 +791,7 @@ auto device_rki_activate_result = client->device_rki_activate_result();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `bool` | Yes |  |
+| `success` | `bool` | Yes | Indicates if the RKI activation succeeded. |
 
 ### Operations
 
@@ -836,8 +836,8 @@ auto device_state = client->device_state();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `int64_t` | No |  |
-| `name` | `std::string` | No |  |
+| `id` | `int64_t` | No | Unique identifier for this Device state. |
+| `name` | `std::string` | No | Descriptive name for this Device state. |
 
 ### Operations
 
@@ -883,18 +883,18 @@ auto device_type = client->device_type();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created` | `std::string` | No |  |
-| `deviceTypeMode` | `std::string` | No |  |
-| `hardwareVersion` | `std::string` | No |  |
-| `id` | `std::string` | No |  |
-| `isActive` | `bool` | No |  |
-| `manufacturer` | `std::string` | No |  |
-| `model` | `std::string` | No |  |
-| `modified` | `std::string` | No |  |
-| `name` | `std::string` | No |  |
+| `created` | `std::string` | No | Creation timestamp in ISO 8601 format. |
+| `deviceTypeMode` | `std::string` | No | The Device type. |
+| `hardwareVersion` | `std::string` | No | The Device hardware version. |
+| `id` | `std::string` | No | Unique idenifier. |
+| `isActive` | `bool` | No | This property indicates if the DeviceType is active. |
+| `manufacturer` | `std::string` | No | The Device manufacturer. |
+| `model` | `std::string` | No | The Device model. |
+| `modified` | `std::string` | No | Last modified timestamp. |
+| `name` | `std::string` | No | The DeviceType name. |
 | `photoUrl` | `std::string` | No |  |
-| `productName` | `std::string` | No |  |
-| `version` | `int64_t` | No |  |
+| `productName` | `std::string` | No | The Device name. |
+| `version` | `int64_t` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -948,14 +948,14 @@ auto inject_key = client->inject_key();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created` | `std::string` | No |  |
-| `id` | `std::string` | No |  |
-| `isActive` | `bool` | No |  |
-| `isP2PE` | `bool` | No |  |
-| `keyType` | `std::string` | No |  |
-| `modified` | `std::string` | No |  |
-| `name` | `std::string` | No |  |
-| `version` | `int64_t` | No |  |
+| `created` | `std::string` | No | Creation timestamp in ISO 8601 format. |
+| `id` | `std::string` | No | unique idenifier |
+| `isActive` | `bool` | No | Active flag, inactive keys cannot be assigned to devices. |
+| `isP2PE` | `bool` | No | Flags if a key is for a P2PE compliant cypher. |
+| `keyType` | `std::string` | No | The cipher type that the key works with. |
+| `modified` | `std::string` | No | Last modified timestamp in ISO 8601 format. |
+| `name` | `std::string` | No | Key name. |
+| `version` | `int64_t` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1009,8 +1009,8 @@ auto kif = client->kif();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `int64_t` | No |  |
-| `name` | `std::string` | No |  |
+| `id` | `int64_t` | No | This resource's unique identifier. |
+| `name` | `std::string` | No | The KIF's name. |
 
 ### Operations
 
@@ -1056,29 +1056,29 @@ auto location = client->location();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `address1` | `std::string` | No |  |
-| `address2` | `std::string` | No |  |
-| `billingId` | `std::string` | No |  |
-| `city` | `std::string` | No |  |
-| `country` | `std::string` | No |  |
-| `created` | `std::string` | No |  |
-| `customReference` | `std::string` | No |  |
-| `id` | `std::string` | No |  |
-| `locationType` | `std::string` | No |  |
-| `mailAddress1` | `std::string` | No |  |
-| `mailAddress2` | `std::string` | No |  |
-| `mailCity` | `std::string` | No |  |
-| `mailCountry` | `std::string` | No |  |
-| `mailPostalCode` | `std::string` | No |  |
-| `mailStateProvince` | `std::string` | No |  |
-| `modified` | `std::string` | No |  |
-| `name` | `std::string` | No |  |
-| `nameOfBusiness` | `std::string` | No |  |
-| `notes` | `std::string` | No |  |
-| `postalCode` | `std::string` | No |  |
-| `stateProvince` | `std::string` | No |  |
-| `uniqueId` | `std::string` | No |  |
-| `version` | `int64_t` | No |  |
+| `address1` | `std::string` | No | The Location's street address. |
+| `address2` | `std::string` | No | The Location's street address. |
+| `billingId` | `std::string` | No | \? |
+| `city` | `std::string` | No | The Location's city. |
+| `country` | `std::string` | No | The Location's country. |
+| `created` | `std::string` | No | Creation timestamp in ISO 8601 format. |
+| `customReference` | `std::string` | No | A Partner specified reference for a location. |
+| `id` | `std::string` | No | This resource's unique identifier. |
+| `locationType` | `std::string` | No | The Location's clasification. |
+| `mailAddress1` | `std::string` | No | The Location's street address. |
+| `mailAddress2` | `std::string` | No | The Location's street address. |
+| `mailCity` | `std::string` | No | The Location's city. |
+| `mailCountry` | `std::string` | No | The Location's street address. |
+| `mailPostalCode` | `std::string` | No | The Location's postal code. |
+| `mailStateProvince` | `std::string` | No | The Location's street state or province. |
+| `modified` | `std::string` | No | Last modified timestamp. |
+| `name` | `std::string` | No | The Location's name. |
+| `nameOfBusiness` | `std::string` | No | The name of the business at this location. |
+| `notes` | `std::string` | No | Note for delivery driver. |
+| `postalCode` | `std::string` | No | The Location's postal code. |
+| `stateProvince` | `std::string` | No | The Location's street state or province. |
+| `uniqueId` | `std::string` | No | Unique Identifier for the Location. |
+| `version` | `int64_t` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1149,20 +1149,20 @@ auto partner = client->partner();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `billingId` | `std::string` | No |  |
-| `clientCanOrderEquipment` | `bool` | No |  |
-| `contact` | `std::map<std::string, Value>` | No |  |
-| `created` | `std::string` | No |  |
-| `id` | `std::string` | No |  |
-| `isActive` | `bool` | No |  |
-| `location` | `std::map<std::string, Value>` | Yes |  |
-| `modified` | `std::string` | No |  |
-| `name` | `std::string` | No |  |
-| `parent` | `std::map<std::string, Value>` | No |  |
-| `partnerId` | `std::string` | No |  |
-| `reference` | `std::string` | No |  |
-| `verificationPhrase` | `std::string` | No |  |
-| `version` | `int64_t` | No |  |
+| `billingId` | `std::string` | No | The Partner's billing identifier. |
+| `clientCanOrderEquipment` | `bool` | No | This property indicates if the Partner is allowed to order Equipment. |
+| `contact` | `std::map<std::string, Value>` | No | Reference to the associated User resource. |
+| `created` | `std::string` | No | Creation timestamp in ISO 8601 format. |
+| `id` | `std::string` | No | This resource's unique identifier. |
+| `isActive` | `bool` | No | This property indicates if the Parter account is active or disabled. |
+| `location` | `std::map<std::string, Value>` | Yes | Reference to the associated Location resource. |
+| `modified` | `std::string` | No | Last modified timestamp. |
+| `name` | `std::string` | No | The Partner's name. |
+| `parent` | `std::map<std::string, Value>` | No | Reference to the associated Partner. |
+| `partnerId` | `std::string` | No | The Partner's id. |
+| `reference` | `std::string` | No | The Partner's reference string. |
+| `verificationPhrase` | `std::string` | No | The verification phrase is a message that the Partner creates. |
+| `version` | `int64_t` | No | The number of times that this resource has been updated. |
 
 ### Field Usage by Operation
 
@@ -1245,20 +1245,20 @@ auto shipment = client->shipment();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `carrier` | `std::string` | No |  |
-| `client` | `std::map<std::string, Value>` | No |  |
-| `created` | `std::string` | No |  |
-| `dateReceived` | `std::string` | No |  |
-| `dateShipped` | `std::string` | No |  |
-| `dcKif` | `std::map<std::string, Value>` | No |  |
-| `id` | `std::string` | No |  |
+| `carrier` | `std::string` | No | The name of the courier. |
+| `client` | `std::map<std::string, Value>` | No | Reference to the associated Client resource. |
+| `created` | `std::string` | No | Creation timestamp in ISO 8601 format. |
+| `dateReceived` | `std::string` | No | The date and time that a package is recieved. |
+| `dateShipped` | `std::string` | No | The date and time that a package is shipped. |
+| `dcKif` | `std::map<std::string, Value>` | No | Reference to the associated KIF resource. |
+| `id` | `std::string` | No | This resource's unique identifier. |
 | `items` | `std::vector<Value>` | No |  |
-| `kif` | `std::map<std::string, Value>` | No |  |
-| `modified` | `std::string` | No |  |
-| `partner` | `std::map<std::string, Value>` | No |  |
-| `shipmentType` | `std::string` | No |  |
-| `tracking` | `std::string` | No |  |
-| `version` | `int64_t` | No |  |
+| `kif` | `std::map<std::string, Value>` | No | Reference to the associated KIF resource. |
+| `modified` | `std::string` | No | Last modified timestamp. |
+| `partner` | `std::map<std::string, Value>` | No | Reference to the associated Partner. |
+| `shipmentType` | `std::string` | No | The type of shipment. |
+| `tracking` | `std::string` | No | The courier's tracking number. |
+| `version` | `int64_t` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1321,7 +1321,7 @@ auto success = client->success();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `bool` | No |  |
+| `success` | `bool` | No | Indicates if the action was a success. |
 
 ### Operations
 
@@ -1374,30 +1374,30 @@ auto transaction = client->transaction();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `alternateKey` | `std::string` | No |  |
-| `client` | `std::map<std::string, Value>` | No |  |
-| `clientRef` | `std::string` | No |  |
-| `created` | `std::string` | No |  |
-| `decrypted` | `int64_t` | No |  |
-| `deviceName` | `std::string` | No |  |
-| `directPartner` | `std::map<std::string, Value>` | No |  |
-| `encrypted` | `int64_t` | No |  |
-| `endDate` | `std::string` | No |  |
-| `errCode` | `std::string` | No |  |
-| `errMessage` | `std::string` | No |  |
-| `id` | `std::string` | No |  |
-| `ipAddress` | `std::string` | No |  |
-| `isVirtual` | `bool` | No |  |
-| `keyType` | `std::string` | No |  |
-| `location` | `std::map<std::string, Value>` | Yes |  |
-| `messageId` | `std::string` | No |  |
-| `method` | `std::string` | No |  |
-| `partner` | `std::map<std::string, Value>` | No |  |
-| `reference` | `std::string` | No |  |
-| `serialNumber` | `std::string` | No |  |
-| `startDate` | `std::string` | No |  |
-| `success` | `bool` | No |  |
-| `transactionSource` | `std::string` | No |  |
+| `alternateKey` | `std::string` | No | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `client` | `std::map<std::string, Value>` | No | Reference to the associated Client resource. |
+| `clientRef` | `std::string` | No | Client Reference property that is included in the decrypt API call. |
+| `created` | `std::string` | No | Creation timestamp in ISO 8601 format. |
+| `decrypted` | `int64_t` | No | A Transcation can process muliple decryptions. |
+| `deviceName` | `std::string` | No | The name of the Device that generated the payload to decrypt. |
+| `directPartner` | `std::map<std::string, Value>` | No | Reference to the associated Partner. |
+| `encrypted` | `int64_t` | No | A Transcation can process muliple encryptions. |
+| `endDate` | `std::string` | No | Timestamp from the end of the transaction. |
+| `errCode` | `std::string` | No | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `std::string` | No | The error messge that is sent in response to a failed decrypt API call. |
+| `id` | `std::string` | No | This resource's unique identifier. |
+| `ipAddress` | `std::string` | No | The IP address of the http client that makes the decrypt API call. |
+| `isVirtual` | `bool` | No | Indicates if the Transaction came from a virtual Device. |
+| `keyType` | `std::string` | No | The type of cipher used during decrytion. |
+| `location` | `std::map<std::string, Value>` | Yes | Reference to the associated Location resource. |
+| `messageId` | `std::string` | No | Message ID. |
+| `method` | `std::string` | No | The decryption cypher/method. |
+| `partner` | `std::map<std::string, Value>` | No | Reference to the associated Partner. |
+| `reference` | `std::string` | No | The reference property that the Client includes in the decrypt API call. |
+| `serialNumber` | `std::string` | No | The serial number of the Device that generated the payload to decrypt. |
+| `startDate` | `std::string` | No | Timestamp from the beginning of the transaction. |
+| `success` | `bool` | No | The success indicator. |
+| `transactionSource` | `std::string` | No | The source of the Transaction. |
 
 ### Operations
 
@@ -1461,18 +1461,18 @@ auto update_result = client->update_result();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `client` | `std::map<std::string, Value>` | No |  |
-| `email` | `std::string` | No |  |
-| `firstName` | `std::string` | No |  |
-| `id` | `std::string` | No |  |
-| `isActive` | `bool` | No |  |
-| `kif` | `std::map<std::string, Value>` | No |  |
-| `lastName` | `std::string` | No |  |
-| `partner` | `std::map<std::string, Value>` | No |  |
-| `phone` | `std::string` | No |  |
-| `userName` | `std::string` | No |  |
-| `userRole` | `std::map<std::string, Value>` | No |  |
-| `version` | `int64_t` | No |  |
+| `client` | `std::map<std::string, Value>` | No | Reference to the associated Client resource. |
+| `email` | `std::string` | No | The User's email address. |
+| `firstName` | `std::string` | No | The User's name. |
+| `id` | `std::string` | No | ID of newly created resource |
+| `isActive` | `bool` | No | This property indicates if the User account is active or disabled. |
+| `kif` | `std::map<std::string, Value>` | No | Reference to the associated KIF resource. |
+| `lastName` | `std::string` | No | The User's Surname. |
+| `partner` | `std::map<std::string, Value>` | No | Reference to the associated Partner. |
+| `phone` | `std::string` | No | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | `std::string` | No | The User's unique username. |
+| `userRole` | `std::map<std::string, Value>` | No | Reference to the associated User Role. |
+| `version` | `int64_t` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1538,20 +1538,20 @@ auto user = client->user();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `client` | `std::map<std::string, Value>` | No |  |
-| `created` | `std::string` | No |  |
-| `email` | `std::string` | No |  |
-| `firstName` | `std::string` | No |  |
-| `id` | `std::string` | No |  |
-| `isActive` | `bool` | No |  |
-| `kif` | `std::map<std::string, Value>` | No |  |
-| `lastName` | `std::string` | No |  |
-| `modified` | `std::string` | No |  |
-| `partner` | `std::map<std::string, Value>` | No |  |
-| `phone` | `std::string` | No |  |
-| `userName` | `std::string` | No |  |
-| `userRole` | `std::map<std::string, Value>` | No |  |
-| `version` | `int64_t` | No |  |
+| `client` | `std::map<std::string, Value>` | No | Reference to the associated Client resource. |
+| `created` | `std::string` | No | Creation timestamp in ISO 8601 format. |
+| `email` | `std::string` | No | The User's email address. |
+| `firstName` | `std::string` | No | The User's name. |
+| `id` | `std::string` | No | This resource's unique identifier. |
+| `isActive` | `bool` | No | This property indicates if the User account is active or disabled. |
+| `kif` | `std::map<std::string, Value>` | No | Reference to the associated KIF resource. |
+| `lastName` | `std::string` | No | The User's Surname. |
+| `modified` | `std::string` | No | Last modified timestamp. |
+| `partner` | `std::map<std::string, Value>` | No | Reference to the associated Partner. |
+| `phone` | `std::string` | No | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | `std::string` | No | The User's unique username. |
+| `userRole` | `std::map<std::string, Value>` | No | Reference to the associated User Role. |
+| `version` | `int64_t` | No | The number of times that this resource has been updated. |
 
 ### Operations
 

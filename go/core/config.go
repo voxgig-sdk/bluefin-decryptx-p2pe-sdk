@@ -11,6 +11,9 @@ func MakeConfig() map[string]any {
 	return map[string]any{
 		"main": map[string]any{
 			"name": "BluefinDecryptxP2pe",
+			"slug": "bluefin-decryptx-p2pe",
+			"version": "0.0.1",
+			"target": "go",
 		},
 		"feature": map[string]any{
 			"test": map[string]any{
@@ -57,30 +60,37 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "client",
+						"short": "Reference to the associated Client resource.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "completeDate",
+						"short": "The date and time that the Attestation took place.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "created",
+						"short": "Creation timestamp in ISO 8601 format.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "device",
+						"short": "Reference to the associated Device resource.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "id",
+						"short": "This resource's unique identifier.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "name",
+						"short": "Text describing the attestation.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "notes",
+						"short": "Free form field that allows the Client associate notes with the Attestation.",
 						"type": "`$STRING`",
 					},
 				},
@@ -206,47 +216,58 @@ func MakeConfig() map[string]any {
 								"type": "`$OBJECT`",
 							},
 						},
+						"short": "Reference to the associated User resource.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "created",
+						"short": "Creation timestamp in ISO 8601 format.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "directPartner",
+						"short": "Reference to the associated Partner.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "id",
+						"short": "This resource's unique identifier.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "isActive",
+						"short": "This property indicates if the Client account is active or disabled.",
 						"type": "`$BOOLEAN`",
 					},
 					map[string]any{
 						"name": "location",
 						"req": true,
+						"short": "Reference to the associated Location resource.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "mid",
+						"short": "Some Partners will have an merchant ids on their own software offerings.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "modified",
+						"short": "Last modified timestamp.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "name",
+						"short": "The Client's name.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "partner",
+						"short": "Reference to the Client's root Partner.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "version",
+						"short": "The number of times that this resource has been updated.",
 						"type": "`$INTEGER`",
 					},
 				},
@@ -465,6 +486,7 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "success",
+						"short": "true if the payload decryption was successful.",
 						"type": "`$BOOLEAN`",
 					},
 				},
@@ -500,118 +522,146 @@ func MakeConfig() map[string]any {
 					map[string]any{
 						"name": "activatedBy",
 						"req": true,
+						"short": "Reference to the associated User resource.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "activationDate",
+						"short": "Timestamp from when the Device was activated.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "alternateKey",
+						"short": "The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "auditNextDate",
+						"short": "Date and time that the Device is due its next PCI Audit.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "auditNotificationDate",
+						"short": "Date and time that a notification should be sent that a PCI audit is due.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "client",
+						"short": "Reference to the associated Client resource.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "created",
+						"short": "Creation timestamp in ISO 8601 format.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "createdBy",
 						"req": true,
+						"short": "Reference to the associated User resource.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "deviceBuild",
+						"short": "Reference to the associated Device Build resource.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "deviceState",
+						"short": "Reference to the associated Device State resource.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "deviceType",
+						"short": "Reference to the associated Device Type resource.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "errorCounter",
+						"short": "The number times the Device has been in error.",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
 						"name": "errorLastDate",
+						"short": "Timestamp from the last time that the Device had an error.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "id",
+						"short": "The Device's unique identifier.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "initializedBy",
 						"req": true,
+						"short": "Reference to the associated User resource.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "initializedDate",
+						"short": "Timestamp from when the Device was initialized.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "injectKey",
+						"short": "Reference to the associated Device resource.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "isVirtual",
+						"short": "Indicates if a Device is Virtual (represents a Device shared with a partner).",
 						"type": "`$BOOLEAN`",
 					},
 					map[string]any{
 						"name": "kif",
+						"short": "Reference to the associated KIF resource.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "lastActivityDate",
+						"short": "Timestamp from the last time that the Device was used.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "location",
 						"req": true,
+						"short": "Reference to the associated Location resource.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "modified",
+						"short": "Last modified timestamp.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "modifiedBy",
 						"req": true,
+						"short": "Reference to the associated User resource.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "name",
+						"short": "The Device's name.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "notes",
+						"short": "Arbitary note that can be attached to a Device entry.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "partner",
+						"short": "Reference to the associated Partner.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "serialNumber",
+						"short": "The Device's serial number.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "version",
+						"short": "The number of times that this resource has been updated.",
 						"type": "`$INTEGER`",
 					},
 				},
@@ -822,62 +872,77 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "appVersion",
+						"short": "If a Device Type has more than one Application Code version the supported version is specified here.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "buildNumber",
+						"short": "The Build Number.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "configFileName",
+						"short": "The name of the configuration file that is uploaded to the device.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "created",
+						"short": "Creation timestamp in ISO 8601 format.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "deviceType",
+						"short": "The Device Type Name.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "firmwareVersion",
+						"short": "A list of firmware versions that this Device Build covers.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "hardwareVersion",
+						"short": "A list of hardware versions that this Device Build covers.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "id",
+						"short": "This resource's unique identifier.",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
 						"name": "isActive",
+						"short": "This property indicates if the device build is still active and not succeeded by subsequent build.",
 						"type": "`$BOOLEAN`",
 					},
 					map[string]any{
 						"name": "modified",
+						"short": "Last modified timestamp.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "name",
+						"short": "The Device Builds's name.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "notes",
+						"short": "Notes attached to the device build by Bluefin CISO.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "version",
+						"short": "The number of times that this resource has been updated.",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
 						"name": "whiteListingBinRanges",
+						"short": "A comma separated list of BIN ranges that aren't encrypted by the terminal.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "whiteListingUsed",
+						"short": "This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal.",
 						"type": "`$BOOLEAN`",
 					},
 				},
@@ -976,58 +1041,71 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "completeDate",
+						"short": "The date and time that the Custody change took place.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "created",
+						"short": "Creation timestamp in ISO 8601 format.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "createdBy",
 						"req": true,
+						"short": "Reference to the associated User resource.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "custodian",
 						"req": true,
+						"short": "Reference to the associated User resource.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "device",
+						"short": "Reference to the associated Device resource.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "id",
+						"short": "This resource's unique identifier.",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
 						"name": "location",
 						"req": true,
+						"short": "Reference to the associated Location resource.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "modified",
+						"short": "Last modified timestamp.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "modifiedBy",
 						"req": true,
+						"short": "Reference to the associated User resource.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "notes",
+						"short": "Free form field that allows the Client associate notes with the Custody Change.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "status",
+						"short": "Reference to the associated Custody Status.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "transferMethod",
+						"short": "Reference to the associated Transfer Method.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "version",
+						"short": "The number of times that this resource has been updated.",
 						"type": "`$INTEGER`",
 					},
 				},
@@ -1106,58 +1184,71 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "completeDate",
+						"short": "The date and time that the Custody change took place.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "created",
+						"short": "Creation timestamp in ISO 8601 format.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "createdBy",
 						"req": true,
+						"short": "Reference to the associated User resource.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "custodian",
 						"req": true,
+						"short": "Reference to the associated User resource.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "device",
+						"short": "Reference to the associated Device resource.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "id",
+						"short": "This resource's unique identifier.",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
 						"name": "location",
 						"req": true,
+						"short": "Reference to the associated Location resource.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "modified",
+						"short": "Last modified timestamp.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "modifiedBy",
 						"req": true,
+						"short": "Reference to the associated User resource.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "notes",
+						"short": "Free form field that allows the Client associate notes with the Custody Change.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "status",
+						"short": "Reference to the associated Custody Status.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "transferMethod",
+						"short": "Reference to the associated Transfer Method.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "version",
+						"short": "The number of times that this resource has been updated.",
 						"type": "`$INTEGER`",
 					},
 				},
@@ -1245,10 +1336,12 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "data",
+						"short": "List of Devices.",
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
 						"name": "total",
+						"short": "Total number of Devices available (not the number of Users in the response).",
 						"type": "`$INTEGER`",
 					},
 				},
@@ -1342,6 +1435,7 @@ func MakeConfig() map[string]any {
 					map[string]any{
 						"name": "success",
 						"req": true,
+						"short": "Indicates if the action succeeded.",
 						"type": "`$BOOLEAN`",
 					},
 				},
@@ -1378,6 +1472,7 @@ func MakeConfig() map[string]any {
 					map[string]any{
 						"name": "success",
 						"req": true,
+						"short": "Indicates if the RKI activation succeeded.",
 						"type": "`$BOOLEAN`",
 					},
 				},
@@ -1414,10 +1509,12 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "id",
+						"short": "Unique identifier for this Device state.",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
 						"name": "name",
+						"short": "Descriptive name for this Device state.",
 						"type": "`$STRING`",
 					},
 				},
@@ -1452,38 +1549,47 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "created",
+						"short": "Creation timestamp in ISO 8601 format.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "deviceTypeMode",
+						"short": "The Device type.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "hardwareVersion",
+						"short": "The Device hardware version.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "id",
+						"short": "Unique idenifier.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "isActive",
+						"short": "This property indicates if the DeviceType is active.",
 						"type": "`$BOOLEAN`",
 					},
 					map[string]any{
 						"name": "manufacturer",
+						"short": "The Device manufacturer.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "model",
+						"short": "The Device model.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "modified",
+						"short": "Last modified timestamp.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "name",
+						"short": "The DeviceType name.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
@@ -1492,10 +1598,12 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"name": "productName",
+						"short": "The Device name.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "version",
+						"short": "The number of times that this resource has been updated.",
 						"type": "`$INTEGER`",
 					},
 				},
@@ -1565,34 +1673,42 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "created",
+						"short": "Creation timestamp in ISO 8601 format.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "id",
+						"short": "unique idenifier",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "isActive",
+						"short": "Active flag, inactive keys cannot be assigned to devices.",
 						"type": "`$BOOLEAN`",
 					},
 					map[string]any{
 						"name": "isP2PE",
+						"short": "Flags if a key is for a P2PE compliant cypher.",
 						"type": "`$BOOLEAN`",
 					},
 					map[string]any{
 						"name": "keyType",
+						"short": "The cipher type that the key works with.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "modified",
+						"short": "Last modified timestamp in ISO 8601 format.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "name",
+						"short": "Key name.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "version",
+						"short": "The number of times that this resource has been updated.",
 						"type": "`$INTEGER`",
 					},
 				},
@@ -1662,10 +1778,12 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "id",
+						"short": "This resource's unique identifier.",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
 						"name": "name",
+						"short": "The KIF's name.",
 						"type": "`$STRING`",
 					},
 				},
@@ -1700,94 +1818,117 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "address1",
+						"short": "The Location's street address.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "address2",
+						"short": "The Location's street address.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "billingId",
+						"short": "\\?",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "city",
+						"short": "The Location's city.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "country",
+						"short": "The Location's country.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "created",
+						"short": "Creation timestamp in ISO 8601 format.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "customReference",
+						"short": "A Partner specified reference for a location.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "id",
+						"short": "This resource's unique identifier.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "locationType",
+						"short": "The Location's clasification.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "mailAddress1",
+						"short": "The Location's street address.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "mailAddress2",
+						"short": "The Location's street address.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "mailCity",
+						"short": "The Location's city.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "mailCountry",
+						"short": "The Location's street address.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "mailPostalCode",
+						"short": "The Location's postal code.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "mailStateProvince",
+						"short": "The Location's street state or province.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "modified",
+						"short": "Last modified timestamp.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "name",
+						"short": "The Location's name.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "nameOfBusiness",
+						"short": "The name of the business at this location.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "notes",
+						"short": "Note for delivery driver.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "postalCode",
+						"short": "The Location's postal code.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "stateProvince",
+						"short": "The Location's street state or province.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "uniqueId",
+						"short": "Unique Identifier for the Location.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "version",
+						"short": "The number of times that this resource has been updated.",
 						"type": "`$INTEGER`",
 					},
 				},
@@ -1942,10 +2083,12 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "billingId",
+						"short": "The Partner's billing identifier.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "clientCanOrderEquipment",
+						"short": "This property indicates if the Partner is allowed to order Equipment.",
 						"type": "`$BOOLEAN`",
 					},
 					map[string]any{
@@ -1956,51 +2099,63 @@ func MakeConfig() map[string]any {
 								"type": "`$OBJECT`",
 							},
 						},
+						"short": "Reference to the associated User resource.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "created",
+						"short": "Creation timestamp in ISO 8601 format.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "id",
+						"short": "This resource's unique identifier.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "isActive",
+						"short": "This property indicates if the Parter account is active or disabled.",
 						"type": "`$BOOLEAN`",
 					},
 					map[string]any{
 						"name": "location",
 						"req": true,
+						"short": "Reference to the associated Location resource.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "modified",
+						"short": "Last modified timestamp.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "name",
+						"short": "The Partner's name.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "parent",
+						"short": "Reference to the associated Partner.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "partnerId",
+						"short": "The Partner's id.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "reference",
+						"short": "The Partner's reference string.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "verificationPhrase",
+						"short": "The verification phrase is a message that the Partner creates.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "version",
+						"short": "The number of times that this resource has been updated.",
 						"type": "`$INTEGER`",
 					},
 				},
@@ -2119,30 +2274,37 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "carrier",
+						"short": "The name of the courier.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "client",
+						"short": "Reference to the associated Client resource.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "created",
+						"short": "Creation timestamp in ISO 8601 format.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "dateReceived",
+						"short": "The date and time that a package is recieved.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "dateShipped",
+						"short": "The date and time that a package is shipped.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "dcKif",
+						"short": "Reference to the associated KIF resource.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "id",
+						"short": "This resource's unique identifier.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
@@ -2151,26 +2313,32 @@ func MakeConfig() map[string]any {
 					},
 					map[string]any{
 						"name": "kif",
+						"short": "Reference to the associated KIF resource.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "modified",
+						"short": "Last modified timestamp.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "partner",
+						"short": "Reference to the associated Partner.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "shipmentType",
+						"short": "The type of shipment.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "tracking",
+						"short": "The courier's tracking number.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "version",
+						"short": "The number of times that this resource has been updated.",
 						"type": "`$INTEGER`",
 					},
 				},
@@ -2297,6 +2465,7 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "success",
+						"short": "Indicates if the action was a success.",
 						"type": "`$BOOLEAN`",
 					},
 				},
@@ -2395,99 +2564,123 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "alternateKey",
+						"short": "The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "client",
+						"short": "Reference to the associated Client resource.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "clientRef",
+						"short": "Client Reference property that is included in the decrypt API call.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "created",
+						"short": "Creation timestamp in ISO 8601 format.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "decrypted",
+						"short": "A Transcation can process muliple decryptions.",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
 						"name": "deviceName",
+						"short": "The name of the Device that generated the payload to decrypt.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "directPartner",
+						"short": "Reference to the associated Partner.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "encrypted",
+						"short": "A Transcation can process muliple encryptions.",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
 						"name": "endDate",
+						"short": "Timestamp from the end of the transaction.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "errCode",
+						"short": "The error code that is sent in response to a failed decrypt API call.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "errMessage",
+						"short": "The error messge that is sent in response to a failed decrypt API call.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "id",
+						"short": "This resource's unique identifier.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "ipAddress",
+						"short": "The IP address of the http client that makes the decrypt API call.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "isVirtual",
+						"short": "Indicates if the Transaction came from a virtual Device.",
 						"type": "`$BOOLEAN`",
 					},
 					map[string]any{
 						"name": "keyType",
+						"short": "The type of cipher used during decrytion.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "location",
 						"req": true,
+						"short": "Reference to the associated Location resource.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "messageId",
+						"short": "Message ID.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "method",
+						"short": "The decryption cypher/method.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "partner",
+						"short": "Reference to the associated Partner.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "reference",
+						"short": "The reference property that the Client includes in the decrypt API call.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "serialNumber",
+						"short": "The serial number of the Device that generated the payload to decrypt.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "startDate",
+						"short": "Timestamp from the beginning of the transaction.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "success",
+						"short": "The success indicator.",
 						"type": "`$BOOLEAN`",
 					},
 					map[string]any{
 						"name": "transactionSource",
+						"short": "The source of the Transaction.",
 						"type": "`$STRING`",
 					},
 				},
@@ -2677,50 +2870,62 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "client",
+						"short": "Reference to the associated Client resource.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "email",
+						"short": "The User's email address.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "firstName",
+						"short": "The User's name.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "id",
+						"short": "ID of newly created resource",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "isActive",
+						"short": "This property indicates if the User account is active or disabled.",
 						"type": "`$BOOLEAN`",
 					},
 					map[string]any{
 						"name": "kif",
+						"short": "Reference to the associated KIF resource.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "lastName",
+						"short": "The User's Surname.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "partner",
+						"short": "Reference to the associated Partner.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "phone",
+						"short": "The User's phone number without dashes, spaces, or brackets.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "userName",
+						"short": "The User's unique username.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "userRole",
+						"short": "Reference to the associated User Role.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "version",
+						"short": "The number of times that this resource has been updated.",
 						"type": "`$INTEGER`",
 					},
 				},
@@ -3027,58 +3232,72 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "client",
+						"short": "Reference to the associated Client resource.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "created",
+						"short": "Creation timestamp in ISO 8601 format.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "email",
+						"short": "The User's email address.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "firstName",
+						"short": "The User's name.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "id",
+						"short": "This resource's unique identifier.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "isActive",
+						"short": "This property indicates if the User account is active or disabled.",
 						"type": "`$BOOLEAN`",
 					},
 					map[string]any{
 						"name": "kif",
+						"short": "Reference to the associated KIF resource.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "lastName",
+						"short": "The User's Surname.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "modified",
+						"short": "Last modified timestamp.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "partner",
+						"short": "Reference to the associated Partner.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "phone",
+						"short": "The User's phone number without dashes, spaces, or brackets.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "userName",
+						"short": "The User's unique username.",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "userRole",
+						"short": "Reference to the associated User Role.",
 						"type": "`$OBJECT`",
 					},
 					map[string]any{
 						"name": "version",
+						"short": "The number of times that this resource has been updated.",
 						"type": "`$INTEGER`",
 					},
 				},

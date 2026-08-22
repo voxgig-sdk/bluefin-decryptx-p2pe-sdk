@@ -311,13 +311,13 @@ On error, `ok` is `false` and `err` contains the error value.
 
 | Field | Description |
 | --- | --- |
-| `client` |  |
-| `completeDate` |  |
-| `created` |  |
-| `device` |  |
-| `id` |  |
-| `name` |  |
-| `notes` |  |
+| `client` | Reference to the associated Client resource. |
+| `completeDate` | The date and time that the Attestation took place. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `device` | Reference to the associated Device resource. |
+| `id` | This resource's unique identifier. |
+| `name` | Text describing the attestation. |
+| `notes` | Free form field that allows the Client associate notes with the Attestation. |
 
 Operations: Create, List, Load.
 
@@ -327,17 +327,17 @@ API path: `/attestations`
 
 | Field | Description |
 | --- | --- |
-| `contact` |  |
-| `created` |  |
-| `directPartner` |  |
-| `id` |  |
-| `isActive` |  |
-| `location` |  |
-| `mid` |  |
-| `modified` |  |
-| `name` |  |
-| `partner` |  |
-| `version` |  |
+| `contact` | Reference to the associated User resource. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `directPartner` | Reference to the associated Partner. |
+| `id` | This resource's unique identifier. |
+| `isActive` | This property indicates if the Client account is active or disabled. |
+| `location` | Reference to the associated Location resource. |
+| `mid` | Some Partners will have an merchant ids on their own software offerings. |
+| `modified` | Last modified timestamp. |
+| `name` | The Client's name. |
+| `partner` | Reference to the Client's root Partner. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Load, Remove.
 
@@ -356,7 +356,7 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
-| `success` |  |
+| `success` | true if the payload decryption was successful. |
 
 Operations: Create.
 
@@ -366,34 +366,34 @@ API path: `/decryption`
 
 | Field | Description |
 | --- | --- |
-| `activatedBy` |  |
-| `activationDate` |  |
-| `alternateKey` |  |
-| `auditNextDate` |  |
-| `auditNotificationDate` |  |
-| `client` |  |
-| `created` |  |
-| `createdBy` |  |
-| `deviceBuild` |  |
-| `deviceState` |  |
-| `deviceType` |  |
-| `errorCounter` |  |
-| `errorLastDate` |  |
-| `id` |  |
-| `initializedBy` |  |
-| `initializedDate` |  |
-| `injectKey` |  |
-| `isVirtual` |  |
-| `kif` |  |
-| `lastActivityDate` |  |
-| `location` |  |
-| `modified` |  |
-| `modifiedBy` |  |
-| `name` |  |
-| `notes` |  |
-| `partner` |  |
-| `serialNumber` |  |
-| `version` |  |
+| `activatedBy` | Reference to the associated User resource. |
+| `activationDate` | Timestamp from when the Device was activated. |
+| `alternateKey` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | Date and time that the Device is due its next PCI Audit. |
+| `auditNotificationDate` | Date and time that a notification should be sent that a PCI audit is due. |
+| `client` | Reference to the associated Client resource. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `createdBy` | Reference to the associated User resource. |
+| `deviceBuild` | Reference to the associated Device Build resource. |
+| `deviceState` | Reference to the associated Device State resource. |
+| `deviceType` | Reference to the associated Device Type resource. |
+| `errorCounter` | The number times the Device has been in error. |
+| `errorLastDate` | Timestamp from the last time that the Device had an error. |
+| `id` | The Device's unique identifier. |
+| `initializedBy` | Reference to the associated User resource. |
+| `initializedDate` | Timestamp from when the Device was initialized. |
+| `injectKey` | Reference to the associated Device resource. |
+| `isVirtual` | Indicates if a Device is Virtual (represents a Device shared with a partner). |
+| `kif` | Reference to the associated KIF resource. |
+| `lastActivityDate` | Timestamp from the last time that the Device was used. |
+| `location` | Reference to the associated Location resource. |
+| `modified` | Last modified timestamp. |
+| `modifiedBy` | Reference to the associated User resource. |
+| `name` | The Device's name. |
+| `notes` | Arbitary note that can be attached to a Device entry. |
+| `partner` | Reference to the associated Partner. |
+| `serialNumber` | The Device's serial number. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Load.
 
@@ -403,21 +403,21 @@ API path: `/devices`
 
 | Field | Description |
 | --- | --- |
-| `appVersion` |  |
-| `buildNumber` |  |
-| `configFileName` |  |
-| `created` |  |
-| `deviceType` |  |
-| `firmwareVersion` |  |
-| `hardwareVersion` |  |
-| `id` |  |
-| `isActive` |  |
-| `modified` |  |
-| `name` |  |
-| `notes` |  |
-| `version` |  |
-| `whiteListingBinRanges` |  |
-| `whiteListingUsed` |  |
+| `appVersion` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildNumber` | The Build Number. |
+| `configFileName` | The name of the configuration file that is uploaded to the device. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `deviceType` | The Device Type Name. |
+| `firmwareVersion` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | A list of hardware versions that this Device Build covers. |
+| `id` | This resource's unique identifier. |
+| `isActive` | This property indicates if the device build is still active and not succeeded by subsequent build. |
+| `modified` | Last modified timestamp. |
+| `name` | The Device Builds's name. |
+| `notes` | Notes attached to the device build by Bluefin CISO. |
+| `version` | The number of times that this resource has been updated. |
+| `whiteListingBinRanges` | A comma separated list of BIN ranges that aren't encrypted by the terminal. |
+| `whiteListingUsed` | This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal. |
 
 Operations: List, Load.
 
@@ -427,19 +427,19 @@ API path: `/deviceBuilds`
 
 | Field | Description |
 | --- | --- |
-| `completeDate` |  |
-| `created` |  |
-| `createdBy` |  |
-| `custodian` |  |
-| `device` |  |
-| `id` |  |
-| `location` |  |
-| `modified` |  |
-| `modifiedBy` |  |
-| `notes` |  |
-| `status` |  |
-| `transferMethod` |  |
-| `version` |  |
+| `completeDate` | The date and time that the Custody change took place. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `createdBy` | Reference to the associated User resource. |
+| `custodian` | Reference to the associated User resource. |
+| `device` | Reference to the associated Device resource. |
+| `id` | This resource's unique identifier. |
+| `location` | Reference to the associated Location resource. |
+| `modified` | Last modified timestamp. |
+| `modifiedBy` | Reference to the associated User resource. |
+| `notes` | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | Reference to the associated Custody Status. |
+| `transferMethod` | Reference to the associated Transfer Method. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: Load.
 
@@ -449,19 +449,19 @@ API path: `/devices/{serialNumber}/{deviceType}/custody/{id}`
 
 | Field | Description |
 | --- | --- |
-| `completeDate` |  |
-| `created` |  |
-| `createdBy` |  |
-| `custodian` |  |
-| `device` |  |
-| `id` |  |
-| `location` |  |
-| `modified` |  |
-| `modifiedBy` |  |
-| `notes` |  |
-| `status` |  |
-| `transferMethod` |  |
-| `version` |  |
+| `completeDate` | The date and time that the Custody change took place. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `createdBy` | Reference to the associated User resource. |
+| `custodian` | Reference to the associated User resource. |
+| `device` | Reference to the associated Device resource. |
+| `id` | This resource's unique identifier. |
+| `location` | Reference to the associated Location resource. |
+| `modified` | Last modified timestamp. |
+| `modifiedBy` | Reference to the associated User resource. |
+| `notes` | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | Reference to the associated Custody Status. |
+| `transferMethod` | Reference to the associated Transfer Method. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: List.
 
@@ -471,8 +471,8 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
-| `total` |  |
+| `data` | List of Devices. |
+| `total` | Total number of Devices available (not the number of Users in the response). |
 
 Operations: Load.
 
@@ -482,7 +482,7 @@ API path: `/virtualDevices/{sharePartnerTo}`
 
 | Field | Description |
 | --- | --- |
-| `success` |  |
+| `success` | Indicates if the action succeeded. |
 
 Operations: Create.
 
@@ -492,7 +492,7 @@ API path: `/devices/receive`
 
 | Field | Description |
 | --- | --- |
-| `success` |  |
+| `success` | Indicates if the RKI activation succeeded. |
 
 Operations: Create.
 
@@ -502,8 +502,8 @@ API path: `/devices/rki/activate`
 
 | Field | Description |
 | --- | --- |
-| `id` |  |
-| `name` |  |
+| `id` | Unique identifier for this Device state. |
+| `name` | Descriptive name for this Device state. |
 
 Operations: List.
 
@@ -513,18 +513,18 @@ API path: `/deviceStates`
 
 | Field | Description |
 | --- | --- |
-| `created` |  |
-| `deviceTypeMode` |  |
-| `hardwareVersion` |  |
-| `id` |  |
-| `isActive` |  |
-| `manufacturer` |  |
-| `model` |  |
-| `modified` |  |
-| `name` |  |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `deviceTypeMode` | The Device type. |
+| `hardwareVersion` | The Device hardware version. |
+| `id` | Unique idenifier. |
+| `isActive` | This property indicates if the DeviceType is active. |
+| `manufacturer` | The Device manufacturer. |
+| `model` | The Device model. |
+| `modified` | Last modified timestamp. |
+| `name` | The DeviceType name. |
 | `photoUrl` |  |
-| `productName` |  |
-| `version` |  |
+| `productName` | The Device name. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: List, Load.
 
@@ -534,14 +534,14 @@ API path: `/deviceTypes`
 
 | Field | Description |
 | --- | --- |
-| `created` |  |
-| `id` |  |
-| `isActive` |  |
-| `isP2PE` |  |
-| `keyType` |  |
-| `modified` |  |
-| `name` |  |
-| `version` |  |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `id` | unique idenifier |
+| `isActive` | Active flag, inactive keys cannot be assigned to devices. |
+| `isP2PE` | Flags if a key is for a P2PE compliant cypher. |
+| `keyType` | The cipher type that the key works with. |
+| `modified` | Last modified timestamp in ISO 8601 format. |
+| `name` | Key name. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: List, Load.
 
@@ -551,8 +551,8 @@ API path: `/injectKeys`
 
 | Field | Description |
 | --- | --- |
-| `id` |  |
-| `name` |  |
+| `id` | This resource's unique identifier. |
+| `name` | The KIF's name. |
 
 Operations: List.
 
@@ -562,29 +562,29 @@ API path: `/kifs`
 
 | Field | Description |
 | --- | --- |
-| `address1` |  |
-| `address2` |  |
-| `billingId` |  |
-| `city` |  |
-| `country` |  |
-| `created` |  |
-| `customReference` |  |
-| `id` |  |
-| `locationType` |  |
-| `mailAddress1` |  |
-| `mailAddress2` |  |
-| `mailCity` |  |
-| `mailCountry` |  |
-| `mailPostalCode` |  |
-| `mailStateProvince` |  |
-| `modified` |  |
-| `name` |  |
-| `nameOfBusiness` |  |
-| `notes` |  |
-| `postalCode` |  |
-| `stateProvince` |  |
-| `uniqueId` |  |
-| `version` |  |
+| `address1` | The Location's street address. |
+| `address2` | The Location's street address. |
+| `billingId` | \? |
+| `city` | The Location's city. |
+| `country` | The Location's country. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `customReference` | A Partner specified reference for a location. |
+| `id` | This resource's unique identifier. |
+| `locationType` | The Location's clasification. |
+| `mailAddress1` | The Location's street address. |
+| `mailAddress2` | The Location's street address. |
+| `mailCity` | The Location's city. |
+| `mailCountry` | The Location's street address. |
+| `mailPostalCode` | The Location's postal code. |
+| `mailStateProvince` | The Location's street state or province. |
+| `modified` | Last modified timestamp. |
+| `name` | The Location's name. |
+| `nameOfBusiness` | The name of the business at this location. |
+| `notes` | Note for delivery driver. |
+| `postalCode` | The Location's postal code. |
+| `stateProvince` | The Location's street state or province. |
+| `uniqueId` | Unique Identifier for the Location. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Load, Remove.
 
@@ -594,20 +594,20 @@ API path: `/locations`
 
 | Field | Description |
 | --- | --- |
-| `billingId` |  |
-| `clientCanOrderEquipment` |  |
-| `contact` |  |
-| `created` |  |
-| `id` |  |
-| `isActive` |  |
-| `location` |  |
-| `modified` |  |
-| `name` |  |
-| `parent` |  |
-| `partnerId` |  |
-| `reference` |  |
-| `verificationPhrase` |  |
-| `version` |  |
+| `billingId` | The Partner's billing identifier. |
+| `clientCanOrderEquipment` | This property indicates if the Partner is allowed to order Equipment. |
+| `contact` | Reference to the associated User resource. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `id` | This resource's unique identifier. |
+| `isActive` | This property indicates if the Parter account is active or disabled. |
+| `location` | Reference to the associated Location resource. |
+| `modified` | Last modified timestamp. |
+| `name` | The Partner's name. |
+| `parent` | Reference to the associated Partner. |
+| `partnerId` | The Partner's id. |
+| `reference` | The Partner's reference string. |
+| `verificationPhrase` | The verification phrase is a message that the Partner creates. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Load.
 
@@ -617,20 +617,20 @@ API path: `/partners`
 
 | Field | Description |
 | --- | --- |
-| `carrier` |  |
-| `client` |  |
-| `created` |  |
-| `dateReceived` |  |
-| `dateShipped` |  |
-| `dcKif` |  |
-| `id` |  |
+| `carrier` | The name of the courier. |
+| `client` | Reference to the associated Client resource. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `dateReceived` | The date and time that a package is recieved. |
+| `dateShipped` | The date and time that a package is shipped. |
+| `dcKif` | Reference to the associated KIF resource. |
+| `id` | This resource's unique identifier. |
 | `items` |  |
-| `kif` |  |
-| `modified` |  |
-| `partner` |  |
-| `shipmentType` |  |
-| `tracking` |  |
-| `version` |  |
+| `kif` | Reference to the associated KIF resource. |
+| `modified` | Last modified timestamp. |
+| `partner` | Reference to the associated Partner. |
+| `shipmentType` | The type of shipment. |
+| `tracking` | The courier's tracking number. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Load.
 
@@ -640,7 +640,7 @@ API path: `/shipments`
 
 | Field | Description |
 | --- | --- |
-| `success` |  |
+| `success` | Indicates if the action was a success. |
 
 Operations: Create, Remove.
 
@@ -650,30 +650,30 @@ API path: `/virtualDevices/{sharePartnerTo}`
 
 | Field | Description |
 | --- | --- |
-| `alternateKey` |  |
-| `client` |  |
-| `clientRef` |  |
-| `created` |  |
-| `decrypted` |  |
-| `deviceName` |  |
-| `directPartner` |  |
-| `encrypted` |  |
-| `endDate` |  |
-| `errCode` |  |
-| `errMessage` |  |
-| `id` |  |
-| `ipAddress` |  |
-| `isVirtual` |  |
-| `keyType` |  |
-| `location` |  |
-| `messageId` |  |
-| `method` |  |
-| `partner` |  |
-| `reference` |  |
-| `serialNumber` |  |
-| `startDate` |  |
-| `success` |  |
-| `transactionSource` |  |
+| `alternateKey` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `client` | Reference to the associated Client resource. |
+| `clientRef` | Client Reference property that is included in the decrypt API call. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `decrypted` | A Transcation can process muliple decryptions. |
+| `deviceName` | The name of the Device that generated the payload to decrypt. |
+| `directPartner` | Reference to the associated Partner. |
+| `encrypted` | A Transcation can process muliple encryptions. |
+| `endDate` | Timestamp from the end of the transaction. |
+| `errCode` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | The error messge that is sent in response to a failed decrypt API call. |
+| `id` | This resource's unique identifier. |
+| `ipAddress` | The IP address of the http client that makes the decrypt API call. |
+| `isVirtual` | Indicates if the Transaction came from a virtual Device. |
+| `keyType` | The type of cipher used during decrytion. |
+| `location` | Reference to the associated Location resource. |
+| `messageId` | Message ID. |
+| `method` | The decryption cypher/method. |
+| `partner` | Reference to the associated Partner. |
+| `reference` | The reference property that the Client includes in the decrypt API call. |
+| `serialNumber` | The serial number of the Device that generated the payload to decrypt. |
+| `startDate` | Timestamp from the beginning of the transaction. |
+| `success` | The success indicator. |
+| `transactionSource` | The source of the Transaction. |
 
 Operations: Create, List, Load.
 
@@ -683,18 +683,18 @@ API path: `/transactions`
 
 | Field | Description |
 | --- | --- |
-| `client` |  |
-| `email` |  |
-| `firstName` |  |
-| `id` |  |
-| `isActive` |  |
-| `kif` |  |
-| `lastName` |  |
-| `partner` |  |
-| `phone` |  |
-| `userName` |  |
-| `userRole` |  |
-| `version` |  |
+| `client` | Reference to the associated Client resource. |
+| `email` | The User's email address. |
+| `firstName` | The User's name. |
+| `id` | ID of newly created resource |
+| `isActive` | This property indicates if the User account is active or disabled. |
+| `kif` | Reference to the associated KIF resource. |
+| `lastName` | The User's Surname. |
+| `partner` | Reference to the associated Partner. |
+| `phone` | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | The User's unique username. |
+| `userRole` | Reference to the associated User Role. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Update.
 
@@ -704,20 +704,20 @@ API path: `/users`
 
 | Field | Description |
 | --- | --- |
-| `client` |  |
-| `created` |  |
-| `email` |  |
-| `firstName` |  |
-| `id` |  |
-| `isActive` |  |
-| `kif` |  |
-| `lastName` |  |
-| `modified` |  |
-| `partner` |  |
-| `phone` |  |
-| `userName` |  |
-| `userRole` |  |
-| `version` |  |
+| `client` | Reference to the associated Client resource. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `email` | The User's email address. |
+| `firstName` | The User's name. |
+| `id` | This resource's unique identifier. |
+| `isActive` | This property indicates if the User account is active or disabled. |
+| `kif` | Reference to the associated KIF resource. |
+| `lastName` | The User's Surname. |
+| `modified` | Last modified timestamp. |
+| `partner` | Reference to the associated Partner. |
+| `phone` | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | The User's unique username. |
+| `userRole` | Reference to the associated User Role. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: Load, Remove.
 
@@ -744,13 +744,13 @@ Create an instance: `let attestation = client.Attestation()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `client` | `VMap` |  |
-| `completeDate` | `String` |  |
-| `created` | `String` |  |
-| `device` | `VMap` |  |
-| `id` | `String` |  |
-| `name` | `String` |  |
-| `notes` | `String` |  |
+| `client` | `VMap` | Reference to the associated Client resource. |
+| `completeDate` | `String` | The date and time that the Attestation took place. |
+| `created` | `String` | Creation timestamp in ISO 8601 format. |
+| `device` | `VMap` | Reference to the associated Device resource. |
+| `id` | `String` | This resource's unique identifier. |
+| `name` | `String` | Text describing the attestation. |
+| `notes` | `String` | Free form field that allows the Client associate notes with the Attestation. |
 
 #### Example: Load
 
@@ -789,17 +789,17 @@ Create an instance: `let client = client.Client()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `contact` | `VMap` |  |
-| `created` | `String` |  |
-| `directPartner` | `VMap` |  |
-| `id` | `String` |  |
-| `isActive` | `Bool` |  |
-| `location` | `VMap` |  |
-| `mid` | `String` |  |
-| `modified` | `String` |  |
-| `name` | `String` |  |
-| `partner` | `VMap` |  |
-| `version` | `Int` |  |
+| `contact` | `VMap` | Reference to the associated User resource. |
+| `created` | `String` | Creation timestamp in ISO 8601 format. |
+| `directPartner` | `VMap` | Reference to the associated Partner. |
+| `id` | `String` | This resource's unique identifier. |
+| `isActive` | `Bool` | This property indicates if the Client account is active or disabled. |
+| `location` | `VMap` | Reference to the associated Location resource. |
+| `mid` | `String` | Some Partners will have an merchant ids on their own software offerings. |
+| `modified` | `String` | Last modified timestamp. |
+| `name` | `String` | The Client's name. |
+| `partner` | `VMap` | Reference to the Client's root Partner. |
+| `version` | `Int` | The number of times that this resource has been updated. |
 
 #### Example: Load
 
@@ -856,7 +856,7 @@ Create an instance: `let decryption = client.Decryption()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `success` | `Bool` |  |
+| `success` | `Bool` | true if the payload decryption was successful. |
 
 #### Example: Create
 
@@ -882,34 +882,34 @@ Create an instance: `let device = client.Device()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `activatedBy` | `VMap` |  |
-| `activationDate` | `String` |  |
-| `alternateKey` | `String` |  |
-| `auditNextDate` | `String` |  |
-| `auditNotificationDate` | `String` |  |
-| `client` | `VMap` |  |
-| `created` | `String` |  |
-| `createdBy` | `VMap` |  |
-| `deviceBuild` | `VMap` |  |
-| `deviceState` | `VMap` |  |
-| `deviceType` | `VMap` |  |
-| `errorCounter` | `Int` |  |
-| `errorLastDate` | `String` |  |
-| `id` | `String` |  |
-| `initializedBy` | `VMap` |  |
-| `initializedDate` | `String` |  |
-| `injectKey` | `VMap` |  |
-| `isVirtual` | `Bool` |  |
-| `kif` | `VMap` |  |
-| `lastActivityDate` | `String` |  |
-| `location` | `VMap` |  |
-| `modified` | `String` |  |
-| `modifiedBy` | `VMap` |  |
-| `name` | `String` |  |
-| `notes` | `String` |  |
-| `partner` | `VMap` |  |
-| `serialNumber` | `String` |  |
-| `version` | `Int` |  |
+| `activatedBy` | `VMap` | Reference to the associated User resource. |
+| `activationDate` | `String` | Timestamp from when the Device was activated. |
+| `alternateKey` | `String` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `String` | Date and time that the Device is due its next PCI Audit. |
+| `auditNotificationDate` | `String` | Date and time that a notification should be sent that a PCI audit is due. |
+| `client` | `VMap` | Reference to the associated Client resource. |
+| `created` | `String` | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `VMap` | Reference to the associated User resource. |
+| `deviceBuild` | `VMap` | Reference to the associated Device Build resource. |
+| `deviceState` | `VMap` | Reference to the associated Device State resource. |
+| `deviceType` | `VMap` | Reference to the associated Device Type resource. |
+| `errorCounter` | `Int` | The number times the Device has been in error. |
+| `errorLastDate` | `String` | Timestamp from the last time that the Device had an error. |
+| `id` | `String` | The Device's unique identifier. |
+| `initializedBy` | `VMap` | Reference to the associated User resource. |
+| `initializedDate` | `String` | Timestamp from when the Device was initialized. |
+| `injectKey` | `VMap` | Reference to the associated Device resource. |
+| `isVirtual` | `Bool` | Indicates if a Device is Virtual (represents a Device shared with a partner). |
+| `kif` | `VMap` | Reference to the associated KIF resource. |
+| `lastActivityDate` | `String` | Timestamp from the last time that the Device was used. |
+| `location` | `VMap` | Reference to the associated Location resource. |
+| `modified` | `String` | Last modified timestamp. |
+| `modifiedBy` | `VMap` | Reference to the associated User resource. |
+| `name` | `String` | The Device's name. |
+| `notes` | `String` | Arbitary note that can be attached to a Device entry. |
+| `partner` | `VMap` | Reference to the associated Partner. |
+| `serialNumber` | `String` | The Device's serial number. |
+| `version` | `Int` | The number of times that this resource has been updated. |
 
 #### Example: Load
 
@@ -951,21 +951,21 @@ Create an instance: `let deviceBuild = client.DeviceBuild()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `appVersion` | `String` |  |
-| `buildNumber` | `String` |  |
-| `configFileName` | `String` |  |
-| `created` | `String` |  |
-| `deviceType` | `String` |  |
-| `firmwareVersion` | `String` |  |
-| `hardwareVersion` | `String` |  |
-| `id` | `Int` |  |
-| `isActive` | `Bool` |  |
-| `modified` | `String` |  |
-| `name` | `String` |  |
-| `notes` | `String` |  |
-| `version` | `Int` |  |
-| `whiteListingBinRanges` | `String` |  |
-| `whiteListingUsed` | `Bool` |  |
+| `appVersion` | `String` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildNumber` | `String` | The Build Number. |
+| `configFileName` | `String` | The name of the configuration file that is uploaded to the device. |
+| `created` | `String` | Creation timestamp in ISO 8601 format. |
+| `deviceType` | `String` | The Device Type Name. |
+| `firmwareVersion` | `String` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `String` | A list of hardware versions that this Device Build covers. |
+| `id` | `Int` | This resource's unique identifier. |
+| `isActive` | `Bool` | This property indicates if the device build is still active and not succeeded by subsequent build. |
+| `modified` | `String` | Last modified timestamp. |
+| `name` | `String` | The Device Builds's name. |
+| `notes` | `String` | Notes attached to the device build by Bluefin CISO. |
+| `version` | `Int` | The number of times that this resource has been updated. |
+| `whiteListingBinRanges` | `String` | A comma separated list of BIN ranges that aren't encrypted by the terminal. |
+| `whiteListingUsed` | `Bool` | This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal. |
 
 #### Example: Load
 
@@ -994,19 +994,19 @@ Create an instance: `let deviceCustodyDetail = client.DeviceCustodyDetail()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `completeDate` | `String` |  |
-| `created` | `String` |  |
-| `createdBy` | `VMap` |  |
-| `custodian` | `VMap` |  |
-| `device` | `VMap` |  |
-| `id` | `Int` |  |
-| `location` | `VMap` |  |
-| `modified` | `String` |  |
-| `modifiedBy` | `VMap` |  |
-| `notes` | `String` |  |
-| `status` | `VMap` |  |
-| `transferMethod` | `VMap` |  |
-| `version` | `Int` |  |
+| `completeDate` | `String` | The date and time that the Custody change took place. |
+| `created` | `String` | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `VMap` | Reference to the associated User resource. |
+| `custodian` | `VMap` | Reference to the associated User resource. |
+| `device` | `VMap` | Reference to the associated Device resource. |
+| `id` | `Int` | This resource's unique identifier. |
+| `location` | `VMap` | Reference to the associated Location resource. |
+| `modified` | `String` | Last modified timestamp. |
+| `modifiedBy` | `VMap` | Reference to the associated User resource. |
+| `notes` | `String` | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | `VMap` | Reference to the associated Custody Status. |
+| `transferMethod` | `VMap` | Reference to the associated Transfer Method. |
+| `version` | `Int` | The number of times that this resource has been updated. |
 
 #### Example: Load
 
@@ -1029,19 +1029,19 @@ Create an instance: `let deviceCustodyList = client.DeviceCustodyList()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `completeDate` | `String` |  |
-| `created` | `String` |  |
-| `createdBy` | `VMap` |  |
-| `custodian` | `VMap` |  |
-| `device` | `VMap` |  |
-| `id` | `Int` |  |
-| `location` | `VMap` |  |
-| `modified` | `String` |  |
-| `modifiedBy` | `VMap` |  |
-| `notes` | `String` |  |
-| `status` | `VMap` |  |
-| `transferMethod` | `VMap` |  |
-| `version` | `Int` |  |
+| `completeDate` | `String` | The date and time that the Custody change took place. |
+| `created` | `String` | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `VMap` | Reference to the associated User resource. |
+| `custodian` | `VMap` | Reference to the associated User resource. |
+| `device` | `VMap` | Reference to the associated Device resource. |
+| `id` | `Int` | This resource's unique identifier. |
+| `location` | `VMap` | Reference to the associated Location resource. |
+| `modified` | `String` | Last modified timestamp. |
+| `modifiedBy` | `VMap` | Reference to the associated User resource. |
+| `notes` | `String` | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | `VMap` | Reference to the associated Custody Status. |
+| `transferMethod` | `VMap` | Reference to the associated Transfer Method. |
+| `version` | `Int` | The number of times that this resource has been updated. |
 
 #### Example: List
 
@@ -1064,8 +1064,8 @@ Create an instance: `let deviceList = client.DeviceList()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `[Value]` |  |
-| `total` | `Int` |  |
+| `data` | `[Value]` | List of Devices. |
+| `total` | `Int` | Total number of Devices available (not the number of Users in the response). |
 
 #### Example: Load
 
@@ -1088,7 +1088,7 @@ Create an instance: `let deviceReceiveResult = client.DeviceReceiveResult()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `success` | `Bool` |  |
+| `success` | `Bool` | Indicates if the action succeeded. |
 
 #### Example: Create
 
@@ -1113,7 +1113,7 @@ Create an instance: `let deviceRkiActivateResult = client.DeviceRkiActivateResul
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `success` | `Bool` |  |
+| `success` | `Bool` | Indicates if the RKI activation succeeded. |
 
 #### Example: Create
 
@@ -1138,8 +1138,8 @@ Create an instance: `let deviceState = client.DeviceState()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `id` | `Int` |  |
-| `name` | `String` |  |
+| `id` | `Int` | Unique identifier for this Device state. |
+| `name` | `String` | Descriptive name for this Device state. |
 
 #### Example: List
 
@@ -1163,18 +1163,18 @@ Create an instance: `let deviceType = client.DeviceType()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created` | `String` |  |
-| `deviceTypeMode` | `String` |  |
-| `hardwareVersion` | `String` |  |
-| `id` | `String` |  |
-| `isActive` | `Bool` |  |
-| `manufacturer` | `String` |  |
-| `model` | `String` |  |
-| `modified` | `String` |  |
-| `name` | `String` |  |
+| `created` | `String` | Creation timestamp in ISO 8601 format. |
+| `deviceTypeMode` | `String` | The Device type. |
+| `hardwareVersion` | `String` | The Device hardware version. |
+| `id` | `String` | Unique idenifier. |
+| `isActive` | `Bool` | This property indicates if the DeviceType is active. |
+| `manufacturer` | `String` | The Device manufacturer. |
+| `model` | `String` | The Device model. |
+| `modified` | `String` | Last modified timestamp. |
+| `name` | `String` | The DeviceType name. |
 | `photoUrl` | `String` |  |
-| `productName` | `String` |  |
-| `version` | `Int` |  |
+| `productName` | `String` | The Device name. |
+| `version` | `Int` | The number of times that this resource has been updated. |
 
 #### Example: Load
 
@@ -1204,14 +1204,14 @@ Create an instance: `let injectKey = client.InjectKey()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created` | `String` |  |
-| `id` | `String` |  |
-| `isActive` | `Bool` |  |
-| `isP2PE` | `Bool` |  |
-| `keyType` | `String` |  |
-| `modified` | `String` |  |
-| `name` | `String` |  |
-| `version` | `Int` |  |
+| `created` | `String` | Creation timestamp in ISO 8601 format. |
+| `id` | `String` | unique idenifier |
+| `isActive` | `Bool` | Active flag, inactive keys cannot be assigned to devices. |
+| `isP2PE` | `Bool` | Flags if a key is for a P2PE compliant cypher. |
+| `keyType` | `String` | The cipher type that the key works with. |
+| `modified` | `String` | Last modified timestamp in ISO 8601 format. |
+| `name` | `String` | Key name. |
+| `version` | `Int` | The number of times that this resource has been updated. |
 
 #### Example: Load
 
@@ -1240,8 +1240,8 @@ Create an instance: `let kif = client.Kif()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `id` | `Int` |  |
-| `name` | `String` |  |
+| `id` | `Int` | This resource's unique identifier. |
+| `name` | `String` | The KIF's name. |
 
 #### Example: List
 
@@ -1267,29 +1267,29 @@ Create an instance: `let location = client.Location()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `address1` | `String` |  |
-| `address2` | `String` |  |
-| `billingId` | `String` |  |
-| `city` | `String` |  |
-| `country` | `String` |  |
-| `created` | `String` |  |
-| `customReference` | `String` |  |
-| `id` | `String` |  |
-| `locationType` | `String` |  |
-| `mailAddress1` | `String` |  |
-| `mailAddress2` | `String` |  |
-| `mailCity` | `String` |  |
-| `mailCountry` | `String` |  |
-| `mailPostalCode` | `String` |  |
-| `mailStateProvince` | `String` |  |
-| `modified` | `String` |  |
-| `name` | `String` |  |
-| `nameOfBusiness` | `String` |  |
-| `notes` | `String` |  |
-| `postalCode` | `String` |  |
-| `stateProvince` | `String` |  |
-| `uniqueId` | `String` |  |
-| `version` | `Int` |  |
+| `address1` | `String` | The Location's street address. |
+| `address2` | `String` | The Location's street address. |
+| `billingId` | `String` | \? |
+| `city` | `String` | The Location's city. |
+| `country` | `String` | The Location's country. |
+| `created` | `String` | Creation timestamp in ISO 8601 format. |
+| `customReference` | `String` | A Partner specified reference for a location. |
+| `id` | `String` | This resource's unique identifier. |
+| `locationType` | `String` | The Location's clasification. |
+| `mailAddress1` | `String` | The Location's street address. |
+| `mailAddress2` | `String` | The Location's street address. |
+| `mailCity` | `String` | The Location's city. |
+| `mailCountry` | `String` | The Location's street address. |
+| `mailPostalCode` | `String` | The Location's postal code. |
+| `mailStateProvince` | `String` | The Location's street state or province. |
+| `modified` | `String` | Last modified timestamp. |
+| `name` | `String` | The Location's name. |
+| `nameOfBusiness` | `String` | The name of the business at this location. |
+| `notes` | `String` | Note for delivery driver. |
+| `postalCode` | `String` | The Location's postal code. |
+| `stateProvince` | `String` | The Location's street state or province. |
+| `uniqueId` | `String` | Unique Identifier for the Location. |
+| `version` | `Int` | The number of times that this resource has been updated. |
 
 #### Example: Load
 
@@ -1327,20 +1327,20 @@ Create an instance: `let partner = client.Partner()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `billingId` | `String` |  |
-| `clientCanOrderEquipment` | `Bool` |  |
-| `contact` | `VMap` |  |
-| `created` | `String` |  |
-| `id` | `String` |  |
-| `isActive` | `Bool` |  |
-| `location` | `VMap` |  |
-| `modified` | `String` |  |
-| `name` | `String` |  |
-| `parent` | `VMap` |  |
-| `partnerId` | `String` |  |
-| `reference` | `String` |  |
-| `verificationPhrase` | `String` |  |
-| `version` | `Int` |  |
+| `billingId` | `String` | The Partner's billing identifier. |
+| `clientCanOrderEquipment` | `Bool` | This property indicates if the Partner is allowed to order Equipment. |
+| `contact` | `VMap` | Reference to the associated User resource. |
+| `created` | `String` | Creation timestamp in ISO 8601 format. |
+| `id` | `String` | This resource's unique identifier. |
+| `isActive` | `Bool` | This property indicates if the Parter account is active or disabled. |
+| `location` | `VMap` | Reference to the associated Location resource. |
+| `modified` | `String` | Last modified timestamp. |
+| `name` | `String` | The Partner's name. |
+| `parent` | `VMap` | Reference to the associated Partner. |
+| `partnerId` | `String` | The Partner's id. |
+| `reference` | `String` | The Partner's reference string. |
+| `verificationPhrase` | `String` | The verification phrase is a message that the Partner creates. |
+| `version` | `Int` | The number of times that this resource has been updated. |
 
 #### Example: Load
 
@@ -1379,20 +1379,20 @@ Create an instance: `let shipment = client.Shipment()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `carrier` | `String` |  |
-| `client` | `VMap` |  |
-| `created` | `String` |  |
-| `dateReceived` | `String` |  |
-| `dateShipped` | `String` |  |
-| `dcKif` | `VMap` |  |
-| `id` | `String` |  |
+| `carrier` | `String` | The name of the courier. |
+| `client` | `VMap` | Reference to the associated Client resource. |
+| `created` | `String` | Creation timestamp in ISO 8601 format. |
+| `dateReceived` | `String` | The date and time that a package is recieved. |
+| `dateShipped` | `String` | The date and time that a package is shipped. |
+| `dcKif` | `VMap` | Reference to the associated KIF resource. |
+| `id` | `String` | This resource's unique identifier. |
 | `items` | `[Value]` |  |
-| `kif` | `VMap` |  |
-| `modified` | `String` |  |
-| `partner` | `VMap` |  |
-| `shipmentType` | `String` |  |
-| `tracking` | `String` |  |
-| `version` | `Int` |  |
+| `kif` | `VMap` | Reference to the associated KIF resource. |
+| `modified` | `String` | Last modified timestamp. |
+| `partner` | `VMap` | Reference to the associated Partner. |
+| `shipmentType` | `String` | The type of shipment. |
+| `tracking` | `String` | The courier's tracking number. |
+| `version` | `Int` | The number of times that this resource has been updated. |
 
 #### Example: Load
 
@@ -1429,7 +1429,7 @@ Create an instance: `let success = client.Success()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `success` | `Bool` |  |
+| `success` | `Bool` | Indicates if the action was a success. |
 
 #### Example: Create
 
@@ -1456,30 +1456,30 @@ Create an instance: `let transaction = client.Transaction()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `alternateKey` | `String` |  |
-| `client` | `VMap` |  |
-| `clientRef` | `String` |  |
-| `created` | `String` |  |
-| `decrypted` | `Int` |  |
-| `deviceName` | `String` |  |
-| `directPartner` | `VMap` |  |
-| `encrypted` | `Int` |  |
-| `endDate` | `String` |  |
-| `errCode` | `String` |  |
-| `errMessage` | `String` |  |
-| `id` | `String` |  |
-| `ipAddress` | `String` |  |
-| `isVirtual` | `Bool` |  |
-| `keyType` | `String` |  |
-| `location` | `VMap` |  |
-| `messageId` | `String` |  |
-| `method` | `String` |  |
-| `partner` | `VMap` |  |
-| `reference` | `String` |  |
-| `serialNumber` | `String` |  |
-| `startDate` | `String` |  |
-| `success` | `Bool` |  |
-| `transactionSource` | `String` |  |
+| `alternateKey` | `String` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `client` | `VMap` | Reference to the associated Client resource. |
+| `clientRef` | `String` | Client Reference property that is included in the decrypt API call. |
+| `created` | `String` | Creation timestamp in ISO 8601 format. |
+| `decrypted` | `Int` | A Transcation can process muliple decryptions. |
+| `deviceName` | `String` | The name of the Device that generated the payload to decrypt. |
+| `directPartner` | `VMap` | Reference to the associated Partner. |
+| `encrypted` | `Int` | A Transcation can process muliple encryptions. |
+| `endDate` | `String` | Timestamp from the end of the transaction. |
+| `errCode` | `String` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `String` | The error messge that is sent in response to a failed decrypt API call. |
+| `id` | `String` | This resource's unique identifier. |
+| `ipAddress` | `String` | The IP address of the http client that makes the decrypt API call. |
+| `isVirtual` | `Bool` | Indicates if the Transaction came from a virtual Device. |
+| `keyType` | `String` | The type of cipher used during decrytion. |
+| `location` | `VMap` | Reference to the associated Location resource. |
+| `messageId` | `String` | Message ID. |
+| `method` | `String` | The decryption cypher/method. |
+| `partner` | `VMap` | Reference to the associated Partner. |
+| `reference` | `String` | The reference property that the Client includes in the decrypt API call. |
+| `serialNumber` | `String` | The serial number of the Device that generated the payload to decrypt. |
+| `startDate` | `String` | Timestamp from the beginning of the transaction. |
+| `success` | `Bool` | The success indicator. |
+| `transactionSource` | `String` | The source of the Transaction. |
 
 #### Example: Load
 
@@ -1518,18 +1518,18 @@ Create an instance: `let updateResult = client.UpdateResult()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `client` | `VMap` |  |
-| `email` | `String` |  |
-| `firstName` | `String` |  |
-| `id` | `String` |  |
-| `isActive` | `Bool` |  |
-| `kif` | `VMap` |  |
-| `lastName` | `String` |  |
-| `partner` | `VMap` |  |
-| `phone` | `String` |  |
-| `userName` | `String` |  |
-| `userRole` | `VMap` |  |
-| `version` | `Int` |  |
+| `client` | `VMap` | Reference to the associated Client resource. |
+| `email` | `String` | The User's email address. |
+| `firstName` | `String` | The User's name. |
+| `id` | `String` | ID of newly created resource |
+| `isActive` | `Bool` | This property indicates if the User account is active or disabled. |
+| `kif` | `VMap` | Reference to the associated KIF resource. |
+| `lastName` | `String` | The User's Surname. |
+| `partner` | `VMap` | Reference to the associated Partner. |
+| `phone` | `String` | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | `String` | The User's unique username. |
+| `userRole` | `VMap` | Reference to the associated User Role. |
+| `version` | `Int` | The number of times that this resource has been updated. |
 
 #### Example: List
 
@@ -1560,20 +1560,20 @@ Create an instance: `let user = client.User()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `client` | `VMap` |  |
-| `created` | `String` |  |
-| `email` | `String` |  |
-| `firstName` | `String` |  |
-| `id` | `String` |  |
-| `isActive` | `Bool` |  |
-| `kif` | `VMap` |  |
-| `lastName` | `String` |  |
-| `modified` | `String` |  |
-| `partner` | `VMap` |  |
-| `phone` | `String` |  |
-| `userName` | `String` |  |
-| `userRole` | `VMap` |  |
-| `version` | `Int` |  |
+| `client` | `VMap` | Reference to the associated Client resource. |
+| `created` | `String` | Creation timestamp in ISO 8601 format. |
+| `email` | `String` | The User's email address. |
+| `firstName` | `String` | The User's name. |
+| `id` | `String` | This resource's unique identifier. |
+| `isActive` | `Bool` | This property indicates if the User account is active or disabled. |
+| `kif` | `VMap` | Reference to the associated KIF resource. |
+| `lastName` | `String` | The User's Surname. |
+| `modified` | `String` | Last modified timestamp. |
+| `partner` | `VMap` | Reference to the associated Partner. |
+| `phone` | `String` | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | `String` | The User's unique username. |
+| `userRole` | `VMap` | Reference to the associated User Role. |
+| `version` | `Int` | The number of times that this resource has been updated. |
 
 #### Example: Load
 

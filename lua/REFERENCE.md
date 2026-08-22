@@ -175,13 +175,13 @@ local attestation = client:Attestation(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `client` | `table` | No |  |
-| `completeDate` | `string` | No |  |
-| `created` | `string` | No |  |
-| `device` | `table` | No |  |
-| `id` | `string` | No |  |
-| `name` | `string` | No |  |
-| `notes` | `string` | No |  |
+| `client` | `table` | No | Reference to the associated Client resource. |
+| `completeDate` | `string` | No | The date and time that the Attestation took place. |
+| `created` | `string` | No | Creation timestamp in ISO 8601 format. |
+| `device` | `table` | No | Reference to the associated Device resource. |
+| `id` | `string` | No | This resource's unique identifier. |
+| `name` | `string` | No | Text describing the attestation. |
+| `notes` | `string` | No | Free form field that allows the Client associate notes with the Attestation. |
 
 ### Operations
 
@@ -250,17 +250,17 @@ local client_ = client:Client(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `contact` | `table` | No |  |
-| `created` | `string` | No |  |
-| `directPartner` | `table` | No |  |
-| `id` | `string` | No |  |
-| `isActive` | `boolean` | No |  |
-| `location` | `table` | Yes |  |
-| `mid` | `string` | No |  |
-| `modified` | `string` | No |  |
-| `name` | `string` | No |  |
-| `partner` | `table` | No |  |
-| `version` | `number` | No |  |
+| `contact` | `table` | No | Reference to the associated User resource. |
+| `created` | `string` | No | Creation timestamp in ISO 8601 format. |
+| `directPartner` | `table` | No | Reference to the associated Partner. |
+| `id` | `string` | No | This resource's unique identifier. |
+| `isActive` | `boolean` | No | This property indicates if the Client account is active or disabled. |
+| `location` | `table` | Yes | Reference to the associated Location resource. |
+| `mid` | `string` | No | Some Partners will have an merchant ids on their own software offerings. |
+| `modified` | `string` | No | Last modified timestamp. |
+| `name` | `string` | No | The Client's name. |
+| `partner` | `table` | No | Reference to the Client's root Partner. |
+| `version` | `number` | No | The number of times that this resource has been updated. |
 
 ### Field Usage by Operation
 
@@ -403,7 +403,7 @@ local decryption = client:Decryption(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `boolean` | No |  |
+| `success` | `boolean` | No | true if the payload decryption was successful. |
 
 ### Operations
 
@@ -456,34 +456,34 @@ local device = client:Device(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `activatedBy` | `table` | Yes |  |
-| `activationDate` | `string` | No |  |
-| `alternateKey` | `string` | No |  |
-| `auditNextDate` | `string` | No |  |
-| `auditNotificationDate` | `string` | No |  |
-| `client` | `table` | No |  |
-| `created` | `string` | No |  |
-| `createdBy` | `table` | Yes |  |
-| `deviceBuild` | `table` | No |  |
-| `deviceState` | `table` | No |  |
-| `deviceType` | `table` | No |  |
-| `errorCounter` | `number` | No |  |
-| `errorLastDate` | `string` | No |  |
-| `id` | `string` | No |  |
-| `initializedBy` | `table` | Yes |  |
-| `initializedDate` | `string` | No |  |
-| `injectKey` | `table` | No |  |
-| `isVirtual` | `boolean` | No |  |
-| `kif` | `table` | No |  |
-| `lastActivityDate` | `string` | No |  |
-| `location` | `table` | Yes |  |
-| `modified` | `string` | No |  |
-| `modifiedBy` | `table` | Yes |  |
-| `name` | `string` | No |  |
-| `notes` | `string` | No |  |
-| `partner` | `table` | No |  |
-| `serialNumber` | `string` | No |  |
-| `version` | `number` | No |  |
+| `activatedBy` | `table` | Yes | Reference to the associated User resource. |
+| `activationDate` | `string` | No | Timestamp from when the Device was activated. |
+| `alternateKey` | `string` | No | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `string` | No | Date and time that the Device is due its next PCI Audit. |
+| `auditNotificationDate` | `string` | No | Date and time that a notification should be sent that a PCI audit is due. |
+| `client` | `table` | No | Reference to the associated Client resource. |
+| `created` | `string` | No | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `table` | Yes | Reference to the associated User resource. |
+| `deviceBuild` | `table` | No | Reference to the associated Device Build resource. |
+| `deviceState` | `table` | No | Reference to the associated Device State resource. |
+| `deviceType` | `table` | No | Reference to the associated Device Type resource. |
+| `errorCounter` | `number` | No | The number times the Device has been in error. |
+| `errorLastDate` | `string` | No | Timestamp from the last time that the Device had an error. |
+| `id` | `string` | No | The Device's unique identifier. |
+| `initializedBy` | `table` | Yes | Reference to the associated User resource. |
+| `initializedDate` | `string` | No | Timestamp from when the Device was initialized. |
+| `injectKey` | `table` | No | Reference to the associated Device resource. |
+| `isVirtual` | `boolean` | No | Indicates if a Device is Virtual (represents a Device shared with a partner). |
+| `kif` | `table` | No | Reference to the associated KIF resource. |
+| `lastActivityDate` | `string` | No | Timestamp from the last time that the Device was used. |
+| `location` | `table` | Yes | Reference to the associated Location resource. |
+| `modified` | `string` | No | Last modified timestamp. |
+| `modifiedBy` | `table` | Yes | Reference to the associated User resource. |
+| `name` | `string` | No | The Device's name. |
+| `notes` | `string` | No | Arbitary note that can be attached to a Device entry. |
+| `partner` | `table` | No | Reference to the associated Partner. |
+| `serialNumber` | `string` | No | The Device's serial number. |
+| `version` | `number` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -557,21 +557,21 @@ local device_build = client:DeviceBuild(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `appVersion` | `string` | No |  |
-| `buildNumber` | `string` | No |  |
-| `configFileName` | `string` | No |  |
-| `created` | `string` | No |  |
-| `deviceType` | `string` | No |  |
-| `firmwareVersion` | `string` | No |  |
-| `hardwareVersion` | `string` | No |  |
-| `id` | `number` | No |  |
-| `isActive` | `boolean` | No |  |
-| `modified` | `string` | No |  |
-| `name` | `string` | No |  |
-| `notes` | `string` | No |  |
-| `version` | `number` | No |  |
-| `whiteListingBinRanges` | `string` | No |  |
-| `whiteListingUsed` | `boolean` | No |  |
+| `appVersion` | `string` | No | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildNumber` | `string` | No | The Build Number. |
+| `configFileName` | `string` | No | The name of the configuration file that is uploaded to the device. |
+| `created` | `string` | No | Creation timestamp in ISO 8601 format. |
+| `deviceType` | `string` | No | The Device Type Name. |
+| `firmwareVersion` | `string` | No | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `string` | No | A list of hardware versions that this Device Build covers. |
+| `id` | `number` | No | This resource's unique identifier. |
+| `isActive` | `boolean` | No | This property indicates if the device build is still active and not succeeded by subsequent build. |
+| `modified` | `string` | No | Last modified timestamp. |
+| `name` | `string` | No | The Device Builds's name. |
+| `notes` | `string` | No | Notes attached to the device build by Bluefin CISO. |
+| `version` | `number` | No | The number of times that this resource has been updated. |
+| `whiteListingBinRanges` | `string` | No | A comma separated list of BIN ranges that aren't encrypted by the terminal. |
+| `whiteListingUsed` | `boolean` | No | This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal. |
 
 ### Operations
 
@@ -631,19 +631,19 @@ local device_custody_detail = client:DeviceCustodyDetail(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `completeDate` | `string` | No |  |
-| `created` | `string` | No |  |
-| `createdBy` | `table` | Yes |  |
-| `custodian` | `table` | Yes |  |
-| `device` | `table` | No |  |
-| `id` | `number` | No |  |
-| `location` | `table` | Yes |  |
-| `modified` | `string` | No |  |
-| `modifiedBy` | `table` | Yes |  |
-| `notes` | `string` | No |  |
-| `status` | `table` | No |  |
-| `transferMethod` | `table` | No |  |
-| `version` | `number` | No |  |
+| `completeDate` | `string` | No | The date and time that the Custody change took place. |
+| `created` | `string` | No | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `table` | Yes | Reference to the associated User resource. |
+| `custodian` | `table` | Yes | Reference to the associated User resource. |
+| `device` | `table` | No | Reference to the associated Device resource. |
+| `id` | `number` | No | This resource's unique identifier. |
+| `location` | `table` | Yes | Reference to the associated Location resource. |
+| `modified` | `string` | No | Last modified timestamp. |
+| `modifiedBy` | `table` | Yes | Reference to the associated User resource. |
+| `notes` | `string` | No | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | `table` | No | Reference to the associated Custody Status. |
+| `transferMethod` | `table` | No | Reference to the associated Transfer Method. |
+| `version` | `number` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -695,19 +695,19 @@ local device_custody_list = client:DeviceCustodyList(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `completeDate` | `string` | No |  |
-| `created` | `string` | No |  |
-| `createdBy` | `table` | Yes |  |
-| `custodian` | `table` | Yes |  |
-| `device` | `table` | No |  |
-| `id` | `number` | No |  |
-| `location` | `table` | Yes |  |
-| `modified` | `string` | No |  |
-| `modifiedBy` | `table` | Yes |  |
-| `notes` | `string` | No |  |
-| `status` | `table` | No |  |
-| `transferMethod` | `table` | No |  |
-| `version` | `number` | No |  |
+| `completeDate` | `string` | No | The date and time that the Custody change took place. |
+| `created` | `string` | No | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `table` | Yes | Reference to the associated User resource. |
+| `custodian` | `table` | Yes | Reference to the associated User resource. |
+| `device` | `table` | No | Reference to the associated Device resource. |
+| `id` | `number` | No | This resource's unique identifier. |
+| `location` | `table` | Yes | Reference to the associated Location resource. |
+| `modified` | `string` | No | Last modified timestamp. |
+| `modifiedBy` | `table` | Yes | Reference to the associated User resource. |
+| `notes` | `string` | No | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | `table` | No | Reference to the associated Custody Status. |
+| `transferMethod` | `table` | No | Reference to the associated Transfer Method. |
+| `version` | `number` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -759,8 +759,8 @@ local device_list = client:DeviceList(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `table` | No |  |
-| `total` | `number` | No |  |
+| `data` | `table` | No | List of Devices. |
+| `total` | `number` | No | Total number of Devices available (not the number of Users in the response). |
 
 ### Operations
 
@@ -812,7 +812,7 @@ local device_receive_result = client:DeviceReceiveResult(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `boolean` | Yes |  |
+| `success` | `boolean` | Yes | Indicates if the action succeeded. |
 
 ### Operations
 
@@ -866,7 +866,7 @@ local device_rki_activate_result = client:DeviceRkiActivateResult(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `boolean` | Yes |  |
+| `success` | `boolean` | Yes | Indicates if the RKI activation succeeded. |
 
 ### Operations
 
@@ -920,8 +920,8 @@ local device_state = client:DeviceState(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `number` | No |  |
-| `name` | `string` | No |  |
+| `id` | `number` | No | Unique identifier for this Device state. |
+| `name` | `string` | No | Descriptive name for this Device state. |
 
 ### Operations
 
@@ -973,18 +973,18 @@ local device_type = client:DeviceType(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created` | `string` | No |  |
-| `deviceTypeMode` | `string` | No |  |
-| `hardwareVersion` | `string` | No |  |
-| `id` | `string` | No |  |
-| `isActive` | `boolean` | No |  |
-| `manufacturer` | `string` | No |  |
-| `model` | `string` | No |  |
-| `modified` | `string` | No |  |
-| `name` | `string` | No |  |
+| `created` | `string` | No | Creation timestamp in ISO 8601 format. |
+| `deviceTypeMode` | `string` | No | The Device type. |
+| `hardwareVersion` | `string` | No | The Device hardware version. |
+| `id` | `string` | No | Unique idenifier. |
+| `isActive` | `boolean` | No | This property indicates if the DeviceType is active. |
+| `manufacturer` | `string` | No | The Device manufacturer. |
+| `model` | `string` | No | The Device model. |
+| `modified` | `string` | No | Last modified timestamp. |
+| `name` | `string` | No | The DeviceType name. |
 | `photoUrl` | `string` | No |  |
-| `productName` | `string` | No |  |
-| `version` | `number` | No |  |
+| `productName` | `string` | No | The Device name. |
+| `version` | `number` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1044,14 +1044,14 @@ local inject_key = client:InjectKey(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created` | `string` | No |  |
-| `id` | `string` | No |  |
-| `isActive` | `boolean` | No |  |
-| `isP2PE` | `boolean` | No |  |
-| `keyType` | `string` | No |  |
-| `modified` | `string` | No |  |
-| `name` | `string` | No |  |
-| `version` | `number` | No |  |
+| `created` | `string` | No | Creation timestamp in ISO 8601 format. |
+| `id` | `string` | No | unique idenifier |
+| `isActive` | `boolean` | No | Active flag, inactive keys cannot be assigned to devices. |
+| `isP2PE` | `boolean` | No | Flags if a key is for a P2PE compliant cypher. |
+| `keyType` | `string` | No | The cipher type that the key works with. |
+| `modified` | `string` | No | Last modified timestamp in ISO 8601 format. |
+| `name` | `string` | No | Key name. |
+| `version` | `number` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1111,8 +1111,8 @@ local kif = client:Kif(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `number` | No |  |
-| `name` | `string` | No |  |
+| `id` | `number` | No | This resource's unique identifier. |
+| `name` | `string` | No | The KIF's name. |
 
 ### Operations
 
@@ -1164,29 +1164,29 @@ local location = client:Location(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `address1` | `string` | No |  |
-| `address2` | `string` | No |  |
-| `billingId` | `string` | No |  |
-| `city` | `string` | No |  |
-| `country` | `string` | No |  |
-| `created` | `string` | No |  |
-| `customReference` | `string` | No |  |
-| `id` | `string` | No |  |
-| `locationType` | `string` | No |  |
-| `mailAddress1` | `string` | No |  |
-| `mailAddress2` | `string` | No |  |
-| `mailCity` | `string` | No |  |
-| `mailCountry` | `string` | No |  |
-| `mailPostalCode` | `string` | No |  |
-| `mailStateProvince` | `string` | No |  |
-| `modified` | `string` | No |  |
-| `name` | `string` | No |  |
-| `nameOfBusiness` | `string` | No |  |
-| `notes` | `string` | No |  |
-| `postalCode` | `string` | No |  |
-| `stateProvince` | `string` | No |  |
-| `uniqueId` | `string` | No |  |
-| `version` | `number` | No |  |
+| `address1` | `string` | No | The Location's street address. |
+| `address2` | `string` | No | The Location's street address. |
+| `billingId` | `string` | No | \? |
+| `city` | `string` | No | The Location's city. |
+| `country` | `string` | No | The Location's country. |
+| `created` | `string` | No | Creation timestamp in ISO 8601 format. |
+| `customReference` | `string` | No | A Partner specified reference for a location. |
+| `id` | `string` | No | This resource's unique identifier. |
+| `locationType` | `string` | No | The Location's clasification. |
+| `mailAddress1` | `string` | No | The Location's street address. |
+| `mailAddress2` | `string` | No | The Location's street address. |
+| `mailCity` | `string` | No | The Location's city. |
+| `mailCountry` | `string` | No | The Location's street address. |
+| `mailPostalCode` | `string` | No | The Location's postal code. |
+| `mailStateProvince` | `string` | No | The Location's street state or province. |
+| `modified` | `string` | No | Last modified timestamp. |
+| `name` | `string` | No | The Location's name. |
+| `nameOfBusiness` | `string` | No | The name of the business at this location. |
+| `notes` | `string` | No | Note for delivery driver. |
+| `postalCode` | `string` | No | The Location's postal code. |
+| `stateProvince` | `string` | No | The Location's street state or province. |
+| `uniqueId` | `string` | No | Unique Identifier for the Location. |
+| `version` | `number` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1263,20 +1263,20 @@ local partner = client:Partner(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `billingId` | `string` | No |  |
-| `clientCanOrderEquipment` | `boolean` | No |  |
-| `contact` | `table` | No |  |
-| `created` | `string` | No |  |
-| `id` | `string` | No |  |
-| `isActive` | `boolean` | No |  |
-| `location` | `table` | Yes |  |
-| `modified` | `string` | No |  |
-| `name` | `string` | No |  |
-| `parent` | `table` | No |  |
-| `partnerId` | `string` | No |  |
-| `reference` | `string` | No |  |
-| `verificationPhrase` | `string` | No |  |
-| `version` | `number` | No |  |
+| `billingId` | `string` | No | The Partner's billing identifier. |
+| `clientCanOrderEquipment` | `boolean` | No | This property indicates if the Partner is allowed to order Equipment. |
+| `contact` | `table` | No | Reference to the associated User resource. |
+| `created` | `string` | No | Creation timestamp in ISO 8601 format. |
+| `id` | `string` | No | This resource's unique identifier. |
+| `isActive` | `boolean` | No | This property indicates if the Parter account is active or disabled. |
+| `location` | `table` | Yes | Reference to the associated Location resource. |
+| `modified` | `string` | No | Last modified timestamp. |
+| `name` | `string` | No | The Partner's name. |
+| `parent` | `table` | No | Reference to the associated Partner. |
+| `partnerId` | `string` | No | The Partner's id. |
+| `reference` | `string` | No | The Partner's reference string. |
+| `verificationPhrase` | `string` | No | The verification phrase is a message that the Partner creates. |
+| `version` | `number` | No | The number of times that this resource has been updated. |
 
 ### Field Usage by Operation
 
@@ -1365,20 +1365,20 @@ local shipment = client:Shipment(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `carrier` | `string` | No |  |
-| `client` | `table` | No |  |
-| `created` | `string` | No |  |
-| `dateReceived` | `string` | No |  |
-| `dateShipped` | `string` | No |  |
-| `dcKif` | `table` | No |  |
-| `id` | `string` | No |  |
+| `carrier` | `string` | No | The name of the courier. |
+| `client` | `table` | No | Reference to the associated Client resource. |
+| `created` | `string` | No | Creation timestamp in ISO 8601 format. |
+| `dateReceived` | `string` | No | The date and time that a package is recieved. |
+| `dateShipped` | `string` | No | The date and time that a package is shipped. |
+| `dcKif` | `table` | No | Reference to the associated KIF resource. |
+| `id` | `string` | No | This resource's unique identifier. |
 | `items` | `table` | No |  |
-| `kif` | `table` | No |  |
-| `modified` | `string` | No |  |
-| `partner` | `table` | No |  |
-| `shipmentType` | `string` | No |  |
-| `tracking` | `string` | No |  |
-| `version` | `number` | No |  |
+| `kif` | `table` | No | Reference to the associated KIF resource. |
+| `modified` | `string` | No | Last modified timestamp. |
+| `partner` | `table` | No | Reference to the associated Partner. |
+| `shipmentType` | `string` | No | The type of shipment. |
+| `tracking` | `string` | No | The courier's tracking number. |
+| `version` | `number` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1447,7 +1447,7 @@ local success = client:Success(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `boolean` | No |  |
+| `success` | `boolean` | No | Indicates if the action was a success. |
 
 ### Operations
 
@@ -1509,30 +1509,30 @@ local transaction = client:Transaction(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `alternateKey` | `string` | No |  |
-| `client` | `table` | No |  |
-| `clientRef` | `string` | No |  |
-| `created` | `string` | No |  |
-| `decrypted` | `number` | No |  |
-| `deviceName` | `string` | No |  |
-| `directPartner` | `table` | No |  |
-| `encrypted` | `number` | No |  |
-| `endDate` | `string` | No |  |
-| `errCode` | `string` | No |  |
-| `errMessage` | `string` | No |  |
-| `id` | `string` | No |  |
-| `ipAddress` | `string` | No |  |
-| `isVirtual` | `boolean` | No |  |
-| `keyType` | `string` | No |  |
-| `location` | `table` | Yes |  |
-| `messageId` | `string` | No |  |
-| `method` | `string` | No |  |
-| `partner` | `table` | No |  |
-| `reference` | `string` | No |  |
-| `serialNumber` | `string` | No |  |
-| `startDate` | `string` | No |  |
-| `success` | `boolean` | No |  |
-| `transactionSource` | `string` | No |  |
+| `alternateKey` | `string` | No | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `client` | `table` | No | Reference to the associated Client resource. |
+| `clientRef` | `string` | No | Client Reference property that is included in the decrypt API call. |
+| `created` | `string` | No | Creation timestamp in ISO 8601 format. |
+| `decrypted` | `number` | No | A Transcation can process muliple decryptions. |
+| `deviceName` | `string` | No | The name of the Device that generated the payload to decrypt. |
+| `directPartner` | `table` | No | Reference to the associated Partner. |
+| `encrypted` | `number` | No | A Transcation can process muliple encryptions. |
+| `endDate` | `string` | No | Timestamp from the end of the transaction. |
+| `errCode` | `string` | No | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `string` | No | The error messge that is sent in response to a failed decrypt API call. |
+| `id` | `string` | No | This resource's unique identifier. |
+| `ipAddress` | `string` | No | The IP address of the http client that makes the decrypt API call. |
+| `isVirtual` | `boolean` | No | Indicates if the Transaction came from a virtual Device. |
+| `keyType` | `string` | No | The type of cipher used during decrytion. |
+| `location` | `table` | Yes | Reference to the associated Location resource. |
+| `messageId` | `string` | No | Message ID. |
+| `method` | `string` | No | The decryption cypher/method. |
+| `partner` | `table` | No | Reference to the associated Partner. |
+| `reference` | `string` | No | The reference property that the Client includes in the decrypt API call. |
+| `serialNumber` | `string` | No | The serial number of the Device that generated the payload to decrypt. |
+| `startDate` | `string` | No | Timestamp from the beginning of the transaction. |
+| `success` | `boolean` | No | The success indicator. |
+| `transactionSource` | `string` | No | The source of the Transaction. |
 
 ### Operations
 
@@ -1602,18 +1602,18 @@ local update_result = client:UpdateResult(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `client` | `table` | No |  |
-| `email` | `string` | No |  |
-| `firstName` | `string` | No |  |
-| `id` | `string` | No |  |
-| `isActive` | `boolean` | No |  |
-| `kif` | `table` | No |  |
-| `lastName` | `string` | No |  |
-| `partner` | `table` | No |  |
-| `phone` | `string` | No |  |
-| `userName` | `string` | No |  |
-| `userRole` | `table` | No |  |
-| `version` | `number` | No |  |
+| `client` | `table` | No | Reference to the associated Client resource. |
+| `email` | `string` | No | The User's email address. |
+| `firstName` | `string` | No | The User's name. |
+| `id` | `string` | No | ID of newly created resource |
+| `isActive` | `boolean` | No | This property indicates if the User account is active or disabled. |
+| `kif` | `table` | No | Reference to the associated KIF resource. |
+| `lastName` | `string` | No | The User's Surname. |
+| `partner` | `table` | No | Reference to the associated Partner. |
+| `phone` | `string` | No | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | `string` | No | The User's unique username. |
+| `userRole` | `table` | No | Reference to the associated User Role. |
+| `version` | `number` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1685,20 +1685,20 @@ local user = client:User(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `client` | `table` | No |  |
-| `created` | `string` | No |  |
-| `email` | `string` | No |  |
-| `firstName` | `string` | No |  |
-| `id` | `string` | No |  |
-| `isActive` | `boolean` | No |  |
-| `kif` | `table` | No |  |
-| `lastName` | `string` | No |  |
-| `modified` | `string` | No |  |
-| `partner` | `table` | No |  |
-| `phone` | `string` | No |  |
-| `userName` | `string` | No |  |
-| `userRole` | `table` | No |  |
-| `version` | `number` | No |  |
+| `client` | `table` | No | Reference to the associated Client resource. |
+| `created` | `string` | No | Creation timestamp in ISO 8601 format. |
+| `email` | `string` | No | The User's email address. |
+| `firstName` | `string` | No | The User's name. |
+| `id` | `string` | No | This resource's unique identifier. |
+| `isActive` | `boolean` | No | This property indicates if the User account is active or disabled. |
+| `kif` | `table` | No | Reference to the associated KIF resource. |
+| `lastName` | `string` | No | The User's Surname. |
+| `modified` | `string` | No | Last modified timestamp. |
+| `partner` | `table` | No | Reference to the associated Partner. |
+| `phone` | `string` | No | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | `string` | No | The User's unique username. |
+| `userRole` | `table` | No | Reference to the associated User Role. |
+| `version` | `number` | No | The number of times that this resource has been updated. |
 
 ### Operations
 

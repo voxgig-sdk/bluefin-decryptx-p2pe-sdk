@@ -171,13 +171,13 @@ attestation = BluefinDecryptxP2pe.attestation(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `client` | `map()` | No |  |
-| `completeDate` | `String.t()` | No |  |
-| `created` | `String.t()` | No |  |
-| `device` | `map()` | No |  |
-| `id` | `String.t()` | No |  |
-| `name` | `String.t()` | No |  |
-| `notes` | `String.t()` | No |  |
+| `client` | `map()` | No | Reference to the associated Client resource. |
+| `completeDate` | `String.t()` | No | The date and time that the Attestation took place. |
+| `created` | `String.t()` | No | Creation timestamp in ISO 8601 format. |
+| `device` | `map()` | No | Reference to the associated Device resource. |
+| `id` | `String.t()` | No | This resource's unique identifier. |
+| `name` | `String.t()` | No | Text describing the attestation. |
+| `notes` | `String.t()` | No | Free form field that allows the Client associate notes with the Attestation. |
 
 ### Operations
 
@@ -245,17 +245,17 @@ client = BluefinDecryptxP2pe.client(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `contact` | `map()` | No |  |
-| `created` | `String.t()` | No |  |
-| `directPartner` | `map()` | No |  |
-| `id` | `String.t()` | No |  |
-| `isActive` | `boolean()` | No |  |
-| `location` | `map()` | Yes |  |
-| `mid` | `String.t()` | No |  |
-| `modified` | `String.t()` | No |  |
-| `name` | `String.t()` | No |  |
-| `partner` | `map()` | No |  |
-| `version` | `integer()` | No |  |
+| `contact` | `map()` | No | Reference to the associated User resource. |
+| `created` | `String.t()` | No | Creation timestamp in ISO 8601 format. |
+| `directPartner` | `map()` | No | Reference to the associated Partner. |
+| `id` | `String.t()` | No | This resource's unique identifier. |
+| `isActive` | `boolean()` | No | This property indicates if the Client account is active or disabled. |
+| `location` | `map()` | Yes | Reference to the associated Location resource. |
+| `mid` | `String.t()` | No | Some Partners will have an merchant ids on their own software offerings. |
+| `modified` | `String.t()` | No | Last modified timestamp. |
+| `name` | `String.t()` | No | The Client's name. |
+| `partner` | `map()` | No | Reference to the Client's root Partner. |
+| `version` | `integer()` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -380,7 +380,7 @@ decryption = BluefinDecryptxP2pe.decryption(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `boolean()` | No |  |
+| `success` | `boolean()` | No | true if the payload decryption was successful. |
 
 ### Operations
 
@@ -432,34 +432,34 @@ device = BluefinDecryptxP2pe.device(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `activatedBy` | `map()` | Yes |  |
-| `activationDate` | `String.t()` | No |  |
-| `alternateKey` | `String.t()` | No |  |
-| `auditNextDate` | `String.t()` | No |  |
-| `auditNotificationDate` | `String.t()` | No |  |
-| `client` | `map()` | No |  |
-| `created` | `String.t()` | No |  |
-| `createdBy` | `map()` | Yes |  |
-| `deviceBuild` | `map()` | No |  |
-| `deviceState` | `map()` | No |  |
-| `deviceType` | `map()` | No |  |
-| `errorCounter` | `integer()` | No |  |
-| `errorLastDate` | `String.t()` | No |  |
-| `id` | `String.t()` | No |  |
-| `initializedBy` | `map()` | Yes |  |
-| `initializedDate` | `String.t()` | No |  |
-| `injectKey` | `map()` | No |  |
-| `isVirtual` | `boolean()` | No |  |
-| `kif` | `map()` | No |  |
-| `lastActivityDate` | `String.t()` | No |  |
-| `location` | `map()` | Yes |  |
-| `modified` | `String.t()` | No |  |
-| `modifiedBy` | `map()` | Yes |  |
-| `name` | `String.t()` | No |  |
-| `notes` | `String.t()` | No |  |
-| `partner` | `map()` | No |  |
-| `serialNumber` | `String.t()` | No |  |
-| `version` | `integer()` | No |  |
+| `activatedBy` | `map()` | Yes | Reference to the associated User resource. |
+| `activationDate` | `String.t()` | No | Timestamp from when the Device was activated. |
+| `alternateKey` | `String.t()` | No | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `String.t()` | No | Date and time that the Device is due its next PCI Audit. |
+| `auditNotificationDate` | `String.t()` | No | Date and time that a notification should be sent that a PCI audit is due. |
+| `client` | `map()` | No | Reference to the associated Client resource. |
+| `created` | `String.t()` | No | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `map()` | Yes | Reference to the associated User resource. |
+| `deviceBuild` | `map()` | No | Reference to the associated Device Build resource. |
+| `deviceState` | `map()` | No | Reference to the associated Device State resource. |
+| `deviceType` | `map()` | No | Reference to the associated Device Type resource. |
+| `errorCounter` | `integer()` | No | The number times the Device has been in error. |
+| `errorLastDate` | `String.t()` | No | Timestamp from the last time that the Device had an error. |
+| `id` | `String.t()` | No | The Device's unique identifier. |
+| `initializedBy` | `map()` | Yes | Reference to the associated User resource. |
+| `initializedDate` | `String.t()` | No | Timestamp from when the Device was initialized. |
+| `injectKey` | `map()` | No | Reference to the associated Device resource. |
+| `isVirtual` | `boolean()` | No | Indicates if a Device is Virtual (represents a Device shared with a partner). |
+| `kif` | `map()` | No | Reference to the associated KIF resource. |
+| `lastActivityDate` | `String.t()` | No | Timestamp from the last time that the Device was used. |
+| `location` | `map()` | Yes | Reference to the associated Location resource. |
+| `modified` | `String.t()` | No | Last modified timestamp. |
+| `modifiedBy` | `map()` | Yes | Reference to the associated User resource. |
+| `name` | `String.t()` | No | The Device's name. |
+| `notes` | `String.t()` | No | Arbitary note that can be attached to a Device entry. |
+| `partner` | `map()` | No | Reference to the associated Partner. |
+| `serialNumber` | `String.t()` | No | The Device's serial number. |
+| `version` | `integer()` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -532,21 +532,21 @@ device_build = BluefinDecryptxP2pe.device_build(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `appVersion` | `String.t()` | No |  |
-| `buildNumber` | `String.t()` | No |  |
-| `configFileName` | `String.t()` | No |  |
-| `created` | `String.t()` | No |  |
-| `deviceType` | `String.t()` | No |  |
-| `firmwareVersion` | `String.t()` | No |  |
-| `hardwareVersion` | `String.t()` | No |  |
-| `id` | `integer()` | No |  |
-| `isActive` | `boolean()` | No |  |
-| `modified` | `String.t()` | No |  |
-| `name` | `String.t()` | No |  |
-| `notes` | `String.t()` | No |  |
-| `version` | `integer()` | No |  |
-| `whiteListingBinRanges` | `String.t()` | No |  |
-| `whiteListingUsed` | `boolean()` | No |  |
+| `appVersion` | `String.t()` | No | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildNumber` | `String.t()` | No | The Build Number. |
+| `configFileName` | `String.t()` | No | The name of the configuration file that is uploaded to the device. |
+| `created` | `String.t()` | No | Creation timestamp in ISO 8601 format. |
+| `deviceType` | `String.t()` | No | The Device Type Name. |
+| `firmwareVersion` | `String.t()` | No | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `String.t()` | No | A list of hardware versions that this Device Build covers. |
+| `id` | `integer()` | No | This resource's unique identifier. |
+| `isActive` | `boolean()` | No | This property indicates if the device build is still active and not succeeded by subsequent build. |
+| `modified` | `String.t()` | No | Last modified timestamp. |
+| `name` | `String.t()` | No | The Device Builds's name. |
+| `notes` | `String.t()` | No | Notes attached to the device build by Bluefin CISO. |
+| `version` | `integer()` | No | The number of times that this resource has been updated. |
+| `whiteListingBinRanges` | `String.t()` | No | A comma separated list of BIN ranges that aren't encrypted by the terminal. |
+| `whiteListingUsed` | `boolean()` | No | This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal. |
 
 ### Operations
 
@@ -605,19 +605,19 @@ device_custody_detail = BluefinDecryptxP2pe.device_custody_detail(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `completeDate` | `String.t()` | No |  |
-| `created` | `String.t()` | No |  |
-| `createdBy` | `map()` | Yes |  |
-| `custodian` | `map()` | Yes |  |
-| `device` | `map()` | No |  |
-| `id` | `integer()` | No |  |
-| `location` | `map()` | Yes |  |
-| `modified` | `String.t()` | No |  |
-| `modifiedBy` | `map()` | Yes |  |
-| `notes` | `String.t()` | No |  |
-| `status` | `map()` | No |  |
-| `transferMethod` | `map()` | No |  |
-| `version` | `integer()` | No |  |
+| `completeDate` | `String.t()` | No | The date and time that the Custody change took place. |
+| `created` | `String.t()` | No | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `map()` | Yes | Reference to the associated User resource. |
+| `custodian` | `map()` | Yes | Reference to the associated User resource. |
+| `device` | `map()` | No | Reference to the associated Device resource. |
+| `id` | `integer()` | No | This resource's unique identifier. |
+| `location` | `map()` | Yes | Reference to the associated Location resource. |
+| `modified` | `String.t()` | No | Last modified timestamp. |
+| `modifiedBy` | `map()` | Yes | Reference to the associated User resource. |
+| `notes` | `String.t()` | No | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | `map()` | No | Reference to the associated Custody Status. |
+| `transferMethod` | `map()` | No | Reference to the associated Transfer Method. |
+| `version` | `integer()` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -668,19 +668,19 @@ device_custody_list = BluefinDecryptxP2pe.device_custody_list(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `completeDate` | `String.t()` | No |  |
-| `created` | `String.t()` | No |  |
-| `createdBy` | `map()` | Yes |  |
-| `custodian` | `map()` | Yes |  |
-| `device` | `map()` | No |  |
-| `id` | `integer()` | No |  |
-| `location` | `map()` | Yes |  |
-| `modified` | `String.t()` | No |  |
-| `modifiedBy` | `map()` | Yes |  |
-| `notes` | `String.t()` | No |  |
-| `status` | `map()` | No |  |
-| `transferMethod` | `map()` | No |  |
-| `version` | `integer()` | No |  |
+| `completeDate` | `String.t()` | No | The date and time that the Custody change took place. |
+| `created` | `String.t()` | No | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `map()` | Yes | Reference to the associated User resource. |
+| `custodian` | `map()` | Yes | Reference to the associated User resource. |
+| `device` | `map()` | No | Reference to the associated Device resource. |
+| `id` | `integer()` | No | This resource's unique identifier. |
+| `location` | `map()` | Yes | Reference to the associated Location resource. |
+| `modified` | `String.t()` | No | Last modified timestamp. |
+| `modifiedBy` | `map()` | Yes | Reference to the associated User resource. |
+| `notes` | `String.t()` | No | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | `map()` | No | Reference to the associated Custody Status. |
+| `transferMethod` | `map()` | No | Reference to the associated Transfer Method. |
+| `version` | `integer()` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -731,8 +731,8 @@ device_list = BluefinDecryptxP2pe.device_list(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `list()` | No |  |
-| `total` | `integer()` | No |  |
+| `data` | `list()` | No | List of Devices. |
+| `total` | `integer()` | No | Total number of Devices available (not the number of Users in the response). |
 
 ### Operations
 
@@ -783,7 +783,7 @@ device_receive_result = BluefinDecryptxP2pe.device_receive_result(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `boolean()` | Yes |  |
+| `success` | `boolean()` | Yes | Indicates if the action succeeded. |
 
 ### Operations
 
@@ -836,7 +836,7 @@ device_rki_activate_result = BluefinDecryptxP2pe.device_rki_activate_result(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `boolean()` | Yes |  |
+| `success` | `boolean()` | Yes | Indicates if the RKI activation succeeded. |
 
 ### Operations
 
@@ -889,8 +889,8 @@ device_state = BluefinDecryptxP2pe.device_state(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `integer()` | No |  |
-| `name` | `String.t()` | No |  |
+| `id` | `integer()` | No | Unique identifier for this Device state. |
+| `name` | `String.t()` | No | Descriptive name for this Device state. |
 
 ### Operations
 
@@ -941,18 +941,18 @@ device_type = BluefinDecryptxP2pe.device_type(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created` | `String.t()` | No |  |
-| `deviceTypeMode` | `String.t()` | No |  |
-| `hardwareVersion` | `String.t()` | No |  |
-| `id` | `String.t()` | No |  |
-| `isActive` | `boolean()` | No |  |
-| `manufacturer` | `String.t()` | No |  |
-| `model` | `String.t()` | No |  |
-| `modified` | `String.t()` | No |  |
-| `name` | `String.t()` | No |  |
+| `created` | `String.t()` | No | Creation timestamp in ISO 8601 format. |
+| `deviceTypeMode` | `String.t()` | No | The Device type. |
+| `hardwareVersion` | `String.t()` | No | The Device hardware version. |
+| `id` | `String.t()` | No | Unique idenifier. |
+| `isActive` | `boolean()` | No | This property indicates if the DeviceType is active. |
+| `manufacturer` | `String.t()` | No | The Device manufacturer. |
+| `model` | `String.t()` | No | The Device model. |
+| `modified` | `String.t()` | No | Last modified timestamp. |
+| `name` | `String.t()` | No | The DeviceType name. |
 | `photoUrl` | `String.t()` | No |  |
-| `productName` | `String.t()` | No |  |
-| `version` | `integer()` | No |  |
+| `productName` | `String.t()` | No | The Device name. |
+| `version` | `integer()` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1011,14 +1011,14 @@ inject_key = BluefinDecryptxP2pe.inject_key(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created` | `String.t()` | No |  |
-| `id` | `String.t()` | No |  |
-| `isActive` | `boolean()` | No |  |
-| `isP2PE` | `boolean()` | No |  |
-| `keyType` | `String.t()` | No |  |
-| `modified` | `String.t()` | No |  |
-| `name` | `String.t()` | No |  |
-| `version` | `integer()` | No |  |
+| `created` | `String.t()` | No | Creation timestamp in ISO 8601 format. |
+| `id` | `String.t()` | No | unique idenifier |
+| `isActive` | `boolean()` | No | Active flag, inactive keys cannot be assigned to devices. |
+| `isP2PE` | `boolean()` | No | Flags if a key is for a P2PE compliant cypher. |
+| `keyType` | `String.t()` | No | The cipher type that the key works with. |
+| `modified` | `String.t()` | No | Last modified timestamp in ISO 8601 format. |
+| `name` | `String.t()` | No | Key name. |
+| `version` | `integer()` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1077,8 +1077,8 @@ kif = BluefinDecryptxP2pe.kif(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `integer()` | No |  |
-| `name` | `String.t()` | No |  |
+| `id` | `integer()` | No | This resource's unique identifier. |
+| `name` | `String.t()` | No | The KIF's name. |
 
 ### Operations
 
@@ -1129,29 +1129,29 @@ location = BluefinDecryptxP2pe.location(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `address1` | `String.t()` | No |  |
-| `address2` | `String.t()` | No |  |
-| `billingId` | `String.t()` | No |  |
-| `city` | `String.t()` | No |  |
-| `country` | `String.t()` | No |  |
-| `created` | `String.t()` | No |  |
-| `customReference` | `String.t()` | No |  |
-| `id` | `String.t()` | No |  |
-| `locationType` | `String.t()` | No |  |
-| `mailAddress1` | `String.t()` | No |  |
-| `mailAddress2` | `String.t()` | No |  |
-| `mailCity` | `String.t()` | No |  |
-| `mailCountry` | `String.t()` | No |  |
-| `mailPostalCode` | `String.t()` | No |  |
-| `mailStateProvince` | `String.t()` | No |  |
-| `modified` | `String.t()` | No |  |
-| `name` | `String.t()` | No |  |
-| `nameOfBusiness` | `String.t()` | No |  |
-| `notes` | `String.t()` | No |  |
-| `postalCode` | `String.t()` | No |  |
-| `stateProvince` | `String.t()` | No |  |
-| `uniqueId` | `String.t()` | No |  |
-| `version` | `integer()` | No |  |
+| `address1` | `String.t()` | No | The Location's street address. |
+| `address2` | `String.t()` | No | The Location's street address. |
+| `billingId` | `String.t()` | No | \? |
+| `city` | `String.t()` | No | The Location's city. |
+| `country` | `String.t()` | No | The Location's country. |
+| `created` | `String.t()` | No | Creation timestamp in ISO 8601 format. |
+| `customReference` | `String.t()` | No | A Partner specified reference for a location. |
+| `id` | `String.t()` | No | This resource's unique identifier. |
+| `locationType` | `String.t()` | No | The Location's clasification. |
+| `mailAddress1` | `String.t()` | No | The Location's street address. |
+| `mailAddress2` | `String.t()` | No | The Location's street address. |
+| `mailCity` | `String.t()` | No | The Location's city. |
+| `mailCountry` | `String.t()` | No | The Location's street address. |
+| `mailPostalCode` | `String.t()` | No | The Location's postal code. |
+| `mailStateProvince` | `String.t()` | No | The Location's street state or province. |
+| `modified` | `String.t()` | No | Last modified timestamp. |
+| `name` | `String.t()` | No | The Location's name. |
+| `nameOfBusiness` | `String.t()` | No | The name of the business at this location. |
+| `notes` | `String.t()` | No | Note for delivery driver. |
+| `postalCode` | `String.t()` | No | The Location's postal code. |
+| `stateProvince` | `String.t()` | No | The Location's street state or province. |
+| `uniqueId` | `String.t()` | No | Unique Identifier for the Location. |
+| `version` | `integer()` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1227,20 +1227,20 @@ partner = BluefinDecryptxP2pe.partner(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `billingId` | `String.t()` | No |  |
-| `clientCanOrderEquipment` | `boolean()` | No |  |
-| `contact` | `map()` | No |  |
-| `created` | `String.t()` | No |  |
-| `id` | `String.t()` | No |  |
-| `isActive` | `boolean()` | No |  |
-| `location` | `map()` | Yes |  |
-| `modified` | `String.t()` | No |  |
-| `name` | `String.t()` | No |  |
-| `parent` | `map()` | No |  |
-| `partnerId` | `String.t()` | No |  |
-| `reference` | `String.t()` | No |  |
-| `verificationPhrase` | `String.t()` | No |  |
-| `version` | `integer()` | No |  |
+| `billingId` | `String.t()` | No | The Partner's billing identifier. |
+| `clientCanOrderEquipment` | `boolean()` | No | This property indicates if the Partner is allowed to order Equipment. |
+| `contact` | `map()` | No | Reference to the associated User resource. |
+| `created` | `String.t()` | No | Creation timestamp in ISO 8601 format. |
+| `id` | `String.t()` | No | This resource's unique identifier. |
+| `isActive` | `boolean()` | No | This property indicates if the Parter account is active or disabled. |
+| `location` | `map()` | Yes | Reference to the associated Location resource. |
+| `modified` | `String.t()` | No | Last modified timestamp. |
+| `name` | `String.t()` | No | The Partner's name. |
+| `parent` | `map()` | No | Reference to the associated Partner. |
+| `partnerId` | `String.t()` | No | The Partner's id. |
+| `reference` | `String.t()` | No | The Partner's reference string. |
+| `verificationPhrase` | `String.t()` | No | The verification phrase is a message that the Partner creates. |
+| `version` | `integer()` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1309,20 +1309,20 @@ shipment = BluefinDecryptxP2pe.shipment(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `carrier` | `String.t()` | No |  |
-| `client` | `map()` | No |  |
-| `created` | `String.t()` | No |  |
-| `dateReceived` | `String.t()` | No |  |
-| `dateShipped` | `String.t()` | No |  |
-| `dcKif` | `map()` | No |  |
-| `id` | `String.t()` | No |  |
+| `carrier` | `String.t()` | No | The name of the courier. |
+| `client` | `map()` | No | Reference to the associated Client resource. |
+| `created` | `String.t()` | No | Creation timestamp in ISO 8601 format. |
+| `dateReceived` | `String.t()` | No | The date and time that a package is recieved. |
+| `dateShipped` | `String.t()` | No | The date and time that a package is shipped. |
+| `dcKif` | `map()` | No | Reference to the associated KIF resource. |
+| `id` | `String.t()` | No | This resource's unique identifier. |
 | `items` | `list()` | No |  |
-| `kif` | `map()` | No |  |
-| `modified` | `String.t()` | No |  |
-| `partner` | `map()` | No |  |
-| `shipmentType` | `String.t()` | No |  |
-| `tracking` | `String.t()` | No |  |
-| `version` | `integer()` | No |  |
+| `kif` | `map()` | No | Reference to the associated KIF resource. |
+| `modified` | `String.t()` | No | Last modified timestamp. |
+| `partner` | `map()` | No | Reference to the associated Partner. |
+| `shipmentType` | `String.t()` | No | The type of shipment. |
+| `tracking` | `String.t()` | No | The courier's tracking number. |
+| `version` | `integer()` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1390,7 +1390,7 @@ success = BluefinDecryptxP2pe.success(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `boolean()` | No |  |
+| `success` | `boolean()` | No | Indicates if the action was a success. |
 
 ### Operations
 
@@ -1451,30 +1451,30 @@ transaction = BluefinDecryptxP2pe.transaction(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `alternateKey` | `String.t()` | No |  |
-| `client` | `map()` | No |  |
-| `clientRef` | `String.t()` | No |  |
-| `created` | `String.t()` | No |  |
-| `decrypted` | `integer()` | No |  |
-| `deviceName` | `String.t()` | No |  |
-| `directPartner` | `map()` | No |  |
-| `encrypted` | `integer()` | No |  |
-| `endDate` | `String.t()` | No |  |
-| `errCode` | `String.t()` | No |  |
-| `errMessage` | `String.t()` | No |  |
-| `id` | `String.t()` | No |  |
-| `ipAddress` | `String.t()` | No |  |
-| `isVirtual` | `boolean()` | No |  |
-| `keyType` | `String.t()` | No |  |
-| `location` | `map()` | Yes |  |
-| `messageId` | `String.t()` | No |  |
-| `method` | `String.t()` | No |  |
-| `partner` | `map()` | No |  |
-| `reference` | `String.t()` | No |  |
-| `serialNumber` | `String.t()` | No |  |
-| `startDate` | `String.t()` | No |  |
-| `success` | `boolean()` | No |  |
-| `transactionSource` | `String.t()` | No |  |
+| `alternateKey` | `String.t()` | No | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `client` | `map()` | No | Reference to the associated Client resource. |
+| `clientRef` | `String.t()` | No | Client Reference property that is included in the decrypt API call. |
+| `created` | `String.t()` | No | Creation timestamp in ISO 8601 format. |
+| `decrypted` | `integer()` | No | A Transcation can process muliple decryptions. |
+| `deviceName` | `String.t()` | No | The name of the Device that generated the payload to decrypt. |
+| `directPartner` | `map()` | No | Reference to the associated Partner. |
+| `encrypted` | `integer()` | No | A Transcation can process muliple encryptions. |
+| `endDate` | `String.t()` | No | Timestamp from the end of the transaction. |
+| `errCode` | `String.t()` | No | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `String.t()` | No | The error messge that is sent in response to a failed decrypt API call. |
+| `id` | `String.t()` | No | This resource's unique identifier. |
+| `ipAddress` | `String.t()` | No | The IP address of the http client that makes the decrypt API call. |
+| `isVirtual` | `boolean()` | No | Indicates if the Transaction came from a virtual Device. |
+| `keyType` | `String.t()` | No | The type of cipher used during decrytion. |
+| `location` | `map()` | Yes | Reference to the associated Location resource. |
+| `messageId` | `String.t()` | No | Message ID. |
+| `method` | `String.t()` | No | The decryption cypher/method. |
+| `partner` | `map()` | No | Reference to the associated Partner. |
+| `reference` | `String.t()` | No | The reference property that the Client includes in the decrypt API call. |
+| `serialNumber` | `String.t()` | No | The serial number of the Device that generated the payload to decrypt. |
+| `startDate` | `String.t()` | No | Timestamp from the beginning of the transaction. |
+| `success` | `boolean()` | No | The success indicator. |
+| `transactionSource` | `String.t()` | No | The source of the Transaction. |
 
 ### Operations
 
@@ -1543,18 +1543,18 @@ update_result = BluefinDecryptxP2pe.update_result(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `client` | `map()` | No |  |
-| `email` | `String.t()` | No |  |
-| `firstName` | `String.t()` | No |  |
-| `id` | `String.t()` | No |  |
-| `isActive` | `boolean()` | No |  |
-| `kif` | `map()` | No |  |
-| `lastName` | `String.t()` | No |  |
-| `partner` | `map()` | No |  |
-| `phone` | `String.t()` | No |  |
-| `userName` | `String.t()` | No |  |
-| `userRole` | `map()` | No |  |
-| `version` | `integer()` | No |  |
+| `client` | `map()` | No | Reference to the associated Client resource. |
+| `email` | `String.t()` | No | The User's email address. |
+| `firstName` | `String.t()` | No | The User's name. |
+| `id` | `String.t()` | No | ID of newly created resource |
+| `isActive` | `boolean()` | No | This property indicates if the User account is active or disabled. |
+| `kif` | `map()` | No | Reference to the associated KIF resource. |
+| `lastName` | `String.t()` | No | The User's Surname. |
+| `partner` | `map()` | No | Reference to the associated Partner. |
+| `phone` | `String.t()` | No | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | `String.t()` | No | The User's unique username. |
+| `userRole` | `map()` | No | Reference to the associated User Role. |
+| `version` | `integer()` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1625,20 +1625,20 @@ user = BluefinDecryptxP2pe.user(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `client` | `map()` | No |  |
-| `created` | `String.t()` | No |  |
-| `email` | `String.t()` | No |  |
-| `firstName` | `String.t()` | No |  |
-| `id` | `String.t()` | No |  |
-| `isActive` | `boolean()` | No |  |
-| `kif` | `map()` | No |  |
-| `lastName` | `String.t()` | No |  |
-| `modified` | `String.t()` | No |  |
-| `partner` | `map()` | No |  |
-| `phone` | `String.t()` | No |  |
-| `userName` | `String.t()` | No |  |
-| `userRole` | `map()` | No |  |
-| `version` | `integer()` | No |  |
+| `client` | `map()` | No | Reference to the associated Client resource. |
+| `created` | `String.t()` | No | Creation timestamp in ISO 8601 format. |
+| `email` | `String.t()` | No | The User's email address. |
+| `firstName` | `String.t()` | No | The User's name. |
+| `id` | `String.t()` | No | This resource's unique identifier. |
+| `isActive` | `boolean()` | No | This property indicates if the User account is active or disabled. |
+| `kif` | `map()` | No | Reference to the associated KIF resource. |
+| `lastName` | `String.t()` | No | The User's Surname. |
+| `modified` | `String.t()` | No | Last modified timestamp. |
+| `partner` | `map()` | No | Reference to the associated Partner. |
+| `phone` | `String.t()` | No | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | `String.t()` | No | The User's unique username. |
+| `userRole` | `map()` | No | Reference to the associated User Role. |
+| `version` | `integer()` | No | The number of times that this resource has been updated. |
 
 ### Operations
 

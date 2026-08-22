@@ -157,9 +157,7 @@ public struct Device {
 
 /// DeviceLoadMatch is the typed request payload for Device.load.
 public struct DeviceLoadMatch {
-  public var deviceType: String?
-  public var serialNumber: String?
-  public var id: String?
+  public var id: String
 }
 
 /// DeviceListMatch is the typed request payload for Device.list.

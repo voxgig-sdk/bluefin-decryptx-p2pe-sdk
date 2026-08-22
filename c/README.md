@@ -318,13 +318,13 @@ On error, `ok` is `false` and `err` carries the error value.
 
 | Field | Description |
 | --- | --- |
-| `client` |  |
-| `completeDate` |  |
-| `created` |  |
-| `device` |  |
-| `id` |  |
-| `name` |  |
-| `notes` |  |
+| `client` | Reference to the associated Client resource. |
+| `completeDate` | The date and time that the Attestation took place. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `device` | Reference to the associated Device resource. |
+| `id` | This resource's unique identifier. |
+| `name` | Text describing the attestation. |
+| `notes` | Free form field that allows the Client associate notes with the Attestation. |
 
 Operations: Create, List, Load.
 
@@ -334,17 +334,17 @@ API path: `/attestations`
 
 | Field | Description |
 | --- | --- |
-| `contact` |  |
-| `created` |  |
-| `directPartner` |  |
-| `id` |  |
-| `isActive` |  |
-| `location` |  |
-| `mid` |  |
-| `modified` |  |
-| `name` |  |
-| `partner` |  |
-| `version` |  |
+| `contact` | Reference to the associated User resource. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `directPartner` | Reference to the associated Partner. |
+| `id` | This resource's unique identifier. |
+| `isActive` | This property indicates if the Client account is active or disabled. |
+| `location` | Reference to the associated Location resource. |
+| `mid` | Some Partners will have an merchant ids on their own software offerings. |
+| `modified` | Last modified timestamp. |
+| `name` | The Client's name. |
+| `partner` | Reference to the Client's root Partner. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Load, Remove.
 
@@ -363,7 +363,7 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
-| `success` |  |
+| `success` | true if the payload decryption was successful. |
 
 Operations: Create.
 
@@ -373,34 +373,34 @@ API path: `/decryption`
 
 | Field | Description |
 | --- | --- |
-| `activatedBy` |  |
-| `activationDate` |  |
-| `alternateKey` |  |
-| `auditNextDate` |  |
-| `auditNotificationDate` |  |
-| `client` |  |
-| `created` |  |
-| `createdBy` |  |
-| `deviceBuild` |  |
-| `deviceState` |  |
-| `deviceType` |  |
-| `errorCounter` |  |
-| `errorLastDate` |  |
-| `id` |  |
-| `initializedBy` |  |
-| `initializedDate` |  |
-| `injectKey` |  |
-| `isVirtual` |  |
-| `kif` |  |
-| `lastActivityDate` |  |
-| `location` |  |
-| `modified` |  |
-| `modifiedBy` |  |
-| `name` |  |
-| `notes` |  |
-| `partner` |  |
-| `serialNumber` |  |
-| `version` |  |
+| `activatedBy` | Reference to the associated User resource. |
+| `activationDate` | Timestamp from when the Device was activated. |
+| `alternateKey` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | Date and time that the Device is due its next PCI Audit. |
+| `auditNotificationDate` | Date and time that a notification should be sent that a PCI audit is due. |
+| `client` | Reference to the associated Client resource. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `createdBy` | Reference to the associated User resource. |
+| `deviceBuild` | Reference to the associated Device Build resource. |
+| `deviceState` | Reference to the associated Device State resource. |
+| `deviceType` | Reference to the associated Device Type resource. |
+| `errorCounter` | The number times the Device has been in error. |
+| `errorLastDate` | Timestamp from the last time that the Device had an error. |
+| `id` | The Device's unique identifier. |
+| `initializedBy` | Reference to the associated User resource. |
+| `initializedDate` | Timestamp from when the Device was initialized. |
+| `injectKey` | Reference to the associated Device resource. |
+| `isVirtual` | Indicates if a Device is Virtual (represents a Device shared with a partner). |
+| `kif` | Reference to the associated KIF resource. |
+| `lastActivityDate` | Timestamp from the last time that the Device was used. |
+| `location` | Reference to the associated Location resource. |
+| `modified` | Last modified timestamp. |
+| `modifiedBy` | Reference to the associated User resource. |
+| `name` | The Device's name. |
+| `notes` | Arbitary note that can be attached to a Device entry. |
+| `partner` | Reference to the associated Partner. |
+| `serialNumber` | The Device's serial number. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Load.
 
@@ -410,21 +410,21 @@ API path: `/devices`
 
 | Field | Description |
 | --- | --- |
-| `appVersion` |  |
-| `buildNumber` |  |
-| `configFileName` |  |
-| `created` |  |
-| `deviceType` |  |
-| `firmwareVersion` |  |
-| `hardwareVersion` |  |
-| `id` |  |
-| `isActive` |  |
-| `modified` |  |
-| `name` |  |
-| `notes` |  |
-| `version` |  |
-| `whiteListingBinRanges` |  |
-| `whiteListingUsed` |  |
+| `appVersion` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildNumber` | The Build Number. |
+| `configFileName` | The name of the configuration file that is uploaded to the device. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `deviceType` | The Device Type Name. |
+| `firmwareVersion` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | A list of hardware versions that this Device Build covers. |
+| `id` | This resource's unique identifier. |
+| `isActive` | This property indicates if the device build is still active and not succeeded by subsequent build. |
+| `modified` | Last modified timestamp. |
+| `name` | The Device Builds's name. |
+| `notes` | Notes attached to the device build by Bluefin CISO. |
+| `version` | The number of times that this resource has been updated. |
+| `whiteListingBinRanges` | A comma separated list of BIN ranges that aren't encrypted by the terminal. |
+| `whiteListingUsed` | This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal. |
 
 Operations: List, Load.
 
@@ -434,19 +434,19 @@ API path: `/deviceBuilds`
 
 | Field | Description |
 | --- | --- |
-| `completeDate` |  |
-| `created` |  |
-| `createdBy` |  |
-| `custodian` |  |
-| `device` |  |
-| `id` |  |
-| `location` |  |
-| `modified` |  |
-| `modifiedBy` |  |
-| `notes` |  |
-| `status` |  |
-| `transferMethod` |  |
-| `version` |  |
+| `completeDate` | The date and time that the Custody change took place. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `createdBy` | Reference to the associated User resource. |
+| `custodian` | Reference to the associated User resource. |
+| `device` | Reference to the associated Device resource. |
+| `id` | This resource's unique identifier. |
+| `location` | Reference to the associated Location resource. |
+| `modified` | Last modified timestamp. |
+| `modifiedBy` | Reference to the associated User resource. |
+| `notes` | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | Reference to the associated Custody Status. |
+| `transferMethod` | Reference to the associated Transfer Method. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: Load.
 
@@ -456,19 +456,19 @@ API path: `/devices/{serialNumber}/{deviceType}/custody/{id}`
 
 | Field | Description |
 | --- | --- |
-| `completeDate` |  |
-| `created` |  |
-| `createdBy` |  |
-| `custodian` |  |
-| `device` |  |
-| `id` |  |
-| `location` |  |
-| `modified` |  |
-| `modifiedBy` |  |
-| `notes` |  |
-| `status` |  |
-| `transferMethod` |  |
-| `version` |  |
+| `completeDate` | The date and time that the Custody change took place. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `createdBy` | Reference to the associated User resource. |
+| `custodian` | Reference to the associated User resource. |
+| `device` | Reference to the associated Device resource. |
+| `id` | This resource's unique identifier. |
+| `location` | Reference to the associated Location resource. |
+| `modified` | Last modified timestamp. |
+| `modifiedBy` | Reference to the associated User resource. |
+| `notes` | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | Reference to the associated Custody Status. |
+| `transferMethod` | Reference to the associated Transfer Method. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: List.
 
@@ -478,8 +478,8 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
-| `total` |  |
+| `data` | List of Devices. |
+| `total` | Total number of Devices available (not the number of Users in the response). |
 
 Operations: Load.
 
@@ -489,7 +489,7 @@ API path: `/virtualDevices/{sharePartnerTo}`
 
 | Field | Description |
 | --- | --- |
-| `success` |  |
+| `success` | Indicates if the action succeeded. |
 
 Operations: Create.
 
@@ -499,7 +499,7 @@ API path: `/devices/receive`
 
 | Field | Description |
 | --- | --- |
-| `success` |  |
+| `success` | Indicates if the RKI activation succeeded. |
 
 Operations: Create.
 
@@ -509,8 +509,8 @@ API path: `/devices/rki/activate`
 
 | Field | Description |
 | --- | --- |
-| `id` |  |
-| `name` |  |
+| `id` | Unique identifier for this Device state. |
+| `name` | Descriptive name for this Device state. |
 
 Operations: List.
 
@@ -520,18 +520,18 @@ API path: `/deviceStates`
 
 | Field | Description |
 | --- | --- |
-| `created` |  |
-| `deviceTypeMode` |  |
-| `hardwareVersion` |  |
-| `id` |  |
-| `isActive` |  |
-| `manufacturer` |  |
-| `model` |  |
-| `modified` |  |
-| `name` |  |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `deviceTypeMode` | The Device type. |
+| `hardwareVersion` | The Device hardware version. |
+| `id` | Unique idenifier. |
+| `isActive` | This property indicates if the DeviceType is active. |
+| `manufacturer` | The Device manufacturer. |
+| `model` | The Device model. |
+| `modified` | Last modified timestamp. |
+| `name` | The DeviceType name. |
 | `photoUrl` |  |
-| `productName` |  |
-| `version` |  |
+| `productName` | The Device name. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: List, Load.
 
@@ -541,14 +541,14 @@ API path: `/deviceTypes`
 
 | Field | Description |
 | --- | --- |
-| `created` |  |
-| `id` |  |
-| `isActive` |  |
-| `isP2PE` |  |
-| `keyType` |  |
-| `modified` |  |
-| `name` |  |
-| `version` |  |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `id` | unique idenifier |
+| `isActive` | Active flag, inactive keys cannot be assigned to devices. |
+| `isP2PE` | Flags if a key is for a P2PE compliant cypher. |
+| `keyType` | The cipher type that the key works with. |
+| `modified` | Last modified timestamp in ISO 8601 format. |
+| `name` | Key name. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: List, Load.
 
@@ -558,8 +558,8 @@ API path: `/injectKeys`
 
 | Field | Description |
 | --- | --- |
-| `id` |  |
-| `name` |  |
+| `id` | This resource's unique identifier. |
+| `name` | The KIF's name. |
 
 Operations: List.
 
@@ -569,29 +569,29 @@ API path: `/kifs`
 
 | Field | Description |
 | --- | --- |
-| `address1` |  |
-| `address2` |  |
-| `billingId` |  |
-| `city` |  |
-| `country` |  |
-| `created` |  |
-| `customReference` |  |
-| `id` |  |
-| `locationType` |  |
-| `mailAddress1` |  |
-| `mailAddress2` |  |
-| `mailCity` |  |
-| `mailCountry` |  |
-| `mailPostalCode` |  |
-| `mailStateProvince` |  |
-| `modified` |  |
-| `name` |  |
-| `nameOfBusiness` |  |
-| `notes` |  |
-| `postalCode` |  |
-| `stateProvince` |  |
-| `uniqueId` |  |
-| `version` |  |
+| `address1` | The Location's street address. |
+| `address2` | The Location's street address. |
+| `billingId` | \? |
+| `city` | The Location's city. |
+| `country` | The Location's country. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `customReference` | A Partner specified reference for a location. |
+| `id` | This resource's unique identifier. |
+| `locationType` | The Location's clasification. |
+| `mailAddress1` | The Location's street address. |
+| `mailAddress2` | The Location's street address. |
+| `mailCity` | The Location's city. |
+| `mailCountry` | The Location's street address. |
+| `mailPostalCode` | The Location's postal code. |
+| `mailStateProvince` | The Location's street state or province. |
+| `modified` | Last modified timestamp. |
+| `name` | The Location's name. |
+| `nameOfBusiness` | The name of the business at this location. |
+| `notes` | Note for delivery driver. |
+| `postalCode` | The Location's postal code. |
+| `stateProvince` | The Location's street state or province. |
+| `uniqueId` | Unique Identifier for the Location. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Load, Remove.
 
@@ -601,20 +601,20 @@ API path: `/locations`
 
 | Field | Description |
 | --- | --- |
-| `billingId` |  |
-| `clientCanOrderEquipment` |  |
-| `contact` |  |
-| `created` |  |
-| `id` |  |
-| `isActive` |  |
-| `location` |  |
-| `modified` |  |
-| `name` |  |
-| `parent` |  |
-| `partnerId` |  |
-| `reference` |  |
-| `verificationPhrase` |  |
-| `version` |  |
+| `billingId` | The Partner's billing identifier. |
+| `clientCanOrderEquipment` | This property indicates if the Partner is allowed to order Equipment. |
+| `contact` | Reference to the associated User resource. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `id` | This resource's unique identifier. |
+| `isActive` | This property indicates if the Parter account is active or disabled. |
+| `location` | Reference to the associated Location resource. |
+| `modified` | Last modified timestamp. |
+| `name` | The Partner's name. |
+| `parent` | Reference to the associated Partner. |
+| `partnerId` | The Partner's id. |
+| `reference` | The Partner's reference string. |
+| `verificationPhrase` | The verification phrase is a message that the Partner creates. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Load.
 
@@ -624,20 +624,20 @@ API path: `/partners`
 
 | Field | Description |
 | --- | --- |
-| `carrier` |  |
-| `client` |  |
-| `created` |  |
-| `dateReceived` |  |
-| `dateShipped` |  |
-| `dcKif` |  |
-| `id` |  |
+| `carrier` | The name of the courier. |
+| `client` | Reference to the associated Client resource. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `dateReceived` | The date and time that a package is recieved. |
+| `dateShipped` | The date and time that a package is shipped. |
+| `dcKif` | Reference to the associated KIF resource. |
+| `id` | This resource's unique identifier. |
 | `items` |  |
-| `kif` |  |
-| `modified` |  |
-| `partner` |  |
-| `shipmentType` |  |
-| `tracking` |  |
-| `version` |  |
+| `kif` | Reference to the associated KIF resource. |
+| `modified` | Last modified timestamp. |
+| `partner` | Reference to the associated Partner. |
+| `shipmentType` | The type of shipment. |
+| `tracking` | The courier's tracking number. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Load.
 
@@ -647,7 +647,7 @@ API path: `/shipments`
 
 | Field | Description |
 | --- | --- |
-| `success` |  |
+| `success` | Indicates if the action was a success. |
 
 Operations: Create, Remove.
 
@@ -657,30 +657,30 @@ API path: `/virtualDevices/{sharePartnerTo}`
 
 | Field | Description |
 | --- | --- |
-| `alternateKey` |  |
-| `client` |  |
-| `clientRef` |  |
-| `created` |  |
-| `decrypted` |  |
-| `deviceName` |  |
-| `directPartner` |  |
-| `encrypted` |  |
-| `endDate` |  |
-| `errCode` |  |
-| `errMessage` |  |
-| `id` |  |
-| `ipAddress` |  |
-| `isVirtual` |  |
-| `keyType` |  |
-| `location` |  |
-| `messageId` |  |
-| `method` |  |
-| `partner` |  |
-| `reference` |  |
-| `serialNumber` |  |
-| `startDate` |  |
-| `success` |  |
-| `transactionSource` |  |
+| `alternateKey` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `client` | Reference to the associated Client resource. |
+| `clientRef` | Client Reference property that is included in the decrypt API call. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `decrypted` | A Transcation can process muliple decryptions. |
+| `deviceName` | The name of the Device that generated the payload to decrypt. |
+| `directPartner` | Reference to the associated Partner. |
+| `encrypted` | A Transcation can process muliple encryptions. |
+| `endDate` | Timestamp from the end of the transaction. |
+| `errCode` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | The error messge that is sent in response to a failed decrypt API call. |
+| `id` | This resource's unique identifier. |
+| `ipAddress` | The IP address of the http client that makes the decrypt API call. |
+| `isVirtual` | Indicates if the Transaction came from a virtual Device. |
+| `keyType` | The type of cipher used during decrytion. |
+| `location` | Reference to the associated Location resource. |
+| `messageId` | Message ID. |
+| `method` | The decryption cypher/method. |
+| `partner` | Reference to the associated Partner. |
+| `reference` | The reference property that the Client includes in the decrypt API call. |
+| `serialNumber` | The serial number of the Device that generated the payload to decrypt. |
+| `startDate` | Timestamp from the beginning of the transaction. |
+| `success` | The success indicator. |
+| `transactionSource` | The source of the Transaction. |
 
 Operations: Create, List, Load.
 
@@ -690,18 +690,18 @@ API path: `/transactions`
 
 | Field | Description |
 | --- | --- |
-| `client` |  |
-| `email` |  |
-| `firstName` |  |
-| `id` |  |
-| `isActive` |  |
-| `kif` |  |
-| `lastName` |  |
-| `partner` |  |
-| `phone` |  |
-| `userName` |  |
-| `userRole` |  |
-| `version` |  |
+| `client` | Reference to the associated Client resource. |
+| `email` | The User's email address. |
+| `firstName` | The User's name. |
+| `id` | ID of newly created resource |
+| `isActive` | This property indicates if the User account is active or disabled. |
+| `kif` | Reference to the associated KIF resource. |
+| `lastName` | The User's Surname. |
+| `partner` | Reference to the associated Partner. |
+| `phone` | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | The User's unique username. |
+| `userRole` | Reference to the associated User Role. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Update.
 
@@ -711,20 +711,20 @@ API path: `/users`
 
 | Field | Description |
 | --- | --- |
-| `client` |  |
-| `created` |  |
-| `email` |  |
-| `firstName` |  |
-| `id` |  |
-| `isActive` |  |
-| `kif` |  |
-| `lastName` |  |
-| `modified` |  |
-| `partner` |  |
-| `phone` |  |
-| `userName` |  |
-| `userRole` |  |
-| `version` |  |
+| `client` | Reference to the associated Client resource. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `email` | The User's email address. |
+| `firstName` | The User's name. |
+| `id` | This resource's unique identifier. |
+| `isActive` | This property indicates if the User account is active or disabled. |
+| `kif` | Reference to the associated KIF resource. |
+| `lastName` | The User's Surname. |
+| `modified` | Last modified timestamp. |
+| `partner` | Reference to the associated Partner. |
+| `phone` | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | The User's unique username. |
+| `userRole` | Reference to the associated User Role. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: Load, Remove.
 
@@ -751,13 +751,13 @@ Create an instance: `Entity* attestation = bluefindecryptxp2pe_attestation(clien
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `client` | `voxgig_value* (map)` |  |
-| `completeDate` | `char*` |  |
-| `created` | `char*` |  |
-| `device` | `voxgig_value* (map)` |  |
-| `id` | `char*` |  |
-| `name` | `char*` |  |
-| `notes` | `char*` |  |
+| `client` | `voxgig_value* (map)` | Reference to the associated Client resource. |
+| `completeDate` | `char*` | The date and time that the Attestation took place. |
+| `created` | `char*` | Creation timestamp in ISO 8601 format. |
+| `device` | `voxgig_value* (map)` | Reference to the associated Device resource. |
+| `id` | `char*` | This resource's unique identifier. |
+| `name` | `char*` | Text describing the attestation. |
+| `notes` | `char*` | Free form field that allows the Client associate notes with the Attestation. |
 
 #### Example: Load
 
@@ -798,17 +798,17 @@ Create an instance: `Entity* client = bluefindecryptxp2pe_client(client, NULL);`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `contact` | `voxgig_value* (map)` |  |
-| `created` | `char*` |  |
-| `directPartner` | `voxgig_value* (map)` |  |
-| `id` | `char*` |  |
-| `isActive` | `bool` |  |
-| `location` | `voxgig_value* (map)` |  |
-| `mid` | `char*` |  |
-| `modified` | `char*` |  |
-| `name` | `char*` |  |
-| `partner` | `voxgig_value* (map)` |  |
-| `version` | `int64_t` |  |
+| `contact` | `voxgig_value* (map)` | Reference to the associated User resource. |
+| `created` | `char*` | Creation timestamp in ISO 8601 format. |
+| `directPartner` | `voxgig_value* (map)` | Reference to the associated Partner. |
+| `id` | `char*` | This resource's unique identifier. |
+| `isActive` | `bool` | This property indicates if the Client account is active or disabled. |
+| `location` | `voxgig_value* (map)` | Reference to the associated Location resource. |
+| `mid` | `char*` | Some Partners will have an merchant ids on their own software offerings. |
+| `modified` | `char*` | Last modified timestamp. |
+| `name` | `char*` | The Client's name. |
+| `partner` | `voxgig_value* (map)` | Reference to the Client's root Partner. |
+| `version` | `int64_t` | The number of times that this resource has been updated. |
 
 #### Example: Load
 
@@ -869,7 +869,7 @@ Create an instance: `Entity* decryption = bluefindecryptxp2pe_decryption(client,
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `success` | `bool` |  |
+| `success` | `bool` | true if the payload decryption was successful. |
 
 #### Example: Create
 
@@ -895,34 +895,34 @@ Create an instance: `Entity* device = bluefindecryptxp2pe_device(client, NULL);`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `activatedBy` | `voxgig_value* (map)` |  |
-| `activationDate` | `char*` |  |
-| `alternateKey` | `char*` |  |
-| `auditNextDate` | `char*` |  |
-| `auditNotificationDate` | `char*` |  |
-| `client` | `voxgig_value* (map)` |  |
-| `created` | `char*` |  |
-| `createdBy` | `voxgig_value* (map)` |  |
-| `deviceBuild` | `voxgig_value* (map)` |  |
-| `deviceState` | `voxgig_value* (map)` |  |
-| `deviceType` | `voxgig_value* (map)` |  |
-| `errorCounter` | `int64_t` |  |
-| `errorLastDate` | `char*` |  |
-| `id` | `char*` |  |
-| `initializedBy` | `voxgig_value* (map)` |  |
-| `initializedDate` | `char*` |  |
-| `injectKey` | `voxgig_value* (map)` |  |
-| `isVirtual` | `bool` |  |
-| `kif` | `voxgig_value* (map)` |  |
-| `lastActivityDate` | `char*` |  |
-| `location` | `voxgig_value* (map)` |  |
-| `modified` | `char*` |  |
-| `modifiedBy` | `voxgig_value* (map)` |  |
-| `name` | `char*` |  |
-| `notes` | `char*` |  |
-| `partner` | `voxgig_value* (map)` |  |
-| `serialNumber` | `char*` |  |
-| `version` | `int64_t` |  |
+| `activatedBy` | `voxgig_value* (map)` | Reference to the associated User resource. |
+| `activationDate` | `char*` | Timestamp from when the Device was activated. |
+| `alternateKey` | `char*` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `char*` | Date and time that the Device is due its next PCI Audit. |
+| `auditNotificationDate` | `char*` | Date and time that a notification should be sent that a PCI audit is due. |
+| `client` | `voxgig_value* (map)` | Reference to the associated Client resource. |
+| `created` | `char*` | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `voxgig_value* (map)` | Reference to the associated User resource. |
+| `deviceBuild` | `voxgig_value* (map)` | Reference to the associated Device Build resource. |
+| `deviceState` | `voxgig_value* (map)` | Reference to the associated Device State resource. |
+| `deviceType` | `voxgig_value* (map)` | Reference to the associated Device Type resource. |
+| `errorCounter` | `int64_t` | The number times the Device has been in error. |
+| `errorLastDate` | `char*` | Timestamp from the last time that the Device had an error. |
+| `id` | `char*` | The Device's unique identifier. |
+| `initializedBy` | `voxgig_value* (map)` | Reference to the associated User resource. |
+| `initializedDate` | `char*` | Timestamp from when the Device was initialized. |
+| `injectKey` | `voxgig_value* (map)` | Reference to the associated Device resource. |
+| `isVirtual` | `bool` | Indicates if a Device is Virtual (represents a Device shared with a partner). |
+| `kif` | `voxgig_value* (map)` | Reference to the associated KIF resource. |
+| `lastActivityDate` | `char*` | Timestamp from the last time that the Device was used. |
+| `location` | `voxgig_value* (map)` | Reference to the associated Location resource. |
+| `modified` | `char*` | Last modified timestamp. |
+| `modifiedBy` | `voxgig_value* (map)` | Reference to the associated User resource. |
+| `name` | `char*` | The Device's name. |
+| `notes` | `char*` | Arbitary note that can be attached to a Device entry. |
+| `partner` | `voxgig_value* (map)` | Reference to the associated Partner. |
+| `serialNumber` | `char*` | The Device's serial number. |
+| `version` | `int64_t` | The number of times that this resource has been updated. |
 
 #### Example: Load
 
@@ -967,21 +967,21 @@ Create an instance: `Entity* device_build = bluefindecryptxp2pe_device_build(cli
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `appVersion` | `char*` |  |
-| `buildNumber` | `char*` |  |
-| `configFileName` | `char*` |  |
-| `created` | `char*` |  |
-| `deviceType` | `char*` |  |
-| `firmwareVersion` | `char*` |  |
-| `hardwareVersion` | `char*` |  |
-| `id` | `int64_t` |  |
-| `isActive` | `bool` |  |
-| `modified` | `char*` |  |
-| `name` | `char*` |  |
-| `notes` | `char*` |  |
-| `version` | `int64_t` |  |
-| `whiteListingBinRanges` | `char*` |  |
-| `whiteListingUsed` | `bool` |  |
+| `appVersion` | `char*` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildNumber` | `char*` | The Build Number. |
+| `configFileName` | `char*` | The name of the configuration file that is uploaded to the device. |
+| `created` | `char*` | Creation timestamp in ISO 8601 format. |
+| `deviceType` | `char*` | The Device Type Name. |
+| `firmwareVersion` | `char*` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `char*` | A list of hardware versions that this Device Build covers. |
+| `id` | `int64_t` | This resource's unique identifier. |
+| `isActive` | `bool` | This property indicates if the device build is still active and not succeeded by subsequent build. |
+| `modified` | `char*` | Last modified timestamp. |
+| `name` | `char*` | The Device Builds's name. |
+| `notes` | `char*` | Notes attached to the device build by Bluefin CISO. |
+| `version` | `int64_t` | The number of times that this resource has been updated. |
+| `whiteListingBinRanges` | `char*` | A comma separated list of BIN ranges that aren't encrypted by the terminal. |
+| `whiteListingUsed` | `bool` | This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal. |
 
 #### Example: Load
 
@@ -1012,19 +1012,19 @@ Create an instance: `Entity* device_custody_detail = bluefindecryptxp2pe_device_
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `completeDate` | `char*` |  |
-| `created` | `char*` |  |
-| `createdBy` | `voxgig_value* (map)` |  |
-| `custodian` | `voxgig_value* (map)` |  |
-| `device` | `voxgig_value* (map)` |  |
-| `id` | `int64_t` |  |
-| `location` | `voxgig_value* (map)` |  |
-| `modified` | `char*` |  |
-| `modifiedBy` | `voxgig_value* (map)` |  |
-| `notes` | `char*` |  |
-| `status` | `voxgig_value* (map)` |  |
-| `transferMethod` | `voxgig_value* (map)` |  |
-| `version` | `int64_t` |  |
+| `completeDate` | `char*` | The date and time that the Custody change took place. |
+| `created` | `char*` | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `voxgig_value* (map)` | Reference to the associated User resource. |
+| `custodian` | `voxgig_value* (map)` | Reference to the associated User resource. |
+| `device` | `voxgig_value* (map)` | Reference to the associated Device resource. |
+| `id` | `int64_t` | This resource's unique identifier. |
+| `location` | `voxgig_value* (map)` | Reference to the associated Location resource. |
+| `modified` | `char*` | Last modified timestamp. |
+| `modifiedBy` | `voxgig_value* (map)` | Reference to the associated User resource. |
+| `notes` | `char*` | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | `voxgig_value* (map)` | Reference to the associated Custody Status. |
+| `transferMethod` | `voxgig_value* (map)` | Reference to the associated Transfer Method. |
+| `version` | `int64_t` | The number of times that this resource has been updated. |
 
 #### Example: Load
 
@@ -1048,19 +1048,19 @@ Create an instance: `Entity* device_custody_list = bluefindecryptxp2pe_device_cu
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `completeDate` | `char*` |  |
-| `created` | `char*` |  |
-| `createdBy` | `voxgig_value* (map)` |  |
-| `custodian` | `voxgig_value* (map)` |  |
-| `device` | `voxgig_value* (map)` |  |
-| `id` | `int64_t` |  |
-| `location` | `voxgig_value* (map)` |  |
-| `modified` | `char*` |  |
-| `modifiedBy` | `voxgig_value* (map)` |  |
-| `notes` | `char*` |  |
-| `status` | `voxgig_value* (map)` |  |
-| `transferMethod` | `voxgig_value* (map)` |  |
-| `version` | `int64_t` |  |
+| `completeDate` | `char*` | The date and time that the Custody change took place. |
+| `created` | `char*` | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `voxgig_value* (map)` | Reference to the associated User resource. |
+| `custodian` | `voxgig_value* (map)` | Reference to the associated User resource. |
+| `device` | `voxgig_value* (map)` | Reference to the associated Device resource. |
+| `id` | `int64_t` | This resource's unique identifier. |
+| `location` | `voxgig_value* (map)` | Reference to the associated Location resource. |
+| `modified` | `char*` | Last modified timestamp. |
+| `modifiedBy` | `voxgig_value* (map)` | Reference to the associated User resource. |
+| `notes` | `char*` | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | `voxgig_value* (map)` | Reference to the associated Custody Status. |
+| `transferMethod` | `voxgig_value* (map)` | Reference to the associated Transfer Method. |
+| `version` | `int64_t` | The number of times that this resource has been updated. |
 
 #### Example: List
 
@@ -1084,8 +1084,8 @@ Create an instance: `Entity* device_list = bluefindecryptxp2pe_device_list(clien
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `voxgig_value* (list)` |  |
-| `total` | `int64_t` |  |
+| `data` | `voxgig_value* (list)` | List of Devices. |
+| `total` | `int64_t` | Total number of Devices available (not the number of Users in the response). |
 
 #### Example: Load
 
@@ -1109,7 +1109,7 @@ Create an instance: `Entity* device_receive_result = bluefindecryptxp2pe_device_
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `success` | `bool` |  |
+| `success` | `bool` | Indicates if the action succeeded. |
 
 #### Example: Create
 
@@ -1135,7 +1135,7 @@ Create an instance: `Entity* device_rki_activate_result = bluefindecryptxp2pe_de
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `success` | `bool` |  |
+| `success` | `bool` | Indicates if the RKI activation succeeded. |
 
 #### Example: Create
 
@@ -1161,8 +1161,8 @@ Create an instance: `Entity* device_state = bluefindecryptxp2pe_device_state(cli
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `id` | `int64_t` |  |
-| `name` | `char*` |  |
+| `id` | `int64_t` | Unique identifier for this Device state. |
+| `name` | `char*` | Descriptive name for this Device state. |
 
 #### Example: List
 
@@ -1187,18 +1187,18 @@ Create an instance: `Entity* device_type = bluefindecryptxp2pe_device_type(clien
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created` | `char*` |  |
-| `deviceTypeMode` | `char*` |  |
-| `hardwareVersion` | `char*` |  |
-| `id` | `char*` |  |
-| `isActive` | `bool` |  |
-| `manufacturer` | `char*` |  |
-| `model` | `char*` |  |
-| `modified` | `char*` |  |
-| `name` | `char*` |  |
+| `created` | `char*` | Creation timestamp in ISO 8601 format. |
+| `deviceTypeMode` | `char*` | The Device type. |
+| `hardwareVersion` | `char*` | The Device hardware version. |
+| `id` | `char*` | Unique idenifier. |
+| `isActive` | `bool` | This property indicates if the DeviceType is active. |
+| `manufacturer` | `char*` | The Device manufacturer. |
+| `model` | `char*` | The Device model. |
+| `modified` | `char*` | Last modified timestamp. |
+| `name` | `char*` | The DeviceType name. |
 | `photoUrl` | `char*` |  |
-| `productName` | `char*` |  |
-| `version` | `int64_t` |  |
+| `productName` | `char*` | The Device name. |
+| `version` | `int64_t` | The number of times that this resource has been updated. |
 
 #### Example: Load
 
@@ -1230,14 +1230,14 @@ Create an instance: `Entity* inject_key = bluefindecryptxp2pe_inject_key(client,
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created` | `char*` |  |
-| `id` | `char*` |  |
-| `isActive` | `bool` |  |
-| `isP2PE` | `bool` |  |
-| `keyType` | `char*` |  |
-| `modified` | `char*` |  |
-| `name` | `char*` |  |
-| `version` | `int64_t` |  |
+| `created` | `char*` | Creation timestamp in ISO 8601 format. |
+| `id` | `char*` | unique idenifier |
+| `isActive` | `bool` | Active flag, inactive keys cannot be assigned to devices. |
+| `isP2PE` | `bool` | Flags if a key is for a P2PE compliant cypher. |
+| `keyType` | `char*` | The cipher type that the key works with. |
+| `modified` | `char*` | Last modified timestamp in ISO 8601 format. |
+| `name` | `char*` | Key name. |
+| `version` | `int64_t` | The number of times that this resource has been updated. |
 
 #### Example: Load
 
@@ -1268,8 +1268,8 @@ Create an instance: `Entity* kif = bluefindecryptxp2pe_kif(client, NULL);`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `id` | `int64_t` |  |
-| `name` | `char*` |  |
+| `id` | `int64_t` | This resource's unique identifier. |
+| `name` | `char*` | The KIF's name. |
 
 #### Example: List
 
@@ -1296,29 +1296,29 @@ Create an instance: `Entity* location = bluefindecryptxp2pe_location(client, NUL
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `address1` | `char*` |  |
-| `address2` | `char*` |  |
-| `billingId` | `char*` |  |
-| `city` | `char*` |  |
-| `country` | `char*` |  |
-| `created` | `char*` |  |
-| `customReference` | `char*` |  |
-| `id` | `char*` |  |
-| `locationType` | `char*` |  |
-| `mailAddress1` | `char*` |  |
-| `mailAddress2` | `char*` |  |
-| `mailCity` | `char*` |  |
-| `mailCountry` | `char*` |  |
-| `mailPostalCode` | `char*` |  |
-| `mailStateProvince` | `char*` |  |
-| `modified` | `char*` |  |
-| `name` | `char*` |  |
-| `nameOfBusiness` | `char*` |  |
-| `notes` | `char*` |  |
-| `postalCode` | `char*` |  |
-| `stateProvince` | `char*` |  |
-| `uniqueId` | `char*` |  |
-| `version` | `int64_t` |  |
+| `address1` | `char*` | The Location's street address. |
+| `address2` | `char*` | The Location's street address. |
+| `billingId` | `char*` | \? |
+| `city` | `char*` | The Location's city. |
+| `country` | `char*` | The Location's country. |
+| `created` | `char*` | Creation timestamp in ISO 8601 format. |
+| `customReference` | `char*` | A Partner specified reference for a location. |
+| `id` | `char*` | This resource's unique identifier. |
+| `locationType` | `char*` | The Location's clasification. |
+| `mailAddress1` | `char*` | The Location's street address. |
+| `mailAddress2` | `char*` | The Location's street address. |
+| `mailCity` | `char*` | The Location's city. |
+| `mailCountry` | `char*` | The Location's street address. |
+| `mailPostalCode` | `char*` | The Location's postal code. |
+| `mailStateProvince` | `char*` | The Location's street state or province. |
+| `modified` | `char*` | Last modified timestamp. |
+| `name` | `char*` | The Location's name. |
+| `nameOfBusiness` | `char*` | The name of the business at this location. |
+| `notes` | `char*` | Note for delivery driver. |
+| `postalCode` | `char*` | The Location's postal code. |
+| `stateProvince` | `char*` | The Location's street state or province. |
+| `uniqueId` | `char*` | Unique Identifier for the Location. |
+| `version` | `int64_t` | The number of times that this resource has been updated. |
 
 #### Example: Load
 
@@ -1358,20 +1358,20 @@ Create an instance: `Entity* partner = bluefindecryptxp2pe_partner(client, NULL)
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `billingId` | `char*` |  |
-| `clientCanOrderEquipment` | `bool` |  |
-| `contact` | `voxgig_value* (map)` |  |
-| `created` | `char*` |  |
-| `id` | `char*` |  |
-| `isActive` | `bool` |  |
-| `location` | `voxgig_value* (map)` |  |
-| `modified` | `char*` |  |
-| `name` | `char*` |  |
-| `parent` | `voxgig_value* (map)` |  |
-| `partnerId` | `char*` |  |
-| `reference` | `char*` |  |
-| `verificationPhrase` | `char*` |  |
-| `version` | `int64_t` |  |
+| `billingId` | `char*` | The Partner's billing identifier. |
+| `clientCanOrderEquipment` | `bool` | This property indicates if the Partner is allowed to order Equipment. |
+| `contact` | `voxgig_value* (map)` | Reference to the associated User resource. |
+| `created` | `char*` | Creation timestamp in ISO 8601 format. |
+| `id` | `char*` | This resource's unique identifier. |
+| `isActive` | `bool` | This property indicates if the Parter account is active or disabled. |
+| `location` | `voxgig_value* (map)` | Reference to the associated Location resource. |
+| `modified` | `char*` | Last modified timestamp. |
+| `name` | `char*` | The Partner's name. |
+| `parent` | `voxgig_value* (map)` | Reference to the associated Partner. |
+| `partnerId` | `char*` | The Partner's id. |
+| `reference` | `char*` | The Partner's reference string. |
+| `verificationPhrase` | `char*` | The verification phrase is a message that the Partner creates. |
+| `version` | `int64_t` | The number of times that this resource has been updated. |
 
 #### Example: Load
 
@@ -1413,20 +1413,20 @@ Create an instance: `Entity* shipment = bluefindecryptxp2pe_shipment(client, NUL
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `carrier` | `char*` |  |
-| `client` | `voxgig_value* (map)` |  |
-| `created` | `char*` |  |
-| `dateReceived` | `char*` |  |
-| `dateShipped` | `char*` |  |
-| `dcKif` | `voxgig_value* (map)` |  |
-| `id` | `char*` |  |
+| `carrier` | `char*` | The name of the courier. |
+| `client` | `voxgig_value* (map)` | Reference to the associated Client resource. |
+| `created` | `char*` | Creation timestamp in ISO 8601 format. |
+| `dateReceived` | `char*` | The date and time that a package is recieved. |
+| `dateShipped` | `char*` | The date and time that a package is shipped. |
+| `dcKif` | `voxgig_value* (map)` | Reference to the associated KIF resource. |
+| `id` | `char*` | This resource's unique identifier. |
 | `items` | `voxgig_value* (list)` |  |
-| `kif` | `voxgig_value* (map)` |  |
-| `modified` | `char*` |  |
-| `partner` | `voxgig_value* (map)` |  |
-| `shipmentType` | `char*` |  |
-| `tracking` | `char*` |  |
-| `version` | `int64_t` |  |
+| `kif` | `voxgig_value* (map)` | Reference to the associated KIF resource. |
+| `modified` | `char*` | Last modified timestamp. |
+| `partner` | `voxgig_value* (map)` | Reference to the associated Partner. |
+| `shipmentType` | `char*` | The type of shipment. |
+| `tracking` | `char*` | The courier's tracking number. |
+| `version` | `int64_t` | The number of times that this resource has been updated. |
 
 #### Example: Load
 
@@ -1465,7 +1465,7 @@ Create an instance: `Entity* success = bluefindecryptxp2pe_success(client, NULL)
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `success` | `bool` |  |
+| `success` | `bool` | Indicates if the action was a success. |
 
 #### Example: Create
 
@@ -1493,30 +1493,30 @@ Create an instance: `Entity* transaction = bluefindecryptxp2pe_transaction(clien
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `alternateKey` | `char*` |  |
-| `client` | `voxgig_value* (map)` |  |
-| `clientRef` | `char*` |  |
-| `created` | `char*` |  |
-| `decrypted` | `int64_t` |  |
-| `deviceName` | `char*` |  |
-| `directPartner` | `voxgig_value* (map)` |  |
-| `encrypted` | `int64_t` |  |
-| `endDate` | `char*` |  |
-| `errCode` | `char*` |  |
-| `errMessage` | `char*` |  |
-| `id` | `char*` |  |
-| `ipAddress` | `char*` |  |
-| `isVirtual` | `bool` |  |
-| `keyType` | `char*` |  |
-| `location` | `voxgig_value* (map)` |  |
-| `messageId` | `char*` |  |
-| `method` | `char*` |  |
-| `partner` | `voxgig_value* (map)` |  |
-| `reference` | `char*` |  |
-| `serialNumber` | `char*` |  |
-| `startDate` | `char*` |  |
-| `success` | `bool` |  |
-| `transactionSource` | `char*` |  |
+| `alternateKey` | `char*` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `client` | `voxgig_value* (map)` | Reference to the associated Client resource. |
+| `clientRef` | `char*` | Client Reference property that is included in the decrypt API call. |
+| `created` | `char*` | Creation timestamp in ISO 8601 format. |
+| `decrypted` | `int64_t` | A Transcation can process muliple decryptions. |
+| `deviceName` | `char*` | The name of the Device that generated the payload to decrypt. |
+| `directPartner` | `voxgig_value* (map)` | Reference to the associated Partner. |
+| `encrypted` | `int64_t` | A Transcation can process muliple encryptions. |
+| `endDate` | `char*` | Timestamp from the end of the transaction. |
+| `errCode` | `char*` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `char*` | The error messge that is sent in response to a failed decrypt API call. |
+| `id` | `char*` | This resource's unique identifier. |
+| `ipAddress` | `char*` | The IP address of the http client that makes the decrypt API call. |
+| `isVirtual` | `bool` | Indicates if the Transaction came from a virtual Device. |
+| `keyType` | `char*` | The type of cipher used during decrytion. |
+| `location` | `voxgig_value* (map)` | Reference to the associated Location resource. |
+| `messageId` | `char*` | Message ID. |
+| `method` | `char*` | The decryption cypher/method. |
+| `partner` | `voxgig_value* (map)` | Reference to the associated Partner. |
+| `reference` | `char*` | The reference property that the Client includes in the decrypt API call. |
+| `serialNumber` | `char*` | The serial number of the Device that generated the payload to decrypt. |
+| `startDate` | `char*` | Timestamp from the beginning of the transaction. |
+| `success` | `bool` | The success indicator. |
+| `transactionSource` | `char*` | The source of the Transaction. |
 
 #### Example: Load
 
@@ -1558,18 +1558,18 @@ Create an instance: `Entity* update_result = bluefindecryptxp2pe_update_result(c
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `client` | `voxgig_value* (map)` |  |
-| `email` | `char*` |  |
-| `firstName` | `char*` |  |
-| `id` | `char*` |  |
-| `isActive` | `bool` |  |
-| `kif` | `voxgig_value* (map)` |  |
-| `lastName` | `char*` |  |
-| `partner` | `voxgig_value* (map)` |  |
-| `phone` | `char*` |  |
-| `userName` | `char*` |  |
-| `userRole` | `voxgig_value* (map)` |  |
-| `version` | `int64_t` |  |
+| `client` | `voxgig_value* (map)` | Reference to the associated Client resource. |
+| `email` | `char*` | The User's email address. |
+| `firstName` | `char*` | The User's name. |
+| `id` | `char*` | ID of newly created resource |
+| `isActive` | `bool` | This property indicates if the User account is active or disabled. |
+| `kif` | `voxgig_value* (map)` | Reference to the associated KIF resource. |
+| `lastName` | `char*` | The User's Surname. |
+| `partner` | `voxgig_value* (map)` | Reference to the associated Partner. |
+| `phone` | `char*` | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | `char*` | The User's unique username. |
+| `userRole` | `voxgig_value* (map)` | Reference to the associated User Role. |
+| `version` | `int64_t` | The number of times that this resource has been updated. |
 
 #### Example: List
 
@@ -1601,20 +1601,20 @@ Create an instance: `Entity* user = bluefindecryptxp2pe_user(client, NULL);`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `client` | `voxgig_value* (map)` |  |
-| `created` | `char*` |  |
-| `email` | `char*` |  |
-| `firstName` | `char*` |  |
-| `id` | `char*` |  |
-| `isActive` | `bool` |  |
-| `kif` | `voxgig_value* (map)` |  |
-| `lastName` | `char*` |  |
-| `modified` | `char*` |  |
-| `partner` | `voxgig_value* (map)` |  |
-| `phone` | `char*` |  |
-| `userName` | `char*` |  |
-| `userRole` | `voxgig_value* (map)` |  |
-| `version` | `int64_t` |  |
+| `client` | `voxgig_value* (map)` | Reference to the associated Client resource. |
+| `created` | `char*` | Creation timestamp in ISO 8601 format. |
+| `email` | `char*` | The User's email address. |
+| `firstName` | `char*` | The User's name. |
+| `id` | `char*` | This resource's unique identifier. |
+| `isActive` | `bool` | This property indicates if the User account is active or disabled. |
+| `kif` | `voxgig_value* (map)` | Reference to the associated KIF resource. |
+| `lastName` | `char*` | The User's Surname. |
+| `modified` | `char*` | Last modified timestamp. |
+| `partner` | `voxgig_value* (map)` | Reference to the associated Partner. |
+| `phone` | `char*` | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | `char*` | The User's unique username. |
+| `userRole` | `voxgig_value* (map)` | Reference to the associated User Role. |
+| `version` | `int64_t` | The number of times that this resource has been updated. |
 
 #### Example: Load
 

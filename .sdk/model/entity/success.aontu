@@ -8,6 +8,7 @@ main: kit: entity: success: {
     {
       name: "success"
       req: false
+      short: "Indicates if the action was a success."
       type: "`$BOOLEAN`"
     }
   ]

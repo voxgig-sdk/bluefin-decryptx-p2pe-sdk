@@ -323,13 +323,13 @@ On error, `ok` is `false` and `err` carries the error value.
 
 | Field | Description |
 | --- | --- |
-| `client` |  |
-| `completeDate` |  |
-| `created` |  |
-| `device` |  |
-| `id` |  |
-| `name` |  |
-| `notes` |  |
+| `client` | Reference to the associated Client resource. |
+| `completeDate` | The date and time that the Attestation took place. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `device` | Reference to the associated Device resource. |
+| `id` | This resource's unique identifier. |
+| `name` | Text describing the attestation. |
+| `notes` | Free form field that allows the Client associate notes with the Attestation. |
 
 Operations: Create, List, Load.
 
@@ -339,17 +339,17 @@ API path: `/attestations`
 
 | Field | Description |
 | --- | --- |
-| `contact` |  |
-| `created` |  |
-| `directPartner` |  |
-| `id` |  |
-| `isActive` |  |
-| `location` |  |
-| `mid` |  |
-| `modified` |  |
-| `name` |  |
-| `partner` |  |
-| `version` |  |
+| `contact` | Reference to the associated User resource. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `directPartner` | Reference to the associated Partner. |
+| `id` | This resource's unique identifier. |
+| `isActive` | This property indicates if the Client account is active or disabled. |
+| `location` | Reference to the associated Location resource. |
+| `mid` | Some Partners will have an merchant ids on their own software offerings. |
+| `modified` | Last modified timestamp. |
+| `name` | The Client's name. |
+| `partner` | Reference to the Client's root Partner. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Load, Remove.
 
@@ -368,7 +368,7 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
-| `success` |  |
+| `success` | true if the payload decryption was successful. |
 
 Operations: Create.
 
@@ -378,34 +378,34 @@ API path: `/decryption`
 
 | Field | Description |
 | --- | --- |
-| `activatedBy` |  |
-| `activationDate` |  |
-| `alternateKey` |  |
-| `auditNextDate` |  |
-| `auditNotificationDate` |  |
-| `client` |  |
-| `created` |  |
-| `createdBy` |  |
-| `deviceBuild` |  |
-| `deviceState` |  |
-| `deviceType` |  |
-| `errorCounter` |  |
-| `errorLastDate` |  |
-| `id` |  |
-| `initializedBy` |  |
-| `initializedDate` |  |
-| `injectKey` |  |
-| `isVirtual` |  |
-| `kif` |  |
-| `lastActivityDate` |  |
-| `location` |  |
-| `modified` |  |
-| `modifiedBy` |  |
-| `name` |  |
-| `notes` |  |
-| `partner` |  |
-| `serialNumber` |  |
-| `version` |  |
+| `activatedBy` | Reference to the associated User resource. |
+| `activationDate` | Timestamp from when the Device was activated. |
+| `alternateKey` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | Date and time that the Device is due its next PCI Audit. |
+| `auditNotificationDate` | Date and time that a notification should be sent that a PCI audit is due. |
+| `client` | Reference to the associated Client resource. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `createdBy` | Reference to the associated User resource. |
+| `deviceBuild` | Reference to the associated Device Build resource. |
+| `deviceState` | Reference to the associated Device State resource. |
+| `deviceType` | Reference to the associated Device Type resource. |
+| `errorCounter` | The number times the Device has been in error. |
+| `errorLastDate` | Timestamp from the last time that the Device had an error. |
+| `id` | The Device's unique identifier. |
+| `initializedBy` | Reference to the associated User resource. |
+| `initializedDate` | Timestamp from when the Device was initialized. |
+| `injectKey` | Reference to the associated Device resource. |
+| `isVirtual` | Indicates if a Device is Virtual (represents a Device shared with a partner). |
+| `kif` | Reference to the associated KIF resource. |
+| `lastActivityDate` | Timestamp from the last time that the Device was used. |
+| `location` | Reference to the associated Location resource. |
+| `modified` | Last modified timestamp. |
+| `modifiedBy` | Reference to the associated User resource. |
+| `name` | The Device's name. |
+| `notes` | Arbitary note that can be attached to a Device entry. |
+| `partner` | Reference to the associated Partner. |
+| `serialNumber` | The Device's serial number. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Load.
 
@@ -415,21 +415,21 @@ API path: `/devices`
 
 | Field | Description |
 | --- | --- |
-| `appVersion` |  |
-| `buildNumber` |  |
-| `configFileName` |  |
-| `created` |  |
-| `deviceType` |  |
-| `firmwareVersion` |  |
-| `hardwareVersion` |  |
-| `id` |  |
-| `isActive` |  |
-| `modified` |  |
-| `name` |  |
-| `notes` |  |
-| `version` |  |
-| `whiteListingBinRanges` |  |
-| `whiteListingUsed` |  |
+| `appVersion` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildNumber` | The Build Number. |
+| `configFileName` | The name of the configuration file that is uploaded to the device. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `deviceType` | The Device Type Name. |
+| `firmwareVersion` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | A list of hardware versions that this Device Build covers. |
+| `id` | This resource's unique identifier. |
+| `isActive` | This property indicates if the device build is still active and not succeeded by subsequent build. |
+| `modified` | Last modified timestamp. |
+| `name` | The Device Builds's name. |
+| `notes` | Notes attached to the device build by Bluefin CISO. |
+| `version` | The number of times that this resource has been updated. |
+| `whiteListingBinRanges` | A comma separated list of BIN ranges that aren't encrypted by the terminal. |
+| `whiteListingUsed` | This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal. |
 
 Operations: List, Load.
 
@@ -439,19 +439,19 @@ API path: `/deviceBuilds`
 
 | Field | Description |
 | --- | --- |
-| `completeDate` |  |
-| `created` |  |
-| `createdBy` |  |
-| `custodian` |  |
-| `device` |  |
-| `id` |  |
-| `location` |  |
-| `modified` |  |
-| `modifiedBy` |  |
-| `notes` |  |
-| `status` |  |
-| `transferMethod` |  |
-| `version` |  |
+| `completeDate` | The date and time that the Custody change took place. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `createdBy` | Reference to the associated User resource. |
+| `custodian` | Reference to the associated User resource. |
+| `device` | Reference to the associated Device resource. |
+| `id` | This resource's unique identifier. |
+| `location` | Reference to the associated Location resource. |
+| `modified` | Last modified timestamp. |
+| `modifiedBy` | Reference to the associated User resource. |
+| `notes` | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | Reference to the associated Custody Status. |
+| `transferMethod` | Reference to the associated Transfer Method. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: Load.
 
@@ -461,19 +461,19 @@ API path: `/devices/{serialNumber}/{deviceType}/custody/{id}`
 
 | Field | Description |
 | --- | --- |
-| `completeDate` |  |
-| `created` |  |
-| `createdBy` |  |
-| `custodian` |  |
-| `device` |  |
-| `id` |  |
-| `location` |  |
-| `modified` |  |
-| `modifiedBy` |  |
-| `notes` |  |
-| `status` |  |
-| `transferMethod` |  |
-| `version` |  |
+| `completeDate` | The date and time that the Custody change took place. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `createdBy` | Reference to the associated User resource. |
+| `custodian` | Reference to the associated User resource. |
+| `device` | Reference to the associated Device resource. |
+| `id` | This resource's unique identifier. |
+| `location` | Reference to the associated Location resource. |
+| `modified` | Last modified timestamp. |
+| `modifiedBy` | Reference to the associated User resource. |
+| `notes` | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | Reference to the associated Custody Status. |
+| `transferMethod` | Reference to the associated Transfer Method. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: List.
 
@@ -483,8 +483,8 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
-| `total` |  |
+| `data` | List of Devices. |
+| `total` | Total number of Devices available (not the number of Users in the response). |
 
 Operations: Load.
 
@@ -494,7 +494,7 @@ API path: `/virtualDevices/{sharePartnerTo}`
 
 | Field | Description |
 | --- | --- |
-| `success` |  |
+| `success` | Indicates if the action succeeded. |
 
 Operations: Create.
 
@@ -504,7 +504,7 @@ API path: `/devices/receive`
 
 | Field | Description |
 | --- | --- |
-| `success` |  |
+| `success` | Indicates if the RKI activation succeeded. |
 
 Operations: Create.
 
@@ -514,8 +514,8 @@ API path: `/devices/rki/activate`
 
 | Field | Description |
 | --- | --- |
-| `id` |  |
-| `name` |  |
+| `id` | Unique identifier for this Device state. |
+| `name` | Descriptive name for this Device state. |
 
 Operations: List.
 
@@ -525,18 +525,18 @@ API path: `/deviceStates`
 
 | Field | Description |
 | --- | --- |
-| `created` |  |
-| `deviceTypeMode` |  |
-| `hardwareVersion` |  |
-| `id` |  |
-| `isActive` |  |
-| `manufacturer` |  |
-| `model` |  |
-| `modified` |  |
-| `name` |  |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `deviceTypeMode` | The Device type. |
+| `hardwareVersion` | The Device hardware version. |
+| `id` | Unique idenifier. |
+| `isActive` | This property indicates if the DeviceType is active. |
+| `manufacturer` | The Device manufacturer. |
+| `model` | The Device model. |
+| `modified` | Last modified timestamp. |
+| `name` | The DeviceType name. |
 | `photoUrl` |  |
-| `productName` |  |
-| `version` |  |
+| `productName` | The Device name. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: List, Load.
 
@@ -546,14 +546,14 @@ API path: `/deviceTypes`
 
 | Field | Description |
 | --- | --- |
-| `created` |  |
-| `id` |  |
-| `isActive` |  |
-| `isP2PE` |  |
-| `keyType` |  |
-| `modified` |  |
-| `name` |  |
-| `version` |  |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `id` | unique idenifier |
+| `isActive` | Active flag, inactive keys cannot be assigned to devices. |
+| `isP2PE` | Flags if a key is for a P2PE compliant cypher. |
+| `keyType` | The cipher type that the key works with. |
+| `modified` | Last modified timestamp in ISO 8601 format. |
+| `name` | Key name. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: List, Load.
 
@@ -563,8 +563,8 @@ API path: `/injectKeys`
 
 | Field | Description |
 | --- | --- |
-| `id` |  |
-| `name` |  |
+| `id` | This resource's unique identifier. |
+| `name` | The KIF's name. |
 
 Operations: List.
 
@@ -574,29 +574,29 @@ API path: `/kifs`
 
 | Field | Description |
 | --- | --- |
-| `address1` |  |
-| `address2` |  |
-| `billingId` |  |
-| `city` |  |
-| `country` |  |
-| `created` |  |
-| `customReference` |  |
-| `id` |  |
-| `locationType` |  |
-| `mailAddress1` |  |
-| `mailAddress2` |  |
-| `mailCity` |  |
-| `mailCountry` |  |
-| `mailPostalCode` |  |
-| `mailStateProvince` |  |
-| `modified` |  |
-| `name` |  |
-| `nameOfBusiness` |  |
-| `notes` |  |
-| `postalCode` |  |
-| `stateProvince` |  |
-| `uniqueId` |  |
-| `version` |  |
+| `address1` | The Location's street address. |
+| `address2` | The Location's street address. |
+| `billingId` | \? |
+| `city` | The Location's city. |
+| `country` | The Location's country. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `customReference` | A Partner specified reference for a location. |
+| `id` | This resource's unique identifier. |
+| `locationType` | The Location's clasification. |
+| `mailAddress1` | The Location's street address. |
+| `mailAddress2` | The Location's street address. |
+| `mailCity` | The Location's city. |
+| `mailCountry` | The Location's street address. |
+| `mailPostalCode` | The Location's postal code. |
+| `mailStateProvince` | The Location's street state or province. |
+| `modified` | Last modified timestamp. |
+| `name` | The Location's name. |
+| `nameOfBusiness` | The name of the business at this location. |
+| `notes` | Note for delivery driver. |
+| `postalCode` | The Location's postal code. |
+| `stateProvince` | The Location's street state or province. |
+| `uniqueId` | Unique Identifier for the Location. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Load, Remove.
 
@@ -606,20 +606,20 @@ API path: `/locations`
 
 | Field | Description |
 | --- | --- |
-| `billingId` |  |
-| `clientCanOrderEquipment` |  |
-| `contact` |  |
-| `created` |  |
-| `id` |  |
-| `isActive` |  |
-| `location` |  |
-| `modified` |  |
-| `name` |  |
-| `parent` |  |
-| `partnerId` |  |
-| `reference` |  |
-| `verificationPhrase` |  |
-| `version` |  |
+| `billingId` | The Partner's billing identifier. |
+| `clientCanOrderEquipment` | This property indicates if the Partner is allowed to order Equipment. |
+| `contact` | Reference to the associated User resource. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `id` | This resource's unique identifier. |
+| `isActive` | This property indicates if the Parter account is active or disabled. |
+| `location` | Reference to the associated Location resource. |
+| `modified` | Last modified timestamp. |
+| `name` | The Partner's name. |
+| `parent` | Reference to the associated Partner. |
+| `partnerId` | The Partner's id. |
+| `reference` | The Partner's reference string. |
+| `verificationPhrase` | The verification phrase is a message that the Partner creates. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Load.
 
@@ -629,20 +629,20 @@ API path: `/partners`
 
 | Field | Description |
 | --- | --- |
-| `carrier` |  |
-| `client` |  |
-| `created` |  |
-| `dateReceived` |  |
-| `dateShipped` |  |
-| `dcKif` |  |
-| `id` |  |
+| `carrier` | The name of the courier. |
+| `client` | Reference to the associated Client resource. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `dateReceived` | The date and time that a package is recieved. |
+| `dateShipped` | The date and time that a package is shipped. |
+| `dcKif` | Reference to the associated KIF resource. |
+| `id` | This resource's unique identifier. |
 | `items` |  |
-| `kif` |  |
-| `modified` |  |
-| `partner` |  |
-| `shipmentType` |  |
-| `tracking` |  |
-| `version` |  |
+| `kif` | Reference to the associated KIF resource. |
+| `modified` | Last modified timestamp. |
+| `partner` | Reference to the associated Partner. |
+| `shipmentType` | The type of shipment. |
+| `tracking` | The courier's tracking number. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Load.
 
@@ -652,7 +652,7 @@ API path: `/shipments`
 
 | Field | Description |
 | --- | --- |
-| `success` |  |
+| `success` | Indicates if the action was a success. |
 
 Operations: Create, Remove.
 
@@ -662,30 +662,30 @@ API path: `/virtualDevices/{sharePartnerTo}`
 
 | Field | Description |
 | --- | --- |
-| `alternateKey` |  |
-| `client` |  |
-| `clientRef` |  |
-| `created` |  |
-| `decrypted` |  |
-| `deviceName` |  |
-| `directPartner` |  |
-| `encrypted` |  |
-| `endDate` |  |
-| `errCode` |  |
-| `errMessage` |  |
-| `id` |  |
-| `ipAddress` |  |
-| `isVirtual` |  |
-| `keyType` |  |
-| `location` |  |
-| `messageId` |  |
-| `method` |  |
-| `partner` |  |
-| `reference` |  |
-| `serialNumber` |  |
-| `startDate` |  |
-| `success` |  |
-| `transactionSource` |  |
+| `alternateKey` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `client` | Reference to the associated Client resource. |
+| `clientRef` | Client Reference property that is included in the decrypt API call. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `decrypted` | A Transcation can process muliple decryptions. |
+| `deviceName` | The name of the Device that generated the payload to decrypt. |
+| `directPartner` | Reference to the associated Partner. |
+| `encrypted` | A Transcation can process muliple encryptions. |
+| `endDate` | Timestamp from the end of the transaction. |
+| `errCode` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | The error messge that is sent in response to a failed decrypt API call. |
+| `id` | This resource's unique identifier. |
+| `ipAddress` | The IP address of the http client that makes the decrypt API call. |
+| `isVirtual` | Indicates if the Transaction came from a virtual Device. |
+| `keyType` | The type of cipher used during decrytion. |
+| `location` | Reference to the associated Location resource. |
+| `messageId` | Message ID. |
+| `method` | The decryption cypher/method. |
+| `partner` | Reference to the associated Partner. |
+| `reference` | The reference property that the Client includes in the decrypt API call. |
+| `serialNumber` | The serial number of the Device that generated the payload to decrypt. |
+| `startDate` | Timestamp from the beginning of the transaction. |
+| `success` | The success indicator. |
+| `transactionSource` | The source of the Transaction. |
 
 Operations: Create, List, Load.
 
@@ -695,18 +695,18 @@ API path: `/transactions`
 
 | Field | Description |
 | --- | --- |
-| `client` |  |
-| `email` |  |
-| `firstName` |  |
-| `id` |  |
-| `isActive` |  |
-| `kif` |  |
-| `lastName` |  |
-| `partner` |  |
-| `phone` |  |
-| `userName` |  |
-| `userRole` |  |
-| `version` |  |
+| `client` | Reference to the associated Client resource. |
+| `email` | The User's email address. |
+| `firstName` | The User's name. |
+| `id` | ID of newly created resource |
+| `isActive` | This property indicates if the User account is active or disabled. |
+| `kif` | Reference to the associated KIF resource. |
+| `lastName` | The User's Surname. |
+| `partner` | Reference to the associated Partner. |
+| `phone` | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | The User's unique username. |
+| `userRole` | Reference to the associated User Role. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Update.
 
@@ -716,20 +716,20 @@ API path: `/users`
 
 | Field | Description |
 | --- | --- |
-| `client` |  |
-| `created` |  |
-| `email` |  |
-| `firstName` |  |
-| `id` |  |
-| `isActive` |  |
-| `kif` |  |
-| `lastName` |  |
-| `modified` |  |
-| `partner` |  |
-| `phone` |  |
-| `userName` |  |
-| `userRole` |  |
-| `version` |  |
+| `client` | Reference to the associated Client resource. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `email` | The User's email address. |
+| `firstName` | The User's name. |
+| `id` | This resource's unique identifier. |
+| `isActive` | This property indicates if the User account is active or disabled. |
+| `kif` | Reference to the associated KIF resource. |
+| `lastName` | The User's Surname. |
+| `modified` | Last modified timestamp. |
+| `partner` | Reference to the associated Partner. |
+| `phone` | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | The User's unique username. |
+| `userRole` | Reference to the associated User Role. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: Load, Remove.
 
@@ -759,13 +759,13 @@ Create a handle: `attestation = BluefinDecryptxP2pe.attestation(sdk)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `client` | `map()` |  |
-| `completeDate` | `String.t()` |  |
-| `created` | `String.t()` |  |
-| `device` | `map()` |  |
-| `id` | `String.t()` |  |
-| `name` | `String.t()` |  |
-| `notes` | `String.t()` |  |
+| `client` | `map()` | Reference to the associated Client resource. |
+| `completeDate` | `String.t()` | The date and time that the Attestation took place. |
+| `created` | `String.t()` | Creation timestamp in ISO 8601 format. |
+| `device` | `map()` | Reference to the associated Device resource. |
+| `id` | `String.t()` | This resource's unique identifier. |
+| `name` | `String.t()` | Text describing the attestation. |
+| `notes` | `String.t()` | Free form field that allows the Client associate notes with the Attestation. |
 
 #### Example: Load
 
@@ -807,17 +807,17 @@ Create a handle: `client = BluefinDecryptxP2pe.client(sdk)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `contact` | `map()` |  |
-| `created` | `String.t()` |  |
-| `directPartner` | `map()` |  |
-| `id` | `String.t()` |  |
-| `isActive` | `boolean()` |  |
-| `location` | `map()` |  |
-| `mid` | `String.t()` |  |
-| `modified` | `String.t()` |  |
-| `name` | `String.t()` |  |
-| `partner` | `map()` |  |
-| `version` | `integer()` |  |
+| `contact` | `map()` | Reference to the associated User resource. |
+| `created` | `String.t()` | Creation timestamp in ISO 8601 format. |
+| `directPartner` | `map()` | Reference to the associated Partner. |
+| `id` | `String.t()` | This resource's unique identifier. |
+| `isActive` | `boolean()` | This property indicates if the Client account is active or disabled. |
+| `location` | `map()` | Reference to the associated Location resource. |
+| `mid` | `String.t()` | Some Partners will have an merchant ids on their own software offerings. |
+| `modified` | `String.t()` | Last modified timestamp. |
+| `name` | `String.t()` | The Client's name. |
+| `partner` | `map()` | Reference to the Client's root Partner. |
+| `version` | `integer()` | The number of times that this resource has been updated. |
 
 #### Example: Load
 
@@ -878,7 +878,7 @@ Create a handle: `decryption = BluefinDecryptxP2pe.decryption(sdk)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `success` | `boolean()` |  |
+| `success` | `boolean()` | true if the payload decryption was successful. |
 
 #### Example: Create
 
@@ -905,34 +905,34 @@ Create a handle: `device = BluefinDecryptxP2pe.device(sdk)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `activatedBy` | `map()` |  |
-| `activationDate` | `String.t()` |  |
-| `alternateKey` | `String.t()` |  |
-| `auditNextDate` | `String.t()` |  |
-| `auditNotificationDate` | `String.t()` |  |
-| `client` | `map()` |  |
-| `created` | `String.t()` |  |
-| `createdBy` | `map()` |  |
-| `deviceBuild` | `map()` |  |
-| `deviceState` | `map()` |  |
-| `deviceType` | `map()` |  |
-| `errorCounter` | `integer()` |  |
-| `errorLastDate` | `String.t()` |  |
-| `id` | `String.t()` |  |
-| `initializedBy` | `map()` |  |
-| `initializedDate` | `String.t()` |  |
-| `injectKey` | `map()` |  |
-| `isVirtual` | `boolean()` |  |
-| `kif` | `map()` |  |
-| `lastActivityDate` | `String.t()` |  |
-| `location` | `map()` |  |
-| `modified` | `String.t()` |  |
-| `modifiedBy` | `map()` |  |
-| `name` | `String.t()` |  |
-| `notes` | `String.t()` |  |
-| `partner` | `map()` |  |
-| `serialNumber` | `String.t()` |  |
-| `version` | `integer()` |  |
+| `activatedBy` | `map()` | Reference to the associated User resource. |
+| `activationDate` | `String.t()` | Timestamp from when the Device was activated. |
+| `alternateKey` | `String.t()` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `String.t()` | Date and time that the Device is due its next PCI Audit. |
+| `auditNotificationDate` | `String.t()` | Date and time that a notification should be sent that a PCI audit is due. |
+| `client` | `map()` | Reference to the associated Client resource. |
+| `created` | `String.t()` | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `map()` | Reference to the associated User resource. |
+| `deviceBuild` | `map()` | Reference to the associated Device Build resource. |
+| `deviceState` | `map()` | Reference to the associated Device State resource. |
+| `deviceType` | `map()` | Reference to the associated Device Type resource. |
+| `errorCounter` | `integer()` | The number times the Device has been in error. |
+| `errorLastDate` | `String.t()` | Timestamp from the last time that the Device had an error. |
+| `id` | `String.t()` | The Device's unique identifier. |
+| `initializedBy` | `map()` | Reference to the associated User resource. |
+| `initializedDate` | `String.t()` | Timestamp from when the Device was initialized. |
+| `injectKey` | `map()` | Reference to the associated Device resource. |
+| `isVirtual` | `boolean()` | Indicates if a Device is Virtual (represents a Device shared with a partner). |
+| `kif` | `map()` | Reference to the associated KIF resource. |
+| `lastActivityDate` | `String.t()` | Timestamp from the last time that the Device was used. |
+| `location` | `map()` | Reference to the associated Location resource. |
+| `modified` | `String.t()` | Last modified timestamp. |
+| `modifiedBy` | `map()` | Reference to the associated User resource. |
+| `name` | `String.t()` | The Device's name. |
+| `notes` | `String.t()` | Arbitary note that can be attached to a Device entry. |
+| `partner` | `map()` | Reference to the associated Partner. |
+| `serialNumber` | `String.t()` | The Device's serial number. |
+| `version` | `integer()` | The number of times that this resource has been updated. |
 
 #### Example: Load
 
@@ -977,21 +977,21 @@ Create a handle: `device_build = BluefinDecryptxP2pe.device_build(sdk)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `appVersion` | `String.t()` |  |
-| `buildNumber` | `String.t()` |  |
-| `configFileName` | `String.t()` |  |
-| `created` | `String.t()` |  |
-| `deviceType` | `String.t()` |  |
-| `firmwareVersion` | `String.t()` |  |
-| `hardwareVersion` | `String.t()` |  |
-| `id` | `integer()` |  |
-| `isActive` | `boolean()` |  |
-| `modified` | `String.t()` |  |
-| `name` | `String.t()` |  |
-| `notes` | `String.t()` |  |
-| `version` | `integer()` |  |
-| `whiteListingBinRanges` | `String.t()` |  |
-| `whiteListingUsed` | `boolean()` |  |
+| `appVersion` | `String.t()` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildNumber` | `String.t()` | The Build Number. |
+| `configFileName` | `String.t()` | The name of the configuration file that is uploaded to the device. |
+| `created` | `String.t()` | Creation timestamp in ISO 8601 format. |
+| `deviceType` | `String.t()` | The Device Type Name. |
+| `firmwareVersion` | `String.t()` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `String.t()` | A list of hardware versions that this Device Build covers. |
+| `id` | `integer()` | This resource's unique identifier. |
+| `isActive` | `boolean()` | This property indicates if the device build is still active and not succeeded by subsequent build. |
+| `modified` | `String.t()` | Last modified timestamp. |
+| `name` | `String.t()` | The Device Builds's name. |
+| `notes` | `String.t()` | Notes attached to the device build by Bluefin CISO. |
+| `version` | `integer()` | The number of times that this resource has been updated. |
+| `whiteListingBinRanges` | `String.t()` | A comma separated list of BIN ranges that aren't encrypted by the terminal. |
+| `whiteListingUsed` | `boolean()` | This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal. |
 
 #### Example: Load
 
@@ -1022,19 +1022,19 @@ Create a handle: `device_custody_detail = BluefinDecryptxP2pe.device_custody_det
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `completeDate` | `String.t()` |  |
-| `created` | `String.t()` |  |
-| `createdBy` | `map()` |  |
-| `custodian` | `map()` |  |
-| `device` | `map()` |  |
-| `id` | `integer()` |  |
-| `location` | `map()` |  |
-| `modified` | `String.t()` |  |
-| `modifiedBy` | `map()` |  |
-| `notes` | `String.t()` |  |
-| `status` | `map()` |  |
-| `transferMethod` | `map()` |  |
-| `version` | `integer()` |  |
+| `completeDate` | `String.t()` | The date and time that the Custody change took place. |
+| `created` | `String.t()` | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `map()` | Reference to the associated User resource. |
+| `custodian` | `map()` | Reference to the associated User resource. |
+| `device` | `map()` | Reference to the associated Device resource. |
+| `id` | `integer()` | This resource's unique identifier. |
+| `location` | `map()` | Reference to the associated Location resource. |
+| `modified` | `String.t()` | Last modified timestamp. |
+| `modifiedBy` | `map()` | Reference to the associated User resource. |
+| `notes` | `String.t()` | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | `map()` | Reference to the associated Custody Status. |
+| `transferMethod` | `map()` | Reference to the associated Transfer Method. |
+| `version` | `integer()` | The number of times that this resource has been updated. |
 
 #### Example: Load
 
@@ -1058,19 +1058,19 @@ Create a handle: `device_custody_list = BluefinDecryptxP2pe.device_custody_list(
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `completeDate` | `String.t()` |  |
-| `created` | `String.t()` |  |
-| `createdBy` | `map()` |  |
-| `custodian` | `map()` |  |
-| `device` | `map()` |  |
-| `id` | `integer()` |  |
-| `location` | `map()` |  |
-| `modified` | `String.t()` |  |
-| `modifiedBy` | `map()` |  |
-| `notes` | `String.t()` |  |
-| `status` | `map()` |  |
-| `transferMethod` | `map()` |  |
-| `version` | `integer()` |  |
+| `completeDate` | `String.t()` | The date and time that the Custody change took place. |
+| `created` | `String.t()` | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `map()` | Reference to the associated User resource. |
+| `custodian` | `map()` | Reference to the associated User resource. |
+| `device` | `map()` | Reference to the associated Device resource. |
+| `id` | `integer()` | This resource's unique identifier. |
+| `location` | `map()` | Reference to the associated Location resource. |
+| `modified` | `String.t()` | Last modified timestamp. |
+| `modifiedBy` | `map()` | Reference to the associated User resource. |
+| `notes` | `String.t()` | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | `map()` | Reference to the associated Custody Status. |
+| `transferMethod` | `map()` | Reference to the associated Transfer Method. |
+| `version` | `integer()` | The number of times that this resource has been updated. |
 
 #### Example: List
 
@@ -1094,8 +1094,8 @@ Create a handle: `device_list = BluefinDecryptxP2pe.device_list(sdk)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `list()` |  |
-| `total` | `integer()` |  |
+| `data` | `list()` | List of Devices. |
+| `total` | `integer()` | Total number of Devices available (not the number of Users in the response). |
 
 #### Example: Load
 
@@ -1119,7 +1119,7 @@ Create a handle: `device_receive_result = BluefinDecryptxP2pe.device_receive_res
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `success` | `boolean()` |  |
+| `success` | `boolean()` | Indicates if the action succeeded. |
 
 #### Example: Create
 
@@ -1145,7 +1145,7 @@ Create a handle: `device_rki_activate_result = BluefinDecryptxP2pe.device_rki_ac
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `success` | `boolean()` |  |
+| `success` | `boolean()` | Indicates if the RKI activation succeeded. |
 
 #### Example: Create
 
@@ -1171,8 +1171,8 @@ Create a handle: `device_state = BluefinDecryptxP2pe.device_state(sdk)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `id` | `integer()` |  |
-| `name` | `String.t()` |  |
+| `id` | `integer()` | Unique identifier for this Device state. |
+| `name` | `String.t()` | Descriptive name for this Device state. |
 
 #### Example: List
 
@@ -1197,18 +1197,18 @@ Create a handle: `device_type = BluefinDecryptxP2pe.device_type(sdk)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created` | `String.t()` |  |
-| `deviceTypeMode` | `String.t()` |  |
-| `hardwareVersion` | `String.t()` |  |
-| `id` | `String.t()` |  |
-| `isActive` | `boolean()` |  |
-| `manufacturer` | `String.t()` |  |
-| `model` | `String.t()` |  |
-| `modified` | `String.t()` |  |
-| `name` | `String.t()` |  |
+| `created` | `String.t()` | Creation timestamp in ISO 8601 format. |
+| `deviceTypeMode` | `String.t()` | The Device type. |
+| `hardwareVersion` | `String.t()` | The Device hardware version. |
+| `id` | `String.t()` | Unique idenifier. |
+| `isActive` | `boolean()` | This property indicates if the DeviceType is active. |
+| `manufacturer` | `String.t()` | The Device manufacturer. |
+| `model` | `String.t()` | The Device model. |
+| `modified` | `String.t()` | Last modified timestamp. |
+| `name` | `String.t()` | The DeviceType name. |
 | `photoUrl` | `String.t()` |  |
-| `productName` | `String.t()` |  |
-| `version` | `integer()` |  |
+| `productName` | `String.t()` | The Device name. |
+| `version` | `integer()` | The number of times that this resource has been updated. |
 
 #### Example: Load
 
@@ -1240,14 +1240,14 @@ Create a handle: `inject_key = BluefinDecryptxP2pe.inject_key(sdk)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created` | `String.t()` |  |
-| `id` | `String.t()` |  |
-| `isActive` | `boolean()` |  |
-| `isP2PE` | `boolean()` |  |
-| `keyType` | `String.t()` |  |
-| `modified` | `String.t()` |  |
-| `name` | `String.t()` |  |
-| `version` | `integer()` |  |
+| `created` | `String.t()` | Creation timestamp in ISO 8601 format. |
+| `id` | `String.t()` | unique idenifier |
+| `isActive` | `boolean()` | Active flag, inactive keys cannot be assigned to devices. |
+| `isP2PE` | `boolean()` | Flags if a key is for a P2PE compliant cypher. |
+| `keyType` | `String.t()` | The cipher type that the key works with. |
+| `modified` | `String.t()` | Last modified timestamp in ISO 8601 format. |
+| `name` | `String.t()` | Key name. |
+| `version` | `integer()` | The number of times that this resource has been updated. |
 
 #### Example: Load
 
@@ -1278,8 +1278,8 @@ Create a handle: `kif = BluefinDecryptxP2pe.kif(sdk)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `id` | `integer()` |  |
-| `name` | `String.t()` |  |
+| `id` | `integer()` | This resource's unique identifier. |
+| `name` | `String.t()` | The KIF's name. |
 
 #### Example: List
 
@@ -1306,29 +1306,29 @@ Create a handle: `location = BluefinDecryptxP2pe.location(sdk)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `address1` | `String.t()` |  |
-| `address2` | `String.t()` |  |
-| `billingId` | `String.t()` |  |
-| `city` | `String.t()` |  |
-| `country` | `String.t()` |  |
-| `created` | `String.t()` |  |
-| `customReference` | `String.t()` |  |
-| `id` | `String.t()` |  |
-| `locationType` | `String.t()` |  |
-| `mailAddress1` | `String.t()` |  |
-| `mailAddress2` | `String.t()` |  |
-| `mailCity` | `String.t()` |  |
-| `mailCountry` | `String.t()` |  |
-| `mailPostalCode` | `String.t()` |  |
-| `mailStateProvince` | `String.t()` |  |
-| `modified` | `String.t()` |  |
-| `name` | `String.t()` |  |
-| `nameOfBusiness` | `String.t()` |  |
-| `notes` | `String.t()` |  |
-| `postalCode` | `String.t()` |  |
-| `stateProvince` | `String.t()` |  |
-| `uniqueId` | `String.t()` |  |
-| `version` | `integer()` |  |
+| `address1` | `String.t()` | The Location's street address. |
+| `address2` | `String.t()` | The Location's street address. |
+| `billingId` | `String.t()` | \? |
+| `city` | `String.t()` | The Location's city. |
+| `country` | `String.t()` | The Location's country. |
+| `created` | `String.t()` | Creation timestamp in ISO 8601 format. |
+| `customReference` | `String.t()` | A Partner specified reference for a location. |
+| `id` | `String.t()` | This resource's unique identifier. |
+| `locationType` | `String.t()` | The Location's clasification. |
+| `mailAddress1` | `String.t()` | The Location's street address. |
+| `mailAddress2` | `String.t()` | The Location's street address. |
+| `mailCity` | `String.t()` | The Location's city. |
+| `mailCountry` | `String.t()` | The Location's street address. |
+| `mailPostalCode` | `String.t()` | The Location's postal code. |
+| `mailStateProvince` | `String.t()` | The Location's street state or province. |
+| `modified` | `String.t()` | Last modified timestamp. |
+| `name` | `String.t()` | The Location's name. |
+| `nameOfBusiness` | `String.t()` | The name of the business at this location. |
+| `notes` | `String.t()` | Note for delivery driver. |
+| `postalCode` | `String.t()` | The Location's postal code. |
+| `stateProvince` | `String.t()` | The Location's street state or province. |
+| `uniqueId` | `String.t()` | Unique Identifier for the Location. |
+| `version` | `integer()` | The number of times that this resource has been updated. |
 
 #### Example: Load
 
@@ -1369,20 +1369,20 @@ Create a handle: `partner = BluefinDecryptxP2pe.partner(sdk)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `billingId` | `String.t()` |  |
-| `clientCanOrderEquipment` | `boolean()` |  |
-| `contact` | `map()` |  |
-| `created` | `String.t()` |  |
-| `id` | `String.t()` |  |
-| `isActive` | `boolean()` |  |
-| `location` | `map()` |  |
-| `modified` | `String.t()` |  |
-| `name` | `String.t()` |  |
-| `parent` | `map()` |  |
-| `partnerId` | `String.t()` |  |
-| `reference` | `String.t()` |  |
-| `verificationPhrase` | `String.t()` |  |
-| `version` | `integer()` |  |
+| `billingId` | `String.t()` | The Partner's billing identifier. |
+| `clientCanOrderEquipment` | `boolean()` | This property indicates if the Partner is allowed to order Equipment. |
+| `contact` | `map()` | Reference to the associated User resource. |
+| `created` | `String.t()` | Creation timestamp in ISO 8601 format. |
+| `id` | `String.t()` | This resource's unique identifier. |
+| `isActive` | `boolean()` | This property indicates if the Parter account is active or disabled. |
+| `location` | `map()` | Reference to the associated Location resource. |
+| `modified` | `String.t()` | Last modified timestamp. |
+| `name` | `String.t()` | The Partner's name. |
+| `parent` | `map()` | Reference to the associated Partner. |
+| `partnerId` | `String.t()` | The Partner's id. |
+| `reference` | `String.t()` | The Partner's reference string. |
+| `verificationPhrase` | `String.t()` | The verification phrase is a message that the Partner creates. |
+| `version` | `integer()` | The number of times that this resource has been updated. |
 
 #### Example: Load
 
@@ -1424,20 +1424,20 @@ Create a handle: `shipment = BluefinDecryptxP2pe.shipment(sdk)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `carrier` | `String.t()` |  |
-| `client` | `map()` |  |
-| `created` | `String.t()` |  |
-| `dateReceived` | `String.t()` |  |
-| `dateShipped` | `String.t()` |  |
-| `dcKif` | `map()` |  |
-| `id` | `String.t()` |  |
+| `carrier` | `String.t()` | The name of the courier. |
+| `client` | `map()` | Reference to the associated Client resource. |
+| `created` | `String.t()` | Creation timestamp in ISO 8601 format. |
+| `dateReceived` | `String.t()` | The date and time that a package is recieved. |
+| `dateShipped` | `String.t()` | The date and time that a package is shipped. |
+| `dcKif` | `map()` | Reference to the associated KIF resource. |
+| `id` | `String.t()` | This resource's unique identifier. |
 | `items` | `list()` |  |
-| `kif` | `map()` |  |
-| `modified` | `String.t()` |  |
-| `partner` | `map()` |  |
-| `shipmentType` | `String.t()` |  |
-| `tracking` | `String.t()` |  |
-| `version` | `integer()` |  |
+| `kif` | `map()` | Reference to the associated KIF resource. |
+| `modified` | `String.t()` | Last modified timestamp. |
+| `partner` | `map()` | Reference to the associated Partner. |
+| `shipmentType` | `String.t()` | The type of shipment. |
+| `tracking` | `String.t()` | The courier's tracking number. |
+| `version` | `integer()` | The number of times that this resource has been updated. |
 
 #### Example: Load
 
@@ -1477,7 +1477,7 @@ Create a handle: `success = BluefinDecryptxP2pe.success(sdk)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `success` | `boolean()` |  |
+| `success` | `boolean()` | Indicates if the action was a success. |
 
 #### Example: Create
 
@@ -1505,30 +1505,30 @@ Create a handle: `transaction = BluefinDecryptxP2pe.transaction(sdk)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `alternateKey` | `String.t()` |  |
-| `client` | `map()` |  |
-| `clientRef` | `String.t()` |  |
-| `created` | `String.t()` |  |
-| `decrypted` | `integer()` |  |
-| `deviceName` | `String.t()` |  |
-| `directPartner` | `map()` |  |
-| `encrypted` | `integer()` |  |
-| `endDate` | `String.t()` |  |
-| `errCode` | `String.t()` |  |
-| `errMessage` | `String.t()` |  |
-| `id` | `String.t()` |  |
-| `ipAddress` | `String.t()` |  |
-| `isVirtual` | `boolean()` |  |
-| `keyType` | `String.t()` |  |
-| `location` | `map()` |  |
-| `messageId` | `String.t()` |  |
-| `method` | `String.t()` |  |
-| `partner` | `map()` |  |
-| `reference` | `String.t()` |  |
-| `serialNumber` | `String.t()` |  |
-| `startDate` | `String.t()` |  |
-| `success` | `boolean()` |  |
-| `transactionSource` | `String.t()` |  |
+| `alternateKey` | `String.t()` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `client` | `map()` | Reference to the associated Client resource. |
+| `clientRef` | `String.t()` | Client Reference property that is included in the decrypt API call. |
+| `created` | `String.t()` | Creation timestamp in ISO 8601 format. |
+| `decrypted` | `integer()` | A Transcation can process muliple decryptions. |
+| `deviceName` | `String.t()` | The name of the Device that generated the payload to decrypt. |
+| `directPartner` | `map()` | Reference to the associated Partner. |
+| `encrypted` | `integer()` | A Transcation can process muliple encryptions. |
+| `endDate` | `String.t()` | Timestamp from the end of the transaction. |
+| `errCode` | `String.t()` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `String.t()` | The error messge that is sent in response to a failed decrypt API call. |
+| `id` | `String.t()` | This resource's unique identifier. |
+| `ipAddress` | `String.t()` | The IP address of the http client that makes the decrypt API call. |
+| `isVirtual` | `boolean()` | Indicates if the Transaction came from a virtual Device. |
+| `keyType` | `String.t()` | The type of cipher used during decrytion. |
+| `location` | `map()` | Reference to the associated Location resource. |
+| `messageId` | `String.t()` | Message ID. |
+| `method` | `String.t()` | The decryption cypher/method. |
+| `partner` | `map()` | Reference to the associated Partner. |
+| `reference` | `String.t()` | The reference property that the Client includes in the decrypt API call. |
+| `serialNumber` | `String.t()` | The serial number of the Device that generated the payload to decrypt. |
+| `startDate` | `String.t()` | Timestamp from the beginning of the transaction. |
+| `success` | `boolean()` | The success indicator. |
+| `transactionSource` | `String.t()` | The source of the Transaction. |
 
 #### Example: Load
 
@@ -1570,18 +1570,18 @@ Create a handle: `update_result = BluefinDecryptxP2pe.update_result(sdk)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `client` | `map()` |  |
-| `email` | `String.t()` |  |
-| `firstName` | `String.t()` |  |
-| `id` | `String.t()` |  |
-| `isActive` | `boolean()` |  |
-| `kif` | `map()` |  |
-| `lastName` | `String.t()` |  |
-| `partner` | `map()` |  |
-| `phone` | `String.t()` |  |
-| `userName` | `String.t()` |  |
-| `userRole` | `map()` |  |
-| `version` | `integer()` |  |
+| `client` | `map()` | Reference to the associated Client resource. |
+| `email` | `String.t()` | The User's email address. |
+| `firstName` | `String.t()` | The User's name. |
+| `id` | `String.t()` | ID of newly created resource |
+| `isActive` | `boolean()` | This property indicates if the User account is active or disabled. |
+| `kif` | `map()` | Reference to the associated KIF resource. |
+| `lastName` | `String.t()` | The User's Surname. |
+| `partner` | `map()` | Reference to the associated Partner. |
+| `phone` | `String.t()` | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | `String.t()` | The User's unique username. |
+| `userRole` | `map()` | Reference to the associated User Role. |
+| `version` | `integer()` | The number of times that this resource has been updated. |
 
 #### Example: List
 
@@ -1614,20 +1614,20 @@ Create a handle: `user = BluefinDecryptxP2pe.user(sdk)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `client` | `map()` |  |
-| `created` | `String.t()` |  |
-| `email` | `String.t()` |  |
-| `firstName` | `String.t()` |  |
-| `id` | `String.t()` |  |
-| `isActive` | `boolean()` |  |
-| `kif` | `map()` |  |
-| `lastName` | `String.t()` |  |
-| `modified` | `String.t()` |  |
-| `partner` | `map()` |  |
-| `phone` | `String.t()` |  |
-| `userName` | `String.t()` |  |
-| `userRole` | `map()` |  |
-| `version` | `integer()` |  |
+| `client` | `map()` | Reference to the associated Client resource. |
+| `created` | `String.t()` | Creation timestamp in ISO 8601 format. |
+| `email` | `String.t()` | The User's email address. |
+| `firstName` | `String.t()` | The User's name. |
+| `id` | `String.t()` | This resource's unique identifier. |
+| `isActive` | `boolean()` | This property indicates if the User account is active or disabled. |
+| `kif` | `map()` | Reference to the associated KIF resource. |
+| `lastName` | `String.t()` | The User's Surname. |
+| `modified` | `String.t()` | Last modified timestamp. |
+| `partner` | `map()` | Reference to the associated Partner. |
+| `phone` | `String.t()` | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | `String.t()` | The User's unique username. |
+| `userRole` | `map()` | Reference to the associated User Role. |
+| `version` | `integer()` | The number of times that this resource has been updated. |
 
 #### Example: Load
 

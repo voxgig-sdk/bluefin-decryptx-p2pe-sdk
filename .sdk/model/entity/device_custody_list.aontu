@@ -8,66 +8,79 @@ main: kit: entity: device_custody_list: {
     {
       name: "completeDate"
       req: false
+      short: "The date and time that the Custody change took place."
       type: "`$STRING`"
     }
     {
       name: "created"
       req: false
+      short: "Creation timestamp in ISO 8601 format."
       type: "`$STRING`"
     }
     {
       name: "createdBy"
       req: true
+      short: "Reference to the associated User resource."
       type: "`$OBJECT`"
     }
     {
       name: "custodian"
       req: true
+      short: "Reference to the associated User resource."
       type: "`$OBJECT`"
     }
     {
       name: "device"
       req: false
+      short: "Reference to the associated Device resource."
       type: "`$OBJECT`"
     }
     {
       name: "id"
       req: false
+      short: "This resource's unique identifier."
       type: "`$INTEGER`"
     }
     {
       name: "location"
       req: true
+      short: "Reference to the associated Location resource."
       type: "`$OBJECT`"
     }
     {
       name: "modified"
       req: false
+      short: "Last modified timestamp."
       type: "`$STRING`"
     }
     {
       name: "modifiedBy"
       req: true
+      short: "Reference to the associated User resource."
       type: "`$OBJECT`"
     }
     {
       name: "notes"
       req: false
+      short: "Free form field that allows the Client associate notes with the Custody Change."
       type: "`$STRING`"
     }
     {
       name: "status"
       req: false
+      short: "Reference to the associated Custody Status."
       type: "`$OBJECT`"
     }
     {
       name: "transferMethod"
       req: false
+      short: "Reference to the associated Transfer Method."
       type: "`$OBJECT`"
     }
     {
       name: "version"
       req: false
+      short: "The number of times that this resource has been updated."
       type: "`$INTEGER`"
     }
   ]

@@ -8,61 +8,73 @@ main: kit: entity: update_result: {
     {
       name: "client"
       req: false
+      short: "Reference to the associated Client resource."
       type: "`$OBJECT`"
     }
     {
       name: "email"
       req: false
+      short: "The User's email address."
       type: "`$STRING`"
     }
     {
       name: "firstName"
       req: false
+      short: "The User's name."
       type: "`$STRING`"
     }
     {
       name: "id"
       req: false
+      short: "ID of newly created resource"
       type: "`$STRING`"
     }
     {
       name: "isActive"
       req: false
+      short: "This property indicates if the User account is active or disabled."
       type: "`$BOOLEAN`"
     }
     {
       name: "kif"
       req: false
+      short: "Reference to the associated KIF resource."
       type: "`$OBJECT`"
     }
     {
       name: "lastName"
       req: false
+      short: "The User's Surname."
       type: "`$STRING`"
     }
     {
       name: "partner"
       req: false
+      short: "Reference to the associated Partner."
       type: "`$OBJECT`"
     }
     {
       name: "phone"
       req: false
+      short: "The User's phone number without dashes, spaces, or brackets."
       type: "`$STRING`"
     }
     {
       name: "userName"
       req: false
+      short: "The User's unique username."
       type: "`$STRING`"
     }
     {
       name: "userRole"
       req: false
+      short: "Reference to the associated User Role."
       type: "`$OBJECT`"
     }
     {
       name: "version"
       req: false
+      short: "The number of times that this resource has been updated."
       type: "`$INTEGER`"
     }
   ]

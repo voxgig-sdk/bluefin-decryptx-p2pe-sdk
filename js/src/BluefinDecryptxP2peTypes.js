@@ -153,9 +153,7 @@
 
 /**
  * @typedef {Object} DeviceLoadMatch
- * @property {string} [device_type]
- * @property {string} [serial_number]
- * @property {string} [id]
+ * @property {string} id
  */
 
 /**

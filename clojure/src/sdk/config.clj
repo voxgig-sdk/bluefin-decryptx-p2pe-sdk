@@ -9,24 +9,31 @@
         "fields" (vs/jt
           (vs/jm
             "name" "client"
+            "short" "Reference to the associated Client resource."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "completeDate"
+            "short" "The date and time that the Attestation took place."
             "type" "`$STRING`")
           (vs/jm
             "name" "created"
+            "short" "Creation timestamp in ISO 8601 format."
             "type" "`$STRING`")
           (vs/jm
             "name" "device"
+            "short" "Reference to the associated Device resource."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "id"
+            "short" "This resource's unique identifier."
             "type" "`$STRING`")
           (vs/jm
             "name" "name"
+            "short" "Text describing the attestation."
             "type" "`$STRING`")
           (vs/jm
             "name" "notes"
+            "short" "Free form field that allows the Client associate notes with the Attestation."
             "type" "`$STRING`"))
         "name" "attestation"
         "op" (vs/jm
@@ -118,37 +125,48 @@
               "list" (vs/jm
                 "req" true
                 "type" "`$OBJECT`"))
+            "short" "Reference to the associated User resource."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "created"
+            "short" "Creation timestamp in ISO 8601 format."
             "type" "`$STRING`")
           (vs/jm
             "name" "directPartner"
+            "short" "Reference to the associated Partner."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "id"
+            "short" "This resource's unique identifier."
             "type" "`$STRING`")
           (vs/jm
             "name" "isActive"
+            "short" "This property indicates if the Client account is active or disabled."
             "type" "`$BOOLEAN`")
           (vs/jm
             "name" "location"
             "req" true
+            "short" "Reference to the associated Location resource."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "mid"
+            "short" "Some Partners will have an merchant ids on their own software offerings."
             "type" "`$STRING`")
           (vs/jm
             "name" "modified"
+            "short" "Last modified timestamp."
             "type" "`$STRING`")
           (vs/jm
             "name" "name"
+            "short" "The Client's name."
             "type" "`$STRING`")
           (vs/jm
             "name" "partner"
+            "short" "Reference to the Client's root Partner."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "version"
+            "short" "The number of times that this resource has been updated."
             "type" "`$INTEGER`"))
         "name" "client"
         "op" (vs/jm
@@ -307,6 +325,7 @@
         "fields" (vs/jt
           (vs/jm
             "name" "success"
+            "short" "true if the payload decryption was successful."
             "type" "`$BOOLEAN`"))
         "name" "decryption"
         "op" (vs/jm
@@ -332,91 +351,119 @@
           (vs/jm
             "name" "activatedBy"
             "req" true
+            "short" "Reference to the associated User resource."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "activationDate"
+            "short" "Timestamp from when the Device was activated."
             "type" "`$STRING`")
           (vs/jm
             "name" "alternateKey"
+            "short" "The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging."
             "type" "`$STRING`")
           (vs/jm
             "name" "auditNextDate"
+            "short" "Date and time that the Device is due its next PCI Audit."
             "type" "`$STRING`")
           (vs/jm
             "name" "auditNotificationDate"
+            "short" "Date and time that a notification should be sent that a PCI audit is due."
             "type" "`$STRING`")
           (vs/jm
             "name" "client"
+            "short" "Reference to the associated Client resource."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "created"
+            "short" "Creation timestamp in ISO 8601 format."
             "type" "`$STRING`")
           (vs/jm
             "name" "createdBy"
             "req" true
+            "short" "Reference to the associated User resource."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "deviceBuild"
+            "short" "Reference to the associated Device Build resource."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "deviceState"
+            "short" "Reference to the associated Device State resource."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "deviceType"
+            "short" "Reference to the associated Device Type resource."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "errorCounter"
+            "short" "The number times the Device has been in error."
             "type" "`$INTEGER`")
           (vs/jm
             "name" "errorLastDate"
+            "short" "Timestamp from the last time that the Device had an error."
             "type" "`$STRING`")
           (vs/jm
             "name" "id"
+            "short" "The Device's unique identifier."
             "type" "`$STRING`")
           (vs/jm
             "name" "initializedBy"
             "req" true
+            "short" "Reference to the associated User resource."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "initializedDate"
+            "short" "Timestamp from when the Device was initialized."
             "type" "`$STRING`")
           (vs/jm
             "name" "injectKey"
+            "short" "Reference to the associated Device resource."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "isVirtual"
+            "short" "Indicates if a Device is Virtual (represents a Device shared with a partner)."
             "type" "`$BOOLEAN`")
           (vs/jm
             "name" "kif"
+            "short" "Reference to the associated KIF resource."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "lastActivityDate"
+            "short" "Timestamp from the last time that the Device was used."
             "type" "`$STRING`")
           (vs/jm
             "name" "location"
             "req" true
+            "short" "Reference to the associated Location resource."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "modified"
+            "short" "Last modified timestamp."
             "type" "`$STRING`")
           (vs/jm
             "name" "modifiedBy"
             "req" true
+            "short" "Reference to the associated User resource."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "name"
+            "short" "The Device's name."
             "type" "`$STRING`")
           (vs/jm
             "name" "notes"
+            "short" "Arbitary note that can be attached to a Device entry."
             "type" "`$STRING`")
           (vs/jm
             "name" "partner"
+            "short" "Reference to the associated Partner."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "serialNumber"
+            "short" "The Device's serial number."
             "type" "`$STRING`")
           (vs/jm
             "name" "version"
+            "short" "The number of times that this resource has been updated."
             "type" "`$INTEGER`"))
         "name" "device"
         "op" (vs/jm
@@ -576,48 +623,63 @@
         "fields" (vs/jt
           (vs/jm
             "name" "appVersion"
+            "short" "If a Device Type has more than one Application Code version the supported version is specified here."
             "type" "`$STRING`")
           (vs/jm
             "name" "buildNumber"
+            "short" "The Build Number."
             "type" "`$STRING`")
           (vs/jm
             "name" "configFileName"
+            "short" "The name of the configuration file that is uploaded to the device."
             "type" "`$STRING`")
           (vs/jm
             "name" "created"
+            "short" "Creation timestamp in ISO 8601 format."
             "type" "`$STRING`")
           (vs/jm
             "name" "deviceType"
+            "short" "The Device Type Name."
             "type" "`$STRING`")
           (vs/jm
             "name" "firmwareVersion"
+            "short" "A list of firmware versions that this Device Build covers."
             "type" "`$STRING`")
           (vs/jm
             "name" "hardwareVersion"
+            "short" "A list of hardware versions that this Device Build covers."
             "type" "`$STRING`")
           (vs/jm
             "name" "id"
+            "short" "This resource's unique identifier."
             "type" "`$INTEGER`")
           (vs/jm
             "name" "isActive"
+            "short" "This property indicates if the device build is still active and not succeeded by subsequent build."
             "type" "`$BOOLEAN`")
           (vs/jm
             "name" "modified"
+            "short" "Last modified timestamp."
             "type" "`$STRING`")
           (vs/jm
             "name" "name"
+            "short" "The Device Builds's name."
             "type" "`$STRING`")
           (vs/jm
             "name" "notes"
+            "short" "Notes attached to the device build by Bluefin CISO."
             "type" "`$STRING`")
           (vs/jm
             "name" "version"
+            "short" "The number of times that this resource has been updated."
             "type" "`$INTEGER`")
           (vs/jm
             "name" "whiteListingBinRanges"
+            "short" "A comma separated list of BIN ranges that aren't encrypted by the terminal."
             "type" "`$STRING`")
           (vs/jm
             "name" "whiteListingUsed"
+            "short" "This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal."
             "type" "`$BOOLEAN`"))
         "name" "device_build"
         "op" (vs/jm
@@ -689,46 +751,59 @@
         "fields" (vs/jt
           (vs/jm
             "name" "completeDate"
+            "short" "The date and time that the Custody change took place."
             "type" "`$STRING`")
           (vs/jm
             "name" "created"
+            "short" "Creation timestamp in ISO 8601 format."
             "type" "`$STRING`")
           (vs/jm
             "name" "createdBy"
             "req" true
+            "short" "Reference to the associated User resource."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "custodian"
             "req" true
+            "short" "Reference to the associated User resource."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "device"
+            "short" "Reference to the associated Device resource."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "id"
+            "short" "This resource's unique identifier."
             "type" "`$INTEGER`")
           (vs/jm
             "name" "location"
             "req" true
+            "short" "Reference to the associated Location resource."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "modified"
+            "short" "Last modified timestamp."
             "type" "`$STRING`")
           (vs/jm
             "name" "modifiedBy"
             "req" true
+            "short" "Reference to the associated User resource."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "notes"
+            "short" "Free form field that allows the Client associate notes with the Custody Change."
             "type" "`$STRING`")
           (vs/jm
             "name" "status"
+            "short" "Reference to the associated Custody Status."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "transferMethod"
+            "short" "Reference to the associated Transfer Method."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "version"
+            "short" "The number of times that this resource has been updated."
             "type" "`$INTEGER`"))
         "name" "device_custody_detail"
         "op" (vs/jm
@@ -786,46 +861,59 @@
         "fields" (vs/jt
           (vs/jm
             "name" "completeDate"
+            "short" "The date and time that the Custody change took place."
             "type" "`$STRING`")
           (vs/jm
             "name" "created"
+            "short" "Creation timestamp in ISO 8601 format."
             "type" "`$STRING`")
           (vs/jm
             "name" "createdBy"
             "req" true
+            "short" "Reference to the associated User resource."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "custodian"
             "req" true
+            "short" "Reference to the associated User resource."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "device"
+            "short" "Reference to the associated Device resource."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "id"
+            "short" "This resource's unique identifier."
             "type" "`$INTEGER`")
           (vs/jm
             "name" "location"
             "req" true
+            "short" "Reference to the associated Location resource."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "modified"
+            "short" "Last modified timestamp."
             "type" "`$STRING`")
           (vs/jm
             "name" "modifiedBy"
             "req" true
+            "short" "Reference to the associated User resource."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "notes"
+            "short" "Free form field that allows the Client associate notes with the Custody Change."
             "type" "`$STRING`")
           (vs/jm
             "name" "status"
+            "short" "Reference to the associated Custody Status."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "transferMethod"
+            "short" "Reference to the associated Transfer Method."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "version"
+            "short" "The number of times that this resource has been updated."
             "type" "`$INTEGER`"))
         "name" "device_custody_list"
         "op" (vs/jm
@@ -890,9 +978,11 @@
         "fields" (vs/jt
           (vs/jm
             "name" "data"
+            "short" "List of Devices."
             "type" "`$ARRAY`")
           (vs/jm
             "name" "total"
+            "short" "Total number of Devices available (not the number of Users in the response)."
             "type" "`$INTEGER`"))
         "name" "device_list"
         "op" (vs/jm
@@ -962,6 +1052,7 @@
           (vs/jm
             "name" "success"
             "req" true
+            "short" "Indicates if the action succeeded."
             "type" "`$BOOLEAN`"))
         "name" "device_receive_result"
         "op" (vs/jm
@@ -988,6 +1079,7 @@
           (vs/jm
             "name" "success"
             "req" true
+            "short" "Indicates if the RKI activation succeeded."
             "type" "`$BOOLEAN`"))
         "name" "device_rki_activate_result"
         "op" (vs/jm
@@ -1014,9 +1106,11 @@
         "fields" (vs/jt
           (vs/jm
             "name" "id"
+            "short" "Unique identifier for this Device state."
             "type" "`$INTEGER`")
           (vs/jm
             "name" "name"
+            "short" "Descriptive name for this Device state."
             "type" "`$STRING`"))
         "name" "device_state"
         "op" (vs/jm
@@ -1041,39 +1135,50 @@
         "fields" (vs/jt
           (vs/jm
             "name" "created"
+            "short" "Creation timestamp in ISO 8601 format."
             "type" "`$STRING`")
           (vs/jm
             "name" "deviceTypeMode"
+            "short" "The Device type."
             "type" "`$STRING`")
           (vs/jm
             "name" "hardwareVersion"
+            "short" "The Device hardware version."
             "type" "`$STRING`")
           (vs/jm
             "name" "id"
+            "short" "Unique idenifier."
             "type" "`$STRING`")
           (vs/jm
             "name" "isActive"
+            "short" "This property indicates if the DeviceType is active."
             "type" "`$BOOLEAN`")
           (vs/jm
             "name" "manufacturer"
+            "short" "The Device manufacturer."
             "type" "`$STRING`")
           (vs/jm
             "name" "model"
+            "short" "The Device model."
             "type" "`$STRING`")
           (vs/jm
             "name" "modified"
+            "short" "Last modified timestamp."
             "type" "`$STRING`")
           (vs/jm
             "name" "name"
+            "short" "The DeviceType name."
             "type" "`$STRING`")
           (vs/jm
             "name" "photoUrl"
             "type" "`$STRING`")
           (vs/jm
             "name" "productName"
+            "short" "The Device name."
             "type" "`$STRING`")
           (vs/jm
             "name" "version"
+            "short" "The number of times that this resource has been updated."
             "type" "`$INTEGER`"))
         "name" "device_type"
         "op" (vs/jm
@@ -1123,27 +1228,35 @@
         "fields" (vs/jt
           (vs/jm
             "name" "created"
+            "short" "Creation timestamp in ISO 8601 format."
             "type" "`$STRING`")
           (vs/jm
             "name" "id"
+            "short" "unique idenifier"
             "type" "`$STRING`")
           (vs/jm
             "name" "isActive"
+            "short" "Active flag, inactive keys cannot be assigned to devices."
             "type" "`$BOOLEAN`")
           (vs/jm
             "name" "isP2PE"
+            "short" "Flags if a key is for a P2PE compliant cypher."
             "type" "`$BOOLEAN`")
           (vs/jm
             "name" "keyType"
+            "short" "The cipher type that the key works with."
             "type" "`$STRING`")
           (vs/jm
             "name" "modified"
+            "short" "Last modified timestamp in ISO 8601 format."
             "type" "`$STRING`")
           (vs/jm
             "name" "name"
+            "short" "Key name."
             "type" "`$STRING`")
           (vs/jm
             "name" "version"
+            "short" "The number of times that this resource has been updated."
             "type" "`$INTEGER`"))
         "name" "inject_key"
         "op" (vs/jm
@@ -1193,9 +1306,11 @@
         "fields" (vs/jt
           (vs/jm
             "name" "id"
+            "short" "This resource's unique identifier."
             "type" "`$INTEGER`")
           (vs/jm
             "name" "name"
+            "short" "The KIF's name."
             "type" "`$STRING`"))
         "name" "kif"
         "op" (vs/jm
@@ -1220,72 +1335,95 @@
         "fields" (vs/jt
           (vs/jm
             "name" "address1"
+            "short" "The Location's street address."
             "type" "`$STRING`")
           (vs/jm
             "name" "address2"
+            "short" "The Location's street address."
             "type" "`$STRING`")
           (vs/jm
             "name" "billingId"
+            "short" "\\?"
             "type" "`$STRING`")
           (vs/jm
             "name" "city"
+            "short" "The Location's city."
             "type" "`$STRING`")
           (vs/jm
             "name" "country"
+            "short" "The Location's country."
             "type" "`$STRING`")
           (vs/jm
             "name" "created"
+            "short" "Creation timestamp in ISO 8601 format."
             "type" "`$STRING`")
           (vs/jm
             "name" "customReference"
+            "short" "A Partner specified reference for a location."
             "type" "`$STRING`")
           (vs/jm
             "name" "id"
+            "short" "This resource's unique identifier."
             "type" "`$STRING`")
           (vs/jm
             "name" "locationType"
+            "short" "The Location's clasification."
             "type" "`$STRING`")
           (vs/jm
             "name" "mailAddress1"
+            "short" "The Location's street address."
             "type" "`$STRING`")
           (vs/jm
             "name" "mailAddress2"
+            "short" "The Location's street address."
             "type" "`$STRING`")
           (vs/jm
             "name" "mailCity"
+            "short" "The Location's city."
             "type" "`$STRING`")
           (vs/jm
             "name" "mailCountry"
+            "short" "The Location's street address."
             "type" "`$STRING`")
           (vs/jm
             "name" "mailPostalCode"
+            "short" "The Location's postal code."
             "type" "`$STRING`")
           (vs/jm
             "name" "mailStateProvince"
+            "short" "The Location's street state or province."
             "type" "`$STRING`")
           (vs/jm
             "name" "modified"
+            "short" "Last modified timestamp."
             "type" "`$STRING`")
           (vs/jm
             "name" "name"
+            "short" "The Location's name."
             "type" "`$STRING`")
           (vs/jm
             "name" "nameOfBusiness"
+            "short" "The name of the business at this location."
             "type" "`$STRING`")
           (vs/jm
             "name" "notes"
+            "short" "Note for delivery driver."
             "type" "`$STRING`")
           (vs/jm
             "name" "postalCode"
+            "short" "The Location's postal code."
             "type" "`$STRING`")
           (vs/jm
             "name" "stateProvince"
+            "short" "The Location's street state or province."
             "type" "`$STRING`")
           (vs/jm
             "name" "uniqueId"
+            "short" "Unique Identifier for the Location."
             "type" "`$STRING`")
           (vs/jm
             "name" "version"
+            "short" "The number of times that this resource has been updated."
             "type" "`$INTEGER`"))
         "name" "location"
         "op" (vs/jm
@@ -1398,9 +1536,11 @@
         "fields" (vs/jt
           (vs/jm
             "name" "billingId"
+            "short" "The Partner's billing identifier."
             "type" "`$STRING`")
           (vs/jm
             "name" "clientCanOrderEquipment"
+            "short" "This property indicates if the Partner is allowed to order Equipment."
             "type" "`$BOOLEAN`")
           (vs/jm
             "name" "contact"
@@ -1408,40 +1548,52 @@
               "list" (vs/jm
                 "req" true
                 "type" "`$OBJECT`"))
+            "short" "Reference to the associated User resource."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "created"
+            "short" "Creation timestamp in ISO 8601 format."
             "type" "`$STRING`")
           (vs/jm
             "name" "id"
+            "short" "This resource's unique identifier."
             "type" "`$STRING`")
           (vs/jm
             "name" "isActive"
+            "short" "This property indicates if the Parter account is active or disabled."
             "type" "`$BOOLEAN`")
           (vs/jm
             "name" "location"
             "req" true
+            "short" "Reference to the associated Location resource."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "modified"
+            "short" "Last modified timestamp."
             "type" "`$STRING`")
           (vs/jm
             "name" "name"
+            "short" "The Partner's name."
             "type" "`$STRING`")
           (vs/jm
             "name" "parent"
+            "short" "Reference to the associated Partner."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "partnerId"
+            "short" "The Partner's id."
             "type" "`$STRING`")
           (vs/jm
             "name" "reference"
+            "short" "The Partner's reference string."
             "type" "`$STRING`")
           (vs/jm
             "name" "verificationPhrase"
+            "short" "The verification phrase is a message that the Partner creates."
             "type" "`$STRING`")
           (vs/jm
             "name" "version"
+            "short" "The number of times that this resource has been updated."
             "type" "`$INTEGER`"))
         "name" "partner"
         "op" (vs/jm
@@ -1528,45 +1680,58 @@
         "fields" (vs/jt
           (vs/jm
             "name" "carrier"
+            "short" "The name of the courier."
             "type" "`$STRING`")
           (vs/jm
             "name" "client"
+            "short" "Reference to the associated Client resource."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "created"
+            "short" "Creation timestamp in ISO 8601 format."
             "type" "`$STRING`")
           (vs/jm
             "name" "dateReceived"
+            "short" "The date and time that a package is recieved."
             "type" "`$STRING`")
           (vs/jm
             "name" "dateShipped"
+            "short" "The date and time that a package is shipped."
             "type" "`$STRING`")
           (vs/jm
             "name" "dcKif"
+            "short" "Reference to the associated KIF resource."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "id"
+            "short" "This resource's unique identifier."
             "type" "`$STRING`")
           (vs/jm
             "name" "items"
             "type" "`$ARRAY`")
           (vs/jm
             "name" "kif"
+            "short" "Reference to the associated KIF resource."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "modified"
+            "short" "Last modified timestamp."
             "type" "`$STRING`")
           (vs/jm
             "name" "partner"
+            "short" "Reference to the associated Partner."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "shipmentType"
+            "short" "The type of shipment."
             "type" "`$STRING`")
           (vs/jm
             "name" "tracking"
+            "short" "The courier's tracking number."
             "type" "`$STRING`")
           (vs/jm
             "name" "version"
+            "short" "The number of times that this resource has been updated."
             "type" "`$INTEGER`"))
         "name" "shipment"
         "op" (vs/jm
@@ -1660,6 +1825,7 @@
         "fields" (vs/jt
           (vs/jm
             "name" "success"
+            "short" "Indicates if the action was a success."
             "type" "`$BOOLEAN`"))
         "name" "success"
         "op" (vs/jm
@@ -1727,76 +1893,100 @@
         "fields" (vs/jt
           (vs/jm
             "name" "alternateKey"
+            "short" "The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging."
             "type" "`$STRING`")
           (vs/jm
             "name" "client"
+            "short" "Reference to the associated Client resource."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "clientRef"
+            "short" "Client Reference property that is included in the decrypt API call."
             "type" "`$STRING`")
           (vs/jm
             "name" "created"
+            "short" "Creation timestamp in ISO 8601 format."
             "type" "`$STRING`")
           (vs/jm
             "name" "decrypted"
+            "short" "A Transcation can process muliple decryptions."
             "type" "`$INTEGER`")
           (vs/jm
             "name" "deviceName"
+            "short" "The name of the Device that generated the payload to decrypt."
             "type" "`$STRING`")
           (vs/jm
             "name" "directPartner"
+            "short" "Reference to the associated Partner."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "encrypted"
+            "short" "A Transcation can process muliple encryptions."
             "type" "`$INTEGER`")
           (vs/jm
             "name" "endDate"
+            "short" "Timestamp from the end of the transaction."
             "type" "`$STRING`")
           (vs/jm
             "name" "errCode"
+            "short" "The error code that is sent in response to a failed decrypt API call."
             "type" "`$STRING`")
           (vs/jm
             "name" "errMessage"
+            "short" "The error messge that is sent in response to a failed decrypt API call."
             "type" "`$STRING`")
           (vs/jm
             "name" "id"
+            "short" "This resource's unique identifier."
             "type" "`$STRING`")
           (vs/jm
             "name" "ipAddress"
+            "short" "The IP address of the http client that makes the decrypt API call."
             "type" "`$STRING`")
           (vs/jm
             "name" "isVirtual"
+            "short" "Indicates if the Transaction came from a virtual Device."
             "type" "`$BOOLEAN`")
           (vs/jm
             "name" "keyType"
+            "short" "The type of cipher used during decrytion."
             "type" "`$STRING`")
           (vs/jm
             "name" "location"
             "req" true
+            "short" "Reference to the associated Location resource."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "messageId"
+            "short" "Message ID."
             "type" "`$STRING`")
           (vs/jm
             "name" "method"
+            "short" "The decryption cypher/method."
             "type" "`$STRING`")
           (vs/jm
             "name" "partner"
+            "short" "Reference to the associated Partner."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "reference"
+            "short" "The reference property that the Client includes in the decrypt API call."
             "type" "`$STRING`")
           (vs/jm
             "name" "serialNumber"
+            "short" "The serial number of the Device that generated the payload to decrypt."
             "type" "`$STRING`")
           (vs/jm
             "name" "startDate"
+            "short" "Timestamp from the beginning of the transaction."
             "type" "`$STRING`")
           (vs/jm
             "name" "success"
+            "short" "The success indicator."
             "type" "`$BOOLEAN`")
           (vs/jm
             "name" "transactionSource"
+            "short" "The source of the Transaction."
             "type" "`$STRING`"))
         "name" "transaction"
         "op" (vs/jm
@@ -1944,39 +2134,51 @@
         "fields" (vs/jt
           (vs/jm
             "name" "client"
+            "short" "Reference to the associated Client resource."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "email"
+            "short" "The User's email address."
             "type" "`$STRING`")
           (vs/jm
             "name" "firstName"
+            "short" "The User's name."
             "type" "`$STRING`")
           (vs/jm
             "name" "id"
+            "short" "ID of newly created resource"
             "type" "`$STRING`")
           (vs/jm
             "name" "isActive"
+            "short" "This property indicates if the User account is active or disabled."
             "type" "`$BOOLEAN`")
           (vs/jm
             "name" "kif"
+            "short" "Reference to the associated KIF resource."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "lastName"
+            "short" "The User's Surname."
             "type" "`$STRING`")
           (vs/jm
             "name" "partner"
+            "short" "Reference to the associated Partner."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "phone"
+            "short" "The User's phone number without dashes, spaces, or brackets."
             "type" "`$STRING`")
           (vs/jm
             "name" "userName"
+            "short" "The User's unique username."
             "type" "`$STRING`")
           (vs/jm
             "name" "userRole"
+            "short" "Reference to the associated User Role."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "version"
+            "short" "The number of times that this resource has been updated."
             "type" "`$INTEGER`"))
         "name" "update_result"
         "op" (vs/jm
@@ -2201,45 +2403,59 @@
         "fields" (vs/jt
           (vs/jm
             "name" "client"
+            "short" "Reference to the associated Client resource."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "created"
+            "short" "Creation timestamp in ISO 8601 format."
             "type" "`$STRING`")
           (vs/jm
             "name" "email"
+            "short" "The User's email address."
             "type" "`$STRING`")
           (vs/jm
             "name" "firstName"
+            "short" "The User's name."
             "type" "`$STRING`")
           (vs/jm
             "name" "id"
+            "short" "This resource's unique identifier."
             "type" "`$STRING`")
           (vs/jm
             "name" "isActive"
+            "short" "This property indicates if the User account is active or disabled."
             "type" "`$BOOLEAN`")
           (vs/jm
             "name" "kif"
+            "short" "Reference to the associated KIF resource."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "lastName"
+            "short" "The User's Surname."
             "type" "`$STRING`")
           (vs/jm
             "name" "modified"
+            "short" "Last modified timestamp."
             "type" "`$STRING`")
           (vs/jm
             "name" "partner"
+            "short" "Reference to the associated Partner."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "phone"
+            "short" "The User's phone number without dashes, spaces, or brackets."
             "type" "`$STRING`")
           (vs/jm
             "name" "userName"
+            "short" "The User's unique username."
             "type" "`$STRING`")
           (vs/jm
             "name" "userRole"
+            "short" "Reference to the associated User Role."
             "type" "`$OBJECT`")
           (vs/jm
             "name" "version"
+            "short" "The number of times that this resource has been updated."
             "type" "`$INTEGER`"))
         "name" "user"
         "op" (vs/jm

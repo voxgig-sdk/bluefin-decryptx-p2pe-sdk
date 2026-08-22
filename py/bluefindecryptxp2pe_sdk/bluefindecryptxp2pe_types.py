@@ -157,9 +157,7 @@ class Device(DeviceRequired, total=False):
     version: int
 
 
-class DeviceLoadMatch(TypedDict, total=False):
-    device_type: str
-    serial_number: str
+class DeviceLoadMatch(TypedDict):
     id: str
 
 

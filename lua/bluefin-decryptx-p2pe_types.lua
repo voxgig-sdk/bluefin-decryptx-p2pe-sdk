@@ -124,9 +124,7 @@
 ---@field version? number
 
 ---@class DeviceLoadMatch
----@field device_type? string
----@field serial_number? string
----@field id? string
+---@field id string
 
 ---@class DeviceListMatch
 ---@field activatedBy? table

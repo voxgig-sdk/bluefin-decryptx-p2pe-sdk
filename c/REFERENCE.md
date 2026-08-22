@@ -189,13 +189,13 @@ Entity* attestation = bluefindecryptxp2pe_attestation(client, NULL);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `client` | `voxgig_value* (map)` | No |  |
-| `completeDate` | `char*` | No |  |
-| `created` | `char*` | No |  |
-| `device` | `voxgig_value* (map)` | No |  |
-| `id` | `char*` | No |  |
-| `name` | `char*` | No |  |
-| `notes` | `char*` | No |  |
+| `client` | `voxgig_value* (map)` | No | Reference to the associated Client resource. |
+| `completeDate` | `char*` | No | The date and time that the Attestation took place. |
+| `created` | `char*` | No | Creation timestamp in ISO 8601 format. |
+| `device` | `voxgig_value* (map)` | No | Reference to the associated Device resource. |
+| `id` | `char*` | No | This resource's unique identifier. |
+| `name` | `char*` | No | Text describing the attestation. |
+| `notes` | `char*` | No | Free form field that allows the Client associate notes with the Attestation. |
 
 ### Operations
 
@@ -260,17 +260,17 @@ Entity* client = bluefindecryptxp2pe_client(client, NULL);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `contact` | `voxgig_value* (map)` | No |  |
-| `created` | `char*` | No |  |
-| `directPartner` | `voxgig_value* (map)` | No |  |
-| `id` | `char*` | No |  |
-| `isActive` | `bool` | No |  |
-| `location` | `voxgig_value* (map)` | Yes |  |
-| `mid` | `char*` | No |  |
-| `modified` | `char*` | No |  |
-| `name` | `char*` | No |  |
-| `partner` | `voxgig_value* (map)` | No |  |
-| `version` | `int64_t` | No |  |
+| `contact` | `voxgig_value* (map)` | No | Reference to the associated User resource. |
+| `created` | `char*` | No | Creation timestamp in ISO 8601 format. |
+| `directPartner` | `voxgig_value* (map)` | No | Reference to the associated Partner. |
+| `id` | `char*` | No | This resource's unique identifier. |
+| `isActive` | `bool` | No | This property indicates if the Client account is active or disabled. |
+| `location` | `voxgig_value* (map)` | Yes | Reference to the associated Location resource. |
+| `mid` | `char*` | No | Some Partners will have an merchant ids on their own software offerings. |
+| `modified` | `char*` | No | Last modified timestamp. |
+| `name` | `char*` | No | The Client's name. |
+| `partner` | `voxgig_value* (map)` | No | Reference to the Client's root Partner. |
+| `version` | `int64_t` | No | The number of times that this resource has been updated. |
 
 ### Field Usage by Operation
 
@@ -403,7 +403,7 @@ Entity* decryption = bluefindecryptxp2pe_decryption(client, NULL);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `bool` | No |  |
+| `success` | `bool` | No | true if the payload decryption was successful. |
 
 ### Operations
 
@@ -447,34 +447,34 @@ Entity* device = bluefindecryptxp2pe_device(client, NULL);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `activatedBy` | `voxgig_value* (map)` | Yes |  |
-| `activationDate` | `char*` | No |  |
-| `alternateKey` | `char*` | No |  |
-| `auditNextDate` | `char*` | No |  |
-| `auditNotificationDate` | `char*` | No |  |
-| `client` | `voxgig_value* (map)` | No |  |
-| `created` | `char*` | No |  |
-| `createdBy` | `voxgig_value* (map)` | Yes |  |
-| `deviceBuild` | `voxgig_value* (map)` | No |  |
-| `deviceState` | `voxgig_value* (map)` | No |  |
-| `deviceType` | `voxgig_value* (map)` | No |  |
-| `errorCounter` | `int64_t` | No |  |
-| `errorLastDate` | `char*` | No |  |
-| `id` | `char*` | No |  |
-| `initializedBy` | `voxgig_value* (map)` | Yes |  |
-| `initializedDate` | `char*` | No |  |
-| `injectKey` | `voxgig_value* (map)` | No |  |
-| `isVirtual` | `bool` | No |  |
-| `kif` | `voxgig_value* (map)` | No |  |
-| `lastActivityDate` | `char*` | No |  |
-| `location` | `voxgig_value* (map)` | Yes |  |
-| `modified` | `char*` | No |  |
-| `modifiedBy` | `voxgig_value* (map)` | Yes |  |
-| `name` | `char*` | No |  |
-| `notes` | `char*` | No |  |
-| `partner` | `voxgig_value* (map)` | No |  |
-| `serialNumber` | `char*` | No |  |
-| `version` | `int64_t` | No |  |
+| `activatedBy` | `voxgig_value* (map)` | Yes | Reference to the associated User resource. |
+| `activationDate` | `char*` | No | Timestamp from when the Device was activated. |
+| `alternateKey` | `char*` | No | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `char*` | No | Date and time that the Device is due its next PCI Audit. |
+| `auditNotificationDate` | `char*` | No | Date and time that a notification should be sent that a PCI audit is due. |
+| `client` | `voxgig_value* (map)` | No | Reference to the associated Client resource. |
+| `created` | `char*` | No | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `voxgig_value* (map)` | Yes | Reference to the associated User resource. |
+| `deviceBuild` | `voxgig_value* (map)` | No | Reference to the associated Device Build resource. |
+| `deviceState` | `voxgig_value* (map)` | No | Reference to the associated Device State resource. |
+| `deviceType` | `voxgig_value* (map)` | No | Reference to the associated Device Type resource. |
+| `errorCounter` | `int64_t` | No | The number times the Device has been in error. |
+| `errorLastDate` | `char*` | No | Timestamp from the last time that the Device had an error. |
+| `id` | `char*` | No | The Device's unique identifier. |
+| `initializedBy` | `voxgig_value* (map)` | Yes | Reference to the associated User resource. |
+| `initializedDate` | `char*` | No | Timestamp from when the Device was initialized. |
+| `injectKey` | `voxgig_value* (map)` | No | Reference to the associated Device resource. |
+| `isVirtual` | `bool` | No | Indicates if a Device is Virtual (represents a Device shared with a partner). |
+| `kif` | `voxgig_value* (map)` | No | Reference to the associated KIF resource. |
+| `lastActivityDate` | `char*` | No | Timestamp from the last time that the Device was used. |
+| `location` | `voxgig_value* (map)` | Yes | Reference to the associated Location resource. |
+| `modified` | `char*` | No | Last modified timestamp. |
+| `modifiedBy` | `voxgig_value* (map)` | Yes | Reference to the associated User resource. |
+| `name` | `char*` | No | The Device's name. |
+| `notes` | `char*` | No | Arbitary note that can be attached to a Device entry. |
+| `partner` | `voxgig_value* (map)` | No | Reference to the associated Partner. |
+| `serialNumber` | `char*` | No | The Device's serial number. |
+| `version` | `int64_t` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -545,21 +545,21 @@ Entity* device_build = bluefindecryptxp2pe_device_build(client, NULL);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `appVersion` | `char*` | No |  |
-| `buildNumber` | `char*` | No |  |
-| `configFileName` | `char*` | No |  |
-| `created` | `char*` | No |  |
-| `deviceType` | `char*` | No |  |
-| `firmwareVersion` | `char*` | No |  |
-| `hardwareVersion` | `char*` | No |  |
-| `id` | `int64_t` | No |  |
-| `isActive` | `bool` | No |  |
-| `modified` | `char*` | No |  |
-| `name` | `char*` | No |  |
-| `notes` | `char*` | No |  |
-| `version` | `int64_t` | No |  |
-| `whiteListingBinRanges` | `char*` | No |  |
-| `whiteListingUsed` | `bool` | No |  |
+| `appVersion` | `char*` | No | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildNumber` | `char*` | No | The Build Number. |
+| `configFileName` | `char*` | No | The name of the configuration file that is uploaded to the device. |
+| `created` | `char*` | No | Creation timestamp in ISO 8601 format. |
+| `deviceType` | `char*` | No | The Device Type Name. |
+| `firmwareVersion` | `char*` | No | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `char*` | No | A list of hardware versions that this Device Build covers. |
+| `id` | `int64_t` | No | This resource's unique identifier. |
+| `isActive` | `bool` | No | This property indicates if the device build is still active and not succeeded by subsequent build. |
+| `modified` | `char*` | No | Last modified timestamp. |
+| `name` | `char*` | No | The Device Builds's name. |
+| `notes` | `char*` | No | Notes attached to the device build by Bluefin CISO. |
+| `version` | `int64_t` | No | The number of times that this resource has been updated. |
+| `whiteListingBinRanges` | `char*` | No | A comma separated list of BIN ranges that aren't encrypted by the terminal. |
+| `whiteListingUsed` | `bool` | No | This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal. |
 
 ### Operations
 
@@ -615,19 +615,19 @@ Entity* device_custody_detail = bluefindecryptxp2pe_device_custody_detail(client
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `completeDate` | `char*` | No |  |
-| `created` | `char*` | No |  |
-| `createdBy` | `voxgig_value* (map)` | Yes |  |
-| `custodian` | `voxgig_value* (map)` | Yes |  |
-| `device` | `voxgig_value* (map)` | No |  |
-| `id` | `int64_t` | No |  |
-| `location` | `voxgig_value* (map)` | Yes |  |
-| `modified` | `char*` | No |  |
-| `modifiedBy` | `voxgig_value* (map)` | Yes |  |
-| `notes` | `char*` | No |  |
-| `status` | `voxgig_value* (map)` | No |  |
-| `transferMethod` | `voxgig_value* (map)` | No |  |
-| `version` | `int64_t` | No |  |
+| `completeDate` | `char*` | No | The date and time that the Custody change took place. |
+| `created` | `char*` | No | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `voxgig_value* (map)` | Yes | Reference to the associated User resource. |
+| `custodian` | `voxgig_value* (map)` | Yes | Reference to the associated User resource. |
+| `device` | `voxgig_value* (map)` | No | Reference to the associated Device resource. |
+| `id` | `int64_t` | No | This resource's unique identifier. |
+| `location` | `voxgig_value* (map)` | Yes | Reference to the associated Location resource. |
+| `modified` | `char*` | No | Last modified timestamp. |
+| `modifiedBy` | `voxgig_value* (map)` | Yes | Reference to the associated User resource. |
+| `notes` | `char*` | No | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | `voxgig_value* (map)` | No | Reference to the associated Custody Status. |
+| `transferMethod` | `voxgig_value* (map)` | No | Reference to the associated Transfer Method. |
+| `version` | `int64_t` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -671,19 +671,19 @@ Entity* device_custody_list = bluefindecryptxp2pe_device_custody_list(client, NU
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `completeDate` | `char*` | No |  |
-| `created` | `char*` | No |  |
-| `createdBy` | `voxgig_value* (map)` | Yes |  |
-| `custodian` | `voxgig_value* (map)` | Yes |  |
-| `device` | `voxgig_value* (map)` | No |  |
-| `id` | `int64_t` | No |  |
-| `location` | `voxgig_value* (map)` | Yes |  |
-| `modified` | `char*` | No |  |
-| `modifiedBy` | `voxgig_value* (map)` | Yes |  |
-| `notes` | `char*` | No |  |
-| `status` | `voxgig_value* (map)` | No |  |
-| `transferMethod` | `voxgig_value* (map)` | No |  |
-| `version` | `int64_t` | No |  |
+| `completeDate` | `char*` | No | The date and time that the Custody change took place. |
+| `created` | `char*` | No | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `voxgig_value* (map)` | Yes | Reference to the associated User resource. |
+| `custodian` | `voxgig_value* (map)` | Yes | Reference to the associated User resource. |
+| `device` | `voxgig_value* (map)` | No | Reference to the associated Device resource. |
+| `id` | `int64_t` | No | This resource's unique identifier. |
+| `location` | `voxgig_value* (map)` | Yes | Reference to the associated Location resource. |
+| `modified` | `char*` | No | Last modified timestamp. |
+| `modifiedBy` | `voxgig_value* (map)` | Yes | Reference to the associated User resource. |
+| `notes` | `char*` | No | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | `voxgig_value* (map)` | No | Reference to the associated Custody Status. |
+| `transferMethod` | `voxgig_value* (map)` | No | Reference to the associated Transfer Method. |
+| `version` | `int64_t` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -730,8 +730,8 @@ Entity* device_list = bluefindecryptxp2pe_device_list(client, NULL);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `voxgig_value* (list)` | No |  |
-| `total` | `int64_t` | No |  |
+| `data` | `voxgig_value* (list)` | No | List of Devices. |
+| `total` | `int64_t` | No | Total number of Devices available (not the number of Users in the response). |
 
 ### Operations
 
@@ -775,7 +775,7 @@ Entity* device_receive_result = bluefindecryptxp2pe_device_receive_result(client
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `bool` | Yes |  |
+| `success` | `bool` | Yes | Indicates if the action succeeded. |
 
 ### Operations
 
@@ -821,7 +821,7 @@ Entity* device_rki_activate_result = bluefindecryptxp2pe_device_rki_activate_res
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `bool` | Yes |  |
+| `success` | `bool` | Yes | Indicates if the RKI activation succeeded. |
 
 ### Operations
 
@@ -867,8 +867,8 @@ Entity* device_state = bluefindecryptxp2pe_device_state(client, NULL);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `int64_t` | No |  |
-| `name` | `char*` | No |  |
+| `id` | `int64_t` | No | Unique identifier for this Device state. |
+| `name` | `char*` | No | Descriptive name for this Device state. |
 
 ### Operations
 
@@ -915,18 +915,18 @@ Entity* device_type = bluefindecryptxp2pe_device_type(client, NULL);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created` | `char*` | No |  |
-| `deviceTypeMode` | `char*` | No |  |
-| `hardwareVersion` | `char*` | No |  |
-| `id` | `char*` | No |  |
-| `isActive` | `bool` | No |  |
-| `manufacturer` | `char*` | No |  |
-| `model` | `char*` | No |  |
-| `modified` | `char*` | No |  |
-| `name` | `char*` | No |  |
+| `created` | `char*` | No | Creation timestamp in ISO 8601 format. |
+| `deviceTypeMode` | `char*` | No | The Device type. |
+| `hardwareVersion` | `char*` | No | The Device hardware version. |
+| `id` | `char*` | No | Unique idenifier. |
+| `isActive` | `bool` | No | This property indicates if the DeviceType is active. |
+| `manufacturer` | `char*` | No | The Device manufacturer. |
+| `model` | `char*` | No | The Device model. |
+| `modified` | `char*` | No | Last modified timestamp. |
+| `name` | `char*` | No | The DeviceType name. |
 | `photoUrl` | `char*` | No |  |
-| `productName` | `char*` | No |  |
-| `version` | `int64_t` | No |  |
+| `productName` | `char*` | No | The Device name. |
+| `version` | `int64_t` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -982,14 +982,14 @@ Entity* inject_key = bluefindecryptxp2pe_inject_key(client, NULL);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created` | `char*` | No |  |
-| `id` | `char*` | No |  |
-| `isActive` | `bool` | No |  |
-| `isP2PE` | `bool` | No |  |
-| `keyType` | `char*` | No |  |
-| `modified` | `char*` | No |  |
-| `name` | `char*` | No |  |
-| `version` | `int64_t` | No |  |
+| `created` | `char*` | No | Creation timestamp in ISO 8601 format. |
+| `id` | `char*` | No | unique idenifier |
+| `isActive` | `bool` | No | Active flag, inactive keys cannot be assigned to devices. |
+| `isP2PE` | `bool` | No | Flags if a key is for a P2PE compliant cypher. |
+| `keyType` | `char*` | No | The cipher type that the key works with. |
+| `modified` | `char*` | No | Last modified timestamp in ISO 8601 format. |
+| `name` | `char*` | No | Key name. |
+| `version` | `int64_t` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1045,8 +1045,8 @@ Entity* kif = bluefindecryptxp2pe_kif(client, NULL);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `int64_t` | No |  |
-| `name` | `char*` | No |  |
+| `id` | `int64_t` | No | This resource's unique identifier. |
+| `name` | `char*` | No | The KIF's name. |
 
 ### Operations
 
@@ -1093,29 +1093,29 @@ Entity* location = bluefindecryptxp2pe_location(client, NULL);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `address1` | `char*` | No |  |
-| `address2` | `char*` | No |  |
-| `billingId` | `char*` | No |  |
-| `city` | `char*` | No |  |
-| `country` | `char*` | No |  |
-| `created` | `char*` | No |  |
-| `customReference` | `char*` | No |  |
-| `id` | `char*` | No |  |
-| `locationType` | `char*` | No |  |
-| `mailAddress1` | `char*` | No |  |
-| `mailAddress2` | `char*` | No |  |
-| `mailCity` | `char*` | No |  |
-| `mailCountry` | `char*` | No |  |
-| `mailPostalCode` | `char*` | No |  |
-| `mailStateProvince` | `char*` | No |  |
-| `modified` | `char*` | No |  |
-| `name` | `char*` | No |  |
-| `nameOfBusiness` | `char*` | No |  |
-| `notes` | `char*` | No |  |
-| `postalCode` | `char*` | No |  |
-| `stateProvince` | `char*` | No |  |
-| `uniqueId` | `char*` | No |  |
-| `version` | `int64_t` | No |  |
+| `address1` | `char*` | No | The Location's street address. |
+| `address2` | `char*` | No | The Location's street address. |
+| `billingId` | `char*` | No | \? |
+| `city` | `char*` | No | The Location's city. |
+| `country` | `char*` | No | The Location's country. |
+| `created` | `char*` | No | Creation timestamp in ISO 8601 format. |
+| `customReference` | `char*` | No | A Partner specified reference for a location. |
+| `id` | `char*` | No | This resource's unique identifier. |
+| `locationType` | `char*` | No | The Location's clasification. |
+| `mailAddress1` | `char*` | No | The Location's street address. |
+| `mailAddress2` | `char*` | No | The Location's street address. |
+| `mailCity` | `char*` | No | The Location's city. |
+| `mailCountry` | `char*` | No | The Location's street address. |
+| `mailPostalCode` | `char*` | No | The Location's postal code. |
+| `mailStateProvince` | `char*` | No | The Location's street state or province. |
+| `modified` | `char*` | No | Last modified timestamp. |
+| `name` | `char*` | No | The Location's name. |
+| `nameOfBusiness` | `char*` | No | The name of the business at this location. |
+| `notes` | `char*` | No | Note for delivery driver. |
+| `postalCode` | `char*` | No | The Location's postal code. |
+| `stateProvince` | `char*` | No | The Location's street state or province. |
+| `uniqueId` | `char*` | No | Unique Identifier for the Location. |
+| `version` | `int64_t` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1189,20 +1189,20 @@ Entity* partner = bluefindecryptxp2pe_partner(client, NULL);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `billingId` | `char*` | No |  |
-| `clientCanOrderEquipment` | `bool` | No |  |
-| `contact` | `voxgig_value* (map)` | No |  |
-| `created` | `char*` | No |  |
-| `id` | `char*` | No |  |
-| `isActive` | `bool` | No |  |
-| `location` | `voxgig_value* (map)` | Yes |  |
-| `modified` | `char*` | No |  |
-| `name` | `char*` | No |  |
-| `parent` | `voxgig_value* (map)` | No |  |
-| `partnerId` | `char*` | No |  |
-| `reference` | `char*` | No |  |
-| `verificationPhrase` | `char*` | No |  |
-| `version` | `int64_t` | No |  |
+| `billingId` | `char*` | No | The Partner's billing identifier. |
+| `clientCanOrderEquipment` | `bool` | No | This property indicates if the Partner is allowed to order Equipment. |
+| `contact` | `voxgig_value* (map)` | No | Reference to the associated User resource. |
+| `created` | `char*` | No | Creation timestamp in ISO 8601 format. |
+| `id` | `char*` | No | This resource's unique identifier. |
+| `isActive` | `bool` | No | This property indicates if the Parter account is active or disabled. |
+| `location` | `voxgig_value* (map)` | Yes | Reference to the associated Location resource. |
+| `modified` | `char*` | No | Last modified timestamp. |
+| `name` | `char*` | No | The Partner's name. |
+| `parent` | `voxgig_value* (map)` | No | Reference to the associated Partner. |
+| `partnerId` | `char*` | No | The Partner's id. |
+| `reference` | `char*` | No | The Partner's reference string. |
+| `verificationPhrase` | `char*` | No | The verification phrase is a message that the Partner creates. |
+| `version` | `int64_t` | No | The number of times that this resource has been updated. |
 
 ### Field Usage by Operation
 
@@ -1288,20 +1288,20 @@ Entity* shipment = bluefindecryptxp2pe_shipment(client, NULL);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `carrier` | `char*` | No |  |
-| `client` | `voxgig_value* (map)` | No |  |
-| `created` | `char*` | No |  |
-| `dateReceived` | `char*` | No |  |
-| `dateShipped` | `char*` | No |  |
-| `dcKif` | `voxgig_value* (map)` | No |  |
-| `id` | `char*` | No |  |
+| `carrier` | `char*` | No | The name of the courier. |
+| `client` | `voxgig_value* (map)` | No | Reference to the associated Client resource. |
+| `created` | `char*` | No | Creation timestamp in ISO 8601 format. |
+| `dateReceived` | `char*` | No | The date and time that a package is recieved. |
+| `dateShipped` | `char*` | No | The date and time that a package is shipped. |
+| `dcKif` | `voxgig_value* (map)` | No | Reference to the associated KIF resource. |
+| `id` | `char*` | No | This resource's unique identifier. |
 | `items` | `voxgig_value* (list)` | No |  |
-| `kif` | `voxgig_value* (map)` | No |  |
-| `modified` | `char*` | No |  |
-| `partner` | `voxgig_value* (map)` | No |  |
-| `shipmentType` | `char*` | No |  |
-| `tracking` | `char*` | No |  |
-| `version` | `int64_t` | No |  |
+| `kif` | `voxgig_value* (map)` | No | Reference to the associated KIF resource. |
+| `modified` | `char*` | No | Last modified timestamp. |
+| `partner` | `voxgig_value* (map)` | No | Reference to the associated Partner. |
+| `shipmentType` | `char*` | No | The type of shipment. |
+| `tracking` | `char*` | No | The courier's tracking number. |
+| `version` | `int64_t` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1366,7 +1366,7 @@ Entity* success = bluefindecryptxp2pe_success(client, NULL);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `bool` | No |  |
+| `success` | `bool` | No | Indicates if the action was a success. |
 
 ### Operations
 
@@ -1421,30 +1421,30 @@ Entity* transaction = bluefindecryptxp2pe_transaction(client, NULL);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `alternateKey` | `char*` | No |  |
-| `client` | `voxgig_value* (map)` | No |  |
-| `clientRef` | `char*` | No |  |
-| `created` | `char*` | No |  |
-| `decrypted` | `int64_t` | No |  |
-| `deviceName` | `char*` | No |  |
-| `directPartner` | `voxgig_value* (map)` | No |  |
-| `encrypted` | `int64_t` | No |  |
-| `endDate` | `char*` | No |  |
-| `errCode` | `char*` | No |  |
-| `errMessage` | `char*` | No |  |
-| `id` | `char*` | No |  |
-| `ipAddress` | `char*` | No |  |
-| `isVirtual` | `bool` | No |  |
-| `keyType` | `char*` | No |  |
-| `location` | `voxgig_value* (map)` | Yes |  |
-| `messageId` | `char*` | No |  |
-| `method` | `char*` | No |  |
-| `partner` | `voxgig_value* (map)` | No |  |
-| `reference` | `char*` | No |  |
-| `serialNumber` | `char*` | No |  |
-| `startDate` | `char*` | No |  |
-| `success` | `bool` | No |  |
-| `transactionSource` | `char*` | No |  |
+| `alternateKey` | `char*` | No | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `client` | `voxgig_value* (map)` | No | Reference to the associated Client resource. |
+| `clientRef` | `char*` | No | Client Reference property that is included in the decrypt API call. |
+| `created` | `char*` | No | Creation timestamp in ISO 8601 format. |
+| `decrypted` | `int64_t` | No | A Transcation can process muliple decryptions. |
+| `deviceName` | `char*` | No | The name of the Device that generated the payload to decrypt. |
+| `directPartner` | `voxgig_value* (map)` | No | Reference to the associated Partner. |
+| `encrypted` | `int64_t` | No | A Transcation can process muliple encryptions. |
+| `endDate` | `char*` | No | Timestamp from the end of the transaction. |
+| `errCode` | `char*` | No | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `char*` | No | The error messge that is sent in response to a failed decrypt API call. |
+| `id` | `char*` | No | This resource's unique identifier. |
+| `ipAddress` | `char*` | No | The IP address of the http client that makes the decrypt API call. |
+| `isVirtual` | `bool` | No | Indicates if the Transaction came from a virtual Device. |
+| `keyType` | `char*` | No | The type of cipher used during decrytion. |
+| `location` | `voxgig_value* (map)` | Yes | Reference to the associated Location resource. |
+| `messageId` | `char*` | No | Message ID. |
+| `method` | `char*` | No | The decryption cypher/method. |
+| `partner` | `voxgig_value* (map)` | No | Reference to the associated Partner. |
+| `reference` | `char*` | No | The reference property that the Client includes in the decrypt API call. |
+| `serialNumber` | `char*` | No | The serial number of the Device that generated the payload to decrypt. |
+| `startDate` | `char*` | No | Timestamp from the beginning of the transaction. |
+| `success` | `bool` | No | The success indicator. |
+| `transactionSource` | `char*` | No | The source of the Transaction. |
 
 ### Operations
 
@@ -1511,18 +1511,18 @@ Entity* update_result = bluefindecryptxp2pe_update_result(client, NULL);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `client` | `voxgig_value* (map)` | No |  |
-| `email` | `char*` | No |  |
-| `firstName` | `char*` | No |  |
-| `id` | `char*` | No |  |
-| `isActive` | `bool` | No |  |
-| `kif` | `voxgig_value* (map)` | No |  |
-| `lastName` | `char*` | No |  |
-| `partner` | `voxgig_value* (map)` | No |  |
-| `phone` | `char*` | No |  |
-| `userName` | `char*` | No |  |
-| `userRole` | `voxgig_value* (map)` | No |  |
-| `version` | `int64_t` | No |  |
+| `client` | `voxgig_value* (map)` | No | Reference to the associated Client resource. |
+| `email` | `char*` | No | The User's email address. |
+| `firstName` | `char*` | No | The User's name. |
+| `id` | `char*` | No | ID of newly created resource |
+| `isActive` | `bool` | No | This property indicates if the User account is active or disabled. |
+| `kif` | `voxgig_value* (map)` | No | Reference to the associated KIF resource. |
+| `lastName` | `char*` | No | The User's Surname. |
+| `partner` | `voxgig_value* (map)` | No | Reference to the associated Partner. |
+| `phone` | `char*` | No | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | `char*` | No | The User's unique username. |
+| `userRole` | `voxgig_value* (map)` | No | Reference to the associated User Role. |
+| `version` | `int64_t` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1587,20 +1587,20 @@ Entity* user = bluefindecryptxp2pe_user(client, NULL);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `client` | `voxgig_value* (map)` | No |  |
-| `created` | `char*` | No |  |
-| `email` | `char*` | No |  |
-| `firstName` | `char*` | No |  |
-| `id` | `char*` | No |  |
-| `isActive` | `bool` | No |  |
-| `kif` | `voxgig_value* (map)` | No |  |
-| `lastName` | `char*` | No |  |
-| `modified` | `char*` | No |  |
-| `partner` | `voxgig_value* (map)` | No |  |
-| `phone` | `char*` | No |  |
-| `userName` | `char*` | No |  |
-| `userRole` | `voxgig_value* (map)` | No |  |
-| `version` | `int64_t` | No |  |
+| `client` | `voxgig_value* (map)` | No | Reference to the associated Client resource. |
+| `created` | `char*` | No | Creation timestamp in ISO 8601 format. |
+| `email` | `char*` | No | The User's email address. |
+| `firstName` | `char*` | No | The User's name. |
+| `id` | `char*` | No | This resource's unique identifier. |
+| `isActive` | `bool` | No | This property indicates if the User account is active or disabled. |
+| `kif` | `voxgig_value* (map)` | No | Reference to the associated KIF resource. |
+| `lastName` | `char*` | No | The User's Surname. |
+| `modified` | `char*` | No | Last modified timestamp. |
+| `partner` | `voxgig_value* (map)` | No | Reference to the associated Partner. |
+| `phone` | `char*` | No | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | `char*` | No | The User's unique username. |
+| `userRole` | `voxgig_value* (map)` | No | Reference to the associated User Role. |
+| `version` | `int64_t` | No | The number of times that this resource has been updated. |
 
 ### Operations
 

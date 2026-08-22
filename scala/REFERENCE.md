@@ -195,13 +195,13 @@ val attestation = client.attestation(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `client` | `java.util.Map[String, Object]` | No |  |
-| `completeDate` | `String` | No |  |
-| `created` | `String` | No |  |
-| `device` | `java.util.Map[String, Object]` | No |  |
-| `id` | `String` | No |  |
-| `name` | `String` | No |  |
-| `notes` | `String` | No |  |
+| `client` | `java.util.Map[String, Object]` | No | Reference to the associated Client resource. |
+| `completeDate` | `String` | No | The date and time that the Attestation took place. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `device` | `java.util.Map[String, Object]` | No | Reference to the associated Device resource. |
+| `id` | `String` | No | This resource's unique identifier. |
+| `name` | `String` | No | Text describing the attestation. |
+| `notes` | `String` | No | Free form field that allows the Client associate notes with the Attestation. |
 
 ### Operations
 
@@ -262,17 +262,17 @@ val client = client.client(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `contact` | `java.util.Map[String, Object]` | No |  |
-| `created` | `String` | No |  |
-| `directPartner` | `java.util.Map[String, Object]` | No |  |
-| `id` | `String` | No |  |
-| `isActive` | `java.lang.Boolean` | No |  |
-| `location` | `java.util.Map[String, Object]` | Yes |  |
-| `mid` | `String` | No |  |
-| `modified` | `String` | No |  |
-| `name` | `String` | No |  |
-| `partner` | `java.util.Map[String, Object]` | No |  |
-| `version` | `java.lang.Long` | No |  |
+| `contact` | `java.util.Map[String, Object]` | No | Reference to the associated User resource. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `directPartner` | `java.util.Map[String, Object]` | No | Reference to the associated Partner. |
+| `id` | `String` | No | This resource's unique identifier. |
+| `isActive` | `java.lang.Boolean` | No | This property indicates if the Client account is active or disabled. |
+| `location` | `java.util.Map[String, Object]` | Yes | Reference to the associated Location resource. |
+| `mid` | `String` | No | Some Partners will have an merchant ids on their own software offerings. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `name` | `String` | No | The Client's name. |
+| `partner` | `java.util.Map[String, Object]` | No | Reference to the Client's root Partner. |
+| `version` | `java.lang.Long` | No | The number of times that this resource has been updated. |
 
 ### Field Usage by Operation
 
@@ -398,7 +398,7 @@ val decryption = client.decryption(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `java.lang.Boolean` | No |  |
+| `success` | `java.lang.Boolean` | No | true if the payload decryption was successful. |
 
 ### Operations
 
@@ -442,34 +442,34 @@ val device = client.device(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `activatedBy` | `java.util.Map[String, Object]` | Yes |  |
-| `activationDate` | `String` | No |  |
-| `alternateKey` | `String` | No |  |
-| `auditNextDate` | `String` | No |  |
-| `auditNotificationDate` | `String` | No |  |
-| `client` | `java.util.Map[String, Object]` | No |  |
-| `created` | `String` | No |  |
-| `createdBy` | `java.util.Map[String, Object]` | Yes |  |
-| `deviceBuild` | `java.util.Map[String, Object]` | No |  |
-| `deviceState` | `java.util.Map[String, Object]` | No |  |
-| `deviceType` | `java.util.Map[String, Object]` | No |  |
-| `errorCounter` | `java.lang.Long` | No |  |
-| `errorLastDate` | `String` | No |  |
-| `id` | `String` | No |  |
-| `initializedBy` | `java.util.Map[String, Object]` | Yes |  |
-| `initializedDate` | `String` | No |  |
-| `injectKey` | `java.util.Map[String, Object]` | No |  |
-| `isVirtual` | `java.lang.Boolean` | No |  |
-| `kif` | `java.util.Map[String, Object]` | No |  |
-| `lastActivityDate` | `String` | No |  |
-| `location` | `java.util.Map[String, Object]` | Yes |  |
-| `modified` | `String` | No |  |
-| `modifiedBy` | `java.util.Map[String, Object]` | Yes |  |
-| `name` | `String` | No |  |
-| `notes` | `String` | No |  |
-| `partner` | `java.util.Map[String, Object]` | No |  |
-| `serialNumber` | `String` | No |  |
-| `version` | `java.lang.Long` | No |  |
+| `activatedBy` | `java.util.Map[String, Object]` | Yes | Reference to the associated User resource. |
+| `activationDate` | `String` | No | Timestamp from when the Device was activated. |
+| `alternateKey` | `String` | No | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `String` | No | Date and time that the Device is due its next PCI Audit. |
+| `auditNotificationDate` | `String` | No | Date and time that a notification should be sent that a PCI audit is due. |
+| `client` | `java.util.Map[String, Object]` | No | Reference to the associated Client resource. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `java.util.Map[String, Object]` | Yes | Reference to the associated User resource. |
+| `deviceBuild` | `java.util.Map[String, Object]` | No | Reference to the associated Device Build resource. |
+| `deviceState` | `java.util.Map[String, Object]` | No | Reference to the associated Device State resource. |
+| `deviceType` | `java.util.Map[String, Object]` | No | Reference to the associated Device Type resource. |
+| `errorCounter` | `java.lang.Long` | No | The number times the Device has been in error. |
+| `errorLastDate` | `String` | No | Timestamp from the last time that the Device had an error. |
+| `id` | `String` | No | The Device's unique identifier. |
+| `initializedBy` | `java.util.Map[String, Object]` | Yes | Reference to the associated User resource. |
+| `initializedDate` | `String` | No | Timestamp from when the Device was initialized. |
+| `injectKey` | `java.util.Map[String, Object]` | No | Reference to the associated Device resource. |
+| `isVirtual` | `java.lang.Boolean` | No | Indicates if a Device is Virtual (represents a Device shared with a partner). |
+| `kif` | `java.util.Map[String, Object]` | No | Reference to the associated KIF resource. |
+| `lastActivityDate` | `String` | No | Timestamp from the last time that the Device was used. |
+| `location` | `java.util.Map[String, Object]` | Yes | Reference to the associated Location resource. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `modifiedBy` | `java.util.Map[String, Object]` | Yes | Reference to the associated User resource. |
+| `name` | `String` | No | The Device's name. |
+| `notes` | `String` | No | Arbitary note that can be attached to a Device entry. |
+| `partner` | `java.util.Map[String, Object]` | No | Reference to the associated Partner. |
+| `serialNumber` | `String` | No | The Device's serial number. |
+| `version` | `java.lang.Long` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -535,21 +535,21 @@ val deviceBuild = client.deviceBuild(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `appVersion` | `String` | No |  |
-| `buildNumber` | `String` | No |  |
-| `configFileName` | `String` | No |  |
-| `created` | `String` | No |  |
-| `deviceType` | `String` | No |  |
-| `firmwareVersion` | `String` | No |  |
-| `hardwareVersion` | `String` | No |  |
-| `id` | `java.lang.Long` | No |  |
-| `isActive` | `java.lang.Boolean` | No |  |
-| `modified` | `String` | No |  |
-| `name` | `String` | No |  |
-| `notes` | `String` | No |  |
-| `version` | `java.lang.Long` | No |  |
-| `whiteListingBinRanges` | `String` | No |  |
-| `whiteListingUsed` | `java.lang.Boolean` | No |  |
+| `appVersion` | `String` | No | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildNumber` | `String` | No | The Build Number. |
+| `configFileName` | `String` | No | The name of the configuration file that is uploaded to the device. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `deviceType` | `String` | No | The Device Type Name. |
+| `firmwareVersion` | `String` | No | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `String` | No | A list of hardware versions that this Device Build covers. |
+| `id` | `java.lang.Long` | No | This resource's unique identifier. |
+| `isActive` | `java.lang.Boolean` | No | This property indicates if the device build is still active and not succeeded by subsequent build. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `name` | `String` | No | The Device Builds's name. |
+| `notes` | `String` | No | Notes attached to the device build by Bluefin CISO. |
+| `version` | `java.lang.Long` | No | The number of times that this resource has been updated. |
+| `whiteListingBinRanges` | `String` | No | A comma separated list of BIN ranges that aren't encrypted by the terminal. |
+| `whiteListingUsed` | `java.lang.Boolean` | No | This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal. |
 
 ### Operations
 
@@ -601,19 +601,19 @@ val deviceCustodyDetail = client.deviceCustodyDetail(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `completeDate` | `String` | No |  |
-| `created` | `String` | No |  |
-| `createdBy` | `java.util.Map[String, Object]` | Yes |  |
-| `custodian` | `java.util.Map[String, Object]` | Yes |  |
-| `device` | `java.util.Map[String, Object]` | No |  |
-| `id` | `java.lang.Long` | No |  |
-| `location` | `java.util.Map[String, Object]` | Yes |  |
-| `modified` | `String` | No |  |
-| `modifiedBy` | `java.util.Map[String, Object]` | Yes |  |
-| `notes` | `String` | No |  |
-| `status` | `java.util.Map[String, Object]` | No |  |
-| `transferMethod` | `java.util.Map[String, Object]` | No |  |
-| `version` | `java.lang.Long` | No |  |
+| `completeDate` | `String` | No | The date and time that the Custody change took place. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `java.util.Map[String, Object]` | Yes | Reference to the associated User resource. |
+| `custodian` | `java.util.Map[String, Object]` | Yes | Reference to the associated User resource. |
+| `device` | `java.util.Map[String, Object]` | No | Reference to the associated Device resource. |
+| `id` | `java.lang.Long` | No | This resource's unique identifier. |
+| `location` | `java.util.Map[String, Object]` | Yes | Reference to the associated Location resource. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `modifiedBy` | `java.util.Map[String, Object]` | Yes | Reference to the associated User resource. |
+| `notes` | `String` | No | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | `java.util.Map[String, Object]` | No | Reference to the associated Custody Status. |
+| `transferMethod` | `java.util.Map[String, Object]` | No | Reference to the associated Transfer Method. |
+| `version` | `java.lang.Long` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -656,19 +656,19 @@ val deviceCustodyList = client.deviceCustodyList(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `completeDate` | `String` | No |  |
-| `created` | `String` | No |  |
-| `createdBy` | `java.util.Map[String, Object]` | Yes |  |
-| `custodian` | `java.util.Map[String, Object]` | Yes |  |
-| `device` | `java.util.Map[String, Object]` | No |  |
-| `id` | `java.lang.Long` | No |  |
-| `location` | `java.util.Map[String, Object]` | Yes |  |
-| `modified` | `String` | No |  |
-| `modifiedBy` | `java.util.Map[String, Object]` | Yes |  |
-| `notes` | `String` | No |  |
-| `status` | `java.util.Map[String, Object]` | No |  |
-| `transferMethod` | `java.util.Map[String, Object]` | No |  |
-| `version` | `java.lang.Long` | No |  |
+| `completeDate` | `String` | No | The date and time that the Custody change took place. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `java.util.Map[String, Object]` | Yes | Reference to the associated User resource. |
+| `custodian` | `java.util.Map[String, Object]` | Yes | Reference to the associated User resource. |
+| `device` | `java.util.Map[String, Object]` | No | Reference to the associated Device resource. |
+| `id` | `java.lang.Long` | No | This resource's unique identifier. |
+| `location` | `java.util.Map[String, Object]` | Yes | Reference to the associated Location resource. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `modifiedBy` | `java.util.Map[String, Object]` | Yes | Reference to the associated User resource. |
+| `notes` | `String` | No | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | `java.util.Map[String, Object]` | No | Reference to the associated Custody Status. |
+| `transferMethod` | `java.util.Map[String, Object]` | No | Reference to the associated Transfer Method. |
+| `version` | `java.lang.Long` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -712,8 +712,8 @@ val deviceList = client.deviceList(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `java.util.List[Object]` | No |  |
-| `total` | `java.lang.Long` | No |  |
+| `data` | `java.util.List[Object]` | No | List of Devices. |
+| `total` | `java.lang.Long` | No | Total number of Devices available (not the number of Users in the response). |
 
 ### Operations
 
@@ -756,7 +756,7 @@ val deviceReceiveResult = client.deviceReceiveResult(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `java.lang.Boolean` | Yes |  |
+| `success` | `java.lang.Boolean` | Yes | Indicates if the action succeeded. |
 
 ### Operations
 
@@ -801,7 +801,7 @@ val deviceRkiActivateResult = client.deviceRkiActivateResult(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `java.lang.Boolean` | Yes |  |
+| `success` | `java.lang.Boolean` | Yes | Indicates if the RKI activation succeeded. |
 
 ### Operations
 
@@ -846,8 +846,8 @@ val deviceState = client.deviceState(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `java.lang.Long` | No |  |
-| `name` | `String` | No |  |
+| `id` | `java.lang.Long` | No | Unique identifier for this Device state. |
+| `name` | `String` | No | Descriptive name for this Device state. |
 
 ### Operations
 
@@ -891,18 +891,18 @@ val deviceType = client.deviceType(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created` | `String` | No |  |
-| `deviceTypeMode` | `String` | No |  |
-| `hardwareVersion` | `String` | No |  |
-| `id` | `String` | No |  |
-| `isActive` | `java.lang.Boolean` | No |  |
-| `manufacturer` | `String` | No |  |
-| `model` | `String` | No |  |
-| `modified` | `String` | No |  |
-| `name` | `String` | No |  |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `deviceTypeMode` | `String` | No | The Device type. |
+| `hardwareVersion` | `String` | No | The Device hardware version. |
+| `id` | `String` | No | Unique idenifier. |
+| `isActive` | `java.lang.Boolean` | No | This property indicates if the DeviceType is active. |
+| `manufacturer` | `String` | No | The Device manufacturer. |
+| `model` | `String` | No | The Device model. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `name` | `String` | No | The DeviceType name. |
 | `photoUrl` | `String` | No |  |
-| `productName` | `String` | No |  |
-| `version` | `java.lang.Long` | No |  |
+| `productName` | `String` | No | The Device name. |
+| `version` | `java.lang.Long` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -954,14 +954,14 @@ val injectKey = client.injectKey(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created` | `String` | No |  |
-| `id` | `String` | No |  |
-| `isActive` | `java.lang.Boolean` | No |  |
-| `isP2PE` | `java.lang.Boolean` | No |  |
-| `keyType` | `String` | No |  |
-| `modified` | `String` | No |  |
-| `name` | `String` | No |  |
-| `version` | `java.lang.Long` | No |  |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `id` | `String` | No | unique idenifier |
+| `isActive` | `java.lang.Boolean` | No | Active flag, inactive keys cannot be assigned to devices. |
+| `isP2PE` | `java.lang.Boolean` | No | Flags if a key is for a P2PE compliant cypher. |
+| `keyType` | `String` | No | The cipher type that the key works with. |
+| `modified` | `String` | No | Last modified timestamp in ISO 8601 format. |
+| `name` | `String` | No | Key name. |
+| `version` | `java.lang.Long` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1013,8 +1013,8 @@ val kif = client.kif(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `java.lang.Long` | No |  |
-| `name` | `String` | No |  |
+| `id` | `java.lang.Long` | No | This resource's unique identifier. |
+| `name` | `String` | No | The KIF's name. |
 
 ### Operations
 
@@ -1058,29 +1058,29 @@ val location = client.location(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `address1` | `String` | No |  |
-| `address2` | `String` | No |  |
-| `billingId` | `String` | No |  |
-| `city` | `String` | No |  |
-| `country` | `String` | No |  |
-| `created` | `String` | No |  |
-| `customReference` | `String` | No |  |
-| `id` | `String` | No |  |
-| `locationType` | `String` | No |  |
-| `mailAddress1` | `String` | No |  |
-| `mailAddress2` | `String` | No |  |
-| `mailCity` | `String` | No |  |
-| `mailCountry` | `String` | No |  |
-| `mailPostalCode` | `String` | No |  |
-| `mailStateProvince` | `String` | No |  |
-| `modified` | `String` | No |  |
-| `name` | `String` | No |  |
-| `nameOfBusiness` | `String` | No |  |
-| `notes` | `String` | No |  |
-| `postalCode` | `String` | No |  |
-| `stateProvince` | `String` | No |  |
-| `uniqueId` | `String` | No |  |
-| `version` | `java.lang.Long` | No |  |
+| `address1` | `String` | No | The Location's street address. |
+| `address2` | `String` | No | The Location's street address. |
+| `billingId` | `String` | No | \? |
+| `city` | `String` | No | The Location's city. |
+| `country` | `String` | No | The Location's country. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `customReference` | `String` | No | A Partner specified reference for a location. |
+| `id` | `String` | No | This resource's unique identifier. |
+| `locationType` | `String` | No | The Location's clasification. |
+| `mailAddress1` | `String` | No | The Location's street address. |
+| `mailAddress2` | `String` | No | The Location's street address. |
+| `mailCity` | `String` | No | The Location's city. |
+| `mailCountry` | `String` | No | The Location's street address. |
+| `mailPostalCode` | `String` | No | The Location's postal code. |
+| `mailStateProvince` | `String` | No | The Location's street state or province. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `name` | `String` | No | The Location's name. |
+| `nameOfBusiness` | `String` | No | The name of the business at this location. |
+| `notes` | `String` | No | Note for delivery driver. |
+| `postalCode` | `String` | No | The Location's postal code. |
+| `stateProvince` | `String` | No | The Location's street state or province. |
+| `uniqueId` | `String` | No | Unique Identifier for the Location. |
+| `version` | `java.lang.Long` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1149,20 +1149,20 @@ val partner = client.partner(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `billingId` | `String` | No |  |
-| `clientCanOrderEquipment` | `java.lang.Boolean` | No |  |
-| `contact` | `java.util.Map[String, Object]` | No |  |
-| `created` | `String` | No |  |
-| `id` | `String` | No |  |
-| `isActive` | `java.lang.Boolean` | No |  |
-| `location` | `java.util.Map[String, Object]` | Yes |  |
-| `modified` | `String` | No |  |
-| `name` | `String` | No |  |
-| `parent` | `java.util.Map[String, Object]` | No |  |
-| `partnerId` | `String` | No |  |
-| `reference` | `String` | No |  |
-| `verificationPhrase` | `String` | No |  |
-| `version` | `java.lang.Long` | No |  |
+| `billingId` | `String` | No | The Partner's billing identifier. |
+| `clientCanOrderEquipment` | `java.lang.Boolean` | No | This property indicates if the Partner is allowed to order Equipment. |
+| `contact` | `java.util.Map[String, Object]` | No | Reference to the associated User resource. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `id` | `String` | No | This resource's unique identifier. |
+| `isActive` | `java.lang.Boolean` | No | This property indicates if the Parter account is active or disabled. |
+| `location` | `java.util.Map[String, Object]` | Yes | Reference to the associated Location resource. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `name` | `String` | No | The Partner's name. |
+| `parent` | `java.util.Map[String, Object]` | No | Reference to the associated Partner. |
+| `partnerId` | `String` | No | The Partner's id. |
+| `reference` | `String` | No | The Partner's reference string. |
+| `verificationPhrase` | `String` | No | The verification phrase is a message that the Partner creates. |
+| `version` | `java.lang.Long` | No | The number of times that this resource has been updated. |
 
 ### Field Usage by Operation
 
@@ -1243,20 +1243,20 @@ val shipment = client.shipment(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `carrier` | `String` | No |  |
-| `client` | `java.util.Map[String, Object]` | No |  |
-| `created` | `String` | No |  |
-| `dateReceived` | `String` | No |  |
-| `dateShipped` | `String` | No |  |
-| `dcKif` | `java.util.Map[String, Object]` | No |  |
-| `id` | `String` | No |  |
+| `carrier` | `String` | No | The name of the courier. |
+| `client` | `java.util.Map[String, Object]` | No | Reference to the associated Client resource. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `dateReceived` | `String` | No | The date and time that a package is recieved. |
+| `dateShipped` | `String` | No | The date and time that a package is shipped. |
+| `dcKif` | `java.util.Map[String, Object]` | No | Reference to the associated KIF resource. |
+| `id` | `String` | No | This resource's unique identifier. |
 | `items` | `java.util.List[Object]` | No |  |
-| `kif` | `java.util.Map[String, Object]` | No |  |
-| `modified` | `String` | No |  |
-| `partner` | `java.util.Map[String, Object]` | No |  |
-| `shipmentType` | `String` | No |  |
-| `tracking` | `String` | No |  |
-| `version` | `java.lang.Long` | No |  |
+| `kif` | `java.util.Map[String, Object]` | No | Reference to the associated KIF resource. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `partner` | `java.util.Map[String, Object]` | No | Reference to the associated Partner. |
+| `shipmentType` | `String` | No | The type of shipment. |
+| `tracking` | `String` | No | The courier's tracking number. |
+| `version` | `java.lang.Long` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1317,7 +1317,7 @@ val success = client.success(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `java.lang.Boolean` | No |  |
+| `success` | `java.lang.Boolean` | No | Indicates if the action was a success. |
 
 ### Operations
 
@@ -1370,30 +1370,30 @@ val transaction = client.transaction(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `alternateKey` | `String` | No |  |
-| `client` | `java.util.Map[String, Object]` | No |  |
-| `clientRef` | `String` | No |  |
-| `created` | `String` | No |  |
-| `decrypted` | `java.lang.Long` | No |  |
-| `deviceName` | `String` | No |  |
-| `directPartner` | `java.util.Map[String, Object]` | No |  |
-| `encrypted` | `java.lang.Long` | No |  |
-| `endDate` | `String` | No |  |
-| `errCode` | `String` | No |  |
-| `errMessage` | `String` | No |  |
-| `id` | `String` | No |  |
-| `ipAddress` | `String` | No |  |
-| `isVirtual` | `java.lang.Boolean` | No |  |
-| `keyType` | `String` | No |  |
-| `location` | `java.util.Map[String, Object]` | Yes |  |
-| `messageId` | `String` | No |  |
-| `method` | `String` | No |  |
-| `partner` | `java.util.Map[String, Object]` | No |  |
-| `reference` | `String` | No |  |
-| `serialNumber` | `String` | No |  |
-| `startDate` | `String` | No |  |
-| `success` | `java.lang.Boolean` | No |  |
-| `transactionSource` | `String` | No |  |
+| `alternateKey` | `String` | No | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `client` | `java.util.Map[String, Object]` | No | Reference to the associated Client resource. |
+| `clientRef` | `String` | No | Client Reference property that is included in the decrypt API call. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `decrypted` | `java.lang.Long` | No | A Transcation can process muliple decryptions. |
+| `deviceName` | `String` | No | The name of the Device that generated the payload to decrypt. |
+| `directPartner` | `java.util.Map[String, Object]` | No | Reference to the associated Partner. |
+| `encrypted` | `java.lang.Long` | No | A Transcation can process muliple encryptions. |
+| `endDate` | `String` | No | Timestamp from the end of the transaction. |
+| `errCode` | `String` | No | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `String` | No | The error messge that is sent in response to a failed decrypt API call. |
+| `id` | `String` | No | This resource's unique identifier. |
+| `ipAddress` | `String` | No | The IP address of the http client that makes the decrypt API call. |
+| `isVirtual` | `java.lang.Boolean` | No | Indicates if the Transaction came from a virtual Device. |
+| `keyType` | `String` | No | The type of cipher used during decrytion. |
+| `location` | `java.util.Map[String, Object]` | Yes | Reference to the associated Location resource. |
+| `messageId` | `String` | No | Message ID. |
+| `method` | `String` | No | The decryption cypher/method. |
+| `partner` | `java.util.Map[String, Object]` | No | Reference to the associated Partner. |
+| `reference` | `String` | No | The reference property that the Client includes in the decrypt API call. |
+| `serialNumber` | `String` | No | The serial number of the Device that generated the payload to decrypt. |
+| `startDate` | `String` | No | Timestamp from the beginning of the transaction. |
+| `success` | `java.lang.Boolean` | No | The success indicator. |
+| `transactionSource` | `String` | No | The source of the Transaction. |
 
 ### Operations
 
@@ -1455,18 +1455,18 @@ val updateResult = client.updateResult(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `client` | `java.util.Map[String, Object]` | No |  |
-| `email` | `String` | No |  |
-| `firstName` | `String` | No |  |
-| `id` | `String` | No |  |
-| `isActive` | `java.lang.Boolean` | No |  |
-| `kif` | `java.util.Map[String, Object]` | No |  |
-| `lastName` | `String` | No |  |
-| `partner` | `java.util.Map[String, Object]` | No |  |
-| `phone` | `String` | No |  |
-| `userName` | `String` | No |  |
-| `userRole` | `java.util.Map[String, Object]` | No |  |
-| `version` | `java.lang.Long` | No |  |
+| `client` | `java.util.Map[String, Object]` | No | Reference to the associated Client resource. |
+| `email` | `String` | No | The User's email address. |
+| `firstName` | `String` | No | The User's name. |
+| `id` | `String` | No | ID of newly created resource |
+| `isActive` | `java.lang.Boolean` | No | This property indicates if the User account is active or disabled. |
+| `kif` | `java.util.Map[String, Object]` | No | Reference to the associated KIF resource. |
+| `lastName` | `String` | No | The User's Surname. |
+| `partner` | `java.util.Map[String, Object]` | No | Reference to the associated Partner. |
+| `phone` | `String` | No | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | `String` | No | The User's unique username. |
+| `userRole` | `java.util.Map[String, Object]` | No | Reference to the associated User Role. |
+| `version` | `java.lang.Long` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1529,20 +1529,20 @@ val user = client.user(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `client` | `java.util.Map[String, Object]` | No |  |
-| `created` | `String` | No |  |
-| `email` | `String` | No |  |
-| `firstName` | `String` | No |  |
-| `id` | `String` | No |  |
-| `isActive` | `java.lang.Boolean` | No |  |
-| `kif` | `java.util.Map[String, Object]` | No |  |
-| `lastName` | `String` | No |  |
-| `modified` | `String` | No |  |
-| `partner` | `java.util.Map[String, Object]` | No |  |
-| `phone` | `String` | No |  |
-| `userName` | `String` | No |  |
-| `userRole` | `java.util.Map[String, Object]` | No |  |
-| `version` | `java.lang.Long` | No |  |
+| `client` | `java.util.Map[String, Object]` | No | Reference to the associated Client resource. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `email` | `String` | No | The User's email address. |
+| `firstName` | `String` | No | The User's name. |
+| `id` | `String` | No | This resource's unique identifier. |
+| `isActive` | `java.lang.Boolean` | No | This property indicates if the User account is active or disabled. |
+| `kif` | `java.util.Map[String, Object]` | No | Reference to the associated KIF resource. |
+| `lastName` | `String` | No | The User's Surname. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `partner` | `java.util.Map[String, Object]` | No | Reference to the associated Partner. |
+| `phone` | `String` | No | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | `String` | No | The User's unique username. |
+| `userRole` | `java.util.Map[String, Object]` | No | Reference to the associated User Role. |
+| `version` | `java.lang.Long` | No | The number of times that this resource has been updated. |
 
 ### Operations
 

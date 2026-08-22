@@ -8,36 +8,43 @@ main: kit: entity: shipment: {
     {
       name: "carrier"
       req: false
+      short: "The name of the courier."
       type: "`$STRING`"
     }
     {
       name: "client"
       req: false
+      short: "Reference to the associated Client resource."
       type: "`$OBJECT`"
     }
     {
       name: "created"
       req: false
+      short: "Creation timestamp in ISO 8601 format."
       type: "`$STRING`"
     }
     {
       name: "dateReceived"
       req: false
+      short: "The date and time that a package is recieved."
       type: "`$STRING`"
     }
     {
       name: "dateShipped"
       req: false
+      short: "The date and time that a package is shipped."
       type: "`$STRING`"
     }
     {
       name: "dcKif"
       req: false
+      short: "Reference to the associated KIF resource."
       type: "`$OBJECT`"
     }
     {
       name: "id"
       req: false
+      short: "This resource's unique identifier."
       type: "`$STRING`"
     }
     {
@@ -48,31 +55,37 @@ main: kit: entity: shipment: {
     {
       name: "kif"
       req: false
+      short: "Reference to the associated KIF resource."
       type: "`$OBJECT`"
     }
     {
       name: "modified"
       req: false
+      short: "Last modified timestamp."
       type: "`$STRING`"
     }
     {
       name: "partner"
       req: false
+      short: "Reference to the associated Partner."
       type: "`$OBJECT`"
     }
     {
       name: "shipmentType"
       req: false
+      short: "The type of shipment."
       type: "`$STRING`"
     }
     {
       name: "tracking"
       req: false
+      short: "The courier's tracking number."
       type: "`$STRING`"
     }
     {
       name: "version"
       req: false
+      short: "The number of times that this resource has been updated."
       type: "`$INTEGER`"
     }
   ]

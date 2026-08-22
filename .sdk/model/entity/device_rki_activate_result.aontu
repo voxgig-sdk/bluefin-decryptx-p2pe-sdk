@@ -8,6 +8,7 @@ main: kit: entity: device_rki_activate_result: {
     {
       name: "success"
       req: true
+      short: "Indicates if the RKI activation succeeded."
       type: "`$BOOLEAN`"
     }
   ]

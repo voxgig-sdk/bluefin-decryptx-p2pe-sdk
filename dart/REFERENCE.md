@@ -171,13 +171,13 @@ final attestation = client.Attestation();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `client` | `Map<String, dynamic>` | No |  |
-| `completeDate` | `String` | No |  |
-| `created` | `String` | No |  |
-| `device` | `Map<String, dynamic>` | No |  |
-| `id` | `String` | No |  |
-| `name` | `String` | No |  |
-| `notes` | `String` | No |  |
+| `client` | `Map<String, dynamic>` | No | Reference to the associated Client resource. |
+| `completeDate` | `String` | No | The date and time that the Attestation took place. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `device` | `Map<String, dynamic>` | No | Reference to the associated Device resource. |
+| `id` | `String` | No | This resource's unique identifier. |
+| `name` | `String` | No | Text describing the attestation. |
+| `notes` | `String` | No | Free form field that allows the Client associate notes with the Attestation. |
 
 ### Operations
 
@@ -240,17 +240,17 @@ final client_ = client.Client();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `contact` | `Map<String, dynamic>` | No |  |
-| `created` | `String` | No |  |
-| `directPartner` | `Map<String, dynamic>` | No |  |
-| `id` | `String` | No |  |
-| `isActive` | `bool` | No |  |
-| `location` | `Map<String, dynamic>` | Yes |  |
-| `mid` | `String` | No |  |
-| `modified` | `String` | No |  |
-| `name` | `String` | No |  |
-| `partner` | `Map<String, dynamic>` | No |  |
-| `version` | `int` | No |  |
+| `contact` | `Map<String, dynamic>` | No | Reference to the associated User resource. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `directPartner` | `Map<String, dynamic>` | No | Reference to the associated Partner. |
+| `id` | `String` | No | This resource's unique identifier. |
+| `isActive` | `bool` | No | This property indicates if the Client account is active or disabled. |
+| `location` | `Map<String, dynamic>` | Yes | Reference to the associated Location resource. |
+| `mid` | `String` | No | Some Partners will have an merchant ids on their own software offerings. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `name` | `String` | No | The Client's name. |
+| `partner` | `Map<String, dynamic>` | No | Reference to the Client's root Partner. |
+| `version` | `int` | No | The number of times that this resource has been updated. |
 
 ### Field Usage by Operation
 
@@ -378,7 +378,7 @@ final decryption = client.Decryption();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `bool` | No |  |
+| `success` | `bool` | No | true if the payload decryption was successful. |
 
 ### Operations
 
@@ -422,34 +422,34 @@ final device = client.Device();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `activatedBy` | `Map<String, dynamic>` | Yes |  |
-| `activationDate` | `String` | No |  |
-| `alternateKey` | `String` | No |  |
-| `auditNextDate` | `String` | No |  |
-| `auditNotificationDate` | `String` | No |  |
-| `client` | `Map<String, dynamic>` | No |  |
-| `created` | `String` | No |  |
-| `createdBy` | `Map<String, dynamic>` | Yes |  |
-| `deviceBuild` | `Map<String, dynamic>` | No |  |
-| `deviceState` | `Map<String, dynamic>` | No |  |
-| `deviceType` | `Map<String, dynamic>` | No |  |
-| `errorCounter` | `int` | No |  |
-| `errorLastDate` | `String` | No |  |
-| `id` | `String` | No |  |
-| `initializedBy` | `Map<String, dynamic>` | Yes |  |
-| `initializedDate` | `String` | No |  |
-| `injectKey` | `Map<String, dynamic>` | No |  |
-| `isVirtual` | `bool` | No |  |
-| `kif` | `Map<String, dynamic>` | No |  |
-| `lastActivityDate` | `String` | No |  |
-| `location` | `Map<String, dynamic>` | Yes |  |
-| `modified` | `String` | No |  |
-| `modifiedBy` | `Map<String, dynamic>` | Yes |  |
-| `name` | `String` | No |  |
-| `notes` | `String` | No |  |
-| `partner` | `Map<String, dynamic>` | No |  |
-| `serialNumber` | `String` | No |  |
-| `version` | `int` | No |  |
+| `activatedBy` | `Map<String, dynamic>` | Yes | Reference to the associated User resource. |
+| `activationDate` | `String` | No | Timestamp from when the Device was activated. |
+| `alternateKey` | `String` | No | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `String` | No | Date and time that the Device is due its next PCI Audit. |
+| `auditNotificationDate` | `String` | No | Date and time that a notification should be sent that a PCI audit is due. |
+| `client` | `Map<String, dynamic>` | No | Reference to the associated Client resource. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `Map<String, dynamic>` | Yes | Reference to the associated User resource. |
+| `deviceBuild` | `Map<String, dynamic>` | No | Reference to the associated Device Build resource. |
+| `deviceState` | `Map<String, dynamic>` | No | Reference to the associated Device State resource. |
+| `deviceType` | `Map<String, dynamic>` | No | Reference to the associated Device Type resource. |
+| `errorCounter` | `int` | No | The number times the Device has been in error. |
+| `errorLastDate` | `String` | No | Timestamp from the last time that the Device had an error. |
+| `id` | `String` | No | The Device's unique identifier. |
+| `initializedBy` | `Map<String, dynamic>` | Yes | Reference to the associated User resource. |
+| `initializedDate` | `String` | No | Timestamp from when the Device was initialized. |
+| `injectKey` | `Map<String, dynamic>` | No | Reference to the associated Device resource. |
+| `isVirtual` | `bool` | No | Indicates if a Device is Virtual (represents a Device shared with a partner). |
+| `kif` | `Map<String, dynamic>` | No | Reference to the associated KIF resource. |
+| `lastActivityDate` | `String` | No | Timestamp from the last time that the Device was used. |
+| `location` | `Map<String, dynamic>` | Yes | Reference to the associated Location resource. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `modifiedBy` | `Map<String, dynamic>` | Yes | Reference to the associated User resource. |
+| `name` | `String` | No | The Device's name. |
+| `notes` | `String` | No | Arbitary note that can be attached to a Device entry. |
+| `partner` | `Map<String, dynamic>` | No | Reference to the associated Partner. |
+| `serialNumber` | `String` | No | The Device's serial number. |
+| `version` | `int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -517,21 +517,21 @@ final device_build = client.DeviceBuild();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `appVersion` | `String` | No |  |
-| `buildNumber` | `String` | No |  |
-| `configFileName` | `String` | No |  |
-| `created` | `String` | No |  |
-| `deviceType` | `String` | No |  |
-| `firmwareVersion` | `String` | No |  |
-| `hardwareVersion` | `String` | No |  |
-| `id` | `int` | No |  |
-| `isActive` | `bool` | No |  |
-| `modified` | `String` | No |  |
-| `name` | `String` | No |  |
-| `notes` | `String` | No |  |
-| `version` | `int` | No |  |
-| `whiteListingBinRanges` | `String` | No |  |
-| `whiteListingUsed` | `bool` | No |  |
+| `appVersion` | `String` | No | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildNumber` | `String` | No | The Build Number. |
+| `configFileName` | `String` | No | The name of the configuration file that is uploaded to the device. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `deviceType` | `String` | No | The Device Type Name. |
+| `firmwareVersion` | `String` | No | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `String` | No | A list of hardware versions that this Device Build covers. |
+| `id` | `int` | No | This resource's unique identifier. |
+| `isActive` | `bool` | No | This property indicates if the device build is still active and not succeeded by subsequent build. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `name` | `String` | No | The Device Builds's name. |
+| `notes` | `String` | No | Notes attached to the device build by Bluefin CISO. |
+| `version` | `int` | No | The number of times that this resource has been updated. |
+| `whiteListingBinRanges` | `String` | No | A comma separated list of BIN ranges that aren't encrypted by the terminal. |
+| `whiteListingUsed` | `bool` | No | This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal. |
 
 ### Operations
 
@@ -585,19 +585,19 @@ final device_custody_detail = client.DeviceCustodyDetail();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `completeDate` | `String` | No |  |
-| `created` | `String` | No |  |
-| `createdBy` | `Map<String, dynamic>` | Yes |  |
-| `custodian` | `Map<String, dynamic>` | Yes |  |
-| `device` | `Map<String, dynamic>` | No |  |
-| `id` | `int` | No |  |
-| `location` | `Map<String, dynamic>` | Yes |  |
-| `modified` | `String` | No |  |
-| `modifiedBy` | `Map<String, dynamic>` | Yes |  |
-| `notes` | `String` | No |  |
-| `status` | `Map<String, dynamic>` | No |  |
-| `transferMethod` | `Map<String, dynamic>` | No |  |
-| `version` | `int` | No |  |
+| `completeDate` | `String` | No | The date and time that the Custody change took place. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `Map<String, dynamic>` | Yes | Reference to the associated User resource. |
+| `custodian` | `Map<String, dynamic>` | Yes | Reference to the associated User resource. |
+| `device` | `Map<String, dynamic>` | No | Reference to the associated Device resource. |
+| `id` | `int` | No | This resource's unique identifier. |
+| `location` | `Map<String, dynamic>` | Yes | Reference to the associated Location resource. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `modifiedBy` | `Map<String, dynamic>` | Yes | Reference to the associated User resource. |
+| `notes` | `String` | No | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | `Map<String, dynamic>` | No | Reference to the associated Custody Status. |
+| `transferMethod` | `Map<String, dynamic>` | No | Reference to the associated Transfer Method. |
+| `version` | `int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -640,19 +640,19 @@ final device_custody_list = client.DeviceCustodyList();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `completeDate` | `String` | No |  |
-| `created` | `String` | No |  |
-| `createdBy` | `Map<String, dynamic>` | Yes |  |
-| `custodian` | `Map<String, dynamic>` | Yes |  |
-| `device` | `Map<String, dynamic>` | No |  |
-| `id` | `int` | No |  |
-| `location` | `Map<String, dynamic>` | Yes |  |
-| `modified` | `String` | No |  |
-| `modifiedBy` | `Map<String, dynamic>` | Yes |  |
-| `notes` | `String` | No |  |
-| `status` | `Map<String, dynamic>` | No |  |
-| `transferMethod` | `Map<String, dynamic>` | No |  |
-| `version` | `int` | No |  |
+| `completeDate` | `String` | No | The date and time that the Custody change took place. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `Map<String, dynamic>` | Yes | Reference to the associated User resource. |
+| `custodian` | `Map<String, dynamic>` | Yes | Reference to the associated User resource. |
+| `device` | `Map<String, dynamic>` | No | Reference to the associated Device resource. |
+| `id` | `int` | No | This resource's unique identifier. |
+| `location` | `Map<String, dynamic>` | Yes | Reference to the associated Location resource. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `modifiedBy` | `Map<String, dynamic>` | Yes | Reference to the associated User resource. |
+| `notes` | `String` | No | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | `Map<String, dynamic>` | No | Reference to the associated Custody Status. |
+| `transferMethod` | `Map<String, dynamic>` | No | Reference to the associated Transfer Method. |
+| `version` | `int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -698,8 +698,8 @@ final device_list = client.DeviceList();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `List<dynamic>` | No |  |
-| `total` | `int` | No |  |
+| `data` | `List<dynamic>` | No | List of Devices. |
+| `total` | `int` | No | Total number of Devices available (not the number of Users in the response). |
 
 ### Operations
 
@@ -742,7 +742,7 @@ final device_receive_result = client.DeviceReceiveResult();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `bool` | Yes |  |
+| `success` | `bool` | Yes | Indicates if the action succeeded. |
 
 ### Operations
 
@@ -787,7 +787,7 @@ final device_rki_activate_result = client.DeviceRkiActivateResult();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `bool` | Yes |  |
+| `success` | `bool` | Yes | Indicates if the RKI activation succeeded. |
 
 ### Operations
 
@@ -832,8 +832,8 @@ final device_state = client.DeviceState();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `int` | No |  |
-| `name` | `String` | No |  |
+| `id` | `int` | No | Unique identifier for this Device state. |
+| `name` | `String` | No | Descriptive name for this Device state. |
 
 ### Operations
 
@@ -879,18 +879,18 @@ final device_type = client.DeviceType();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created` | `String` | No |  |
-| `deviceTypeMode` | `String` | No |  |
-| `hardwareVersion` | `String` | No |  |
-| `id` | `String` | No |  |
-| `isActive` | `bool` | No |  |
-| `manufacturer` | `String` | No |  |
-| `model` | `String` | No |  |
-| `modified` | `String` | No |  |
-| `name` | `String` | No |  |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `deviceTypeMode` | `String` | No | The Device type. |
+| `hardwareVersion` | `String` | No | The Device hardware version. |
+| `id` | `String` | No | Unique idenifier. |
+| `isActive` | `bool` | No | This property indicates if the DeviceType is active. |
+| `manufacturer` | `String` | No | The Device manufacturer. |
+| `model` | `String` | No | The Device model. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `name` | `String` | No | The DeviceType name. |
 | `photoUrl` | `String` | No |  |
-| `productName` | `String` | No |  |
-| `version` | `int` | No |  |
+| `productName` | `String` | No | The Device name. |
+| `version` | `int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -944,14 +944,14 @@ final inject_key = client.InjectKey();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created` | `String` | No |  |
-| `id` | `String` | No |  |
-| `isActive` | `bool` | No |  |
-| `isP2PE` | `bool` | No |  |
-| `keyType` | `String` | No |  |
-| `modified` | `String` | No |  |
-| `name` | `String` | No |  |
-| `version` | `int` | No |  |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `id` | `String` | No | unique idenifier |
+| `isActive` | `bool` | No | Active flag, inactive keys cannot be assigned to devices. |
+| `isP2PE` | `bool` | No | Flags if a key is for a P2PE compliant cypher. |
+| `keyType` | `String` | No | The cipher type that the key works with. |
+| `modified` | `String` | No | Last modified timestamp in ISO 8601 format. |
+| `name` | `String` | No | Key name. |
+| `version` | `int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1005,8 +1005,8 @@ final kif = client.Kif();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `int` | No |  |
-| `name` | `String` | No |  |
+| `id` | `int` | No | This resource's unique identifier. |
+| `name` | `String` | No | The KIF's name. |
 
 ### Operations
 
@@ -1052,29 +1052,29 @@ final location = client.Location();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `address1` | `String` | No |  |
-| `address2` | `String` | No |  |
-| `billingId` | `String` | No |  |
-| `city` | `String` | No |  |
-| `country` | `String` | No |  |
-| `created` | `String` | No |  |
-| `customReference` | `String` | No |  |
-| `id` | `String` | No |  |
-| `locationType` | `String` | No |  |
-| `mailAddress1` | `String` | No |  |
-| `mailAddress2` | `String` | No |  |
-| `mailCity` | `String` | No |  |
-| `mailCountry` | `String` | No |  |
-| `mailPostalCode` | `String` | No |  |
-| `mailStateProvince` | `String` | No |  |
-| `modified` | `String` | No |  |
-| `name` | `String` | No |  |
-| `nameOfBusiness` | `String` | No |  |
-| `notes` | `String` | No |  |
-| `postalCode` | `String` | No |  |
-| `stateProvince` | `String` | No |  |
-| `uniqueId` | `String` | No |  |
-| `version` | `int` | No |  |
+| `address1` | `String` | No | The Location's street address. |
+| `address2` | `String` | No | The Location's street address. |
+| `billingId` | `String` | No | \? |
+| `city` | `String` | No | The Location's city. |
+| `country` | `String` | No | The Location's country. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `customReference` | `String` | No | A Partner specified reference for a location. |
+| `id` | `String` | No | This resource's unique identifier. |
+| `locationType` | `String` | No | The Location's clasification. |
+| `mailAddress1` | `String` | No | The Location's street address. |
+| `mailAddress2` | `String` | No | The Location's street address. |
+| `mailCity` | `String` | No | The Location's city. |
+| `mailCountry` | `String` | No | The Location's street address. |
+| `mailPostalCode` | `String` | No | The Location's postal code. |
+| `mailStateProvince` | `String` | No | The Location's street state or province. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `name` | `String` | No | The Location's name. |
+| `nameOfBusiness` | `String` | No | The name of the business at this location. |
+| `notes` | `String` | No | Note for delivery driver. |
+| `postalCode` | `String` | No | The Location's postal code. |
+| `stateProvince` | `String` | No | The Location's street state or province. |
+| `uniqueId` | `String` | No | Unique Identifier for the Location. |
+| `version` | `int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1145,20 +1145,20 @@ final partner = client.Partner();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `billingId` | `String` | No |  |
-| `clientCanOrderEquipment` | `bool` | No |  |
-| `contact` | `Map<String, dynamic>` | No |  |
-| `created` | `String` | No |  |
-| `id` | `String` | No |  |
-| `isActive` | `bool` | No |  |
-| `location` | `Map<String, dynamic>` | Yes |  |
-| `modified` | `String` | No |  |
-| `name` | `String` | No |  |
-| `parent` | `Map<String, dynamic>` | No |  |
-| `partnerId` | `String` | No |  |
-| `reference` | `String` | No |  |
-| `verificationPhrase` | `String` | No |  |
-| `version` | `int` | No |  |
+| `billingId` | `String` | No | The Partner's billing identifier. |
+| `clientCanOrderEquipment` | `bool` | No | This property indicates if the Partner is allowed to order Equipment. |
+| `contact` | `Map<String, dynamic>` | No | Reference to the associated User resource. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `id` | `String` | No | This resource's unique identifier. |
+| `isActive` | `bool` | No | This property indicates if the Parter account is active or disabled. |
+| `location` | `Map<String, dynamic>` | Yes | Reference to the associated Location resource. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `name` | `String` | No | The Partner's name. |
+| `parent` | `Map<String, dynamic>` | No | Reference to the associated Partner. |
+| `partnerId` | `String` | No | The Partner's id. |
+| `reference` | `String` | No | The Partner's reference string. |
+| `verificationPhrase` | `String` | No | The verification phrase is a message that the Partner creates. |
+| `version` | `int` | No | The number of times that this resource has been updated. |
 
 ### Field Usage by Operation
 
@@ -1241,20 +1241,20 @@ final shipment = client.Shipment();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `carrier` | `String` | No |  |
-| `client` | `Map<String, dynamic>` | No |  |
-| `created` | `String` | No |  |
-| `dateReceived` | `String` | No |  |
-| `dateShipped` | `String` | No |  |
-| `dcKif` | `Map<String, dynamic>` | No |  |
-| `id` | `String` | No |  |
+| `carrier` | `String` | No | The name of the courier. |
+| `client` | `Map<String, dynamic>` | No | Reference to the associated Client resource. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `dateReceived` | `String` | No | The date and time that a package is recieved. |
+| `dateShipped` | `String` | No | The date and time that a package is shipped. |
+| `dcKif` | `Map<String, dynamic>` | No | Reference to the associated KIF resource. |
+| `id` | `String` | No | This resource's unique identifier. |
 | `items` | `List<dynamic>` | No |  |
-| `kif` | `Map<String, dynamic>` | No |  |
-| `modified` | `String` | No |  |
-| `partner` | `Map<String, dynamic>` | No |  |
-| `shipmentType` | `String` | No |  |
-| `tracking` | `String` | No |  |
-| `version` | `int` | No |  |
+| `kif` | `Map<String, dynamic>` | No | Reference to the associated KIF resource. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `partner` | `Map<String, dynamic>` | No | Reference to the associated Partner. |
+| `shipmentType` | `String` | No | The type of shipment. |
+| `tracking` | `String` | No | The courier's tracking number. |
+| `version` | `int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1317,7 +1317,7 @@ final success = client.Success();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `bool` | No |  |
+| `success` | `bool` | No | Indicates if the action was a success. |
 
 ### Operations
 
@@ -1370,30 +1370,30 @@ final transaction = client.Transaction();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `alternateKey` | `String` | No |  |
-| `client` | `Map<String, dynamic>` | No |  |
-| `clientRef` | `String` | No |  |
-| `created` | `String` | No |  |
-| `decrypted` | `int` | No |  |
-| `deviceName` | `String` | No |  |
-| `directPartner` | `Map<String, dynamic>` | No |  |
-| `encrypted` | `int` | No |  |
-| `endDate` | `String` | No |  |
-| `errCode` | `String` | No |  |
-| `errMessage` | `String` | No |  |
-| `id` | `String` | No |  |
-| `ipAddress` | `String` | No |  |
-| `isVirtual` | `bool` | No |  |
-| `keyType` | `String` | No |  |
-| `location` | `Map<String, dynamic>` | Yes |  |
-| `messageId` | `String` | No |  |
-| `method` | `String` | No |  |
-| `partner` | `Map<String, dynamic>` | No |  |
-| `reference` | `String` | No |  |
-| `serialNumber` | `String` | No |  |
-| `startDate` | `String` | No |  |
-| `success` | `bool` | No |  |
-| `transactionSource` | `String` | No |  |
+| `alternateKey` | `String` | No | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `client` | `Map<String, dynamic>` | No | Reference to the associated Client resource. |
+| `clientRef` | `String` | No | Client Reference property that is included in the decrypt API call. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `decrypted` | `int` | No | A Transcation can process muliple decryptions. |
+| `deviceName` | `String` | No | The name of the Device that generated the payload to decrypt. |
+| `directPartner` | `Map<String, dynamic>` | No | Reference to the associated Partner. |
+| `encrypted` | `int` | No | A Transcation can process muliple encryptions. |
+| `endDate` | `String` | No | Timestamp from the end of the transaction. |
+| `errCode` | `String` | No | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `String` | No | The error messge that is sent in response to a failed decrypt API call. |
+| `id` | `String` | No | This resource's unique identifier. |
+| `ipAddress` | `String` | No | The IP address of the http client that makes the decrypt API call. |
+| `isVirtual` | `bool` | No | Indicates if the Transaction came from a virtual Device. |
+| `keyType` | `String` | No | The type of cipher used during decrytion. |
+| `location` | `Map<String, dynamic>` | Yes | Reference to the associated Location resource. |
+| `messageId` | `String` | No | Message ID. |
+| `method` | `String` | No | The decryption cypher/method. |
+| `partner` | `Map<String, dynamic>` | No | Reference to the associated Partner. |
+| `reference` | `String` | No | The reference property that the Client includes in the decrypt API call. |
+| `serialNumber` | `String` | No | The serial number of the Device that generated the payload to decrypt. |
+| `startDate` | `String` | No | Timestamp from the beginning of the transaction. |
+| `success` | `bool` | No | The success indicator. |
+| `transactionSource` | `String` | No | The source of the Transaction. |
 
 ### Operations
 
@@ -1457,18 +1457,18 @@ final update_result = client.UpdateResult();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `client` | `Map<String, dynamic>` | No |  |
-| `email` | `String` | No |  |
-| `firstName` | `String` | No |  |
-| `id` | `String` | No |  |
-| `isActive` | `bool` | No |  |
-| `kif` | `Map<String, dynamic>` | No |  |
-| `lastName` | `String` | No |  |
-| `partner` | `Map<String, dynamic>` | No |  |
-| `phone` | `String` | No |  |
-| `userName` | `String` | No |  |
-| `userRole` | `Map<String, dynamic>` | No |  |
-| `version` | `int` | No |  |
+| `client` | `Map<String, dynamic>` | No | Reference to the associated Client resource. |
+| `email` | `String` | No | The User's email address. |
+| `firstName` | `String` | No | The User's name. |
+| `id` | `String` | No | ID of newly created resource |
+| `isActive` | `bool` | No | This property indicates if the User account is active or disabled. |
+| `kif` | `Map<String, dynamic>` | No | Reference to the associated KIF resource. |
+| `lastName` | `String` | No | The User's Surname. |
+| `partner` | `Map<String, dynamic>` | No | Reference to the associated Partner. |
+| `phone` | `String` | No | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | `String` | No | The User's unique username. |
+| `userRole` | `Map<String, dynamic>` | No | Reference to the associated User Role. |
+| `version` | `int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1534,20 +1534,20 @@ final user = client.User();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `client` | `Map<String, dynamic>` | No |  |
-| `created` | `String` | No |  |
-| `email` | `String` | No |  |
-| `firstName` | `String` | No |  |
-| `id` | `String` | No |  |
-| `isActive` | `bool` | No |  |
-| `kif` | `Map<String, dynamic>` | No |  |
-| `lastName` | `String` | No |  |
-| `modified` | `String` | No |  |
-| `partner` | `Map<String, dynamic>` | No |  |
-| `phone` | `String` | No |  |
-| `userName` | `String` | No |  |
-| `userRole` | `Map<String, dynamic>` | No |  |
-| `version` | `int` | No |  |
+| `client` | `Map<String, dynamic>` | No | Reference to the associated Client resource. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `email` | `String` | No | The User's email address. |
+| `firstName` | `String` | No | The User's name. |
+| `id` | `String` | No | This resource's unique identifier. |
+| `isActive` | `bool` | No | This property indicates if the User account is active or disabled. |
+| `kif` | `Map<String, dynamic>` | No | Reference to the associated KIF resource. |
+| `lastName` | `String` | No | The User's Surname. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `partner` | `Map<String, dynamic>` | No | Reference to the associated Partner. |
+| `phone` | `String` | No | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | `String` | No | The User's unique username. |
+| `userRole` | `Map<String, dynamic>` | No | Reference to the associated User Role. |
+| `version` | `int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 

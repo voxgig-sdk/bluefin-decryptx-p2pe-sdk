@@ -48,7 +48,7 @@ public final class BluefinDecryptxP2peTypes {
 
   public record Device(Map<String, Object> activatedBy, String activationDate, String alternateKey, String auditNextDate, String auditNotificationDate, Map<String, Object> client, String created, Map<String, Object> createdBy, Map<String, Object> deviceBuild, Map<String, Object> deviceState, Map<String, Object> deviceType, Long errorCounter, String errorLastDate, String id, Map<String, Object> initializedBy, String initializedDate, Map<String, Object> injectKey, Boolean isVirtual, Map<String, Object> kif, String lastActivityDate, Map<String, Object> location, String modified, Map<String, Object> modifiedBy, String name, String notes, Map<String, Object> partner, String serialNumber, Long version) {}
 
-  public record DeviceLoadMatch(String device_type, String serial_number, String id) {}
+  public record DeviceLoadMatch(String id) {}
 
   public record DeviceListMatch(Map<String, Object> activatedBy, String activationDate, String alternateKey, String auditNextDate, String auditNotificationDate, Map<String, Object> client, String created, Map<String, Object> createdBy, Map<String, Object> deviceBuild, Map<String, Object> deviceState, Map<String, Object> deviceType, Long errorCounter, String errorLastDate, String id, Map<String, Object> initializedBy, String initializedDate, Map<String, Object> injectKey, Boolean isVirtual, Map<String, Object> kif, String lastActivityDate, Map<String, Object> location, String modified, Map<String, Object> modifiedBy, String name, String notes, Map<String, Object> partner, String serialNumber, Long version) {}
 

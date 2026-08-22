@@ -299,13 +299,13 @@ On error, `ok` is `false` and `err` carries the error message.
 
 | Field | Description |
 | --- | --- |
-| `client` |  |
-| `completeDate` |  |
-| `created` |  |
-| `device` |  |
-| `id` |  |
-| `name` |  |
-| `notes` |  |
+| `client` | Reference to the associated Client resource. |
+| `completeDate` | The date and time that the Attestation took place. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `device` | Reference to the associated Device resource. |
+| `id` | This resource's unique identifier. |
+| `name` | Text describing the attestation. |
+| `notes` | Free form field that allows the Client associate notes with the Attestation. |
 
 Operations: Create, List, Load.
 
@@ -315,17 +315,17 @@ API path: `/attestations`
 
 | Field | Description |
 | --- | --- |
-| `contact` |  |
-| `created` |  |
-| `directPartner` |  |
-| `id` |  |
-| `isActive` |  |
-| `location` |  |
-| `mid` |  |
-| `modified` |  |
-| `name` |  |
-| `partner` |  |
-| `version` |  |
+| `contact` | Reference to the associated User resource. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `directPartner` | Reference to the associated Partner. |
+| `id` | This resource's unique identifier. |
+| `isActive` | This property indicates if the Client account is active or disabled. |
+| `location` | Reference to the associated Location resource. |
+| `mid` | Some Partners will have an merchant ids on their own software offerings. |
+| `modified` | Last modified timestamp. |
+| `name` | The Client's name. |
+| `partner` | Reference to the Client's root Partner. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Load, Remove.
 
@@ -344,7 +344,7 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
-| `success` |  |
+| `success` | true if the payload decryption was successful. |
 
 Operations: Create.
 
@@ -354,34 +354,34 @@ API path: `/decryption`
 
 | Field | Description |
 | --- | --- |
-| `activatedBy` |  |
-| `activationDate` |  |
-| `alternateKey` |  |
-| `auditNextDate` |  |
-| `auditNotificationDate` |  |
-| `client` |  |
-| `created` |  |
-| `createdBy` |  |
-| `deviceBuild` |  |
-| `deviceState` |  |
-| `deviceType` |  |
-| `errorCounter` |  |
-| `errorLastDate` |  |
-| `id` |  |
-| `initializedBy` |  |
-| `initializedDate` |  |
-| `injectKey` |  |
-| `isVirtual` |  |
-| `kif` |  |
-| `lastActivityDate` |  |
-| `location` |  |
-| `modified` |  |
-| `modifiedBy` |  |
-| `name` |  |
-| `notes` |  |
-| `partner` |  |
-| `serialNumber` |  |
-| `version` |  |
+| `activatedBy` | Reference to the associated User resource. |
+| `activationDate` | Timestamp from when the Device was activated. |
+| `alternateKey` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | Date and time that the Device is due its next PCI Audit. |
+| `auditNotificationDate` | Date and time that a notification should be sent that a PCI audit is due. |
+| `client` | Reference to the associated Client resource. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `createdBy` | Reference to the associated User resource. |
+| `deviceBuild` | Reference to the associated Device Build resource. |
+| `deviceState` | Reference to the associated Device State resource. |
+| `deviceType` | Reference to the associated Device Type resource. |
+| `errorCounter` | The number times the Device has been in error. |
+| `errorLastDate` | Timestamp from the last time that the Device had an error. |
+| `id` | The Device's unique identifier. |
+| `initializedBy` | Reference to the associated User resource. |
+| `initializedDate` | Timestamp from when the Device was initialized. |
+| `injectKey` | Reference to the associated Device resource. |
+| `isVirtual` | Indicates if a Device is Virtual (represents a Device shared with a partner). |
+| `kif` | Reference to the associated KIF resource. |
+| `lastActivityDate` | Timestamp from the last time that the Device was used. |
+| `location` | Reference to the associated Location resource. |
+| `modified` | Last modified timestamp. |
+| `modifiedBy` | Reference to the associated User resource. |
+| `name` | The Device's name. |
+| `notes` | Arbitary note that can be attached to a Device entry. |
+| `partner` | Reference to the associated Partner. |
+| `serialNumber` | The Device's serial number. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Load.
 
@@ -391,21 +391,21 @@ API path: `/devices`
 
 | Field | Description |
 | --- | --- |
-| `appVersion` |  |
-| `buildNumber` |  |
-| `configFileName` |  |
-| `created` |  |
-| `deviceType` |  |
-| `firmwareVersion` |  |
-| `hardwareVersion` |  |
-| `id` |  |
-| `isActive` |  |
-| `modified` |  |
-| `name` |  |
-| `notes` |  |
-| `version` |  |
-| `whiteListingBinRanges` |  |
-| `whiteListingUsed` |  |
+| `appVersion` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildNumber` | The Build Number. |
+| `configFileName` | The name of the configuration file that is uploaded to the device. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `deviceType` | The Device Type Name. |
+| `firmwareVersion` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | A list of hardware versions that this Device Build covers. |
+| `id` | This resource's unique identifier. |
+| `isActive` | This property indicates if the device build is still active and not succeeded by subsequent build. |
+| `modified` | Last modified timestamp. |
+| `name` | The Device Builds's name. |
+| `notes` | Notes attached to the device build by Bluefin CISO. |
+| `version` | The number of times that this resource has been updated. |
+| `whiteListingBinRanges` | A comma separated list of BIN ranges that aren't encrypted by the terminal. |
+| `whiteListingUsed` | This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal. |
 
 Operations: List, Load.
 
@@ -415,19 +415,19 @@ API path: `/deviceBuilds`
 
 | Field | Description |
 | --- | --- |
-| `completeDate` |  |
-| `created` |  |
-| `createdBy` |  |
-| `custodian` |  |
-| `device` |  |
-| `id` |  |
-| `location` |  |
-| `modified` |  |
-| `modifiedBy` |  |
-| `notes` |  |
-| `status` |  |
-| `transferMethod` |  |
-| `version` |  |
+| `completeDate` | The date and time that the Custody change took place. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `createdBy` | Reference to the associated User resource. |
+| `custodian` | Reference to the associated User resource. |
+| `device` | Reference to the associated Device resource. |
+| `id` | This resource's unique identifier. |
+| `location` | Reference to the associated Location resource. |
+| `modified` | Last modified timestamp. |
+| `modifiedBy` | Reference to the associated User resource. |
+| `notes` | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | Reference to the associated Custody Status. |
+| `transferMethod` | Reference to the associated Transfer Method. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: Load.
 
@@ -437,19 +437,19 @@ API path: `/devices/{serialNumber}/{deviceType}/custody/{id}`
 
 | Field | Description |
 | --- | --- |
-| `completeDate` |  |
-| `created` |  |
-| `createdBy` |  |
-| `custodian` |  |
-| `device` |  |
-| `id` |  |
-| `location` |  |
-| `modified` |  |
-| `modifiedBy` |  |
-| `notes` |  |
-| `status` |  |
-| `transferMethod` |  |
-| `version` |  |
+| `completeDate` | The date and time that the Custody change took place. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `createdBy` | Reference to the associated User resource. |
+| `custodian` | Reference to the associated User resource. |
+| `device` | Reference to the associated Device resource. |
+| `id` | This resource's unique identifier. |
+| `location` | Reference to the associated Location resource. |
+| `modified` | Last modified timestamp. |
+| `modifiedBy` | Reference to the associated User resource. |
+| `notes` | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | Reference to the associated Custody Status. |
+| `transferMethod` | Reference to the associated Transfer Method. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: List.
 
@@ -459,8 +459,8 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
-| `data` |  |
-| `total` |  |
+| `data` | List of Devices. |
+| `total` | Total number of Devices available (not the number of Users in the response). |
 
 Operations: Load.
 
@@ -470,7 +470,7 @@ API path: `/virtualDevices/{sharePartnerTo}`
 
 | Field | Description |
 | --- | --- |
-| `success` |  |
+| `success` | Indicates if the action succeeded. |
 
 Operations: Create.
 
@@ -480,7 +480,7 @@ API path: `/devices/receive`
 
 | Field | Description |
 | --- | --- |
-| `success` |  |
+| `success` | Indicates if the RKI activation succeeded. |
 
 Operations: Create.
 
@@ -490,8 +490,8 @@ API path: `/devices/rki/activate`
 
 | Field | Description |
 | --- | --- |
-| `id` |  |
-| `name` |  |
+| `id` | Unique identifier for this Device state. |
+| `name` | Descriptive name for this Device state. |
 
 Operations: List.
 
@@ -501,18 +501,18 @@ API path: `/deviceStates`
 
 | Field | Description |
 | --- | --- |
-| `created` |  |
-| `deviceTypeMode` |  |
-| `hardwareVersion` |  |
-| `id` |  |
-| `isActive` |  |
-| `manufacturer` |  |
-| `model` |  |
-| `modified` |  |
-| `name` |  |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `deviceTypeMode` | The Device type. |
+| `hardwareVersion` | The Device hardware version. |
+| `id` | Unique idenifier. |
+| `isActive` | This property indicates if the DeviceType is active. |
+| `manufacturer` | The Device manufacturer. |
+| `model` | The Device model. |
+| `modified` | Last modified timestamp. |
+| `name` | The DeviceType name. |
 | `photoUrl` |  |
-| `productName` |  |
-| `version` |  |
+| `productName` | The Device name. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: List, Load.
 
@@ -522,14 +522,14 @@ API path: `/deviceTypes`
 
 | Field | Description |
 | --- | --- |
-| `created` |  |
-| `id` |  |
-| `isActive` |  |
-| `isP2PE` |  |
-| `keyType` |  |
-| `modified` |  |
-| `name` |  |
-| `version` |  |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `id` | unique idenifier |
+| `isActive` | Active flag, inactive keys cannot be assigned to devices. |
+| `isP2PE` | Flags if a key is for a P2PE compliant cypher. |
+| `keyType` | The cipher type that the key works with. |
+| `modified` | Last modified timestamp in ISO 8601 format. |
+| `name` | Key name. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: List, Load.
 
@@ -539,8 +539,8 @@ API path: `/injectKeys`
 
 | Field | Description |
 | --- | --- |
-| `id` |  |
-| `name` |  |
+| `id` | This resource's unique identifier. |
+| `name` | The KIF's name. |
 
 Operations: List.
 
@@ -550,29 +550,29 @@ API path: `/kifs`
 
 | Field | Description |
 | --- | --- |
-| `address1` |  |
-| `address2` |  |
-| `billingId` |  |
-| `city` |  |
-| `country` |  |
-| `created` |  |
-| `customReference` |  |
-| `id` |  |
-| `locationType` |  |
-| `mailAddress1` |  |
-| `mailAddress2` |  |
-| `mailCity` |  |
-| `mailCountry` |  |
-| `mailPostalCode` |  |
-| `mailStateProvince` |  |
-| `modified` |  |
-| `name` |  |
-| `nameOfBusiness` |  |
-| `notes` |  |
-| `postalCode` |  |
-| `stateProvince` |  |
-| `uniqueId` |  |
-| `version` |  |
+| `address1` | The Location's street address. |
+| `address2` | The Location's street address. |
+| `billingId` | \? |
+| `city` | The Location's city. |
+| `country` | The Location's country. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `customReference` | A Partner specified reference for a location. |
+| `id` | This resource's unique identifier. |
+| `locationType` | The Location's clasification. |
+| `mailAddress1` | The Location's street address. |
+| `mailAddress2` | The Location's street address. |
+| `mailCity` | The Location's city. |
+| `mailCountry` | The Location's street address. |
+| `mailPostalCode` | The Location's postal code. |
+| `mailStateProvince` | The Location's street state or province. |
+| `modified` | Last modified timestamp. |
+| `name` | The Location's name. |
+| `nameOfBusiness` | The name of the business at this location. |
+| `notes` | Note for delivery driver. |
+| `postalCode` | The Location's postal code. |
+| `stateProvince` | The Location's street state or province. |
+| `uniqueId` | Unique Identifier for the Location. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Load, Remove.
 
@@ -582,20 +582,20 @@ API path: `/locations`
 
 | Field | Description |
 | --- | --- |
-| `billingId` |  |
-| `clientCanOrderEquipment` |  |
-| `contact` |  |
-| `created` |  |
-| `id` |  |
-| `isActive` |  |
-| `location` |  |
-| `modified` |  |
-| `name` |  |
-| `parent` |  |
-| `partnerId` |  |
-| `reference` |  |
-| `verificationPhrase` |  |
-| `version` |  |
+| `billingId` | The Partner's billing identifier. |
+| `clientCanOrderEquipment` | This property indicates if the Partner is allowed to order Equipment. |
+| `contact` | Reference to the associated User resource. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `id` | This resource's unique identifier. |
+| `isActive` | This property indicates if the Parter account is active or disabled. |
+| `location` | Reference to the associated Location resource. |
+| `modified` | Last modified timestamp. |
+| `name` | The Partner's name. |
+| `parent` | Reference to the associated Partner. |
+| `partnerId` | The Partner's id. |
+| `reference` | The Partner's reference string. |
+| `verificationPhrase` | The verification phrase is a message that the Partner creates. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Load.
 
@@ -605,20 +605,20 @@ API path: `/partners`
 
 | Field | Description |
 | --- | --- |
-| `carrier` |  |
-| `client` |  |
-| `created` |  |
-| `dateReceived` |  |
-| `dateShipped` |  |
-| `dcKif` |  |
-| `id` |  |
+| `carrier` | The name of the courier. |
+| `client` | Reference to the associated Client resource. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `dateReceived` | The date and time that a package is recieved. |
+| `dateShipped` | The date and time that a package is shipped. |
+| `dcKif` | Reference to the associated KIF resource. |
+| `id` | This resource's unique identifier. |
 | `items` |  |
-| `kif` |  |
-| `modified` |  |
-| `partner` |  |
-| `shipmentType` |  |
-| `tracking` |  |
-| `version` |  |
+| `kif` | Reference to the associated KIF resource. |
+| `modified` | Last modified timestamp. |
+| `partner` | Reference to the associated Partner. |
+| `shipmentType` | The type of shipment. |
+| `tracking` | The courier's tracking number. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Load.
 
@@ -628,7 +628,7 @@ API path: `/shipments`
 
 | Field | Description |
 | --- | --- |
-| `success` |  |
+| `success` | Indicates if the action was a success. |
 
 Operations: Create, Remove.
 
@@ -638,30 +638,30 @@ API path: `/virtualDevices/{sharePartnerTo}`
 
 | Field | Description |
 | --- | --- |
-| `alternateKey` |  |
-| `client` |  |
-| `clientRef` |  |
-| `created` |  |
-| `decrypted` |  |
-| `deviceName` |  |
-| `directPartner` |  |
-| `encrypted` |  |
-| `endDate` |  |
-| `errCode` |  |
-| `errMessage` |  |
-| `id` |  |
-| `ipAddress` |  |
-| `isVirtual` |  |
-| `keyType` |  |
-| `location` |  |
-| `messageId` |  |
-| `method` |  |
-| `partner` |  |
-| `reference` |  |
-| `serialNumber` |  |
-| `startDate` |  |
-| `success` |  |
-| `transactionSource` |  |
+| `alternateKey` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `client` | Reference to the associated Client resource. |
+| `clientRef` | Client Reference property that is included in the decrypt API call. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `decrypted` | A Transcation can process muliple decryptions. |
+| `deviceName` | The name of the Device that generated the payload to decrypt. |
+| `directPartner` | Reference to the associated Partner. |
+| `encrypted` | A Transcation can process muliple encryptions. |
+| `endDate` | Timestamp from the end of the transaction. |
+| `errCode` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | The error messge that is sent in response to a failed decrypt API call. |
+| `id` | This resource's unique identifier. |
+| `ipAddress` | The IP address of the http client that makes the decrypt API call. |
+| `isVirtual` | Indicates if the Transaction came from a virtual Device. |
+| `keyType` | The type of cipher used during decrytion. |
+| `location` | Reference to the associated Location resource. |
+| `messageId` | Message ID. |
+| `method` | The decryption cypher/method. |
+| `partner` | Reference to the associated Partner. |
+| `reference` | The reference property that the Client includes in the decrypt API call. |
+| `serialNumber` | The serial number of the Device that generated the payload to decrypt. |
+| `startDate` | Timestamp from the beginning of the transaction. |
+| `success` | The success indicator. |
+| `transactionSource` | The source of the Transaction. |
 
 Operations: Create, List, Load.
 
@@ -671,18 +671,18 @@ API path: `/transactions`
 
 | Field | Description |
 | --- | --- |
-| `client` |  |
-| `email` |  |
-| `firstName` |  |
-| `id` |  |
-| `isActive` |  |
-| `kif` |  |
-| `lastName` |  |
-| `partner` |  |
-| `phone` |  |
-| `userName` |  |
-| `userRole` |  |
-| `version` |  |
+| `client` | Reference to the associated Client resource. |
+| `email` | The User's email address. |
+| `firstName` | The User's name. |
+| `id` | ID of newly created resource |
+| `isActive` | This property indicates if the User account is active or disabled. |
+| `kif` | Reference to the associated KIF resource. |
+| `lastName` | The User's Surname. |
+| `partner` | Reference to the associated Partner. |
+| `phone` | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | The User's unique username. |
+| `userRole` | Reference to the associated User Role. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Update.
 
@@ -692,20 +692,20 @@ API path: `/users`
 
 | Field | Description |
 | --- | --- |
-| `client` |  |
-| `created` |  |
-| `email` |  |
-| `firstName` |  |
-| `id` |  |
-| `isActive` |  |
-| `kif` |  |
-| `lastName` |  |
-| `modified` |  |
-| `partner` |  |
-| `phone` |  |
-| `userName` |  |
-| `userRole` |  |
-| `version` |  |
+| `client` | Reference to the associated Client resource. |
+| `created` | Creation timestamp in ISO 8601 format. |
+| `email` | The User's email address. |
+| `firstName` | The User's name. |
+| `id` | This resource's unique identifier. |
+| `isActive` | This property indicates if the User account is active or disabled. |
+| `kif` | Reference to the associated KIF resource. |
+| `lastName` | The User's Surname. |
+| `modified` | Last modified timestamp. |
+| `partner` | Reference to the associated Partner. |
+| `phone` | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | The User's unique username. |
+| `userRole` | Reference to the associated User Role. |
+| `version` | The number of times that this resource has been updated. |
 
 Operations: Load, Remove.
 
@@ -735,13 +735,13 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `client` | `Value (object)` |  |
-| `completeDate` | `[]const u8` |  |
-| `created` | `[]const u8` |  |
-| `device` | `Value (object)` |  |
-| `id` | `[]const u8` |  |
-| `name` | `[]const u8` |  |
-| `notes` | `[]const u8` |  |
+| `client` | `Value (object)` | Reference to the associated Client resource. |
+| `completeDate` | `[]const u8` | The date and time that the Attestation took place. |
+| `created` | `[]const u8` | Creation timestamp in ISO 8601 format. |
+| `device` | `Value (object)` | Reference to the associated Device resource. |
+| `id` | `[]const u8` | This resource's unique identifier. |
+| `name` | `[]const u8` | Text describing the attestation. |
+| `notes` | `[]const u8` | Free form field that allows the Client associate notes with the Attestation. |
 
 #### Example: Load
 
@@ -792,17 +792,17 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `contact` | `Value (object)` |  |
-| `created` | `[]const u8` |  |
-| `directPartner` | `Value (object)` |  |
-| `id` | `[]const u8` |  |
-| `isActive` | `bool` |  |
-| `location` | `Value (object)` |  |
-| `mid` | `[]const u8` |  |
-| `modified` | `[]const u8` |  |
-| `name` | `[]const u8` |  |
-| `partner` | `Value (object)` |  |
-| `version` | `i64` |  |
+| `contact` | `Value (object)` | Reference to the associated User resource. |
+| `created` | `[]const u8` | Creation timestamp in ISO 8601 format. |
+| `directPartner` | `Value (object)` | Reference to the associated Partner. |
+| `id` | `[]const u8` | This resource's unique identifier. |
+| `isActive` | `bool` | This property indicates if the Client account is active or disabled. |
+| `location` | `Value (object)` | Reference to the associated Location resource. |
+| `mid` | `[]const u8` | Some Partners will have an merchant ids on their own software offerings. |
+| `modified` | `[]const u8` | Last modified timestamp. |
+| `name` | `[]const u8` | The Client's name. |
+| `partner` | `Value (object)` | Reference to the Client's root Partner. |
+| `version` | `i64` | The number of times that this resource has been updated. |
 
 #### Example: Load
 
@@ -877,7 +877,7 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `success` | `bool` |  |
+| `success` | `bool` | true if the payload decryption was successful. |
 
 #### Example: Create
 
@@ -909,34 +909,34 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `activatedBy` | `Value (object)` |  |
-| `activationDate` | `[]const u8` |  |
-| `alternateKey` | `[]const u8` |  |
-| `auditNextDate` | `[]const u8` |  |
-| `auditNotificationDate` | `[]const u8` |  |
-| `client` | `Value (object)` |  |
-| `created` | `[]const u8` |  |
-| `createdBy` | `Value (object)` |  |
-| `deviceBuild` | `Value (object)` |  |
-| `deviceState` | `Value (object)` |  |
-| `deviceType` | `Value (object)` |  |
-| `errorCounter` | `i64` |  |
-| `errorLastDate` | `[]const u8` |  |
-| `id` | `[]const u8` |  |
-| `initializedBy` | `Value (object)` |  |
-| `initializedDate` | `[]const u8` |  |
-| `injectKey` | `Value (object)` |  |
-| `isVirtual` | `bool` |  |
-| `kif` | `Value (object)` |  |
-| `lastActivityDate` | `[]const u8` |  |
-| `location` | `Value (object)` |  |
-| `modified` | `[]const u8` |  |
-| `modifiedBy` | `Value (object)` |  |
-| `name` | `[]const u8` |  |
-| `notes` | `[]const u8` |  |
-| `partner` | `Value (object)` |  |
-| `serialNumber` | `[]const u8` |  |
-| `version` | `i64` |  |
+| `activatedBy` | `Value (object)` | Reference to the associated User resource. |
+| `activationDate` | `[]const u8` | Timestamp from when the Device was activated. |
+| `alternateKey` | `[]const u8` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `[]const u8` | Date and time that the Device is due its next PCI Audit. |
+| `auditNotificationDate` | `[]const u8` | Date and time that a notification should be sent that a PCI audit is due. |
+| `client` | `Value (object)` | Reference to the associated Client resource. |
+| `created` | `[]const u8` | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `Value (object)` | Reference to the associated User resource. |
+| `deviceBuild` | `Value (object)` | Reference to the associated Device Build resource. |
+| `deviceState` | `Value (object)` | Reference to the associated Device State resource. |
+| `deviceType` | `Value (object)` | Reference to the associated Device Type resource. |
+| `errorCounter` | `i64` | The number times the Device has been in error. |
+| `errorLastDate` | `[]const u8` | Timestamp from the last time that the Device had an error. |
+| `id` | `[]const u8` | The Device's unique identifier. |
+| `initializedBy` | `Value (object)` | Reference to the associated User resource. |
+| `initializedDate` | `[]const u8` | Timestamp from when the Device was initialized. |
+| `injectKey` | `Value (object)` | Reference to the associated Device resource. |
+| `isVirtual` | `bool` | Indicates if a Device is Virtual (represents a Device shared with a partner). |
+| `kif` | `Value (object)` | Reference to the associated KIF resource. |
+| `lastActivityDate` | `[]const u8` | Timestamp from the last time that the Device was used. |
+| `location` | `Value (object)` | Reference to the associated Location resource. |
+| `modified` | `[]const u8` | Last modified timestamp. |
+| `modifiedBy` | `Value (object)` | Reference to the associated User resource. |
+| `name` | `[]const u8` | The Device's name. |
+| `notes` | `[]const u8` | Arbitary note that can be attached to a Device entry. |
+| `partner` | `Value (object)` | Reference to the associated Partner. |
+| `serialNumber` | `[]const u8` | The Device's serial number. |
+| `version` | `i64` | The number of times that this resource has been updated. |
 
 #### Example: Load
 
@@ -990,21 +990,21 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `appVersion` | `[]const u8` |  |
-| `buildNumber` | `[]const u8` |  |
-| `configFileName` | `[]const u8` |  |
-| `created` | `[]const u8` |  |
-| `deviceType` | `[]const u8` |  |
-| `firmwareVersion` | `[]const u8` |  |
-| `hardwareVersion` | `[]const u8` |  |
-| `id` | `i64` |  |
-| `isActive` | `bool` |  |
-| `modified` | `[]const u8` |  |
-| `name` | `[]const u8` |  |
-| `notes` | `[]const u8` |  |
-| `version` | `i64` |  |
-| `whiteListingBinRanges` | `[]const u8` |  |
-| `whiteListingUsed` | `bool` |  |
+| `appVersion` | `[]const u8` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildNumber` | `[]const u8` | The Build Number. |
+| `configFileName` | `[]const u8` | The name of the configuration file that is uploaded to the device. |
+| `created` | `[]const u8` | Creation timestamp in ISO 8601 format. |
+| `deviceType` | `[]const u8` | The Device Type Name. |
+| `firmwareVersion` | `[]const u8` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `[]const u8` | A list of hardware versions that this Device Build covers. |
+| `id` | `i64` | This resource's unique identifier. |
+| `isActive` | `bool` | This property indicates if the device build is still active and not succeeded by subsequent build. |
+| `modified` | `[]const u8` | Last modified timestamp. |
+| `name` | `[]const u8` | The Device Builds's name. |
+| `notes` | `[]const u8` | Notes attached to the device build by Bluefin CISO. |
+| `version` | `i64` | The number of times that this resource has been updated. |
+| `whiteListingBinRanges` | `[]const u8` | A comma separated list of BIN ranges that aren't encrypted by the terminal. |
+| `whiteListingUsed` | `bool` | This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal. |
 
 #### Example: Load
 
@@ -1042,19 +1042,19 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `completeDate` | `[]const u8` |  |
-| `created` | `[]const u8` |  |
-| `createdBy` | `Value (object)` |  |
-| `custodian` | `Value (object)` |  |
-| `device` | `Value (object)` |  |
-| `id` | `i64` |  |
-| `location` | `Value (object)` |  |
-| `modified` | `[]const u8` |  |
-| `modifiedBy` | `Value (object)` |  |
-| `notes` | `[]const u8` |  |
-| `status` | `Value (object)` |  |
-| `transferMethod` | `Value (object)` |  |
-| `version` | `i64` |  |
+| `completeDate` | `[]const u8` | The date and time that the Custody change took place. |
+| `created` | `[]const u8` | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `Value (object)` | Reference to the associated User resource. |
+| `custodian` | `Value (object)` | Reference to the associated User resource. |
+| `device` | `Value (object)` | Reference to the associated Device resource. |
+| `id` | `i64` | This resource's unique identifier. |
+| `location` | `Value (object)` | Reference to the associated Location resource. |
+| `modified` | `[]const u8` | Last modified timestamp. |
+| `modifiedBy` | `Value (object)` | Reference to the associated User resource. |
+| `notes` | `[]const u8` | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | `Value (object)` | Reference to the associated Custody Status. |
+| `transferMethod` | `Value (object)` | Reference to the associated Transfer Method. |
+| `version` | `i64` | The number of times that this resource has been updated. |
 
 #### Example: Load
 
@@ -1083,19 +1083,19 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `completeDate` | `[]const u8` |  |
-| `created` | `[]const u8` |  |
-| `createdBy` | `Value (object)` |  |
-| `custodian` | `Value (object)` |  |
-| `device` | `Value (object)` |  |
-| `id` | `i64` |  |
-| `location` | `Value (object)` |  |
-| `modified` | `[]const u8` |  |
-| `modifiedBy` | `Value (object)` |  |
-| `notes` | `[]const u8` |  |
-| `status` | `Value (object)` |  |
-| `transferMethod` | `Value (object)` |  |
-| `version` | `i64` |  |
+| `completeDate` | `[]const u8` | The date and time that the Custody change took place. |
+| `created` | `[]const u8` | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `Value (object)` | Reference to the associated User resource. |
+| `custodian` | `Value (object)` | Reference to the associated User resource. |
+| `device` | `Value (object)` | Reference to the associated Device resource. |
+| `id` | `i64` | This resource's unique identifier. |
+| `location` | `Value (object)` | Reference to the associated Location resource. |
+| `modified` | `[]const u8` | Last modified timestamp. |
+| `modifiedBy` | `Value (object)` | Reference to the associated User resource. |
+| `notes` | `[]const u8` | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | `Value (object)` | Reference to the associated Custody Status. |
+| `transferMethod` | `Value (object)` | Reference to the associated Transfer Method. |
+| `version` | `i64` | The number of times that this resource has been updated. |
 
 #### Example: List
 
@@ -1124,8 +1124,8 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `data` | `Value (array)` |  |
-| `total` | `i64` |  |
+| `data` | `Value (array)` | List of Devices. |
+| `total` | `i64` | Total number of Devices available (not the number of Users in the response). |
 
 #### Example: Load
 
@@ -1154,7 +1154,7 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `success` | `bool` |  |
+| `success` | `bool` | Indicates if the action succeeded. |
 
 #### Example: Create
 
@@ -1185,7 +1185,7 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `success` | `bool` |  |
+| `success` | `bool` | Indicates if the RKI activation succeeded. |
 
 #### Example: Create
 
@@ -1216,8 +1216,8 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `id` | `i64` |  |
-| `name` | `[]const u8` |  |
+| `id` | `i64` | Unique identifier for this Device state. |
+| `name` | `[]const u8` | Descriptive name for this Device state. |
 
 #### Example: List
 
@@ -1247,18 +1247,18 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created` | `[]const u8` |  |
-| `deviceTypeMode` | `[]const u8` |  |
-| `hardwareVersion` | `[]const u8` |  |
-| `id` | `[]const u8` |  |
-| `isActive` | `bool` |  |
-| `manufacturer` | `[]const u8` |  |
-| `model` | `[]const u8` |  |
-| `modified` | `[]const u8` |  |
-| `name` | `[]const u8` |  |
+| `created` | `[]const u8` | Creation timestamp in ISO 8601 format. |
+| `deviceTypeMode` | `[]const u8` | The Device type. |
+| `hardwareVersion` | `[]const u8` | The Device hardware version. |
+| `id` | `[]const u8` | Unique idenifier. |
+| `isActive` | `bool` | This property indicates if the DeviceType is active. |
+| `manufacturer` | `[]const u8` | The Device manufacturer. |
+| `model` | `[]const u8` | The Device model. |
+| `modified` | `[]const u8` | Last modified timestamp. |
+| `name` | `[]const u8` | The DeviceType name. |
 | `photoUrl` | `[]const u8` |  |
-| `productName` | `[]const u8` |  |
-| `version` | `i64` |  |
+| `productName` | `[]const u8` | The Device name. |
+| `version` | `i64` | The number of times that this resource has been updated. |
 
 #### Example: Load
 
@@ -1297,14 +1297,14 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `created` | `[]const u8` |  |
-| `id` | `[]const u8` |  |
-| `isActive` | `bool` |  |
-| `isP2PE` | `bool` |  |
-| `keyType` | `[]const u8` |  |
-| `modified` | `[]const u8` |  |
-| `name` | `[]const u8` |  |
-| `version` | `i64` |  |
+| `created` | `[]const u8` | Creation timestamp in ISO 8601 format. |
+| `id` | `[]const u8` | unique idenifier |
+| `isActive` | `bool` | Active flag, inactive keys cannot be assigned to devices. |
+| `isP2PE` | `bool` | Flags if a key is for a P2PE compliant cypher. |
+| `keyType` | `[]const u8` | The cipher type that the key works with. |
+| `modified` | `[]const u8` | Last modified timestamp in ISO 8601 format. |
+| `name` | `[]const u8` | Key name. |
+| `version` | `i64` | The number of times that this resource has been updated. |
 
 #### Example: Load
 
@@ -1342,8 +1342,8 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `id` | `i64` |  |
-| `name` | `[]const u8` |  |
+| `id` | `i64` | This resource's unique identifier. |
+| `name` | `[]const u8` | The KIF's name. |
 
 #### Example: List
 
@@ -1375,29 +1375,29 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `address1` | `[]const u8` |  |
-| `address2` | `[]const u8` |  |
-| `billingId` | `[]const u8` |  |
-| `city` | `[]const u8` |  |
-| `country` | `[]const u8` |  |
-| `created` | `[]const u8` |  |
-| `customReference` | `[]const u8` |  |
-| `id` | `[]const u8` |  |
-| `locationType` | `[]const u8` |  |
-| `mailAddress1` | `[]const u8` |  |
-| `mailAddress2` | `[]const u8` |  |
-| `mailCity` | `[]const u8` |  |
-| `mailCountry` | `[]const u8` |  |
-| `mailPostalCode` | `[]const u8` |  |
-| `mailStateProvince` | `[]const u8` |  |
-| `modified` | `[]const u8` |  |
-| `name` | `[]const u8` |  |
-| `nameOfBusiness` | `[]const u8` |  |
-| `notes` | `[]const u8` |  |
-| `postalCode` | `[]const u8` |  |
-| `stateProvince` | `[]const u8` |  |
-| `uniqueId` | `[]const u8` |  |
-| `version` | `i64` |  |
+| `address1` | `[]const u8` | The Location's street address. |
+| `address2` | `[]const u8` | The Location's street address. |
+| `billingId` | `[]const u8` | \? |
+| `city` | `[]const u8` | The Location's city. |
+| `country` | `[]const u8` | The Location's country. |
+| `created` | `[]const u8` | Creation timestamp in ISO 8601 format. |
+| `customReference` | `[]const u8` | A Partner specified reference for a location. |
+| `id` | `[]const u8` | This resource's unique identifier. |
+| `locationType` | `[]const u8` | The Location's clasification. |
+| `mailAddress1` | `[]const u8` | The Location's street address. |
+| `mailAddress2` | `[]const u8` | The Location's street address. |
+| `mailCity` | `[]const u8` | The Location's city. |
+| `mailCountry` | `[]const u8` | The Location's street address. |
+| `mailPostalCode` | `[]const u8` | The Location's postal code. |
+| `mailStateProvince` | `[]const u8` | The Location's street state or province. |
+| `modified` | `[]const u8` | Last modified timestamp. |
+| `name` | `[]const u8` | The Location's name. |
+| `nameOfBusiness` | `[]const u8` | The name of the business at this location. |
+| `notes` | `[]const u8` | Note for delivery driver. |
+| `postalCode` | `[]const u8` | The Location's postal code. |
+| `stateProvince` | `[]const u8` | The Location's street state or province. |
+| `uniqueId` | `[]const u8` | Unique Identifier for the Location. |
+| `version` | `i64` | The number of times that this resource has been updated. |
 
 #### Example: Load
 
@@ -1447,20 +1447,20 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `billingId` | `[]const u8` |  |
-| `clientCanOrderEquipment` | `bool` |  |
-| `contact` | `Value (object)` |  |
-| `created` | `[]const u8` |  |
-| `id` | `[]const u8` |  |
-| `isActive` | `bool` |  |
-| `location` | `Value (object)` |  |
-| `modified` | `[]const u8` |  |
-| `name` | `[]const u8` |  |
-| `parent` | `Value (object)` |  |
-| `partnerId` | `[]const u8` |  |
-| `reference` | `[]const u8` |  |
-| `verificationPhrase` | `[]const u8` |  |
-| `version` | `i64` |  |
+| `billingId` | `[]const u8` | The Partner's billing identifier. |
+| `clientCanOrderEquipment` | `bool` | This property indicates if the Partner is allowed to order Equipment. |
+| `contact` | `Value (object)` | Reference to the associated User resource. |
+| `created` | `[]const u8` | Creation timestamp in ISO 8601 format. |
+| `id` | `[]const u8` | This resource's unique identifier. |
+| `isActive` | `bool` | This property indicates if the Parter account is active or disabled. |
+| `location` | `Value (object)` | Reference to the associated Location resource. |
+| `modified` | `[]const u8` | Last modified timestamp. |
+| `name` | `[]const u8` | The Partner's name. |
+| `parent` | `Value (object)` | Reference to the associated Partner. |
+| `partnerId` | `[]const u8` | The Partner's id. |
+| `reference` | `[]const u8` | The Partner's reference string. |
+| `verificationPhrase` | `[]const u8` | The verification phrase is a message that the Partner creates. |
+| `version` | `i64` | The number of times that this resource has been updated. |
 
 #### Example: Load
 
@@ -1511,20 +1511,20 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `carrier` | `[]const u8` |  |
-| `client` | `Value (object)` |  |
-| `created` | `[]const u8` |  |
-| `dateReceived` | `[]const u8` |  |
-| `dateShipped` | `[]const u8` |  |
-| `dcKif` | `Value (object)` |  |
-| `id` | `[]const u8` |  |
+| `carrier` | `[]const u8` | The name of the courier. |
+| `client` | `Value (object)` | Reference to the associated Client resource. |
+| `created` | `[]const u8` | Creation timestamp in ISO 8601 format. |
+| `dateReceived` | `[]const u8` | The date and time that a package is recieved. |
+| `dateShipped` | `[]const u8` | The date and time that a package is shipped. |
+| `dcKif` | `Value (object)` | Reference to the associated KIF resource. |
+| `id` | `[]const u8` | This resource's unique identifier. |
 | `items` | `Value (array)` |  |
-| `kif` | `Value (object)` |  |
-| `modified` | `[]const u8` |  |
-| `partner` | `Value (object)` |  |
-| `shipmentType` | `[]const u8` |  |
-| `tracking` | `[]const u8` |  |
-| `version` | `i64` |  |
+| `kif` | `Value (object)` | Reference to the associated KIF resource. |
+| `modified` | `[]const u8` | Last modified timestamp. |
+| `partner` | `Value (object)` | Reference to the associated Partner. |
+| `shipmentType` | `[]const u8` | The type of shipment. |
+| `tracking` | `[]const u8` | The courier's tracking number. |
+| `version` | `i64` | The number of times that this resource has been updated. |
 
 #### Example: Load
 
@@ -1573,7 +1573,7 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `success` | `bool` |  |
+| `success` | `bool` | Indicates if the action was a success. |
 
 #### Example: Create
 
@@ -1606,30 +1606,30 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `alternateKey` | `[]const u8` |  |
-| `client` | `Value (object)` |  |
-| `clientRef` | `[]const u8` |  |
-| `created` | `[]const u8` |  |
-| `decrypted` | `i64` |  |
-| `deviceName` | `[]const u8` |  |
-| `directPartner` | `Value (object)` |  |
-| `encrypted` | `i64` |  |
-| `endDate` | `[]const u8` |  |
-| `errCode` | `[]const u8` |  |
-| `errMessage` | `[]const u8` |  |
-| `id` | `[]const u8` |  |
-| `ipAddress` | `[]const u8` |  |
-| `isVirtual` | `bool` |  |
-| `keyType` | `[]const u8` |  |
-| `location` | `Value (object)` |  |
-| `messageId` | `[]const u8` |  |
-| `method` | `[]const u8` |  |
-| `partner` | `Value (object)` |  |
-| `reference` | `[]const u8` |  |
-| `serialNumber` | `[]const u8` |  |
-| `startDate` | `[]const u8` |  |
-| `success` | `bool` |  |
-| `transactionSource` | `[]const u8` |  |
+| `alternateKey` | `[]const u8` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `client` | `Value (object)` | Reference to the associated Client resource. |
+| `clientRef` | `[]const u8` | Client Reference property that is included in the decrypt API call. |
+| `created` | `[]const u8` | Creation timestamp in ISO 8601 format. |
+| `decrypted` | `i64` | A Transcation can process muliple decryptions. |
+| `deviceName` | `[]const u8` | The name of the Device that generated the payload to decrypt. |
+| `directPartner` | `Value (object)` | Reference to the associated Partner. |
+| `encrypted` | `i64` | A Transcation can process muliple encryptions. |
+| `endDate` | `[]const u8` | Timestamp from the end of the transaction. |
+| `errCode` | `[]const u8` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `[]const u8` | The error messge that is sent in response to a failed decrypt API call. |
+| `id` | `[]const u8` | This resource's unique identifier. |
+| `ipAddress` | `[]const u8` | The IP address of the http client that makes the decrypt API call. |
+| `isVirtual` | `bool` | Indicates if the Transaction came from a virtual Device. |
+| `keyType` | `[]const u8` | The type of cipher used during decrytion. |
+| `location` | `Value (object)` | Reference to the associated Location resource. |
+| `messageId` | `[]const u8` | Message ID. |
+| `method` | `[]const u8` | The decryption cypher/method. |
+| `partner` | `Value (object)` | Reference to the associated Partner. |
+| `reference` | `[]const u8` | The reference property that the Client includes in the decrypt API call. |
+| `serialNumber` | `[]const u8` | The serial number of the Device that generated the payload to decrypt. |
+| `startDate` | `[]const u8` | Timestamp from the beginning of the transaction. |
+| `success` | `bool` | The success indicator. |
+| `transactionSource` | `[]const u8` | The source of the Transaction. |
 
 #### Example: Load
 
@@ -1680,18 +1680,18 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `client` | `Value (object)` |  |
-| `email` | `[]const u8` |  |
-| `firstName` | `[]const u8` |  |
-| `id` | `[]const u8` |  |
-| `isActive` | `bool` |  |
-| `kif` | `Value (object)` |  |
-| `lastName` | `[]const u8` |  |
-| `partner` | `Value (object)` |  |
-| `phone` | `[]const u8` |  |
-| `userName` | `[]const u8` |  |
-| `userRole` | `Value (object)` |  |
-| `version` | `i64` |  |
+| `client` | `Value (object)` | Reference to the associated Client resource. |
+| `email` | `[]const u8` | The User's email address. |
+| `firstName` | `[]const u8` | The User's name. |
+| `id` | `[]const u8` | ID of newly created resource |
+| `isActive` | `bool` | This property indicates if the User account is active or disabled. |
+| `kif` | `Value (object)` | Reference to the associated KIF resource. |
+| `lastName` | `[]const u8` | The User's Surname. |
+| `partner` | `Value (object)` | Reference to the associated Partner. |
+| `phone` | `[]const u8` | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | `[]const u8` | The User's unique username. |
+| `userRole` | `Value (object)` | Reference to the associated User Role. |
+| `version` | `i64` | The number of times that this resource has been updated. |
 
 #### Example: List
 
@@ -1731,20 +1731,20 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `client` | `Value (object)` |  |
-| `created` | `[]const u8` |  |
-| `email` | `[]const u8` |  |
-| `firstName` | `[]const u8` |  |
-| `id` | `[]const u8` |  |
-| `isActive` | `bool` |  |
-| `kif` | `Value (object)` |  |
-| `lastName` | `[]const u8` |  |
-| `modified` | `[]const u8` |  |
-| `partner` | `Value (object)` |  |
-| `phone` | `[]const u8` |  |
-| `userName` | `[]const u8` |  |
-| `userRole` | `Value (object)` |  |
-| `version` | `i64` |  |
+| `client` | `Value (object)` | Reference to the associated Client resource. |
+| `created` | `[]const u8` | Creation timestamp in ISO 8601 format. |
+| `email` | `[]const u8` | The User's email address. |
+| `firstName` | `[]const u8` | The User's name. |
+| `id` | `[]const u8` | This resource's unique identifier. |
+| `isActive` | `bool` | This property indicates if the User account is active or disabled. |
+| `kif` | `Value (object)` | Reference to the associated KIF resource. |
+| `lastName` | `[]const u8` | The User's Surname. |
+| `modified` | `[]const u8` | Last modified timestamp. |
+| `partner` | `Value (object)` | Reference to the associated Partner. |
+| `phone` | `[]const u8` | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | `[]const u8` | The User's unique username. |
+| `userRole` | `Value (object)` | Reference to the associated User Role. |
+| `version` | `i64` | The number of times that this resource has been updated. |
 
 #### Example: Load
 

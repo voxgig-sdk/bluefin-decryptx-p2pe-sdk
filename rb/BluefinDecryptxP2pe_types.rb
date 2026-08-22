@@ -435,17 +435,9 @@ Device = Struct.new(
 
 # Request payload for Device#load.
 #
-# @!attribute [rw] device_type
-#   @return [String, nil]
-#
-# @!attribute [rw] serial_number
-#   @return [String, nil]
-#
 # @!attribute [rw] id
-#   @return [String, nil]
+#   @return [String]
 DeviceLoadMatch = Struct.new(
-  :device_type,
-  :serial_number,
   :id,
   keyword_init: true
 )

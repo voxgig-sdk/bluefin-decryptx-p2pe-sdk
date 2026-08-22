@@ -8,6 +8,7 @@ main: kit: entity: decryption: {
     {
       name: "success"
       req: false
+      short: "true if the payload decryption was successful."
       type: "`$BOOLEAN`"
     }
   ]

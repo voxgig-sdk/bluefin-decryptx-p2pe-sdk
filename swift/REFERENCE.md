@@ -194,13 +194,13 @@ let attestation = client.Attestation()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `client` | `VMap` | No |  |
-| `completeDate` | `String` | No |  |
-| `created` | `String` | No |  |
-| `device` | `VMap` | No |  |
-| `id` | `String` | No |  |
-| `name` | `String` | No |  |
-| `notes` | `String` | No |  |
+| `client` | `VMap` | No | Reference to the associated Client resource. |
+| `completeDate` | `String` | No | The date and time that the Attestation took place. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `device` | `VMap` | No | Reference to the associated Device resource. |
+| `id` | `String` | No | This resource's unique identifier. |
+| `name` | `String` | No | Text describing the attestation. |
+| `notes` | `String` | No | Free form field that allows the Client associate notes with the Attestation. |
 
 ### Operations
 
@@ -261,17 +261,17 @@ let client = client.Client()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `contact` | `VMap` | No |  |
-| `created` | `String` | No |  |
-| `directPartner` | `VMap` | No |  |
-| `id` | `String` | No |  |
-| `isActive` | `Bool` | No |  |
-| `location` | `VMap` | Yes |  |
-| `mid` | `String` | No |  |
-| `modified` | `String` | No |  |
-| `name` | `String` | No |  |
-| `partner` | `VMap` | No |  |
-| `version` | `Int` | No |  |
+| `contact` | `VMap` | No | Reference to the associated User resource. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `directPartner` | `VMap` | No | Reference to the associated Partner. |
+| `id` | `String` | No | This resource's unique identifier. |
+| `isActive` | `Bool` | No | This property indicates if the Client account is active or disabled. |
+| `location` | `VMap` | Yes | Reference to the associated Location resource. |
+| `mid` | `String` | No | Some Partners will have an merchant ids on their own software offerings. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `name` | `String` | No | The Client's name. |
+| `partner` | `VMap` | No | Reference to the Client's root Partner. |
+| `version` | `Int` | No | The number of times that this resource has been updated. |
 
 ### Field Usage by Operation
 
@@ -397,7 +397,7 @@ let decryption = client.Decryption()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `Bool` | No |  |
+| `success` | `Bool` | No | true if the payload decryption was successful. |
 
 ### Operations
 
@@ -441,34 +441,34 @@ let device = client.Device()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `activatedBy` | `VMap` | Yes |  |
-| `activationDate` | `String` | No |  |
-| `alternateKey` | `String` | No |  |
-| `auditNextDate` | `String` | No |  |
-| `auditNotificationDate` | `String` | No |  |
-| `client` | `VMap` | No |  |
-| `created` | `String` | No |  |
-| `createdBy` | `VMap` | Yes |  |
-| `deviceBuild` | `VMap` | No |  |
-| `deviceState` | `VMap` | No |  |
-| `deviceType` | `VMap` | No |  |
-| `errorCounter` | `Int` | No |  |
-| `errorLastDate` | `String` | No |  |
-| `id` | `String` | No |  |
-| `initializedBy` | `VMap` | Yes |  |
-| `initializedDate` | `String` | No |  |
-| `injectKey` | `VMap` | No |  |
-| `isVirtual` | `Bool` | No |  |
-| `kif` | `VMap` | No |  |
-| `lastActivityDate` | `String` | No |  |
-| `location` | `VMap` | Yes |  |
-| `modified` | `String` | No |  |
-| `modifiedBy` | `VMap` | Yes |  |
-| `name` | `String` | No |  |
-| `notes` | `String` | No |  |
-| `partner` | `VMap` | No |  |
-| `serialNumber` | `String` | No |  |
-| `version` | `Int` | No |  |
+| `activatedBy` | `VMap` | Yes | Reference to the associated User resource. |
+| `activationDate` | `String` | No | Timestamp from when the Device was activated. |
+| `alternateKey` | `String` | No | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `String` | No | Date and time that the Device is due its next PCI Audit. |
+| `auditNotificationDate` | `String` | No | Date and time that a notification should be sent that a PCI audit is due. |
+| `client` | `VMap` | No | Reference to the associated Client resource. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `VMap` | Yes | Reference to the associated User resource. |
+| `deviceBuild` | `VMap` | No | Reference to the associated Device Build resource. |
+| `deviceState` | `VMap` | No | Reference to the associated Device State resource. |
+| `deviceType` | `VMap` | No | Reference to the associated Device Type resource. |
+| `errorCounter` | `Int` | No | The number times the Device has been in error. |
+| `errorLastDate` | `String` | No | Timestamp from the last time that the Device had an error. |
+| `id` | `String` | No | The Device's unique identifier. |
+| `initializedBy` | `VMap` | Yes | Reference to the associated User resource. |
+| `initializedDate` | `String` | No | Timestamp from when the Device was initialized. |
+| `injectKey` | `VMap` | No | Reference to the associated Device resource. |
+| `isVirtual` | `Bool` | No | Indicates if a Device is Virtual (represents a Device shared with a partner). |
+| `kif` | `VMap` | No | Reference to the associated KIF resource. |
+| `lastActivityDate` | `String` | No | Timestamp from the last time that the Device was used. |
+| `location` | `VMap` | Yes | Reference to the associated Location resource. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `modifiedBy` | `VMap` | Yes | Reference to the associated User resource. |
+| `name` | `String` | No | The Device's name. |
+| `notes` | `String` | No | Arbitary note that can be attached to a Device entry. |
+| `partner` | `VMap` | No | Reference to the associated Partner. |
+| `serialNumber` | `String` | No | The Device's serial number. |
+| `version` | `Int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -534,21 +534,21 @@ let deviceBuild = client.DeviceBuild()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `appVersion` | `String` | No |  |
-| `buildNumber` | `String` | No |  |
-| `configFileName` | `String` | No |  |
-| `created` | `String` | No |  |
-| `deviceType` | `String` | No |  |
-| `firmwareVersion` | `String` | No |  |
-| `hardwareVersion` | `String` | No |  |
-| `id` | `Int` | No |  |
-| `isActive` | `Bool` | No |  |
-| `modified` | `String` | No |  |
-| `name` | `String` | No |  |
-| `notes` | `String` | No |  |
-| `version` | `Int` | No |  |
-| `whiteListingBinRanges` | `String` | No |  |
-| `whiteListingUsed` | `Bool` | No |  |
+| `appVersion` | `String` | No | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildNumber` | `String` | No | The Build Number. |
+| `configFileName` | `String` | No | The name of the configuration file that is uploaded to the device. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `deviceType` | `String` | No | The Device Type Name. |
+| `firmwareVersion` | `String` | No | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `String` | No | A list of hardware versions that this Device Build covers. |
+| `id` | `Int` | No | This resource's unique identifier. |
+| `isActive` | `Bool` | No | This property indicates if the device build is still active and not succeeded by subsequent build. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `name` | `String` | No | The Device Builds's name. |
+| `notes` | `String` | No | Notes attached to the device build by Bluefin CISO. |
+| `version` | `Int` | No | The number of times that this resource has been updated. |
+| `whiteListingBinRanges` | `String` | No | A comma separated list of BIN ranges that aren't encrypted by the terminal. |
+| `whiteListingUsed` | `Bool` | No | This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal. |
 
 ### Operations
 
@@ -600,19 +600,19 @@ let deviceCustodyDetail = client.DeviceCustodyDetail()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `completeDate` | `String` | No |  |
-| `created` | `String` | No |  |
-| `createdBy` | `VMap` | Yes |  |
-| `custodian` | `VMap` | Yes |  |
-| `device` | `VMap` | No |  |
-| `id` | `Int` | No |  |
-| `location` | `VMap` | Yes |  |
-| `modified` | `String` | No |  |
-| `modifiedBy` | `VMap` | Yes |  |
-| `notes` | `String` | No |  |
-| `status` | `VMap` | No |  |
-| `transferMethod` | `VMap` | No |  |
-| `version` | `Int` | No |  |
+| `completeDate` | `String` | No | The date and time that the Custody change took place. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `VMap` | Yes | Reference to the associated User resource. |
+| `custodian` | `VMap` | Yes | Reference to the associated User resource. |
+| `device` | `VMap` | No | Reference to the associated Device resource. |
+| `id` | `Int` | No | This resource's unique identifier. |
+| `location` | `VMap` | Yes | Reference to the associated Location resource. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `modifiedBy` | `VMap` | Yes | Reference to the associated User resource. |
+| `notes` | `String` | No | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | `VMap` | No | Reference to the associated Custody Status. |
+| `transferMethod` | `VMap` | No | Reference to the associated Transfer Method. |
+| `version` | `Int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -655,19 +655,19 @@ let deviceCustodyList = client.DeviceCustodyList()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `completeDate` | `String` | No |  |
-| `created` | `String` | No |  |
-| `createdBy` | `VMap` | Yes |  |
-| `custodian` | `VMap` | Yes |  |
-| `device` | `VMap` | No |  |
-| `id` | `Int` | No |  |
-| `location` | `VMap` | Yes |  |
-| `modified` | `String` | No |  |
-| `modifiedBy` | `VMap` | Yes |  |
-| `notes` | `String` | No |  |
-| `status` | `VMap` | No |  |
-| `transferMethod` | `VMap` | No |  |
-| `version` | `Int` | No |  |
+| `completeDate` | `String` | No | The date and time that the Custody change took place. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `VMap` | Yes | Reference to the associated User resource. |
+| `custodian` | `VMap` | Yes | Reference to the associated User resource. |
+| `device` | `VMap` | No | Reference to the associated Device resource. |
+| `id` | `Int` | No | This resource's unique identifier. |
+| `location` | `VMap` | Yes | Reference to the associated Location resource. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `modifiedBy` | `VMap` | Yes | Reference to the associated User resource. |
+| `notes` | `String` | No | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | `VMap` | No | Reference to the associated Custody Status. |
+| `transferMethod` | `VMap` | No | Reference to the associated Transfer Method. |
+| `version` | `Int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -711,8 +711,8 @@ let deviceList = client.DeviceList()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `[Value]` | No |  |
-| `total` | `Int` | No |  |
+| `data` | `[Value]` | No | List of Devices. |
+| `total` | `Int` | No | Total number of Devices available (not the number of Users in the response). |
 
 ### Operations
 
@@ -755,7 +755,7 @@ let deviceReceiveResult = client.DeviceReceiveResult()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `Bool` | Yes |  |
+| `success` | `Bool` | Yes | Indicates if the action succeeded. |
 
 ### Operations
 
@@ -800,7 +800,7 @@ let deviceRkiActivateResult = client.DeviceRkiActivateResult()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `Bool` | Yes |  |
+| `success` | `Bool` | Yes | Indicates if the RKI activation succeeded. |
 
 ### Operations
 
@@ -845,8 +845,8 @@ let deviceState = client.DeviceState()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `Int` | No |  |
-| `name` | `String` | No |  |
+| `id` | `Int` | No | Unique identifier for this Device state. |
+| `name` | `String` | No | Descriptive name for this Device state. |
 
 ### Operations
 
@@ -890,18 +890,18 @@ let deviceType = client.DeviceType()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created` | `String` | No |  |
-| `deviceTypeMode` | `String` | No |  |
-| `hardwareVersion` | `String` | No |  |
-| `id` | `String` | No |  |
-| `isActive` | `Bool` | No |  |
-| `manufacturer` | `String` | No |  |
-| `model` | `String` | No |  |
-| `modified` | `String` | No |  |
-| `name` | `String` | No |  |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `deviceTypeMode` | `String` | No | The Device type. |
+| `hardwareVersion` | `String` | No | The Device hardware version. |
+| `id` | `String` | No | Unique idenifier. |
+| `isActive` | `Bool` | No | This property indicates if the DeviceType is active. |
+| `manufacturer` | `String` | No | The Device manufacturer. |
+| `model` | `String` | No | The Device model. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `name` | `String` | No | The DeviceType name. |
 | `photoUrl` | `String` | No |  |
-| `productName` | `String` | No |  |
-| `version` | `Int` | No |  |
+| `productName` | `String` | No | The Device name. |
+| `version` | `Int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -953,14 +953,14 @@ let injectKey = client.InjectKey()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created` | `String` | No |  |
-| `id` | `String` | No |  |
-| `isActive` | `Bool` | No |  |
-| `isP2PE` | `Bool` | No |  |
-| `keyType` | `String` | No |  |
-| `modified` | `String` | No |  |
-| `name` | `String` | No |  |
-| `version` | `Int` | No |  |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `id` | `String` | No | unique idenifier |
+| `isActive` | `Bool` | No | Active flag, inactive keys cannot be assigned to devices. |
+| `isP2PE` | `Bool` | No | Flags if a key is for a P2PE compliant cypher. |
+| `keyType` | `String` | No | The cipher type that the key works with. |
+| `modified` | `String` | No | Last modified timestamp in ISO 8601 format. |
+| `name` | `String` | No | Key name. |
+| `version` | `Int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1012,8 +1012,8 @@ let kif = client.Kif()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `Int` | No |  |
-| `name` | `String` | No |  |
+| `id` | `Int` | No | This resource's unique identifier. |
+| `name` | `String` | No | The KIF's name. |
 
 ### Operations
 
@@ -1057,29 +1057,29 @@ let location = client.Location()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `address1` | `String` | No |  |
-| `address2` | `String` | No |  |
-| `billingId` | `String` | No |  |
-| `city` | `String` | No |  |
-| `country` | `String` | No |  |
-| `created` | `String` | No |  |
-| `customReference` | `String` | No |  |
-| `id` | `String` | No |  |
-| `locationType` | `String` | No |  |
-| `mailAddress1` | `String` | No |  |
-| `mailAddress2` | `String` | No |  |
-| `mailCity` | `String` | No |  |
-| `mailCountry` | `String` | No |  |
-| `mailPostalCode` | `String` | No |  |
-| `mailStateProvince` | `String` | No |  |
-| `modified` | `String` | No |  |
-| `name` | `String` | No |  |
-| `nameOfBusiness` | `String` | No |  |
-| `notes` | `String` | No |  |
-| `postalCode` | `String` | No |  |
-| `stateProvince` | `String` | No |  |
-| `uniqueId` | `String` | No |  |
-| `version` | `Int` | No |  |
+| `address1` | `String` | No | The Location's street address. |
+| `address2` | `String` | No | The Location's street address. |
+| `billingId` | `String` | No | \? |
+| `city` | `String` | No | The Location's city. |
+| `country` | `String` | No | The Location's country. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `customReference` | `String` | No | A Partner specified reference for a location. |
+| `id` | `String` | No | This resource's unique identifier. |
+| `locationType` | `String` | No | The Location's clasification. |
+| `mailAddress1` | `String` | No | The Location's street address. |
+| `mailAddress2` | `String` | No | The Location's street address. |
+| `mailCity` | `String` | No | The Location's city. |
+| `mailCountry` | `String` | No | The Location's street address. |
+| `mailPostalCode` | `String` | No | The Location's postal code. |
+| `mailStateProvince` | `String` | No | The Location's street state or province. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `name` | `String` | No | The Location's name. |
+| `nameOfBusiness` | `String` | No | The name of the business at this location. |
+| `notes` | `String` | No | Note for delivery driver. |
+| `postalCode` | `String` | No | The Location's postal code. |
+| `stateProvince` | `String` | No | The Location's street state or province. |
+| `uniqueId` | `String` | No | Unique Identifier for the Location. |
+| `version` | `Int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1148,20 +1148,20 @@ let partner = client.Partner()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `billingId` | `String` | No |  |
-| `clientCanOrderEquipment` | `Bool` | No |  |
-| `contact` | `VMap` | No |  |
-| `created` | `String` | No |  |
-| `id` | `String` | No |  |
-| `isActive` | `Bool` | No |  |
-| `location` | `VMap` | Yes |  |
-| `modified` | `String` | No |  |
-| `name` | `String` | No |  |
-| `parent` | `VMap` | No |  |
-| `partnerId` | `String` | No |  |
-| `reference` | `String` | No |  |
-| `verificationPhrase` | `String` | No |  |
-| `version` | `Int` | No |  |
+| `billingId` | `String` | No | The Partner's billing identifier. |
+| `clientCanOrderEquipment` | `Bool` | No | This property indicates if the Partner is allowed to order Equipment. |
+| `contact` | `VMap` | No | Reference to the associated User resource. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `id` | `String` | No | This resource's unique identifier. |
+| `isActive` | `Bool` | No | This property indicates if the Parter account is active or disabled. |
+| `location` | `VMap` | Yes | Reference to the associated Location resource. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `name` | `String` | No | The Partner's name. |
+| `parent` | `VMap` | No | Reference to the associated Partner. |
+| `partnerId` | `String` | No | The Partner's id. |
+| `reference` | `String` | No | The Partner's reference string. |
+| `verificationPhrase` | `String` | No | The verification phrase is a message that the Partner creates. |
+| `version` | `Int` | No | The number of times that this resource has been updated. |
 
 ### Field Usage by Operation
 
@@ -1242,20 +1242,20 @@ let shipment = client.Shipment()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `carrier` | `String` | No |  |
-| `client` | `VMap` | No |  |
-| `created` | `String` | No |  |
-| `dateReceived` | `String` | No |  |
-| `dateShipped` | `String` | No |  |
-| `dcKif` | `VMap` | No |  |
-| `id` | `String` | No |  |
+| `carrier` | `String` | No | The name of the courier. |
+| `client` | `VMap` | No | Reference to the associated Client resource. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `dateReceived` | `String` | No | The date and time that a package is recieved. |
+| `dateShipped` | `String` | No | The date and time that a package is shipped. |
+| `dcKif` | `VMap` | No | Reference to the associated KIF resource. |
+| `id` | `String` | No | This resource's unique identifier. |
 | `items` | `[Value]` | No |  |
-| `kif` | `VMap` | No |  |
-| `modified` | `String` | No |  |
-| `partner` | `VMap` | No |  |
-| `shipmentType` | `String` | No |  |
-| `tracking` | `String` | No |  |
-| `version` | `Int` | No |  |
+| `kif` | `VMap` | No | Reference to the associated KIF resource. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `partner` | `VMap` | No | Reference to the associated Partner. |
+| `shipmentType` | `String` | No | The type of shipment. |
+| `tracking` | `String` | No | The courier's tracking number. |
+| `version` | `Int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1316,7 +1316,7 @@ let success = client.Success()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `Bool` | No |  |
+| `success` | `Bool` | No | Indicates if the action was a success. |
 
 ### Operations
 
@@ -1369,30 +1369,30 @@ let transaction = client.Transaction()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `alternateKey` | `String` | No |  |
-| `client` | `VMap` | No |  |
-| `clientRef` | `String` | No |  |
-| `created` | `String` | No |  |
-| `decrypted` | `Int` | No |  |
-| `deviceName` | `String` | No |  |
-| `directPartner` | `VMap` | No |  |
-| `encrypted` | `Int` | No |  |
-| `endDate` | `String` | No |  |
-| `errCode` | `String` | No |  |
-| `errMessage` | `String` | No |  |
-| `id` | `String` | No |  |
-| `ipAddress` | `String` | No |  |
-| `isVirtual` | `Bool` | No |  |
-| `keyType` | `String` | No |  |
-| `location` | `VMap` | Yes |  |
-| `messageId` | `String` | No |  |
-| `method` | `String` | No |  |
-| `partner` | `VMap` | No |  |
-| `reference` | `String` | No |  |
-| `serialNumber` | `String` | No |  |
-| `startDate` | `String` | No |  |
-| `success` | `Bool` | No |  |
-| `transactionSource` | `String` | No |  |
+| `alternateKey` | `String` | No | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `client` | `VMap` | No | Reference to the associated Client resource. |
+| `clientRef` | `String` | No | Client Reference property that is included in the decrypt API call. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `decrypted` | `Int` | No | A Transcation can process muliple decryptions. |
+| `deviceName` | `String` | No | The name of the Device that generated the payload to decrypt. |
+| `directPartner` | `VMap` | No | Reference to the associated Partner. |
+| `encrypted` | `Int` | No | A Transcation can process muliple encryptions. |
+| `endDate` | `String` | No | Timestamp from the end of the transaction. |
+| `errCode` | `String` | No | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `String` | No | The error messge that is sent in response to a failed decrypt API call. |
+| `id` | `String` | No | This resource's unique identifier. |
+| `ipAddress` | `String` | No | The IP address of the http client that makes the decrypt API call. |
+| `isVirtual` | `Bool` | No | Indicates if the Transaction came from a virtual Device. |
+| `keyType` | `String` | No | The type of cipher used during decrytion. |
+| `location` | `VMap` | Yes | Reference to the associated Location resource. |
+| `messageId` | `String` | No | Message ID. |
+| `method` | `String` | No | The decryption cypher/method. |
+| `partner` | `VMap` | No | Reference to the associated Partner. |
+| `reference` | `String` | No | The reference property that the Client includes in the decrypt API call. |
+| `serialNumber` | `String` | No | The serial number of the Device that generated the payload to decrypt. |
+| `startDate` | `String` | No | Timestamp from the beginning of the transaction. |
+| `success` | `Bool` | No | The success indicator. |
+| `transactionSource` | `String` | No | The source of the Transaction. |
 
 ### Operations
 
@@ -1454,18 +1454,18 @@ let updateResult = client.UpdateResult()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `client` | `VMap` | No |  |
-| `email` | `String` | No |  |
-| `firstName` | `String` | No |  |
-| `id` | `String` | No |  |
-| `isActive` | `Bool` | No |  |
-| `kif` | `VMap` | No |  |
-| `lastName` | `String` | No |  |
-| `partner` | `VMap` | No |  |
-| `phone` | `String` | No |  |
-| `userName` | `String` | No |  |
-| `userRole` | `VMap` | No |  |
-| `version` | `Int` | No |  |
+| `client` | `VMap` | No | Reference to the associated Client resource. |
+| `email` | `String` | No | The User's email address. |
+| `firstName` | `String` | No | The User's name. |
+| `id` | `String` | No | ID of newly created resource |
+| `isActive` | `Bool` | No | This property indicates if the User account is active or disabled. |
+| `kif` | `VMap` | No | Reference to the associated KIF resource. |
+| `lastName` | `String` | No | The User's Surname. |
+| `partner` | `VMap` | No | Reference to the associated Partner. |
+| `phone` | `String` | No | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | `String` | No | The User's unique username. |
+| `userRole` | `VMap` | No | Reference to the associated User Role. |
+| `version` | `Int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1528,20 +1528,20 @@ let user = client.User()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `client` | `VMap` | No |  |
-| `created` | `String` | No |  |
-| `email` | `String` | No |  |
-| `firstName` | `String` | No |  |
-| `id` | `String` | No |  |
-| `isActive` | `Bool` | No |  |
-| `kif` | `VMap` | No |  |
-| `lastName` | `String` | No |  |
-| `modified` | `String` | No |  |
-| `partner` | `VMap` | No |  |
-| `phone` | `String` | No |  |
-| `userName` | `String` | No |  |
-| `userRole` | `VMap` | No |  |
-| `version` | `Int` | No |  |
+| `client` | `VMap` | No | Reference to the associated Client resource. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `email` | `String` | No | The User's email address. |
+| `firstName` | `String` | No | The User's name. |
+| `id` | `String` | No | This resource's unique identifier. |
+| `isActive` | `Bool` | No | This property indicates if the User account is active or disabled. |
+| `kif` | `VMap` | No | Reference to the associated KIF resource. |
+| `lastName` | `String` | No | The User's Surname. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `partner` | `VMap` | No | Reference to the associated Partner. |
+| `phone` | `String` | No | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | `String` | No | The User's unique username. |
+| `userRole` | `VMap` | No | Reference to the associated User Role. |
+| `version` | `Int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 

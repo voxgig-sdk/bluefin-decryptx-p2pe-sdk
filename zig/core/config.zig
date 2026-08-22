@@ -20,6 +20,9 @@ pub fn make_config() Value {
         }) },
         .{ "options", h.jo(&.{
             .{ "base", h.vstr("https://apis.p2pemanager.com/api/v1") },
+            .{ "auth", h.jo(&.{
+                .{ "prefix", h.vstr("Basic") },
+            }) },
             .{ "headers", h.jo(&.{
                 .{ "content-type", h.vstr("application/json") },
             }) },
@@ -47,39 +50,43 @@ pub fn make_config() Value {
                 .{ "update_result", h.omap() },
                 .{ "user", h.omap() },
             }) },
-            .{ "auth", h.jo(&.{
-                .{ "prefix", h.vstr("Basic") },
-            }) },
         }) },
         .{ "entity", h.jo(&.{
             .{ "attestation", h.jo(&.{
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
                         .{ "name", h.vstr("client") },
+                        .{ "short", h.vstr("Reference to the associated Client resource.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("completeDate") },
+                        .{ "short", h.vstr("The date and time that the Attestation took place.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("created") },
+                        .{ "short", h.vstr("Creation timestamp in ISO 8601 format.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("device") },
+                        .{ "short", h.vstr("Reference to the associated Device resource.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("id") },
+                        .{ "short", h.vstr("This resource's unique identifier.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("name") },
+                        .{ "short", h.vstr("Text describing the attestation.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("notes") },
+                        .{ "short", h.vstr("Free form field that allows the Client associate notes with the Attestation.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                 }) },
@@ -205,47 +212,58 @@ pub fn make_config() Value {
                                 .{ "type", h.vstr("`$OBJECT`") },
                             }) },
                         }) },
+                        .{ "short", h.vstr("Reference to the associated User resource.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("created") },
+                        .{ "short", h.vstr("Creation timestamp in ISO 8601 format.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("directPartner") },
+                        .{ "short", h.vstr("Reference to the associated Partner.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("id") },
+                        .{ "short", h.vstr("This resource's unique identifier.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("isActive") },
+                        .{ "short", h.vstr("This property indicates if the Client account is active or disabled.") },
                         .{ "type", h.vstr("`$BOOLEAN`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("location") },
                         .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("Reference to the associated Location resource.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("mid") },
+                        .{ "short", h.vstr("Some Partners will have an merchant ids on their own software offerings.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("modified") },
+                        .{ "short", h.vstr("Last modified timestamp.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("name") },
+                        .{ "short", h.vstr("The Client's name.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("partner") },
+                        .{ "short", h.vstr("Reference to the Client's root Partner.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("version") },
+                        .{ "short", h.vstr("The number of times that this resource has been updated.") },
                         .{ "type", h.vstr("`$INTEGER`") },
                     }),
                 }) },
@@ -464,6 +482,7 @@ pub fn make_config() Value {
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
                         .{ "name", h.vstr("success") },
+                        .{ "short", h.vstr("true if the payload decryption was successful.") },
                         .{ "type", h.vstr("`$BOOLEAN`") },
                     }),
                 }) },
@@ -499,118 +518,146 @@ pub fn make_config() Value {
                     h.jo(&.{
                         .{ "name", h.vstr("activatedBy") },
                         .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("Reference to the associated User resource.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("activationDate") },
+                        .{ "short", h.vstr("Timestamp from when the Device was activated.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("alternateKey") },
+                        .{ "short", h.vstr("The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("auditNextDate") },
+                        .{ "short", h.vstr("Date and time that the Device is due its next PCI Audit.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("auditNotificationDate") },
+                        .{ "short", h.vstr("Date and time that a notification should be sent that a PCI audit is due.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("client") },
+                        .{ "short", h.vstr("Reference to the associated Client resource.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("created") },
+                        .{ "short", h.vstr("Creation timestamp in ISO 8601 format.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("createdBy") },
                         .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("Reference to the associated User resource.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("deviceBuild") },
+                        .{ "short", h.vstr("Reference to the associated Device Build resource.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("deviceState") },
+                        .{ "short", h.vstr("Reference to the associated Device State resource.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("deviceType") },
+                        .{ "short", h.vstr("Reference to the associated Device Type resource.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("errorCounter") },
+                        .{ "short", h.vstr("The number times the Device has been in error.") },
                         .{ "type", h.vstr("`$INTEGER`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("errorLastDate") },
+                        .{ "short", h.vstr("Timestamp from the last time that the Device had an error.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("id") },
+                        .{ "short", h.vstr("The Device's unique identifier.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("initializedBy") },
                         .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("Reference to the associated User resource.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("initializedDate") },
+                        .{ "short", h.vstr("Timestamp from when the Device was initialized.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("injectKey") },
+                        .{ "short", h.vstr("Reference to the associated Device resource.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("isVirtual") },
+                        .{ "short", h.vstr("Indicates if a Device is Virtual (represents a Device shared with a partner).") },
                         .{ "type", h.vstr("`$BOOLEAN`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("kif") },
+                        .{ "short", h.vstr("Reference to the associated KIF resource.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("lastActivityDate") },
+                        .{ "short", h.vstr("Timestamp from the last time that the Device was used.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("location") },
                         .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("Reference to the associated Location resource.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("modified") },
+                        .{ "short", h.vstr("Last modified timestamp.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("modifiedBy") },
                         .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("Reference to the associated User resource.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("name") },
+                        .{ "short", h.vstr("The Device's name.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("notes") },
+                        .{ "short", h.vstr("Arbitary note that can be attached to a Device entry.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("partner") },
+                        .{ "short", h.vstr("Reference to the associated Partner.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("serialNumber") },
+                        .{ "short", h.vstr("The Device's serial number.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("version") },
+                        .{ "short", h.vstr("The number of times that this resource has been updated.") },
                         .{ "type", h.vstr("`$INTEGER`") },
                     }),
                 }) },
@@ -821,62 +868,77 @@ pub fn make_config() Value {
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
                         .{ "name", h.vstr("appVersion") },
+                        .{ "short", h.vstr("If a Device Type has more than one Application Code version the supported version is specified here.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("buildNumber") },
+                        .{ "short", h.vstr("The Build Number.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("configFileName") },
+                        .{ "short", h.vstr("The name of the configuration file that is uploaded to the device.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("created") },
+                        .{ "short", h.vstr("Creation timestamp in ISO 8601 format.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("deviceType") },
+                        .{ "short", h.vstr("The Device Type Name.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("firmwareVersion") },
+                        .{ "short", h.vstr("A list of firmware versions that this Device Build covers.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("hardwareVersion") },
+                        .{ "short", h.vstr("A list of hardware versions that this Device Build covers.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("id") },
+                        .{ "short", h.vstr("This resource's unique identifier.") },
                         .{ "type", h.vstr("`$INTEGER`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("isActive") },
+                        .{ "short", h.vstr("This property indicates if the device build is still active and not succeeded by subsequent build.") },
                         .{ "type", h.vstr("`$BOOLEAN`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("modified") },
+                        .{ "short", h.vstr("Last modified timestamp.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("name") },
+                        .{ "short", h.vstr("The Device Builds's name.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("notes") },
+                        .{ "short", h.vstr("Notes attached to the device build by Bluefin CISO.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("version") },
+                        .{ "short", h.vstr("The number of times that this resource has been updated.") },
                         .{ "type", h.vstr("`$INTEGER`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("whiteListingBinRanges") },
+                        .{ "short", h.vstr("A comma separated list of BIN ranges that aren't encrypted by the terminal.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("whiteListingUsed") },
+                        .{ "short", h.vstr("This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal.") },
                         .{ "type", h.vstr("`$BOOLEAN`") },
                     }),
                 }) },
@@ -975,58 +1037,71 @@ pub fn make_config() Value {
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
                         .{ "name", h.vstr("completeDate") },
+                        .{ "short", h.vstr("The date and time that the Custody change took place.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("created") },
+                        .{ "short", h.vstr("Creation timestamp in ISO 8601 format.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("createdBy") },
                         .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("Reference to the associated User resource.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("custodian") },
                         .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("Reference to the associated User resource.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("device") },
+                        .{ "short", h.vstr("Reference to the associated Device resource.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("id") },
+                        .{ "short", h.vstr("This resource's unique identifier.") },
                         .{ "type", h.vstr("`$INTEGER`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("location") },
                         .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("Reference to the associated Location resource.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("modified") },
+                        .{ "short", h.vstr("Last modified timestamp.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("modifiedBy") },
                         .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("Reference to the associated User resource.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("notes") },
+                        .{ "short", h.vstr("Free form field that allows the Client associate notes with the Custody Change.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("status") },
+                        .{ "short", h.vstr("Reference to the associated Custody Status.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("transferMethod") },
+                        .{ "short", h.vstr("Reference to the associated Transfer Method.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("version") },
+                        .{ "short", h.vstr("The number of times that this resource has been updated.") },
                         .{ "type", h.vstr("`$INTEGER`") },
                     }),
                 }) },
@@ -1105,58 +1180,71 @@ pub fn make_config() Value {
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
                         .{ "name", h.vstr("completeDate") },
+                        .{ "short", h.vstr("The date and time that the Custody change took place.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("created") },
+                        .{ "short", h.vstr("Creation timestamp in ISO 8601 format.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("createdBy") },
                         .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("Reference to the associated User resource.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("custodian") },
                         .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("Reference to the associated User resource.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("device") },
+                        .{ "short", h.vstr("Reference to the associated Device resource.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("id") },
+                        .{ "short", h.vstr("This resource's unique identifier.") },
                         .{ "type", h.vstr("`$INTEGER`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("location") },
                         .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("Reference to the associated Location resource.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("modified") },
+                        .{ "short", h.vstr("Last modified timestamp.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("modifiedBy") },
                         .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("Reference to the associated User resource.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("notes") },
+                        .{ "short", h.vstr("Free form field that allows the Client associate notes with the Custody Change.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("status") },
+                        .{ "short", h.vstr("Reference to the associated Custody Status.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("transferMethod") },
+                        .{ "short", h.vstr("Reference to the associated Transfer Method.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("version") },
+                        .{ "short", h.vstr("The number of times that this resource has been updated.") },
                         .{ "type", h.vstr("`$INTEGER`") },
                     }),
                 }) },
@@ -1244,10 +1332,12 @@ pub fn make_config() Value {
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
                         .{ "name", h.vstr("data") },
+                        .{ "short", h.vstr("List of Devices.") },
                         .{ "type", h.vstr("`$ARRAY`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("total") },
+                        .{ "short", h.vstr("Total number of Devices available (not the number of Users in the response).") },
                         .{ "type", h.vstr("`$INTEGER`") },
                     }),
                 }) },
@@ -1341,6 +1431,7 @@ pub fn make_config() Value {
                     h.jo(&.{
                         .{ "name", h.vstr("success") },
                         .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("Indicates if the action succeeded.") },
                         .{ "type", h.vstr("`$BOOLEAN`") },
                     }),
                 }) },
@@ -1377,6 +1468,7 @@ pub fn make_config() Value {
                     h.jo(&.{
                         .{ "name", h.vstr("success") },
                         .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("Indicates if the RKI activation succeeded.") },
                         .{ "type", h.vstr("`$BOOLEAN`") },
                     }),
                 }) },
@@ -1413,10 +1505,12 @@ pub fn make_config() Value {
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
                         .{ "name", h.vstr("id") },
+                        .{ "short", h.vstr("Unique identifier for this Device state.") },
                         .{ "type", h.vstr("`$INTEGER`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("name") },
+                        .{ "short", h.vstr("Descriptive name for this Device state.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                 }) },
@@ -1451,38 +1545,47 @@ pub fn make_config() Value {
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
                         .{ "name", h.vstr("created") },
+                        .{ "short", h.vstr("Creation timestamp in ISO 8601 format.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("deviceTypeMode") },
+                        .{ "short", h.vstr("The Device type.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("hardwareVersion") },
+                        .{ "short", h.vstr("The Device hardware version.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("id") },
+                        .{ "short", h.vstr("Unique idenifier.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("isActive") },
+                        .{ "short", h.vstr("This property indicates if the DeviceType is active.") },
                         .{ "type", h.vstr("`$BOOLEAN`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("manufacturer") },
+                        .{ "short", h.vstr("The Device manufacturer.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("model") },
+                        .{ "short", h.vstr("The Device model.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("modified") },
+                        .{ "short", h.vstr("Last modified timestamp.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("name") },
+                        .{ "short", h.vstr("The DeviceType name.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
@@ -1491,10 +1594,12 @@ pub fn make_config() Value {
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("productName") },
+                        .{ "short", h.vstr("The Device name.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("version") },
+                        .{ "short", h.vstr("The number of times that this resource has been updated.") },
                         .{ "type", h.vstr("`$INTEGER`") },
                     }),
                 }) },
@@ -1564,34 +1669,42 @@ pub fn make_config() Value {
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
                         .{ "name", h.vstr("created") },
+                        .{ "short", h.vstr("Creation timestamp in ISO 8601 format.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("id") },
+                        .{ "short", h.vstr("unique idenifier") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("isActive") },
+                        .{ "short", h.vstr("Active flag, inactive keys cannot be assigned to devices.") },
                         .{ "type", h.vstr("`$BOOLEAN`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("isP2PE") },
+                        .{ "short", h.vstr("Flags if a key is for a P2PE compliant cypher.") },
                         .{ "type", h.vstr("`$BOOLEAN`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("keyType") },
+                        .{ "short", h.vstr("The cipher type that the key works with.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("modified") },
+                        .{ "short", h.vstr("Last modified timestamp in ISO 8601 format.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("name") },
+                        .{ "short", h.vstr("Key name.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("version") },
+                        .{ "short", h.vstr("The number of times that this resource has been updated.") },
                         .{ "type", h.vstr("`$INTEGER`") },
                     }),
                 }) },
@@ -1661,10 +1774,12 @@ pub fn make_config() Value {
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
                         .{ "name", h.vstr("id") },
+                        .{ "short", h.vstr("This resource's unique identifier.") },
                         .{ "type", h.vstr("`$INTEGER`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("name") },
+                        .{ "short", h.vstr("The KIF's name.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                 }) },
@@ -1699,94 +1814,117 @@ pub fn make_config() Value {
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
                         .{ "name", h.vstr("address1") },
+                        .{ "short", h.vstr("The Location's street address.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("address2") },
+                        .{ "short", h.vstr("The Location's street address.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("billingId") },
+                        .{ "short", h.vstr("\\?") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("city") },
+                        .{ "short", h.vstr("The Location's city.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("country") },
+                        .{ "short", h.vstr("The Location's country.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("created") },
+                        .{ "short", h.vstr("Creation timestamp in ISO 8601 format.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("customReference") },
+                        .{ "short", h.vstr("A Partner specified reference for a location.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("id") },
+                        .{ "short", h.vstr("This resource's unique identifier.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("locationType") },
+                        .{ "short", h.vstr("The Location's clasification.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("mailAddress1") },
+                        .{ "short", h.vstr("The Location's street address.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("mailAddress2") },
+                        .{ "short", h.vstr("The Location's street address.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("mailCity") },
+                        .{ "short", h.vstr("The Location's city.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("mailCountry") },
+                        .{ "short", h.vstr("The Location's street address.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("mailPostalCode") },
+                        .{ "short", h.vstr("The Location's postal code.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("mailStateProvince") },
+                        .{ "short", h.vstr("The Location's street state or province.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("modified") },
+                        .{ "short", h.vstr("Last modified timestamp.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("name") },
+                        .{ "short", h.vstr("The Location's name.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("nameOfBusiness") },
+                        .{ "short", h.vstr("The name of the business at this location.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("notes") },
+                        .{ "short", h.vstr("Note for delivery driver.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("postalCode") },
+                        .{ "short", h.vstr("The Location's postal code.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("stateProvince") },
+                        .{ "short", h.vstr("The Location's street state or province.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("uniqueId") },
+                        .{ "short", h.vstr("Unique Identifier for the Location.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("version") },
+                        .{ "short", h.vstr("The number of times that this resource has been updated.") },
                         .{ "type", h.vstr("`$INTEGER`") },
                     }),
                 }) },
@@ -1941,10 +2079,12 @@ pub fn make_config() Value {
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
                         .{ "name", h.vstr("billingId") },
+                        .{ "short", h.vstr("The Partner's billing identifier.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("clientCanOrderEquipment") },
+                        .{ "short", h.vstr("This property indicates if the Partner is allowed to order Equipment.") },
                         .{ "type", h.vstr("`$BOOLEAN`") },
                     }),
                     h.jo(&.{
@@ -1955,51 +2095,63 @@ pub fn make_config() Value {
                                 .{ "type", h.vstr("`$OBJECT`") },
                             }) },
                         }) },
+                        .{ "short", h.vstr("Reference to the associated User resource.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("created") },
+                        .{ "short", h.vstr("Creation timestamp in ISO 8601 format.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("id") },
+                        .{ "short", h.vstr("This resource's unique identifier.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("isActive") },
+                        .{ "short", h.vstr("This property indicates if the Parter account is active or disabled.") },
                         .{ "type", h.vstr("`$BOOLEAN`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("location") },
                         .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("Reference to the associated Location resource.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("modified") },
+                        .{ "short", h.vstr("Last modified timestamp.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("name") },
+                        .{ "short", h.vstr("The Partner's name.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("parent") },
+                        .{ "short", h.vstr("Reference to the associated Partner.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("partnerId") },
+                        .{ "short", h.vstr("The Partner's id.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("reference") },
+                        .{ "short", h.vstr("The Partner's reference string.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("verificationPhrase") },
+                        .{ "short", h.vstr("The verification phrase is a message that the Partner creates.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("version") },
+                        .{ "short", h.vstr("The number of times that this resource has been updated.") },
                         .{ "type", h.vstr("`$INTEGER`") },
                     }),
                 }) },
@@ -2118,30 +2270,37 @@ pub fn make_config() Value {
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
                         .{ "name", h.vstr("carrier") },
+                        .{ "short", h.vstr("The name of the courier.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("client") },
+                        .{ "short", h.vstr("Reference to the associated Client resource.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("created") },
+                        .{ "short", h.vstr("Creation timestamp in ISO 8601 format.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("dateReceived") },
+                        .{ "short", h.vstr("The date and time that a package is recieved.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("dateShipped") },
+                        .{ "short", h.vstr("The date and time that a package is shipped.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("dcKif") },
+                        .{ "short", h.vstr("Reference to the associated KIF resource.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("id") },
+                        .{ "short", h.vstr("This resource's unique identifier.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
@@ -2150,26 +2309,32 @@ pub fn make_config() Value {
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("kif") },
+                        .{ "short", h.vstr("Reference to the associated KIF resource.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("modified") },
+                        .{ "short", h.vstr("Last modified timestamp.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("partner") },
+                        .{ "short", h.vstr("Reference to the associated Partner.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("shipmentType") },
+                        .{ "short", h.vstr("The type of shipment.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("tracking") },
+                        .{ "short", h.vstr("The courier's tracking number.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("version") },
+                        .{ "short", h.vstr("The number of times that this resource has been updated.") },
                         .{ "type", h.vstr("`$INTEGER`") },
                     }),
                 }) },
@@ -2296,6 +2461,7 @@ pub fn make_config() Value {
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
                         .{ "name", h.vstr("success") },
+                        .{ "short", h.vstr("Indicates if the action was a success.") },
                         .{ "type", h.vstr("`$BOOLEAN`") },
                     }),
                 }) },
@@ -2394,99 +2560,123 @@ pub fn make_config() Value {
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
                         .{ "name", h.vstr("alternateKey") },
+                        .{ "short", h.vstr("The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("client") },
+                        .{ "short", h.vstr("Reference to the associated Client resource.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("clientRef") },
+                        .{ "short", h.vstr("Client Reference property that is included in the decrypt API call.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("created") },
+                        .{ "short", h.vstr("Creation timestamp in ISO 8601 format.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("decrypted") },
+                        .{ "short", h.vstr("A Transcation can process muliple decryptions.") },
                         .{ "type", h.vstr("`$INTEGER`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("deviceName") },
+                        .{ "short", h.vstr("The name of the Device that generated the payload to decrypt.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("directPartner") },
+                        .{ "short", h.vstr("Reference to the associated Partner.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("encrypted") },
+                        .{ "short", h.vstr("A Transcation can process muliple encryptions.") },
                         .{ "type", h.vstr("`$INTEGER`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("endDate") },
+                        .{ "short", h.vstr("Timestamp from the end of the transaction.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("errCode") },
+                        .{ "short", h.vstr("The error code that is sent in response to a failed decrypt API call.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("errMessage") },
+                        .{ "short", h.vstr("The error messge that is sent in response to a failed decrypt API call.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("id") },
+                        .{ "short", h.vstr("This resource's unique identifier.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("ipAddress") },
+                        .{ "short", h.vstr("The IP address of the http client that makes the decrypt API call.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("isVirtual") },
+                        .{ "short", h.vstr("Indicates if the Transaction came from a virtual Device.") },
                         .{ "type", h.vstr("`$BOOLEAN`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("keyType") },
+                        .{ "short", h.vstr("The type of cipher used during decrytion.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("location") },
                         .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("Reference to the associated Location resource.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("messageId") },
+                        .{ "short", h.vstr("Message ID.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("method") },
+                        .{ "short", h.vstr("The decryption cypher/method.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("partner") },
+                        .{ "short", h.vstr("Reference to the associated Partner.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("reference") },
+                        .{ "short", h.vstr("The reference property that the Client includes in the decrypt API call.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("serialNumber") },
+                        .{ "short", h.vstr("The serial number of the Device that generated the payload to decrypt.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("startDate") },
+                        .{ "short", h.vstr("Timestamp from the beginning of the transaction.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("success") },
+                        .{ "short", h.vstr("The success indicator.") },
                         .{ "type", h.vstr("`$BOOLEAN`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("transactionSource") },
+                        .{ "short", h.vstr("The source of the Transaction.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                 }) },
@@ -2676,50 +2866,62 @@ pub fn make_config() Value {
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
                         .{ "name", h.vstr("client") },
+                        .{ "short", h.vstr("Reference to the associated Client resource.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("email") },
+                        .{ "short", h.vstr("The User's email address.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("firstName") },
+                        .{ "short", h.vstr("The User's name.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("id") },
+                        .{ "short", h.vstr("ID of newly created resource") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("isActive") },
+                        .{ "short", h.vstr("This property indicates if the User account is active or disabled.") },
                         .{ "type", h.vstr("`$BOOLEAN`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("kif") },
+                        .{ "short", h.vstr("Reference to the associated KIF resource.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("lastName") },
+                        .{ "short", h.vstr("The User's Surname.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("partner") },
+                        .{ "short", h.vstr("Reference to the associated Partner.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("phone") },
+                        .{ "short", h.vstr("The User's phone number without dashes, spaces, or brackets.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("userName") },
+                        .{ "short", h.vstr("The User's unique username.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("userRole") },
+                        .{ "short", h.vstr("Reference to the associated User Role.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("version") },
+                        .{ "short", h.vstr("The number of times that this resource has been updated.") },
                         .{ "type", h.vstr("`$INTEGER`") },
                     }),
                 }) },
@@ -3026,58 +3228,72 @@ pub fn make_config() Value {
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
                         .{ "name", h.vstr("client") },
+                        .{ "short", h.vstr("Reference to the associated Client resource.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("created") },
+                        .{ "short", h.vstr("Creation timestamp in ISO 8601 format.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("email") },
+                        .{ "short", h.vstr("The User's email address.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("firstName") },
+                        .{ "short", h.vstr("The User's name.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("id") },
+                        .{ "short", h.vstr("This resource's unique identifier.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("isActive") },
+                        .{ "short", h.vstr("This property indicates if the User account is active or disabled.") },
                         .{ "type", h.vstr("`$BOOLEAN`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("kif") },
+                        .{ "short", h.vstr("Reference to the associated KIF resource.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("lastName") },
+                        .{ "short", h.vstr("The User's Surname.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("modified") },
+                        .{ "short", h.vstr("Last modified timestamp.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("partner") },
+                        .{ "short", h.vstr("Reference to the associated Partner.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("phone") },
+                        .{ "short", h.vstr("The User's phone number without dashes, spaces, or brackets.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("userName") },
+                        .{ "short", h.vstr("The User's unique username.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("userRole") },
+                        .{ "short", h.vstr("Reference to the associated User Role.") },
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("version") },
+                        .{ "short", h.vstr("The number of times that this resource has been updated.") },
                         .{ "type", h.vstr("`$INTEGER`") },
                     }),
                 }) },
@@ -3160,6 +3376,28 @@ pub fn make_config() Value {
             }) },
         }) },
     });
+}
+
+// SHARED CONFIG (sdkgen rung L2).
+//
+// The SDK reads the config on every request and never writes to it, so one
+// instance is shared by every client rather than rebuilt per client. Above the
+// size threshold make_config re-parses the whole embedded JSON, so this is the
+// difference between parsing the model once and once per client.
+//
+// Value nodes are arena-allocated and reference-stable, so the shared value is
+// genuinely one structure, not a copy.
+var shared_config_val: ?Value = null;
+
+/// The process-wide config, built once on first use.
+///
+/// The returned Value SHARES its nodes: treat it as read-only. Callers that
+/// need to mutate should use make_config, which always returns a fresh copy.
+pub fn shared_config() Value {
+    if (shared_config_val) |c| return c;
+    const c = make_config();
+    shared_config_val = c;
+    return c;
 }
 
 pub fn make_feature(name: []const u8) Feature {

@@ -198,13 +198,13 @@ const attestation = client.attestation(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `client` | `Value (object)` | No |  |
-| `completeDate` | `[]const u8` | No |  |
-| `created` | `[]const u8` | No |  |
-| `device` | `Value (object)` | No |  |
-| `id` | `[]const u8` | No |  |
-| `name` | `[]const u8` | No |  |
-| `notes` | `[]const u8` | No |  |
+| `client` | `Value (object)` | No | Reference to the associated Client resource. |
+| `completeDate` | `[]const u8` | No | The date and time that the Attestation took place. |
+| `created` | `[]const u8` | No | Creation timestamp in ISO 8601 format. |
+| `device` | `Value (object)` | No | Reference to the associated Device resource. |
+| `id` | `[]const u8` | No | This resource's unique identifier. |
+| `name` | `[]const u8` | No | Text describing the attestation. |
+| `notes` | `[]const u8` | No | Free form field that allows the Client associate notes with the Attestation. |
 
 ### Operations
 
@@ -273,17 +273,17 @@ const client = client.client(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `contact` | `Value (object)` | No |  |
-| `created` | `[]const u8` | No |  |
-| `directPartner` | `Value (object)` | No |  |
-| `id` | `[]const u8` | No |  |
-| `isActive` | `bool` | No |  |
-| `location` | `Value (object)` | Yes |  |
-| `mid` | `[]const u8` | No |  |
-| `modified` | `[]const u8` | No |  |
-| `name` | `[]const u8` | No |  |
-| `partner` | `Value (object)` | No |  |
-| `version` | `i64` | No |  |
+| `contact` | `Value (object)` | No | Reference to the associated User resource. |
+| `created` | `[]const u8` | No | Creation timestamp in ISO 8601 format. |
+| `directPartner` | `Value (object)` | No | Reference to the associated Partner. |
+| `id` | `[]const u8` | No | This resource's unique identifier. |
+| `isActive` | `bool` | No | This property indicates if the Client account is active or disabled. |
+| `location` | `Value (object)` | Yes | Reference to the associated Location resource. |
+| `mid` | `[]const u8` | No | Some Partners will have an merchant ids on their own software offerings. |
+| `modified` | `[]const u8` | No | Last modified timestamp. |
+| `name` | `[]const u8` | No | The Client's name. |
+| `partner` | `Value (object)` | No | Reference to the Client's root Partner. |
+| `version` | `i64` | No | The number of times that this resource has been updated. |
 
 ### Field Usage by Operation
 
@@ -423,7 +423,7 @@ const decryption = client.decryption(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `bool` | No |  |
+| `success` | `bool` | No | true if the payload decryption was successful. |
 
 ### Operations
 
@@ -470,34 +470,34 @@ const device = client.device(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `activatedBy` | `Value (object)` | Yes |  |
-| `activationDate` | `[]const u8` | No |  |
-| `alternateKey` | `[]const u8` | No |  |
-| `auditNextDate` | `[]const u8` | No |  |
-| `auditNotificationDate` | `[]const u8` | No |  |
-| `client` | `Value (object)` | No |  |
-| `created` | `[]const u8` | No |  |
-| `createdBy` | `Value (object)` | Yes |  |
-| `deviceBuild` | `Value (object)` | No |  |
-| `deviceState` | `Value (object)` | No |  |
-| `deviceType` | `Value (object)` | No |  |
-| `errorCounter` | `i64` | No |  |
-| `errorLastDate` | `[]const u8` | No |  |
-| `id` | `[]const u8` | No |  |
-| `initializedBy` | `Value (object)` | Yes |  |
-| `initializedDate` | `[]const u8` | No |  |
-| `injectKey` | `Value (object)` | No |  |
-| `isVirtual` | `bool` | No |  |
-| `kif` | `Value (object)` | No |  |
-| `lastActivityDate` | `[]const u8` | No |  |
-| `location` | `Value (object)` | Yes |  |
-| `modified` | `[]const u8` | No |  |
-| `modifiedBy` | `Value (object)` | Yes |  |
-| `name` | `[]const u8` | No |  |
-| `notes` | `[]const u8` | No |  |
-| `partner` | `Value (object)` | No |  |
-| `serialNumber` | `[]const u8` | No |  |
-| `version` | `i64` | No |  |
+| `activatedBy` | `Value (object)` | Yes | Reference to the associated User resource. |
+| `activationDate` | `[]const u8` | No | Timestamp from when the Device was activated. |
+| `alternateKey` | `[]const u8` | No | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `[]const u8` | No | Date and time that the Device is due its next PCI Audit. |
+| `auditNotificationDate` | `[]const u8` | No | Date and time that a notification should be sent that a PCI audit is due. |
+| `client` | `Value (object)` | No | Reference to the associated Client resource. |
+| `created` | `[]const u8` | No | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `Value (object)` | Yes | Reference to the associated User resource. |
+| `deviceBuild` | `Value (object)` | No | Reference to the associated Device Build resource. |
+| `deviceState` | `Value (object)` | No | Reference to the associated Device State resource. |
+| `deviceType` | `Value (object)` | No | Reference to the associated Device Type resource. |
+| `errorCounter` | `i64` | No | The number times the Device has been in error. |
+| `errorLastDate` | `[]const u8` | No | Timestamp from the last time that the Device had an error. |
+| `id` | `[]const u8` | No | The Device's unique identifier. |
+| `initializedBy` | `Value (object)` | Yes | Reference to the associated User resource. |
+| `initializedDate` | `[]const u8` | No | Timestamp from when the Device was initialized. |
+| `injectKey` | `Value (object)` | No | Reference to the associated Device resource. |
+| `isVirtual` | `bool` | No | Indicates if a Device is Virtual (represents a Device shared with a partner). |
+| `kif` | `Value (object)` | No | Reference to the associated KIF resource. |
+| `lastActivityDate` | `[]const u8` | No | Timestamp from the last time that the Device was used. |
+| `location` | `Value (object)` | Yes | Reference to the associated Location resource. |
+| `modified` | `[]const u8` | No | Last modified timestamp. |
+| `modifiedBy` | `Value (object)` | Yes | Reference to the associated User resource. |
+| `name` | `[]const u8` | No | The Device's name. |
+| `notes` | `[]const u8` | No | Arbitary note that can be attached to a Device entry. |
+| `partner` | `Value (object)` | No | Reference to the associated Partner. |
+| `serialNumber` | `[]const u8` | No | The Device's serial number. |
+| `version` | `i64` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -571,21 +571,21 @@ const device_build = client.device_build(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `appVersion` | `[]const u8` | No |  |
-| `buildNumber` | `[]const u8` | No |  |
-| `configFileName` | `[]const u8` | No |  |
-| `created` | `[]const u8` | No |  |
-| `deviceType` | `[]const u8` | No |  |
-| `firmwareVersion` | `[]const u8` | No |  |
-| `hardwareVersion` | `[]const u8` | No |  |
-| `id` | `i64` | No |  |
-| `isActive` | `bool` | No |  |
-| `modified` | `[]const u8` | No |  |
-| `name` | `[]const u8` | No |  |
-| `notes` | `[]const u8` | No |  |
-| `version` | `i64` | No |  |
-| `whiteListingBinRanges` | `[]const u8` | No |  |
-| `whiteListingUsed` | `bool` | No |  |
+| `appVersion` | `[]const u8` | No | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildNumber` | `[]const u8` | No | The Build Number. |
+| `configFileName` | `[]const u8` | No | The name of the configuration file that is uploaded to the device. |
+| `created` | `[]const u8` | No | Creation timestamp in ISO 8601 format. |
+| `deviceType` | `[]const u8` | No | The Device Type Name. |
+| `firmwareVersion` | `[]const u8` | No | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `[]const u8` | No | A list of hardware versions that this Device Build covers. |
+| `id` | `i64` | No | This resource's unique identifier. |
+| `isActive` | `bool` | No | This property indicates if the device build is still active and not succeeded by subsequent build. |
+| `modified` | `[]const u8` | No | Last modified timestamp. |
+| `name` | `[]const u8` | No | The Device Builds's name. |
+| `notes` | `[]const u8` | No | Notes attached to the device build by Bluefin CISO. |
+| `version` | `i64` | No | The number of times that this resource has been updated. |
+| `whiteListingBinRanges` | `[]const u8` | No | A comma separated list of BIN ranges that aren't encrypted by the terminal. |
+| `whiteListingUsed` | `bool` | No | This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal. |
 
 ### Operations
 
@@ -642,19 +642,19 @@ const device_custody_detail = client.device_custody_detail(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `completeDate` | `[]const u8` | No |  |
-| `created` | `[]const u8` | No |  |
-| `createdBy` | `Value (object)` | Yes |  |
-| `custodian` | `Value (object)` | Yes |  |
-| `device` | `Value (object)` | No |  |
-| `id` | `i64` | No |  |
-| `location` | `Value (object)` | Yes |  |
-| `modified` | `[]const u8` | No |  |
-| `modifiedBy` | `Value (object)` | Yes |  |
-| `notes` | `[]const u8` | No |  |
-| `status` | `Value (object)` | No |  |
-| `transferMethod` | `Value (object)` | No |  |
-| `version` | `i64` | No |  |
+| `completeDate` | `[]const u8` | No | The date and time that the Custody change took place. |
+| `created` | `[]const u8` | No | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `Value (object)` | Yes | Reference to the associated User resource. |
+| `custodian` | `Value (object)` | Yes | Reference to the associated User resource. |
+| `device` | `Value (object)` | No | Reference to the associated Device resource. |
+| `id` | `i64` | No | This resource's unique identifier. |
+| `location` | `Value (object)` | Yes | Reference to the associated Location resource. |
+| `modified` | `[]const u8` | No | Last modified timestamp. |
+| `modifiedBy` | `Value (object)` | Yes | Reference to the associated User resource. |
+| `notes` | `[]const u8` | No | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | `Value (object)` | No | Reference to the associated Custody Status. |
+| `transferMethod` | `Value (object)` | No | Reference to the associated Transfer Method. |
+| `version` | `i64` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -700,19 +700,19 @@ const device_custody_list = client.device_custody_list(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `completeDate` | `[]const u8` | No |  |
-| `created` | `[]const u8` | No |  |
-| `createdBy` | `Value (object)` | Yes |  |
-| `custodian` | `Value (object)` | Yes |  |
-| `device` | `Value (object)` | No |  |
-| `id` | `i64` | No |  |
-| `location` | `Value (object)` | Yes |  |
-| `modified` | `[]const u8` | No |  |
-| `modifiedBy` | `Value (object)` | Yes |  |
-| `notes` | `[]const u8` | No |  |
-| `status` | `Value (object)` | No |  |
-| `transferMethod` | `Value (object)` | No |  |
-| `version` | `i64` | No |  |
+| `completeDate` | `[]const u8` | No | The date and time that the Custody change took place. |
+| `created` | `[]const u8` | No | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `Value (object)` | Yes | Reference to the associated User resource. |
+| `custodian` | `Value (object)` | Yes | Reference to the associated User resource. |
+| `device` | `Value (object)` | No | Reference to the associated Device resource. |
+| `id` | `i64` | No | This resource's unique identifier. |
+| `location` | `Value (object)` | Yes | Reference to the associated Location resource. |
+| `modified` | `[]const u8` | No | Last modified timestamp. |
+| `modifiedBy` | `Value (object)` | Yes | Reference to the associated User resource. |
+| `notes` | `[]const u8` | No | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | `Value (object)` | No | Reference to the associated Custody Status. |
+| `transferMethod` | `Value (object)` | No | Reference to the associated Transfer Method. |
+| `version` | `i64` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -758,8 +758,8 @@ const device_list = client.device_list(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `Value (array)` | No |  |
-| `total` | `i64` | No |  |
+| `data` | `Value (array)` | No | List of Devices. |
+| `total` | `i64` | No | Total number of Devices available (not the number of Users in the response). |
 
 ### Operations
 
@@ -805,7 +805,7 @@ const device_receive_result = client.device_receive_result(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `bool` | Yes |  |
+| `success` | `bool` | Yes | Indicates if the action succeeded. |
 
 ### Operations
 
@@ -853,7 +853,7 @@ const device_rki_activate_result = client.device_rki_activate_result(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `bool` | Yes |  |
+| `success` | `bool` | Yes | Indicates if the RKI activation succeeded. |
 
 ### Operations
 
@@ -901,8 +901,8 @@ const device_state = client.device_state(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `i64` | No |  |
-| `name` | `[]const u8` | No |  |
+| `id` | `i64` | No | Unique identifier for this Device state. |
+| `name` | `[]const u8` | No | Descriptive name for this Device state. |
 
 ### Operations
 
@@ -948,18 +948,18 @@ const device_type = client.device_type(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created` | `[]const u8` | No |  |
-| `deviceTypeMode` | `[]const u8` | No |  |
-| `hardwareVersion` | `[]const u8` | No |  |
-| `id` | `[]const u8` | No |  |
-| `isActive` | `bool` | No |  |
-| `manufacturer` | `[]const u8` | No |  |
-| `model` | `[]const u8` | No |  |
-| `modified` | `[]const u8` | No |  |
-| `name` | `[]const u8` | No |  |
+| `created` | `[]const u8` | No | Creation timestamp in ISO 8601 format. |
+| `deviceTypeMode` | `[]const u8` | No | The Device type. |
+| `hardwareVersion` | `[]const u8` | No | The Device hardware version. |
+| `id` | `[]const u8` | No | Unique idenifier. |
+| `isActive` | `bool` | No | This property indicates if the DeviceType is active. |
+| `manufacturer` | `[]const u8` | No | The Device manufacturer. |
+| `model` | `[]const u8` | No | The Device model. |
+| `modified` | `[]const u8` | No | Last modified timestamp. |
+| `name` | `[]const u8` | No | The DeviceType name. |
 | `photoUrl` | `[]const u8` | No |  |
-| `productName` | `[]const u8` | No |  |
-| `version` | `i64` | No |  |
+| `productName` | `[]const u8` | No | The Device name. |
+| `version` | `i64` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1016,14 +1016,14 @@ const inject_key = client.inject_key(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created` | `[]const u8` | No |  |
-| `id` | `[]const u8` | No |  |
-| `isActive` | `bool` | No |  |
-| `isP2PE` | `bool` | No |  |
-| `keyType` | `[]const u8` | No |  |
-| `modified` | `[]const u8` | No |  |
-| `name` | `[]const u8` | No |  |
-| `version` | `i64` | No |  |
+| `created` | `[]const u8` | No | Creation timestamp in ISO 8601 format. |
+| `id` | `[]const u8` | No | unique idenifier |
+| `isActive` | `bool` | No | Active flag, inactive keys cannot be assigned to devices. |
+| `isP2PE` | `bool` | No | Flags if a key is for a P2PE compliant cypher. |
+| `keyType` | `[]const u8` | No | The cipher type that the key works with. |
+| `modified` | `[]const u8` | No | Last modified timestamp in ISO 8601 format. |
+| `name` | `[]const u8` | No | Key name. |
+| `version` | `i64` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1080,8 +1080,8 @@ const kif = client.kif(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `i64` | No |  |
-| `name` | `[]const u8` | No |  |
+| `id` | `i64` | No | This resource's unique identifier. |
+| `name` | `[]const u8` | No | The KIF's name. |
 
 ### Operations
 
@@ -1127,29 +1127,29 @@ const location = client.location(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `address1` | `[]const u8` | No |  |
-| `address2` | `[]const u8` | No |  |
-| `billingId` | `[]const u8` | No |  |
-| `city` | `[]const u8` | No |  |
-| `country` | `[]const u8` | No |  |
-| `created` | `[]const u8` | No |  |
-| `customReference` | `[]const u8` | No |  |
-| `id` | `[]const u8` | No |  |
-| `locationType` | `[]const u8` | No |  |
-| `mailAddress1` | `[]const u8` | No |  |
-| `mailAddress2` | `[]const u8` | No |  |
-| `mailCity` | `[]const u8` | No |  |
-| `mailCountry` | `[]const u8` | No |  |
-| `mailPostalCode` | `[]const u8` | No |  |
-| `mailStateProvince` | `[]const u8` | No |  |
-| `modified` | `[]const u8` | No |  |
-| `name` | `[]const u8` | No |  |
-| `nameOfBusiness` | `[]const u8` | No |  |
-| `notes` | `[]const u8` | No |  |
-| `postalCode` | `[]const u8` | No |  |
-| `stateProvince` | `[]const u8` | No |  |
-| `uniqueId` | `[]const u8` | No |  |
-| `version` | `i64` | No |  |
+| `address1` | `[]const u8` | No | The Location's street address. |
+| `address2` | `[]const u8` | No | The Location's street address. |
+| `billingId` | `[]const u8` | No | \? |
+| `city` | `[]const u8` | No | The Location's city. |
+| `country` | `[]const u8` | No | The Location's country. |
+| `created` | `[]const u8` | No | Creation timestamp in ISO 8601 format. |
+| `customReference` | `[]const u8` | No | A Partner specified reference for a location. |
+| `id` | `[]const u8` | No | This resource's unique identifier. |
+| `locationType` | `[]const u8` | No | The Location's clasification. |
+| `mailAddress1` | `[]const u8` | No | The Location's street address. |
+| `mailAddress2` | `[]const u8` | No | The Location's street address. |
+| `mailCity` | `[]const u8` | No | The Location's city. |
+| `mailCountry` | `[]const u8` | No | The Location's street address. |
+| `mailPostalCode` | `[]const u8` | No | The Location's postal code. |
+| `mailStateProvince` | `[]const u8` | No | The Location's street state or province. |
+| `modified` | `[]const u8` | No | Last modified timestamp. |
+| `name` | `[]const u8` | No | The Location's name. |
+| `nameOfBusiness` | `[]const u8` | No | The name of the business at this location. |
+| `notes` | `[]const u8` | No | Note for delivery driver. |
+| `postalCode` | `[]const u8` | No | The Location's postal code. |
+| `stateProvince` | `[]const u8` | No | The Location's street state or province. |
+| `uniqueId` | `[]const u8` | No | Unique Identifier for the Location. |
+| `version` | `i64` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1229,20 +1229,20 @@ const partner = client.partner(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `billingId` | `[]const u8` | No |  |
-| `clientCanOrderEquipment` | `bool` | No |  |
-| `contact` | `Value (object)` | No |  |
-| `created` | `[]const u8` | No |  |
-| `id` | `[]const u8` | No |  |
-| `isActive` | `bool` | No |  |
-| `location` | `Value (object)` | Yes |  |
-| `modified` | `[]const u8` | No |  |
-| `name` | `[]const u8` | No |  |
-| `parent` | `Value (object)` | No |  |
-| `partnerId` | `[]const u8` | No |  |
-| `reference` | `[]const u8` | No |  |
-| `verificationPhrase` | `[]const u8` | No |  |
-| `version` | `i64` | No |  |
+| `billingId` | `[]const u8` | No | The Partner's billing identifier. |
+| `clientCanOrderEquipment` | `bool` | No | This property indicates if the Partner is allowed to order Equipment. |
+| `contact` | `Value (object)` | No | Reference to the associated User resource. |
+| `created` | `[]const u8` | No | Creation timestamp in ISO 8601 format. |
+| `id` | `[]const u8` | No | This resource's unique identifier. |
+| `isActive` | `bool` | No | This property indicates if the Parter account is active or disabled. |
+| `location` | `Value (object)` | Yes | Reference to the associated Location resource. |
+| `modified` | `[]const u8` | No | Last modified timestamp. |
+| `name` | `[]const u8` | No | The Partner's name. |
+| `parent` | `Value (object)` | No | Reference to the associated Partner. |
+| `partnerId` | `[]const u8` | No | The Partner's id. |
+| `reference` | `[]const u8` | No | The Partner's reference string. |
+| `verificationPhrase` | `[]const u8` | No | The verification phrase is a message that the Partner creates. |
+| `version` | `i64` | No | The number of times that this resource has been updated. |
 
 ### Field Usage by Operation
 
@@ -1331,20 +1331,20 @@ const shipment = client.shipment(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `carrier` | `[]const u8` | No |  |
-| `client` | `Value (object)` | No |  |
-| `created` | `[]const u8` | No |  |
-| `dateReceived` | `[]const u8` | No |  |
-| `dateShipped` | `[]const u8` | No |  |
-| `dcKif` | `Value (object)` | No |  |
-| `id` | `[]const u8` | No |  |
+| `carrier` | `[]const u8` | No | The name of the courier. |
+| `client` | `Value (object)` | No | Reference to the associated Client resource. |
+| `created` | `[]const u8` | No | Creation timestamp in ISO 8601 format. |
+| `dateReceived` | `[]const u8` | No | The date and time that a package is recieved. |
+| `dateShipped` | `[]const u8` | No | The date and time that a package is shipped. |
+| `dcKif` | `Value (object)` | No | Reference to the associated KIF resource. |
+| `id` | `[]const u8` | No | This resource's unique identifier. |
 | `items` | `Value (array)` | No |  |
-| `kif` | `Value (object)` | No |  |
-| `modified` | `[]const u8` | No |  |
-| `partner` | `Value (object)` | No |  |
-| `shipmentType` | `[]const u8` | No |  |
-| `tracking` | `[]const u8` | No |  |
-| `version` | `i64` | No |  |
+| `kif` | `Value (object)` | No | Reference to the associated KIF resource. |
+| `modified` | `[]const u8` | No | Last modified timestamp. |
+| `partner` | `Value (object)` | No | Reference to the associated Partner. |
+| `shipmentType` | `[]const u8` | No | The type of shipment. |
+| `tracking` | `[]const u8` | No | The courier's tracking number. |
+| `version` | `i64` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1413,7 +1413,7 @@ const success = client.success(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `bool` | No |  |
+| `success` | `bool` | No | Indicates if the action was a success. |
 
 ### Operations
 
@@ -1472,30 +1472,30 @@ const transaction = client.transaction(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `alternateKey` | `[]const u8` | No |  |
-| `client` | `Value (object)` | No |  |
-| `clientRef` | `[]const u8` | No |  |
-| `created` | `[]const u8` | No |  |
-| `decrypted` | `i64` | No |  |
-| `deviceName` | `[]const u8` | No |  |
-| `directPartner` | `Value (object)` | No |  |
-| `encrypted` | `i64` | No |  |
-| `endDate` | `[]const u8` | No |  |
-| `errCode` | `[]const u8` | No |  |
-| `errMessage` | `[]const u8` | No |  |
-| `id` | `[]const u8` | No |  |
-| `ipAddress` | `[]const u8` | No |  |
-| `isVirtual` | `bool` | No |  |
-| `keyType` | `[]const u8` | No |  |
-| `location` | `Value (object)` | Yes |  |
-| `messageId` | `[]const u8` | No |  |
-| `method` | `[]const u8` | No |  |
-| `partner` | `Value (object)` | No |  |
-| `reference` | `[]const u8` | No |  |
-| `serialNumber` | `[]const u8` | No |  |
-| `startDate` | `[]const u8` | No |  |
-| `success` | `bool` | No |  |
-| `transactionSource` | `[]const u8` | No |  |
+| `alternateKey` | `[]const u8` | No | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `client` | `Value (object)` | No | Reference to the associated Client resource. |
+| `clientRef` | `[]const u8` | No | Client Reference property that is included in the decrypt API call. |
+| `created` | `[]const u8` | No | Creation timestamp in ISO 8601 format. |
+| `decrypted` | `i64` | No | A Transcation can process muliple decryptions. |
+| `deviceName` | `[]const u8` | No | The name of the Device that generated the payload to decrypt. |
+| `directPartner` | `Value (object)` | No | Reference to the associated Partner. |
+| `encrypted` | `i64` | No | A Transcation can process muliple encryptions. |
+| `endDate` | `[]const u8` | No | Timestamp from the end of the transaction. |
+| `errCode` | `[]const u8` | No | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `[]const u8` | No | The error messge that is sent in response to a failed decrypt API call. |
+| `id` | `[]const u8` | No | This resource's unique identifier. |
+| `ipAddress` | `[]const u8` | No | The IP address of the http client that makes the decrypt API call. |
+| `isVirtual` | `bool` | No | Indicates if the Transaction came from a virtual Device. |
+| `keyType` | `[]const u8` | No | The type of cipher used during decrytion. |
+| `location` | `Value (object)` | Yes | Reference to the associated Location resource. |
+| `messageId` | `[]const u8` | No | Message ID. |
+| `method` | `[]const u8` | No | The decryption cypher/method. |
+| `partner` | `Value (object)` | No | Reference to the associated Partner. |
+| `reference` | `[]const u8` | No | The reference property that the Client includes in the decrypt API call. |
+| `serialNumber` | `[]const u8` | No | The serial number of the Device that generated the payload to decrypt. |
+| `startDate` | `[]const u8` | No | Timestamp from the beginning of the transaction. |
+| `success` | `bool` | No | The success indicator. |
+| `transactionSource` | `[]const u8` | No | The source of the Transaction. |
 
 ### Operations
 
@@ -1565,18 +1565,18 @@ const update_result = client.update_result(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `client` | `Value (object)` | No |  |
-| `email` | `[]const u8` | No |  |
-| `firstName` | `[]const u8` | No |  |
-| `id` | `[]const u8` | No |  |
-| `isActive` | `bool` | No |  |
-| `kif` | `Value (object)` | No |  |
-| `lastName` | `[]const u8` | No |  |
-| `partner` | `Value (object)` | No |  |
-| `phone` | `[]const u8` | No |  |
-| `userName` | `[]const u8` | No |  |
-| `userRole` | `Value (object)` | No |  |
-| `version` | `i64` | No |  |
+| `client` | `Value (object)` | No | Reference to the associated Client resource. |
+| `email` | `[]const u8` | No | The User's email address. |
+| `firstName` | `[]const u8` | No | The User's name. |
+| `id` | `[]const u8` | No | ID of newly created resource |
+| `isActive` | `bool` | No | This property indicates if the User account is active or disabled. |
+| `kif` | `Value (object)` | No | Reference to the associated KIF resource. |
+| `lastName` | `[]const u8` | No | The User's Surname. |
+| `partner` | `Value (object)` | No | Reference to the associated Partner. |
+| `phone` | `[]const u8` | No | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | `[]const u8` | No | The User's unique username. |
+| `userRole` | `Value (object)` | No | Reference to the associated User Role. |
+| `version` | `i64` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1648,20 +1648,20 @@ const user = client.user(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `client` | `Value (object)` | No |  |
-| `created` | `[]const u8` | No |  |
-| `email` | `[]const u8` | No |  |
-| `firstName` | `[]const u8` | No |  |
-| `id` | `[]const u8` | No |  |
-| `isActive` | `bool` | No |  |
-| `kif` | `Value (object)` | No |  |
-| `lastName` | `[]const u8` | No |  |
-| `modified` | `[]const u8` | No |  |
-| `partner` | `Value (object)` | No |  |
-| `phone` | `[]const u8` | No |  |
-| `userName` | `[]const u8` | No |  |
-| `userRole` | `Value (object)` | No |  |
-| `version` | `i64` | No |  |
+| `client` | `Value (object)` | No | Reference to the associated Client resource. |
+| `created` | `[]const u8` | No | Creation timestamp in ISO 8601 format. |
+| `email` | `[]const u8` | No | The User's email address. |
+| `firstName` | `[]const u8` | No | The User's name. |
+| `id` | `[]const u8` | No | This resource's unique identifier. |
+| `isActive` | `bool` | No | This property indicates if the User account is active or disabled. |
+| `kif` | `Value (object)` | No | Reference to the associated KIF resource. |
+| `lastName` | `[]const u8` | No | The User's Surname. |
+| `modified` | `[]const u8` | No | Last modified timestamp. |
+| `partner` | `Value (object)` | No | Reference to the associated Partner. |
+| `phone` | `[]const u8` | No | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | `[]const u8` | No | The User's unique username. |
+| `userRole` | `Value (object)` | No | Reference to the associated User Role. |
+| `version` | `i64` | No | The number of times that this resource has been updated. |
 
 ### Operations
 

@@ -17,7 +17,10 @@ package BluefinDecryptxP2peConfig;
 my $CONFIG_JSON = <<'END_CONFIG_JSON';
 {
   "main": {
-    "name": "BluefinDecryptxP2pe"
+    "name": "BluefinDecryptxP2pe",
+    "slug": "bluefin-decryptx-p2pe",
+    "version": "0.0.1",
+    "target": "perl"
   },
   "feature": {
     "test": {
@@ -64,30 +67,37 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
       "fields": [
         {
           "name": "client",
+          "short": "Reference to the associated Client resource.",
           "type": "`$OBJECT`"
         },
         {
           "name": "completeDate",
+          "short": "The date and time that the Attestation took place.",
           "type": "`$STRING`"
         },
         {
           "name": "created",
+          "short": "Creation timestamp in ISO 8601 format.",
           "type": "`$STRING`"
         },
         {
           "name": "device",
+          "short": "Reference to the associated Device resource.",
           "type": "`$OBJECT`"
         },
         {
           "name": "id",
+          "short": "This resource's unique identifier.",
           "type": "`$STRING`"
         },
         {
           "name": "name",
+          "short": "Text describing the attestation.",
           "type": "`$STRING`"
         },
         {
           "name": "notes",
+          "short": "Free form field that allows the Client associate notes with the Attestation.",
           "type": "`$STRING`"
         }
       ],
@@ -213,47 +223,58 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "type": "`$OBJECT`"
             }
           },
+          "short": "Reference to the associated User resource.",
           "type": "`$OBJECT`"
         },
         {
           "name": "created",
+          "short": "Creation timestamp in ISO 8601 format.",
           "type": "`$STRING`"
         },
         {
           "name": "directPartner",
+          "short": "Reference to the associated Partner.",
           "type": "`$OBJECT`"
         },
         {
           "name": "id",
+          "short": "This resource's unique identifier.",
           "type": "`$STRING`"
         },
         {
           "name": "isActive",
+          "short": "This property indicates if the Client account is active or disabled.",
           "type": "`$BOOLEAN`"
         },
         {
           "name": "location",
           "req": true,
+          "short": "Reference to the associated Location resource.",
           "type": "`$OBJECT`"
         },
         {
           "name": "mid",
+          "short": "Some Partners will have an merchant ids on their own software offerings.",
           "type": "`$STRING`"
         },
         {
           "name": "modified",
+          "short": "Last modified timestamp.",
           "type": "`$STRING`"
         },
         {
           "name": "name",
+          "short": "The Client's name.",
           "type": "`$STRING`"
         },
         {
           "name": "partner",
+          "short": "Reference to the Client's root Partner.",
           "type": "`$OBJECT`"
         },
         {
           "name": "version",
+          "short": "The number of times that this resource has been updated.",
           "type": "`$INTEGER`"
         }
       ],
@@ -472,6 +493,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
       "fields": [
         {
           "name": "success",
+          "short": "true if the payload decryption was successful.",
           "type": "`$BOOLEAN`"
         }
       ],
@@ -507,118 +529,146 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
         {
           "name": "activatedBy",
           "req": true,
+          "short": "Reference to the associated User resource.",
           "type": "`$OBJECT`"
         },
         {
           "name": "activationDate",
+          "short": "Timestamp from when the Device was activated.",
           "type": "`$STRING`"
         },
         {
           "name": "alternateKey",
+          "short": "The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging.",
           "type": "`$STRING`"
         },
         {
           "name": "auditNextDate",
+          "short": "Date and time that the Device is due its next PCI Audit.",
           "type": "`$STRING`"
         },
         {
           "name": "auditNotificationDate",
+          "short": "Date and time that a notification should be sent that a PCI audit is due.",
           "type": "`$STRING`"
         },
         {
           "name": "client",
+          "short": "Reference to the associated Client resource.",
           "type": "`$OBJECT`"
         },
         {
           "name": "created",
+          "short": "Creation timestamp in ISO 8601 format.",
           "type": "`$STRING`"
         },
         {
           "name": "createdBy",
           "req": true,
+          "short": "Reference to the associated User resource.",
           "type": "`$OBJECT`"
         },
         {
           "name": "deviceBuild",
+          "short": "Reference to the associated Device Build resource.",
           "type": "`$OBJECT`"
         },
         {
           "name": "deviceState",
+          "short": "Reference to the associated Device State resource.",
           "type": "`$OBJECT`"
         },
         {
           "name": "deviceType",
+          "short": "Reference to the associated Device Type resource.",
           "type": "`$OBJECT`"
         },
         {
           "name": "errorCounter",
+          "short": "The number times the Device has been in error.",
           "type": "`$INTEGER`"
         },
         {
           "name": "errorLastDate",
+          "short": "Timestamp from the last time that the Device had an error.",
           "type": "`$STRING`"
         },
         {
           "name": "id",
+          "short": "The Device's unique identifier.",
           "type": "`$STRING`"
         },
         {
           "name": "initializedBy",
           "req": true,
+          "short": "Reference to the associated User resource.",
           "type": "`$OBJECT`"
         },
         {
           "name": "initializedDate",
+          "short": "Timestamp from when the Device was initialized.",
           "type": "`$STRING`"
         },
         {
           "name": "injectKey",
+          "short": "Reference to the associated Device resource.",
           "type": "`$OBJECT`"
         },
         {
           "name": "isVirtual",
+          "short": "Indicates if a Device is Virtual (represents a Device shared with a partner).",
           "type": "`$BOOLEAN`"
         },
         {
           "name": "kif",
+          "short": "Reference to the associated KIF resource.",
           "type": "`$OBJECT`"
         },
         {
           "name": "lastActivityDate",
+          "short": "Timestamp from the last time that the Device was used.",
           "type": "`$STRING`"
         },
         {
           "name": "location",
           "req": true,
+          "short": "Reference to the associated Location resource.",
           "type": "`$OBJECT`"
         },
         {
           "name": "modified",
+          "short": "Last modified timestamp.",
           "type": "`$STRING`"
         },
         {
           "name": "modifiedBy",
           "req": true,
+          "short": "Reference to the associated User resource.",
           "type": "`$OBJECT`"
         },
         {
           "name": "name",
+          "short": "The Device's name.",
           "type": "`$STRING`"
         },
         {
           "name": "notes",
+          "short": "Arbitary note that can be attached to a Device entry.",
           "type": "`$STRING`"
         },
         {
           "name": "partner",
+          "short": "Reference to the associated Partner.",
           "type": "`$OBJECT`"
         },
         {
           "name": "serialNumber",
+          "short": "The Device's serial number.",
           "type": "`$STRING`"
         },
         {
           "name": "version",
+          "short": "The number of times that this resource has been updated.",
           "type": "`$INTEGER`"
         }
       ],
@@ -829,62 +879,77 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
       "fields": [
         {
           "name": "appVersion",
+          "short": "If a Device Type has more than one Application Code version the supported version is specified here.",
           "type": "`$STRING`"
         },
         {
           "name": "buildNumber",
+          "short": "The Build Number.",
           "type": "`$STRING`"
         },
         {
           "name": "configFileName",
+          "short": "The name of the configuration file that is uploaded to the device.",
           "type": "`$STRING`"
         },
         {
           "name": "created",
+          "short": "Creation timestamp in ISO 8601 format.",
           "type": "`$STRING`"
         },
         {
           "name": "deviceType",
+          "short": "The Device Type Name.",
           "type": "`$STRING`"
         },
         {
           "name": "firmwareVersion",
+          "short": "A list of firmware versions that this Device Build covers.",
           "type": "`$STRING`"
         },
         {
           "name": "hardwareVersion",
+          "short": "A list of hardware versions that this Device Build covers.",
           "type": "`$STRING`"
         },
         {
           "name": "id",
+          "short": "This resource's unique identifier.",
           "type": "`$INTEGER`"
         },
         {
           "name": "isActive",
+          "short": "This property indicates if the device build is still active and not succeeded by subsequent build.",
           "type": "`$BOOLEAN`"
         },
         {
           "name": "modified",
+          "short": "Last modified timestamp.",
           "type": "`$STRING`"
         },
         {
           "name": "name",
+          "short": "The Device Builds's name.",
           "type": "`$STRING`"
         },
         {
           "name": "notes",
+          "short": "Notes attached to the device build by Bluefin CISO.",
           "type": "`$STRING`"
         },
         {
           "name": "version",
+          "short": "The number of times that this resource has been updated.",
           "type": "`$INTEGER`"
         },
         {
           "name": "whiteListingBinRanges",
+          "short": "A comma separated list of BIN ranges that aren't encrypted by the terminal.",
           "type": "`$STRING`"
         },
         {
           "name": "whiteListingUsed",
+          "short": "This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal.",
           "type": "`$BOOLEAN`"
         }
       ],
@@ -983,58 +1048,71 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
       "fields": [
         {
           "name": "completeDate",
+          "short": "The date and time that the Custody change took place.",
           "type": "`$STRING`"
         },
         {
           "name": "created",
+          "short": "Creation timestamp in ISO 8601 format.",
           "type": "`$STRING`"
         },
         {
           "name": "createdBy",
           "req": true,
+          "short": "Reference to the associated User resource.",
           "type": "`$OBJECT`"
         },
         {
           "name": "custodian",
           "req": true,
+          "short": "Reference to the associated User resource.",
           "type": "`$OBJECT`"
         },
         {
           "name": "device",
+          "short": "Reference to the associated Device resource.",
           "type": "`$OBJECT`"
         },
         {
           "name": "id",
+          "short": "This resource's unique identifier.",
           "type": "`$INTEGER`"
         },
         {
           "name": "location",
           "req": true,
+          "short": "Reference to the associated Location resource.",
           "type": "`$OBJECT`"
         },
         {
           "name": "modified",
+          "short": "Last modified timestamp.",
           "type": "`$STRING`"
         },
         {
           "name": "modifiedBy",
           "req": true,
+          "short": "Reference to the associated User resource.",
           "type": "`$OBJECT`"
         },
         {
           "name": "notes",
+          "short": "Free form field that allows the Client associate notes with the Custody Change.",
           "type": "`$STRING`"
         },
         {
           "name": "status",
+          "short": "Reference to the associated Custody Status.",
           "type": "`$OBJECT`"
         },
         {
           "name": "transferMethod",
+          "short": "Reference to the associated Transfer Method.",
           "type": "`$OBJECT`"
         },
         {
           "name": "version",
+          "short": "The number of times that this resource has been updated.",
           "type": "`$INTEGER`"
         }
       ],
@@ -1113,58 +1191,71 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
       "fields": [
         {
           "name": "completeDate",
+          "short": "The date and time that the Custody change took place.",
           "type": "`$STRING`"
         },
         {
           "name": "created",
+          "short": "Creation timestamp in ISO 8601 format.",
           "type": "`$STRING`"
         },
         {
           "name": "createdBy",
           "req": true,
+          "short": "Reference to the associated User resource.",
           "type": "`$OBJECT`"
         },
         {
           "name": "custodian",
           "req": true,
+          "short": "Reference to the associated User resource.",
           "type": "`$OBJECT`"
         },
         {
           "name": "device",
+          "short": "Reference to the associated Device resource.",
           "type": "`$OBJECT`"
         },
         {
           "name": "id",
+          "short": "This resource's unique identifier.",
           "type": "`$INTEGER`"
         },
         {
           "name": "location",
           "req": true,
+          "short": "Reference to the associated Location resource.",
           "type": "`$OBJECT`"
         },
         {
           "name": "modified",
+          "short": "Last modified timestamp.",
           "type": "`$STRING`"
         },
         {
           "name": "modifiedBy",
           "req": true,
+          "short": "Reference to the associated User resource.",
           "type": "`$OBJECT`"
         },
         {
           "name": "notes",
+          "short": "Free form field that allows the Client associate notes with the Custody Change.",
           "type": "`$STRING`"
         },
         {
           "name": "status",
+          "short": "Reference to the associated Custody Status.",
           "type": "`$OBJECT`"
         },
         {
           "name": "transferMethod",
+          "short": "Reference to the associated Transfer Method.",
           "type": "`$OBJECT`"
         },
         {
           "name": "version",
+          "short": "The number of times that this resource has been updated.",
           "type": "`$INTEGER`"
         }
       ],
@@ -1252,10 +1343,12 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
       "fields": [
         {
           "name": "data",
+          "short": "List of Devices.",
           "type": "`$ARRAY`"
         },
         {
           "name": "total",
+          "short": "Total number of Devices available (not the number of Users in the response).",
           "type": "`$INTEGER`"
         }
       ],
@@ -1349,6 +1442,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
         {
           "name": "success",
           "req": true,
+          "short": "Indicates if the action succeeded.",
           "type": "`$BOOLEAN`"
         }
       ],
@@ -1385,6 +1479,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
         {
           "name": "success",
           "req": true,
+          "short": "Indicates if the RKI activation succeeded.",
           "type": "`$BOOLEAN`"
         }
       ],
@@ -1421,10 +1516,12 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
       "fields": [
         {
           "name": "id",
+          "short": "Unique identifier for this Device state.",
           "type": "`$INTEGER`"
         },
         {
           "name": "name",
+          "short": "Descriptive name for this Device state.",
           "type": "`$STRING`"
         }
       ],
@@ -1459,38 +1556,47 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
       "fields": [
         {
           "name": "created",
+          "short": "Creation timestamp in ISO 8601 format.",
           "type": "`$STRING`"
         },
         {
           "name": "deviceTypeMode",
+          "short": "The Device type.",
           "type": "`$STRING`"
         },
         {
           "name": "hardwareVersion",
+          "short": "The Device hardware version.",
           "type": "`$STRING`"
         },
         {
           "name": "id",
+          "short": "Unique idenifier.",
           "type": "`$STRING`"
         },
         {
           "name": "isActive",
+          "short": "This property indicates if the DeviceType is active.",
           "type": "`$BOOLEAN`"
         },
         {
           "name": "manufacturer",
+          "short": "The Device manufacturer.",
           "type": "`$STRING`"
         },
         {
           "name": "model",
+          "short": "The Device model.",
           "type": "`$STRING`"
         },
         {
           "name": "modified",
+          "short": "Last modified timestamp.",
           "type": "`$STRING`"
         },
         {
           "name": "name",
+          "short": "The DeviceType name.",
           "type": "`$STRING`"
         },
         {
@@ -1499,10 +1605,12 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
         },
         {
           "name": "productName",
+          "short": "The Device name.",
           "type": "`$STRING`"
         },
         {
           "name": "version",
+          "short": "The number of times that this resource has been updated.",
           "type": "`$INTEGER`"
         }
       ],
@@ -1572,34 +1680,42 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
       "fields": [
         {
           "name": "created",
+          "short": "Creation timestamp in ISO 8601 format.",
           "type": "`$STRING`"
         },
         {
           "name": "id",
+          "short": "unique idenifier",
           "type": "`$STRING`"
         },
         {
           "name": "isActive",
+          "short": "Active flag, inactive keys cannot be assigned to devices.",
           "type": "`$BOOLEAN`"
         },
         {
           "name": "isP2PE",
+          "short": "Flags if a key is for a P2PE compliant cypher.",
           "type": "`$BOOLEAN`"
         },
         {
           "name": "keyType",
+          "short": "The cipher type that the key works with.",
           "type": "`$STRING`"
         },
         {
           "name": "modified",
+          "short": "Last modified timestamp in ISO 8601 format.",
           "type": "`$STRING`"
         },
         {
           "name": "name",
+          "short": "Key name.",
           "type": "`$STRING`"
         },
         {
           "name": "version",
+          "short": "The number of times that this resource has been updated.",
           "type": "`$INTEGER`"
         }
       ],
@@ -1669,10 +1785,12 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
       "fields": [
         {
           "name": "id",
+          "short": "This resource's unique identifier.",
           "type": "`$INTEGER`"
         },
         {
           "name": "name",
+          "short": "The KIF's name.",
           "type": "`$STRING`"
         }
       ],
@@ -1707,94 +1825,117 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
       "fields": [
         {
           "name": "address1",
+          "short": "The Location's street address.",
           "type": "`$STRING`"
         },
         {
           "name": "address2",
+          "short": "The Location's street address.",
           "type": "`$STRING`"
         },
         {
           "name": "billingId",
+          "short": "\\?",
           "type": "`$STRING`"
         },
         {
           "name": "city",
+          "short": "The Location's city.",
           "type": "`$STRING`"
         },
         {
           "name": "country",
+          "short": "The Location's country.",
           "type": "`$STRING`"
         },
         {
           "name": "created",
+          "short": "Creation timestamp in ISO 8601 format.",
           "type": "`$STRING`"
         },
         {
           "name": "customReference",
+          "short": "A Partner specified reference for a location.",
           "type": "`$STRING`"
         },
         {
           "name": "id",
+          "short": "This resource's unique identifier.",
           "type": "`$STRING`"
         },
         {
           "name": "locationType",
+          "short": "The Location's clasification.",
           "type": "`$STRING`"
         },
         {
           "name": "mailAddress1",
+          "short": "The Location's street address.",
           "type": "`$STRING`"
         },
         {
           "name": "mailAddress2",
+          "short": "The Location's street address.",
           "type": "`$STRING`"
         },
         {
           "name": "mailCity",
+          "short": "The Location's city.",
           "type": "`$STRING`"
         },
         {
           "name": "mailCountry",
+          "short": "The Location's street address.",
           "type": "`$STRING`"
         },
         {
           "name": "mailPostalCode",
+          "short": "The Location's postal code.",
           "type": "`$STRING`"
         },
         {
           "name": "mailStateProvince",
+          "short": "The Location's street state or province.",
           "type": "`$STRING`"
         },
         {
           "name": "modified",
+          "short": "Last modified timestamp.",
           "type": "`$STRING`"
         },
         {
           "name": "name",
+          "short": "The Location's name.",
           "type": "`$STRING`"
         },
         {
           "name": "nameOfBusiness",
+          "short": "The name of the business at this location.",
           "type": "`$STRING`"
         },
         {
           "name": "notes",
+          "short": "Note for delivery driver.",
           "type": "`$STRING`"
         },
         {
           "name": "postalCode",
+          "short": "The Location's postal code.",
           "type": "`$STRING`"
         },
         {
           "name": "stateProvince",
+          "short": "The Location's street state or province.",
           "type": "`$STRING`"
         },
         {
           "name": "uniqueId",
+          "short": "Unique Identifier for the Location.",
           "type": "`$STRING`"
         },
         {
           "name": "version",
+          "short": "The number of times that this resource has been updated.",
           "type": "`$INTEGER`"
         }
       ],
@@ -1949,10 +2090,12 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
       "fields": [
         {
           "name": "billingId",
+          "short": "The Partner's billing identifier.",
           "type": "`$STRING`"
         },
         {
           "name": "clientCanOrderEquipment",
+          "short": "This property indicates if the Partner is allowed to order Equipment.",
           "type": "`$BOOLEAN`"
         },
         {
@@ -1963,51 +2106,63 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "type": "`$OBJECT`"
             }
           },
+          "short": "Reference to the associated User resource.",
           "type": "`$OBJECT`"
         },
         {
           "name": "created",
+          "short": "Creation timestamp in ISO 8601 format.",
           "type": "`$STRING`"
         },
         {
           "name": "id",
+          "short": "This resource's unique identifier.",
           "type": "`$STRING`"
         },
         {
           "name": "isActive",
+          "short": "This property indicates if the Parter account is active or disabled.",
           "type": "`$BOOLEAN`"
         },
         {
           "name": "location",
           "req": true,
+          "short": "Reference to the associated Location resource.",
           "type": "`$OBJECT`"
         },
         {
           "name": "modified",
+          "short": "Last modified timestamp.",
           "type": "`$STRING`"
         },
         {
           "name": "name",
+          "short": "The Partner's name.",
           "type": "`$STRING`"
         },
         {
           "name": "parent",
+          "short": "Reference to the associated Partner.",
           "type": "`$OBJECT`"
         },
         {
           "name": "partnerId",
+          "short": "The Partner's id.",
           "type": "`$STRING`"
         },
         {
           "name": "reference",
+          "short": "The Partner's reference string.",
           "type": "`$STRING`"
         },
         {
           "name": "verificationPhrase",
+          "short": "The verification phrase is a message that the Partner creates.",
           "type": "`$STRING`"
         },
         {
           "name": "version",
+          "short": "The number of times that this resource has been updated.",
           "type": "`$INTEGER`"
         }
       ],
@@ -2126,30 +2281,37 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
       "fields": [
         {
           "name": "carrier",
+          "short": "The name of the courier.",
           "type": "`$STRING`"
         },
         {
           "name": "client",
+          "short": "Reference to the associated Client resource.",
           "type": "`$OBJECT`"
         },
         {
           "name": "created",
+          "short": "Creation timestamp in ISO 8601 format.",
           "type": "`$STRING`"
         },
         {
           "name": "dateReceived",
+          "short": "The date and time that a package is recieved.",
           "type": "`$STRING`"
         },
         {
           "name": "dateShipped",
+          "short": "The date and time that a package is shipped.",
           "type": "`$STRING`"
         },
         {
           "name": "dcKif",
+          "short": "Reference to the associated KIF resource.",
           "type": "`$OBJECT`"
         },
         {
           "name": "id",
+          "short": "This resource's unique identifier.",
           "type": "`$STRING`"
         },
         {
@@ -2158,26 +2320,32 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
         },
         {
           "name": "kif",
+          "short": "Reference to the associated KIF resource.",
           "type": "`$OBJECT`"
         },
         {
           "name": "modified",
+          "short": "Last modified timestamp.",
           "type": "`$STRING`"
         },
         {
           "name": "partner",
+          "short": "Reference to the associated Partner.",
           "type": "`$OBJECT`"
         },
         {
           "name": "shipmentType",
+          "short": "The type of shipment.",
           "type": "`$STRING`"
         },
         {
           "name": "tracking",
+          "short": "The courier's tracking number.",
           "type": "`$STRING`"
         },
         {
           "name": "version",
+          "short": "The number of times that this resource has been updated.",
           "type": "`$INTEGER`"
         }
       ],
@@ -2304,6 +2472,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
       "fields": [
         {
           "name": "success",
+          "short": "Indicates if the action was a success.",
           "type": "`$BOOLEAN`"
         }
       ],
@@ -2402,99 +2571,123 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
       "fields": [
         {
           "name": "alternateKey",
+          "short": "The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging.",
           "type": "`$STRING`"
         },
         {
           "name": "client",
+          "short": "Reference to the associated Client resource.",
           "type": "`$OBJECT`"
         },
         {
           "name": "clientRef",
+          "short": "Client Reference property that is included in the decrypt API call.",
           "type": "`$STRING`"
         },
         {
           "name": "created",
+          "short": "Creation timestamp in ISO 8601 format.",
           "type": "`$STRING`"
         },
         {
           "name": "decrypted",
+          "short": "A Transcation can process muliple decryptions.",
           "type": "`$INTEGER`"
         },
         {
           "name": "deviceName",
+          "short": "The name of the Device that generated the payload to decrypt.",
           "type": "`$STRING`"
         },
         {
           "name": "directPartner",
+          "short": "Reference to the associated Partner.",
           "type": "`$OBJECT`"
         },
         {
           "name": "encrypted",
+          "short": "A Transcation can process muliple encryptions.",
           "type": "`$INTEGER`"
         },
         {
           "name": "endDate",
+          "short": "Timestamp from the end of the transaction.",
           "type": "`$STRING`"
         },
         {
           "name": "errCode",
+          "short": "The error code that is sent in response to a failed decrypt API call.",
           "type": "`$STRING`"
         },
         {
           "name": "errMessage",
+          "short": "The error messge that is sent in response to a failed decrypt API call.",
           "type": "`$STRING`"
         },
         {
           "name": "id",
+          "short": "This resource's unique identifier.",
           "type": "`$STRING`"
         },
         {
           "name": "ipAddress",
+          "short": "The IP address of the http client that makes the decrypt API call.",
           "type": "`$STRING`"
         },
         {
           "name": "isVirtual",
+          "short": "Indicates if the Transaction came from a virtual Device.",
           "type": "`$BOOLEAN`"
         },
         {
           "name": "keyType",
+          "short": "The type of cipher used during decrytion.",
           "type": "`$STRING`"
         },
         {
           "name": "location",
           "req": true,
+          "short": "Reference to the associated Location resource.",
           "type": "`$OBJECT`"
         },
         {
           "name": "messageId",
+          "short": "Message ID.",
           "type": "`$STRING`"
         },
         {
           "name": "method",
+          "short": "The decryption cypher/method.",
           "type": "`$STRING`"
         },
         {
           "name": "partner",
+          "short": "Reference to the associated Partner.",
           "type": "`$OBJECT`"
         },
         {
           "name": "reference",
+          "short": "The reference property that the Client includes in the decrypt API call.",
           "type": "`$STRING`"
         },
         {
           "name": "serialNumber",
+          "short": "The serial number of the Device that generated the payload to decrypt.",
           "type": "`$STRING`"
         },
         {
           "name": "startDate",
+          "short": "Timestamp from the beginning of the transaction.",
           "type": "`$STRING`"
         },
         {
           "name": "success",
+          "short": "The success indicator.",
           "type": "`$BOOLEAN`"
         },
         {
           "name": "transactionSource",
+          "short": "The source of the Transaction.",
           "type": "`$STRING`"
         }
       ],
@@ -2684,50 +2877,62 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
       "fields": [
         {
           "name": "client",
+          "short": "Reference to the associated Client resource.",
           "type": "`$OBJECT`"
         },
         {
           "name": "email",
+          "short": "The User's email address.",
           "type": "`$STRING`"
         },
         {
           "name": "firstName",
+          "short": "The User's name.",
           "type": "`$STRING`"
         },
         {
           "name": "id",
+          "short": "ID of newly created resource",
           "type": "`$STRING`"
         },
         {
           "name": "isActive",
+          "short": "This property indicates if the User account is active or disabled.",
           "type": "`$BOOLEAN`"
         },
         {
           "name": "kif",
+          "short": "Reference to the associated KIF resource.",
           "type": "`$OBJECT`"
         },
         {
           "name": "lastName",
+          "short": "The User's Surname.",
           "type": "`$STRING`"
         },
         {
           "name": "partner",
+          "short": "Reference to the associated Partner.",
           "type": "`$OBJECT`"
         },
         {
           "name": "phone",
+          "short": "The User's phone number without dashes, spaces, or brackets.",
           "type": "`$STRING`"
         },
         {
           "name": "userName",
+          "short": "The User's unique username.",
           "type": "`$STRING`"
         },
         {
           "name": "userRole",
+          "short": "Reference to the associated User Role.",
           "type": "`$OBJECT`"
         },
         {
           "name": "version",
+          "short": "The number of times that this resource has been updated.",
           "type": "`$INTEGER`"
         }
       ],
@@ -3034,58 +3239,72 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
       "fields": [
         {
           "name": "client",
+          "short": "Reference to the associated Client resource.",
           "type": "`$OBJECT`"
         },
         {
           "name": "created",
+          "short": "Creation timestamp in ISO 8601 format.",
           "type": "`$STRING`"
         },
         {
           "name": "email",
+          "short": "The User's email address.",
           "type": "`$STRING`"
         },
         {
           "name": "firstName",
+          "short": "The User's name.",
           "type": "`$STRING`"
         },
         {
           "name": "id",
+          "short": "This resource's unique identifier.",
           "type": "`$STRING`"
         },
         {
           "name": "isActive",
+          "short": "This property indicates if the User account is active or disabled.",
           "type": "`$BOOLEAN`"
         },
         {
           "name": "kif",
+          "short": "Reference to the associated KIF resource.",
           "type": "`$OBJECT`"
         },
         {
           "name": "lastName",
+          "short": "The User's Surname.",
           "type": "`$STRING`"
         },
         {
           "name": "modified",
+          "short": "Last modified timestamp.",
           "type": "`$STRING`"
         },
         {
           "name": "partner",
+          "short": "Reference to the associated Partner.",
           "type": "`$OBJECT`"
         },
         {
           "name": "phone",
+          "short": "The User's phone number without dashes, spaces, or brackets.",
           "type": "`$STRING`"
         },
         {
           "name": "userName",
+          "short": "The User's unique username.",
           "type": "`$STRING`"
         },
         {
           "name": "userRole",
+          "short": "Reference to the associated User Role.",
           "type": "`$OBJECT`"
         },
         {
           "name": "version",
+          "short": "The number of times that this resource has been updated.",
           "type": "`$INTEGER`"
         }
       ],
@@ -3172,6 +3391,21 @@ END_CONFIG_JSON
 
 sub make_config {
   return Voxgig::Struct::parse_json($CONFIG_JSON);
+}
+
+# SHARED CONFIG (sdkgen rung L2).
+#
+# The SDK reads the config on every request and never writes to it, so one
+# instance is shared by every client rather than rebuilt per client - the
+# difference between parsing the embedded JSON once and once per client.
+#
+# The returned structure is SHARED: treat it as read-only. Callers that need to
+# mutate should use make_config, which always parses a fresh copy.
+my $SHARED_CONFIG;
+
+sub shared_config {
+  $SHARED_CONFIG = make_config() unless defined $SHARED_CONFIG;
+  return $SHARED_CONFIG;
 }
 
 sub make_feature {

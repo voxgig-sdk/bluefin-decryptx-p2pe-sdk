@@ -12,6 +12,9 @@ public static class SdkConfig
             ["main"] = new Dictionary<string, object?>
             {
                 ["name"] = "BluefinDecryptxP2pe",
+                ["slug"] = "bluefin-decryptx-p2pe",
+                ["version"] = "0.0.1",
+                ["target"] = "csharp",
             },
             ["feature"] = new Dictionary<string, object?>
             {
@@ -69,36 +72,43 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "client",
+                            ["short"] = "Reference to the associated Client resource.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "completeDate",
+                            ["short"] = "The date and time that the Attestation took place.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "created",
+                            ["short"] = "Creation timestamp in ISO 8601 format.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "device",
+                            ["short"] = "Reference to the associated Device resource.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "id",
+                            ["short"] = "This resource's unique identifier.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "name",
+                            ["short"] = "Text describing the attestation.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "notes",
+                            ["short"] = "Free form field that allows the Client associate notes with the Attestation.",
                             ["type"] = "`$STRING`",
                         },
                     },
@@ -258,57 +268,68 @@ public static class SdkConfig
                                     ["type"] = "`$OBJECT`",
                                 },
                             },
+                            ["short"] = "Reference to the associated User resource.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "created",
+                            ["short"] = "Creation timestamp in ISO 8601 format.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "directPartner",
+                            ["short"] = "Reference to the associated Partner.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "id",
+                            ["short"] = "This resource's unique identifier.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "isActive",
+                            ["short"] = "This property indicates if the Client account is active or disabled.",
                             ["type"] = "`$BOOLEAN`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "location",
                             ["req"] = true,
+                            ["short"] = "Reference to the associated Location resource.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "mid",
+                            ["short"] = "Some Partners will have an merchant ids on their own software offerings.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "modified",
+                            ["short"] = "Last modified timestamp.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "name",
+                            ["short"] = "The Client's name.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "partner",
+                            ["short"] = "Reference to the Client's root Partner.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "version",
+                            ["short"] = "The number of times that this resource has been updated.",
                             ["type"] = "`$INTEGER`",
                         },
                     },
@@ -587,6 +608,7 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "success",
+                            ["short"] = "true if the payload decryption was successful.",
                             ["type"] = "`$BOOLEAN`",
                         },
                     },
@@ -632,145 +654,173 @@ public static class SdkConfig
                         {
                             ["name"] = "activatedBy",
                             ["req"] = true,
+                            ["short"] = "Reference to the associated User resource.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "activationDate",
+                            ["short"] = "Timestamp from when the Device was activated.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "alternateKey",
+                            ["short"] = "The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "auditNextDate",
+                            ["short"] = "Date and time that the Device is due its next PCI Audit.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "auditNotificationDate",
+                            ["short"] = "Date and time that a notification should be sent that a PCI audit is due.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "client",
+                            ["short"] = "Reference to the associated Client resource.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "created",
+                            ["short"] = "Creation timestamp in ISO 8601 format.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "createdBy",
                             ["req"] = true,
+                            ["short"] = "Reference to the associated User resource.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "deviceBuild",
+                            ["short"] = "Reference to the associated Device Build resource.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "deviceState",
+                            ["short"] = "Reference to the associated Device State resource.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "deviceType",
+                            ["short"] = "Reference to the associated Device Type resource.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "errorCounter",
+                            ["short"] = "The number times the Device has been in error.",
                             ["type"] = "`$INTEGER`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "errorLastDate",
+                            ["short"] = "Timestamp from the last time that the Device had an error.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "id",
+                            ["short"] = "The Device's unique identifier.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "initializedBy",
                             ["req"] = true,
+                            ["short"] = "Reference to the associated User resource.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "initializedDate",
+                            ["short"] = "Timestamp from when the Device was initialized.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "injectKey",
+                            ["short"] = "Reference to the associated Device resource.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "isVirtual",
+                            ["short"] = "Indicates if a Device is Virtual (represents a Device shared with a partner).",
                             ["type"] = "`$BOOLEAN`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "kif",
+                            ["short"] = "Reference to the associated KIF resource.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "lastActivityDate",
+                            ["short"] = "Timestamp from the last time that the Device was used.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "location",
                             ["req"] = true,
+                            ["short"] = "Reference to the associated Location resource.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "modified",
+                            ["short"] = "Last modified timestamp.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "modifiedBy",
                             ["req"] = true,
+                            ["short"] = "Reference to the associated User resource.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "name",
+                            ["short"] = "The Device's name.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "notes",
+                            ["short"] = "Arbitary note that can be attached to a Device entry.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "partner",
+                            ["short"] = "Reference to the associated Partner.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "serialNumber",
+                            ["short"] = "The Device's serial number.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "version",
+                            ["short"] = "The number of times that this resource has been updated.",
                             ["type"] = "`$INTEGER`",
                         },
                     },
@@ -1032,76 +1082,91 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "appVersion",
+                            ["short"] = "If a Device Type has more than one Application Code version the supported version is specified here.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "buildNumber",
+                            ["short"] = "The Build Number.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "configFileName",
+                            ["short"] = "The name of the configuration file that is uploaded to the device.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "created",
+                            ["short"] = "Creation timestamp in ISO 8601 format.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "deviceType",
+                            ["short"] = "The Device Type Name.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "firmwareVersion",
+                            ["short"] = "A list of firmware versions that this Device Build covers.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "hardwareVersion",
+                            ["short"] = "A list of hardware versions that this Device Build covers.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "id",
+                            ["short"] = "This resource's unique identifier.",
                             ["type"] = "`$INTEGER`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "isActive",
+                            ["short"] = "This property indicates if the device build is still active and not succeeded by subsequent build.",
                             ["type"] = "`$BOOLEAN`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "modified",
+                            ["short"] = "Last modified timestamp.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "name",
+                            ["short"] = "The Device Builds's name.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "notes",
+                            ["short"] = "Notes attached to the device build by Bluefin CISO.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "version",
+                            ["short"] = "The number of times that this resource has been updated.",
                             ["type"] = "`$INTEGER`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "whiteListingBinRanges",
+                            ["short"] = "A comma separated list of BIN ranges that aren't encrypted by the terminal.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "whiteListingUsed",
+                            ["short"] = "This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal.",
                             ["type"] = "`$BOOLEAN`",
                         },
                     },
@@ -1227,70 +1292,83 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "completeDate",
+                            ["short"] = "The date and time that the Custody change took place.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "created",
+                            ["short"] = "Creation timestamp in ISO 8601 format.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "createdBy",
                             ["req"] = true,
+                            ["short"] = "Reference to the associated User resource.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "custodian",
                             ["req"] = true,
+                            ["short"] = "Reference to the associated User resource.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "device",
+                            ["short"] = "Reference to the associated Device resource.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "id",
+                            ["short"] = "This resource's unique identifier.",
                             ["type"] = "`$INTEGER`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "location",
                             ["req"] = true,
+                            ["short"] = "Reference to the associated Location resource.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "modified",
+                            ["short"] = "Last modified timestamp.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "modifiedBy",
                             ["req"] = true,
+                            ["short"] = "Reference to the associated User resource.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "notes",
+                            ["short"] = "Free form field that allows the Client associate notes with the Custody Change.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "status",
+                            ["short"] = "Reference to the associated Custody Status.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "transferMethod",
+                            ["short"] = "Reference to the associated Transfer Method.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "version",
+                            ["short"] = "The number of times that this resource has been updated.",
                             ["type"] = "`$INTEGER`",
                         },
                     },
@@ -1390,70 +1468,83 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "completeDate",
+                            ["short"] = "The date and time that the Custody change took place.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "created",
+                            ["short"] = "Creation timestamp in ISO 8601 format.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "createdBy",
                             ["req"] = true,
+                            ["short"] = "Reference to the associated User resource.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "custodian",
                             ["req"] = true,
+                            ["short"] = "Reference to the associated User resource.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "device",
+                            ["short"] = "Reference to the associated Device resource.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "id",
+                            ["short"] = "This resource's unique identifier.",
                             ["type"] = "`$INTEGER`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "location",
                             ["req"] = true,
+                            ["short"] = "Reference to the associated Location resource.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "modified",
+                            ["short"] = "Last modified timestamp.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "modifiedBy",
                             ["req"] = true,
+                            ["short"] = "Reference to the associated User resource.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "notes",
+                            ["short"] = "Free form field that allows the Client associate notes with the Custody Change.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "status",
+                            ["short"] = "Reference to the associated Custody Status.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "transferMethod",
+                            ["short"] = "Reference to the associated Transfer Method.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "version",
+                            ["short"] = "The number of times that this resource has been updated.",
                             ["type"] = "`$INTEGER`",
                         },
                     },
@@ -1564,11 +1655,13 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "data",
+                            ["short"] = "List of Devices.",
                             ["type"] = "`$ARRAY`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "total",
+                            ["short"] = "Total number of Devices available (not the number of Users in the response).",
                             ["type"] = "`$INTEGER`",
                         },
                     },
@@ -1686,6 +1779,7 @@ public static class SdkConfig
                         {
                             ["name"] = "success",
                             ["req"] = true,
+                            ["short"] = "Indicates if the action succeeded.",
                             ["type"] = "`$BOOLEAN`",
                         },
                     },
@@ -1732,6 +1826,7 @@ public static class SdkConfig
                         {
                             ["name"] = "success",
                             ["req"] = true,
+                            ["short"] = "Indicates if the RKI activation succeeded.",
                             ["type"] = "`$BOOLEAN`",
                         },
                     },
@@ -1778,11 +1873,13 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "id",
+                            ["short"] = "Unique identifier for this Device state.",
                             ["type"] = "`$INTEGER`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "name",
+                            ["short"] = "Descriptive name for this Device state.",
                             ["type"] = "`$STRING`",
                         },
                     },
@@ -1827,46 +1924,55 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "created",
+                            ["short"] = "Creation timestamp in ISO 8601 format.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "deviceTypeMode",
+                            ["short"] = "The Device type.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "hardwareVersion",
+                            ["short"] = "The Device hardware version.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "id",
+                            ["short"] = "Unique idenifier.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "isActive",
+                            ["short"] = "This property indicates if the DeviceType is active.",
                             ["type"] = "`$BOOLEAN`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "manufacturer",
+                            ["short"] = "The Device manufacturer.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "model",
+                            ["short"] = "The Device model.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "modified",
+                            ["short"] = "Last modified timestamp.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "name",
+                            ["short"] = "The DeviceType name.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
@@ -1877,11 +1983,13 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "productName",
+                            ["short"] = "The Device name.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "version",
+                            ["short"] = "The number of times that this resource has been updated.",
                             ["type"] = "`$INTEGER`",
                         },
                     },
@@ -1971,41 +2079,49 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "created",
+                            ["short"] = "Creation timestamp in ISO 8601 format.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "id",
+                            ["short"] = "unique idenifier",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "isActive",
+                            ["short"] = "Active flag, inactive keys cannot be assigned to devices.",
                             ["type"] = "`$BOOLEAN`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "isP2PE",
+                            ["short"] = "Flags if a key is for a P2PE compliant cypher.",
                             ["type"] = "`$BOOLEAN`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "keyType",
+                            ["short"] = "The cipher type that the key works with.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "modified",
+                            ["short"] = "Last modified timestamp in ISO 8601 format.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "name",
+                            ["short"] = "Key name.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "version",
+                            ["short"] = "The number of times that this resource has been updated.",
                             ["type"] = "`$INTEGER`",
                         },
                     },
@@ -2095,11 +2211,13 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "id",
+                            ["short"] = "This resource's unique identifier.",
                             ["type"] = "`$INTEGER`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "name",
+                            ["short"] = "The KIF's name.",
                             ["type"] = "`$STRING`",
                         },
                     },
@@ -2144,116 +2262,139 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "address1",
+                            ["short"] = "The Location's street address.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "address2",
+                            ["short"] = "The Location's street address.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "billingId",
+                            ["short"] = "\\?",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "city",
+                            ["short"] = "The Location's city.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "country",
+                            ["short"] = "The Location's country.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "created",
+                            ["short"] = "Creation timestamp in ISO 8601 format.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "customReference",
+                            ["short"] = "A Partner specified reference for a location.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "id",
+                            ["short"] = "This resource's unique identifier.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "locationType",
+                            ["short"] = "The Location's clasification.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "mailAddress1",
+                            ["short"] = "The Location's street address.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "mailAddress2",
+                            ["short"] = "The Location's street address.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "mailCity",
+                            ["short"] = "The Location's city.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "mailCountry",
+                            ["short"] = "The Location's street address.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "mailPostalCode",
+                            ["short"] = "The Location's postal code.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "mailStateProvince",
+                            ["short"] = "The Location's street state or province.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "modified",
+                            ["short"] = "Last modified timestamp.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "name",
+                            ["short"] = "The Location's name.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "nameOfBusiness",
+                            ["short"] = "The name of the business at this location.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "notes",
+                            ["short"] = "Note for delivery driver.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "postalCode",
+                            ["short"] = "The Location's postal code.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "stateProvince",
+                            ["short"] = "The Location's street state or province.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "uniqueId",
+                            ["short"] = "Unique Identifier for the Location.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "version",
+                            ["short"] = "The number of times that this resource has been updated.",
                             ["type"] = "`$INTEGER`",
                         },
                     },
@@ -2450,11 +2591,13 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "billingId",
+                            ["short"] = "The Partner's billing identifier.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "clientCanOrderEquipment",
+                            ["short"] = "This property indicates if the Partner is allowed to order Equipment.",
                             ["type"] = "`$BOOLEAN`",
                         },
                         new Dictionary<string, object?>
@@ -2468,62 +2611,74 @@ public static class SdkConfig
                                     ["type"] = "`$OBJECT`",
                                 },
                             },
+                            ["short"] = "Reference to the associated User resource.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "created",
+                            ["short"] = "Creation timestamp in ISO 8601 format.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "id",
+                            ["short"] = "This resource's unique identifier.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "isActive",
+                            ["short"] = "This property indicates if the Parter account is active or disabled.",
                             ["type"] = "`$BOOLEAN`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "location",
                             ["req"] = true,
+                            ["short"] = "Reference to the associated Location resource.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "modified",
+                            ["short"] = "Last modified timestamp.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "name",
+                            ["short"] = "The Partner's name.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "parent",
+                            ["short"] = "Reference to the associated Partner.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "partnerId",
+                            ["short"] = "The Partner's id.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "reference",
+                            ["short"] = "The Partner's reference string.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "verificationPhrase",
+                            ["short"] = "The verification phrase is a message that the Partner creates.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "version",
+                            ["short"] = "The number of times that this resource has been updated.",
                             ["type"] = "`$INTEGER`",
                         },
                     },
@@ -2674,36 +2829,43 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "carrier",
+                            ["short"] = "The name of the courier.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "client",
+                            ["short"] = "Reference to the associated Client resource.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "created",
+                            ["short"] = "Creation timestamp in ISO 8601 format.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "dateReceived",
+                            ["short"] = "The date and time that a package is recieved.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "dateShipped",
+                            ["short"] = "The date and time that a package is shipped.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "dcKif",
+                            ["short"] = "Reference to the associated KIF resource.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "id",
+                            ["short"] = "This resource's unique identifier.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
@@ -2714,31 +2876,37 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "kif",
+                            ["short"] = "Reference to the associated KIF resource.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "modified",
+                            ["short"] = "Last modified timestamp.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "partner",
+                            ["short"] = "Reference to the associated Partner.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "shipmentType",
+                            ["short"] = "The type of shipment.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "tracking",
+                            ["short"] = "The courier's tracking number.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "version",
+                            ["short"] = "The number of times that this resource has been updated.",
                             ["type"] = "`$INTEGER`",
                         },
                     },
@@ -2898,6 +3066,7 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "success",
+                            ["short"] = "Indicates if the action was a success.",
                             ["type"] = "`$BOOLEAN`",
                         },
                     },
@@ -3027,122 +3196,146 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "alternateKey",
+                            ["short"] = "The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "client",
+                            ["short"] = "Reference to the associated Client resource.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "clientRef",
+                            ["short"] = "Client Reference property that is included in the decrypt API call.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "created",
+                            ["short"] = "Creation timestamp in ISO 8601 format.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "decrypted",
+                            ["short"] = "A Transcation can process muliple decryptions.",
                             ["type"] = "`$INTEGER`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "deviceName",
+                            ["short"] = "The name of the Device that generated the payload to decrypt.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "directPartner",
+                            ["short"] = "Reference to the associated Partner.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "encrypted",
+                            ["short"] = "A Transcation can process muliple encryptions.",
                             ["type"] = "`$INTEGER`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "endDate",
+                            ["short"] = "Timestamp from the end of the transaction.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "errCode",
+                            ["short"] = "The error code that is sent in response to a failed decrypt API call.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "errMessage",
+                            ["short"] = "The error messge that is sent in response to a failed decrypt API call.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "id",
+                            ["short"] = "This resource's unique identifier.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "ipAddress",
+                            ["short"] = "The IP address of the http client that makes the decrypt API call.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "isVirtual",
+                            ["short"] = "Indicates if the Transaction came from a virtual Device.",
                             ["type"] = "`$BOOLEAN`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "keyType",
+                            ["short"] = "The type of cipher used during decrytion.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "location",
                             ["req"] = true,
+                            ["short"] = "Reference to the associated Location resource.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "messageId",
+                            ["short"] = "Message ID.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "method",
+                            ["short"] = "The decryption cypher/method.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "partner",
+                            ["short"] = "Reference to the associated Partner.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "reference",
+                            ["short"] = "The reference property that the Client includes in the decrypt API call.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "serialNumber",
+                            ["short"] = "The serial number of the Device that generated the payload to decrypt.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "startDate",
+                            ["short"] = "Timestamp from the beginning of the transaction.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "success",
+                            ["short"] = "The success indicator.",
                             ["type"] = "`$BOOLEAN`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "transactionSource",
+                            ["short"] = "The source of the Transaction.",
                             ["type"] = "`$STRING`",
                         },
                     },
@@ -3374,61 +3567,73 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "client",
+                            ["short"] = "Reference to the associated Client resource.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "email",
+                            ["short"] = "The User's email address.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "firstName",
+                            ["short"] = "The User's name.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "id",
+                            ["short"] = "ID of newly created resource",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "isActive",
+                            ["short"] = "This property indicates if the User account is active or disabled.",
                             ["type"] = "`$BOOLEAN`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "kif",
+                            ["short"] = "Reference to the associated KIF resource.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "lastName",
+                            ["short"] = "The User's Surname.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "partner",
+                            ["short"] = "Reference to the associated Partner.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "phone",
+                            ["short"] = "The User's phone number without dashes, spaces, or brackets.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "userName",
+                            ["short"] = "The User's unique username.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "userRole",
+                            ["short"] = "Reference to the associated User Role.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "version",
+                            ["short"] = "The number of times that this resource has been updated.",
                             ["type"] = "`$INTEGER`",
                         },
                     },
@@ -3817,71 +4022,85 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "client",
+                            ["short"] = "Reference to the associated Client resource.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "created",
+                            ["short"] = "Creation timestamp in ISO 8601 format.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "email",
+                            ["short"] = "The User's email address.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "firstName",
+                            ["short"] = "The User's name.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "id",
+                            ["short"] = "This resource's unique identifier.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "isActive",
+                            ["short"] = "This property indicates if the User account is active or disabled.",
                             ["type"] = "`$BOOLEAN`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "kif",
+                            ["short"] = "Reference to the associated KIF resource.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "lastName",
+                            ["short"] = "The User's Surname.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "modified",
+                            ["short"] = "Last modified timestamp.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "partner",
+                            ["short"] = "Reference to the associated Partner.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "phone",
+                            ["short"] = "The User's phone number without dashes, spaces, or brackets.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "userName",
+                            ["short"] = "The User's unique username.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "userRole",
+                            ["short"] = "Reference to the associated User Role.",
                             ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "version",
+                            ["short"] = "The number of times that this resource has been updated.",
                             ["type"] = "`$INTEGER`",
                         },
                     },
@@ -3986,6 +4205,18 @@ public static class SdkConfig
                 },
             },
         };
+    }
+
+    private static readonly Lazy<Dictionary<string, object?>> SharedConfigVal =
+        new(MakeConfig);
+
+    // The process-wide config, built once on first use.
+    //
+    // The returned dictionary is SHARED: treat it as read-only. Callers that
+    // need to mutate should use MakeConfig, which always returns a fresh copy.
+    public static Dictionary<string, object?> SharedConfig()
+    {
+        return SharedConfigVal.Value;
     }
 
     public static Feature.BaseFeature MakeFeature(string name)

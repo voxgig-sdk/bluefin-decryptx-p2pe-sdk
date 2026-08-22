@@ -18,8 +18,17 @@ class Config {
     return fc();
   }
 
+  // False for a feature added at runtime via options.extend (station's
+  // adopt path) - the constructor uses this to skip makeFeature for names
+  // no generated class backs.
+  bool hasFeature(String fn) => null != FEATURE_CLASS[fn];
+
   final Map<String, dynamic> main = <String, dynamic>{
     'name': 'BluefinDecryptxP2pe',
+        'slug': 'bluefin-decryptx-p2pe',
+    'version': '0.0.1',
+    'target': 'dart',
+
   };
 
   final Map<String, dynamic> feature = <String, dynamic>{
@@ -31,19 +40,21 @@ class Config {
 
   };
 
+  // Rendered whole from the canonical config definition rather than assembled
+  // slot by slot. Assembling it here meant `options.server` - the OpenAPI
+  // server-variable defaults - was simply absent from this branch, so a
+  // templated server URL produced a different config either side of the
+  // threshold.
   final Map<String, dynamic> options = <String, dynamic>{
     'base': 'https://apis.p2pemanager.com/api/v1',
-
     'auth': <String, dynamic>{
       'prefix': 'Basic',
     },
-
     'headers': <String, dynamic>{
       'content-type': 'application/json',
     },
-
     'entity': <String, dynamic>{
-            'attestation': <String, dynamic>{},
+      'attestation': <String, dynamic>{},
       'client': <String, dynamic>{},
       'create_result': <String, dynamic>{},
       'decryption': <String, dynamic>{},
@@ -65,8 +76,7 @@ class Config {
       'transaction': <String, dynamic>{},
       'update_result': <String, dynamic>{},
       'user': <String, dynamic>{},
-
-    }
+    },
   };
 
   final Map<String, dynamic> entity = <String, dynamic>{
@@ -74,30 +84,37 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'client',
+          'short': 'Reference to the associated Client resource.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'completeDate',
+          'short': 'The date and time that the Attestation took place.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'created',
+          'short': 'Creation timestamp in ISO 8601 format.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'device',
+          'short': 'Reference to the associated Device resource.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'id',
+          'short': 'This resource\'s unique identifier.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'name',
+          'short': 'Text describing the attestation.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'notes',
+          'short': 'Free form field that allows the Client associate notes with the Attestation.',
           'type': '`\$STRING`',
         },
       ],
@@ -223,47 +240,58 @@ class Config {
               'type': '`\$OBJECT`',
             },
           },
+          'short': 'Reference to the associated User resource.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'created',
+          'short': 'Creation timestamp in ISO 8601 format.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'directPartner',
+          'short': 'Reference to the associated Partner.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'id',
+          'short': 'This resource\'s unique identifier.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'isActive',
+          'short': 'This property indicates if the Client account is active or disabled.',
           'type': '`\$BOOLEAN`',
         },
         <String, dynamic>{
           'name': 'location',
           'req': true,
+          'short': 'Reference to the associated Location resource.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'mid',
+          'short': 'Some Partners will have an merchant ids on their own software offerings.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'modified',
+          'short': 'Last modified timestamp.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'name',
+          'short': 'The Client\'s name.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'partner',
+          'short': 'Reference to the Client\'s root Partner.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'version',
+          'short': 'The number of times that this resource has been updated.',
           'type': '`\$INTEGER`',
         },
       ],
@@ -482,6 +510,7 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'success',
+          'short': 'true if the payload decryption was successful.',
           'type': '`\$BOOLEAN`',
         },
       ],
@@ -517,118 +546,146 @@ class Config {
         <String, dynamic>{
           'name': 'activatedBy',
           'req': true,
+          'short': 'Reference to the associated User resource.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'activationDate',
+          'short': 'Timestamp from when the Device was activated.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'alternateKey',
+          'short': 'The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device\'s casing or its packaging.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'auditNextDate',
+          'short': 'Date and time that the Device is due its next PCI Audit.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'auditNotificationDate',
+          'short': 'Date and time that a notification should be sent that a PCI audit is due.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'client',
+          'short': 'Reference to the associated Client resource.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'created',
+          'short': 'Creation timestamp in ISO 8601 format.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'createdBy',
           'req': true,
+          'short': 'Reference to the associated User resource.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'deviceBuild',
+          'short': 'Reference to the associated Device Build resource.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'deviceState',
+          'short': 'Reference to the associated Device State resource.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'deviceType',
+          'short': 'Reference to the associated Device Type resource.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'errorCounter',
+          'short': 'The number times the Device has been in error.',
           'type': '`\$INTEGER`',
         },
         <String, dynamic>{
           'name': 'errorLastDate',
+          'short': 'Timestamp from the last time that the Device had an error.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'id',
+          'short': 'The Device\'s unique identifier.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'initializedBy',
           'req': true,
+          'short': 'Reference to the associated User resource.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'initializedDate',
+          'short': 'Timestamp from when the Device was initialized.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'injectKey',
+          'short': 'Reference to the associated Device resource.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'isVirtual',
+          'short': 'Indicates if a Device is Virtual (represents a Device shared with a partner).',
           'type': '`\$BOOLEAN`',
         },
         <String, dynamic>{
           'name': 'kif',
+          'short': 'Reference to the associated KIF resource.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'lastActivityDate',
+          'short': 'Timestamp from the last time that the Device was used.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'location',
           'req': true,
+          'short': 'Reference to the associated Location resource.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'modified',
+          'short': 'Last modified timestamp.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'modifiedBy',
           'req': true,
+          'short': 'Reference to the associated User resource.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'name',
+          'short': 'The Device\'s name.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'notes',
+          'short': 'Arbitary note that can be attached to a Device entry.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'partner',
+          'short': 'Reference to the associated Partner.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'serialNumber',
+          'short': 'The Device\'s serial number.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'version',
+          'short': 'The number of times that this resource has been updated.',
           'type': '`\$INTEGER`',
         },
       ],
@@ -839,62 +896,77 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'appVersion',
+          'short': 'If a Device Type has more than one Application Code version the supported version is specified here.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'buildNumber',
+          'short': 'The Build Number.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'configFileName',
+          'short': 'The name of the configuration file that is uploaded to the device.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'created',
+          'short': 'Creation timestamp in ISO 8601 format.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'deviceType',
+          'short': 'The Device Type Name.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'firmwareVersion',
+          'short': 'A list of firmware versions that this Device Build covers.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'hardwareVersion',
+          'short': 'A list of hardware versions that this Device Build covers.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'id',
+          'short': 'This resource\'s unique identifier.',
           'type': '`\$INTEGER`',
         },
         <String, dynamic>{
           'name': 'isActive',
+          'short': 'This property indicates if the device build is still active and not succeeded by subsequent build.',
           'type': '`\$BOOLEAN`',
         },
         <String, dynamic>{
           'name': 'modified',
+          'short': 'Last modified timestamp.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'name',
+          'short': 'The Device Builds\'s name.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'notes',
+          'short': 'Notes attached to the device build by Bluefin CISO.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'version',
+          'short': 'The number of times that this resource has been updated.',
           'type': '`\$INTEGER`',
         },
         <String, dynamic>{
           'name': 'whiteListingBinRanges',
+          'short': 'A comma separated list of BIN ranges that aren\'t encrypted by the terminal.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'whiteListingUsed',
+          'short': 'This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren\'t encrypted by the terminal.',
           'type': '`\$BOOLEAN`',
         },
       ],
@@ -993,58 +1065,71 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'completeDate',
+          'short': 'The date and time that the Custody change took place.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'created',
+          'short': 'Creation timestamp in ISO 8601 format.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'createdBy',
           'req': true,
+          'short': 'Reference to the associated User resource.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'custodian',
           'req': true,
+          'short': 'Reference to the associated User resource.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'device',
+          'short': 'Reference to the associated Device resource.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'id',
+          'short': 'This resource\'s unique identifier.',
           'type': '`\$INTEGER`',
         },
         <String, dynamic>{
           'name': 'location',
           'req': true,
+          'short': 'Reference to the associated Location resource.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'modified',
+          'short': 'Last modified timestamp.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'modifiedBy',
           'req': true,
+          'short': 'Reference to the associated User resource.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'notes',
+          'short': 'Free form field that allows the Client associate notes with the Custody Change.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'status',
+          'short': 'Reference to the associated Custody Status.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'transferMethod',
+          'short': 'Reference to the associated Transfer Method.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'version',
+          'short': 'The number of times that this resource has been updated.',
           'type': '`\$INTEGER`',
         },
       ],
@@ -1123,58 +1208,71 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'completeDate',
+          'short': 'The date and time that the Custody change took place.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'created',
+          'short': 'Creation timestamp in ISO 8601 format.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'createdBy',
           'req': true,
+          'short': 'Reference to the associated User resource.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'custodian',
           'req': true,
+          'short': 'Reference to the associated User resource.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'device',
+          'short': 'Reference to the associated Device resource.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'id',
+          'short': 'This resource\'s unique identifier.',
           'type': '`\$INTEGER`',
         },
         <String, dynamic>{
           'name': 'location',
           'req': true,
+          'short': 'Reference to the associated Location resource.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'modified',
+          'short': 'Last modified timestamp.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'modifiedBy',
           'req': true,
+          'short': 'Reference to the associated User resource.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'notes',
+          'short': 'Free form field that allows the Client associate notes with the Custody Change.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'status',
+          'short': 'Reference to the associated Custody Status.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'transferMethod',
+          'short': 'Reference to the associated Transfer Method.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'version',
+          'short': 'The number of times that this resource has been updated.',
           'type': '`\$INTEGER`',
         },
       ],
@@ -1262,10 +1360,12 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'data',
+          'short': 'List of Devices.',
           'type': '`\$ARRAY`',
         },
         <String, dynamic>{
           'name': 'total',
+          'short': 'Total number of Devices available (not the number of Users in the response).',
           'type': '`\$INTEGER`',
         },
       ],
@@ -1359,6 +1459,7 @@ class Config {
         <String, dynamic>{
           'name': 'success',
           'req': true,
+          'short': 'Indicates if the action succeeded.',
           'type': '`\$BOOLEAN`',
         },
       ],
@@ -1395,6 +1496,7 @@ class Config {
         <String, dynamic>{
           'name': 'success',
           'req': true,
+          'short': 'Indicates if the RKI activation succeeded.',
           'type': '`\$BOOLEAN`',
         },
       ],
@@ -1431,10 +1533,12 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'id',
+          'short': 'Unique identifier for this Device state.',
           'type': '`\$INTEGER`',
         },
         <String, dynamic>{
           'name': 'name',
+          'short': 'Descriptive name for this Device state.',
           'type': '`\$STRING`',
         },
       ],
@@ -1469,38 +1573,47 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'created',
+          'short': 'Creation timestamp in ISO 8601 format.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'deviceTypeMode',
+          'short': 'The Device type.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'hardwareVersion',
+          'short': 'The Device hardware version.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'id',
+          'short': 'Unique idenifier.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'isActive',
+          'short': 'This property indicates if the DeviceType is active.',
           'type': '`\$BOOLEAN`',
         },
         <String, dynamic>{
           'name': 'manufacturer',
+          'short': 'The Device manufacturer.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'model',
+          'short': 'The Device model.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'modified',
+          'short': 'Last modified timestamp.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'name',
+          'short': 'The DeviceType name.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
@@ -1509,10 +1622,12 @@ class Config {
         },
         <String, dynamic>{
           'name': 'productName',
+          'short': 'The Device name.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'version',
+          'short': 'The number of times that this resource has been updated.',
           'type': '`\$INTEGER`',
         },
       ],
@@ -1582,34 +1697,42 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'created',
+          'short': 'Creation timestamp in ISO 8601 format.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'id',
+          'short': 'unique idenifier',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'isActive',
+          'short': 'Active flag, inactive keys cannot be assigned to devices.',
           'type': '`\$BOOLEAN`',
         },
         <String, dynamic>{
           'name': 'isP2PE',
+          'short': 'Flags if a key is for a P2PE compliant cypher.',
           'type': '`\$BOOLEAN`',
         },
         <String, dynamic>{
           'name': 'keyType',
+          'short': 'The cipher type that the key works with.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'modified',
+          'short': 'Last modified timestamp in ISO 8601 format.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'name',
+          'short': 'Key name.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'version',
+          'short': 'The number of times that this resource has been updated.',
           'type': '`\$INTEGER`',
         },
       ],
@@ -1679,10 +1802,12 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'id',
+          'short': 'This resource\'s unique identifier.',
           'type': '`\$INTEGER`',
         },
         <String, dynamic>{
           'name': 'name',
+          'short': 'The KIF\'s name.',
           'type': '`\$STRING`',
         },
       ],
@@ -1717,94 +1842,117 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'address1',
+          'short': 'The Location\'s street address.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'address2',
+          'short': 'The Location\'s street address.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'billingId',
+          'short': '\\?',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'city',
+          'short': 'The Location\'s city.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'country',
+          'short': 'The Location\'s country.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'created',
+          'short': 'Creation timestamp in ISO 8601 format.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'customReference',
+          'short': 'A Partner specified reference for a location.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'id',
+          'short': 'This resource\'s unique identifier.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'locationType',
+          'short': 'The Location\'s clasification.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'mailAddress1',
+          'short': 'The Location\'s street address.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'mailAddress2',
+          'short': 'The Location\'s street address.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'mailCity',
+          'short': 'The Location\'s city.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'mailCountry',
+          'short': 'The Location\'s street address.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'mailPostalCode',
+          'short': 'The Location\'s postal code.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'mailStateProvince',
+          'short': 'The Location\'s street state or province.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'modified',
+          'short': 'Last modified timestamp.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'name',
+          'short': 'The Location\'s name.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'nameOfBusiness',
+          'short': 'The name of the business at this location.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'notes',
+          'short': 'Note for delivery driver.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'postalCode',
+          'short': 'The Location\'s postal code.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'stateProvince',
+          'short': 'The Location\'s street state or province.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'uniqueId',
+          'short': 'Unique Identifier for the Location.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'version',
+          'short': 'The number of times that this resource has been updated.',
           'type': '`\$INTEGER`',
         },
       ],
@@ -1959,10 +2107,12 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'billingId',
+          'short': 'The Partner\'s billing identifier.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'clientCanOrderEquipment',
+          'short': 'This property indicates if the Partner is allowed to order Equipment.',
           'type': '`\$BOOLEAN`',
         },
         <String, dynamic>{
@@ -1973,51 +2123,63 @@ class Config {
               'type': '`\$OBJECT`',
             },
           },
+          'short': 'Reference to the associated User resource.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'created',
+          'short': 'Creation timestamp in ISO 8601 format.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'id',
+          'short': 'This resource\'s unique identifier.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'isActive',
+          'short': 'This property indicates if the Parter account is active or disabled.',
           'type': '`\$BOOLEAN`',
         },
         <String, dynamic>{
           'name': 'location',
           'req': true,
+          'short': 'Reference to the associated Location resource.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'modified',
+          'short': 'Last modified timestamp.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'name',
+          'short': 'The Partner\'s name.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'parent',
+          'short': 'Reference to the associated Partner.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'partnerId',
+          'short': 'The Partner\'s id.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'reference',
+          'short': 'The Partner\'s reference string.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'verificationPhrase',
+          'short': 'The verification phrase is a message that the Partner creates.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'version',
+          'short': 'The number of times that this resource has been updated.',
           'type': '`\$INTEGER`',
         },
       ],
@@ -2136,30 +2298,37 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'carrier',
+          'short': 'The name of the courier.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'client',
+          'short': 'Reference to the associated Client resource.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'created',
+          'short': 'Creation timestamp in ISO 8601 format.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'dateReceived',
+          'short': 'The date and time that a package is recieved.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'dateShipped',
+          'short': 'The date and time that a package is shipped.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'dcKif',
+          'short': 'Reference to the associated KIF resource.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'id',
+          'short': 'This resource\'s unique identifier.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
@@ -2168,26 +2337,32 @@ class Config {
         },
         <String, dynamic>{
           'name': 'kif',
+          'short': 'Reference to the associated KIF resource.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'modified',
+          'short': 'Last modified timestamp.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'partner',
+          'short': 'Reference to the associated Partner.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'shipmentType',
+          'short': 'The type of shipment.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'tracking',
+          'short': 'The courier\'s tracking number.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'version',
+          'short': 'The number of times that this resource has been updated.',
           'type': '`\$INTEGER`',
         },
       ],
@@ -2314,6 +2489,7 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'success',
+          'short': 'Indicates if the action was a success.',
           'type': '`\$BOOLEAN`',
         },
       ],
@@ -2412,99 +2588,123 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'alternateKey',
+          'short': 'The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device\'s casing or its packaging.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'client',
+          'short': 'Reference to the associated Client resource.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'clientRef',
+          'short': 'Client Reference property that is included in the decrypt API call.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'created',
+          'short': 'Creation timestamp in ISO 8601 format.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'decrypted',
+          'short': 'A Transcation can process muliple decryptions.',
           'type': '`\$INTEGER`',
         },
         <String, dynamic>{
           'name': 'deviceName',
+          'short': 'The name of the Device that generated the payload to decrypt.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'directPartner',
+          'short': 'Reference to the associated Partner.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'encrypted',
+          'short': 'A Transcation can process muliple encryptions.',
           'type': '`\$INTEGER`',
         },
         <String, dynamic>{
           'name': 'endDate',
+          'short': 'Timestamp from the end of the transaction.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'errCode',
+          'short': 'The error code that is sent in response to a failed decrypt API call.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'errMessage',
+          'short': 'The error messge that is sent in response to a failed decrypt API call.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'id',
+          'short': 'This resource\'s unique identifier.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'ipAddress',
+          'short': 'The IP address of the http client that makes the decrypt API call.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'isVirtual',
+          'short': 'Indicates if the Transaction came from a virtual Device.',
           'type': '`\$BOOLEAN`',
         },
         <String, dynamic>{
           'name': 'keyType',
+          'short': 'The type of cipher used during decrytion.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'location',
           'req': true,
+          'short': 'Reference to the associated Location resource.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'messageId',
+          'short': 'Message ID.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'method',
+          'short': 'The decryption cypher/method.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'partner',
+          'short': 'Reference to the associated Partner.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'reference',
+          'short': 'The reference property that the Client includes in the decrypt API call.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'serialNumber',
+          'short': 'The serial number of the Device that generated the payload to decrypt.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'startDate',
+          'short': 'Timestamp from the beginning of the transaction.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'success',
+          'short': 'The success indicator.',
           'type': '`\$BOOLEAN`',
         },
         <String, dynamic>{
           'name': 'transactionSource',
+          'short': 'The source of the Transaction.',
           'type': '`\$STRING`',
         },
       ],
@@ -2694,50 +2894,62 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'client',
+          'short': 'Reference to the associated Client resource.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'email',
+          'short': 'The User\'s email address.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'firstName',
+          'short': 'The User\'s name.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'id',
+          'short': 'ID of newly created resource',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'isActive',
+          'short': 'This property indicates if the User account is active or disabled.',
           'type': '`\$BOOLEAN`',
         },
         <String, dynamic>{
           'name': 'kif',
+          'short': 'Reference to the associated KIF resource.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'lastName',
+          'short': 'The User\'s Surname.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'partner',
+          'short': 'Reference to the associated Partner.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'phone',
+          'short': 'The User\'s phone number without dashes, spaces, or brackets.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'userName',
+          'short': 'The User\'s unique username.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'userRole',
+          'short': 'Reference to the associated User Role.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'version',
+          'short': 'The number of times that this resource has been updated.',
           'type': '`\$INTEGER`',
         },
       ],
@@ -3044,58 +3256,72 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'client',
+          'short': 'Reference to the associated Client resource.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'created',
+          'short': 'Creation timestamp in ISO 8601 format.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'email',
+          'short': 'The User\'s email address.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'firstName',
+          'short': 'The User\'s name.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'id',
+          'short': 'This resource\'s unique identifier.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'isActive',
+          'short': 'This property indicates if the User account is active or disabled.',
           'type': '`\$BOOLEAN`',
         },
         <String, dynamic>{
           'name': 'kif',
+          'short': 'Reference to the associated KIF resource.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'lastName',
+          'short': 'The User\'s Surname.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'modified',
+          'short': 'Last modified timestamp.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'partner',
+          'short': 'Reference to the associated Partner.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'phone',
+          'short': 'The User\'s phone number without dashes, spaces, or brackets.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'userName',
+          'short': 'The User\'s unique username.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'userRole',
+          'short': 'Reference to the associated User Role.',
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'version',
+          'short': 'The number of times that this resource has been updated.',
           'type': '`\$INTEGER`',
         },
       ],

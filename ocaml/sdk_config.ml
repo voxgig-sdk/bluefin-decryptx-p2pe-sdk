@@ -18,6 +18,8 @@ let make_config () : value =
           ("active", (Bool false)) ])) ])) ]));
     ("options", (jo [
       ("base", (Str "https://apis.p2pemanager.com/api/v1"));
+      ("auth", (jo [
+        ("prefix", (Str "Basic")) ]));
       ("headers", (jo [
         ("content-type", (Str "application/json")) ]));
       ("entity", (jo [
@@ -42,32 +44,37 @@ let make_config () : value =
         ("success", (empty_map ()));
         ("transaction", (empty_map ()));
         ("update_result", (empty_map ()));
-        ("user", (empty_map ())) ]));
-      ("auth", (jo [
-        ("prefix", (Str "Basic")) ])) ]));
+        ("user", (empty_map ())) ])) ]));
     ("entity", (jo [
       ("attestation", (jo [
         ("fields", (ja [
           (jo [
             ("name", (Str "client"));
+            ("short", (Str "Reference to the associated Client resource."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "completeDate"));
+            ("short", (Str "The date and time that the Attestation took place."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "created"));
+            ("short", (Str "Creation timestamp in ISO 8601 format."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "device"));
+            ("short", (Str "Reference to the associated Device resource."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "id"));
+            ("short", (Str "This resource's unique identifier."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "name"));
+            ("short", (Str "Text describing the attestation."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "notes"));
+            ("short", (Str "Free form field that allows the Client associate notes with the Attestation."));
             ("type", (Str "`$STRING`")) ]) ]));
         ("name", (Str "attestation"));
         ("op", (jo [
@@ -159,37 +166,48 @@ let make_config () : value =
               ("list", (jo [
                 ("req", (Bool true));
                 ("type", (Str "`$OBJECT`")) ])) ]));
+            ("short", (Str "Reference to the associated User resource."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "created"));
+            ("short", (Str "Creation timestamp in ISO 8601 format."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "directPartner"));
+            ("short", (Str "Reference to the associated Partner."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "id"));
+            ("short", (Str "This resource's unique identifier."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "isActive"));
+            ("short", (Str "This property indicates if the Client account is active or disabled."));
             ("type", (Str "`$BOOLEAN`")) ]);
           (jo [
             ("name", (Str "location"));
             ("req", (Bool true));
+            ("short", (Str "Reference to the associated Location resource."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "mid"));
+            ("short", (Str "Some Partners will have an merchant ids on their own software offerings."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "modified"));
+            ("short", (Str "Last modified timestamp."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "name"));
+            ("short", (Str "The Client's name."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "partner"));
+            ("short", (Str "Reference to the Client's root Partner."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "version"));
+            ("short", (Str "The number of times that this resource has been updated."));
             ("type", (Str "`$INTEGER`")) ]) ]));
         ("name", (Str "client"));
         ("op", (jo [
@@ -348,6 +366,7 @@ let make_config () : value =
         ("fields", (ja [
           (jo [
             ("name", (Str "success"));
+            ("short", (Str "true if the payload decryption was successful."));
             ("type", (Str "`$BOOLEAN`")) ]) ]));
         ("name", (Str "decryption"));
         ("op", (jo [
@@ -373,91 +392,119 @@ let make_config () : value =
           (jo [
             ("name", (Str "activatedBy"));
             ("req", (Bool true));
+            ("short", (Str "Reference to the associated User resource."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "activationDate"));
+            ("short", (Str "Timestamp from when the Device was activated."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "alternateKey"));
+            ("short", (Str "The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "auditNextDate"));
+            ("short", (Str "Date and time that the Device is due its next PCI Audit."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "auditNotificationDate"));
+            ("short", (Str "Date and time that a notification should be sent that a PCI audit is due."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "client"));
+            ("short", (Str "Reference to the associated Client resource."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "created"));
+            ("short", (Str "Creation timestamp in ISO 8601 format."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "createdBy"));
             ("req", (Bool true));
+            ("short", (Str "Reference to the associated User resource."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "deviceBuild"));
+            ("short", (Str "Reference to the associated Device Build resource."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "deviceState"));
+            ("short", (Str "Reference to the associated Device State resource."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "deviceType"));
+            ("short", (Str "Reference to the associated Device Type resource."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "errorCounter"));
+            ("short", (Str "The number times the Device has been in error."));
             ("type", (Str "`$INTEGER`")) ]);
           (jo [
             ("name", (Str "errorLastDate"));
+            ("short", (Str "Timestamp from the last time that the Device had an error."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "id"));
+            ("short", (Str "The Device's unique identifier."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "initializedBy"));
             ("req", (Bool true));
+            ("short", (Str "Reference to the associated User resource."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "initializedDate"));
+            ("short", (Str "Timestamp from when the Device was initialized."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "injectKey"));
+            ("short", (Str "Reference to the associated Device resource."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "isVirtual"));
+            ("short", (Str "Indicates if a Device is Virtual (represents a Device shared with a partner)."));
             ("type", (Str "`$BOOLEAN`")) ]);
           (jo [
             ("name", (Str "kif"));
+            ("short", (Str "Reference to the associated KIF resource."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "lastActivityDate"));
+            ("short", (Str "Timestamp from the last time that the Device was used."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "location"));
             ("req", (Bool true));
+            ("short", (Str "Reference to the associated Location resource."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "modified"));
+            ("short", (Str "Last modified timestamp."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "modifiedBy"));
             ("req", (Bool true));
+            ("short", (Str "Reference to the associated User resource."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "name"));
+            ("short", (Str "The Device's name."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "notes"));
+            ("short", (Str "Arbitary note that can be attached to a Device entry."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "partner"));
+            ("short", (Str "Reference to the associated Partner."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "serialNumber"));
+            ("short", (Str "The Device's serial number."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "version"));
+            ("short", (Str "The number of times that this resource has been updated."));
             ("type", (Str "`$INTEGER`")) ]) ]));
         ("name", (Str "device"));
         ("op", (jo [
@@ -617,48 +664,63 @@ let make_config () : value =
         ("fields", (ja [
           (jo [
             ("name", (Str "appVersion"));
+            ("short", (Str "If a Device Type has more than one Application Code version the supported version is specified here."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "buildNumber"));
+            ("short", (Str "The Build Number."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "configFileName"));
+            ("short", (Str "The name of the configuration file that is uploaded to the device."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "created"));
+            ("short", (Str "Creation timestamp in ISO 8601 format."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "deviceType"));
+            ("short", (Str "The Device Type Name."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "firmwareVersion"));
+            ("short", (Str "A list of firmware versions that this Device Build covers."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "hardwareVersion"));
+            ("short", (Str "A list of hardware versions that this Device Build covers."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "id"));
+            ("short", (Str "This resource's unique identifier."));
             ("type", (Str "`$INTEGER`")) ]);
           (jo [
             ("name", (Str "isActive"));
+            ("short", (Str "This property indicates if the device build is still active and not succeeded by subsequent build."));
             ("type", (Str "`$BOOLEAN`")) ]);
           (jo [
             ("name", (Str "modified"));
+            ("short", (Str "Last modified timestamp."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "name"));
+            ("short", (Str "The Device Builds's name."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "notes"));
+            ("short", (Str "Notes attached to the device build by Bluefin CISO."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "version"));
+            ("short", (Str "The number of times that this resource has been updated."));
             ("type", (Str "`$INTEGER`")) ]);
           (jo [
             ("name", (Str "whiteListingBinRanges"));
+            ("short", (Str "A comma separated list of BIN ranges that aren't encrypted by the terminal."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "whiteListingUsed"));
+            ("short", (Str "This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal."));
             ("type", (Str "`$BOOLEAN`")) ]) ]));
         ("name", (Str "device_build"));
         ("op", (jo [
@@ -730,46 +792,59 @@ let make_config () : value =
         ("fields", (ja [
           (jo [
             ("name", (Str "completeDate"));
+            ("short", (Str "The date and time that the Custody change took place."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "created"));
+            ("short", (Str "Creation timestamp in ISO 8601 format."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "createdBy"));
             ("req", (Bool true));
+            ("short", (Str "Reference to the associated User resource."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "custodian"));
             ("req", (Bool true));
+            ("short", (Str "Reference to the associated User resource."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "device"));
+            ("short", (Str "Reference to the associated Device resource."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "id"));
+            ("short", (Str "This resource's unique identifier."));
             ("type", (Str "`$INTEGER`")) ]);
           (jo [
             ("name", (Str "location"));
             ("req", (Bool true));
+            ("short", (Str "Reference to the associated Location resource."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "modified"));
+            ("short", (Str "Last modified timestamp."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "modifiedBy"));
             ("req", (Bool true));
+            ("short", (Str "Reference to the associated User resource."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "notes"));
+            ("short", (Str "Free form field that allows the Client associate notes with the Custody Change."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "status"));
+            ("short", (Str "Reference to the associated Custody Status."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "transferMethod"));
+            ("short", (Str "Reference to the associated Transfer Method."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "version"));
+            ("short", (Str "The number of times that this resource has been updated."));
             ("type", (Str "`$INTEGER`")) ]) ]));
         ("name", (Str "device_custody_detail"));
         ("op", (jo [
@@ -827,46 +902,59 @@ let make_config () : value =
         ("fields", (ja [
           (jo [
             ("name", (Str "completeDate"));
+            ("short", (Str "The date and time that the Custody change took place."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "created"));
+            ("short", (Str "Creation timestamp in ISO 8601 format."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "createdBy"));
             ("req", (Bool true));
+            ("short", (Str "Reference to the associated User resource."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "custodian"));
             ("req", (Bool true));
+            ("short", (Str "Reference to the associated User resource."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "device"));
+            ("short", (Str "Reference to the associated Device resource."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "id"));
+            ("short", (Str "This resource's unique identifier."));
             ("type", (Str "`$INTEGER`")) ]);
           (jo [
             ("name", (Str "location"));
             ("req", (Bool true));
+            ("short", (Str "Reference to the associated Location resource."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "modified"));
+            ("short", (Str "Last modified timestamp."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "modifiedBy"));
             ("req", (Bool true));
+            ("short", (Str "Reference to the associated User resource."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "notes"));
+            ("short", (Str "Free form field that allows the Client associate notes with the Custody Change."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "status"));
+            ("short", (Str "Reference to the associated Custody Status."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "transferMethod"));
+            ("short", (Str "Reference to the associated Transfer Method."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "version"));
+            ("short", (Str "The number of times that this resource has been updated."));
             ("type", (Str "`$INTEGER`")) ]) ]));
         ("name", (Str "device_custody_list"));
         ("op", (jo [
@@ -931,9 +1019,11 @@ let make_config () : value =
         ("fields", (ja [
           (jo [
             ("name", (Str "data"));
+            ("short", (Str "List of Devices."));
             ("type", (Str "`$ARRAY`")) ]);
           (jo [
             ("name", (Str "total"));
+            ("short", (Str "Total number of Devices available (not the number of Users in the response)."));
             ("type", (Str "`$INTEGER`")) ]) ]));
         ("name", (Str "device_list"));
         ("op", (jo [
@@ -1003,6 +1093,7 @@ let make_config () : value =
           (jo [
             ("name", (Str "success"));
             ("req", (Bool true));
+            ("short", (Str "Indicates if the action succeeded."));
             ("type", (Str "`$BOOLEAN`")) ]) ]));
         ("name", (Str "device_receive_result"));
         ("op", (jo [
@@ -1029,6 +1120,7 @@ let make_config () : value =
           (jo [
             ("name", (Str "success"));
             ("req", (Bool true));
+            ("short", (Str "Indicates if the RKI activation succeeded."));
             ("type", (Str "`$BOOLEAN`")) ]) ]));
         ("name", (Str "device_rki_activate_result"));
         ("op", (jo [
@@ -1055,9 +1147,11 @@ let make_config () : value =
         ("fields", (ja [
           (jo [
             ("name", (Str "id"));
+            ("short", (Str "Unique identifier for this Device state."));
             ("type", (Str "`$INTEGER`")) ]);
           (jo [
             ("name", (Str "name"));
+            ("short", (Str "Descriptive name for this Device state."));
             ("type", (Str "`$STRING`")) ]) ]));
         ("name", (Str "device_state"));
         ("op", (jo [
@@ -1082,39 +1176,50 @@ let make_config () : value =
         ("fields", (ja [
           (jo [
             ("name", (Str "created"));
+            ("short", (Str "Creation timestamp in ISO 8601 format."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "deviceTypeMode"));
+            ("short", (Str "The Device type."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "hardwareVersion"));
+            ("short", (Str "The Device hardware version."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "id"));
+            ("short", (Str "Unique idenifier."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "isActive"));
+            ("short", (Str "This property indicates if the DeviceType is active."));
             ("type", (Str "`$BOOLEAN`")) ]);
           (jo [
             ("name", (Str "manufacturer"));
+            ("short", (Str "The Device manufacturer."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "model"));
+            ("short", (Str "The Device model."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "modified"));
+            ("short", (Str "Last modified timestamp."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "name"));
+            ("short", (Str "The DeviceType name."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "photoUrl"));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "productName"));
+            ("short", (Str "The Device name."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "version"));
+            ("short", (Str "The number of times that this resource has been updated."));
             ("type", (Str "`$INTEGER`")) ]) ]));
         ("name", (Str "device_type"));
         ("op", (jo [
@@ -1164,27 +1269,35 @@ let make_config () : value =
         ("fields", (ja [
           (jo [
             ("name", (Str "created"));
+            ("short", (Str "Creation timestamp in ISO 8601 format."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "id"));
+            ("short", (Str "unique idenifier"));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "isActive"));
+            ("short", (Str "Active flag, inactive keys cannot be assigned to devices."));
             ("type", (Str "`$BOOLEAN`")) ]);
           (jo [
             ("name", (Str "isP2PE"));
+            ("short", (Str "Flags if a key is for a P2PE compliant cypher."));
             ("type", (Str "`$BOOLEAN`")) ]);
           (jo [
             ("name", (Str "keyType"));
+            ("short", (Str "The cipher type that the key works with."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "modified"));
+            ("short", (Str "Last modified timestamp in ISO 8601 format."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "name"));
+            ("short", (Str "Key name."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "version"));
+            ("short", (Str "The number of times that this resource has been updated."));
             ("type", (Str "`$INTEGER`")) ]) ]));
         ("name", (Str "inject_key"));
         ("op", (jo [
@@ -1234,9 +1347,11 @@ let make_config () : value =
         ("fields", (ja [
           (jo [
             ("name", (Str "id"));
+            ("short", (Str "This resource's unique identifier."));
             ("type", (Str "`$INTEGER`")) ]);
           (jo [
             ("name", (Str "name"));
+            ("short", (Str "The KIF's name."));
             ("type", (Str "`$STRING`")) ]) ]));
         ("name", (Str "kif"));
         ("op", (jo [
@@ -1261,72 +1376,95 @@ let make_config () : value =
         ("fields", (ja [
           (jo [
             ("name", (Str "address1"));
+            ("short", (Str "The Location's street address."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "address2"));
+            ("short", (Str "The Location's street address."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "billingId"));
+            ("short", (Str "\\?"));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "city"));
+            ("short", (Str "The Location's city."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "country"));
+            ("short", (Str "The Location's country."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "created"));
+            ("short", (Str "Creation timestamp in ISO 8601 format."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "customReference"));
+            ("short", (Str "A Partner specified reference for a location."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "id"));
+            ("short", (Str "This resource's unique identifier."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "locationType"));
+            ("short", (Str "The Location's clasification."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "mailAddress1"));
+            ("short", (Str "The Location's street address."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "mailAddress2"));
+            ("short", (Str "The Location's street address."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "mailCity"));
+            ("short", (Str "The Location's city."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "mailCountry"));
+            ("short", (Str "The Location's street address."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "mailPostalCode"));
+            ("short", (Str "The Location's postal code."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "mailStateProvince"));
+            ("short", (Str "The Location's street state or province."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "modified"));
+            ("short", (Str "Last modified timestamp."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "name"));
+            ("short", (Str "The Location's name."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "nameOfBusiness"));
+            ("short", (Str "The name of the business at this location."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "notes"));
+            ("short", (Str "Note for delivery driver."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "postalCode"));
+            ("short", (Str "The Location's postal code."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "stateProvince"));
+            ("short", (Str "The Location's street state or province."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "uniqueId"));
+            ("short", (Str "Unique Identifier for the Location."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "version"));
+            ("short", (Str "The number of times that this resource has been updated."));
             ("type", (Str "`$INTEGER`")) ]) ]));
         ("name", (Str "location"));
         ("op", (jo [
@@ -1439,9 +1577,11 @@ let make_config () : value =
         ("fields", (ja [
           (jo [
             ("name", (Str "billingId"));
+            ("short", (Str "The Partner's billing identifier."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "clientCanOrderEquipment"));
+            ("short", (Str "This property indicates if the Partner is allowed to order Equipment."));
             ("type", (Str "`$BOOLEAN`")) ]);
           (jo [
             ("name", (Str "contact"));
@@ -1449,40 +1589,52 @@ let make_config () : value =
               ("list", (jo [
                 ("req", (Bool true));
                 ("type", (Str "`$OBJECT`")) ])) ]));
+            ("short", (Str "Reference to the associated User resource."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "created"));
+            ("short", (Str "Creation timestamp in ISO 8601 format."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "id"));
+            ("short", (Str "This resource's unique identifier."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "isActive"));
+            ("short", (Str "This property indicates if the Parter account is active or disabled."));
             ("type", (Str "`$BOOLEAN`")) ]);
           (jo [
             ("name", (Str "location"));
             ("req", (Bool true));
+            ("short", (Str "Reference to the associated Location resource."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "modified"));
+            ("short", (Str "Last modified timestamp."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "name"));
+            ("short", (Str "The Partner's name."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "parent"));
+            ("short", (Str "Reference to the associated Partner."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "partnerId"));
+            ("short", (Str "The Partner's id."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "reference"));
+            ("short", (Str "The Partner's reference string."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "verificationPhrase"));
+            ("short", (Str "The verification phrase is a message that the Partner creates."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "version"));
+            ("short", (Str "The number of times that this resource has been updated."));
             ("type", (Str "`$INTEGER`")) ]) ]));
         ("name", (Str "partner"));
         ("op", (jo [
@@ -1569,45 +1721,58 @@ let make_config () : value =
         ("fields", (ja [
           (jo [
             ("name", (Str "carrier"));
+            ("short", (Str "The name of the courier."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "client"));
+            ("short", (Str "Reference to the associated Client resource."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "created"));
+            ("short", (Str "Creation timestamp in ISO 8601 format."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "dateReceived"));
+            ("short", (Str "The date and time that a package is recieved."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "dateShipped"));
+            ("short", (Str "The date and time that a package is shipped."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "dcKif"));
+            ("short", (Str "Reference to the associated KIF resource."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "id"));
+            ("short", (Str "This resource's unique identifier."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "items"));
             ("type", (Str "`$ARRAY`")) ]);
           (jo [
             ("name", (Str "kif"));
+            ("short", (Str "Reference to the associated KIF resource."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "modified"));
+            ("short", (Str "Last modified timestamp."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "partner"));
+            ("short", (Str "Reference to the associated Partner."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "shipmentType"));
+            ("short", (Str "The type of shipment."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "tracking"));
+            ("short", (Str "The courier's tracking number."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "version"));
+            ("short", (Str "The number of times that this resource has been updated."));
             ("type", (Str "`$INTEGER`")) ]) ]));
         ("name", (Str "shipment"));
         ("op", (jo [
@@ -1701,6 +1866,7 @@ let make_config () : value =
         ("fields", (ja [
           (jo [
             ("name", (Str "success"));
+            ("short", (Str "Indicates if the action was a success."));
             ("type", (Str "`$BOOLEAN`")) ]) ]));
         ("name", (Str "success"));
         ("op", (jo [
@@ -1768,76 +1934,100 @@ let make_config () : value =
         ("fields", (ja [
           (jo [
             ("name", (Str "alternateKey"));
+            ("short", (Str "The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "client"));
+            ("short", (Str "Reference to the associated Client resource."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "clientRef"));
+            ("short", (Str "Client Reference property that is included in the decrypt API call."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "created"));
+            ("short", (Str "Creation timestamp in ISO 8601 format."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "decrypted"));
+            ("short", (Str "A Transcation can process muliple decryptions."));
             ("type", (Str "`$INTEGER`")) ]);
           (jo [
             ("name", (Str "deviceName"));
+            ("short", (Str "The name of the Device that generated the payload to decrypt."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "directPartner"));
+            ("short", (Str "Reference to the associated Partner."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "encrypted"));
+            ("short", (Str "A Transcation can process muliple encryptions."));
             ("type", (Str "`$INTEGER`")) ]);
           (jo [
             ("name", (Str "endDate"));
+            ("short", (Str "Timestamp from the end of the transaction."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "errCode"));
+            ("short", (Str "The error code that is sent in response to a failed decrypt API call."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "errMessage"));
+            ("short", (Str "The error messge that is sent in response to a failed decrypt API call."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "id"));
+            ("short", (Str "This resource's unique identifier."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "ipAddress"));
+            ("short", (Str "The IP address of the http client that makes the decrypt API call."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "isVirtual"));
+            ("short", (Str "Indicates if the Transaction came from a virtual Device."));
             ("type", (Str "`$BOOLEAN`")) ]);
           (jo [
             ("name", (Str "keyType"));
+            ("short", (Str "The type of cipher used during decrytion."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "location"));
             ("req", (Bool true));
+            ("short", (Str "Reference to the associated Location resource."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "messageId"));
+            ("short", (Str "Message ID."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "method"));
+            ("short", (Str "The decryption cypher/method."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "partner"));
+            ("short", (Str "Reference to the associated Partner."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "reference"));
+            ("short", (Str "The reference property that the Client includes in the decrypt API call."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "serialNumber"));
+            ("short", (Str "The serial number of the Device that generated the payload to decrypt."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "startDate"));
+            ("short", (Str "Timestamp from the beginning of the transaction."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "success"));
+            ("short", (Str "The success indicator."));
             ("type", (Str "`$BOOLEAN`")) ]);
           (jo [
             ("name", (Str "transactionSource"));
+            ("short", (Str "The source of the Transaction."));
             ("type", (Str "`$STRING`")) ]) ]));
         ("name", (Str "transaction"));
         ("op", (jo [
@@ -1985,39 +2175,51 @@ let make_config () : value =
         ("fields", (ja [
           (jo [
             ("name", (Str "client"));
+            ("short", (Str "Reference to the associated Client resource."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "email"));
+            ("short", (Str "The User's email address."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "firstName"));
+            ("short", (Str "The User's name."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "id"));
+            ("short", (Str "ID of newly created resource"));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "isActive"));
+            ("short", (Str "This property indicates if the User account is active or disabled."));
             ("type", (Str "`$BOOLEAN`")) ]);
           (jo [
             ("name", (Str "kif"));
+            ("short", (Str "Reference to the associated KIF resource."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "lastName"));
+            ("short", (Str "The User's Surname."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "partner"));
+            ("short", (Str "Reference to the associated Partner."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "phone"));
+            ("short", (Str "The User's phone number without dashes, spaces, or brackets."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "userName"));
+            ("short", (Str "The User's unique username."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "userRole"));
+            ("short", (Str "Reference to the associated User Role."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "version"));
+            ("short", (Str "The number of times that this resource has been updated."));
             ("type", (Str "`$INTEGER`")) ]) ]));
         ("name", (Str "update_result"));
         ("op", (jo [
@@ -2242,45 +2444,59 @@ let make_config () : value =
         ("fields", (ja [
           (jo [
             ("name", (Str "client"));
+            ("short", (Str "Reference to the associated Client resource."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "created"));
+            ("short", (Str "Creation timestamp in ISO 8601 format."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "email"));
+            ("short", (Str "The User's email address."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "firstName"));
+            ("short", (Str "The User's name."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "id"));
+            ("short", (Str "This resource's unique identifier."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "isActive"));
+            ("short", (Str "This property indicates if the User account is active or disabled."));
             ("type", (Str "`$BOOLEAN`")) ]);
           (jo [
             ("name", (Str "kif"));
+            ("short", (Str "Reference to the associated KIF resource."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "lastName"));
+            ("short", (Str "The User's Surname."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "modified"));
+            ("short", (Str "Last modified timestamp."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "partner"));
+            ("short", (Str "Reference to the associated Partner."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "phone"));
+            ("short", (Str "The User's phone number without dashes, spaces, or brackets."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "userName"));
+            ("short", (Str "The User's unique username."));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "userRole"));
+            ("short", (Str "Reference to the associated User Role."));
             ("type", (Str "`$OBJECT`")) ]);
           (jo [
             ("name", (Str "version"));
+            ("short", (Str "The number of times that this resource has been updated."));
             ("type", (Str "`$INTEGER`")) ]) ]));
         ("name", (Str "user"));
         ("op", (jo [

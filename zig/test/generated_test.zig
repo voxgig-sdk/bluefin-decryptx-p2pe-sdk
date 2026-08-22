@@ -21,8 +21,15 @@ test "attestation_load_smoke" {
     const e = testsdk.attestation(vnull());
     const res = e.load(h.jo(&.{.{ "id", h.vstr("t01") }}), vnull());
     switch (res) {
-        .ok => |data| {
-            try std.testing.expect(std.mem.eql(u8, h.get_str(data, "id") orelse "", "t01"));
+        .ok => |ent| {
+            // EVERY operation resolves to the ENTITY, not the record: the
+            // payload of EntResult.ok is the entity pointer, and the record is
+            // reached through data(). Destructuring it as a Value was a
+            // compile error ("expected type 'struct.JsonValue', found
+            // '*entity.<name>.<Name>Entity'"), so no generated zig SDK with a
+            // loadable entity could build its own test suite.
+            const rec = ent.asEntity().data(null);
+            try std.testing.expect(std.mem.eql(u8, h.get_str(rec, "id") orelse "", "t01"));
         },
         .err => |er| {
             std.debug.print("attestation load failed: {s}\n", .{er.msg});
@@ -97,8 +104,15 @@ test "client_load_smoke" {
     const e = testsdk.client(vnull());
     const res = e.load(h.jo(&.{.{ "id", h.vstr("t01") }}), vnull());
     switch (res) {
-        .ok => |data| {
-            try std.testing.expect(std.mem.eql(u8, h.get_str(data, "id") orelse "", "t01"));
+        .ok => |ent| {
+            // EVERY operation resolves to the ENTITY, not the record: the
+            // payload of EntResult.ok is the entity pointer, and the record is
+            // reached through data(). Destructuring it as a Value was a
+            // compile error ("expected type 'struct.JsonValue', found
+            // '*entity.<name>.<Name>Entity'"), so no generated zig SDK with a
+            // loadable entity could build its own test suite.
+            const rec = ent.asEntity().data(null);
+            try std.testing.expect(std.mem.eql(u8, h.get_str(rec, "id") orelse "", "t01"));
         },
         .err => |er| {
             std.debug.print("client load failed: {s}\n", .{er.msg});
@@ -173,8 +187,15 @@ test "device_load_smoke" {
     const e = testsdk.device(vnull());
     const res = e.load(h.jo(&.{.{ "id", h.vstr("t01") }}), vnull());
     switch (res) {
-        .ok => |data| {
-            try std.testing.expect(std.mem.eql(u8, h.get_str(data, "id") orelse "", "t01"));
+        .ok => |ent| {
+            // EVERY operation resolves to the ENTITY, not the record: the
+            // payload of EntResult.ok is the entity pointer, and the record is
+            // reached through data(). Destructuring it as a Value was a
+            // compile error ("expected type 'struct.JsonValue', found
+            // '*entity.<name>.<Name>Entity'"), so no generated zig SDK with a
+            // loadable entity could build its own test suite.
+            const rec = ent.asEntity().data(null);
+            try std.testing.expect(std.mem.eql(u8, h.get_str(rec, "id") orelse "", "t01"));
         },
         .err => |er| {
             std.debug.print("device load failed: {s}\n", .{er.msg});
@@ -249,8 +270,15 @@ test "device_build_load_smoke" {
     const e = testsdk.device_build(vnull());
     const res = e.load(h.jo(&.{.{ "id", h.vstr("t01") }}), vnull());
     switch (res) {
-        .ok => |data| {
-            try std.testing.expect(std.mem.eql(u8, h.get_str(data, "id") orelse "", "t01"));
+        .ok => |ent| {
+            // EVERY operation resolves to the ENTITY, not the record: the
+            // payload of EntResult.ok is the entity pointer, and the record is
+            // reached through data(). Destructuring it as a Value was a
+            // compile error ("expected type 'struct.JsonValue', found
+            // '*entity.<name>.<Name>Entity'"), so no generated zig SDK with a
+            // loadable entity could build its own test suite.
+            const rec = ent.asEntity().data(null);
+            try std.testing.expect(std.mem.eql(u8, h.get_str(rec, "id") orelse "", "t01"));
         },
         .err => |er| {
             std.debug.print("device_build load failed: {s}\n", .{er.msg});
@@ -325,8 +353,15 @@ test "device_custody_detail_load_smoke" {
     const e = testsdk.device_custody_detail(vnull());
     const res = e.load(h.jo(&.{.{ "id", h.vstr("t01") }}), vnull());
     switch (res) {
-        .ok => |data| {
-            try std.testing.expect(std.mem.eql(u8, h.get_str(data, "id") orelse "", "t01"));
+        .ok => |ent| {
+            // EVERY operation resolves to the ENTITY, not the record: the
+            // payload of EntResult.ok is the entity pointer, and the record is
+            // reached through data(). Destructuring it as a Value was a
+            // compile error ("expected type 'struct.JsonValue', found
+            // '*entity.<name>.<Name>Entity'"), so no generated zig SDK with a
+            // loadable entity could build its own test suite.
+            const rec = ent.asEntity().data(null);
+            try std.testing.expect(std.mem.eql(u8, h.get_str(rec, "id") orelse "", "t01"));
         },
         .err => |er| {
             std.debug.print("device_custody_detail load failed: {s}\n", .{er.msg});
@@ -431,8 +466,15 @@ test "device_list_load_smoke" {
     const e = testsdk.device_list(vnull());
     const res = e.load(h.jo(&.{.{ "id", h.vstr("t01") }}), vnull());
     switch (res) {
-        .ok => |data| {
-            try std.testing.expect(std.mem.eql(u8, h.get_str(data, "id") orelse "", "t01"));
+        .ok => |ent| {
+            // EVERY operation resolves to the ENTITY, not the record: the
+            // payload of EntResult.ok is the entity pointer, and the record is
+            // reached through data(). Destructuring it as a Value was a
+            // compile error ("expected type 'struct.JsonValue', found
+            // '*entity.<name>.<Name>Entity'"), so no generated zig SDK with a
+            // loadable entity could build its own test suite.
+            const rec = ent.asEntity().data(null);
+            try std.testing.expect(std.mem.eql(u8, h.get_str(rec, "id") orelse "", "t01"));
         },
         .err => |er| {
             std.debug.print("device_list load failed: {s}\n", .{er.msg});
@@ -537,8 +579,15 @@ test "device_type_load_smoke" {
     const e = testsdk.device_type(vnull());
     const res = e.load(h.jo(&.{.{ "id", h.vstr("t01") }}), vnull());
     switch (res) {
-        .ok => |data| {
-            try std.testing.expect(std.mem.eql(u8, h.get_str(data, "id") orelse "", "t01"));
+        .ok => |ent| {
+            // EVERY operation resolves to the ENTITY, not the record: the
+            // payload of EntResult.ok is the entity pointer, and the record is
+            // reached through data(). Destructuring it as a Value was a
+            // compile error ("expected type 'struct.JsonValue', found
+            // '*entity.<name>.<Name>Entity'"), so no generated zig SDK with a
+            // loadable entity could build its own test suite.
+            const rec = ent.asEntity().data(null);
+            try std.testing.expect(std.mem.eql(u8, h.get_str(rec, "id") orelse "", "t01"));
         },
         .err => |er| {
             std.debug.print("device_type load failed: {s}\n", .{er.msg});
@@ -613,8 +662,15 @@ test "inject_key_load_smoke" {
     const e = testsdk.inject_key(vnull());
     const res = e.load(h.jo(&.{.{ "id", h.vstr("t01") }}), vnull());
     switch (res) {
-        .ok => |data| {
-            try std.testing.expect(std.mem.eql(u8, h.get_str(data, "id") orelse "", "t01"));
+        .ok => |ent| {
+            // EVERY operation resolves to the ENTITY, not the record: the
+            // payload of EntResult.ok is the entity pointer, and the record is
+            // reached through data(). Destructuring it as a Value was a
+            // compile error ("expected type 'struct.JsonValue', found
+            // '*entity.<name>.<Name>Entity'"), so no generated zig SDK with a
+            // loadable entity could build its own test suite.
+            const rec = ent.asEntity().data(null);
+            try std.testing.expect(std.mem.eql(u8, h.get_str(rec, "id") orelse "", "t01"));
         },
         .err => |er| {
             std.debug.print("inject_key load failed: {s}\n", .{er.msg});
@@ -749,8 +805,15 @@ test "location_load_smoke" {
     const e = testsdk.location(vnull());
     const res = e.load(h.jo(&.{.{ "id", h.vstr("t01") }}), vnull());
     switch (res) {
-        .ok => |data| {
-            try std.testing.expect(std.mem.eql(u8, h.get_str(data, "id") orelse "", "t01"));
+        .ok => |ent| {
+            // EVERY operation resolves to the ENTITY, not the record: the
+            // payload of EntResult.ok is the entity pointer, and the record is
+            // reached through data(). Destructuring it as a Value was a
+            // compile error ("expected type 'struct.JsonValue', found
+            // '*entity.<name>.<Name>Entity'"), so no generated zig SDK with a
+            // loadable entity could build its own test suite.
+            const rec = ent.asEntity().data(null);
+            try std.testing.expect(std.mem.eql(u8, h.get_str(rec, "id") orelse "", "t01"));
         },
         .err => |er| {
             std.debug.print("location load failed: {s}\n", .{er.msg});
@@ -825,8 +888,15 @@ test "partner_load_smoke" {
     const e = testsdk.partner(vnull());
     const res = e.load(h.jo(&.{.{ "id", h.vstr("t01") }}), vnull());
     switch (res) {
-        .ok => |data| {
-            try std.testing.expect(std.mem.eql(u8, h.get_str(data, "id") orelse "", "t01"));
+        .ok => |ent| {
+            // EVERY operation resolves to the ENTITY, not the record: the
+            // payload of EntResult.ok is the entity pointer, and the record is
+            // reached through data(). Destructuring it as a Value was a
+            // compile error ("expected type 'struct.JsonValue', found
+            // '*entity.<name>.<Name>Entity'"), so no generated zig SDK with a
+            // loadable entity could build its own test suite.
+            const rec = ent.asEntity().data(null);
+            try std.testing.expect(std.mem.eql(u8, h.get_str(rec, "id") orelse "", "t01"));
         },
         .err => |er| {
             std.debug.print("partner load failed: {s}\n", .{er.msg});
@@ -901,8 +971,15 @@ test "shipment_load_smoke" {
     const e = testsdk.shipment(vnull());
     const res = e.load(h.jo(&.{.{ "id", h.vstr("t01") }}), vnull());
     switch (res) {
-        .ok => |data| {
-            try std.testing.expect(std.mem.eql(u8, h.get_str(data, "id") orelse "", "t01"));
+        .ok => |ent| {
+            // EVERY operation resolves to the ENTITY, not the record: the
+            // payload of EntResult.ok is the entity pointer, and the record is
+            // reached through data(). Destructuring it as a Value was a
+            // compile error ("expected type 'struct.JsonValue', found
+            // '*entity.<name>.<Name>Entity'"), so no generated zig SDK with a
+            // loadable entity could build its own test suite.
+            const rec = ent.asEntity().data(null);
+            try std.testing.expect(std.mem.eql(u8, h.get_str(rec, "id") orelse "", "t01"));
         },
         .err => |er| {
             std.debug.print("shipment load failed: {s}\n", .{er.msg});
@@ -977,8 +1054,15 @@ test "transaction_load_smoke" {
     const e = testsdk.transaction(vnull());
     const res = e.load(h.jo(&.{.{ "id", h.vstr("t01") }}), vnull());
     switch (res) {
-        .ok => |data| {
-            try std.testing.expect(std.mem.eql(u8, h.get_str(data, "id") orelse "", "t01"));
+        .ok => |ent| {
+            // EVERY operation resolves to the ENTITY, not the record: the
+            // payload of EntResult.ok is the entity pointer, and the record is
+            // reached through data(). Destructuring it as a Value was a
+            // compile error ("expected type 'struct.JsonValue', found
+            // '*entity.<name>.<Name>Entity'"), so no generated zig SDK with a
+            // loadable entity could build its own test suite.
+            const rec = ent.asEntity().data(null);
+            try std.testing.expect(std.mem.eql(u8, h.get_str(rec, "id") orelse "", "t01"));
         },
         .err => |er| {
             std.debug.print("transaction load failed: {s}\n", .{er.msg});
@@ -1113,8 +1197,15 @@ test "user_load_smoke" {
     const e = testsdk.user(vnull());
     const res = e.load(h.jo(&.{.{ "id", h.vstr("t01") }}), vnull());
     switch (res) {
-        .ok => |data| {
-            try std.testing.expect(std.mem.eql(u8, h.get_str(data, "id") orelse "", "t01"));
+        .ok => |ent| {
+            // EVERY operation resolves to the ENTITY, not the record: the
+            // payload of EntResult.ok is the entity pointer, and the record is
+            // reached through data(). Destructuring it as a Value was a
+            // compile error ("expected type 'struct.JsonValue', found
+            // '*entity.<name>.<Name>Entity'"), so no generated zig SDK with a
+            // loadable entity could build its own test suite.
+            const rec = ent.asEntity().data(null);
+            try std.testing.expect(std.mem.eql(u8, h.get_str(rec, "id") orelse "", "t01"));
         },
         .err => |er| {
             std.debug.print("user load failed: {s}\n", .{er.msg});

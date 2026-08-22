@@ -822,33 +822,19 @@ class Device {
 }
 
 class DeviceLoadMatch {
-  /// STRING
-  String? device_type;
-  /// STRING
-  String? serial_number;
-  /// STRING
+  /// STRING (required at the API)
   String? id;
 
   DeviceLoadMatch({
-    this.device_type,
-    this.serial_number,
     this.id,
   });
 
   factory DeviceLoadMatch.fromMap(Map<String, dynamic> m) => DeviceLoadMatch(
-        device_type: m['device_type'] is String ? m['device_type'] : null,
-        serial_number: m['serial_number'] is String ? m['serial_number'] : null,
         id: m['id'] is String ? m['id'] : null,
       );
 
   Map<String, dynamic> toMap() {
     final m = <String, dynamic>{};
-    if (null != device_type) {
-      m['device_type'] = device_type;
-    }
-    if (null != serial_number) {
-      m['serial_number'] = serial_number;
-    }
     if (null != id) {
       m['id'] = id;
     }

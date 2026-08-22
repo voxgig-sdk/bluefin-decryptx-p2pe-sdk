@@ -204,9 +204,7 @@ defmodule BluefinDecryptxP2pe.Types do
   Request payload for Device load.
 
   Members:
-    * `"device_type"` — String.t() (optional)
-    * `"serial_number"` — String.t() (optional)
-    * `"id"` — String.t() (optional)
+    * `"id"` — String.t() (required)
   """
   @type device_load_match :: %{optional(String.t()) => any()}
 

@@ -20,9 +20,11 @@
         ],
         "headers": {
           "content-type": "application/json"
-        }
+        },
+        "repr": "auto"
       },
       "contributor": {},
+      "docs": {},
       "entity": {
         "attestation": {
           "active": true,
@@ -34,42 +36,49 @@
               "active": true,
               "name": "client",
               "req": false,
+              "short": "Reference to the associated Client resource.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "completeDate",
               "req": false,
+              "short": "The date and time that the Attestation took place.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "created",
               "req": false,
+              "short": "Creation timestamp in ISO 8601 format.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "device",
               "req": false,
+              "short": "Reference to the associated Device resource.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "id",
               "req": false,
+              "short": "This resource's unique identifier.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "name",
               "req": false,
+              "short": "Text describing the attestation.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "notes",
               "req": false,
+              "short": "Free form field that allows the Client associate notes with the Attestation.",
               "type": "`$STRING`"
             }
           ],
@@ -214,66 +223,77 @@
                 }
               },
               "req": false,
+              "short": "Reference to the associated User resource.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "created",
               "req": false,
+              "short": "Creation timestamp in ISO 8601 format.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "directPartner",
               "req": false,
+              "short": "Reference to the associated Partner.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "id",
               "req": false,
+              "short": "This resource's unique identifier.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "isActive",
               "req": false,
+              "short": "This property indicates if the Client account is active or disabled.",
               "type": "`$BOOLEAN`"
             },
             {
               "active": true,
               "name": "location",
               "req": true,
+              "short": "Reference to the associated Location resource.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "mid",
               "req": false,
+              "short": "Some Partners will have an merchant ids on their own software offerings.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "modified",
               "req": false,
+              "short": "Last modified timestamp.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "name",
               "req": false,
+              "short": "The Client's name.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "partner",
               "req": false,
+              "short": "Reference to the Client's root Partner.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "version",
               "req": false,
+              "short": "The number of times that this resource has been updated.",
               "type": "`$INTEGER`"
             }
           ],
@@ -520,6 +540,7 @@
               "active": true,
               "name": "success",
               "req": false,
+              "short": "true if the payload decryption was successful.",
               "type": "`$BOOLEAN`"
             }
           ],
@@ -561,168 +582,196 @@
               "active": true,
               "name": "activatedBy",
               "req": true,
+              "short": "Reference to the associated User resource.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "activationDate",
               "req": false,
+              "short": "Timestamp from when the Device was activated.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "alternateKey",
               "req": false,
+              "short": "The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "auditNextDate",
               "req": false,
+              "short": "Date and time that the Device is due its next PCI Audit.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "auditNotificationDate",
               "req": false,
+              "short": "Date and time that a notification should be sent that a PCI audit is due.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "client",
               "req": false,
+              "short": "Reference to the associated Client resource.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "created",
               "req": false,
+              "short": "Creation timestamp in ISO 8601 format.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "createdBy",
               "req": true,
+              "short": "Reference to the associated User resource.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "deviceBuild",
               "req": false,
+              "short": "Reference to the associated Device Build resource.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "deviceState",
               "req": false,
+              "short": "Reference to the associated Device State resource.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "deviceType",
               "req": false,
+              "short": "Reference to the associated Device Type resource.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "errorCounter",
               "req": false,
+              "short": "The number times the Device has been in error.",
               "type": "`$INTEGER`"
             },
             {
               "active": true,
               "name": "errorLastDate",
               "req": false,
+              "short": "Timestamp from the last time that the Device had an error.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "id",
               "req": false,
+              "short": "The Device's unique identifier.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "initializedBy",
               "req": true,
+              "short": "Reference to the associated User resource.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "initializedDate",
               "req": false,
+              "short": "Timestamp from when the Device was initialized.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "injectKey",
               "req": false,
+              "short": "Reference to the associated Device resource.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "isVirtual",
               "req": false,
+              "short": "Indicates if a Device is Virtual (represents a Device shared with a partner).",
               "type": "`$BOOLEAN`"
             },
             {
               "active": true,
               "name": "kif",
               "req": false,
+              "short": "Reference to the associated KIF resource.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "lastActivityDate",
               "req": false,
+              "short": "Timestamp from the last time that the Device was used.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "location",
               "req": true,
+              "short": "Reference to the associated Location resource.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "modified",
               "req": false,
+              "short": "Last modified timestamp.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "modifiedBy",
               "req": true,
+              "short": "Reference to the associated User resource.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "name",
               "req": false,
+              "short": "The Device's name.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "notes",
               "req": false,
+              "short": "Arbitary note that can be attached to a Device entry.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "partner",
               "req": false,
+              "short": "Reference to the associated Partner.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "serialNumber",
               "req": false,
+              "short": "The Device's serial number.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "version",
               "req": false,
+              "short": "The number of times that this resource has been updated.",
               "type": "`$INTEGER`"
             }
           ],
@@ -968,90 +1017,105 @@
               "active": true,
               "name": "appVersion",
               "req": false,
+              "short": "If a Device Type has more than one Application Code version the supported version is specified here.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "buildNumber",
               "req": false,
+              "short": "The Build Number.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "configFileName",
               "req": false,
+              "short": "The name of the configuration file that is uploaded to the device.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "created",
               "req": false,
+              "short": "Creation timestamp in ISO 8601 format.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "deviceType",
               "req": false,
+              "short": "The Device Type Name.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "firmwareVersion",
               "req": false,
+              "short": "A list of firmware versions that this Device Build covers.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "hardwareVersion",
               "req": false,
+              "short": "A list of hardware versions that this Device Build covers.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "id",
               "req": false,
+              "short": "This resource's unique identifier.",
               "type": "`$INTEGER`"
             },
             {
               "active": true,
               "name": "isActive",
               "req": false,
+              "short": "This property indicates if the device build is still active and not succeeded by subsequent build.",
               "type": "`$BOOLEAN`"
             },
             {
               "active": true,
               "name": "modified",
               "req": false,
+              "short": "Last modified timestamp.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "name",
               "req": false,
+              "short": "The Device Builds's name.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "notes",
               "req": false,
+              "short": "Notes attached to the device build by Bluefin CISO.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "version",
               "req": false,
+              "short": "The number of times that this resource has been updated.",
               "type": "`$INTEGER`"
             },
             {
               "active": true,
               "name": "whiteListingBinRanges",
               "req": false,
+              "short": "A comma separated list of BIN ranges that aren't encrypted by the terminal.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "whiteListingUsed",
               "req": false,
+              "short": "This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal.",
               "type": "`$BOOLEAN`"
             }
           ],
@@ -1169,78 +1233,91 @@
               "active": true,
               "name": "completeDate",
               "req": false,
+              "short": "The date and time that the Custody change took place.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "created",
               "req": false,
+              "short": "Creation timestamp in ISO 8601 format.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "createdBy",
               "req": true,
+              "short": "Reference to the associated User resource.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "custodian",
               "req": true,
+              "short": "Reference to the associated User resource.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "device",
               "req": false,
+              "short": "Reference to the associated Device resource.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "id",
               "req": false,
+              "short": "This resource's unique identifier.",
               "type": "`$INTEGER`"
             },
             {
               "active": true,
               "name": "location",
               "req": true,
+              "short": "Reference to the associated Location resource.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "modified",
               "req": false,
+              "short": "Last modified timestamp.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "modifiedBy",
               "req": true,
+              "short": "Reference to the associated User resource.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "notes",
               "req": false,
+              "short": "Free form field that allows the Client associate notes with the Custody Change.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "status",
               "req": false,
+              "short": "Reference to the associated Custody Status.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "transferMethod",
               "req": false,
+              "short": "Reference to the associated Transfer Method.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "version",
               "req": false,
+              "short": "The number of times that this resource has been updated.",
               "type": "`$INTEGER`"
             }
           ],
@@ -1333,78 +1410,91 @@
               "active": true,
               "name": "completeDate",
               "req": false,
+              "short": "The date and time that the Custody change took place.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "created",
               "req": false,
+              "short": "Creation timestamp in ISO 8601 format.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "createdBy",
               "req": true,
+              "short": "Reference to the associated User resource.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "custodian",
               "req": true,
+              "short": "Reference to the associated User resource.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "device",
               "req": false,
+              "short": "Reference to the associated Device resource.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "id",
               "req": false,
+              "short": "This resource's unique identifier.",
               "type": "`$INTEGER`"
             },
             {
               "active": true,
               "name": "location",
               "req": true,
+              "short": "Reference to the associated Location resource.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "modified",
               "req": false,
+              "short": "Last modified timestamp.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "modifiedBy",
               "req": true,
+              "short": "Reference to the associated User resource.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "notes",
               "req": false,
+              "short": "Free form field that allows the Client associate notes with the Custody Change.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "status",
               "req": false,
+              "short": "Reference to the associated Custody Status.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "transferMethod",
               "req": false,
+              "short": "Reference to the associated Transfer Method.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "version",
               "req": false,
+              "short": "The number of times that this resource has been updated.",
               "type": "`$INTEGER`"
             }
           ],
@@ -1509,12 +1599,14 @@
               "active": true,
               "name": "data",
               "req": false,
+              "short": "List of Devices.",
               "type": "`$ARRAY`"
             },
             {
               "active": true,
               "name": "total",
               "req": false,
+              "short": "Total number of Devices available (not the number of Users in the response).",
               "type": "`$INTEGER`"
             }
           ],
@@ -1623,6 +1715,7 @@
               "active": true,
               "name": "success",
               "req": true,
+              "short": "Indicates if the action succeeded.",
               "type": "`$BOOLEAN`"
             }
           ],
@@ -1665,6 +1758,7 @@
               "active": true,
               "name": "success",
               "req": true,
+              "short": "Indicates if the RKI activation succeeded.",
               "type": "`$BOOLEAN`"
             }
           ],
@@ -1708,12 +1802,14 @@
               "active": true,
               "name": "id",
               "req": false,
+              "short": "Unique identifier for this Device state.",
               "type": "`$INTEGER`"
             },
             {
               "active": true,
               "name": "name",
               "req": false,
+              "short": "Descriptive name for this Device state.",
               "type": "`$STRING`"
             }
           ],
@@ -1759,54 +1855,63 @@
               "active": true,
               "name": "created",
               "req": false,
+              "short": "Creation timestamp in ISO 8601 format.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "deviceTypeMode",
               "req": false,
+              "short": "The Device type.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "hardwareVersion",
               "req": false,
+              "short": "The Device hardware version.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "id",
               "req": false,
+              "short": "Unique idenifier.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "isActive",
               "req": false,
+              "short": "This property indicates if the DeviceType is active.",
               "type": "`$BOOLEAN`"
             },
             {
               "active": true,
               "name": "manufacturer",
               "req": false,
+              "short": "The Device manufacturer.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "model",
               "req": false,
+              "short": "The Device model.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "modified",
               "req": false,
+              "short": "Last modified timestamp.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "name",
               "req": false,
+              "short": "The DeviceType name.",
               "type": "`$STRING`"
             },
             {
@@ -1819,12 +1924,14 @@
               "active": true,
               "name": "productName",
               "req": false,
+              "short": "The Device name.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "version",
               "req": false,
+              "short": "The number of times that this resource has been updated.",
               "type": "`$INTEGER`"
             }
           ],
@@ -1907,48 +2014,56 @@
               "active": true,
               "name": "created",
               "req": false,
+              "short": "Creation timestamp in ISO 8601 format.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "id",
               "req": false,
+              "short": "unique idenifier",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "isActive",
               "req": false,
+              "short": "Active flag, inactive keys cannot be assigned to devices.",
               "type": "`$BOOLEAN`"
             },
             {
               "active": true,
               "name": "isP2PE",
               "req": false,
+              "short": "Flags if a key is for a P2PE compliant cypher.",
               "type": "`$BOOLEAN`"
             },
             {
               "active": true,
               "name": "keyType",
               "req": false,
+              "short": "The cipher type that the key works with.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "modified",
               "req": false,
+              "short": "Last modified timestamp in ISO 8601 format.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "name",
               "req": false,
+              "short": "Key name.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "version",
               "req": false,
+              "short": "The number of times that this resource has been updated.",
               "type": "`$INTEGER`"
             }
           ],
@@ -2031,12 +2146,14 @@
               "active": true,
               "name": "id",
               "req": false,
+              "short": "This resource's unique identifier.",
               "type": "`$INTEGER`"
             },
             {
               "active": true,
               "name": "name",
               "req": false,
+              "short": "The KIF's name.",
               "type": "`$STRING`"
             }
           ],
@@ -2082,138 +2199,161 @@
               "active": true,
               "name": "address1",
               "req": false,
+              "short": "The Location's street address.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "address2",
               "req": false,
+              "short": "The Location's street address.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "billingId",
               "req": false,
+              "short": "\\?",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "city",
               "req": false,
+              "short": "The Location's city.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "country",
               "req": false,
+              "short": "The Location's country.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "created",
               "req": false,
+              "short": "Creation timestamp in ISO 8601 format.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "customReference",
               "req": false,
+              "short": "A Partner specified reference for a location.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "id",
               "req": false,
+              "short": "This resource's unique identifier.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "locationType",
               "req": false,
+              "short": "The Location's clasification.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "mailAddress1",
               "req": false,
+              "short": "The Location's street address.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "mailAddress2",
               "req": false,
+              "short": "The Location's street address.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "mailCity",
               "req": false,
+              "short": "The Location's city.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "mailCountry",
               "req": false,
+              "short": "The Location's street address.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "mailPostalCode",
               "req": false,
+              "short": "The Location's postal code.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "mailStateProvince",
               "req": false,
+              "short": "The Location's street state or province.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "modified",
               "req": false,
+              "short": "Last modified timestamp.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "name",
               "req": false,
+              "short": "The Location's name.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "nameOfBusiness",
               "req": false,
+              "short": "The name of the business at this location.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "notes",
               "req": false,
+              "short": "Note for delivery driver.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "postalCode",
               "req": false,
+              "short": "The Location's postal code.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "stateProvince",
               "req": false,
+              "short": "The Location's street state or province.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "uniqueId",
               "req": false,
+              "short": "Unique Identifier for the Location.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "version",
               "req": false,
+              "short": "The number of times that this resource has been updated.",
               "type": "`$INTEGER`"
             }
           ],
@@ -2389,12 +2529,14 @@
               "active": true,
               "name": "billingId",
               "req": false,
+              "short": "The Partner's billing identifier.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "clientCanOrderEquipment",
               "req": false,
+              "short": "This property indicates if the Partner is allowed to order Equipment.",
               "type": "`$BOOLEAN`"
             },
             {
@@ -2407,72 +2549,84 @@
                 }
               },
               "req": false,
+              "short": "Reference to the associated User resource.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "created",
               "req": false,
+              "short": "Creation timestamp in ISO 8601 format.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "id",
               "req": false,
+              "short": "This resource's unique identifier.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "isActive",
               "req": false,
+              "short": "This property indicates if the Parter account is active or disabled.",
               "type": "`$BOOLEAN`"
             },
             {
               "active": true,
               "name": "location",
               "req": true,
+              "short": "Reference to the associated Location resource.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "modified",
               "req": false,
+              "short": "Last modified timestamp.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "name",
               "req": false,
+              "short": "The Partner's name.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "parent",
               "req": false,
+              "short": "Reference to the associated Partner.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "partnerId",
               "req": false,
+              "short": "The Partner's id.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "reference",
               "req": false,
+              "short": "The Partner's reference string.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "verificationPhrase",
               "req": false,
+              "short": "The verification phrase is a message that the Partner creates.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "version",
               "req": false,
+              "short": "The number of times that this resource has been updated.",
               "type": "`$INTEGER`"
             }
           ],
@@ -2611,42 +2765,49 @@
               "active": true,
               "name": "carrier",
               "req": false,
+              "short": "The name of the courier.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "client",
               "req": false,
+              "short": "Reference to the associated Client resource.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "created",
               "req": false,
+              "short": "Creation timestamp in ISO 8601 format.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "dateReceived",
               "req": false,
+              "short": "The date and time that a package is recieved.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "dateShipped",
               "req": false,
+              "short": "The date and time that a package is shipped.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "dcKif",
               "req": false,
+              "short": "Reference to the associated KIF resource.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "id",
               "req": false,
+              "short": "This resource's unique identifier.",
               "type": "`$STRING`"
             },
             {
@@ -2659,36 +2820,42 @@
               "active": true,
               "name": "kif",
               "req": false,
+              "short": "Reference to the associated KIF resource.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "modified",
               "req": false,
+              "short": "Last modified timestamp.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "partner",
               "req": false,
+              "short": "Reference to the associated Partner.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "shipmentType",
               "req": false,
+              "short": "The type of shipment.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "tracking",
               "req": false,
+              "short": "The courier's tracking number.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "version",
               "req": false,
+              "short": "The number of times that this resource has been updated.",
               "type": "`$INTEGER`"
             }
           ],
@@ -2836,6 +3003,7 @@
               "active": true,
               "name": "success",
               "req": false,
+              "short": "Indicates if the action was a success.",
               "type": "`$BOOLEAN`"
             }
           ],
@@ -2944,144 +3112,168 @@
               "active": true,
               "name": "alternateKey",
               "req": false,
+              "short": "The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "client",
               "req": false,
+              "short": "Reference to the associated Client resource.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "clientRef",
               "req": false,
+              "short": "Client Reference property that is included in the decrypt API call.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "created",
               "req": false,
+              "short": "Creation timestamp in ISO 8601 format.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "decrypted",
               "req": false,
+              "short": "A Transcation can process muliple decryptions.",
               "type": "`$INTEGER`"
             },
             {
               "active": true,
               "name": "deviceName",
               "req": false,
+              "short": "The name of the Device that generated the payload to decrypt.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "directPartner",
               "req": false,
+              "short": "Reference to the associated Partner.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "encrypted",
               "req": false,
+              "short": "A Transcation can process muliple encryptions.",
               "type": "`$INTEGER`"
             },
             {
               "active": true,
               "name": "endDate",
               "req": false,
+              "short": "Timestamp from the end of the transaction.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "errCode",
               "req": false,
+              "short": "The error code that is sent in response to a failed decrypt API call.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "errMessage",
               "req": false,
+              "short": "The error messge that is sent in response to a failed decrypt API call.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "id",
               "req": false,
+              "short": "This resource's unique identifier.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "ipAddress",
               "req": false,
+              "short": "The IP address of the http client that makes the decrypt API call.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "isVirtual",
               "req": false,
+              "short": "Indicates if the Transaction came from a virtual Device.",
               "type": "`$BOOLEAN`"
             },
             {
               "active": true,
               "name": "keyType",
               "req": false,
+              "short": "The type of cipher used during decrytion.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "location",
               "req": true,
+              "short": "Reference to the associated Location resource.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "messageId",
               "req": false,
+              "short": "Message ID.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "method",
               "req": false,
+              "short": "The decryption cypher/method.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "partner",
               "req": false,
+              "short": "Reference to the associated Partner.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "reference",
               "req": false,
+              "short": "The reference property that the Client includes in the decrypt API call.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "serialNumber",
               "req": false,
+              "short": "The serial number of the Device that generated the payload to decrypt.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "startDate",
               "req": false,
+              "short": "Timestamp from the beginning of the transaction.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "success",
               "req": false,
+              "short": "The success indicator.",
               "type": "`$BOOLEAN`"
             },
             {
               "active": true,
               "name": "transactionSource",
               "req": false,
+              "short": "The source of the Transaction.",
               "type": "`$STRING`"
             }
           ],
@@ -3311,72 +3503,84 @@
               "active": true,
               "name": "client",
               "req": false,
+              "short": "Reference to the associated Client resource.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "email",
               "req": false,
+              "short": "The User's email address.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "firstName",
               "req": false,
+              "short": "The User's name.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "id",
               "req": false,
+              "short": "ID of newly created resource",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "isActive",
               "req": false,
+              "short": "This property indicates if the User account is active or disabled.",
               "type": "`$BOOLEAN`"
             },
             {
               "active": true,
               "name": "kif",
               "req": false,
+              "short": "Reference to the associated KIF resource.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "lastName",
               "req": false,
+              "short": "The User's Surname.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "partner",
               "req": false,
+              "short": "Reference to the associated Partner.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "phone",
               "req": false,
+              "short": "The User's phone number without dashes, spaces, or brackets.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "userName",
               "req": false,
+              "short": "The User's unique username.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "userRole",
               "req": false,
+              "short": "Reference to the associated User Role.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "version",
               "req": false,
+              "short": "The number of times that this resource has been updated.",
               "type": "`$INTEGER`"
             }
           ],
@@ -3719,84 +3923,98 @@
               "active": true,
               "name": "client",
               "req": false,
+              "short": "Reference to the associated Client resource.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "created",
               "req": false,
+              "short": "Creation timestamp in ISO 8601 format.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "email",
               "req": false,
+              "short": "The User's email address.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "firstName",
               "req": false,
+              "short": "The User's name.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "id",
               "req": false,
+              "short": "This resource's unique identifier.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "isActive",
               "req": false,
+              "short": "This property indicates if the User account is active or disabled.",
               "type": "`$BOOLEAN`"
             },
             {
               "active": true,
               "name": "kif",
               "req": false,
+              "short": "Reference to the associated KIF resource.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "lastName",
               "req": false,
+              "short": "The User's Surname.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "modified",
               "req": false,
+              "short": "Last modified timestamp.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "partner",
               "req": false,
+              "short": "Reference to the associated Partner.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "phone",
               "req": false,
+              "short": "The User's phone number without dashes, spaces, or brackets.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "userName",
               "req": false,
+              "short": "The User's unique username.",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "userRole",
               "req": false,
+              "short": "Reference to the associated User Role.",
               "type": "`$OBJECT`"
             },
             {
               "active": true,
               "name": "version",
               "req": false,
+              "short": "The number of times that this resource has been updated.",
               "type": "`$INTEGER`"
             }
           ],
@@ -3889,6 +4107,7 @@
       "feature": {
         "test": {
           "active": true,
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "config": {
             "options": {
               "active": false
@@ -3949,6 +4168,8 @@
             }
           },
           "name": "test",
+          "origname": "",
+          "package": "@voxgig/sdkgen",
           "target": {
             "c": {
               "deps": {}
@@ -3975,9 +4196,6 @@
               "deps": {}
             },
             "go-mcp": {
-              "deps": {}
-            },
-            "haskell": {
               "deps": {}
             },
             "java": {
@@ -5047,6 +5265,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -5066,12 +5285,14 @@
             "path": ""
           },
           "name": "c",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -5105,6 +5326,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": ";"
           },
@@ -5121,12 +5343,14 @@
             "path": ""
           },
           "name": "clojure",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -5160,6 +5384,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -5178,12 +5403,14 @@
             "path": ""
           },
           "name": "cpp",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -5236,12 +5463,14 @@
             "path": ""
           },
           "name": "csharp",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -5275,6 +5504,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -5291,12 +5521,14 @@
             "path": ""
           },
           "name": "dart",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -5330,6 +5562,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "#"
           },
@@ -5346,12 +5579,14 @@
             "path": ""
           },
           "name": "elixir",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -5385,6 +5620,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -5403,12 +5639,14 @@
             "path": ""
           },
           "name": "go",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -5442,6 +5680,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -5458,12 +5697,14 @@
             "path": ""
           },
           "name": "go-cli",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "phase": {
             "agentguide": {
               "active": false
@@ -5513,6 +5754,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -5529,12 +5771,14 @@
             "path": ""
           },
           "name": "go-mcp",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "phase": {
             "agentguide": {
               "active": false
@@ -5578,84 +5822,13 @@
           },
           "title": "Go MCP server"
         },
-        "haskell": {
-          "active": true,
-          "author": {
-            "name": "",
-            "url": ""
-          },
-          "comment": {
-            "line": "--"
-          },
-          "deps": {},
-          "ext": "hs",
-          "feature": {
-            "fullset": [],
-            "trim": false
-          },
-          "module": {
-            "goversion": "",
-            "name": "bluefin-decryptx-p2pe",
-            "package": "",
-            "path": ""
-          },
-          "name": "haskell",
-          "output": {
-            "adopt": false,
-            "path": "",
-            "repo": "",
-            "sdkrel": ""
-          },
-          "phase": {
-            "agentguide": {
-              "active": true
-            },
-            "entity": {
-              "active": false
-            },
-            "feature": {
-              "active": false
-            },
-            "readme": {
-              "active": true
-            },
-            "test": {
-              "active": true
-            }
-          },
-          "publish": {
-            "registry": {
-              "active": false,
-              "name": "hackage",
-              "package": "",
-              "state": "pending",
-              "url": "https://hackage.haskell.org",
-              "vault": {
-                "alias": "hackage",
-                "env": "HACKAGE_TOKEN",
-                "recipe": ""
-              }
-            },
-            "tag": {
-              "active": true,
-              "prefix": "",
-              "vault": {
-                "alias": "github",
-                "recipe": "github"
-              },
-              "via": "port"
-            },
-            "version": "0.0.1"
-          },
-          "srcfeature": false,
-          "title": "Haskell"
-        },
         "java": {
           "active": true,
           "author": {
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -5674,12 +5847,14 @@
             "path": ""
           },
           "name": "java",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -5713,6 +5888,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -5735,12 +5911,14 @@
             "path": ""
           },
           "name": "js",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -5773,6 +5951,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -5791,12 +5970,14 @@
             "path": ""
           },
           "name": "kotlin",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -5830,6 +6011,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "--"
           },
@@ -5852,12 +6034,14 @@
             "path": ""
           },
           "name": "lua",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -5891,6 +6075,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -5907,12 +6092,14 @@
             "path": ""
           },
           "name": "ocaml",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -5946,6 +6133,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "#"
           },
@@ -5962,12 +6150,14 @@
             "path": ""
           },
           "name": "perl",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -6001,6 +6191,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -6017,12 +6208,14 @@
             "path": ""
           },
           "name": "php",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -6056,6 +6249,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "#"
           },
@@ -6078,12 +6272,14 @@
             "path": ""
           },
           "name": "py",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -6117,6 +6313,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "#"
           },
@@ -6144,12 +6341,14 @@
             "path": ""
           },
           "name": "rb",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -6183,6 +6382,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -6207,12 +6407,14 @@
             "path": ""
           },
           "name": "rust",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -6246,6 +6448,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -6262,12 +6465,14 @@
             "path": ""
           },
           "name": "scala",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -6320,12 +6525,14 @@
             "path": ""
           },
           "name": "swift",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -6392,12 +6599,14 @@
             "path": ""
           },
           "name": "ts",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,
@@ -6430,6 +6639,7 @@
             "name": "",
             "url": ""
           },
+          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
           "comment": {
             "line": "//"
           },
@@ -6446,12 +6656,14 @@
             "path": ""
           },
           "name": "zig",
+          "origname": "",
           "output": {
             "adopt": false,
             "path": "",
             "repo": "",
             "sdkrel": ""
           },
+          "package": "@voxgig/sdkgen",
           "publish": {
             "registry": {
               "active": false,

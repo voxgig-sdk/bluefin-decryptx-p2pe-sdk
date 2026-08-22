@@ -172,13 +172,13 @@ attestation = client.Attestation()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `client` | `dict` | No |  |
-| `completeDate` | `str` | No |  |
-| `created` | `str` | No |  |
-| `device` | `dict` | No |  |
-| `id` | `str` | No |  |
-| `name` | `str` | No |  |
-| `notes` | `str` | No |  |
+| `client` | `dict` | No | Reference to the associated Client resource. |
+| `completeDate` | `str` | No | The date and time that the Attestation took place. |
+| `created` | `str` | No | Creation timestamp in ISO 8601 format. |
+| `device` | `dict` | No | Reference to the associated Device resource. |
+| `id` | `str` | No | This resource's unique identifier. |
+| `name` | `str` | No | Text describing the attestation. |
+| `notes` | `str` | No | Free form field that allows the Client associate notes with the Attestation. |
 
 ### Operations
 
@@ -248,17 +248,17 @@ client_ = client.Client()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `contact` | `dict` | No |  |
-| `created` | `str` | No |  |
-| `directPartner` | `dict` | No |  |
-| `id` | `str` | No |  |
-| `isActive` | `bool` | No |  |
-| `location` | `dict` | Yes |  |
-| `mid` | `str` | No |  |
-| `modified` | `str` | No |  |
-| `name` | `str` | No |  |
-| `partner` | `dict` | No |  |
-| `version` | `int` | No |  |
+| `contact` | `dict` | No | Reference to the associated User resource. |
+| `created` | `str` | No | Creation timestamp in ISO 8601 format. |
+| `directPartner` | `dict` | No | Reference to the associated Partner. |
+| `id` | `str` | No | This resource's unique identifier. |
+| `isActive` | `bool` | No | This property indicates if the Client account is active or disabled. |
+| `location` | `dict` | Yes | Reference to the associated Location resource. |
+| `mid` | `str` | No | Some Partners will have an merchant ids on their own software offerings. |
+| `modified` | `str` | No | Last modified timestamp. |
+| `name` | `str` | No | The Client's name. |
+| `partner` | `dict` | No | Reference to the Client's root Partner. |
+| `version` | `int` | No | The number of times that this resource has been updated. |
 
 ### Field Usage by Operation
 
@@ -401,7 +401,7 @@ decryption = client.Decryption()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `bool` | No |  |
+| `success` | `bool` | No | true if the payload decryption was successful. |
 
 ### Operations
 
@@ -453,34 +453,34 @@ device = client.Device()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `activatedBy` | `dict` | Yes |  |
-| `activationDate` | `str` | No |  |
-| `alternateKey` | `str` | No |  |
-| `auditNextDate` | `str` | No |  |
-| `auditNotificationDate` | `str` | No |  |
-| `client` | `dict` | No |  |
-| `created` | `str` | No |  |
-| `createdBy` | `dict` | Yes |  |
-| `deviceBuild` | `dict` | No |  |
-| `deviceState` | `dict` | No |  |
-| `deviceType` | `dict` | No |  |
-| `errorCounter` | `int` | No |  |
-| `errorLastDate` | `str` | No |  |
-| `id` | `str` | No |  |
-| `initializedBy` | `dict` | Yes |  |
-| `initializedDate` | `str` | No |  |
-| `injectKey` | `dict` | No |  |
-| `isVirtual` | `bool` | No |  |
-| `kif` | `dict` | No |  |
-| `lastActivityDate` | `str` | No |  |
-| `location` | `dict` | Yes |  |
-| `modified` | `str` | No |  |
-| `modifiedBy` | `dict` | Yes |  |
-| `name` | `str` | No |  |
-| `notes` | `str` | No |  |
-| `partner` | `dict` | No |  |
-| `serialNumber` | `str` | No |  |
-| `version` | `int` | No |  |
+| `activatedBy` | `dict` | Yes | Reference to the associated User resource. |
+| `activationDate` | `str` | No | Timestamp from when the Device was activated. |
+| `alternateKey` | `str` | No | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `str` | No | Date and time that the Device is due its next PCI Audit. |
+| `auditNotificationDate` | `str` | No | Date and time that a notification should be sent that a PCI audit is due. |
+| `client` | `dict` | No | Reference to the associated Client resource. |
+| `created` | `str` | No | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `dict` | Yes | Reference to the associated User resource. |
+| `deviceBuild` | `dict` | No | Reference to the associated Device Build resource. |
+| `deviceState` | `dict` | No | Reference to the associated Device State resource. |
+| `deviceType` | `dict` | No | Reference to the associated Device Type resource. |
+| `errorCounter` | `int` | No | The number times the Device has been in error. |
+| `errorLastDate` | `str` | No | Timestamp from the last time that the Device had an error. |
+| `id` | `str` | No | The Device's unique identifier. |
+| `initializedBy` | `dict` | Yes | Reference to the associated User resource. |
+| `initializedDate` | `str` | No | Timestamp from when the Device was initialized. |
+| `injectKey` | `dict` | No | Reference to the associated Device resource. |
+| `isVirtual` | `bool` | No | Indicates if a Device is Virtual (represents a Device shared with a partner). |
+| `kif` | `dict` | No | Reference to the associated KIF resource. |
+| `lastActivityDate` | `str` | No | Timestamp from the last time that the Device was used. |
+| `location` | `dict` | Yes | Reference to the associated Location resource. |
+| `modified` | `str` | No | Last modified timestamp. |
+| `modifiedBy` | `dict` | Yes | Reference to the associated User resource. |
+| `name` | `str` | No | The Device's name. |
+| `notes` | `str` | No | Arbitary note that can be attached to a Device entry. |
+| `partner` | `dict` | No | Reference to the associated Partner. |
+| `serialNumber` | `str` | No | The Device's serial number. |
+| `version` | `int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -555,21 +555,21 @@ device_build = client.DeviceBuild()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `appVersion` | `str` | No |  |
-| `buildNumber` | `str` | No |  |
-| `configFileName` | `str` | No |  |
-| `created` | `str` | No |  |
-| `deviceType` | `str` | No |  |
-| `firmwareVersion` | `str` | No |  |
-| `hardwareVersion` | `str` | No |  |
-| `id` | `int` | No |  |
-| `isActive` | `bool` | No |  |
-| `modified` | `str` | No |  |
-| `name` | `str` | No |  |
-| `notes` | `str` | No |  |
-| `version` | `int` | No |  |
-| `whiteListingBinRanges` | `str` | No |  |
-| `whiteListingUsed` | `bool` | No |  |
+| `appVersion` | `str` | No | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildNumber` | `str` | No | The Build Number. |
+| `configFileName` | `str` | No | The name of the configuration file that is uploaded to the device. |
+| `created` | `str` | No | Creation timestamp in ISO 8601 format. |
+| `deviceType` | `str` | No | The Device Type Name. |
+| `firmwareVersion` | `str` | No | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `str` | No | A list of hardware versions that this Device Build covers. |
+| `id` | `int` | No | This resource's unique identifier. |
+| `isActive` | `bool` | No | This property indicates if the device build is still active and not succeeded by subsequent build. |
+| `modified` | `str` | No | Last modified timestamp. |
+| `name` | `str` | No | The Device Builds's name. |
+| `notes` | `str` | No | Notes attached to the device build by Bluefin CISO. |
+| `version` | `int` | No | The number of times that this resource has been updated. |
+| `whiteListingBinRanges` | `str` | No | A comma separated list of BIN ranges that aren't encrypted by the terminal. |
+| `whiteListingUsed` | `bool` | No | This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal. |
 
 ### Operations
 
@@ -630,19 +630,19 @@ device_custody_detail = client.DeviceCustodyDetail()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `completeDate` | `str` | No |  |
-| `created` | `str` | No |  |
-| `createdBy` | `dict` | Yes |  |
-| `custodian` | `dict` | Yes |  |
-| `device` | `dict` | No |  |
-| `id` | `int` | No |  |
-| `location` | `dict` | Yes |  |
-| `modified` | `str` | No |  |
-| `modifiedBy` | `dict` | Yes |  |
-| `notes` | `str` | No |  |
-| `status` | `dict` | No |  |
-| `transferMethod` | `dict` | No |  |
-| `version` | `int` | No |  |
+| `completeDate` | `str` | No | The date and time that the Custody change took place. |
+| `created` | `str` | No | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `dict` | Yes | Reference to the associated User resource. |
+| `custodian` | `dict` | Yes | Reference to the associated User resource. |
+| `device` | `dict` | No | Reference to the associated Device resource. |
+| `id` | `int` | No | This resource's unique identifier. |
+| `location` | `dict` | Yes | Reference to the associated Location resource. |
+| `modified` | `str` | No | Last modified timestamp. |
+| `modifiedBy` | `dict` | Yes | Reference to the associated User resource. |
+| `notes` | `str` | No | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | `dict` | No | Reference to the associated Custody Status. |
+| `transferMethod` | `dict` | No | Reference to the associated Transfer Method. |
+| `version` | `int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -693,19 +693,19 @@ device_custody_list = client.DeviceCustodyList()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `completeDate` | `str` | No |  |
-| `created` | `str` | No |  |
-| `createdBy` | `dict` | Yes |  |
-| `custodian` | `dict` | Yes |  |
-| `device` | `dict` | No |  |
-| `id` | `int` | No |  |
-| `location` | `dict` | Yes |  |
-| `modified` | `str` | No |  |
-| `modifiedBy` | `dict` | Yes |  |
-| `notes` | `str` | No |  |
-| `status` | `dict` | No |  |
-| `transferMethod` | `dict` | No |  |
-| `version` | `int` | No |  |
+| `completeDate` | `str` | No | The date and time that the Custody change took place. |
+| `created` | `str` | No | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `dict` | Yes | Reference to the associated User resource. |
+| `custodian` | `dict` | Yes | Reference to the associated User resource. |
+| `device` | `dict` | No | Reference to the associated Device resource. |
+| `id` | `int` | No | This resource's unique identifier. |
+| `location` | `dict` | Yes | Reference to the associated Location resource. |
+| `modified` | `str` | No | Last modified timestamp. |
+| `modifiedBy` | `dict` | Yes | Reference to the associated User resource. |
+| `notes` | `str` | No | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | `dict` | No | Reference to the associated Custody Status. |
+| `transferMethod` | `dict` | No | Reference to the associated Transfer Method. |
+| `version` | `int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -758,8 +758,8 @@ device_list = client.DeviceList()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `list` | No |  |
-| `total` | `int` | No |  |
+| `data` | `list` | No | List of Devices. |
+| `total` | `int` | No | Total number of Devices available (not the number of Users in the response). |
 
 ### Operations
 
@@ -810,7 +810,7 @@ device_receive_result = client.DeviceReceiveResult()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `bool` | Yes |  |
+| `success` | `bool` | Yes | Indicates if the action succeeded. |
 
 ### Operations
 
@@ -863,7 +863,7 @@ device_rki_activate_result = client.DeviceRkiActivateResult()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `bool` | Yes |  |
+| `success` | `bool` | Yes | Indicates if the RKI activation succeeded. |
 
 ### Operations
 
@@ -916,8 +916,8 @@ device_state = client.DeviceState()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `int` | No |  |
-| `name` | `str` | No |  |
+| `id` | `int` | No | Unique identifier for this Device state. |
+| `name` | `str` | No | Descriptive name for this Device state. |
 
 ### Operations
 
@@ -970,18 +970,18 @@ device_type = client.DeviceType()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created` | `str` | No |  |
-| `deviceTypeMode` | `str` | No |  |
-| `hardwareVersion` | `str` | No |  |
-| `id` | `str` | No |  |
-| `isActive` | `bool` | No |  |
-| `manufacturer` | `str` | No |  |
-| `model` | `str` | No |  |
-| `modified` | `str` | No |  |
-| `name` | `str` | No |  |
+| `created` | `str` | No | Creation timestamp in ISO 8601 format. |
+| `deviceTypeMode` | `str` | No | The Device type. |
+| `hardwareVersion` | `str` | No | The Device hardware version. |
+| `id` | `str` | No | Unique idenifier. |
+| `isActive` | `bool` | No | This property indicates if the DeviceType is active. |
+| `manufacturer` | `str` | No | The Device manufacturer. |
+| `model` | `str` | No | The Device model. |
+| `modified` | `str` | No | Last modified timestamp. |
+| `name` | `str` | No | The DeviceType name. |
 | `photoUrl` | `str` | No |  |
-| `productName` | `str` | No |  |
-| `version` | `int` | No |  |
+| `productName` | `str` | No | The Device name. |
+| `version` | `int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1042,14 +1042,14 @@ inject_key = client.InjectKey()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created` | `str` | No |  |
-| `id` | `str` | No |  |
-| `isActive` | `bool` | No |  |
-| `isP2PE` | `bool` | No |  |
-| `keyType` | `str` | No |  |
-| `modified` | `str` | No |  |
-| `name` | `str` | No |  |
-| `version` | `int` | No |  |
+| `created` | `str` | No | Creation timestamp in ISO 8601 format. |
+| `id` | `str` | No | unique idenifier |
+| `isActive` | `bool` | No | Active flag, inactive keys cannot be assigned to devices. |
+| `isP2PE` | `bool` | No | Flags if a key is for a P2PE compliant cypher. |
+| `keyType` | `str` | No | The cipher type that the key works with. |
+| `modified` | `str` | No | Last modified timestamp in ISO 8601 format. |
+| `name` | `str` | No | Key name. |
+| `version` | `int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1110,8 +1110,8 @@ kif = client.Kif()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `int` | No |  |
-| `name` | `str` | No |  |
+| `id` | `int` | No | This resource's unique identifier. |
+| `name` | `str` | No | The KIF's name. |
 
 ### Operations
 
@@ -1164,29 +1164,29 @@ location = client.Location()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `address1` | `str` | No |  |
-| `address2` | `str` | No |  |
-| `billingId` | `str` | No |  |
-| `city` | `str` | No |  |
-| `country` | `str` | No |  |
-| `created` | `str` | No |  |
-| `customReference` | `str` | No |  |
-| `id` | `str` | No |  |
-| `locationType` | `str` | No |  |
-| `mailAddress1` | `str` | No |  |
-| `mailAddress2` | `str` | No |  |
-| `mailCity` | `str` | No |  |
-| `mailCountry` | `str` | No |  |
-| `mailPostalCode` | `str` | No |  |
-| `mailStateProvince` | `str` | No |  |
-| `modified` | `str` | No |  |
-| `name` | `str` | No |  |
-| `nameOfBusiness` | `str` | No |  |
-| `notes` | `str` | No |  |
-| `postalCode` | `str` | No |  |
-| `stateProvince` | `str` | No |  |
-| `uniqueId` | `str` | No |  |
-| `version` | `int` | No |  |
+| `address1` | `str` | No | The Location's street address. |
+| `address2` | `str` | No | The Location's street address. |
+| `billingId` | `str` | No | \? |
+| `city` | `str` | No | The Location's city. |
+| `country` | `str` | No | The Location's country. |
+| `created` | `str` | No | Creation timestamp in ISO 8601 format. |
+| `customReference` | `str` | No | A Partner specified reference for a location. |
+| `id` | `str` | No | This resource's unique identifier. |
+| `locationType` | `str` | No | The Location's clasification. |
+| `mailAddress1` | `str` | No | The Location's street address. |
+| `mailAddress2` | `str` | No | The Location's street address. |
+| `mailCity` | `str` | No | The Location's city. |
+| `mailCountry` | `str` | No | The Location's street address. |
+| `mailPostalCode` | `str` | No | The Location's postal code. |
+| `mailStateProvince` | `str` | No | The Location's street state or province. |
+| `modified` | `str` | No | Last modified timestamp. |
+| `name` | `str` | No | The Location's name. |
+| `nameOfBusiness` | `str` | No | The name of the business at this location. |
+| `notes` | `str` | No | Note for delivery driver. |
+| `postalCode` | `str` | No | The Location's postal code. |
+| `stateProvince` | `str` | No | The Location's street state or province. |
+| `uniqueId` | `str` | No | Unique Identifier for the Location. |
+| `version` | `int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1264,20 +1264,20 @@ partner = client.Partner()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `billingId` | `str` | No |  |
-| `clientCanOrderEquipment` | `bool` | No |  |
-| `contact` | `dict` | No |  |
-| `created` | `str` | No |  |
-| `id` | `str` | No |  |
-| `isActive` | `bool` | No |  |
-| `location` | `dict` | Yes |  |
-| `modified` | `str` | No |  |
-| `name` | `str` | No |  |
-| `parent` | `dict` | No |  |
-| `partnerId` | `str` | No |  |
-| `reference` | `str` | No |  |
-| `verificationPhrase` | `str` | No |  |
-| `version` | `int` | No |  |
+| `billingId` | `str` | No | The Partner's billing identifier. |
+| `clientCanOrderEquipment` | `bool` | No | This property indicates if the Partner is allowed to order Equipment. |
+| `contact` | `dict` | No | Reference to the associated User resource. |
+| `created` | `str` | No | Creation timestamp in ISO 8601 format. |
+| `id` | `str` | No | This resource's unique identifier. |
+| `isActive` | `bool` | No | This property indicates if the Parter account is active or disabled. |
+| `location` | `dict` | Yes | Reference to the associated Location resource. |
+| `modified` | `str` | No | Last modified timestamp. |
+| `name` | `str` | No | The Partner's name. |
+| `parent` | `dict` | No | Reference to the associated Partner. |
+| `partnerId` | `str` | No | The Partner's id. |
+| `reference` | `str` | No | The Partner's reference string. |
+| `verificationPhrase` | `str` | No | The verification phrase is a message that the Partner creates. |
+| `version` | `int` | No | The number of times that this resource has been updated. |
 
 ### Field Usage by Operation
 
@@ -1367,20 +1367,20 @@ shipment = client.Shipment()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `carrier` | `str` | No |  |
-| `client` | `dict` | No |  |
-| `created` | `str` | No |  |
-| `dateReceived` | `str` | No |  |
-| `dateShipped` | `str` | No |  |
-| `dcKif` | `dict` | No |  |
-| `id` | `str` | No |  |
+| `carrier` | `str` | No | The name of the courier. |
+| `client` | `dict` | No | Reference to the associated Client resource. |
+| `created` | `str` | No | Creation timestamp in ISO 8601 format. |
+| `dateReceived` | `str` | No | The date and time that a package is recieved. |
+| `dateShipped` | `str` | No | The date and time that a package is shipped. |
+| `dcKif` | `dict` | No | Reference to the associated KIF resource. |
+| `id` | `str` | No | This resource's unique identifier. |
 | `items` | `list` | No |  |
-| `kif` | `dict` | No |  |
-| `modified` | `str` | No |  |
-| `partner` | `dict` | No |  |
-| `shipmentType` | `str` | No |  |
-| `tracking` | `str` | No |  |
-| `version` | `int` | No |  |
+| `kif` | `dict` | No | Reference to the associated KIF resource. |
+| `modified` | `str` | No | Last modified timestamp. |
+| `partner` | `dict` | No | Reference to the associated Partner. |
+| `shipmentType` | `str` | No | The type of shipment. |
+| `tracking` | `str` | No | The courier's tracking number. |
+| `version` | `int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1450,7 +1450,7 @@ success = client.Success()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `bool` | No |  |
+| `success` | `bool` | No | Indicates if the action was a success. |
 
 ### Operations
 
@@ -1511,30 +1511,30 @@ transaction = client.Transaction()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `alternateKey` | `str` | No |  |
-| `client` | `dict` | No |  |
-| `clientRef` | `str` | No |  |
-| `created` | `str` | No |  |
-| `decrypted` | `int` | No |  |
-| `deviceName` | `str` | No |  |
-| `directPartner` | `dict` | No |  |
-| `encrypted` | `int` | No |  |
-| `endDate` | `str` | No |  |
-| `errCode` | `str` | No |  |
-| `errMessage` | `str` | No |  |
-| `id` | `str` | No |  |
-| `ipAddress` | `str` | No |  |
-| `isVirtual` | `bool` | No |  |
-| `keyType` | `str` | No |  |
-| `location` | `dict` | Yes |  |
-| `messageId` | `str` | No |  |
-| `method` | `str` | No |  |
-| `partner` | `dict` | No |  |
-| `reference` | `str` | No |  |
-| `serialNumber` | `str` | No |  |
-| `startDate` | `str` | No |  |
-| `success` | `bool` | No |  |
-| `transactionSource` | `str` | No |  |
+| `alternateKey` | `str` | No | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `client` | `dict` | No | Reference to the associated Client resource. |
+| `clientRef` | `str` | No | Client Reference property that is included in the decrypt API call. |
+| `created` | `str` | No | Creation timestamp in ISO 8601 format. |
+| `decrypted` | `int` | No | A Transcation can process muliple decryptions. |
+| `deviceName` | `str` | No | The name of the Device that generated the payload to decrypt. |
+| `directPartner` | `dict` | No | Reference to the associated Partner. |
+| `encrypted` | `int` | No | A Transcation can process muliple encryptions. |
+| `endDate` | `str` | No | Timestamp from the end of the transaction. |
+| `errCode` | `str` | No | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `str` | No | The error messge that is sent in response to a failed decrypt API call. |
+| `id` | `str` | No | This resource's unique identifier. |
+| `ipAddress` | `str` | No | The IP address of the http client that makes the decrypt API call. |
+| `isVirtual` | `bool` | No | Indicates if the Transaction came from a virtual Device. |
+| `keyType` | `str` | No | The type of cipher used during decrytion. |
+| `location` | `dict` | Yes | Reference to the associated Location resource. |
+| `messageId` | `str` | No | Message ID. |
+| `method` | `str` | No | The decryption cypher/method. |
+| `partner` | `dict` | No | Reference to the associated Partner. |
+| `reference` | `str` | No | The reference property that the Client includes in the decrypt API call. |
+| `serialNumber` | `str` | No | The serial number of the Device that generated the payload to decrypt. |
+| `startDate` | `str` | No | Timestamp from the beginning of the transaction. |
+| `success` | `bool` | No | The success indicator. |
+| `transactionSource` | `str` | No | The source of the Transaction. |
 
 ### Operations
 
@@ -1605,18 +1605,18 @@ update_result = client.UpdateResult()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `client` | `dict` | No |  |
-| `email` | `str` | No |  |
-| `firstName` | `str` | No |  |
-| `id` | `str` | No |  |
-| `isActive` | `bool` | No |  |
-| `kif` | `dict` | No |  |
-| `lastName` | `str` | No |  |
-| `partner` | `dict` | No |  |
-| `phone` | `str` | No |  |
-| `userName` | `str` | No |  |
-| `userRole` | `dict` | No |  |
-| `version` | `int` | No |  |
+| `client` | `dict` | No | Reference to the associated Client resource. |
+| `email` | `str` | No | The User's email address. |
+| `firstName` | `str` | No | The User's name. |
+| `id` | `str` | No | ID of newly created resource |
+| `isActive` | `bool` | No | This property indicates if the User account is active or disabled. |
+| `kif` | `dict` | No | Reference to the associated KIF resource. |
+| `lastName` | `str` | No | The User's Surname. |
+| `partner` | `dict` | No | Reference to the associated Partner. |
+| `phone` | `str` | No | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | `str` | No | The User's unique username. |
+| `userRole` | `dict` | No | Reference to the associated User Role. |
+| `version` | `int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1689,20 +1689,20 @@ user = client.User()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `client` | `dict` | No |  |
-| `created` | `str` | No |  |
-| `email` | `str` | No |  |
-| `firstName` | `str` | No |  |
-| `id` | `str` | No |  |
-| `isActive` | `bool` | No |  |
-| `kif` | `dict` | No |  |
-| `lastName` | `str` | No |  |
-| `modified` | `str` | No |  |
-| `partner` | `dict` | No |  |
-| `phone` | `str` | No |  |
-| `userName` | `str` | No |  |
-| `userRole` | `dict` | No |  |
-| `version` | `int` | No |  |
+| `client` | `dict` | No | Reference to the associated Client resource. |
+| `created` | `str` | No | Creation timestamp in ISO 8601 format. |
+| `email` | `str` | No | The User's email address. |
+| `firstName` | `str` | No | The User's name. |
+| `id` | `str` | No | This resource's unique identifier. |
+| `isActive` | `bool` | No | This property indicates if the User account is active or disabled. |
+| `kif` | `dict` | No | Reference to the associated KIF resource. |
+| `lastName` | `str` | No | The User's Surname. |
+| `modified` | `str` | No | Last modified timestamp. |
+| `partner` | `dict` | No | Reference to the associated Partner. |
+| `phone` | `str` | No | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | `str` | No | The User's unique username. |
+| `userRole` | `dict` | No | Reference to the associated User Role. |
+| `version` | `int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 

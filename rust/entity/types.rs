@@ -173,9 +173,7 @@ pub struct Device {
 /// DeviceLoadMatch is the typed request payload for Device.load.
 #[derive(Debug, Clone)]
 pub struct DeviceLoadMatch {
-    pub device_type: Option<String>,
-    pub serial_number: Option<String>,
-    pub id: Option<String>,
+    pub id: String,
 }
 
 /// DeviceListMatch is the typed request payload for Device.list.

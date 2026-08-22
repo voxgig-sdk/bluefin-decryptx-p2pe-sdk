@@ -158,9 +158,7 @@ public record Device
 
 public record DeviceLoadMatch
 {
-    public string? device_type { get; init; }
-    public string? serial_number { get; init; }
-    public string? id { get; init; }
+    public string id { get; init; }
 }
 
 public record DeviceListMatch

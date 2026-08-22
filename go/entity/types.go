@@ -159,9 +159,7 @@ type Device struct {
 
 // DeviceLoadMatch is the typed request payload for Device.LoadTyped.
 type DeviceLoadMatch struct {
-	DeviceType *string `json:"device_type,omitempty"`
-	SerialNumber *string `json:"serial_number,omitempty"`
-	Id *string `json:"id,omitempty"`
+	Id string `json:"id"`
 }
 
 // DeviceListMatch is the typed request payload for Device.ListTyped.

@@ -8,11 +8,13 @@ main: kit: entity: kif: {
     {
       name: "id"
       req: false
+      short: "This resource's unique identifier."
       type: "`$INTEGER`"
     }
     {
       name: "name"
       req: false
+      short: "The KIF's name."
       type: "`$STRING`"
     }
   ]

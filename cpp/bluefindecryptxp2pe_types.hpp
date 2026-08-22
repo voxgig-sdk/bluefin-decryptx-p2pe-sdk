@@ -152,9 +152,7 @@ struct Device {
 };
 
 struct DeviceLoadMatch {
-  std::string device_type;  // optional
-  std::string serial_number;  // optional
-  std::string id;  // optional
+  std::string id;
 };
 
 struct DeviceListMatch {

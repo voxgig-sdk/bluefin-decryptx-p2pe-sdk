@@ -137,9 +137,7 @@ export interface Device {
 }
 
 export interface DeviceLoadMatch {
-  device_type?: string
-  serial_number?: string
-  id?: string
+  id: string
 }
 
 export interface DeviceListMatch {

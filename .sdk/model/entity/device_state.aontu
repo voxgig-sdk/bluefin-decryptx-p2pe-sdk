@@ -8,11 +8,13 @@ main: kit: entity: device_state: {
     {
       name: "id"
       req: false
+      short: "Unique identifier for this Device state."
       type: "`$INTEGER`"
     }
     {
       name: "name"
       req: false
+      short: "Descriptive name for this Device state."
       type: "`$STRING`"
     }
   ]

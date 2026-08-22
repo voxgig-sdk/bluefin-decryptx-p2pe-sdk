@@ -8,36 +8,43 @@ main: kit: entity: attestation: {
     {
       name: "client"
       req: false
+      short: "Reference to the associated Client resource."
       type: "`$OBJECT`"
     }
     {
       name: "completeDate"
       req: false
+      short: "The date and time that the Attestation took place."
       type: "`$STRING`"
     }
     {
       name: "created"
       req: false
+      short: "Creation timestamp in ISO 8601 format."
       type: "`$STRING`"
     }
     {
       name: "device"
       req: false
+      short: "Reference to the associated Device resource."
       type: "`$OBJECT`"
     }
     {
       name: "id"
       req: false
+      short: "This resource's unique identifier."
       type: "`$STRING`"
     }
     {
       name: "name"
       req: false
+      short: "Text describing the attestation."
       type: "`$STRING`"
     }
     {
       name: "notes"
       req: false
+      short: "Free form field that allows the Client associate notes with the Attestation."
       type: "`$STRING`"
     }
   ]

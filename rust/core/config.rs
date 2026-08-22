@@ -10,6 +10,9 @@ pub fn make_config() -> Value {
     Value::map_of([
         ("main".to_string(), Value::map_of([
             ("name".to_string(), Value::str("BluefinDecryptxP2pe")),
+            ("slug".to_string(), Value::str("bluefin-decryptx-p2pe")),
+            ("version".to_string(), Value::str("0.0.1")),
+            ("target".to_string(), Value::str("rust")),
         ])),
         ("feature".to_string(), Value::map_of([
             ("test".to_string(), Value::map_of([
@@ -20,6 +23,9 @@ pub fn make_config() -> Value {
         ])),
         ("options".to_string(), Value::map_of([
             ("base".to_string(), Value::str("https://apis.p2pemanager.com/api/v1")),
+            ("auth".to_string(), Value::map_of([
+                ("prefix".to_string(), Value::str("Basic")),
+            ])),
             ("headers".to_string(), Value::map_of([
                 ("content-type".to_string(), Value::str("application/json")),
             ])),
@@ -47,39 +53,43 @@ pub fn make_config() -> Value {
                 ("update_result".to_string(), Value::empty_map()),
                 ("user".to_string(), Value::empty_map()),
             ])),
-            ("auth".to_string(), Value::map_of([
-                ("prefix".to_string(), Value::str("Basic")),
-            ])),
         ])),
         ("entity".to_string(), Value::map_of([
             ("attestation".to_string(), Value::map_of([
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("name".to_string(), Value::str("client")),
+                        ("short".to_string(), Value::str("Reference to the associated Client resource.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("completeDate")),
+                        ("short".to_string(), Value::str("The date and time that the Attestation took place.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("created")),
+                        ("short".to_string(), Value::str("Creation timestamp in ISO 8601 format.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("device")),
+                        ("short".to_string(), Value::str("Reference to the associated Device resource.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("id")),
+                        ("short".to_string(), Value::str("This resource's unique identifier.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("name")),
+                        ("short".to_string(), Value::str("Text describing the attestation.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("notes")),
+                        ("short".to_string(), Value::str("Free form field that allows the Client associate notes with the Attestation.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                 ])),
@@ -205,47 +215,58 @@ pub fn make_config() -> Value {
                                 ("type".to_string(), Value::str("`$OBJECT`")),
                             ])),
                         ])),
+                        ("short".to_string(), Value::str("Reference to the associated User resource.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("created")),
+                        ("short".to_string(), Value::str("Creation timestamp in ISO 8601 format.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("directPartner")),
+                        ("short".to_string(), Value::str("Reference to the associated Partner.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("id")),
+                        ("short".to_string(), Value::str("This resource's unique identifier.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("isActive")),
+                        ("short".to_string(), Value::str("This property indicates if the Client account is active or disabled.")),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("location")),
                         ("req".to_string(), Value::Bool(true)),
+                        ("short".to_string(), Value::str("Reference to the associated Location resource.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("mid")),
+                        ("short".to_string(), Value::str("Some Partners will have an merchant ids on their own software offerings.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("modified")),
+                        ("short".to_string(), Value::str("Last modified timestamp.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("name")),
+                        ("short".to_string(), Value::str("The Client's name.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("partner")),
+                        ("short".to_string(), Value::str("Reference to the Client's root Partner.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("version")),
+                        ("short".to_string(), Value::str("The number of times that this resource has been updated.")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
                     ]),
                 ])),
@@ -464,6 +485,7 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("name".to_string(), Value::str("success")),
+                        ("short".to_string(), Value::str("true if the payload decryption was successful.")),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
                     ]),
                 ])),
@@ -499,118 +521,146 @@ pub fn make_config() -> Value {
                     Value::map_of([
                         ("name".to_string(), Value::str("activatedBy")),
                         ("req".to_string(), Value::Bool(true)),
+                        ("short".to_string(), Value::str("Reference to the associated User resource.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("activationDate")),
+                        ("short".to_string(), Value::str("Timestamp from when the Device was activated.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("alternateKey")),
+                        ("short".to_string(), Value::str("The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("auditNextDate")),
+                        ("short".to_string(), Value::str("Date and time that the Device is due its next PCI Audit.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("auditNotificationDate")),
+                        ("short".to_string(), Value::str("Date and time that a notification should be sent that a PCI audit is due.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("client")),
+                        ("short".to_string(), Value::str("Reference to the associated Client resource.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("created")),
+                        ("short".to_string(), Value::str("Creation timestamp in ISO 8601 format.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("createdBy")),
                         ("req".to_string(), Value::Bool(true)),
+                        ("short".to_string(), Value::str("Reference to the associated User resource.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("deviceBuild")),
+                        ("short".to_string(), Value::str("Reference to the associated Device Build resource.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("deviceState")),
+                        ("short".to_string(), Value::str("Reference to the associated Device State resource.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("deviceType")),
+                        ("short".to_string(), Value::str("Reference to the associated Device Type resource.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("errorCounter")),
+                        ("short".to_string(), Value::str("The number times the Device has been in error.")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("errorLastDate")),
+                        ("short".to_string(), Value::str("Timestamp from the last time that the Device had an error.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("id")),
+                        ("short".to_string(), Value::str("The Device's unique identifier.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("initializedBy")),
                         ("req".to_string(), Value::Bool(true)),
+                        ("short".to_string(), Value::str("Reference to the associated User resource.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("initializedDate")),
+                        ("short".to_string(), Value::str("Timestamp from when the Device was initialized.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("injectKey")),
+                        ("short".to_string(), Value::str("Reference to the associated Device resource.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("isVirtual")),
+                        ("short".to_string(), Value::str("Indicates if a Device is Virtual (represents a Device shared with a partner).")),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("kif")),
+                        ("short".to_string(), Value::str("Reference to the associated KIF resource.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("lastActivityDate")),
+                        ("short".to_string(), Value::str("Timestamp from the last time that the Device was used.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("location")),
                         ("req".to_string(), Value::Bool(true)),
+                        ("short".to_string(), Value::str("Reference to the associated Location resource.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("modified")),
+                        ("short".to_string(), Value::str("Last modified timestamp.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("modifiedBy")),
                         ("req".to_string(), Value::Bool(true)),
+                        ("short".to_string(), Value::str("Reference to the associated User resource.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("name")),
+                        ("short".to_string(), Value::str("The Device's name.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("notes")),
+                        ("short".to_string(), Value::str("Arbitary note that can be attached to a Device entry.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("partner")),
+                        ("short".to_string(), Value::str("Reference to the associated Partner.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("serialNumber")),
+                        ("short".to_string(), Value::str("The Device's serial number.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("version")),
+                        ("short".to_string(), Value::str("The number of times that this resource has been updated.")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
                     ]),
                 ])),
@@ -821,62 +871,77 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("name".to_string(), Value::str("appVersion")),
+                        ("short".to_string(), Value::str("If a Device Type has more than one Application Code version the supported version is specified here.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("buildNumber")),
+                        ("short".to_string(), Value::str("The Build Number.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("configFileName")),
+                        ("short".to_string(), Value::str("The name of the configuration file that is uploaded to the device.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("created")),
+                        ("short".to_string(), Value::str("Creation timestamp in ISO 8601 format.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("deviceType")),
+                        ("short".to_string(), Value::str("The Device Type Name.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("firmwareVersion")),
+                        ("short".to_string(), Value::str("A list of firmware versions that this Device Build covers.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("hardwareVersion")),
+                        ("short".to_string(), Value::str("A list of hardware versions that this Device Build covers.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("id")),
+                        ("short".to_string(), Value::str("This resource's unique identifier.")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("isActive")),
+                        ("short".to_string(), Value::str("This property indicates if the device build is still active and not succeeded by subsequent build.")),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("modified")),
+                        ("short".to_string(), Value::str("Last modified timestamp.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("name")),
+                        ("short".to_string(), Value::str("The Device Builds's name.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("notes")),
+                        ("short".to_string(), Value::str("Notes attached to the device build by Bluefin CISO.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("version")),
+                        ("short".to_string(), Value::str("The number of times that this resource has been updated.")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("whiteListingBinRanges")),
+                        ("short".to_string(), Value::str("A comma separated list of BIN ranges that aren't encrypted by the terminal.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("whiteListingUsed")),
+                        ("short".to_string(), Value::str("This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal.")),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
                     ]),
                 ])),
@@ -975,58 +1040,71 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("name".to_string(), Value::str("completeDate")),
+                        ("short".to_string(), Value::str("The date and time that the Custody change took place.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("created")),
+                        ("short".to_string(), Value::str("Creation timestamp in ISO 8601 format.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("createdBy")),
                         ("req".to_string(), Value::Bool(true)),
+                        ("short".to_string(), Value::str("Reference to the associated User resource.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("custodian")),
                         ("req".to_string(), Value::Bool(true)),
+                        ("short".to_string(), Value::str("Reference to the associated User resource.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("device")),
+                        ("short".to_string(), Value::str("Reference to the associated Device resource.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("id")),
+                        ("short".to_string(), Value::str("This resource's unique identifier.")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("location")),
                         ("req".to_string(), Value::Bool(true)),
+                        ("short".to_string(), Value::str("Reference to the associated Location resource.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("modified")),
+                        ("short".to_string(), Value::str("Last modified timestamp.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("modifiedBy")),
                         ("req".to_string(), Value::Bool(true)),
+                        ("short".to_string(), Value::str("Reference to the associated User resource.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("notes")),
+                        ("short".to_string(), Value::str("Free form field that allows the Client associate notes with the Custody Change.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("status")),
+                        ("short".to_string(), Value::str("Reference to the associated Custody Status.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("transferMethod")),
+                        ("short".to_string(), Value::str("Reference to the associated Transfer Method.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("version")),
+                        ("short".to_string(), Value::str("The number of times that this resource has been updated.")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
                     ]),
                 ])),
@@ -1105,58 +1183,71 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("name".to_string(), Value::str("completeDate")),
+                        ("short".to_string(), Value::str("The date and time that the Custody change took place.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("created")),
+                        ("short".to_string(), Value::str("Creation timestamp in ISO 8601 format.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("createdBy")),
                         ("req".to_string(), Value::Bool(true)),
+                        ("short".to_string(), Value::str("Reference to the associated User resource.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("custodian")),
                         ("req".to_string(), Value::Bool(true)),
+                        ("short".to_string(), Value::str("Reference to the associated User resource.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("device")),
+                        ("short".to_string(), Value::str("Reference to the associated Device resource.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("id")),
+                        ("short".to_string(), Value::str("This resource's unique identifier.")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("location")),
                         ("req".to_string(), Value::Bool(true)),
+                        ("short".to_string(), Value::str("Reference to the associated Location resource.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("modified")),
+                        ("short".to_string(), Value::str("Last modified timestamp.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("modifiedBy")),
                         ("req".to_string(), Value::Bool(true)),
+                        ("short".to_string(), Value::str("Reference to the associated User resource.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("notes")),
+                        ("short".to_string(), Value::str("Free form field that allows the Client associate notes with the Custody Change.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("status")),
+                        ("short".to_string(), Value::str("Reference to the associated Custody Status.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("transferMethod")),
+                        ("short".to_string(), Value::str("Reference to the associated Transfer Method.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("version")),
+                        ("short".to_string(), Value::str("The number of times that this resource has been updated.")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
                     ]),
                 ])),
@@ -1244,10 +1335,12 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("name".to_string(), Value::str("data")),
+                        ("short".to_string(), Value::str("List of Devices.")),
                         ("type".to_string(), Value::str("`$ARRAY`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("total")),
+                        ("short".to_string(), Value::str("Total number of Devices available (not the number of Users in the response).")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
                     ]),
                 ])),
@@ -1341,6 +1434,7 @@ pub fn make_config() -> Value {
                     Value::map_of([
                         ("name".to_string(), Value::str("success")),
                         ("req".to_string(), Value::Bool(true)),
+                        ("short".to_string(), Value::str("Indicates if the action succeeded.")),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
                     ]),
                 ])),
@@ -1377,6 +1471,7 @@ pub fn make_config() -> Value {
                     Value::map_of([
                         ("name".to_string(), Value::str("success")),
                         ("req".to_string(), Value::Bool(true)),
+                        ("short".to_string(), Value::str("Indicates if the RKI activation succeeded.")),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
                     ]),
                 ])),
@@ -1413,10 +1508,12 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("name".to_string(), Value::str("id")),
+                        ("short".to_string(), Value::str("Unique identifier for this Device state.")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("name")),
+                        ("short".to_string(), Value::str("Descriptive name for this Device state.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                 ])),
@@ -1451,38 +1548,47 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("name".to_string(), Value::str("created")),
+                        ("short".to_string(), Value::str("Creation timestamp in ISO 8601 format.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("deviceTypeMode")),
+                        ("short".to_string(), Value::str("The Device type.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("hardwareVersion")),
+                        ("short".to_string(), Value::str("The Device hardware version.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("id")),
+                        ("short".to_string(), Value::str("Unique idenifier.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("isActive")),
+                        ("short".to_string(), Value::str("This property indicates if the DeviceType is active.")),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("manufacturer")),
+                        ("short".to_string(), Value::str("The Device manufacturer.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("model")),
+                        ("short".to_string(), Value::str("The Device model.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("modified")),
+                        ("short".to_string(), Value::str("Last modified timestamp.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("name")),
+                        ("short".to_string(), Value::str("The DeviceType name.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
@@ -1491,10 +1597,12 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("productName")),
+                        ("short".to_string(), Value::str("The Device name.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("version")),
+                        ("short".to_string(), Value::str("The number of times that this resource has been updated.")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
                     ]),
                 ])),
@@ -1564,34 +1672,42 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("name".to_string(), Value::str("created")),
+                        ("short".to_string(), Value::str("Creation timestamp in ISO 8601 format.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("id")),
+                        ("short".to_string(), Value::str("unique idenifier")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("isActive")),
+                        ("short".to_string(), Value::str("Active flag, inactive keys cannot be assigned to devices.")),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("isP2PE")),
+                        ("short".to_string(), Value::str("Flags if a key is for a P2PE compliant cypher.")),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("keyType")),
+                        ("short".to_string(), Value::str("The cipher type that the key works with.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("modified")),
+                        ("short".to_string(), Value::str("Last modified timestamp in ISO 8601 format.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("name")),
+                        ("short".to_string(), Value::str("Key name.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("version")),
+                        ("short".to_string(), Value::str("The number of times that this resource has been updated.")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
                     ]),
                 ])),
@@ -1661,10 +1777,12 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("name".to_string(), Value::str("id")),
+                        ("short".to_string(), Value::str("This resource's unique identifier.")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("name")),
+                        ("short".to_string(), Value::str("The KIF's name.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                 ])),
@@ -1699,94 +1817,117 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("name".to_string(), Value::str("address1")),
+                        ("short".to_string(), Value::str("The Location's street address.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("address2")),
+                        ("short".to_string(), Value::str("The Location's street address.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("billingId")),
+                        ("short".to_string(), Value::str("\\?")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("city")),
+                        ("short".to_string(), Value::str("The Location's city.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("country")),
+                        ("short".to_string(), Value::str("The Location's country.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("created")),
+                        ("short".to_string(), Value::str("Creation timestamp in ISO 8601 format.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("customReference")),
+                        ("short".to_string(), Value::str("A Partner specified reference for a location.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("id")),
+                        ("short".to_string(), Value::str("This resource's unique identifier.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("locationType")),
+                        ("short".to_string(), Value::str("The Location's clasification.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("mailAddress1")),
+                        ("short".to_string(), Value::str("The Location's street address.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("mailAddress2")),
+                        ("short".to_string(), Value::str("The Location's street address.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("mailCity")),
+                        ("short".to_string(), Value::str("The Location's city.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("mailCountry")),
+                        ("short".to_string(), Value::str("The Location's street address.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("mailPostalCode")),
+                        ("short".to_string(), Value::str("The Location's postal code.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("mailStateProvince")),
+                        ("short".to_string(), Value::str("The Location's street state or province.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("modified")),
+                        ("short".to_string(), Value::str("Last modified timestamp.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("name")),
+                        ("short".to_string(), Value::str("The Location's name.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("nameOfBusiness")),
+                        ("short".to_string(), Value::str("The name of the business at this location.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("notes")),
+                        ("short".to_string(), Value::str("Note for delivery driver.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("postalCode")),
+                        ("short".to_string(), Value::str("The Location's postal code.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("stateProvince")),
+                        ("short".to_string(), Value::str("The Location's street state or province.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("uniqueId")),
+                        ("short".to_string(), Value::str("Unique Identifier for the Location.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("version")),
+                        ("short".to_string(), Value::str("The number of times that this resource has been updated.")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
                     ]),
                 ])),
@@ -1941,10 +2082,12 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("name".to_string(), Value::str("billingId")),
+                        ("short".to_string(), Value::str("The Partner's billing identifier.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("clientCanOrderEquipment")),
+                        ("short".to_string(), Value::str("This property indicates if the Partner is allowed to order Equipment.")),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
                     ]),
                     Value::map_of([
@@ -1955,51 +2098,63 @@ pub fn make_config() -> Value {
                                 ("type".to_string(), Value::str("`$OBJECT`")),
                             ])),
                         ])),
+                        ("short".to_string(), Value::str("Reference to the associated User resource.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("created")),
+                        ("short".to_string(), Value::str("Creation timestamp in ISO 8601 format.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("id")),
+                        ("short".to_string(), Value::str("This resource's unique identifier.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("isActive")),
+                        ("short".to_string(), Value::str("This property indicates if the Parter account is active or disabled.")),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("location")),
                         ("req".to_string(), Value::Bool(true)),
+                        ("short".to_string(), Value::str("Reference to the associated Location resource.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("modified")),
+                        ("short".to_string(), Value::str("Last modified timestamp.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("name")),
+                        ("short".to_string(), Value::str("The Partner's name.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("parent")),
+                        ("short".to_string(), Value::str("Reference to the associated Partner.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("partnerId")),
+                        ("short".to_string(), Value::str("The Partner's id.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("reference")),
+                        ("short".to_string(), Value::str("The Partner's reference string.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("verificationPhrase")),
+                        ("short".to_string(), Value::str("The verification phrase is a message that the Partner creates.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("version")),
+                        ("short".to_string(), Value::str("The number of times that this resource has been updated.")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
                     ]),
                 ])),
@@ -2118,30 +2273,37 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("name".to_string(), Value::str("carrier")),
+                        ("short".to_string(), Value::str("The name of the courier.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("client")),
+                        ("short".to_string(), Value::str("Reference to the associated Client resource.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("created")),
+                        ("short".to_string(), Value::str("Creation timestamp in ISO 8601 format.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("dateReceived")),
+                        ("short".to_string(), Value::str("The date and time that a package is recieved.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("dateShipped")),
+                        ("short".to_string(), Value::str("The date and time that a package is shipped.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("dcKif")),
+                        ("short".to_string(), Value::str("Reference to the associated KIF resource.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("id")),
+                        ("short".to_string(), Value::str("This resource's unique identifier.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
@@ -2150,26 +2312,32 @@ pub fn make_config() -> Value {
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("kif")),
+                        ("short".to_string(), Value::str("Reference to the associated KIF resource.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("modified")),
+                        ("short".to_string(), Value::str("Last modified timestamp.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("partner")),
+                        ("short".to_string(), Value::str("Reference to the associated Partner.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("shipmentType")),
+                        ("short".to_string(), Value::str("The type of shipment.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("tracking")),
+                        ("short".to_string(), Value::str("The courier's tracking number.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("version")),
+                        ("short".to_string(), Value::str("The number of times that this resource has been updated.")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
                     ]),
                 ])),
@@ -2296,6 +2464,7 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("name".to_string(), Value::str("success")),
+                        ("short".to_string(), Value::str("Indicates if the action was a success.")),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
                     ]),
                 ])),
@@ -2394,99 +2563,123 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("name".to_string(), Value::str("alternateKey")),
+                        ("short".to_string(), Value::str("The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("client")),
+                        ("short".to_string(), Value::str("Reference to the associated Client resource.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("clientRef")),
+                        ("short".to_string(), Value::str("Client Reference property that is included in the decrypt API call.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("created")),
+                        ("short".to_string(), Value::str("Creation timestamp in ISO 8601 format.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("decrypted")),
+                        ("short".to_string(), Value::str("A Transcation can process muliple decryptions.")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("deviceName")),
+                        ("short".to_string(), Value::str("The name of the Device that generated the payload to decrypt.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("directPartner")),
+                        ("short".to_string(), Value::str("Reference to the associated Partner.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("encrypted")),
+                        ("short".to_string(), Value::str("A Transcation can process muliple encryptions.")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("endDate")),
+                        ("short".to_string(), Value::str("Timestamp from the end of the transaction.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("errCode")),
+                        ("short".to_string(), Value::str("The error code that is sent in response to a failed decrypt API call.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("errMessage")),
+                        ("short".to_string(), Value::str("The error messge that is sent in response to a failed decrypt API call.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("id")),
+                        ("short".to_string(), Value::str("This resource's unique identifier.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("ipAddress")),
+                        ("short".to_string(), Value::str("The IP address of the http client that makes the decrypt API call.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("isVirtual")),
+                        ("short".to_string(), Value::str("Indicates if the Transaction came from a virtual Device.")),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("keyType")),
+                        ("short".to_string(), Value::str("The type of cipher used during decrytion.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("location")),
                         ("req".to_string(), Value::Bool(true)),
+                        ("short".to_string(), Value::str("Reference to the associated Location resource.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("messageId")),
+                        ("short".to_string(), Value::str("Message ID.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("method")),
+                        ("short".to_string(), Value::str("The decryption cypher/method.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("partner")),
+                        ("short".to_string(), Value::str("Reference to the associated Partner.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("reference")),
+                        ("short".to_string(), Value::str("The reference property that the Client includes in the decrypt API call.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("serialNumber")),
+                        ("short".to_string(), Value::str("The serial number of the Device that generated the payload to decrypt.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("startDate")),
+                        ("short".to_string(), Value::str("Timestamp from the beginning of the transaction.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("success")),
+                        ("short".to_string(), Value::str("The success indicator.")),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("transactionSource")),
+                        ("short".to_string(), Value::str("The source of the Transaction.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                 ])),
@@ -2676,50 +2869,62 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("name".to_string(), Value::str("client")),
+                        ("short".to_string(), Value::str("Reference to the associated Client resource.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("email")),
+                        ("short".to_string(), Value::str("The User's email address.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("firstName")),
+                        ("short".to_string(), Value::str("The User's name.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("id")),
+                        ("short".to_string(), Value::str("ID of newly created resource")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("isActive")),
+                        ("short".to_string(), Value::str("This property indicates if the User account is active or disabled.")),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("kif")),
+                        ("short".to_string(), Value::str("Reference to the associated KIF resource.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("lastName")),
+                        ("short".to_string(), Value::str("The User's Surname.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("partner")),
+                        ("short".to_string(), Value::str("Reference to the associated Partner.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("phone")),
+                        ("short".to_string(), Value::str("The User's phone number without dashes, spaces, or brackets.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("userName")),
+                        ("short".to_string(), Value::str("The User's unique username.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("userRole")),
+                        ("short".to_string(), Value::str("Reference to the associated User Role.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("version")),
+                        ("short".to_string(), Value::str("The number of times that this resource has been updated.")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
                     ]),
                 ])),
@@ -3026,58 +3231,72 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("name".to_string(), Value::str("client")),
+                        ("short".to_string(), Value::str("Reference to the associated Client resource.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("created")),
+                        ("short".to_string(), Value::str("Creation timestamp in ISO 8601 format.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("email")),
+                        ("short".to_string(), Value::str("The User's email address.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("firstName")),
+                        ("short".to_string(), Value::str("The User's name.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("id")),
+                        ("short".to_string(), Value::str("This resource's unique identifier.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("isActive")),
+                        ("short".to_string(), Value::str("This property indicates if the User account is active or disabled.")),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("kif")),
+                        ("short".to_string(), Value::str("Reference to the associated KIF resource.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("lastName")),
+                        ("short".to_string(), Value::str("The User's Surname.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("modified")),
+                        ("short".to_string(), Value::str("Last modified timestamp.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("partner")),
+                        ("short".to_string(), Value::str("Reference to the associated Partner.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("phone")),
+                        ("short".to_string(), Value::str("The User's phone number without dashes, spaces, or brackets.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("userName")),
+                        ("short".to_string(), Value::str("The User's unique username.")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("userRole")),
+                        ("short".to_string(), Value::str("Reference to the associated User Role.")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("version")),
+                        ("short".to_string(), Value::str("The number of times that this resource has been updated.")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
                     ]),
                 ])),
@@ -3160,6 +3379,28 @@ pub fn make_config() -> Value {
             ])),
         ])),
     ])
+}
+
+// SHARED CONFIG (sdkgen rung L2).
+//
+// The SDK reads the config on every request and never writes to it, so one
+// instance is shared by every client rather than rebuilt per client. Above the
+// size threshold make_config re-parses the whole embedded JSON, so this is the
+// difference between parsing the model once and once per client.
+//
+// THREAD-LOCAL, not a global: Value is Rc/RefCell-backed and so is neither
+// Send nor Sync. One config per thread is the widest scope that is sound here,
+// and the clone is an Rc bump, not a deep copy.
+thread_local! {
+    static SHARED_CONFIG: Value = make_config();
+}
+
+/// The per-thread config, built once on first use.
+///
+/// The returned Value SHARES its nodes: treat it as read-only. Callers that
+/// need to mutate should use make_config, which always returns a fresh copy.
+pub fn shared_config() -> Value {
+    SHARED_CONFIG.with(|c| c.clone())
 }
 
 pub fn make_feature(name: &str) -> FeatureRef {

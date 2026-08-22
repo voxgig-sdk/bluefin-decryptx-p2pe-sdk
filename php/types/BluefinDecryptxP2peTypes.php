@@ -174,9 +174,7 @@ class Device
 /** Request payload for Device#load. */
 class DeviceLoadMatch
 {
-    public ?string $device_type = null;
-    public ?string $serial_number = null;
-    public ?string $id = null;
+    public string $id;
 }
 
 /** Request payload for Device#list. */

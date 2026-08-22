@@ -162,9 +162,7 @@ typedef struct {
 
 // DeviceLoadMatch is the typed request payload for Device.load.
 typedef struct {
-  char*device_type;  // optional
-  char*serial_number;  // optional
-  char*id;  // optional
+  char*id;
 } DeviceLoadMatch;
 
 // DeviceListMatch is the typed request payload for Device.list.
