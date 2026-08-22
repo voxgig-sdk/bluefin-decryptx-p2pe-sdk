@@ -1,0 +1,118 @@
+# Entity: inject_key
+
+main: kit: entity: inject_key: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "created"
+      req: false
+      short: "Creation timestamp in ISO 8601 format."
+      type: "`$STRING`"
+    }
+    {
+      name: "id"
+      req: false
+      short: "unique idenifier"
+      type: "`$STRING`"
+    }
+    {
+      name: "isActive"
+      req: false
+      short: "Active flag, inactive keys cannot be assigned to devices."
+      type: "`$BOOLEAN`"
+    }
+    {
+      name: "isP2PE"
+      req: false
+      short: "Flags if a key is for a P2PE compliant cypher."
+      type: "`$BOOLEAN`"
+    }
+    {
+      name: "keyType"
+      req: false
+      short: "The cipher type that the key works with."
+      type: "`$STRING`"
+    }
+    {
+      name: "modified"
+      req: false
+      short: "Last modified timestamp in ISO 8601 format."
+      type: "`$STRING`"
+    }
+    {
+      name: "name"
+      req: false
+      short: "Key name."
+      type: "`$STRING`"
+    }
+    {
+      name: "version"
+      req: false
+      short: "The number of times that this resource has been updated."
+      type: "`$INTEGER`"
+    }
+  ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "inject_key"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          method: "GET"
+          orig: "/injectKeys"
+          parts: [
+            "injectKeys"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body.data`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/injectKeys/{id}"
+          parts: [
+            "injectKeys"
+            "{id}"
+          ]
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

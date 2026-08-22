@@ -1,0 +1,345 @@
+# Entity: transaction
+
+main: kit: entity: transaction: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "alternateKey"
+      req: false
+      short: "The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging."
+      type: "`$STRING`"
+    }
+    {
+      name: "client"
+      req: false
+      short: "Reference to the associated Client resource."
+      type: "`$OBJECT`"
+    }
+    {
+      name: "clientRef"
+      req: false
+      short: "Client Reference property that is included in the decrypt API call."
+      type: "`$STRING`"
+    }
+    {
+      name: "created"
+      req: false
+      short: "Creation timestamp in ISO 8601 format."
+      type: "`$STRING`"
+    }
+    {
+      name: "decrypted"
+      req: false
+      short: "A Transcation can process muliple decryptions."
+      type: "`$INTEGER`"
+    }
+    {
+      name: "deviceName"
+      req: false
+      short: "The name of the Device that generated the payload to decrypt."
+      type: "`$STRING`"
+    }
+    {
+      name: "directPartner"
+      req: false
+      short: "Reference to the associated Partner."
+      type: "`$OBJECT`"
+    }
+    {
+      name: "encrypted"
+      req: false
+      short: "A Transcation can process muliple encryptions."
+      type: "`$INTEGER`"
+    }
+    {
+      name: "endDate"
+      req: false
+      short: "Timestamp from the end of the transaction."
+      type: "`$STRING`"
+    }
+    {
+      name: "errCode"
+      req: false
+      short: "The error code that is sent in response to a failed decrypt API call."
+      type: "`$STRING`"
+    }
+    {
+      name: "errMessage"
+      req: false
+      short: "The error messge that is sent in response to a failed decrypt API call."
+      type: "`$STRING`"
+    }
+    {
+      name: "id"
+      req: false
+      short: "This resource's unique identifier."
+      type: "`$STRING`"
+    }
+    {
+      name: "ipAddress"
+      req: false
+      short: "The IP address of the http client that makes the decrypt API call."
+      type: "`$STRING`"
+    }
+    {
+      name: "isVirtual"
+      req: false
+      short: "Indicates if the Transaction came from a virtual Device."
+      type: "`$BOOLEAN`"
+    }
+    {
+      name: "keyType"
+      req: false
+      short: "The type of cipher used during decrytion."
+      type: "`$STRING`"
+    }
+    {
+      name: "location"
+      req: true
+      short: "Reference to the associated Location resource."
+      type: "`$OBJECT`"
+    }
+    {
+      name: "messageId"
+      req: false
+      short: "Message ID."
+      type: "`$STRING`"
+    }
+    {
+      name: "method"
+      req: false
+      short: "The decryption cypher/method."
+      type: "`$STRING`"
+    }
+    {
+      name: "partner"
+      req: false
+      short: "Reference to the associated Partner."
+      type: "`$OBJECT`"
+    }
+    {
+      name: "reference"
+      req: false
+      short: "The reference property that the Client includes in the decrypt API call."
+      type: "`$STRING`"
+    }
+    {
+      name: "serialNumber"
+      req: false
+      short: "The serial number of the Device that generated the payload to decrypt."
+      type: "`$STRING`"
+    }
+    {
+      name: "startDate"
+      req: false
+      short: "Timestamp from the beginning of the transaction."
+      type: "`$STRING`"
+    }
+    {
+      name: "success"
+      req: false
+      short: "The success indicator."
+      type: "`$BOOLEAN`"
+    }
+    {
+      name: "transactionSource"
+      req: false
+      short: "The source of the Transaction."
+      type: "`$STRING`"
+    }
+  ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "transaction"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          method: "POST"
+          orig: "/transactions"
+          parts: [
+            "transactions"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            query: [
+              {
+                kind: "query"
+                name: "client"
+                orig: "client"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "client_ref"
+                orig: "client_ref"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "date_from"
+                orig: "date_from"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "date_to"
+                orig: "date_to"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "location"
+                orig: "location"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "message_id"
+                orig: "message_id"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                example: "nocount"
+                kind: "query"
+                name: "paging_mode"
+                orig: "paging_mode"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "partner"
+                orig: "partner"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "reference"
+                orig: "reference"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "serial_number"
+                orig: "serial_number"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                example: 0
+                kind: "query"
+                name: "skip"
+                orig: "skip"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+              {
+                kind: "query"
+                name: "success"
+                orig: "success"
+                reqd: false
+                type: "`$BOOLEAN`"
+              }
+              {
+                example: 10
+                kind: "query"
+                name: "take"
+                orig: "take"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/transactions"
+          parts: [
+            "transactions"
+          ]
+          select: {
+            exist: [
+              "client"
+              "client_ref"
+              "date_from"
+              "date_to"
+              "location"
+              "message_id"
+              "paging_mode"
+              "partner"
+              "reference"
+              "serial_number"
+              "skip"
+              "success"
+              "take"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body.data`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/transactions/{id}"
+          parts: [
+            "transactions"
+            "{id}"
+          ]
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

@@ -1,0 +1,389 @@
+# Entity: device
+
+main: kit: entity: device: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "activatedBy"
+      req: true
+      short: "Reference to the associated User resource."
+      type: "`$OBJECT`"
+    }
+    {
+      name: "activationDate"
+      req: false
+      short: "Timestamp from when the Device was activated."
+      type: "`$STRING`"
+    }
+    {
+      name: "alternateKey"
+      req: false
+      short: "The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging."
+      type: "`$STRING`"
+    }
+    {
+      name: "auditNextDate"
+      req: false
+      short: "Date and time that the Device is due its next PCI Audit."
+      type: "`$STRING`"
+    }
+    {
+      name: "auditNotificationDate"
+      req: false
+      short: "Date and time that a notification should be sent that a PCI audit is due."
+      type: "`$STRING`"
+    }
+    {
+      name: "client"
+      req: false
+      short: "Reference to the associated Client resource."
+      type: "`$OBJECT`"
+    }
+    {
+      name: "created"
+      req: false
+      short: "Creation timestamp in ISO 8601 format."
+      type: "`$STRING`"
+    }
+    {
+      name: "createdBy"
+      req: true
+      short: "Reference to the associated User resource."
+      type: "`$OBJECT`"
+    }
+    {
+      name: "deviceBuild"
+      req: false
+      short: "Reference to the associated Device Build resource."
+      type: "`$OBJECT`"
+    }
+    {
+      name: "deviceState"
+      req: false
+      short: "Reference to the associated Device State resource."
+      type: "`$OBJECT`"
+    }
+    {
+      name: "deviceType"
+      req: false
+      short: "Reference to the associated Device Type resource."
+      type: "`$OBJECT`"
+    }
+    {
+      name: "errorCounter"
+      req: false
+      short: "The number times the Device has been in error."
+      type: "`$INTEGER`"
+    }
+    {
+      name: "errorLastDate"
+      req: false
+      short: "Timestamp from the last time that the Device had an error."
+      type: "`$STRING`"
+    }
+    {
+      name: "id"
+      req: false
+      short: "The Device's unique identifier."
+      type: "`$STRING`"
+    }
+    {
+      name: "initializedBy"
+      req: true
+      short: "Reference to the associated User resource."
+      type: "`$OBJECT`"
+    }
+    {
+      name: "initializedDate"
+      req: false
+      short: "Timestamp from when the Device was initialized."
+      type: "`$STRING`"
+    }
+    {
+      name: "injectKey"
+      req: false
+      short: "Reference to the associated Device resource."
+      type: "`$OBJECT`"
+    }
+    {
+      name: "isVirtual"
+      req: false
+      short: "Indicates if a Device is Virtual (represents a Device shared with a partner)."
+      type: "`$BOOLEAN`"
+    }
+    {
+      name: "kif"
+      req: false
+      short: "Reference to the associated KIF resource."
+      type: "`$OBJECT`"
+    }
+    {
+      name: "lastActivityDate"
+      req: false
+      short: "Timestamp from the last time that the Device was used."
+      type: "`$STRING`"
+    }
+    {
+      name: "location"
+      req: true
+      short: "Reference to the associated Location resource."
+      type: "`$OBJECT`"
+    }
+    {
+      name: "modified"
+      req: false
+      short: "Last modified timestamp."
+      type: "`$STRING`"
+    }
+    {
+      name: "modifiedBy"
+      req: true
+      short: "Reference to the associated User resource."
+      type: "`$OBJECT`"
+    }
+    {
+      name: "name"
+      req: false
+      short: "The Device's name."
+      type: "`$STRING`"
+    }
+    {
+      name: "notes"
+      req: false
+      short: "Arbitary note that can be attached to a Device entry."
+      type: "`$STRING`"
+    }
+    {
+      name: "partner"
+      req: false
+      short: "Reference to the associated Partner."
+      type: "`$OBJECT`"
+    }
+    {
+      name: "serialNumber"
+      req: false
+      short: "The Device's serial number."
+      type: "`$STRING`"
+    }
+    {
+      name: "version"
+      req: false
+      short: "The number of times that this resource has been updated."
+      type: "`$INTEGER`"
+    }
+  ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "device"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          method: "POST"
+          orig: "/devices"
+          parts: [
+            "devices"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            query: [
+              {
+                kind: "query"
+                name: "client"
+                orig: "client"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "device_state"
+                orig: "device_state"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "kif"
+                orig: "kif"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "partner"
+                orig: "partner"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "serial_number"
+                orig: "serial_number"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                example: 0
+                kind: "query"
+                name: "skip"
+                orig: "skip"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+              {
+                example: "asc"
+                kind: "query"
+                name: "sorting_direction"
+                orig: "sorting_direction"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                example: "serialnumber"
+                kind: "query"
+                name: "sorting_field"
+                orig: "sorting_field"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                example: 10
+                kind: "query"
+                name: "take"
+                orig: "take"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/devices"
+          parts: [
+            "devices"
+          ]
+          select: {
+            exist: [
+              "client"
+              "device_state"
+              "kif"
+              "partner"
+              "serial_number"
+              "skip"
+              "sorting_direction"
+              "sorting_field"
+              "take"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body.data`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "device_type"
+                orig: "device_type"
+                reqd: true
+                type: "`$STRING`"
+              }
+              {
+                kind: "param"
+                name: "serial_number"
+                orig: "serial_number"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/devices/{serialNumber}/{deviceType}"
+          parts: [
+            "devices"
+            "{serial_number}"
+            "{device_type}"
+          ]
+          rename: {
+            param: {
+              deviceType: "device_type"
+              serialNumber: "serial_number"
+            }
+          }
+          select: {
+            exist: [
+              "device_type"
+              "serial_number"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/devices/{id}"
+          parts: [
+            "devices"
+            "{id}"
+          ]
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  relations: {
+    ancestors: [
+      [
+        "device"
+      ]
+    ]
+  }
+
+
+
+}

@@ -89,7 +89,7 @@
                     "take"))
                 "transform" (vs/jm
                   "req" "`reqdata`"
-                  "res" "`body`"))))
+                  "res" "`body.data`"))))
           "load" (vs/jm
             "input" "data"
             "name" "load"
@@ -222,7 +222,7 @@
                     "take"))
                 "transform" (vs/jm
                   "req" "`reqdata`"
-                  "res" "`body`"))))
+                  "res" "`body.data`"))))
           "load" (vs/jm
             "input" "data"
             "name" "load"
@@ -556,7 +556,7 @@
                     "take"))
                 "transform" (vs/jm
                   "req" "`reqdata`"
-                  "res" "`body`"))))
+                  "res" "`body.data`"))))
           "load" (vs/jm
             "input" "data"
             "name" "load"
@@ -719,7 +719,7 @@
                     "take"))
                 "transform" (vs/jm
                   "req" "`reqdata`"
-                  "res" "`body`"))))
+                  "res" "`body.data`"))))
           "load" (vs/jm
             "input" "data"
             "name" "load"
@@ -969,7 +969,7 @@
                     "take"))
                 "transform" (vs/jm
                   "req" "`reqdata`"
-                  "res" "`body`")))))
+                  "res" "`body.data`")))))
         "relations" (vs/jm
           "ancestors" (vs/jt
             (vs/jt
@@ -1128,7 +1128,7 @@
                 "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
-                  "res" "`body`")))))
+                  "res" "`body.data`")))))
         "relations" (vs/jm
           "ancestors" (vs/jt)))
       "device_type" (vs/jm
@@ -1196,7 +1196,7 @@
                 "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
-                  "res" "`body`"))))
+                  "res" "`body.data`"))))
           "load" (vs/jm
             "input" "data"
             "name" "load"
@@ -1274,7 +1274,7 @@
                 "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
-                  "res" "`body`"))))
+                  "res" "`body.data`"))))
           "load" (vs/jm
             "input" "data"
             "name" "load"
@@ -1328,7 +1328,7 @@
                 "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
-                  "res" "`body`")))))
+                  "res" "`body.data`")))))
         "relations" (vs/jm
           "ancestors" (vs/jt)))
       "location" (vs/jm
@@ -1479,7 +1479,7 @@
                     "take"))
                 "transform" (vs/jm
                   "req" "`reqdata`"
-                  "res" "`body`"))))
+                  "res" "`body.data`"))))
           "load" (vs/jm
             "input" "data"
             "name" "load"
@@ -1648,7 +1648,7 @@
                     "take"))
                 "transform" (vs/jm
                   "req" "`reqdata`"
-                  "res" "`body`"))))
+                  "res" "`body.data`"))))
           "load" (vs/jm
             "input" "data"
             "name" "load"
@@ -1793,7 +1793,7 @@
                     "take"))
                 "transform" (vs/jm
                   "req" "`reqdata`"
-                  "res" "`body`"))))
+                  "res" "`body.data`"))))
           "load" (vs/jm
             "input" "data"
             "name" "load"
@@ -2102,7 +2102,7 @@
                     "take"))
                 "transform" (vs/jm
                   "req" "`reqdata`"
-                  "res" "`body`"))))
+                  "res" "`body.data`"))))
           "load" (vs/jm
             "input" "data"
             "name" "load"
@@ -2245,7 +2245,7 @@
                     "take"))
                 "transform" (vs/jm
                   "req" "`reqdata`"
-                  "res" "`body`"))))
+                  "res" "`body.data`"))))
           "update" (vs/jm
             "input" "data"
             "name" "update"

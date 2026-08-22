@@ -1,0 +1,376 @@
+# Entity: update_result
+
+main: kit: entity: update_result: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "client"
+      req: false
+      short: "Reference to the associated Client resource."
+      type: "`$OBJECT`"
+    }
+    {
+      name: "email"
+      req: false
+      short: "The User's email address."
+      type: "`$STRING`"
+    }
+    {
+      name: "firstName"
+      req: false
+      short: "The User's name."
+      type: "`$STRING`"
+    }
+    {
+      name: "id"
+      req: false
+      short: "ID of newly created resource"
+      type: "`$STRING`"
+    }
+    {
+      name: "isActive"
+      req: false
+      short: "This property indicates if the User account is active or disabled."
+      type: "`$BOOLEAN`"
+    }
+    {
+      name: "kif"
+      req: false
+      short: "Reference to the associated KIF resource."
+      type: "`$OBJECT`"
+    }
+    {
+      name: "lastName"
+      req: false
+      short: "The User's Surname."
+      type: "`$STRING`"
+    }
+    {
+      name: "partner"
+      req: false
+      short: "Reference to the associated Partner."
+      type: "`$OBJECT`"
+    }
+    {
+      name: "phone"
+      req: false
+      short: "The User's phone number without dashes, spaces, or brackets."
+      type: "`$STRING`"
+    }
+    {
+      name: "userName"
+      req: false
+      short: "The User's unique username."
+      type: "`$STRING`"
+    }
+    {
+      name: "userRole"
+      req: false
+      short: "Reference to the associated User Role."
+      type: "`$OBJECT`"
+    }
+    {
+      name: "version"
+      req: false
+      short: "The number of times that this resource has been updated."
+      type: "`$INTEGER`"
+    }
+  ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "update_result"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          method: "POST"
+          orig: "/users"
+          parts: [
+            "users"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            query: [
+              {
+                kind: "query"
+                name: "client"
+                orig: "client"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "kif"
+                orig: "kif"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "partner"
+                orig: "partner"
+                reqd: false
+                type: "`$ANY`"
+              }
+              {
+                example: 0
+                kind: "query"
+                name: "skip"
+                orig: "skip"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+              {
+                example: 10
+                kind: "query"
+                name: "take"
+                orig: "take"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/users"
+          parts: [
+            "users"
+          ]
+          select: {
+            exist: [
+              "client"
+              "kif"
+              "partner"
+              "skip"
+              "take"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body.data`"
+          }
+        }
+      ]
+    }
+    update: {
+      name: "update"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "PATCH"
+          orig: "/clients/{id}"
+          parts: [
+            "clients"
+            "{id}"
+          ]
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "PATCH"
+          orig: "/devices/{id}"
+          parts: [
+            "devices"
+            "{id}"
+          ]
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "PATCH"
+          orig: "/locations/{id}"
+          parts: [
+            "locations"
+            "{id}"
+          ]
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "PATCH"
+          orig: "/partners/{id}"
+          parts: [
+            "partners"
+            "{id}"
+          ]
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "PATCH"
+          orig: "/shipments/{id}"
+          parts: [
+            "shipments"
+            "{id}"
+          ]
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "PATCH"
+          orig: "/transactions/{id}"
+          parts: [
+            "transactions"
+            "{id}"
+          ]
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "PATCH"
+          orig: "/users/{id}"
+          parts: [
+            "users"
+            "{id}"
+          ]
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

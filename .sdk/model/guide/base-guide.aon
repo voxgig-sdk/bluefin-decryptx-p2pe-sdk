@@ -1,0 +1,230 @@
+# Guide
+
+guide: {
+  metrics: count: entity: 22
+  metrics: count: path: 31
+  metrics: count: method: 52
+
+  entity: attestation: {
+    path: "/attestations": {
+      op: create: method: *POST
+      op: list: method: *GET
+      op: list: transform: res: *("`body.data`")|top
+    }
+    path: "/attestations/{id}": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: client: {
+    path: "/clients": {
+      op: create: method: *POST
+      op: list: method: *GET
+      op: list: transform: res: *("`body.data`")|top
+    }
+    path: "/clients/{id}": {
+      op: load: method: *GET
+      op: remove: method: *DELETE
+    }
+  }
+
+  entity: create_result: {
+    path: "/devices/{serialNumber}/{deviceType}/custody": {
+      rename: param: "deviceType": *"device_type"
+      rename: param: "serialNumber": *"serial_number"
+      op: create: method: *POST
+    }
+  }
+
+  entity: decryption: {
+    path: "/decryption": {
+      op: create: method: *POST
+    }
+  }
+
+  entity: device: {
+    path: "/devices": {
+      op: create: method: *POST
+      op: list: method: *GET
+      op: list: transform: res: *("`body.data`")|top
+    }
+    path: "/devices/{id}": {
+      op: load: method: *GET
+    }
+    path: "/devices/{serialNumber}/{deviceType}": {
+      rename: param: "deviceType": *"device_type"
+      rename: param: "serialNumber": *"serial_number"
+      op: load: method: *GET
+    }
+  }
+
+  entity: device_build: {
+    path: "/deviceBuilds": {
+      op: list: method: *GET
+      op: list: transform: res: *("`body.data`")|top
+    }
+    path: "/deviceBuilds/{id}": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: device_custody_detail: {
+    path: "/devices/{serialNumber}/{deviceType}/custody/{id}": {
+      rename: param: "deviceType": *"device_type"
+      rename: param: "serialNumber": *"serial_number"
+      op: load: method: *GET
+    }
+  }
+
+  entity: device_custody_list: {
+    path: "/devices/{serialNumber}/{deviceType}/custody": {
+      rename: param: "deviceType": *"device_type"
+      rename: param: "serialNumber": *"serial_number"
+      op: list: method: *GET
+      op: list: transform: res: *("`body.data`")|top
+    }
+  }
+
+  entity: device_list: {
+    path: "/virtualDevices/{sharePartnerTo}": {
+      rename: param: "sharePartnerTo": *"share_partner_to"
+      op: load: method: *GET
+    }
+  }
+
+  entity: device_receive_result: {
+    path: "/devices/receive": {
+      op: create: method: *POST
+    }
+  }
+
+  entity: device_rki_activate_result: {
+    path: "/devices/rki/activate": {
+      op: create: method: *POST
+    }
+  }
+
+  entity: device_state: {
+    path: "/deviceStates": {
+      op: list: method: *GET
+      op: list: transform: res: *("`body.data`")|top
+    }
+  }
+
+  entity: device_type: {
+    path: "/deviceTypes": {
+      op: list: method: *GET
+      op: list: transform: res: *("`body.data`")|top
+    }
+    path: "/deviceTypes/{id}": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: inject_key: {
+    path: "/injectKeys": {
+      op: list: method: *GET
+      op: list: transform: res: *("`body.data`")|top
+    }
+    path: "/injectKeys/{id}": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: kif: {
+    path: "/kifs": {
+      op: list: method: *GET
+      op: list: transform: res: *("`body.data`")|top
+    }
+  }
+
+  entity: location: {
+    path: "/locations": {
+      op: create: method: *POST
+      op: list: method: *GET
+      op: list: transform: res: *("`body.data`")|top
+    }
+    path: "/locations/{id}": {
+      op: load: method: *GET
+      op: remove: method: *DELETE
+    }
+  }
+
+  entity: partner: {
+    path: "/partners": {
+      op: create: method: *POST
+      op: list: method: *GET
+      op: list: transform: res: *("`body.data`")|top
+    }
+    path: "/partners/{id}": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: shipment: {
+    path: "/shipments": {
+      op: create: method: *POST
+      op: list: method: *GET
+      op: list: transform: res: *("`body.data`")|top
+    }
+    path: "/shipments/{id}": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: success: {
+    path: "/virtualDevices/{sharePartnerTo}": {
+      rename: param: "sharePartnerTo": *"share_partner_to"
+      op: create: method: *POST
+      op: remove: method: *DELETE
+    }
+  }
+
+  entity: transaction: {
+    path: "/transactions": {
+      op: create: method: *POST
+      op: list: method: *GET
+      op: list: transform: res: *("`body.data`")|top
+    }
+    path: "/transactions/{id}": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: update_result: {
+    path: "/clients/{id}": {
+      op: patch: method: *PATCH
+    }
+    path: "/devices/{id}": {
+      op: patch: method: *PATCH
+    }
+    path: "/locations/{id}": {
+      op: patch: method: *PATCH
+    }
+    path: "/partners/{id}": {
+      op: patch: method: *PATCH
+    }
+    path: "/shipments/{id}": {
+      op: patch: method: *PATCH
+    }
+    path: "/transactions/{id}": {
+      op: patch: method: *PATCH
+    }
+    path: "/users": {
+      op: create: method: *POST
+      op: list: method: *GET
+      op: list: transform: res: *("`body.data`")|top
+    }
+    path: "/users/{id}": {
+      op: patch: method: *PATCH
+    }
+  }
+
+  entity: user: {
+    path: "/users/{id}": {
+      op: load: method: *GET
+      op: remove: method: *DELETE
+    }
+  }
+
+}

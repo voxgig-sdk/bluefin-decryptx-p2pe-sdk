@@ -130,7 +130,7 @@ let make_config () : value =
                     (Str "take") ])) ]));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]) ])) ]));
+                  ("res", (Str "`body.data`")) ])) ]) ])) ]));
           ("load", (jo [
             ("input", (Str "data"));
             ("name", (Str "load"));
@@ -263,7 +263,7 @@ let make_config () : value =
                     (Str "take") ])) ]));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]) ])) ]));
+                  ("res", (Str "`body.data`")) ])) ]) ])) ]));
           ("load", (jo [
             ("input", (Str "data"));
             ("name", (Str "load"));
@@ -597,7 +597,7 @@ let make_config () : value =
                     (Str "take") ])) ]));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]) ])) ]));
+                  ("res", (Str "`body.data`")) ])) ]) ])) ]));
           ("load", (jo [
             ("input", (Str "data"));
             ("name", (Str "load"));
@@ -760,7 +760,7 @@ let make_config () : value =
                     (Str "take") ])) ]));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]) ])) ]));
+                  ("res", (Str "`body.data`")) ])) ]) ])) ]));
           ("load", (jo [
             ("input", (Str "data"));
             ("name", (Str "load"));
@@ -1010,7 +1010,7 @@ let make_config () : value =
                     (Str "take") ])) ]));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]) ])) ])) ]));
+                  ("res", (Str "`body.data`")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (ja [
             (ja [
@@ -1169,7 +1169,7 @@ let make_config () : value =
                 ("select", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]) ])) ])) ]));
+                  ("res", (Str "`body.data`")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("device_type", (jo [
@@ -1237,7 +1237,7 @@ let make_config () : value =
                 ("select", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]) ])) ]));
+                  ("res", (Str "`body.data`")) ])) ]) ])) ]));
           ("load", (jo [
             ("input", (Str "data"));
             ("name", (Str "load"));
@@ -1315,7 +1315,7 @@ let make_config () : value =
                 ("select", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]) ])) ]));
+                  ("res", (Str "`body.data`")) ])) ]) ])) ]));
           ("load", (jo [
             ("input", (Str "data"));
             ("name", (Str "load"));
@@ -1369,7 +1369,7 @@ let make_config () : value =
                 ("select", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]) ])) ])) ]));
+                  ("res", (Str "`body.data`")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("location", (jo [
@@ -1520,7 +1520,7 @@ let make_config () : value =
                     (Str "take") ])) ]));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]) ])) ]));
+                  ("res", (Str "`body.data`")) ])) ]) ])) ]));
           ("load", (jo [
             ("input", (Str "data"));
             ("name", (Str "load"));
@@ -1689,7 +1689,7 @@ let make_config () : value =
                     (Str "take") ])) ]));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]) ])) ]));
+                  ("res", (Str "`body.data`")) ])) ]) ])) ]));
           ("load", (jo [
             ("input", (Str "data"));
             ("name", (Str "load"));
@@ -1834,7 +1834,7 @@ let make_config () : value =
                     (Str "take") ])) ]));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]) ])) ]));
+                  ("res", (Str "`body.data`")) ])) ]) ])) ]));
           ("load", (jo [
             ("input", (Str "data"));
             ("name", (Str "load"));
@@ -2143,7 +2143,7 @@ let make_config () : value =
                     (Str "take") ])) ]));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]) ])) ]));
+                  ("res", (Str "`body.data`")) ])) ]) ])) ]));
           ("load", (jo [
             ("input", (Str "data"));
             ("name", (Str "load"));
@@ -2286,7 +2286,7 @@ let make_config () : value =
                     (Str "take") ])) ]));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ])) ]) ])) ]));
+                  ("res", (Str "`body.data`")) ])) ]) ])) ]));
           ("update", (jo [
             ("input", (Str "data"));
             ("name", (Str "update"));

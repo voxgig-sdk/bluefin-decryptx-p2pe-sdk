@@ -1,0 +1,141 @@
+# Entity: device_type
+
+main: kit: entity: device_type: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "created"
+      req: false
+      short: "Creation timestamp in ISO 8601 format."
+      type: "`$STRING`"
+    }
+    {
+      name: "deviceTypeMode"
+      req: false
+      short: "The Device type."
+      type: "`$STRING`"
+    }
+    {
+      name: "hardwareVersion"
+      req: false
+      short: "The Device hardware version."
+      type: "`$STRING`"
+    }
+    {
+      name: "id"
+      req: false
+      short: "Unique idenifier."
+      type: "`$STRING`"
+    }
+    {
+      name: "isActive"
+      req: false
+      short: "This property indicates if the DeviceType is active."
+      type: "`$BOOLEAN`"
+    }
+    {
+      name: "manufacturer"
+      req: false
+      short: "The Device manufacturer."
+      type: "`$STRING`"
+    }
+    {
+      name: "model"
+      req: false
+      short: "The Device model."
+      type: "`$STRING`"
+    }
+    {
+      name: "modified"
+      req: false
+      short: "Last modified timestamp."
+      type: "`$STRING`"
+    }
+    {
+      name: "name"
+      req: false
+      short: "The DeviceType name."
+      type: "`$STRING`"
+    }
+    {
+      name: "photoUrl"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "productName"
+      req: false
+      short: "The Device name."
+      type: "`$STRING`"
+    }
+    {
+      name: "version"
+      req: false
+      short: "The number of times that this resource has been updated."
+      type: "`$INTEGER`"
+    }
+  ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "device_type"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          method: "GET"
+          orig: "/deviceTypes"
+          parts: [
+            "deviceTypes"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body.data`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "id"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/deviceTypes/{id}"
+          parts: [
+            "deviceTypes"
+            "{id}"
+          ]
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

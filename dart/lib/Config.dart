@@ -26,7 +26,7 @@ class Config {
   final Map<String, dynamic> main = <String, dynamic>{
     'name': 'BluefinDecryptxP2pe',
         'slug': 'bluefin-decryptx-p2pe',
-    'version': '0.0.1',
+    'version': '0.1.1',
     'target': 'dart',
 
   };
@@ -185,7 +185,7 @@ class Config {
               },
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
-                'res': '`body`',
+                'res': '`body.data`',
               },
             },
           ],
@@ -362,7 +362,7 @@ class Config {
               },
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
-                'res': '`body`',
+                'res': '`body.data`',
               },
             },
           ],
@@ -799,7 +799,7 @@ class Config {
               },
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
-                'res': '`body`',
+                'res': '`body.data`',
               },
             },
           ],
@@ -1016,7 +1016,7 @@ class Config {
               },
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
-                'res': '`body`',
+                'res': '`body.data`',
               },
             },
           ],
@@ -1342,7 +1342,7 @@ class Config {
               },
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
-                'res': '`body`',
+                'res': '`body.data`',
               },
             },
           ],
@@ -1559,7 +1559,7 @@ class Config {
               'select': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
-                'res': '`body`',
+                'res': '`body.data`',
               },
             },
           ],
@@ -1648,7 +1648,7 @@ class Config {
               'select': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
-                'res': '`body`',
+                'res': '`body.data`',
               },
             },
           ],
@@ -1753,7 +1753,7 @@ class Config {
               'select': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
-                'res': '`body`',
+                'res': '`body.data`',
               },
             },
           ],
@@ -1828,7 +1828,7 @@ class Config {
               'select': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
-                'res': '`body`',
+                'res': '`body.data`',
               },
             },
           ],
@@ -2023,7 +2023,7 @@ class Config {
               },
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
-                'res': '`body`',
+                'res': '`body.data`',
               },
             },
           ],
@@ -2249,7 +2249,7 @@ class Config {
               },
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
-                'res': '`body`',
+                'res': '`body.data`',
               },
             },
           ],
@@ -2440,7 +2440,7 @@ class Config {
               },
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
-                'res': '`body`',
+                'res': '`body.data`',
               },
             },
           ],
@@ -2845,7 +2845,7 @@ class Config {
               },
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
-                'res': '`body`',
+                'res': '`body.data`',
               },
             },
           ],
@@ -3033,7 +3033,7 @@ class Config {
               },
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
-                'res': '`body`',
+                'res': '`body.data`',
               },
             },
           ],

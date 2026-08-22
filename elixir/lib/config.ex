@@ -9,7 +9,7 @@ defmodule BluefinDecryptxP2pe.Config do
       "main" => %{
         "name" => "BluefinDecryptxP2pe",
         "slug" => "bluefin-decryptx-p2pe",
-        "version" => "0.0.1",
+        "version" => "0.1.1",
         "target" => "elixir"
       },
       "feature" => %{
@@ -158,7 +158,7 @@ defmodule BluefinDecryptxP2pe.Config do
                   },
                   "transform" => %{
                     "req" => "`reqdata`",
-                    "res" => "`body`"
+                    "res" => "`body.data`"
                   }
                 }
               ]
@@ -335,7 +335,7 @@ defmodule BluefinDecryptxP2pe.Config do
                   },
                   "transform" => %{
                     "req" => "`reqdata`",
-                    "res" => "`body`"
+                    "res" => "`body.data`"
                   }
                 }
               ]
@@ -772,7 +772,7 @@ defmodule BluefinDecryptxP2pe.Config do
                   },
                   "transform" => %{
                     "req" => "`reqdata`",
-                    "res" => "`body`"
+                    "res" => "`body.data`"
                   }
                 }
               ]
@@ -989,7 +989,7 @@ defmodule BluefinDecryptxP2pe.Config do
                   },
                   "transform" => %{
                     "req" => "`reqdata`",
-                    "res" => "`body`"
+                    "res" => "`body.data`"
                   }
                 }
               ]
@@ -1315,7 +1315,7 @@ defmodule BluefinDecryptxP2pe.Config do
                   },
                   "transform" => %{
                     "req" => "`reqdata`",
-                    "res" => "`body`"
+                    "res" => "`body.data`"
                   }
                 }
               ]
@@ -1532,7 +1532,7 @@ defmodule BluefinDecryptxP2pe.Config do
                   "select" => %{},
                   "transform" => %{
                     "req" => "`reqdata`",
-                    "res" => "`body`"
+                    "res" => "`body.data`"
                   }
                 }
               ]
@@ -1621,7 +1621,7 @@ defmodule BluefinDecryptxP2pe.Config do
                   "select" => %{},
                   "transform" => %{
                     "req" => "`reqdata`",
-                    "res" => "`body`"
+                    "res" => "`body.data`"
                   }
                 }
               ]
@@ -1726,7 +1726,7 @@ defmodule BluefinDecryptxP2pe.Config do
                   "select" => %{},
                   "transform" => %{
                     "req" => "`reqdata`",
-                    "res" => "`body`"
+                    "res" => "`body.data`"
                   }
                 }
               ]
@@ -1801,7 +1801,7 @@ defmodule BluefinDecryptxP2pe.Config do
                   "select" => %{},
                   "transform" => %{
                     "req" => "`reqdata`",
-                    "res" => "`body`"
+                    "res" => "`body.data`"
                   }
                 }
               ]
@@ -1996,7 +1996,7 @@ defmodule BluefinDecryptxP2pe.Config do
                   },
                   "transform" => %{
                     "req" => "`reqdata`",
-                    "res" => "`body`"
+                    "res" => "`body.data`"
                   }
                 }
               ]
@@ -2222,7 +2222,7 @@ defmodule BluefinDecryptxP2pe.Config do
                   },
                   "transform" => %{
                     "req" => "`reqdata`",
-                    "res" => "`body`"
+                    "res" => "`body.data`"
                   }
                 }
               ]
@@ -2413,7 +2413,7 @@ defmodule BluefinDecryptxP2pe.Config do
                   },
                   "transform" => %{
                     "req" => "`reqdata`",
-                    "res" => "`body`"
+                    "res" => "`body.data`"
                   }
                 }
               ]
@@ -2818,7 +2818,7 @@ defmodule BluefinDecryptxP2pe.Config do
                   },
                   "transform" => %{
                     "req" => "`reqdata`",
-                    "res" => "`body`"
+                    "res" => "`body.data`"
                   }
                 }
               ]
@@ -3006,7 +3006,7 @@ defmodule BluefinDecryptxP2pe.Config do
                   },
                   "transform" => %{
                     "req" => "`reqdata`",
-                    "res" => "`body`"
+                    "res" => "`body.data`"
                   }
                 }
               ]

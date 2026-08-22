@@ -30,7 +30,7 @@ class Config {
   main = {
     name: 'BluefinDecryptxP2pe',
         slug: "bluefin-decryptx-p2pe",
-    version: "0.0.1",
+    version: "0.1.1",
     target: "js",
 
   }
@@ -235,7 +235,7 @@ class Config {
               },
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body`"
+                "res": "`body.data`"
               }
             }
           ]
@@ -412,7 +412,7 @@ class Config {
               },
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body`"
+                "res": "`body.data`"
               }
             }
           ]
@@ -849,7 +849,7 @@ class Config {
               },
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body`"
+                "res": "`body.data`"
               }
             }
           ]
@@ -1066,7 +1066,7 @@ class Config {
               },
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body`"
+                "res": "`body.data`"
               }
             }
           ]
@@ -1392,7 +1392,7 @@ class Config {
               },
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body`"
+                "res": "`body.data`"
               }
             }
           ]
@@ -1609,7 +1609,7 @@ class Config {
               "select": {},
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body`"
+                "res": "`body.data`"
               }
             }
           ]
@@ -1698,7 +1698,7 @@ class Config {
               "select": {},
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body`"
+                "res": "`body.data`"
               }
             }
           ]
@@ -1803,7 +1803,7 @@ class Config {
               "select": {},
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body`"
+                "res": "`body.data`"
               }
             }
           ]
@@ -1878,7 +1878,7 @@ class Config {
               "select": {},
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body`"
+                "res": "`body.data`"
               }
             }
           ]
@@ -2073,7 +2073,7 @@ class Config {
               },
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body`"
+                "res": "`body.data`"
               }
             }
           ]
@@ -2299,7 +2299,7 @@ class Config {
               },
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body`"
+                "res": "`body.data`"
               }
             }
           ]
@@ -2490,7 +2490,7 @@ class Config {
               },
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body`"
+                "res": "`body.data`"
               }
             }
           ]
@@ -2895,7 +2895,7 @@ class Config {
               },
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body`"
+                "res": "`body.data`"
               }
             }
           ]
@@ -3083,7 +3083,7 @@ class Config {
               },
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body`"
+                "res": "`body.data`"
               }
             }
           ]

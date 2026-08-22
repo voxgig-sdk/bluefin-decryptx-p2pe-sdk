@@ -1,7 +1,7 @@
 name: bluefin_decryptx_p2pe_sdk
 description: >-
   Unofficial generated dart SDK for the Decryptx External public API. Not affiliated with or endorsed by the upstream API provider.
-version: 0.0.1
+version: 0.1.1
 homepage: https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk
 repository: https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk
 issue_tracker: https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/issues

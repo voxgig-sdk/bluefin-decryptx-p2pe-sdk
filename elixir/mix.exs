@@ -4,7 +4,7 @@ defmodule BluefinDecryptxP2pe.MixProject do
   def project do
     [
       app: :bluefin_decryptx_p2pe,
-      version: "0.0.1",
+      version: "0.1.1",
       elixir: "~> 1.14",
       description: "Unofficial generated elixir SDK for the Decryptx External public API. Not affiliated with or endorsed by the upstream API provider.",
       elixirc_paths: elixirc_paths(Mix.env()),
