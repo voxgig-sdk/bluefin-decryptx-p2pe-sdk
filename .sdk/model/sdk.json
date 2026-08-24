@@ -1,15 +1,6 @@
 {
-  "NAME": "BLUEFIN-DECRYPTX-P2PE",
-  "Name": "BluefinDecryptxP2pe",
   "def": "decryptx-p2pe-openapi.json",
   "main": {
-    "api": {
-      "entity": {},
-      "guide": {}
-    },
-    "custom": {
-      "plurals": {}
-    },
     "def": {
       "desc": ""
     },
@@ -6711,8 +6702,5 @@
     }
   },
   "name": "bluefin-decryptx-p2pe",
-  "name-": "bluefin-decryptx-p2pe",
-  "name_": "bluefin_decryptx_p2pe",
-  "name__orig": "bluefin-decryptx-p2pe",
   "origin": "voxgig-sdk"
 }
