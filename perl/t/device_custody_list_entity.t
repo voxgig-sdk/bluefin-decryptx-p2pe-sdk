@@ -21,7 +21,7 @@ BASIC_FLOW: {
   my $setup = device_custody_list_basic_setup(undef);
   my $_live = $setup->{live} ? 1 : 0;
   # Per-op sdk-test-control.json skip.
-  for my $_op ('list') {
+  for my $_op (('list')) {
     my ($_should_skip, $_reason) = BluefinDecryptxP2peTestRunner::is_control_skipped(
       'entityOp', "device_custody_list." . $_op, $_live ? 'live' : 'unit');
     if ($_should_skip) {

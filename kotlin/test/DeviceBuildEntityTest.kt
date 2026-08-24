@@ -31,7 +31,7 @@ class DeviceBuildEntityTest {
     val setup = deviceBuildBasicSetup(null)
     // Per-op sdk-test-control.json skip.
     val mode = if (setup.live) "live" else "unit"
-    for (op in arrayOf("list", "load")) {
+    for (op in arrayOf<String>("list", "load")) {
       val reason = RunnerSupport.skipReason("entityOp", "device_build.$op", mode)
       Assumptions.assumeTrue(
         reason == null,

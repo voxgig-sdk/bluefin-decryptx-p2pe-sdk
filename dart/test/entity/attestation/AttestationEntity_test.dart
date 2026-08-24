@@ -97,7 +97,7 @@ test('stream', (t) async {
       final attestation_ref01_list = (await attestation_ref01_ent.list(attestation_ref01_match)).map((e) => e.data()).toList();
 
       ok(!isempty(select(
-          (attestation_ref01_list as List).map((e) => e.data()).toList(),
+          attestation_ref01_list,
           {'id': attestation_ref01_data['id']})));
 
 

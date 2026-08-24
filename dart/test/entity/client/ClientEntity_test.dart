@@ -97,7 +97,7 @@ test('stream', (t) async {
       final client_ref01_list = (await client_ref01_ent.list(client_ref01_match)).map((e) => e.data()).toList();
 
       ok(!isempty(select(
-          (client_ref01_list as List).map((e) => e.data()).toList(),
+          client_ref01_list,
           {'id': client_ref01_data['id']})));
 
 
@@ -119,7 +119,7 @@ test('stream', (t) async {
       final client_ref01_list_rt0 = (await client_ref01_ent.list(client_ref01_match_rt0)).map((e) => e.data()).toList();
 
       ok(isempty(select(
-          (client_ref01_list_rt0 as List).map((e) => e.data()).toList(),
+          client_ref01_list_rt0,
           {'id': client_ref01_data['id']})));
 
 

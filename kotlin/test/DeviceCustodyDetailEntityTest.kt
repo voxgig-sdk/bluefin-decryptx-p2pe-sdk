@@ -31,7 +31,7 @@ class DeviceCustodyDetailEntityTest {
     val setup = deviceCustodyDetailBasicSetup(null)
     // Per-op sdk-test-control.json skip.
     val mode = if (setup.live) "live" else "unit"
-    for (op in arrayOf("load")) {
+    for (op in arrayOf<String>("load")) {
       val reason = RunnerSupport.skipReason("entityOp", "device_custody_detail.$op", mode)
       Assumptions.assumeTrue(
         reason == null,

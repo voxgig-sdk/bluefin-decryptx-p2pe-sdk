@@ -97,7 +97,7 @@ test('stream', (t) async {
       final location_ref01_list = (await location_ref01_ent.list(location_ref01_match)).map((e) => e.data()).toList();
 
       ok(!isempty(select(
-          (location_ref01_list as List).map((e) => e.data()).toList(),
+          location_ref01_list,
           {'id': location_ref01_data['id']})));
 
 
@@ -119,7 +119,7 @@ test('stream', (t) async {
       final location_ref01_list_rt0 = (await location_ref01_ent.list(location_ref01_match_rt0)).map((e) => e.data()).toList();
 
       ok(isempty(select(
-          (location_ref01_list_rt0 as List).map((e) => e.data()).toList(),
+          location_ref01_list_rt0,
           {'id': location_ref01_data['id']})));
 
 

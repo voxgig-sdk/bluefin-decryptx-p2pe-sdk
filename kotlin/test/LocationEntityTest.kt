@@ -31,7 +31,7 @@ class LocationEntityTest {
     val setup = locationBasicSetup(null)
     // Per-op sdk-test-control.json skip.
     val mode = if (setup.live) "live" else "unit"
-    for (op in arrayOf("create", "list", "load", "remove")) {
+    for (op in arrayOf<String>("create", "list", "load", "remove")) {
       val reason = RunnerSupport.skipReason("entityOp", "location.$op", mode)
       Assumptions.assumeTrue(
         reason == null,

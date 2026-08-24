@@ -31,7 +31,7 @@ class AttestationEntityTest {
     val setup = attestationBasicSetup(null)
     // Per-op sdk-test-control.json skip.
     val mode = if (setup.live) "live" else "unit"
-    for (op in arrayOf("create", "list", "load")) {
+    for (op in arrayOf<String>("create", "list", "load")) {
       val reason = RunnerSupport.skipReason("entityOp", "attestation.$op", mode)
       Assumptions.assumeTrue(
         reason == null,

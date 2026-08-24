@@ -21,7 +21,7 @@ BASIC_FLOW: {
   my $setup = inject_key_basic_setup(undef);
   my $_live = $setup->{live} ? 1 : 0;
   # Per-op sdk-test-control.json skip.
-  for my $_op ('list', 'load') {
+  for my $_op (('list', 'load')) {
     my ($_should_skip, $_reason) = BluefinDecryptxP2peTestRunner::is_control_skipped(
       'entityOp', "inject_key." . $_op, $_live ? 'live' : 'unit');
     if ($_should_skip) {

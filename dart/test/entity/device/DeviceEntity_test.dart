@@ -98,7 +98,7 @@ test('stream', (t) async {
       final device_ref01_list = (await device_ref01_ent.list(device_ref01_match)).map((e) => e.data()).toList();
 
       ok(!isempty(select(
-          (device_ref01_list as List).map((e) => e.data()).toList(),
+          device_ref01_list,
           {'id': device_ref01_data['id']})));
 
 

@@ -97,7 +97,7 @@ test('stream', (t) async {
       final partner_ref01_list = (await partner_ref01_ent.list(partner_ref01_match)).map((e) => e.data()).toList();
 
       ok(!isempty(select(
-          (partner_ref01_list as List).map((e) => e.data()).toList(),
+          partner_ref01_list,
           {'id': partner_ref01_data['id']})));
 
 
