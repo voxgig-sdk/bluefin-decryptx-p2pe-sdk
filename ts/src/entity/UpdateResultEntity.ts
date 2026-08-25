@@ -46,7 +46,8 @@ class UpdateResultEntity extends BluefinDecryptxP2peEntityBase<UpdateResult> {
     const {
       makeContext,
       done,
-      error,
+      // The registry name is `makeError`; `error` is the local alias.
+      makeError: error,
       featureHook,
       makePoint,
       makeRequest,
@@ -154,7 +155,8 @@ class UpdateResultEntity extends BluefinDecryptxP2peEntityBase<UpdateResult> {
     const {
       makeContext,
       done,
-      error,
+      // The registry name is `makeError`; `error` is the local alias.
+      makeError: error,
       featureHook,
       makePoint,
       makeRequest,
@@ -271,7 +273,8 @@ class UpdateResultEntity extends BluefinDecryptxP2peEntityBase<UpdateResult> {
     const {
       makeContext,
       done,
-      error,
+      // The registry name is `makeError`; `error` is the local alias.
+      makeError: error,
       featureHook,
       makePoint,
       makeRequest,

@@ -45,7 +45,8 @@ class AttestationEntity extends BluefinDecryptxP2peEntityBase<Attestation> {
     const {
       makeContext,
       done,
-      error,
+      // The registry name is `makeError`; `error` is the local alias.
+      makeError: error,
       featureHook,
       makePoint,
       makeRequest,
@@ -166,7 +167,8 @@ class AttestationEntity extends BluefinDecryptxP2peEntityBase<Attestation> {
     const {
       makeContext,
       done,
-      error,
+      // The registry name is `makeError`; `error` is the local alias.
+      makeError: error,
       featureHook,
       makePoint,
       makeRequest,
@@ -274,7 +276,8 @@ class AttestationEntity extends BluefinDecryptxP2peEntityBase<Attestation> {
     const {
       makeContext,
       done,
-      error,
+      // The registry name is `makeError`; `error` is the local alias.
+      makeError: error,
       featureHook,
       makePoint,
       makeRequest,

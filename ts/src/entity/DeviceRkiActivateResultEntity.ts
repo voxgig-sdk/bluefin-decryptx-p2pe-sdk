@@ -44,7 +44,8 @@ class DeviceRkiActivateResultEntity extends BluefinDecryptxP2peEntityBase<Device
     const {
       makeContext,
       done,
-      error,
+      // The registry name is `makeError`; `error` is the local alias.
+      makeError: error,
       featureHook,
       makePoint,
       makeRequest,
