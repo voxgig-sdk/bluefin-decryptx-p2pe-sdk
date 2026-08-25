@@ -28,6 +28,7 @@ module BluefinDecryptxP2peConfig
           "options" => {
             "active" => false,
           },
+          "transport" => "base",
         },
       },
       "options" => {

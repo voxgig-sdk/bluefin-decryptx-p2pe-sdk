@@ -2514,9 +2514,13 @@
     "feature" (vs/jm
       "test" (vs/jm
         "options" (vs/jm
-          "active" false)))
+          "active" false)
+        "transport" "base"))
     "main" (vs/jm
-      "name" "BluefinDecryptxP2pe")
+      "name" "BluefinDecryptxP2pe"
+      "slug" "bluefin-decryptx-p2pe"
+      "target" "clojure"
+      "version" "0.1.1")
     "options" (vs/jm
       "auth" (vs/jm
         "prefix" "Basic")

@@ -11,11 +11,15 @@ open Sdk_features
 let make_config () : value =
   (jo [
     ("main", (jo [
-      ("name", (Str "BluefinDecryptxP2pe")) ]));
+      ("name", (Str "BluefinDecryptxP2pe"));
+      ("slug", (Str "bluefin-decryptx-p2pe"));
+      ("version", (Str "0.1.1"));
+      ("target", (Str "ocaml")) ]));
     ("feature", (jo [
       ("test", (jo [
         ("options", (jo [
-          ("active", (Bool false)) ])) ])) ]));
+          ("active", (Bool false)) ]));
+        ("transport", (Str "base")) ])) ]));
     ("options", (jo [
       ("base", (Str "https://apis.p2pemanager.com/api/v1"));
       ("auth", (jo [

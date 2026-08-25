@@ -14,10 +14,10 @@ let package = Package(
     targets: [
         .target(
             name: "BluefinDecryptxP2peSdk",
-            path: "Sources/ProjectNameSDK"),
+            path: "Sources/BluefinDecryptxP2peSdk"),
         .testTarget(
             name: "BluefinDecryptxP2peSdkTests",
             dependencies: ["BluefinDecryptxP2peSdk"],
-            path: "Tests/ProjectNameSDKTests"),
+            path: "Tests/BluefinDecryptxP2peSdkTests"),
     ]
 )
