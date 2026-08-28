@@ -67,11 +67,13 @@ function directSetup(mockres) {
         'BLUEFIN_DECRYPTX_P2PE_TEST_KIF_ENTID': {},
         'BLUEFIN_DECRYPTX_P2PE_TEST_LIVE': 'FALSE',
         'BLUEFIN_DECRYPTX_P2PE_APIKEY': 'NONE',
+        'BLUEFIN_DECRYPTX_P2PE_SECRET': 'NONE',
     });
     const live = 'TRUE' === env.BLUEFIN_DECRYPTX_P2PE_TEST_LIVE;
     if (live) {
         const client = new __1.BluefinDecryptxP2peSDK({
             apikey: env.BLUEFIN_DECRYPTX_P2PE_APIKEY,
+            secret: env.BLUEFIN_DECRYPTX_P2PE_SECRET,
         });
         let idmap = env['BLUEFIN_DECRYPTX_P2PE_TEST_KIF_ENTID'];
         if ('string' === typeof idmap && idmap.startsWith('{')) {

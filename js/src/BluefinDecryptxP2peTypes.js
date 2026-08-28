@@ -24,13 +24,9 @@
 
 /**
  * @typedef {Object} AttestationListMatch
- * @property {Object} [client]
- * @property {string} [completeDate]
- * @property {string} [created]
- * @property {Object} [device]
- * @property {string} [id]
- * @property {string} [name]
- * @property {string} [notes]
+ * @property {string} client
+ * @property {number} [skip]
+ * @property {number} [take]
  */
 
 /**
@@ -66,17 +62,9 @@
 
 /**
  * @typedef {Object} ClientListMatch
- * @property {Object} [contact]
- * @property {string} [created]
- * @property {Object} [directPartner]
- * @property {string} [id]
- * @property {boolean} [isActive]
- * @property {Object} [location]
- * @property {string} [mid]
- * @property {string} [modified]
- * @property {string} [name]
- * @property {Object} [partner]
- * @property {number} [version]
+ * @property {string} partner
+ * @property {number} [skip]
+ * @property {number} [take]
  */
 
 /**
@@ -158,34 +146,15 @@
 
 /**
  * @typedef {Object} DeviceListMatch
- * @property {Object} [activatedBy]
- * @property {string} [activationDate]
- * @property {string} [alternateKey]
- * @property {string} [auditNextDate]
- * @property {string} [auditNotificationDate]
- * @property {Object} [client]
- * @property {string} [created]
- * @property {Object} [createdBy]
- * @property {Object} [deviceBuild]
- * @property {Object} [deviceState]
- * @property {Object} [deviceType]
- * @property {number} [errorCounter]
- * @property {string} [errorLastDate]
- * @property {string} [id]
- * @property {Object} [initializedBy]
- * @property {string} [initializedDate]
- * @property {Object} [injectKey]
- * @property {boolean} [isVirtual]
- * @property {Object} [kif]
- * @property {string} [lastActivityDate]
- * @property {Object} [location]
- * @property {string} [modified]
- * @property {Object} [modifiedBy]
- * @property {string} [name]
- * @property {string} [notes]
- * @property {Object} [partner]
- * @property {string} [serialNumber]
- * @property {number} [version]
+ * @property {string} [client]
+ * @property {string} [device_state]
+ * @property {string} [kif]
+ * @property {string} [partner]
+ * @property {string} [serial_number]
+ * @property {number} [skip]
+ * @property {string} [sorting_direction]
+ * @property {string} [sorting_field]
+ * @property {number} [take]
  */
 
 /**
@@ -246,21 +215,9 @@
 
 /**
  * @typedef {Object} DeviceBuildListMatch
- * @property {string} [appVersion]
- * @property {string} [buildNumber]
- * @property {string} [configFileName]
- * @property {string} [created]
- * @property {string} [deviceType]
- * @property {string} [firmwareVersion]
- * @property {string} [hardwareVersion]
- * @property {number} [id]
- * @property {boolean} [isActive]
- * @property {string} [modified]
- * @property {string} [name]
- * @property {string} [notes]
- * @property {number} [version]
- * @property {string} [whiteListingBinRanges]
- * @property {boolean} [whiteListingUsed]
+ * @property {string} [device_type]
+ * @property {number} [skip]
+ * @property {number} [take]
  */
 
 /**
@@ -308,6 +265,8 @@
  * @typedef {Object} DeviceCustodyListListMatch
  * @property {string} device_type
  * @property {string} serial_number
+ * @property {number} [skip]
+ * @property {number} [take]
  */
 
 /**
@@ -319,6 +278,10 @@
 /**
  * @typedef {Object} DeviceListLoadMatch
  * @property {string} share_partner_to
+ * @property {number} [skip]
+ * @property {string} [sorting_direction]
+ * @property {string} [sorting_field]
+ * @property {number} [take]
  */
 
 /**
@@ -465,29 +428,9 @@
 
 /**
  * @typedef {Object} LocationListMatch
- * @property {string} [address1]
- * @property {string} [address2]
- * @property {string} [billingId]
- * @property {string} [city]
- * @property {string} [country]
- * @property {string} [created]
- * @property {string} [customReference]
- * @property {string} [id]
- * @property {string} [locationType]
- * @property {string} [mailAddress1]
- * @property {string} [mailAddress2]
- * @property {string} [mailCity]
- * @property {string} [mailCountry]
- * @property {string} [mailPostalCode]
- * @property {string} [mailStateProvince]
- * @property {string} [modified]
- * @property {string} [name]
- * @property {string} [nameOfBusiness]
- * @property {string} [notes]
- * @property {string} [postalCode]
- * @property {string} [stateProvince]
- * @property {string} [uniqueId]
- * @property {number} [version]
+ * @property {string} client
+ * @property {number} [skip]
+ * @property {number} [take]
  */
 
 /**
@@ -547,20 +490,9 @@
 
 /**
  * @typedef {Object} PartnerListMatch
- * @property {string} [billingId]
- * @property {boolean} [clientCanOrderEquipment]
- * @property {Object} [contact]
- * @property {string} [created]
- * @property {string} [id]
- * @property {boolean} [isActive]
- * @property {Object} [location]
- * @property {string} [modified]
- * @property {string} [name]
- * @property {Object} [parent]
- * @property {string} [partnerId]
- * @property {string} [reference]
- * @property {string} [verificationPhrase]
- * @property {number} [version]
+ * @property {string} [partner]
+ * @property {number} [skip]
+ * @property {number} [take]
  */
 
 /**
@@ -606,20 +538,10 @@
 
 /**
  * @typedef {Object} ShipmentListMatch
- * @property {string} [carrier]
- * @property {Object} [client]
- * @property {string} [created]
- * @property {string} [dateReceived]
- * @property {string} [dateShipped]
- * @property {Object} [dcKif]
- * @property {string} [id]
- * @property {Array} [items]
- * @property {Object} [kif]
- * @property {string} [modified]
- * @property {Object} [partner]
- * @property {string} [shipmentType]
- * @property {string} [tracking]
- * @property {number} [version]
+ * @property {string} kif
+ * @property {string} [mode]
+ * @property {number} [skip]
+ * @property {number} [take]
  */
 
 /**
@@ -691,30 +613,19 @@
 
 /**
  * @typedef {Object} TransactionListMatch
- * @property {string} [alternateKey]
- * @property {Object} [client]
- * @property {string} [clientRef]
- * @property {string} [created]
- * @property {number} [decrypted]
- * @property {string} [deviceName]
- * @property {Object} [directPartner]
- * @property {number} [encrypted]
- * @property {string} [endDate]
- * @property {string} [errCode]
- * @property {string} [errMessage]
- * @property {string} [id]
- * @property {string} [ipAddress]
- * @property {boolean} [isVirtual]
- * @property {string} [keyType]
- * @property {Object} [location]
- * @property {string} [messageId]
- * @property {string} [method]
- * @property {Object} [partner]
+ * @property {string} [client]
+ * @property {string} [client_ref]
+ * @property {string} [date_from]
+ * @property {string} [date_to]
+ * @property {string} [location]
+ * @property {string} [message_id]
+ * @property {string} [paging_mode]
+ * @property {string} [partner]
  * @property {string} [reference]
- * @property {string} [serialNumber]
- * @property {string} [startDate]
+ * @property {string} [serial_number]
+ * @property {number} [skip]
  * @property {boolean} [success]
- * @property {string} [transactionSource]
+ * @property {number} [take]
  */
 
 /**
@@ -763,18 +674,11 @@
 
 /**
  * @typedef {Object} UpdateResultListMatch
- * @property {Object} [client]
- * @property {string} [email]
- * @property {string} [firstName]
- * @property {string} [id]
- * @property {boolean} [isActive]
- * @property {Object} [kif]
- * @property {string} [lastName]
- * @property {Object} [partner]
- * @property {string} [phone]
- * @property {string} [userName]
- * @property {Object} [userRole]
- * @property {number} [version]
+ * @property {string} [client]
+ * @property {string} [kif]
+ * @property {*} [partner]
+ * @property {number} [skip]
+ * @property {number} [take]
  */
 
 /**

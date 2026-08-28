@@ -41,13 +41,9 @@ defmodule BluefinDecryptxP2pe.Types do
   Request payload for Attestation list.
 
   Members:
-    * `"client"` — map() (optional)
-    * `"completeDate"` — String.t() (optional)
-    * `"created"` — String.t() (optional)
-    * `"device"` — map() (optional)
-    * `"id"` — String.t() (optional)
-    * `"name"` — String.t() (optional)
-    * `"notes"` — String.t() (optional)
+    * `"client"` — String.t() (required)
+    * `"skip"` — integer() (optional)
+    * `"take"` — integer() (optional)
   """
   @type attestation_list_match :: %{optional(String.t()) => any()}
 
@@ -95,17 +91,9 @@ defmodule BluefinDecryptxP2pe.Types do
   Request payload for Client list.
 
   Members:
-    * `"contact"` — map() (optional)
-    * `"created"` — String.t() (optional)
-    * `"directPartner"` — map() (optional)
-    * `"id"` — String.t() (optional)
-    * `"isActive"` — boolean() (optional)
-    * `"location"` — map() (optional)
-    * `"mid"` — String.t() (optional)
-    * `"modified"` — String.t() (optional)
-    * `"name"` — String.t() (optional)
-    * `"partner"` — map() (optional)
-    * `"version"` — integer() (optional)
+    * `"partner"` — String.t() (required)
+    * `"skip"` — integer() (optional)
+    * `"take"` — integer() (optional)
   """
   @type client_list_match :: %{optional(String.t()) => any()}
 
@@ -212,34 +200,15 @@ defmodule BluefinDecryptxP2pe.Types do
   Request payload for Device list.
 
   Members:
-    * `"activatedBy"` — map() (optional)
-    * `"activationDate"` — String.t() (optional)
-    * `"alternateKey"` — String.t() (optional)
-    * `"auditNextDate"` — String.t() (optional)
-    * `"auditNotificationDate"` — String.t() (optional)
-    * `"client"` — map() (optional)
-    * `"created"` — String.t() (optional)
-    * `"createdBy"` — map() (optional)
-    * `"deviceBuild"` — map() (optional)
-    * `"deviceState"` — map() (optional)
-    * `"deviceType"` — map() (optional)
-    * `"errorCounter"` — integer() (optional)
-    * `"errorLastDate"` — String.t() (optional)
-    * `"id"` — String.t() (optional)
-    * `"initializedBy"` — map() (optional)
-    * `"initializedDate"` — String.t() (optional)
-    * `"injectKey"` — map() (optional)
-    * `"isVirtual"` — boolean() (optional)
-    * `"kif"` — map() (optional)
-    * `"lastActivityDate"` — String.t() (optional)
-    * `"location"` — map() (optional)
-    * `"modified"` — String.t() (optional)
-    * `"modifiedBy"` — map() (optional)
-    * `"name"` — String.t() (optional)
-    * `"notes"` — String.t() (optional)
-    * `"partner"` — map() (optional)
-    * `"serialNumber"` — String.t() (optional)
-    * `"version"` — integer() (optional)
+    * `"client"` — String.t() (optional)
+    * `"device_state"` — String.t() (optional)
+    * `"kif"` — String.t() (optional)
+    * `"partner"` — String.t() (optional)
+    * `"serial_number"` — String.t() (optional)
+    * `"skip"` — integer() (optional)
+    * `"sorting_direction"` — String.t() (optional)
+    * `"sorting_field"` — String.t() (optional)
+    * `"take"` — integer() (optional)
   """
   @type device_list_match :: %{optional(String.t()) => any()}
 
@@ -312,21 +281,9 @@ defmodule BluefinDecryptxP2pe.Types do
   Request payload for DeviceBuild list.
 
   Members:
-    * `"appVersion"` — String.t() (optional)
-    * `"buildNumber"` — String.t() (optional)
-    * `"configFileName"` — String.t() (optional)
-    * `"created"` — String.t() (optional)
-    * `"deviceType"` — String.t() (optional)
-    * `"firmwareVersion"` — String.t() (optional)
-    * `"hardwareVersion"` — String.t() (optional)
-    * `"id"` — integer() (optional)
-    * `"isActive"` — boolean() (optional)
-    * `"modified"` — String.t() (optional)
-    * `"name"` — String.t() (optional)
-    * `"notes"` — String.t() (optional)
-    * `"version"` — integer() (optional)
-    * `"whiteListingBinRanges"` — String.t() (optional)
-    * `"whiteListingUsed"` — boolean() (optional)
+    * `"device_type"` — String.t() (optional)
+    * `"skip"` — integer() (optional)
+    * `"take"` — integer() (optional)
   """
   @type device_build_list_match :: %{optional(String.t()) => any()}
 
@@ -386,6 +343,8 @@ defmodule BluefinDecryptxP2pe.Types do
   Members:
     * `"device_type"` — String.t() (required)
     * `"serial_number"` — String.t() (required)
+    * `"skip"` — integer() (optional)
+    * `"take"` — integer() (optional)
   """
   @type device_custody_list_list_match :: %{optional(String.t()) => any()}
 
@@ -403,6 +362,10 @@ defmodule BluefinDecryptxP2pe.Types do
 
   Members:
     * `"share_partner_to"` — String.t() (required)
+    * `"skip"` — integer() (optional)
+    * `"sorting_direction"` — String.t() (optional)
+    * `"sorting_field"` — String.t() (optional)
+    * `"take"` — integer() (optional)
   """
   @type device_list_load_match :: %{optional(String.t()) => any()}
 
@@ -600,29 +563,9 @@ defmodule BluefinDecryptxP2pe.Types do
   Request payload for Location list.
 
   Members:
-    * `"address1"` — String.t() (optional)
-    * `"address2"` — String.t() (optional)
-    * `"billingId"` — String.t() (optional)
-    * `"city"` — String.t() (optional)
-    * `"country"` — String.t() (optional)
-    * `"created"` — String.t() (optional)
-    * `"customReference"` — String.t() (optional)
-    * `"id"` — String.t() (optional)
-    * `"locationType"` — String.t() (optional)
-    * `"mailAddress1"` — String.t() (optional)
-    * `"mailAddress2"` — String.t() (optional)
-    * `"mailCity"` — String.t() (optional)
-    * `"mailCountry"` — String.t() (optional)
-    * `"mailPostalCode"` — String.t() (optional)
-    * `"mailStateProvince"` — String.t() (optional)
-    * `"modified"` — String.t() (optional)
-    * `"name"` — String.t() (optional)
-    * `"nameOfBusiness"` — String.t() (optional)
-    * `"notes"` — String.t() (optional)
-    * `"postalCode"` — String.t() (optional)
-    * `"stateProvince"` — String.t() (optional)
-    * `"uniqueId"` — String.t() (optional)
-    * `"version"` — integer() (optional)
+    * `"client"` — String.t() (required)
+    * `"skip"` — integer() (optional)
+    * `"take"` — integer() (optional)
   """
   @type location_list_match :: %{optional(String.t()) => any()}
 
@@ -697,20 +640,9 @@ defmodule BluefinDecryptxP2pe.Types do
   Request payload for Partner list.
 
   Members:
-    * `"billingId"` — String.t() (optional)
-    * `"clientCanOrderEquipment"` — boolean() (optional)
-    * `"contact"` — map() (optional)
-    * `"created"` — String.t() (optional)
-    * `"id"` — String.t() (optional)
-    * `"isActive"` — boolean() (optional)
-    * `"location"` — map() (optional)
-    * `"modified"` — String.t() (optional)
-    * `"name"` — String.t() (optional)
-    * `"parent"` — map() (optional)
-    * `"partnerId"` — String.t() (optional)
-    * `"reference"` — String.t() (optional)
-    * `"verificationPhrase"` — String.t() (optional)
-    * `"version"` — integer() (optional)
+    * `"partner"` — String.t() (optional)
+    * `"skip"` — integer() (optional)
+    * `"take"` — integer() (optional)
   """
   @type partner_list_match :: %{optional(String.t()) => any()}
 
@@ -768,20 +700,10 @@ defmodule BluefinDecryptxP2pe.Types do
   Request payload for Shipment list.
 
   Members:
-    * `"carrier"` — String.t() (optional)
-    * `"client"` — map() (optional)
-    * `"created"` — String.t() (optional)
-    * `"dateReceived"` — String.t() (optional)
-    * `"dateShipped"` — String.t() (optional)
-    * `"dcKif"` — map() (optional)
-    * `"id"` — String.t() (optional)
-    * `"items"` — list() (optional)
-    * `"kif"` — map() (optional)
-    * `"modified"` — String.t() (optional)
-    * `"partner"` — map() (optional)
-    * `"shipmentType"` — String.t() (optional)
-    * `"tracking"` — String.t() (optional)
-    * `"version"` — integer() (optional)
+    * `"kif"` — String.t() (required)
+    * `"mode"` — String.t() (optional)
+    * `"skip"` — integer() (optional)
+    * `"take"` — integer() (optional)
   """
   @type shipment_list_match :: %{optional(String.t()) => any()}
 
@@ -874,30 +796,19 @@ defmodule BluefinDecryptxP2pe.Types do
   Request payload for Transaction list.
 
   Members:
-    * `"alternateKey"` — String.t() (optional)
-    * `"client"` — map() (optional)
-    * `"clientRef"` — String.t() (optional)
-    * `"created"` — String.t() (optional)
-    * `"decrypted"` — integer() (optional)
-    * `"deviceName"` — String.t() (optional)
-    * `"directPartner"` — map() (optional)
-    * `"encrypted"` — integer() (optional)
-    * `"endDate"` — String.t() (optional)
-    * `"errCode"` — String.t() (optional)
-    * `"errMessage"` — String.t() (optional)
-    * `"id"` — String.t() (optional)
-    * `"ipAddress"` — String.t() (optional)
-    * `"isVirtual"` — boolean() (optional)
-    * `"keyType"` — String.t() (optional)
-    * `"location"` — map() (optional)
-    * `"messageId"` — String.t() (optional)
-    * `"method"` — String.t() (optional)
-    * `"partner"` — map() (optional)
+    * `"client"` — String.t() (optional)
+    * `"client_ref"` — String.t() (optional)
+    * `"date_from"` — String.t() (optional)
+    * `"date_to"` — String.t() (optional)
+    * `"location"` — String.t() (optional)
+    * `"message_id"` — String.t() (optional)
+    * `"paging_mode"` — String.t() (optional)
+    * `"partner"` — String.t() (optional)
     * `"reference"` — String.t() (optional)
-    * `"serialNumber"` — String.t() (optional)
-    * `"startDate"` — String.t() (optional)
+    * `"serial_number"` — String.t() (optional)
+    * `"skip"` — integer() (optional)
     * `"success"` — boolean() (optional)
-    * `"transactionSource"` — String.t() (optional)
+    * `"take"` — integer() (optional)
   """
   @type transaction_list_match :: %{optional(String.t()) => any()}
 
@@ -955,18 +866,11 @@ defmodule BluefinDecryptxP2pe.Types do
   Request payload for UpdateResult list.
 
   Members:
-    * `"client"` — map() (optional)
-    * `"email"` — String.t() (optional)
-    * `"firstName"` — String.t() (optional)
-    * `"id"` — String.t() (optional)
-    * `"isActive"` — boolean() (optional)
-    * `"kif"` — map() (optional)
-    * `"lastName"` — String.t() (optional)
-    * `"partner"` — map() (optional)
-    * `"phone"` — String.t() (optional)
-    * `"userName"` — String.t() (optional)
-    * `"userRole"` — map() (optional)
-    * `"version"` — integer() (optional)
+    * `"client"` — String.t() (optional)
+    * `"kif"` — String.t() (optional)
+    * `"partner"` — any() (optional)
+    * `"skip"` — integer() (optional)
+    * `"take"` — integer() (optional)
   """
   @type update_result_list_match :: %{optional(String.t()) => any()}
 

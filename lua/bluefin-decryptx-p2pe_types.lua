@@ -19,13 +19,9 @@
 ---@field id string
 
 ---@class AttestationListMatch
----@field client? table
----@field completeDate? string
----@field created? string
----@field device? table
----@field id? string
----@field name? string
----@field notes? string
+---@field client string
+---@field skip? number
+---@field take? number
 
 ---@class AttestationCreateData
 ---@field client? table
@@ -53,17 +49,9 @@
 ---@field id string
 
 ---@class ClientListMatch
----@field contact? table
----@field created? string
----@field directPartner? table
----@field id? string
----@field isActive? boolean
----@field location? table
----@field mid? string
----@field modified? string
----@field name? string
----@field partner? table
----@field version? number
+---@field partner string
+---@field skip? number
+---@field take? number
 
 ---@class ClientCreateData
 ---@field contact? table
@@ -127,34 +115,15 @@
 ---@field id string
 
 ---@class DeviceListMatch
----@field activatedBy? table
----@field activationDate? string
----@field alternateKey? string
----@field auditNextDate? string
----@field auditNotificationDate? string
----@field client? table
----@field created? string
----@field createdBy? table
----@field deviceBuild? table
----@field deviceState? table
----@field deviceType? table
----@field errorCounter? number
----@field errorLastDate? string
----@field id? string
----@field initializedBy? table
----@field initializedDate? string
----@field injectKey? table
----@field isVirtual? boolean
----@field kif? table
----@field lastActivityDate? string
----@field location? table
----@field modified? string
----@field modifiedBy? table
----@field name? string
----@field notes? string
----@field partner? table
----@field serialNumber? string
----@field version? number
+---@field client? string
+---@field device_state? string
+---@field kif? string
+---@field partner? string
+---@field serial_number? string
+---@field skip? number
+---@field sorting_direction? string
+---@field sorting_field? string
+---@field take? number
 
 ---@class DeviceCreateData
 ---@field activatedBy table
@@ -207,21 +176,9 @@
 ---@field id string
 
 ---@class DeviceBuildListMatch
----@field appVersion? string
----@field buildNumber? string
----@field configFileName? string
----@field created? string
----@field deviceType? string
----@field firmwareVersion? string
----@field hardwareVersion? string
----@field id? number
----@field isActive? boolean
----@field modified? string
----@field name? string
----@field notes? string
----@field version? number
----@field whiteListingBinRanges? string
----@field whiteListingUsed? boolean
+---@field device_type? string
+---@field skip? number
+---@field take? number
 
 ---@class DeviceCustodyDetail
 ---@field completeDate? string
@@ -261,6 +218,8 @@
 ---@class DeviceCustodyListListMatch
 ---@field device_type string
 ---@field serial_number string
+---@field skip? number
+---@field take? number
 
 ---@class DeviceList
 ---@field data? table
@@ -268,6 +227,10 @@
 
 ---@class DeviceListLoadMatch
 ---@field share_partner_to string
+---@field skip? number
+---@field sorting_direction? string
+---@field sorting_field? string
+---@field take? number
 
 ---@class DeviceReceiveResult
 ---@field success boolean
@@ -380,29 +343,9 @@
 ---@field id string
 
 ---@class LocationListMatch
----@field address1? string
----@field address2? string
----@field billingId? string
----@field city? string
----@field country? string
----@field created? string
----@field customReference? string
----@field id? string
----@field locationType? string
----@field mailAddress1? string
----@field mailAddress2? string
----@field mailCity? string
----@field mailCountry? string
----@field mailPostalCode? string
----@field mailStateProvince? string
----@field modified? string
----@field name? string
----@field nameOfBusiness? string
----@field notes? string
----@field postalCode? string
----@field stateProvince? string
----@field uniqueId? string
----@field version? number
+---@field client string
+---@field skip? number
+---@field take? number
 
 ---@class LocationCreateData
 ---@field address1? string
@@ -452,20 +395,9 @@
 ---@field id string
 
 ---@class PartnerListMatch
----@field billingId? string
----@field clientCanOrderEquipment? boolean
----@field contact? table
----@field created? string
----@field id? string
----@field isActive? boolean
----@field location? table
----@field modified? string
----@field name? string
----@field parent? table
----@field partnerId? string
----@field reference? string
----@field verificationPhrase? string
----@field version? number
+---@field partner? string
+---@field skip? number
+---@field take? number
 
 ---@class PartnerCreateData
 ---@field billingId? string
@@ -503,20 +435,10 @@
 ---@field id string
 
 ---@class ShipmentListMatch
----@field carrier? string
----@field client? table
----@field created? string
----@field dateReceived? string
----@field dateShipped? string
----@field dcKif? table
----@field id? string
----@field items? table
----@field kif? table
----@field modified? string
----@field partner? table
----@field shipmentType? string
----@field tracking? string
----@field version? number
+---@field kif string
+---@field mode? string
+---@field skip? number
+---@field take? number
 
 ---@class ShipmentCreateData
 ---@field carrier? string
@@ -574,30 +496,19 @@
 ---@field id string
 
 ---@class TransactionListMatch
----@field alternateKey? string
----@field client? table
----@field clientRef? string
----@field created? string
----@field decrypted? number
----@field deviceName? string
----@field directPartner? table
----@field encrypted? number
----@field endDate? string
----@field errCode? string
----@field errMessage? string
----@field id? string
----@field ipAddress? string
----@field isVirtual? boolean
----@field keyType? string
----@field location? table
----@field messageId? string
----@field method? string
----@field partner? table
+---@field client? string
+---@field client_ref? string
+---@field date_from? string
+---@field date_to? string
+---@field location? string
+---@field message_id? string
+---@field paging_mode? string
+---@field partner? string
 ---@field reference? string
----@field serialNumber? string
----@field startDate? string
+---@field serial_number? string
+---@field skip? number
 ---@field success? boolean
----@field transactionSource? string
+---@field take? number
 
 ---@class TransactionCreateData
 ---@field alternateKey? string
@@ -640,18 +551,11 @@
 ---@field version? number
 
 ---@class UpdateResultListMatch
----@field client? table
----@field email? string
----@field firstName? string
----@field id? string
----@field isActive? boolean
----@field kif? table
----@field lastName? string
----@field partner? table
----@field phone? string
----@field userName? string
----@field userRole? table
----@field version? number
+---@field client? string
+---@field kif? string
+---@field partner? any
+---@field skip? number
+---@field take? number
 
 ---@class UpdateResultCreateData
 ---@field client? table

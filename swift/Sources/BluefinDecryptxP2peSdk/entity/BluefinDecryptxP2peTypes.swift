@@ -28,13 +28,9 @@ public struct AttestationLoadMatch {
 
 /// AttestationListMatch is the typed request payload for Attestation.list.
 public struct AttestationListMatch {
-  public var client: VMap?
-  public var completeDate: String?
-  public var created: String?
-  public var device: VMap?
-  public var id: String?
-  public var name: String?
-  public var notes: String?
+  public var client: String
+  public var skip: Int?
+  public var take: Int?
 }
 
 /// AttestationCreateData is the typed request payload for Attestation.create.
@@ -70,17 +66,9 @@ public struct ClientLoadMatch {
 
 /// ClientListMatch is the typed request payload for Client.list.
 public struct ClientListMatch {
-  public var contact: VMap?
-  public var created: String?
-  public var directPartner: VMap?
-  public var id: String?
-  public var isActive: Bool?
-  public var location: VMap?
-  public var mid: String?
-  public var modified: String?
-  public var name: String?
-  public var partner: VMap?
-  public var version: Int?
+  public var partner: String
+  public var skip: Int?
+  public var take: Int?
 }
 
 /// ClientCreateData is the typed request payload for Client.create.
@@ -162,34 +150,15 @@ public struct DeviceLoadMatch {
 
 /// DeviceListMatch is the typed request payload for Device.list.
 public struct DeviceListMatch {
-  public var activatedBy: VMap?
-  public var activationDate: String?
-  public var alternateKey: String?
-  public var auditNextDate: String?
-  public var auditNotificationDate: String?
-  public var client: VMap?
-  public var created: String?
-  public var createdBy: VMap?
-  public var deviceBuild: VMap?
-  public var deviceState: VMap?
-  public var deviceType: VMap?
-  public var errorCounter: Int?
-  public var errorLastDate: String?
-  public var id: String?
-  public var initializedBy: VMap?
-  public var initializedDate: String?
-  public var injectKey: VMap?
-  public var isVirtual: Bool?
-  public var kif: VMap?
-  public var lastActivityDate: String?
-  public var location: VMap?
-  public var modified: String?
-  public var modifiedBy: VMap?
-  public var name: String?
-  public var notes: String?
-  public var partner: VMap?
+  public var client: String?
+  public var deviceState: String?
+  public var kif: String?
+  public var partner: String?
   public var serialNumber: String?
-  public var version: Int?
+  public var skip: Int?
+  public var sortingDirection: String?
+  public var sortingField: String?
+  public var take: Int?
 }
 
 /// DeviceCreateData is the typed request payload for Device.create.
@@ -250,21 +219,9 @@ public struct DeviceBuildLoadMatch {
 
 /// DeviceBuildListMatch is the typed request payload for DeviceBuild.list.
 public struct DeviceBuildListMatch {
-  public var appVersion: String?
-  public var buildNumber: String?
-  public var configFileName: String?
-  public var created: String?
   public var deviceType: String?
-  public var firmwareVersion: String?
-  public var hardwareVersion: String?
-  public var id: Int?
-  public var isActive: Bool?
-  public var modified: String?
-  public var name: String?
-  public var notes: String?
-  public var version: Int?
-  public var whiteListingBinRanges: String?
-  public var whiteListingUsed: Bool?
+  public var skip: Int?
+  public var take: Int?
 }
 
 /// DeviceCustodyDetail is the typed data model for the device_custody_detail entity.
@@ -312,6 +269,8 @@ public struct DeviceCustodyList {
 public struct DeviceCustodyListListMatch {
   public var deviceType: String
   public var serialNumber: String
+  public var skip: Int?
+  public var take: Int?
 }
 
 /// DeviceList is the typed data model for the device_list entity.
@@ -323,6 +282,10 @@ public struct DeviceList {
 /// DeviceListLoadMatch is the typed request payload for DeviceList.load.
 public struct DeviceListLoadMatch {
   public var sharePartnerTo: String
+  public var skip: Int?
+  public var sortingDirection: String?
+  public var sortingField: String?
+  public var take: Int?
 }
 
 /// DeviceReceiveResult is the typed data model for the device_receive_result entity.
@@ -469,29 +432,9 @@ public struct LocationLoadMatch {
 
 /// LocationListMatch is the typed request payload for Location.list.
 public struct LocationListMatch {
-  public var address1: String?
-  public var address2: String?
-  public var billingId: String?
-  public var city: String?
-  public var country: String?
-  public var created: String?
-  public var customReference: String?
-  public var id: String?
-  public var locationType: String?
-  public var mailAddress1: String?
-  public var mailAddress2: String?
-  public var mailCity: String?
-  public var mailCountry: String?
-  public var mailPostalCode: String?
-  public var mailStateProvince: String?
-  public var modified: String?
-  public var name: String?
-  public var nameOfBusiness: String?
-  public var notes: String?
-  public var postalCode: String?
-  public var stateProvince: String?
-  public var uniqueId: String?
-  public var version: Int?
+  public var client: String
+  public var skip: Int?
+  public var take: Int?
 }
 
 /// LocationCreateData is the typed request payload for Location.create.
@@ -551,20 +494,9 @@ public struct PartnerLoadMatch {
 
 /// PartnerListMatch is the typed request payload for Partner.list.
 public struct PartnerListMatch {
-  public var billingId: String?
-  public var clientCanOrderEquipment: Bool?
-  public var contact: VMap?
-  public var created: String?
-  public var id: String?
-  public var isActive: Bool?
-  public var location: VMap?
-  public var modified: String?
-  public var name: String?
-  public var parent: VMap?
-  public var partnerId: String?
-  public var reference: String?
-  public var verificationPhrase: String?
-  public var version: Int?
+  public var partner: String?
+  public var skip: Int?
+  public var take: Int?
 }
 
 /// PartnerCreateData is the typed request payload for Partner.create.
@@ -610,20 +542,10 @@ public struct ShipmentLoadMatch {
 
 /// ShipmentListMatch is the typed request payload for Shipment.list.
 public struct ShipmentListMatch {
-  public var carrier: String?
-  public var client: VMap?
-  public var created: String?
-  public var dateReceived: String?
-  public var dateShipped: String?
-  public var dcKif: VMap?
-  public var id: String?
-  public var items: [Value]?
-  public var kif: VMap?
-  public var modified: String?
-  public var partner: VMap?
-  public var shipmentType: String?
-  public var tracking: String?
-  public var version: Int?
+  public var kif: String
+  public var mode: String?
+  public var skip: Int?
+  public var take: Int?
 }
 
 /// ShipmentCreateData is the typed request payload for Shipment.create.
@@ -695,30 +617,19 @@ public struct TransactionLoadMatch {
 
 /// TransactionListMatch is the typed request payload for Transaction.list.
 public struct TransactionListMatch {
-  public var alternateKey: String?
-  public var client: VMap?
+  public var client: String?
   public var clientRef: String?
-  public var created: String?
-  public var decrypted: Int?
-  public var deviceName: String?
-  public var directPartner: VMap?
-  public var encrypted: Int?
-  public var endDate: String?
-  public var errCode: String?
-  public var errMessage: String?
-  public var id: String?
-  public var ipAddress: String?
-  public var isVirtual: Bool?
-  public var keyType: String?
-  public var location: VMap?
+  public var dateFrom: String?
+  public var dateTo: String?
+  public var location: String?
   public var messageId: String?
-  public var method: String?
-  public var partner: VMap?
+  public var pagingMode: String?
+  public var partner: String?
   public var reference: String?
   public var serialNumber: String?
-  public var startDate: String?
+  public var skip: Int?
   public var success: Bool?
-  public var transactionSource: String?
+  public var take: Int?
 }
 
 /// TransactionCreateData is the typed request payload for Transaction.create.
@@ -767,18 +678,11 @@ public struct UpdateResult {
 
 /// UpdateResultListMatch is the typed request payload for UpdateResult.list.
 public struct UpdateResultListMatch {
-  public var client: VMap?
-  public var email: String?
-  public var firstName: String?
-  public var id: String?
-  public var isActive: Bool?
-  public var kif: VMap?
-  public var lastName: String?
-  public var partner: VMap?
-  public var phone: String?
-  public var userName: String?
-  public var userRole: VMap?
-  public var version: Int?
+  public var client: String?
+  public var kif: String?
+  public var partner: Value?
+  public var skip: Int?
+  public var take: Int?
 }
 
 /// UpdateResultCreateData is the typed request payload for UpdateResult.create.

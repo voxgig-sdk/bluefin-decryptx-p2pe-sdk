@@ -20,13 +20,9 @@ export interface AttestationLoadMatch {
 }
 
 export interface AttestationListMatch {
-  client?: Record<string, any>
-  completeDate?: string
-  created?: string
-  device?: Record<string, any>
-  id?: string
-  name?: string
-  notes?: string
+  client: string
+  skip?: number
+  take?: number
 }
 
 export interface AttestationCreateData {
@@ -58,17 +54,9 @@ export interface ClientLoadMatch {
 }
 
 export interface ClientListMatch {
-  contact?: Record<string, any>
-  created?: string
-  directPartner?: Record<string, any>
-  id?: string
-  isActive?: boolean
-  location?: Record<string, any>
-  mid?: string
-  modified?: string
-  name?: string
-  partner?: Record<string, any>
-  version?: number
+  partner: string
+  skip?: number
+  take?: number
 }
 
 export interface ClientCreateData {
@@ -141,34 +129,15 @@ export interface DeviceLoadMatch {
 }
 
 export interface DeviceListMatch {
-  activatedBy?: Record<string, any>
-  activationDate?: string
-  alternateKey?: string
-  auditNextDate?: string
-  auditNotificationDate?: string
-  client?: Record<string, any>
-  created?: string
-  createdBy?: Record<string, any>
-  deviceBuild?: Record<string, any>
-  deviceState?: Record<string, any>
-  deviceType?: Record<string, any>
-  errorCounter?: number
-  errorLastDate?: string
-  id?: string
-  initializedBy?: Record<string, any>
-  initializedDate?: string
-  injectKey?: Record<string, any>
-  isVirtual?: boolean
-  kif?: Record<string, any>
-  lastActivityDate?: string
-  location?: Record<string, any>
-  modified?: string
-  modifiedBy?: Record<string, any>
-  name?: string
-  notes?: string
-  partner?: Record<string, any>
-  serialNumber?: string
-  version?: number
+  client?: string
+  device_state?: string
+  kif?: string
+  partner?: string
+  serial_number?: string
+  skip?: number
+  sorting_direction?: string
+  sorting_field?: string
+  take?: number
 }
 
 export interface DeviceCreateData {
@@ -225,21 +194,9 @@ export interface DeviceBuildLoadMatch {
 }
 
 export interface DeviceBuildListMatch {
-  appVersion?: string
-  buildNumber?: string
-  configFileName?: string
-  created?: string
-  deviceType?: string
-  firmwareVersion?: string
-  hardwareVersion?: string
-  id?: number
-  isActive?: boolean
-  modified?: string
-  name?: string
-  notes?: string
-  version?: number
-  whiteListingBinRanges?: string
-  whiteListingUsed?: boolean
+  device_type?: string
+  skip?: number
+  take?: number
 }
 
 export interface DeviceCustodyDetail {
@@ -283,6 +240,8 @@ export interface DeviceCustodyList {
 export interface DeviceCustodyListListMatch {
   device_type: string
   serial_number: string
+  skip?: number
+  take?: number
 }
 
 export interface DeviceList {
@@ -292,6 +251,10 @@ export interface DeviceList {
 
 export interface DeviceListLoadMatch {
   share_partner_to: string
+  skip?: number
+  sorting_direction?: string
+  sorting_field?: string
+  take?: number
 }
 
 export interface DeviceReceiveResult {
@@ -421,29 +384,9 @@ export interface LocationLoadMatch {
 }
 
 export interface LocationListMatch {
-  address1?: string
-  address2?: string
-  billingId?: string
-  city?: string
-  country?: string
-  created?: string
-  customReference?: string
-  id?: string
-  locationType?: string
-  mailAddress1?: string
-  mailAddress2?: string
-  mailCity?: string
-  mailCountry?: string
-  mailPostalCode?: string
-  mailStateProvince?: string
-  modified?: string
-  name?: string
-  nameOfBusiness?: string
-  notes?: string
-  postalCode?: string
-  stateProvince?: string
-  uniqueId?: string
-  version?: number
+  client: string
+  skip?: number
+  take?: number
 }
 
 export interface LocationCreateData {
@@ -498,20 +441,9 @@ export interface PartnerLoadMatch {
 }
 
 export interface PartnerListMatch {
-  billingId?: string
-  clientCanOrderEquipment?: boolean
-  contact?: Record<string, any>
-  created?: string
-  id?: string
-  isActive?: boolean
-  location?: Record<string, any>
-  modified?: string
-  name?: string
-  parent?: Record<string, any>
-  partnerId?: string
-  reference?: string
-  verificationPhrase?: string
-  version?: number
+  partner?: string
+  skip?: number
+  take?: number
 }
 
 export interface PartnerCreateData {
@@ -553,20 +485,10 @@ export interface ShipmentLoadMatch {
 }
 
 export interface ShipmentListMatch {
-  carrier?: string
-  client?: Record<string, any>
-  created?: string
-  dateReceived?: string
-  dateShipped?: string
-  dcKif?: Record<string, any>
-  id?: string
-  items?: any[]
-  kif?: Record<string, any>
-  modified?: string
-  partner?: Record<string, any>
-  shipmentType?: string
-  tracking?: string
-  version?: number
+  kif: string
+  mode?: string
+  skip?: number
+  take?: number
 }
 
 export interface ShipmentCreateData {
@@ -631,30 +553,19 @@ export interface TransactionLoadMatch {
 }
 
 export interface TransactionListMatch {
-  alternateKey?: string
-  client?: Record<string, any>
-  clientRef?: string
-  created?: string
-  decrypted?: number
-  deviceName?: string
-  directPartner?: Record<string, any>
-  encrypted?: number
-  endDate?: string
-  errCode?: string
-  errMessage?: string
-  id?: string
-  ipAddress?: string
-  isVirtual?: boolean
-  keyType?: string
-  location?: Record<string, any>
-  messageId?: string
-  method?: string
-  partner?: Record<string, any>
+  client?: string
+  client_ref?: string
+  date_from?: string
+  date_to?: string
+  location?: string
+  message_id?: string
+  paging_mode?: string
+  partner?: string
   reference?: string
-  serialNumber?: string
-  startDate?: string
+  serial_number?: string
+  skip?: number
   success?: boolean
-  transactionSource?: string
+  take?: number
 }
 
 export interface TransactionCreateData {
@@ -700,18 +611,11 @@ export interface UpdateResult {
 }
 
 export interface UpdateResultListMatch {
-  client?: Record<string, any>
-  email?: string
-  firstName?: string
-  id?: string
-  isActive?: boolean
-  kif?: Record<string, any>
-  lastName?: string
-  partner?: Record<string, any>
-  phone?: string
-  userName?: string
-  userRole?: Record<string, any>
-  version?: number
+  client?: string
+  kif?: string
+  partner?: any
+  skip?: number
+  take?: number
 }
 
 export interface UpdateResultCreateData {

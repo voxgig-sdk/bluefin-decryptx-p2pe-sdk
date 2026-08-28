@@ -20,7 +20,7 @@ object BluefinDecryptxP2peTypes {
 
   final case class AttestationLoadMatch(id: String)
 
-  final case class AttestationListMatch(client: java.util.Map[String, Object], completeDate: String, created: String, device: java.util.Map[String, Object], id: String, name: String, notes: String)
+  final case class AttestationListMatch(client: String, skip: java.lang.Long, take: java.lang.Long)
 
   final case class AttestationCreateData(client: java.util.Map[String, Object], completeDate: String, created: String, device: java.util.Map[String, Object], id: String, name: String, notes: String)
 
@@ -28,7 +28,7 @@ object BluefinDecryptxP2peTypes {
 
   final case class ClientLoadMatch(id: String)
 
-  final case class ClientListMatch(contact: java.util.Map[String, Object], created: String, directPartner: java.util.Map[String, Object], id: String, isActive: java.lang.Boolean, location: java.util.Map[String, Object], mid: String, modified: String, name: String, partner: java.util.Map[String, Object], version: java.lang.Long)
+  final case class ClientListMatch(partner: String, skip: java.lang.Long, take: java.lang.Long)
 
   final case class ClientCreateData(contact: java.util.Map[String, Object], created: String, directPartner: java.util.Map[String, Object], id: String, isActive: java.lang.Boolean, location: java.util.Map[String, Object], mid: String, modified: String, name: String, partner: java.util.Map[String, Object], version: java.lang.Long)
 
@@ -46,7 +46,7 @@ object BluefinDecryptxP2peTypes {
 
   final case class DeviceLoadMatch(id: String)
 
-  final case class DeviceListMatch(activatedBy: java.util.Map[String, Object], activationDate: String, alternateKey: String, auditNextDate: String, auditNotificationDate: String, client: java.util.Map[String, Object], created: String, createdBy: java.util.Map[String, Object], deviceBuild: java.util.Map[String, Object], deviceState: java.util.Map[String, Object], deviceType: java.util.Map[String, Object], errorCounter: java.lang.Long, errorLastDate: String, id: String, initializedBy: java.util.Map[String, Object], initializedDate: String, injectKey: java.util.Map[String, Object], isVirtual: java.lang.Boolean, kif: java.util.Map[String, Object], lastActivityDate: String, location: java.util.Map[String, Object], modified: String, modifiedBy: java.util.Map[String, Object], name: String, notes: String, partner: java.util.Map[String, Object], serialNumber: String, version: java.lang.Long)
+  final case class DeviceListMatch(client: String, device_state: String, kif: String, partner: String, serial_number: String, skip: java.lang.Long, sorting_direction: String, sorting_field: String, take: java.lang.Long)
 
   final case class DeviceCreateData(activatedBy: java.util.Map[String, Object], activationDate: String, alternateKey: String, auditNextDate: String, auditNotificationDate: String, client: java.util.Map[String, Object], created: String, createdBy: java.util.Map[String, Object], deviceBuild: java.util.Map[String, Object], deviceState: java.util.Map[String, Object], deviceType: java.util.Map[String, Object], errorCounter: java.lang.Long, errorLastDate: String, id: String, initializedBy: java.util.Map[String, Object], initializedDate: String, injectKey: java.util.Map[String, Object], isVirtual: java.lang.Boolean, kif: java.util.Map[String, Object], lastActivityDate: String, location: java.util.Map[String, Object], modified: String, modifiedBy: java.util.Map[String, Object], name: String, notes: String, partner: java.util.Map[String, Object], serialNumber: String, version: java.lang.Long)
 
@@ -54,7 +54,7 @@ object BluefinDecryptxP2peTypes {
 
   final case class DeviceBuildLoadMatch(id: String)
 
-  final case class DeviceBuildListMatch(appVersion: String, buildNumber: String, configFileName: String, created: String, deviceType: String, firmwareVersion: String, hardwareVersion: String, id: java.lang.Long, isActive: java.lang.Boolean, modified: String, name: String, notes: String, version: java.lang.Long, whiteListingBinRanges: String, whiteListingUsed: java.lang.Boolean)
+  final case class DeviceBuildListMatch(device_type: String, skip: java.lang.Long, take: java.lang.Long)
 
   final case class DeviceCustodyDetail(completeDate: String, created: String, createdBy: java.util.Map[String, Object], custodian: java.util.Map[String, Object], device: java.util.Map[String, Object], id: java.lang.Long, location: java.util.Map[String, Object], modified: String, modifiedBy: java.util.Map[String, Object], notes: String, status: java.util.Map[String, Object], transferMethod: java.util.Map[String, Object], version: java.lang.Long)
 
@@ -62,11 +62,11 @@ object BluefinDecryptxP2peTypes {
 
   final case class DeviceCustodyList(completeDate: String, created: String, createdBy: java.util.Map[String, Object], custodian: java.util.Map[String, Object], device: java.util.Map[String, Object], id: java.lang.Long, location: java.util.Map[String, Object], modified: String, modifiedBy: java.util.Map[String, Object], notes: String, status: java.util.Map[String, Object], transferMethod: java.util.Map[String, Object], version: java.lang.Long)
 
-  final case class DeviceCustodyListListMatch(device_type: String, serial_number: String)
+  final case class DeviceCustodyListListMatch(device_type: String, serial_number: String, skip: java.lang.Long, take: java.lang.Long)
 
   final case class DeviceList(data: java.util.List[Object], total: java.lang.Long)
 
-  final case class DeviceListLoadMatch(share_partner_to: String)
+  final case class DeviceListLoadMatch(share_partner_to: String, skip: java.lang.Long, sorting_direction: String, sorting_field: String, take: java.lang.Long)
 
   final case class DeviceReceiveResult(success: java.lang.Boolean)
 
@@ -100,7 +100,7 @@ object BluefinDecryptxP2peTypes {
 
   final case class LocationLoadMatch(id: String)
 
-  final case class LocationListMatch(address1: String, address2: String, billingId: String, city: String, country: String, created: String, customReference: String, id: String, locationType: String, mailAddress1: String, mailAddress2: String, mailCity: String, mailCountry: String, mailPostalCode: String, mailStateProvince: String, modified: String, name: String, nameOfBusiness: String, notes: String, postalCode: String, stateProvince: String, uniqueId: String, version: java.lang.Long)
+  final case class LocationListMatch(client: String, skip: java.lang.Long, take: java.lang.Long)
 
   final case class LocationCreateData(address1: String, address2: String, billingId: String, city: String, country: String, created: String, customReference: String, id: String, locationType: String, mailAddress1: String, mailAddress2: String, mailCity: String, mailCountry: String, mailPostalCode: String, mailStateProvince: String, modified: String, name: String, nameOfBusiness: String, notes: String, postalCode: String, stateProvince: String, uniqueId: String, version: java.lang.Long)
 
@@ -110,7 +110,7 @@ object BluefinDecryptxP2peTypes {
 
   final case class PartnerLoadMatch(id: String)
 
-  final case class PartnerListMatch(billingId: String, clientCanOrderEquipment: java.lang.Boolean, contact: java.util.Map[String, Object], created: String, id: String, isActive: java.lang.Boolean, location: java.util.Map[String, Object], modified: String, name: String, parent: java.util.Map[String, Object], partnerId: String, reference: String, verificationPhrase: String, version: java.lang.Long)
+  final case class PartnerListMatch(partner: String, skip: java.lang.Long, take: java.lang.Long)
 
   final case class PartnerCreateData(billingId: String, clientCanOrderEquipment: java.lang.Boolean, contact: java.util.Map[String, Object], created: String, id: String, isActive: java.lang.Boolean, location: java.util.Map[String, Object], modified: String, name: String, parent: java.util.Map[String, Object], partnerId: String, reference: String, verificationPhrase: String, version: java.lang.Long)
 
@@ -118,7 +118,7 @@ object BluefinDecryptxP2peTypes {
 
   final case class ShipmentLoadMatch(id: String)
 
-  final case class ShipmentListMatch(carrier: String, client: java.util.Map[String, Object], created: String, dateReceived: String, dateShipped: String, dcKif: java.util.Map[String, Object], id: String, items: java.util.List[Object], kif: java.util.Map[String, Object], modified: String, partner: java.util.Map[String, Object], shipmentType: String, tracking: String, version: java.lang.Long)
+  final case class ShipmentListMatch(kif: String, mode: String, skip: java.lang.Long, take: java.lang.Long)
 
   final case class ShipmentCreateData(carrier: String, client: java.util.Map[String, Object], created: String, dateReceived: String, dateShipped: String, dcKif: java.util.Map[String, Object], id: String, items: java.util.List[Object], kif: java.util.Map[String, Object], modified: String, partner: java.util.Map[String, Object], shipmentType: String, tracking: String, version: java.lang.Long)
 
@@ -132,13 +132,13 @@ object BluefinDecryptxP2peTypes {
 
   final case class TransactionLoadMatch(id: String)
 
-  final case class TransactionListMatch(alternateKey: String, client: java.util.Map[String, Object], clientRef: String, created: String, decrypted: java.lang.Long, deviceName: String, directPartner: java.util.Map[String, Object], encrypted: java.lang.Long, endDate: String, errCode: String, errMessage: String, id: String, ipAddress: String, isVirtual: java.lang.Boolean, keyType: String, location: java.util.Map[String, Object], messageId: String, method: String, partner: java.util.Map[String, Object], reference: String, serialNumber: String, startDate: String, success: java.lang.Boolean, transactionSource: String)
+  final case class TransactionListMatch(client: String, client_ref: String, date_from: String, date_to: String, location: String, message_id: String, paging_mode: String, partner: String, reference: String, serial_number: String, skip: java.lang.Long, success: java.lang.Boolean, take: java.lang.Long)
 
   final case class TransactionCreateData(alternateKey: String, client: java.util.Map[String, Object], clientRef: String, created: String, decrypted: java.lang.Long, deviceName: String, directPartner: java.util.Map[String, Object], encrypted: java.lang.Long, endDate: String, errCode: String, errMessage: String, id: String, ipAddress: String, isVirtual: java.lang.Boolean, keyType: String, location: java.util.Map[String, Object], messageId: String, method: String, partner: java.util.Map[String, Object], reference: String, serialNumber: String, startDate: String, success: java.lang.Boolean, transactionSource: String)
 
   final case class UpdateResult(client: java.util.Map[String, Object], email: String, firstName: String, id: String, isActive: java.lang.Boolean, kif: java.util.Map[String, Object], lastName: String, partner: java.util.Map[String, Object], phone: String, userName: String, userRole: java.util.Map[String, Object], version: java.lang.Long)
 
-  final case class UpdateResultListMatch(client: java.util.Map[String, Object], email: String, firstName: String, id: String, isActive: java.lang.Boolean, kif: java.util.Map[String, Object], lastName: String, partner: java.util.Map[String, Object], phone: String, userName: String, userRole: java.util.Map[String, Object], version: java.lang.Long)
+  final case class UpdateResultListMatch(client: String, kif: String, partner: Object, skip: java.lang.Long, take: java.lang.Long)
 
   final case class UpdateResultCreateData(client: java.util.Map[String, Object], email: String, firstName: String, id: String, isActive: java.lang.Boolean, kif: java.util.Map[String, Object], lastName: String, partner: java.util.Map[String, Object], phone: String, userName: String, userRole: java.util.Map[String, Object], version: java.lang.Long)
 

@@ -30,14 +30,13 @@ class AttestationLoadMatch(TypedDict):
     id: str
 
 
-class AttestationListMatch(TypedDict, total=False):
-    client: dict
-    completeDate: str
-    created: str
-    device: dict
-    id: str
-    name: str
-    notes: str
+class AttestationListMatchRequired(TypedDict):
+    client: str
+
+
+class AttestationListMatch(AttestationListMatchRequired, total=False):
+    skip: int
+    take: int
 
 
 class AttestationCreateData(TypedDict, total=False):
@@ -71,18 +70,13 @@ class ClientLoadMatch(TypedDict):
     id: str
 
 
-class ClientListMatch(TypedDict, total=False):
-    contact: dict
-    created: str
-    directPartner: dict
-    id: str
-    isActive: bool
-    location: dict
-    mid: str
-    modified: str
-    name: str
-    partner: dict
-    version: int
+class ClientListMatchRequired(TypedDict):
+    partner: str
+
+
+class ClientListMatch(ClientListMatchRequired, total=False):
+    skip: int
+    take: int
 
 
 class ClientCreateDataRequired(TypedDict):
@@ -162,34 +156,15 @@ class DeviceLoadMatch(TypedDict):
 
 
 class DeviceListMatch(TypedDict, total=False):
-    activatedBy: dict
-    activationDate: str
-    alternateKey: str
-    auditNextDate: str
-    auditNotificationDate: str
-    client: dict
-    created: str
-    createdBy: dict
-    deviceBuild: dict
-    deviceState: dict
-    deviceType: dict
-    errorCounter: int
-    errorLastDate: str
-    id: str
-    initializedBy: dict
-    initializedDate: str
-    injectKey: dict
-    isVirtual: bool
-    kif: dict
-    lastActivityDate: str
-    location: dict
-    modified: str
-    modifiedBy: dict
-    name: str
-    notes: str
-    partner: dict
-    serialNumber: str
-    version: int
+    client: str
+    device_state: str
+    kif: str
+    partner: str
+    serial_number: str
+    skip: int
+    sorting_direction: str
+    sorting_field: str
+    take: int
 
 
 class DeviceCreateDataRequired(TypedDict):
@@ -249,21 +224,9 @@ class DeviceBuildLoadMatch(TypedDict):
 
 
 class DeviceBuildListMatch(TypedDict, total=False):
-    appVersion: str
-    buildNumber: str
-    configFileName: str
-    created: str
-    deviceType: str
-    firmwareVersion: str
-    hardwareVersion: str
-    id: int
-    isActive: bool
-    modified: str
-    name: str
-    notes: str
-    version: int
-    whiteListingBinRanges: str
-    whiteListingUsed: bool
+    device_type: str
+    skip: int
+    take: int
 
 
 class DeviceCustodyDetailRequired(TypedDict):
@@ -310,9 +273,14 @@ class DeviceCustodyList(DeviceCustodyListRequired, total=False):
     version: int
 
 
-class DeviceCustodyListListMatch(TypedDict):
+class DeviceCustodyListListMatchRequired(TypedDict):
     device_type: str
     serial_number: str
+
+
+class DeviceCustodyListListMatch(DeviceCustodyListListMatchRequired, total=False):
+    skip: int
+    take: int
 
 
 class DeviceList(TypedDict, total=False):
@@ -320,8 +288,15 @@ class DeviceList(TypedDict, total=False):
     total: int
 
 
-class DeviceListLoadMatch(TypedDict):
+class DeviceListLoadMatchRequired(TypedDict):
     share_partner_to: str
+
+
+class DeviceListLoadMatch(DeviceListLoadMatchRequired, total=False):
+    skip: int
+    sorting_direction: str
+    sorting_field: str
+    take: int
 
 
 class DeviceReceiveResult(TypedDict):
@@ -450,30 +425,13 @@ class LocationLoadMatch(TypedDict):
     id: str
 
 
-class LocationListMatch(TypedDict, total=False):
-    address1: str
-    address2: str
-    billingId: str
-    city: str
-    country: str
-    created: str
-    customReference: str
-    id: str
-    locationType: str
-    mailAddress1: str
-    mailAddress2: str
-    mailCity: str
-    mailCountry: str
-    mailPostalCode: str
-    mailStateProvince: str
-    modified: str
-    name: str
-    nameOfBusiness: str
-    notes: str
-    postalCode: str
-    stateProvince: str
-    uniqueId: str
-    version: int
+class LocationListMatchRequired(TypedDict):
+    client: str
+
+
+class LocationListMatch(LocationListMatchRequired, total=False):
+    skip: int
+    take: int
 
 
 class LocationCreateData(TypedDict, total=False):
@@ -531,20 +489,9 @@ class PartnerLoadMatch(TypedDict):
 
 
 class PartnerListMatch(TypedDict, total=False):
-    billingId: str
-    clientCanOrderEquipment: bool
-    contact: dict
-    created: str
-    id: str
-    isActive: bool
-    location: dict
-    modified: str
-    name: str
-    parent: dict
-    partnerId: str
-    reference: str
-    verificationPhrase: str
-    version: int
+    partner: str
+    skip: int
+    take: int
 
 
 class PartnerCreateDataRequired(TypedDict):
@@ -588,21 +535,14 @@ class ShipmentLoadMatch(TypedDict):
     id: str
 
 
-class ShipmentListMatch(TypedDict, total=False):
-    carrier: str
-    client: dict
-    created: str
-    dateReceived: str
-    dateShipped: str
-    dcKif: dict
-    id: str
-    items: list
-    kif: dict
-    modified: str
-    partner: dict
-    shipmentType: str
-    tracking: str
-    version: int
+class ShipmentListMatchRequired(TypedDict):
+    kif: str
+
+
+class ShipmentListMatch(ShipmentListMatchRequired, total=False):
+    mode: str
+    skip: int
+    take: int
 
 
 class ShipmentCreateData(TypedDict, total=False):
@@ -673,30 +613,19 @@ class TransactionLoadMatch(TypedDict):
 
 
 class TransactionListMatch(TypedDict, total=False):
-    alternateKey: str
-    client: dict
-    clientRef: str
-    created: str
-    decrypted: int
-    deviceName: str
-    directPartner: dict
-    encrypted: int
-    endDate: str
-    errCode: str
-    errMessage: str
-    id: str
-    ipAddress: str
-    isVirtual: bool
-    keyType: str
-    location: dict
-    messageId: str
-    method: str
-    partner: dict
+    client: str
+    client_ref: str
+    date_from: str
+    date_to: str
+    location: str
+    message_id: str
+    paging_mode: str
+    partner: str
     reference: str
-    serialNumber: str
-    startDate: str
+    serial_number: str
+    skip: int
     success: bool
-    transactionSource: str
+    take: int
 
 
 class TransactionCreateDataRequired(TypedDict):
@@ -745,18 +674,11 @@ class UpdateResult(TypedDict, total=False):
 
 
 class UpdateResultListMatch(TypedDict, total=False):
-    client: dict
-    email: str
-    firstName: str
-    id: str
-    isActive: bool
-    kif: dict
-    lastName: str
-    partner: dict
-    phone: str
-    userName: str
-    userRole: dict
-    version: int
+    client: str
+    kif: str
+    partner: Any
+    skip: int
+    take: int
 
 
 class UpdateResultCreateData(TypedDict, total=False):

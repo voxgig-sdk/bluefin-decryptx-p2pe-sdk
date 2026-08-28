@@ -36,13 +36,9 @@ struct AttestationLoadMatch {
 };
 
 struct AttestationListMatch {
-  std::map<std::string, Value> client;  // optional
-  std::string completeDate;  // optional
-  std::string created;  // optional
-  std::map<std::string, Value> device;  // optional
-  std::string id;  // optional
-  std::string name;  // optional
-  std::string notes;  // optional
+  std::string client;
+  int64_t skip;  // optional
+  int64_t take;  // optional
 };
 
 struct AttestationCreateData {
@@ -74,17 +70,9 @@ struct ClientLoadMatch {
 };
 
 struct ClientListMatch {
-  std::map<std::string, Value> contact;  // optional
-  std::string created;  // optional
-  std::map<std::string, Value> directPartner;  // optional
-  std::string id;  // optional
-  bool isActive;  // optional
-  std::map<std::string, Value> location;  // optional
-  std::string mid;  // optional
-  std::string modified;  // optional
-  std::string name;  // optional
-  std::map<std::string, Value> partner;  // optional
-  int64_t version;  // optional
+  std::string partner;
+  int64_t skip;  // optional
+  int64_t take;  // optional
 };
 
 struct ClientCreateData {
@@ -156,34 +144,15 @@ struct DeviceLoadMatch {
 };
 
 struct DeviceListMatch {
-  std::map<std::string, Value> activatedBy;  // optional
-  std::string activationDate;  // optional
-  std::string alternateKey;  // optional
-  std::string auditNextDate;  // optional
-  std::string auditNotificationDate;  // optional
-  std::map<std::string, Value> client;  // optional
-  std::string created;  // optional
-  std::map<std::string, Value> createdBy;  // optional
-  std::map<std::string, Value> deviceBuild;  // optional
-  std::map<std::string, Value> deviceState;  // optional
-  std::map<std::string, Value> deviceType;  // optional
-  int64_t errorCounter;  // optional
-  std::string errorLastDate;  // optional
-  std::string id;  // optional
-  std::map<std::string, Value> initializedBy;  // optional
-  std::string initializedDate;  // optional
-  std::map<std::string, Value> injectKey;  // optional
-  bool isVirtual;  // optional
-  std::map<std::string, Value> kif;  // optional
-  std::string lastActivityDate;  // optional
-  std::map<std::string, Value> location;  // optional
-  std::string modified;  // optional
-  std::map<std::string, Value> modifiedBy;  // optional
-  std::string name;  // optional
-  std::string notes;  // optional
-  std::map<std::string, Value> partner;  // optional
-  std::string serialNumber;  // optional
-  int64_t version;  // optional
+  std::string client;  // optional
+  std::string device_state;  // optional
+  std::string kif;  // optional
+  std::string partner;  // optional
+  std::string serial_number;  // optional
+  int64_t skip;  // optional
+  std::string sorting_direction;  // optional
+  std::string sorting_field;  // optional
+  int64_t take;  // optional
 };
 
 struct DeviceCreateData {
@@ -240,21 +209,9 @@ struct DeviceBuildLoadMatch {
 };
 
 struct DeviceBuildListMatch {
-  std::string appVersion;  // optional
-  std::string buildNumber;  // optional
-  std::string configFileName;  // optional
-  std::string created;  // optional
-  std::string deviceType;  // optional
-  std::string firmwareVersion;  // optional
-  std::string hardwareVersion;  // optional
-  int64_t id;  // optional
-  bool isActive;  // optional
-  std::string modified;  // optional
-  std::string name;  // optional
-  std::string notes;  // optional
-  int64_t version;  // optional
-  std::string whiteListingBinRanges;  // optional
-  bool whiteListingUsed;  // optional
+  std::string device_type;  // optional
+  int64_t skip;  // optional
+  int64_t take;  // optional
 };
 
 struct DeviceCustodyDetail {
@@ -298,6 +255,8 @@ struct DeviceCustodyList {
 struct DeviceCustodyListListMatch {
   std::string device_type;
   std::string serial_number;
+  int64_t skip;  // optional
+  int64_t take;  // optional
 };
 
 struct DeviceList {
@@ -307,6 +266,10 @@ struct DeviceList {
 
 struct DeviceListLoadMatch {
   std::string share_partner_to;
+  int64_t skip;  // optional
+  std::string sorting_direction;  // optional
+  std::string sorting_field;  // optional
+  int64_t take;  // optional
 };
 
 struct DeviceReceiveResult {
@@ -436,29 +399,9 @@ struct LocationLoadMatch {
 };
 
 struct LocationListMatch {
-  std::string address1;  // optional
-  std::string address2;  // optional
-  std::string billingId;  // optional
-  std::string city;  // optional
-  std::string country;  // optional
-  std::string created;  // optional
-  std::string customReference;  // optional
-  std::string id;  // optional
-  std::string locationType;  // optional
-  std::string mailAddress1;  // optional
-  std::string mailAddress2;  // optional
-  std::string mailCity;  // optional
-  std::string mailCountry;  // optional
-  std::string mailPostalCode;  // optional
-  std::string mailStateProvince;  // optional
-  std::string modified;  // optional
-  std::string name;  // optional
-  std::string nameOfBusiness;  // optional
-  std::string notes;  // optional
-  std::string postalCode;  // optional
-  std::string stateProvince;  // optional
-  std::string uniqueId;  // optional
-  int64_t version;  // optional
+  std::string client;
+  int64_t skip;  // optional
+  int64_t take;  // optional
 };
 
 struct LocationCreateData {
@@ -513,20 +456,9 @@ struct PartnerLoadMatch {
 };
 
 struct PartnerListMatch {
-  std::string billingId;  // optional
-  bool clientCanOrderEquipment;  // optional
-  std::map<std::string, Value> contact;  // optional
-  std::string created;  // optional
-  std::string id;  // optional
-  bool isActive;  // optional
-  std::map<std::string, Value> location;  // optional
-  std::string modified;  // optional
-  std::string name;  // optional
-  std::map<std::string, Value> parent;  // optional
-  std::string partnerId;  // optional
-  std::string reference;  // optional
-  std::string verificationPhrase;  // optional
-  int64_t version;  // optional
+  std::string partner;  // optional
+  int64_t skip;  // optional
+  int64_t take;  // optional
 };
 
 struct PartnerCreateData {
@@ -568,20 +500,10 @@ struct ShipmentLoadMatch {
 };
 
 struct ShipmentListMatch {
-  std::string carrier;  // optional
-  std::map<std::string, Value> client;  // optional
-  std::string created;  // optional
-  std::string dateReceived;  // optional
-  std::string dateShipped;  // optional
-  std::map<std::string, Value> dcKif;  // optional
-  std::string id;  // optional
-  std::vector<Value> items;  // optional
-  std::map<std::string, Value> kif;  // optional
-  std::string modified;  // optional
-  std::map<std::string, Value> partner;  // optional
-  std::string shipmentType;  // optional
-  std::string tracking;  // optional
-  int64_t version;  // optional
+  std::string kif;
+  std::string mode;  // optional
+  int64_t skip;  // optional
+  int64_t take;  // optional
 };
 
 struct ShipmentCreateData {
@@ -646,30 +568,19 @@ struct TransactionLoadMatch {
 };
 
 struct TransactionListMatch {
-  std::string alternateKey;  // optional
-  std::map<std::string, Value> client;  // optional
-  std::string clientRef;  // optional
-  std::string created;  // optional
-  int64_t decrypted;  // optional
-  std::string deviceName;  // optional
-  std::map<std::string, Value> directPartner;  // optional
-  int64_t encrypted;  // optional
-  std::string endDate;  // optional
-  std::string errCode;  // optional
-  std::string errMessage;  // optional
-  std::string id;  // optional
-  std::string ipAddress;  // optional
-  bool isVirtual;  // optional
-  std::string keyType;  // optional
-  std::map<std::string, Value> location;  // optional
-  std::string messageId;  // optional
-  std::string method;  // optional
-  std::map<std::string, Value> partner;  // optional
+  std::string client;  // optional
+  std::string client_ref;  // optional
+  std::string date_from;  // optional
+  std::string date_to;  // optional
+  std::string location;  // optional
+  std::string message_id;  // optional
+  std::string paging_mode;  // optional
+  std::string partner;  // optional
   std::string reference;  // optional
-  std::string serialNumber;  // optional
-  std::string startDate;  // optional
+  std::string serial_number;  // optional
+  int64_t skip;  // optional
   bool success;  // optional
-  std::string transactionSource;  // optional
+  int64_t take;  // optional
 };
 
 struct TransactionCreateData {
@@ -715,18 +626,11 @@ struct UpdateResult {
 };
 
 struct UpdateResultListMatch {
-  std::map<std::string, Value> client;  // optional
-  std::string email;  // optional
-  std::string firstName;  // optional
-  std::string id;  // optional
-  bool isActive;  // optional
-  std::map<std::string, Value> kif;  // optional
-  std::string lastName;  // optional
-  std::map<std::string, Value> partner;  // optional
-  std::string phone;  // optional
-  std::string userName;  // optional
-  std::map<std::string, Value> userRole;  // optional
-  int64_t version;  // optional
+  std::string client;  // optional
+  std::string kif;  // optional
+  Value partner;  // optional
+  int64_t skip;  // optional
+  int64_t take;  // optional
 };
 
 struct UpdateResultCreateData {

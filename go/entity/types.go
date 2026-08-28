@@ -30,13 +30,9 @@ type AttestationLoadMatch struct {
 
 // AttestationListMatch is the typed request payload for Attestation.ListTyped.
 type AttestationListMatch struct {
-	Client *map[string]any `json:"client,omitempty"`
-	CompleteDate *string `json:"completeDate,omitempty"`
-	Created *string `json:"created,omitempty"`
-	Device *map[string]any `json:"device,omitempty"`
-	Id *string `json:"id,omitempty"`
-	Name *string `json:"name,omitempty"`
-	Notes *string `json:"notes,omitempty"`
+	Client string `json:"client"`
+	Skip *int `json:"skip,omitempty"`
+	Take *int `json:"take,omitempty"`
 }
 
 // AttestationCreateData is the typed request payload for Attestation.CreateTyped.
@@ -72,17 +68,9 @@ type ClientLoadMatch struct {
 
 // ClientListMatch is the typed request payload for Client.ListTyped.
 type ClientListMatch struct {
-	Contact *map[string]any `json:"contact,omitempty"`
-	Created *string `json:"created,omitempty"`
-	DirectPartner *map[string]any `json:"directPartner,omitempty"`
-	Id *string `json:"id,omitempty"`
-	IsActive *bool `json:"isActive,omitempty"`
-	Location *map[string]any `json:"location,omitempty"`
-	Mid *string `json:"mid,omitempty"`
-	Modified *string `json:"modified,omitempty"`
-	Name *string `json:"name,omitempty"`
-	Partner *map[string]any `json:"partner,omitempty"`
-	Version *int `json:"version,omitempty"`
+	Partner string `json:"partner"`
+	Skip *int `json:"skip,omitempty"`
+	Take *int `json:"take,omitempty"`
 }
 
 // ClientCreateData is the typed request payload for Client.CreateTyped.
@@ -164,34 +152,15 @@ type DeviceLoadMatch struct {
 
 // DeviceListMatch is the typed request payload for Device.ListTyped.
 type DeviceListMatch struct {
-	ActivatedBy *map[string]any `json:"activatedBy,omitempty"`
-	ActivationDate *string `json:"activationDate,omitempty"`
-	AlternateKey *string `json:"alternateKey,omitempty"`
-	AuditNextDate *string `json:"auditNextDate,omitempty"`
-	AuditNotificationDate *string `json:"auditNotificationDate,omitempty"`
-	Client *map[string]any `json:"client,omitempty"`
-	Created *string `json:"created,omitempty"`
-	CreatedBy *map[string]any `json:"createdBy,omitempty"`
-	DeviceBuild *map[string]any `json:"deviceBuild,omitempty"`
-	DeviceState *map[string]any `json:"deviceState,omitempty"`
-	DeviceType *map[string]any `json:"deviceType,omitempty"`
-	ErrorCounter *int `json:"errorCounter,omitempty"`
-	ErrorLastDate *string `json:"errorLastDate,omitempty"`
-	Id *string `json:"id,omitempty"`
-	InitializedBy *map[string]any `json:"initializedBy,omitempty"`
-	InitializedDate *string `json:"initializedDate,omitempty"`
-	InjectKey *map[string]any `json:"injectKey,omitempty"`
-	IsVirtual *bool `json:"isVirtual,omitempty"`
-	Kif *map[string]any `json:"kif,omitempty"`
-	LastActivityDate *string `json:"lastActivityDate,omitempty"`
-	Location *map[string]any `json:"location,omitempty"`
-	Modified *string `json:"modified,omitempty"`
-	ModifiedBy *map[string]any `json:"modifiedBy,omitempty"`
-	Name *string `json:"name,omitempty"`
-	Notes *string `json:"notes,omitempty"`
-	Partner *map[string]any `json:"partner,omitempty"`
-	SerialNumber *string `json:"serialNumber,omitempty"`
-	Version *int `json:"version,omitempty"`
+	Client *string `json:"client,omitempty"`
+	DeviceState *string `json:"device_state,omitempty"`
+	Kif *string `json:"kif,omitempty"`
+	Partner *string `json:"partner,omitempty"`
+	SerialNumber *string `json:"serial_number,omitempty"`
+	Skip *int `json:"skip,omitempty"`
+	SortingDirection *string `json:"sorting_direction,omitempty"`
+	SortingField *string `json:"sorting_field,omitempty"`
+	Take *int `json:"take,omitempty"`
 }
 
 // DeviceCreateData is the typed request payload for Device.CreateTyped.
@@ -252,21 +221,9 @@ type DeviceBuildLoadMatch struct {
 
 // DeviceBuildListMatch is the typed request payload for DeviceBuild.ListTyped.
 type DeviceBuildListMatch struct {
-	AppVersion *string `json:"appVersion,omitempty"`
-	BuildNumber *string `json:"buildNumber,omitempty"`
-	ConfigFileName *string `json:"configFileName,omitempty"`
-	Created *string `json:"created,omitempty"`
-	DeviceType *string `json:"deviceType,omitempty"`
-	FirmwareVersion *string `json:"firmwareVersion,omitempty"`
-	HardwareVersion *string `json:"hardwareVersion,omitempty"`
-	Id *int `json:"id,omitempty"`
-	IsActive *bool `json:"isActive,omitempty"`
-	Modified *string `json:"modified,omitempty"`
-	Name *string `json:"name,omitempty"`
-	Notes *string `json:"notes,omitempty"`
-	Version *int `json:"version,omitempty"`
-	WhiteListingBinRanges *string `json:"whiteListingBinRanges,omitempty"`
-	WhiteListingUsed *bool `json:"whiteListingUsed,omitempty"`
+	DeviceType *string `json:"device_type,omitempty"`
+	Skip *int `json:"skip,omitempty"`
+	Take *int `json:"take,omitempty"`
 }
 
 // DeviceCustodyDetail is the typed data model for the device_custody_detail entity.
@@ -314,6 +271,8 @@ type DeviceCustodyList struct {
 type DeviceCustodyListListMatch struct {
 	DeviceType string `json:"device_type"`
 	SerialNumber string `json:"serial_number"`
+	Skip *int `json:"skip,omitempty"`
+	Take *int `json:"take,omitempty"`
 }
 
 // DeviceList is the typed data model for the device_list entity.
@@ -325,6 +284,10 @@ type DeviceList struct {
 // DeviceListLoadMatch is the typed request payload for DeviceList.LoadTyped.
 type DeviceListLoadMatch struct {
 	SharePartnerTo string `json:"share_partner_to"`
+	Skip *int `json:"skip,omitempty"`
+	SortingDirection *string `json:"sorting_direction,omitempty"`
+	SortingField *string `json:"sorting_field,omitempty"`
+	Take *int `json:"take,omitempty"`
 }
 
 // DeviceReceiveResult is the typed data model for the device_receive_result entity.
@@ -471,29 +434,9 @@ type LocationLoadMatch struct {
 
 // LocationListMatch is the typed request payload for Location.ListTyped.
 type LocationListMatch struct {
-	Address1 *string `json:"address1,omitempty"`
-	Address2 *string `json:"address2,omitempty"`
-	BillingId *string `json:"billingId,omitempty"`
-	City *string `json:"city,omitempty"`
-	Country *string `json:"country,omitempty"`
-	Created *string `json:"created,omitempty"`
-	CustomReference *string `json:"customReference,omitempty"`
-	Id *string `json:"id,omitempty"`
-	LocationType *string `json:"locationType,omitempty"`
-	MailAddress1 *string `json:"mailAddress1,omitempty"`
-	MailAddress2 *string `json:"mailAddress2,omitempty"`
-	MailCity *string `json:"mailCity,omitempty"`
-	MailCountry *string `json:"mailCountry,omitempty"`
-	MailPostalCode *string `json:"mailPostalCode,omitempty"`
-	MailStateProvince *string `json:"mailStateProvince,omitempty"`
-	Modified *string `json:"modified,omitempty"`
-	Name *string `json:"name,omitempty"`
-	NameOfBusiness *string `json:"nameOfBusiness,omitempty"`
-	Notes *string `json:"notes,omitempty"`
-	PostalCode *string `json:"postalCode,omitempty"`
-	StateProvince *string `json:"stateProvince,omitempty"`
-	UniqueId *string `json:"uniqueId,omitempty"`
-	Version *int `json:"version,omitempty"`
+	Client string `json:"client"`
+	Skip *int `json:"skip,omitempty"`
+	Take *int `json:"take,omitempty"`
 }
 
 // LocationCreateData is the typed request payload for Location.CreateTyped.
@@ -553,20 +496,9 @@ type PartnerLoadMatch struct {
 
 // PartnerListMatch is the typed request payload for Partner.ListTyped.
 type PartnerListMatch struct {
-	BillingId *string `json:"billingId,omitempty"`
-	ClientCanOrderEquipment *bool `json:"clientCanOrderEquipment,omitempty"`
-	Contact *map[string]any `json:"contact,omitempty"`
-	Created *string `json:"created,omitempty"`
-	Id *string `json:"id,omitempty"`
-	IsActive *bool `json:"isActive,omitempty"`
-	Location *map[string]any `json:"location,omitempty"`
-	Modified *string `json:"modified,omitempty"`
-	Name *string `json:"name,omitempty"`
-	Parent *map[string]any `json:"parent,omitempty"`
-	PartnerId *string `json:"partnerId,omitempty"`
-	Reference *string `json:"reference,omitempty"`
-	VerificationPhrase *string `json:"verificationPhrase,omitempty"`
-	Version *int `json:"version,omitempty"`
+	Partner *string `json:"partner,omitempty"`
+	Skip *int `json:"skip,omitempty"`
+	Take *int `json:"take,omitempty"`
 }
 
 // PartnerCreateData is the typed request payload for Partner.CreateTyped.
@@ -612,20 +544,10 @@ type ShipmentLoadMatch struct {
 
 // ShipmentListMatch is the typed request payload for Shipment.ListTyped.
 type ShipmentListMatch struct {
-	Carrier *string `json:"carrier,omitempty"`
-	Client *map[string]any `json:"client,omitempty"`
-	Created *string `json:"created,omitempty"`
-	DateReceived *string `json:"dateReceived,omitempty"`
-	DateShipped *string `json:"dateShipped,omitempty"`
-	DcKif *map[string]any `json:"dcKif,omitempty"`
-	Id *string `json:"id,omitempty"`
-	Items *[]any `json:"items,omitempty"`
-	Kif *map[string]any `json:"kif,omitempty"`
-	Modified *string `json:"modified,omitempty"`
-	Partner *map[string]any `json:"partner,omitempty"`
-	ShipmentType *string `json:"shipmentType,omitempty"`
-	Tracking *string `json:"tracking,omitempty"`
-	Version *int `json:"version,omitempty"`
+	Kif string `json:"kif"`
+	Mode *string `json:"mode,omitempty"`
+	Skip *int `json:"skip,omitempty"`
+	Take *int `json:"take,omitempty"`
 }
 
 // ShipmentCreateData is the typed request payload for Shipment.CreateTyped.
@@ -697,30 +619,19 @@ type TransactionLoadMatch struct {
 
 // TransactionListMatch is the typed request payload for Transaction.ListTyped.
 type TransactionListMatch struct {
-	AlternateKey *string `json:"alternateKey,omitempty"`
-	Client *map[string]any `json:"client,omitempty"`
-	ClientRef *string `json:"clientRef,omitempty"`
-	Created *string `json:"created,omitempty"`
-	Decrypted *int `json:"decrypted,omitempty"`
-	DeviceName *string `json:"deviceName,omitempty"`
-	DirectPartner *map[string]any `json:"directPartner,omitempty"`
-	Encrypted *int `json:"encrypted,omitempty"`
-	EndDate *string `json:"endDate,omitempty"`
-	ErrCode *string `json:"errCode,omitempty"`
-	ErrMessage *string `json:"errMessage,omitempty"`
-	Id *string `json:"id,omitempty"`
-	IpAddress *string `json:"ipAddress,omitempty"`
-	IsVirtual *bool `json:"isVirtual,omitempty"`
-	KeyType *string `json:"keyType,omitempty"`
-	Location *map[string]any `json:"location,omitempty"`
-	MessageId *string `json:"messageId,omitempty"`
-	Method *string `json:"method,omitempty"`
-	Partner *map[string]any `json:"partner,omitempty"`
+	Client *string `json:"client,omitempty"`
+	ClientRef *string `json:"client_ref,omitempty"`
+	DateFrom *string `json:"date_from,omitempty"`
+	DateTo *string `json:"date_to,omitempty"`
+	Location *string `json:"location,omitempty"`
+	MessageId *string `json:"message_id,omitempty"`
+	PagingMode *string `json:"paging_mode,omitempty"`
+	Partner *string `json:"partner,omitempty"`
 	Reference *string `json:"reference,omitempty"`
-	SerialNumber *string `json:"serialNumber,omitempty"`
-	StartDate *string `json:"startDate,omitempty"`
+	SerialNumber *string `json:"serial_number,omitempty"`
+	Skip *int `json:"skip,omitempty"`
 	Success *bool `json:"success,omitempty"`
-	TransactionSource *string `json:"transactionSource,omitempty"`
+	Take *int `json:"take,omitempty"`
 }
 
 // TransactionCreateData is the typed request payload for Transaction.CreateTyped.
@@ -769,18 +680,11 @@ type UpdateResult struct {
 
 // UpdateResultListMatch is the typed request payload for UpdateResult.ListTyped.
 type UpdateResultListMatch struct {
-	Client *map[string]any `json:"client,omitempty"`
-	Email *string `json:"email,omitempty"`
-	FirstName *string `json:"firstName,omitempty"`
-	Id *string `json:"id,omitempty"`
-	IsActive *bool `json:"isActive,omitempty"`
-	Kif *map[string]any `json:"kif,omitempty"`
-	LastName *string `json:"lastName,omitempty"`
-	Partner *map[string]any `json:"partner,omitempty"`
-	Phone *string `json:"phone,omitempty"`
-	UserName *string `json:"userName,omitempty"`
-	UserRole *map[string]any `json:"userRole,omitempty"`
-	Version *int `json:"version,omitempty"`
+	Client *string `json:"client,omitempty"`
+	Kif *string `json:"kif,omitempty"`
+	Partner *any `json:"partner,omitempty"`
+	Skip *int `json:"skip,omitempty"`
+	Take *int `json:"take,omitempty"`
 }
 
 // UpdateResultCreateData is the typed request payload for UpdateResult.CreateTyped.

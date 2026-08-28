@@ -12,6 +12,10 @@ Learn more about Voxgig SDKs at [voxgig.com/sdk](https://voxgig.com/sdk/).
 
 > TypeScript, Python, PHP, Golang, Ruby, Lua, C, Clojure, C++, C#, Dart, Elixir, Java, JavaScript, Kotlin, OCaml, Perl, Rust, Scala, Swift, Zig SDKs, a CLI with an interactive REPL, and an MCP server for AI agents — all generated from one OpenAPI spec by [@voxgig/sdkgen](https://github.com/voxgig/sdkgen).
 
+> **Features:** `audit`, `clienttrack`, `idempotency`, `log`, `metrics`, `paging`, `ratelimit`, `retry`, `telemetry`, `test`, `timeout` — opt-in,
+> inactive until switched on, and configured per client. See the Features
+> section of any SDK README below for what each one does.
+
 ## Entities, not endpoints
 
 This SDK exposes the API as **22 semantic entities** that you
@@ -21,7 +25,7 @@ support (`list`, `load`, `create`, `update`, `remove`):
 
 ```ts
 const client = new BluefinDecryptxP2peSDK()
-const items = await client.Attestation().list()
+const items = await client.Attestation().list({ client: "example" })
 ```
 
 Thinking in entities keeps the mental model small — for people and AI agents alike —
@@ -281,10 +285,11 @@ import { BluefinDecryptxP2peSDK } from '@voxgig-sdk/bluefin-decryptx-p2pe'
 
 const client = new BluefinDecryptxP2peSDK({
   apikey: process.env.BLUEFIN_DECRYPTX_P2PE_APIKEY,
+  secret: process.env.BLUEFIN_DECRYPTX_P2PE_SECRET,
 })
 
 // List all attestations (returns AttestationEntity[] — .data() for the record)
-const attestations = await client.Attestation().list()
+const attestations = await client.Attestation().list({ client: "example" })
 for (const attestation of attestations) {
   console.log(attestation)
 }
@@ -375,7 +380,7 @@ client = BluefinDecryptxP2peSDK({
 })
 
 # List all attestations (returns a list, raises on error)
-attestations = client.Attestation().list()
+attestations = client.Attestation().list({"client": "example"})
 for attestation in attestations:
     print(attestation)
 
@@ -560,7 +565,7 @@ Future<void> main() async {
   });
 
   // List all attestations (returns a list of entities, throws on error)
-  final attestations = await client.Attestation().list();
+  final attestations = await client.Attestation().list({ client: "example" });
   for (final item in attestations) {
     print(item.data());
   }
@@ -617,7 +622,7 @@ const client = new BluefinDecryptxP2peSDK({
 })
 
 // List all attestations (returns an array)
-const attestations = await client.Attestation().list()
+const attestations = await client.Attestation().list({ client: "example" })
 for (const attestation of attestations) {
   console.log(attestation)
 }
@@ -1008,9 +1013,45 @@ forking the SDK.
 
 | Feature | Purpose |
 | --- | --- |
+| **AuditFeature** | Structured audit trail of operations |
+| **ClienttrackFeature** | Client identity and per-request correlation headers |
+| **IdempotencyFeature** | Idempotency keys for safe retries of mutating operations |
+| **LogFeature** | Structured request and response logging |
+| **MetricsFeature** | Statistics capture: per-operation counters and latency |
+| **PagingFeature** | Pagination signals for list operations |
+| **RatelimitFeature** | Client-side rate limiting via a token bucket |
+| **RetryFeature** | Automatic retry of transient failures with exponential backoff |
+| **TelemetryFeature** | Distributed tracing spans with W3C trace-context propagation |
 | **TestFeature** | In-memory mock transport for testing without a live server |
+| **TimeoutFeature** | Per-request timeout with transport abort |
 
 Pass custom features via the `extend` option at construction time.
+
+## Customizing this SDK
+
+This repository contains its own generator (`.sdk/`), so the SDK is
+customizable without forking any upstream tool:
+
+- **The model** (`.sdk/model/`) declares everything this project owns:
+  package names, versions, active features, per-target settings. It is
+  written in [aontu](https://github.com/aontu-lang/aontu), a JSON-based
+  specification language designed for building ontologies: easy to edit
+  by hand, and files unify rather than override, so small declarations
+  compose into one model. Regeneration re-reads it every time.
+- **Templates** (`.sdk/tm/`) and **components** (`.sdk/src/cmp/`) are
+  the two layers of generation, copied into this repo: templates are the
+  literal per-language source, components generate the API-shaped parts.
+- **Regeneration merges.** By default, newly generated content is
+  three-way merged into existing files, so generator updates and local
+  edits usually converge without manual conflict handling. A project can
+  opt for plain overwrite instead.
+- **Custom features and entire custom targets** arrive through sdkgen
+  packages (`voxgig-sdkgen package add`), on the same rails as the
+  bundled languages, and `voxgig-sdkgen doctor` reports any drift from
+  what a resync would write.
+
+How-to: [customize and propagate templates](https://github.com/voxgig/sdkgen/blob/main/docs/how-to/customize-and-propagate-templates.md).
+The full story: [voxgig.com/sdk/custom](https://voxgig.com/sdk/custom).
 
 ## Per-language documentation
 

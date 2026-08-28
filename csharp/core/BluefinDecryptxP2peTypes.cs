@@ -31,13 +31,9 @@ public record AttestationLoadMatch
 
 public record AttestationListMatch
 {
-    public Dictionary<string, object?>? client { get; init; }
-    public string? completeDate { get; init; }
-    public string? created { get; init; }
-    public Dictionary<string, object?>? device { get; init; }
-    public string? id { get; init; }
-    public string? name { get; init; }
-    public string? notes { get; init; }
+    public string client { get; init; }
+    public long? skip { get; init; }
+    public long? take { get; init; }
 }
 
 public record AttestationCreateData
@@ -73,17 +69,9 @@ public record ClientLoadMatch
 
 public record ClientListMatch
 {
-    public Dictionary<string, object?>? contact { get; init; }
-    public string? created { get; init; }
-    public Dictionary<string, object?>? directPartner { get; init; }
-    public string? id { get; init; }
-    public bool? isActive { get; init; }
-    public Dictionary<string, object?>? location { get; init; }
-    public string? mid { get; init; }
-    public string? modified { get; init; }
-    public string? name { get; init; }
-    public Dictionary<string, object?>? partner { get; init; }
-    public long? version { get; init; }
+    public string partner { get; init; }
+    public long? skip { get; init; }
+    public long? take { get; init; }
 }
 
 public record ClientCreateData
@@ -163,34 +151,15 @@ public record DeviceLoadMatch
 
 public record DeviceListMatch
 {
-    public Dictionary<string, object?>? activatedBy { get; init; }
-    public string? activationDate { get; init; }
-    public string? alternateKey { get; init; }
-    public string? auditNextDate { get; init; }
-    public string? auditNotificationDate { get; init; }
-    public Dictionary<string, object?>? client { get; init; }
-    public string? created { get; init; }
-    public Dictionary<string, object?>? createdBy { get; init; }
-    public Dictionary<string, object?>? deviceBuild { get; init; }
-    public Dictionary<string, object?>? deviceState { get; init; }
-    public Dictionary<string, object?>? deviceType { get; init; }
-    public long? errorCounter { get; init; }
-    public string? errorLastDate { get; init; }
-    public string? id { get; init; }
-    public Dictionary<string, object?>? initializedBy { get; init; }
-    public string? initializedDate { get; init; }
-    public Dictionary<string, object?>? injectKey { get; init; }
-    public bool? isVirtual { get; init; }
-    public Dictionary<string, object?>? kif { get; init; }
-    public string? lastActivityDate { get; init; }
-    public Dictionary<string, object?>? location { get; init; }
-    public string? modified { get; init; }
-    public Dictionary<string, object?>? modifiedBy { get; init; }
-    public string? name { get; init; }
-    public string? notes { get; init; }
-    public Dictionary<string, object?>? partner { get; init; }
-    public string? serialNumber { get; init; }
-    public long? version { get; init; }
+    public string? client { get; init; }
+    public string? device_state { get; init; }
+    public string? kif { get; init; }
+    public string? partner { get; init; }
+    public string? serial_number { get; init; }
+    public long? skip { get; init; }
+    public string? sorting_direction { get; init; }
+    public string? sorting_field { get; init; }
+    public long? take { get; init; }
 }
 
 public record DeviceCreateData
@@ -251,21 +220,9 @@ public record DeviceBuildLoadMatch
 
 public record DeviceBuildListMatch
 {
-    public string? appVersion { get; init; }
-    public string? buildNumber { get; init; }
-    public string? configFileName { get; init; }
-    public string? created { get; init; }
-    public string? deviceType { get; init; }
-    public string? firmwareVersion { get; init; }
-    public string? hardwareVersion { get; init; }
-    public long? id { get; init; }
-    public bool? isActive { get; init; }
-    public string? modified { get; init; }
-    public string? name { get; init; }
-    public string? notes { get; init; }
-    public long? version { get; init; }
-    public string? whiteListingBinRanges { get; init; }
-    public bool? whiteListingUsed { get; init; }
+    public string? device_type { get; init; }
+    public long? skip { get; init; }
+    public long? take { get; init; }
 }
 
 public record DeviceCustodyDetail
@@ -313,6 +270,8 @@ public record DeviceCustodyListListMatch
 {
     public string device_type { get; init; }
     public string serial_number { get; init; }
+    public long? skip { get; init; }
+    public long? take { get; init; }
 }
 
 public record DeviceList
@@ -324,6 +283,10 @@ public record DeviceList
 public record DeviceListLoadMatch
 {
     public string share_partner_to { get; init; }
+    public long? skip { get; init; }
+    public string? sorting_direction { get; init; }
+    public string? sorting_field { get; init; }
+    public long? take { get; init; }
 }
 
 public record DeviceReceiveResult
@@ -470,29 +433,9 @@ public record LocationLoadMatch
 
 public record LocationListMatch
 {
-    public string? address1 { get; init; }
-    public string? address2 { get; init; }
-    public string? billingId { get; init; }
-    public string? city { get; init; }
-    public string? country { get; init; }
-    public string? created { get; init; }
-    public string? customReference { get; init; }
-    public string? id { get; init; }
-    public string? locationType { get; init; }
-    public string? mailAddress1 { get; init; }
-    public string? mailAddress2 { get; init; }
-    public string? mailCity { get; init; }
-    public string? mailCountry { get; init; }
-    public string? mailPostalCode { get; init; }
-    public string? mailStateProvince { get; init; }
-    public string? modified { get; init; }
-    public string? name { get; init; }
-    public string? nameOfBusiness { get; init; }
-    public string? notes { get; init; }
-    public string? postalCode { get; init; }
-    public string? stateProvince { get; init; }
-    public string? uniqueId { get; init; }
-    public long? version { get; init; }
+    public string client { get; init; }
+    public long? skip { get; init; }
+    public long? take { get; init; }
 }
 
 public record LocationCreateData
@@ -552,20 +495,9 @@ public record PartnerLoadMatch
 
 public record PartnerListMatch
 {
-    public string? billingId { get; init; }
-    public bool? clientCanOrderEquipment { get; init; }
-    public Dictionary<string, object?>? contact { get; init; }
-    public string? created { get; init; }
-    public string? id { get; init; }
-    public bool? isActive { get; init; }
-    public Dictionary<string, object?>? location { get; init; }
-    public string? modified { get; init; }
-    public string? name { get; init; }
-    public Dictionary<string, object?>? parent { get; init; }
-    public string? partnerId { get; init; }
-    public string? reference { get; init; }
-    public string? verificationPhrase { get; init; }
-    public long? version { get; init; }
+    public string? partner { get; init; }
+    public long? skip { get; init; }
+    public long? take { get; init; }
 }
 
 public record PartnerCreateData
@@ -611,20 +543,10 @@ public record ShipmentLoadMatch
 
 public record ShipmentListMatch
 {
-    public string? carrier { get; init; }
-    public Dictionary<string, object?>? client { get; init; }
-    public string? created { get; init; }
-    public string? dateReceived { get; init; }
-    public string? dateShipped { get; init; }
-    public Dictionary<string, object?>? dcKif { get; init; }
-    public string? id { get; init; }
-    public List<object?>? items { get; init; }
-    public Dictionary<string, object?>? kif { get; init; }
-    public string? modified { get; init; }
-    public Dictionary<string, object?>? partner { get; init; }
-    public string? shipmentType { get; init; }
-    public string? tracking { get; init; }
-    public long? version { get; init; }
+    public string kif { get; init; }
+    public string? mode { get; init; }
+    public long? skip { get; init; }
+    public long? take { get; init; }
 }
 
 public record ShipmentCreateData
@@ -696,30 +618,19 @@ public record TransactionLoadMatch
 
 public record TransactionListMatch
 {
-    public string? alternateKey { get; init; }
-    public Dictionary<string, object?>? client { get; init; }
-    public string? clientRef { get; init; }
-    public string? created { get; init; }
-    public long? decrypted { get; init; }
-    public string? deviceName { get; init; }
-    public Dictionary<string, object?>? directPartner { get; init; }
-    public long? encrypted { get; init; }
-    public string? endDate { get; init; }
-    public string? errCode { get; init; }
-    public string? errMessage { get; init; }
-    public string? id { get; init; }
-    public string? ipAddress { get; init; }
-    public bool? isVirtual { get; init; }
-    public string? keyType { get; init; }
-    public Dictionary<string, object?>? location { get; init; }
-    public string? messageId { get; init; }
-    public string? method { get; init; }
-    public Dictionary<string, object?>? partner { get; init; }
+    public string? client { get; init; }
+    public string? client_ref { get; init; }
+    public string? date_from { get; init; }
+    public string? date_to { get; init; }
+    public string? location { get; init; }
+    public string? message_id { get; init; }
+    public string? paging_mode { get; init; }
+    public string? partner { get; init; }
     public string? reference { get; init; }
-    public string? serialNumber { get; init; }
-    public string? startDate { get; init; }
+    public string? serial_number { get; init; }
+    public long? skip { get; init; }
     public bool? success { get; init; }
-    public string? transactionSource { get; init; }
+    public long? take { get; init; }
 }
 
 public record TransactionCreateData
@@ -768,18 +679,11 @@ public record UpdateResult
 
 public record UpdateResultListMatch
 {
-    public Dictionary<string, object?>? client { get; init; }
-    public string? email { get; init; }
-    public string? firstName { get; init; }
-    public string? id { get; init; }
-    public bool? isActive { get; init; }
-    public Dictionary<string, object?>? kif { get; init; }
-    public string? lastName { get; init; }
-    public Dictionary<string, object?>? partner { get; init; }
-    public string? phone { get; init; }
-    public string? userName { get; init; }
-    public Dictionary<string, object?>? userRole { get; init; }
-    public long? version { get; init; }
+    public string? client { get; init; }
+    public string? kif { get; init; }
+    public object? partner { get; init; }
+    public long? skip { get; init; }
+    public long? take { get; init; }
 }
 
 public record UpdateResultCreateData

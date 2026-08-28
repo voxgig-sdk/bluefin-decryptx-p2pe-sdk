@@ -32,13 +32,9 @@ pub struct AttestationLoadMatch {
 /// AttestationListMatch is the typed request payload for Attestation.list.
 #[derive(Debug, Clone)]
 pub struct AttestationListMatch {
-    pub client: Option<std::collections::HashMap<String, Value>>,
-    pub completedate: Option<String>,
-    pub created: Option<String>,
-    pub device: Option<std::collections::HashMap<String, Value>>,
-    pub id: Option<String>,
-    pub name: Option<String>,
-    pub notes: Option<String>,
+    pub client: String,
+    pub skip: Option<i64>,
+    pub take: Option<i64>,
 }
 
 /// AttestationCreateData is the typed request payload for Attestation.create.
@@ -78,17 +74,9 @@ pub struct ClientLoadMatch {
 /// ClientListMatch is the typed request payload for Client.list.
 #[derive(Debug, Clone)]
 pub struct ClientListMatch {
-    pub contact: Option<std::collections::HashMap<String, Value>>,
-    pub created: Option<String>,
-    pub directpartner: Option<std::collections::HashMap<String, Value>>,
-    pub id: Option<String>,
-    pub isactive: Option<bool>,
-    pub location: Option<std::collections::HashMap<String, Value>>,
-    pub mid: Option<String>,
-    pub modified: Option<String>,
-    pub name: Option<String>,
-    pub partner: Option<std::collections::HashMap<String, Value>>,
-    pub version: Option<i64>,
+    pub partner: String,
+    pub skip: Option<i64>,
+    pub take: Option<i64>,
 }
 
 /// ClientCreateData is the typed request payload for Client.create.
@@ -179,34 +167,15 @@ pub struct DeviceLoadMatch {
 /// DeviceListMatch is the typed request payload for Device.list.
 #[derive(Debug, Clone)]
 pub struct DeviceListMatch {
-    pub activatedby: Option<std::collections::HashMap<String, Value>>,
-    pub activationdate: Option<String>,
-    pub alternatekey: Option<String>,
-    pub auditnextdate: Option<String>,
-    pub auditnotificationdate: Option<String>,
-    pub client: Option<std::collections::HashMap<String, Value>>,
-    pub created: Option<String>,
-    pub createdby: Option<std::collections::HashMap<String, Value>>,
-    pub devicebuild: Option<std::collections::HashMap<String, Value>>,
-    pub devicestate: Option<std::collections::HashMap<String, Value>>,
-    pub devicetype: Option<std::collections::HashMap<String, Value>>,
-    pub errorcounter: Option<i64>,
-    pub errorlastdate: Option<String>,
-    pub id: Option<String>,
-    pub initializedby: Option<std::collections::HashMap<String, Value>>,
-    pub initializeddate: Option<String>,
-    pub injectkey: Option<std::collections::HashMap<String, Value>>,
-    pub isvirtual: Option<bool>,
-    pub kif: Option<std::collections::HashMap<String, Value>>,
-    pub lastactivitydate: Option<String>,
-    pub location: Option<std::collections::HashMap<String, Value>>,
-    pub modified: Option<String>,
-    pub modifiedby: Option<std::collections::HashMap<String, Value>>,
-    pub name: Option<String>,
-    pub notes: Option<String>,
-    pub partner: Option<std::collections::HashMap<String, Value>>,
-    pub serialnumber: Option<String>,
-    pub version: Option<i64>,
+    pub client: Option<String>,
+    pub device_state: Option<String>,
+    pub kif: Option<String>,
+    pub partner: Option<String>,
+    pub serial_number: Option<String>,
+    pub skip: Option<i64>,
+    pub sorting_direction: Option<String>,
+    pub sorting_field: Option<String>,
+    pub take: Option<i64>,
 }
 
 /// DeviceCreateData is the typed request payload for Device.create.
@@ -271,21 +240,9 @@ pub struct DeviceBuildLoadMatch {
 /// DeviceBuildListMatch is the typed request payload for DeviceBuild.list.
 #[derive(Debug, Clone)]
 pub struct DeviceBuildListMatch {
-    pub appversion: Option<String>,
-    pub buildnumber: Option<String>,
-    pub configfilename: Option<String>,
-    pub created: Option<String>,
-    pub devicetype: Option<String>,
-    pub firmwareversion: Option<String>,
-    pub hardwareversion: Option<String>,
-    pub id: Option<i64>,
-    pub isactive: Option<bool>,
-    pub modified: Option<String>,
-    pub name: Option<String>,
-    pub notes: Option<String>,
-    pub version: Option<i64>,
-    pub whitelistingbinranges: Option<String>,
-    pub whitelistingused: Option<bool>,
+    pub device_type: Option<String>,
+    pub skip: Option<i64>,
+    pub take: Option<i64>,
 }
 
 /// DeviceCustodyDetail is the typed data model for the device_custody_detail entity.
@@ -337,6 +294,8 @@ pub struct DeviceCustodyList {
 pub struct DeviceCustodyListListMatch {
     pub device_type: String,
     pub serial_number: String,
+    pub skip: Option<i64>,
+    pub take: Option<i64>,
 }
 
 /// DeviceList is the typed data model for the device_list entity.
@@ -350,6 +309,10 @@ pub struct DeviceList {
 #[derive(Debug, Clone)]
 pub struct DeviceListLoadMatch {
     pub share_partner_to: String,
+    pub skip: Option<i64>,
+    pub sorting_direction: Option<String>,
+    pub sorting_field: Option<String>,
+    pub take: Option<i64>,
 }
 
 /// DeviceReceiveResult is the typed data model for the device_receive_result entity.
@@ -513,29 +476,9 @@ pub struct LocationLoadMatch {
 /// LocationListMatch is the typed request payload for Location.list.
 #[derive(Debug, Clone)]
 pub struct LocationListMatch {
-    pub address1: Option<String>,
-    pub address2: Option<String>,
-    pub billingid: Option<String>,
-    pub city: Option<String>,
-    pub country: Option<String>,
-    pub created: Option<String>,
-    pub customreference: Option<String>,
-    pub id: Option<String>,
-    pub locationtype: Option<String>,
-    pub mailaddress1: Option<String>,
-    pub mailaddress2: Option<String>,
-    pub mailcity: Option<String>,
-    pub mailcountry: Option<String>,
-    pub mailpostalcode: Option<String>,
-    pub mailstateprovince: Option<String>,
-    pub modified: Option<String>,
-    pub name: Option<String>,
-    pub nameofbusiness: Option<String>,
-    pub notes: Option<String>,
-    pub postalcode: Option<String>,
-    pub stateprovince: Option<String>,
-    pub uniqueid: Option<String>,
-    pub version: Option<i64>,
+    pub client: String,
+    pub skip: Option<i64>,
+    pub take: Option<i64>,
 }
 
 /// LocationCreateData is the typed request payload for Location.create.
@@ -600,20 +543,9 @@ pub struct PartnerLoadMatch {
 /// PartnerListMatch is the typed request payload for Partner.list.
 #[derive(Debug, Clone)]
 pub struct PartnerListMatch {
-    pub billingid: Option<String>,
-    pub clientcanorderequipment: Option<bool>,
-    pub contact: Option<std::collections::HashMap<String, Value>>,
-    pub created: Option<String>,
-    pub id: Option<String>,
-    pub isactive: Option<bool>,
-    pub location: Option<std::collections::HashMap<String, Value>>,
-    pub modified: Option<String>,
-    pub name: Option<String>,
-    pub parent: Option<std::collections::HashMap<String, Value>>,
-    pub partnerid: Option<String>,
-    pub reference: Option<String>,
-    pub verificationphrase: Option<String>,
-    pub version: Option<i64>,
+    pub partner: Option<String>,
+    pub skip: Option<i64>,
+    pub take: Option<i64>,
 }
 
 /// PartnerCreateData is the typed request payload for Partner.create.
@@ -663,20 +595,10 @@ pub struct ShipmentLoadMatch {
 /// ShipmentListMatch is the typed request payload for Shipment.list.
 #[derive(Debug, Clone)]
 pub struct ShipmentListMatch {
-    pub carrier: Option<String>,
-    pub client: Option<std::collections::HashMap<String, Value>>,
-    pub created: Option<String>,
-    pub datereceived: Option<String>,
-    pub dateshipped: Option<String>,
-    pub dckif: Option<std::collections::HashMap<String, Value>>,
-    pub id: Option<String>,
-    pub items: Option<Vec<Value>>,
-    pub kif: Option<std::collections::HashMap<String, Value>>,
-    pub modified: Option<String>,
-    pub partner: Option<std::collections::HashMap<String, Value>>,
-    pub shipmenttype: Option<String>,
-    pub tracking: Option<String>,
-    pub version: Option<i64>,
+    pub kif: String,
+    pub mode: Option<String>,
+    pub skip: Option<i64>,
+    pub take: Option<i64>,
 }
 
 /// ShipmentCreateData is the typed request payload for Shipment.create.
@@ -755,30 +677,19 @@ pub struct TransactionLoadMatch {
 /// TransactionListMatch is the typed request payload for Transaction.list.
 #[derive(Debug, Clone)]
 pub struct TransactionListMatch {
-    pub alternatekey: Option<String>,
-    pub client: Option<std::collections::HashMap<String, Value>>,
-    pub clientref: Option<String>,
-    pub created: Option<String>,
-    pub decrypted: Option<i64>,
-    pub devicename: Option<String>,
-    pub directpartner: Option<std::collections::HashMap<String, Value>>,
-    pub encrypted: Option<i64>,
-    pub enddate: Option<String>,
-    pub errcode: Option<String>,
-    pub errmessage: Option<String>,
-    pub id: Option<String>,
-    pub ipaddress: Option<String>,
-    pub isvirtual: Option<bool>,
-    pub keytype: Option<String>,
-    pub location: Option<std::collections::HashMap<String, Value>>,
-    pub messageid: Option<String>,
-    pub method: Option<String>,
-    pub partner: Option<std::collections::HashMap<String, Value>>,
+    pub client: Option<String>,
+    pub client_ref: Option<String>,
+    pub date_from: Option<String>,
+    pub date_to: Option<String>,
+    pub location: Option<String>,
+    pub message_id: Option<String>,
+    pub paging_mode: Option<String>,
+    pub partner: Option<String>,
     pub reference: Option<String>,
-    pub serialnumber: Option<String>,
-    pub startdate: Option<String>,
+    pub serial_number: Option<String>,
+    pub skip: Option<i64>,
     pub success: Option<bool>,
-    pub transactionsource: Option<String>,
+    pub take: Option<i64>,
 }
 
 /// TransactionCreateData is the typed request payload for Transaction.create.
@@ -830,18 +741,11 @@ pub struct UpdateResult {
 /// UpdateResultListMatch is the typed request payload for UpdateResult.list.
 #[derive(Debug, Clone)]
 pub struct UpdateResultListMatch {
-    pub client: Option<std::collections::HashMap<String, Value>>,
-    pub email: Option<String>,
-    pub firstname: Option<String>,
-    pub id: Option<String>,
-    pub isactive: Option<bool>,
-    pub kif: Option<std::collections::HashMap<String, Value>>,
-    pub lastname: Option<String>,
-    pub partner: Option<std::collections::HashMap<String, Value>>,
-    pub phone: Option<String>,
-    pub username: Option<String>,
-    pub userrole: Option<std::collections::HashMap<String, Value>>,
-    pub version: Option<i64>,
+    pub client: Option<String>,
+    pub kif: Option<String>,
+    pub partner: Option<Value>,
+    pub skip: Option<i64>,
+    pub take: Option<i64>,
 }
 
 /// UpdateResultCreateData is the typed request payload for UpdateResult.create.

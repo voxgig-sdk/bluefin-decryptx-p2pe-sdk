@@ -108,6 +108,7 @@ function basicSetup(extra) {
         'BLUEFIN_DECRYPTX_P2PE_TEST_LIVE': 'FALSE',
         'BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN': 'FALSE',
         'BLUEFIN_DECRYPTX_P2PE_APIKEY': 'NONE',
+        'BLUEFIN_DECRYPTX_P2PE_SECRET': 'NONE',
     });
     idmap = env['BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_LIST_ENTID'];
     const live = 'TRUE' === env.BLUEFIN_DECRYPTX_P2PE_TEST_LIVE;
@@ -115,6 +116,7 @@ function basicSetup(extra) {
         client = new __1.BluefinDecryptxP2peSDK(merge([
             {
                 apikey: env.BLUEFIN_DECRYPTX_P2PE_APIKEY,
+                secret: env.BLUEFIN_DECRYPTX_P2PE_SECRET,
             },
             extra
         ]));

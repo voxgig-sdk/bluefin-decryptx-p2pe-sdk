@@ -84,6 +84,7 @@ function directSetup(mockres?: any) {
     'BLUEFIN_DECRYPTX_P2PE_TEST_UPDATE_RESULT_ENTID': {},
     'BLUEFIN_DECRYPTX_P2PE_TEST_LIVE': 'FALSE',
     'BLUEFIN_DECRYPTX_P2PE_APIKEY': 'NONE',
+    'BLUEFIN_DECRYPTX_P2PE_SECRET': 'NONE',
   })
 
   const live = 'TRUE' === env.BLUEFIN_DECRYPTX_P2PE_TEST_LIVE
@@ -91,6 +92,7 @@ function directSetup(mockres?: any) {
   if (live) {
     const client = new BluefinDecryptxP2peSDK({
       apikey: env.BLUEFIN_DECRYPTX_P2PE_APIKEY,
+      secret: env.BLUEFIN_DECRYPTX_P2PE_SECRET,
     })
 
     let idmap: any = env['BLUEFIN_DECRYPTX_P2PE_TEST_UPDATE_RESULT_ENTID']

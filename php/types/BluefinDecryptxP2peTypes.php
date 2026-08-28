@@ -33,13 +33,9 @@ class AttestationLoadMatch
 /** Request payload for Attestation#list. */
 class AttestationListMatch
 {
-    public ?array $client = null;
-    public ?string $completeDate = null;
-    public ?string $created = null;
-    public ?array $device = null;
-    public ?string $id = null;
-    public ?string $name = null;
-    public ?string $notes = null;
+    public string $client;
+    public ?int $skip = null;
+    public ?int $take = null;
 }
 
 /** Request payload for Attestation#create. */
@@ -79,17 +75,9 @@ class ClientLoadMatch
 /** Request payload for Client#list. */
 class ClientListMatch
 {
-    public ?array $contact = null;
-    public ?string $created = null;
-    public ?array $directPartner = null;
-    public ?string $id = null;
-    public ?bool $isActive = null;
-    public ?array $location = null;
-    public ?string $mid = null;
-    public ?string $modified = null;
-    public ?string $name = null;
-    public ?array $partner = null;
-    public ?int $version = null;
+    public string $partner;
+    public ?int $skip = null;
+    public ?int $take = null;
 }
 
 /** Request payload for Client#create. */
@@ -180,34 +168,15 @@ class DeviceLoadMatch
 /** Request payload for Device#list. */
 class DeviceListMatch
 {
-    public ?array $activatedBy = null;
-    public ?string $activationDate = null;
-    public ?string $alternateKey = null;
-    public ?string $auditNextDate = null;
-    public ?string $auditNotificationDate = null;
-    public ?array $client = null;
-    public ?string $created = null;
-    public ?array $createdBy = null;
-    public ?array $deviceBuild = null;
-    public ?array $deviceState = null;
-    public ?array $deviceType = null;
-    public ?int $errorCounter = null;
-    public ?string $errorLastDate = null;
-    public ?string $id = null;
-    public ?array $initializedBy = null;
-    public ?string $initializedDate = null;
-    public ?array $injectKey = null;
-    public ?bool $isVirtual = null;
-    public ?array $kif = null;
-    public ?string $lastActivityDate = null;
-    public ?array $location = null;
-    public ?string $modified = null;
-    public ?array $modifiedBy = null;
-    public ?string $name = null;
-    public ?string $notes = null;
-    public ?array $partner = null;
-    public ?string $serialNumber = null;
-    public ?int $version = null;
+    public ?string $client = null;
+    public ?string $device_state = null;
+    public ?string $kif = null;
+    public ?string $partner = null;
+    public ?string $serial_number = null;
+    public ?int $skip = null;
+    public ?string $sorting_direction = null;
+    public ?string $sorting_field = null;
+    public ?int $take = null;
 }
 
 /** Request payload for Device#create. */
@@ -272,21 +241,9 @@ class DeviceBuildLoadMatch
 /** Request payload for DeviceBuild#list. */
 class DeviceBuildListMatch
 {
-    public ?string $appVersion = null;
-    public ?string $buildNumber = null;
-    public ?string $configFileName = null;
-    public ?string $created = null;
-    public ?string $deviceType = null;
-    public ?string $firmwareVersion = null;
-    public ?string $hardwareVersion = null;
-    public ?int $id = null;
-    public ?bool $isActive = null;
-    public ?string $modified = null;
-    public ?string $name = null;
-    public ?string $notes = null;
-    public ?int $version = null;
-    public ?string $whiteListingBinRanges = null;
-    public ?bool $whiteListingUsed = null;
+    public ?string $device_type = null;
+    public ?int $skip = null;
+    public ?int $take = null;
 }
 
 /** DeviceCustodyDetail entity data model. */
@@ -338,6 +295,8 @@ class DeviceCustodyListListMatch
 {
     public string $device_type;
     public string $serial_number;
+    public ?int $skip = null;
+    public ?int $take = null;
 }
 
 /** DeviceList entity data model. */
@@ -351,6 +310,10 @@ class DeviceList
 class DeviceListLoadMatch
 {
     public string $share_partner_to;
+    public ?int $skip = null;
+    public ?string $sorting_direction = null;
+    public ?string $sorting_field = null;
+    public ?int $take = null;
 }
 
 /** DeviceReceiveResult entity data model. */
@@ -514,29 +477,9 @@ class LocationLoadMatch
 /** Request payload for Location#list. */
 class LocationListMatch
 {
-    public ?string $address1 = null;
-    public ?string $address2 = null;
-    public ?string $billingId = null;
-    public ?string $city = null;
-    public ?string $country = null;
-    public ?string $created = null;
-    public ?string $customReference = null;
-    public ?string $id = null;
-    public ?string $locationType = null;
-    public ?string $mailAddress1 = null;
-    public ?string $mailAddress2 = null;
-    public ?string $mailCity = null;
-    public ?string $mailCountry = null;
-    public ?string $mailPostalCode = null;
-    public ?string $mailStateProvince = null;
-    public ?string $modified = null;
-    public ?string $name = null;
-    public ?string $nameOfBusiness = null;
-    public ?string $notes = null;
-    public ?string $postalCode = null;
-    public ?string $stateProvince = null;
-    public ?string $uniqueId = null;
-    public ?int $version = null;
+    public string $client;
+    public ?int $skip = null;
+    public ?int $take = null;
 }
 
 /** Request payload for Location#create. */
@@ -601,20 +544,9 @@ class PartnerLoadMatch
 /** Request payload for Partner#list. */
 class PartnerListMatch
 {
-    public ?string $billingId = null;
-    public ?bool $clientCanOrderEquipment = null;
-    public ?array $contact = null;
-    public ?string $created = null;
-    public ?string $id = null;
-    public ?bool $isActive = null;
-    public ?array $location = null;
-    public ?string $modified = null;
-    public ?string $name = null;
-    public ?array $parent = null;
-    public ?string $partnerId = null;
-    public ?string $reference = null;
-    public ?string $verificationPhrase = null;
-    public ?int $version = null;
+    public ?string $partner = null;
+    public ?int $skip = null;
+    public ?int $take = null;
 }
 
 /** Request payload for Partner#create. */
@@ -664,20 +596,10 @@ class ShipmentLoadMatch
 /** Request payload for Shipment#list. */
 class ShipmentListMatch
 {
-    public ?string $carrier = null;
-    public ?array $client = null;
-    public ?string $created = null;
-    public ?string $dateReceived = null;
-    public ?string $dateShipped = null;
-    public ?array $dcKif = null;
-    public ?string $id = null;
-    public ?array $items = null;
-    public ?array $kif = null;
-    public ?string $modified = null;
-    public ?array $partner = null;
-    public ?string $shipmentType = null;
-    public ?string $tracking = null;
-    public ?int $version = null;
+    public string $kif;
+    public ?string $mode = null;
+    public ?int $skip = null;
+    public ?int $take = null;
 }
 
 /** Request payload for Shipment#create. */
@@ -756,30 +678,19 @@ class TransactionLoadMatch
 /** Request payload for Transaction#list. */
 class TransactionListMatch
 {
-    public ?string $alternateKey = null;
-    public ?array $client = null;
-    public ?string $clientRef = null;
-    public ?string $created = null;
-    public ?int $decrypted = null;
-    public ?string $deviceName = null;
-    public ?array $directPartner = null;
-    public ?int $encrypted = null;
-    public ?string $endDate = null;
-    public ?string $errCode = null;
-    public ?string $errMessage = null;
-    public ?string $id = null;
-    public ?string $ipAddress = null;
-    public ?bool $isVirtual = null;
-    public ?string $keyType = null;
-    public ?array $location = null;
-    public ?string $messageId = null;
-    public ?string $method = null;
-    public ?array $partner = null;
+    public ?string $client = null;
+    public ?string $client_ref = null;
+    public ?string $date_from = null;
+    public ?string $date_to = null;
+    public ?string $location = null;
+    public ?string $message_id = null;
+    public ?string $paging_mode = null;
+    public ?string $partner = null;
     public ?string $reference = null;
-    public ?string $serialNumber = null;
-    public ?string $startDate = null;
+    public ?string $serial_number = null;
+    public ?int $skip = null;
     public ?bool $success = null;
-    public ?string $transactionSource = null;
+    public ?int $take = null;
 }
 
 /** Request payload for Transaction#create. */
@@ -831,18 +742,11 @@ class UpdateResult
 /** Request payload for UpdateResult#list. */
 class UpdateResultListMatch
 {
-    public ?array $client = null;
-    public ?string $email = null;
-    public ?string $firstName = null;
-    public ?string $id = null;
-    public ?bool $isActive = null;
-    public ?array $kif = null;
-    public ?string $lastName = null;
-    public ?array $partner = null;
-    public ?string $phone = null;
-    public ?string $userName = null;
-    public ?array $userRole = null;
-    public ?int $version = null;
+    public ?string $client = null;
+    public ?string $kif = null;
+    public mixed $partner = null;
+    public ?int $skip = null;
+    public ?int $take = null;
 }
 
 /** Request payload for UpdateResult#create. */
