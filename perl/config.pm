@@ -170,11 +170,13 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$OBJECT`"
         },
         {
+          "format": "datetime",
           "name": "completeDate",
           "short": "The date and time that the Attestation took place.",
           "type": "`$STRING`"
         },
         {
+          "format": "datetime",
           "name": "created",
           "short": "Creation timestamp in ISO 8601 format.",
           "type": "`$STRING`"
@@ -200,6 +202,10 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$STRING`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "attestation",
       "op": {
         "create": {
@@ -211,14 +217,19 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "POST",
               "orig": "/attestations",
-              "parts": [
-                "attestations"
+              "segments": [
+                {
+                  "lit": "attestations"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "attestations"
+              ]
             }
           ]
         },
@@ -255,8 +266,10 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "GET",
               "orig": "/attestations",
-              "parts": [
-                "attestations"
+              "segments": [
+                {
+                  "lit": "attestations"
+                }
               ],
               "select": {
                 "exist": [
@@ -268,7 +281,10 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "attestations"
+              ]
             }
           ]
         },
@@ -291,9 +307,13 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "GET",
               "orig": "/attestations/{id}",
-              "parts": [
-                "attestations",
-                "{id}"
+              "segments": [
+                {
+                  "lit": "attestations"
+                },
+                {
+                  "var": "id"
+                }
               ],
               "select": {
                 "exist": [
@@ -303,7 +323,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "attestations",
+                "{id}"
+              ]
             }
           ]
         }
@@ -326,6 +350,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$OBJECT`"
         },
         {
+          "format": "datetime",
           "name": "created",
           "short": "Creation timestamp in ISO 8601 format.",
           "type": "`$STRING`"
@@ -357,6 +382,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$STRING`"
         },
         {
+          "format": "datetime",
           "name": "modified",
           "short": "Last modified timestamp.",
           "type": "`$STRING`"
@@ -377,6 +403,10 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$INTEGER`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "client",
       "op": {
         "create": {
@@ -388,14 +418,19 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "POST",
               "orig": "/clients",
-              "parts": [
-                "clients"
+              "segments": [
+                {
+                  "lit": "clients"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "clients"
+              ]
             }
           ]
         },
@@ -432,8 +467,10 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "GET",
               "orig": "/clients",
-              "parts": [
-                "clients"
+              "segments": [
+                {
+                  "lit": "clients"
+                }
               ],
               "select": {
                 "exist": [
@@ -445,7 +482,10 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "clients"
+              ]
             }
           ]
         },
@@ -468,9 +508,13 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "GET",
               "orig": "/clients/{id}",
-              "parts": [
-                "clients",
-                "{id}"
+              "segments": [
+                {
+                  "lit": "clients"
+                },
+                {
+                  "var": "id"
+                }
               ],
               "select": {
                 "exist": [
@@ -480,7 +524,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "clients",
+                "{id}"
+              ]
             }
           ]
         },
@@ -503,9 +551,13 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "DELETE",
               "orig": "/clients/{id}",
-              "parts": [
-                "clients",
-                "{id}"
+              "segments": [
+                {
+                  "lit": "clients"
+                },
+                {
+                  "var": "id"
+                }
               ],
               "select": {
                 "exist": [
@@ -515,7 +567,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "clients",
+                "{id}"
+              ]
             }
           ]
         }
@@ -554,18 +610,26 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "POST",
               "orig": "/devices/{serialNumber}/{deviceType}/custody",
-              "parts": [
-                "devices",
-                "{serial_number}",
-                "{device_type}",
-                "custody"
-              ],
               "rename": {
                 "param": {
                   "deviceType": "device_type",
                   "serialNumber": "serial_number"
                 }
               },
+              "segments": [
+                {
+                  "lit": "devices"
+                },
+                {
+                  "var": "serial_number"
+                },
+                {
+                  "var": "device_type"
+                },
+                {
+                  "lit": "custody"
+                }
+              ],
               "select": {
                 "exist": [
                   "device_type",
@@ -575,7 +639,13 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "devices",
+                "{serial_number}",
+                "{device_type}",
+                "custody"
+              ]
             }
           ]
         }
@@ -607,14 +677,19 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "POST",
               "orig": "/decryption",
-              "parts": [
-                "decryption"
+              "segments": [
+                {
+                  "lit": "decryption"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "decryption"
+              ]
             }
           ]
         }
@@ -632,6 +707,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$OBJECT`"
         },
         {
+          "format": "datetime",
           "name": "activationDate",
           "short": "Timestamp from when the Device was activated.",
           "type": "`$STRING`"
@@ -642,11 +718,13 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$STRING`"
         },
         {
+          "format": "datetime",
           "name": "auditNextDate",
           "short": "Date and time that the Device is due its next PCI Audit.",
           "type": "`$STRING`"
         },
         {
+          "format": "datetime",
           "name": "auditNotificationDate",
           "short": "Date and time that a notification should be sent that a PCI audit is due.",
           "type": "`$STRING`"
@@ -657,6 +735,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$OBJECT`"
         },
         {
+          "format": "datetime",
           "name": "created",
           "short": "Creation timestamp in ISO 8601 format.",
           "type": "`$STRING`"
@@ -688,6 +767,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$INTEGER`"
         },
         {
+          "format": "datetime",
           "name": "errorLastDate",
           "short": "Timestamp from the last time that the Device had an error.",
           "type": "`$STRING`"
@@ -704,6 +784,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$OBJECT`"
         },
         {
+          "format": "datetime",
           "name": "initializedDate",
           "short": "Timestamp from when the Device was initialized.",
           "type": "`$STRING`"
@@ -724,6 +805,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$OBJECT`"
         },
         {
+          "format": "datetime",
           "name": "lastActivityDate",
           "short": "Timestamp from the last time that the Device was used.",
           "type": "`$STRING`"
@@ -735,6 +817,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$OBJECT`"
         },
         {
+          "format": "datetime",
           "name": "modified",
           "short": "Last modified timestamp.",
           "type": "`$STRING`"
@@ -771,6 +854,10 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$INTEGER`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "device",
       "op": {
         "create": {
@@ -782,14 +869,19 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "POST",
               "orig": "/devices",
-              "parts": [
-                "devices"
+              "segments": [
+                {
+                  "lit": "devices"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "devices"
+              ]
             }
           ]
         },
@@ -863,8 +955,10 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "GET",
               "orig": "/devices",
-              "parts": [
-                "devices"
+              "segments": [
+                {
+                  "lit": "devices"
+                }
               ],
               "select": {
                 "exist": [
@@ -882,7 +976,10 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "devices"
+              ]
             }
           ]
         },
@@ -912,17 +1009,23 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "GET",
               "orig": "/devices/{serialNumber}/{deviceType}",
-              "parts": [
-                "devices",
-                "{serial_number}",
-                "{device_type}"
-              ],
               "rename": {
                 "param": {
                   "deviceType": "device_type",
                   "serialNumber": "serial_number"
                 }
               },
+              "segments": [
+                {
+                  "lit": "devices"
+                },
+                {
+                  "var": "serial_number"
+                },
+                {
+                  "var": "device_type"
+                }
+              ],
               "select": {
                 "exist": [
                   "device_type",
@@ -932,7 +1035,12 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "devices",
+                "{serial_number}",
+                "{device_type}"
+              ]
             },
             {
               "args": {
@@ -949,9 +1057,13 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "GET",
               "orig": "/devices/{id}",
-              "parts": [
-                "devices",
-                "{id}"
+              "segments": [
+                {
+                  "lit": "devices"
+                },
+                {
+                  "var": "id"
+                }
               ],
               "select": {
                 "exist": [
@@ -961,7 +1073,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "devices",
+                "{id}"
+              ]
             }
           ]
         }
@@ -992,6 +1108,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$STRING`"
         },
         {
+          "format": "date-time",
           "name": "created",
           "short": "Creation timestamp in ISO 8601 format.",
           "type": "`$STRING`"
@@ -1012,6 +1129,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$STRING`"
         },
         {
+          "format": "int64",
           "name": "id",
           "short": "This resource's unique identifier.",
           "type": "`$INTEGER`"
@@ -1022,6 +1140,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$BOOLEAN`"
         },
         {
+          "format": "date-time",
           "name": "modified",
           "short": "Last modified timestamp.",
           "type": "`$STRING`"
@@ -1052,6 +1171,10 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$BOOLEAN`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "device_build",
       "op": {
         "list": {
@@ -1086,8 +1209,10 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "GET",
               "orig": "/deviceBuilds",
-              "parts": [
-                "deviceBuilds"
+              "segments": [
+                {
+                  "lit": "deviceBuilds"
+                }
               ],
               "select": {
                 "exist": [
@@ -1099,7 +1224,10 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "deviceBuilds"
+              ]
             }
           ]
         },
@@ -1122,9 +1250,13 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "GET",
               "orig": "/deviceBuilds/{id}",
-              "parts": [
-                "deviceBuilds",
-                "{id}"
+              "segments": [
+                {
+                  "lit": "deviceBuilds"
+                },
+                {
+                  "var": "id"
+                }
               ],
               "select": {
                 "exist": [
@@ -1134,7 +1266,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "deviceBuilds",
+                "{id}"
+              ]
             }
           ]
         }
@@ -1146,11 +1282,13 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
     "device_custody_detail": {
       "fields": [
         {
+          "format": "date-time",
           "name": "completeDate",
           "short": "The date and time that the Custody change took place.",
           "type": "`$STRING`"
         },
         {
+          "format": "date-time",
           "name": "created",
           "short": "Creation timestamp in ISO 8601 format.",
           "type": "`$STRING`"
@@ -1173,6 +1311,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$OBJECT`"
         },
         {
+          "format": "int64",
           "name": "id",
           "short": "This resource's unique identifier.",
           "type": "`$INTEGER`"
@@ -1184,6 +1323,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$OBJECT`"
         },
         {
+          "format": "date-time",
           "name": "modified",
           "short": "Last modified timestamp.",
           "type": "`$STRING`"
@@ -1215,6 +1355,10 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$INTEGER`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "device_custody_detail",
       "op": {
         "load": {
@@ -1250,19 +1394,29 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "GET",
               "orig": "/devices/{serialNumber}/{deviceType}/custody/{id}",
-              "parts": [
-                "devices",
-                "{serial_number}",
-                "{device_type}",
-                "custody",
-                "{id}"
-              ],
               "rename": {
                 "param": {
                   "deviceType": "device_type",
                   "serialNumber": "serial_number"
                 }
               },
+              "segments": [
+                {
+                  "lit": "devices"
+                },
+                {
+                  "var": "serial_number"
+                },
+                {
+                  "var": "device_type"
+                },
+                {
+                  "lit": "custody"
+                },
+                {
+                  "var": "id"
+                }
+              ],
               "select": {
                 "exist": [
                   "device_type",
@@ -1273,7 +1427,14 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "devices",
+                "{serial_number}",
+                "{device_type}",
+                "custody",
+                "{id}"
+              ]
             }
           ]
         }
@@ -1289,11 +1450,13 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
     "device_custody_list": {
       "fields": [
         {
+          "format": "date-time",
           "name": "completeDate",
           "short": "The date and time that the Custody change took place.",
           "type": "`$STRING`"
         },
         {
+          "format": "date-time",
           "name": "created",
           "short": "Creation timestamp in ISO 8601 format.",
           "type": "`$STRING`"
@@ -1316,6 +1479,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$OBJECT`"
         },
         {
+          "format": "int64",
           "name": "id",
           "short": "This resource's unique identifier.",
           "type": "`$INTEGER`"
@@ -1327,6 +1491,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$OBJECT`"
         },
         {
+          "format": "date-time",
           "name": "modified",
           "short": "Last modified timestamp.",
           "type": "`$STRING`"
@@ -1358,6 +1523,10 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$INTEGER`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "device_custody_list",
       "op": {
         "list": {
@@ -1402,18 +1571,26 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "GET",
               "orig": "/devices/{serialNumber}/{deviceType}/custody",
-              "parts": [
-                "devices",
-                "{serial_number}",
-                "{device_type}",
-                "custody"
-              ],
               "rename": {
                 "param": {
                   "deviceType": "device_type",
                   "serialNumber": "serial_number"
                 }
               },
+              "segments": [
+                {
+                  "lit": "devices"
+                },
+                {
+                  "var": "serial_number"
+                },
+                {
+                  "var": "device_type"
+                },
+                {
+                  "lit": "custody"
+                }
+              ],
               "select": {
                 "exist": [
                   "device_type",
@@ -1425,7 +1602,13 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "devices",
+                "{serial_number}",
+                "{device_type}",
+                "custody"
+              ]
             }
           ]
         }
@@ -1502,15 +1685,19 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "GET",
               "orig": "/virtualDevices/{sharePartnerTo}",
-              "parts": [
-                "virtualDevices",
-                "{share_partner_to}"
-              ],
               "rename": {
                 "param": {
                   "sharePartnerTo": "share_partner_to"
                 }
               },
+              "segments": [
+                {
+                  "lit": "virtualDevices"
+                },
+                {
+                  "var": "share_partner_to"
+                }
+              ],
               "select": {
                 "exist": [
                   "share_partner_to",
@@ -1523,7 +1710,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "virtualDevices",
+                "{share_partner_to}"
+              ]
             }
           ]
         }
@@ -1556,15 +1747,23 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "POST",
               "orig": "/devices/receive",
-              "parts": [
-                "devices",
-                "receive"
+              "segments": [
+                {
+                  "lit": "devices"
+                },
+                {
+                  "lit": "receive"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "devices",
+                "receive"
+              ]
             }
           ]
         }
@@ -1593,16 +1792,27 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "POST",
               "orig": "/devices/rki/activate",
-              "parts": [
-                "devices",
-                "rki",
-                "activate"
+              "segments": [
+                {
+                  "lit": "devices"
+                },
+                {
+                  "lit": "rki"
+                },
+                {
+                  "lit": "activate"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "devices",
+                "rki",
+                "activate"
+              ]
             }
           ]
         }
@@ -1614,6 +1824,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
     "device_state": {
       "fields": [
         {
+          "format": "int64",
           "name": "id",
           "short": "Unique identifier for this Device state.",
           "type": "`$INTEGER`"
@@ -1624,6 +1835,10 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$STRING`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "device_state",
       "op": {
         "list": {
@@ -1635,14 +1850,19 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "GET",
               "orig": "/deviceStates",
-              "parts": [
-                "deviceStates"
+              "segments": [
+                {
+                  "lit": "deviceStates"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "deviceStates"
+              ]
             }
           ]
         }
@@ -1654,6 +1874,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
     "device_type": {
       "fields": [
         {
+          "format": "datetime",
           "name": "created",
           "short": "Creation timestamp in ISO 8601 format.",
           "type": "`$STRING`"
@@ -1689,6 +1910,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$STRING`"
         },
         {
+          "format": "datetime",
           "name": "modified",
           "short": "Last modified timestamp.",
           "type": "`$STRING`"
@@ -1713,6 +1935,10 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$INTEGER`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "device_type",
       "op": {
         "list": {
@@ -1724,14 +1950,19 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "GET",
               "orig": "/deviceTypes",
-              "parts": [
-                "deviceTypes"
+              "segments": [
+                {
+                  "lit": "deviceTypes"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "deviceTypes"
+              ]
             }
           ]
         },
@@ -1754,9 +1985,13 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "GET",
               "orig": "/deviceTypes/{id}",
-              "parts": [
-                "deviceTypes",
-                "{id}"
+              "segments": [
+                {
+                  "lit": "deviceTypes"
+                },
+                {
+                  "var": "id"
+                }
               ],
               "select": {
                 "exist": [
@@ -1766,7 +2001,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "deviceTypes",
+                "{id}"
+              ]
             }
           ]
         }
@@ -1778,6 +2017,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
     "inject_key": {
       "fields": [
         {
+          "format": "datetime",
           "name": "created",
           "short": "Creation timestamp in ISO 8601 format.",
           "type": "`$STRING`"
@@ -1803,6 +2043,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$STRING`"
         },
         {
+          "format": "datetime",
           "name": "modified",
           "short": "Last modified timestamp in ISO 8601 format.",
           "type": "`$STRING`"
@@ -1818,6 +2059,10 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$INTEGER`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "inject_key",
       "op": {
         "list": {
@@ -1829,14 +2074,19 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "GET",
               "orig": "/injectKeys",
-              "parts": [
-                "injectKeys"
+              "segments": [
+                {
+                  "lit": "injectKeys"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "injectKeys"
+              ]
             }
           ]
         },
@@ -1859,9 +2109,13 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "GET",
               "orig": "/injectKeys/{id}",
-              "parts": [
-                "injectKeys",
-                "{id}"
+              "segments": [
+                {
+                  "lit": "injectKeys"
+                },
+                {
+                  "var": "id"
+                }
               ],
               "select": {
                 "exist": [
@@ -1871,7 +2125,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "injectKeys",
+                "{id}"
+              ]
             }
           ]
         }
@@ -1883,6 +2141,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
     "kif": {
       "fields": [
         {
+          "format": "int64",
           "name": "id",
           "short": "This resource's unique identifier.",
           "type": "`$INTEGER`"
@@ -1893,6 +2152,10 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$STRING`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "kif",
       "op": {
         "list": {
@@ -1904,14 +2167,19 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "GET",
               "orig": "/kifs",
-              "parts": [
-                "kifs"
+              "segments": [
+                {
+                  "lit": "kifs"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "kifs"
+              ]
             }
           ]
         }
@@ -1948,6 +2216,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$STRING`"
         },
         {
+          "format": "datetime",
           "name": "created",
           "short": "Creation timestamp in ISO 8601 format.",
           "type": "`$STRING`"
@@ -1998,6 +2267,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$STRING`"
         },
         {
+          "format": "datetime",
           "name": "modified",
           "short": "Last modified timestamp.",
           "type": "`$STRING`"
@@ -2038,6 +2308,10 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$INTEGER`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "location",
       "op": {
         "create": {
@@ -2049,14 +2323,19 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "POST",
               "orig": "/locations",
-              "parts": [
-                "locations"
+              "segments": [
+                {
+                  "lit": "locations"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "locations"
+              ]
             }
           ]
         },
@@ -2093,8 +2372,10 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "GET",
               "orig": "/locations",
-              "parts": [
-                "locations"
+              "segments": [
+                {
+                  "lit": "locations"
+                }
               ],
               "select": {
                 "exist": [
@@ -2106,7 +2387,10 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "locations"
+              ]
             }
           ]
         },
@@ -2129,9 +2413,13 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "GET",
               "orig": "/locations/{id}",
-              "parts": [
-                "locations",
-                "{id}"
+              "segments": [
+                {
+                  "lit": "locations"
+                },
+                {
+                  "var": "id"
+                }
               ],
               "select": {
                 "exist": [
@@ -2141,7 +2429,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "locations",
+                "{id}"
+              ]
             }
           ]
         },
@@ -2164,9 +2456,13 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "DELETE",
               "orig": "/locations/{id}",
-              "parts": [
-                "locations",
-                "{id}"
+              "segments": [
+                {
+                  "lit": "locations"
+                },
+                {
+                  "var": "id"
+                }
               ],
               "select": {
                 "exist": [
@@ -2176,7 +2472,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "locations",
+                "{id}"
+              ]
             }
           ]
         }
@@ -2209,6 +2509,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$OBJECT`"
         },
         {
+          "format": "datetime",
           "name": "created",
           "short": "Creation timestamp in ISO 8601 format.",
           "type": "`$STRING`"
@@ -2230,6 +2531,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$OBJECT`"
         },
         {
+          "format": "datetime",
           "name": "modified",
           "short": "Last modified timestamp.",
           "type": "`$STRING`"
@@ -2265,6 +2567,10 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$INTEGER`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "partner",
       "op": {
         "create": {
@@ -2276,14 +2582,19 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "POST",
               "orig": "/partners",
-              "parts": [
-                "partners"
+              "segments": [
+                {
+                  "lit": "partners"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "partners"
+              ]
             }
           ]
         },
@@ -2319,8 +2630,10 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "GET",
               "orig": "/partners",
-              "parts": [
-                "partners"
+              "segments": [
+                {
+                  "lit": "partners"
+                }
               ],
               "select": {
                 "exist": [
@@ -2332,7 +2645,10 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "partners"
+              ]
             }
           ]
         },
@@ -2355,9 +2671,13 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "GET",
               "orig": "/partners/{id}",
-              "parts": [
-                "partners",
-                "{id}"
+              "segments": [
+                {
+                  "lit": "partners"
+                },
+                {
+                  "var": "id"
+                }
               ],
               "select": {
                 "exist": [
@@ -2367,7 +2687,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "partners",
+                "{id}"
+              ]
             }
           ]
         }
@@ -2389,16 +2713,19 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$OBJECT`"
         },
         {
+          "format": "datetime",
           "name": "created",
           "short": "Creation timestamp in ISO 8601 format.",
           "type": "`$STRING`"
         },
         {
+          "format": "datetime",
           "name": "dateReceived",
           "short": "The date and time that a package is recieved.",
           "type": "`$STRING`"
         },
         {
+          "format": "datetime",
           "name": "dateShipped",
           "short": "The date and time that a package is shipped.",
           "type": "`$STRING`"
@@ -2423,6 +2750,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$OBJECT`"
         },
         {
+          "format": "datetime",
           "name": "modified",
           "short": "Last modified timestamp.",
           "type": "`$STRING`"
@@ -2443,11 +2771,16 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$STRING`"
         },
         {
+          "format": "int32",
           "name": "version",
           "short": "The number of times that this resource has been updated.",
           "type": "`$INTEGER`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "shipment",
       "op": {
         "create": {
@@ -2459,14 +2792,19 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "POST",
               "orig": "/shipments",
-              "parts": [
-                "shipments"
+              "segments": [
+                {
+                  "lit": "shipments"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "shipments"
+              ]
             }
           ]
         },
@@ -2509,8 +2847,10 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "GET",
               "orig": "/shipments",
-              "parts": [
-                "shipments"
+              "segments": [
+                {
+                  "lit": "shipments"
+                }
               ],
               "select": {
                 "exist": [
@@ -2523,7 +2863,10 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "shipments"
+              ]
             }
           ]
         },
@@ -2546,9 +2889,13 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "GET",
               "orig": "/shipments/{id}",
-              "parts": [
-                "shipments",
-                "{id}"
+              "segments": [
+                {
+                  "lit": "shipments"
+                },
+                {
+                  "var": "id"
+                }
               ],
               "select": {
                 "exist": [
@@ -2558,7 +2905,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "shipments",
+                "{id}"
+              ]
             }
           ]
         }
@@ -2596,15 +2947,19 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "POST",
               "orig": "/virtualDevices/{sharePartnerTo}",
-              "parts": [
-                "virtualDevices",
-                "{share_partner_to}"
-              ],
               "rename": {
                 "param": {
                   "sharePartnerTo": "share_partner_to"
                 }
               },
+              "segments": [
+                {
+                  "lit": "virtualDevices"
+                },
+                {
+                  "var": "share_partner_to"
+                }
+              ],
               "select": {
                 "exist": [
                   "share_partner_to"
@@ -2613,7 +2968,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "virtualDevices",
+                "{share_partner_to}"
+              ]
             }
           ]
         },
@@ -2636,15 +2995,19 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "DELETE",
               "orig": "/virtualDevices/{sharePartnerTo}",
-              "parts": [
-                "virtualDevices",
-                "{share_partner_to}"
-              ],
               "rename": {
                 "param": {
                   "sharePartnerTo": "share_partner_to"
                 }
               },
+              "segments": [
+                {
+                  "lit": "virtualDevices"
+                },
+                {
+                  "var": "share_partner_to"
+                }
+              ],
               "select": {
                 "exist": [
                   "share_partner_to"
@@ -2653,7 +3016,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "virtualDevices",
+                "{share_partner_to}"
+              ]
             }
           ]
         }
@@ -2684,11 +3051,13 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$STRING`"
         },
         {
+          "format": "datetime",
           "name": "created",
           "short": "Creation timestamp in ISO 8601 format.",
           "type": "`$STRING`"
         },
         {
+          "format": "int32",
           "name": "decrypted",
           "short": "A Transcation can process muliple decryptions.",
           "type": "`$INTEGER`"
@@ -2704,11 +3073,13 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$OBJECT`"
         },
         {
+          "format": "int32",
           "name": "encrypted",
           "short": "A Transcation can process muliple encryptions.",
           "type": "`$INTEGER`"
         },
         {
+          "format": "datetime",
           "name": "endDate",
           "short": "Timestamp from the end of the transaction.",
           "type": "`$STRING`"
@@ -2775,6 +3146,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$STRING`"
         },
         {
+          "format": "datetime",
           "name": "startDate",
           "short": "Timestamp from the beginning of the transaction.",
           "type": "`$STRING`"
@@ -2790,6 +3162,10 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$STRING`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "transaction",
       "op": {
         "create": {
@@ -2801,14 +3177,19 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "POST",
               "orig": "/transactions",
-              "parts": [
-                "transactions"
+              "segments": [
+                {
+                  "lit": "transactions"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "transactions"
+              ]
             }
           ]
         },
@@ -2905,8 +3286,10 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "GET",
               "orig": "/transactions",
-              "parts": [
-                "transactions"
+              "segments": [
+                {
+                  "lit": "transactions"
+                }
               ],
               "select": {
                 "exist": [
@@ -2928,7 +3311,10 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "transactions"
+              ]
             }
           ]
         },
@@ -2951,9 +3337,13 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "GET",
               "orig": "/transactions/{id}",
-              "parts": [
-                "transactions",
-                "{id}"
+              "segments": [
+                {
+                  "lit": "transactions"
+                },
+                {
+                  "var": "id"
+                }
               ],
               "select": {
                 "exist": [
@@ -2963,7 +3353,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "transactions",
+                "{id}"
+              ]
             }
           ]
         }
@@ -3035,6 +3429,10 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$INTEGER`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "update_result",
       "op": {
         "create": {
@@ -3046,14 +3444,19 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "POST",
               "orig": "/users",
-              "parts": [
-                "users"
+              "segments": [
+                {
+                  "lit": "users"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "users"
+              ]
             }
           ]
         },
@@ -3101,8 +3504,10 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "GET",
               "orig": "/users",
-              "parts": [
-                "users"
+              "segments": [
+                {
+                  "lit": "users"
+                }
               ],
               "select": {
                 "exist": [
@@ -3116,7 +3521,10 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
-              }
+              },
+              "parts": [
+                "users"
+              ]
             }
           ]
         },
@@ -3139,9 +3547,13 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "PATCH",
               "orig": "/clients/{id}",
-              "parts": [
-                "clients",
-                "{id}"
+              "segments": [
+                {
+                  "lit": "clients"
+                },
+                {
+                  "var": "id"
+                }
               ],
               "select": {
                 "exist": [
@@ -3151,7 +3563,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "clients",
+                "{id}"
+              ]
             },
             {
               "args": {
@@ -3168,9 +3584,13 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "PATCH",
               "orig": "/devices/{id}",
-              "parts": [
-                "devices",
-                "{id}"
+              "segments": [
+                {
+                  "lit": "devices"
+                },
+                {
+                  "var": "id"
+                }
               ],
               "select": {
                 "exist": [
@@ -3180,7 +3600,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "devices",
+                "{id}"
+              ]
             },
             {
               "args": {
@@ -3197,9 +3621,13 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "PATCH",
               "orig": "/locations/{id}",
-              "parts": [
-                "locations",
-                "{id}"
+              "segments": [
+                {
+                  "lit": "locations"
+                },
+                {
+                  "var": "id"
+                }
               ],
               "select": {
                 "exist": [
@@ -3209,7 +3637,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "locations",
+                "{id}"
+              ]
             },
             {
               "args": {
@@ -3226,9 +3658,13 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "PATCH",
               "orig": "/partners/{id}",
-              "parts": [
-                "partners",
-                "{id}"
+              "segments": [
+                {
+                  "lit": "partners"
+                },
+                {
+                  "var": "id"
+                }
               ],
               "select": {
                 "exist": [
@@ -3238,7 +3674,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "partners",
+                "{id}"
+              ]
             },
             {
               "args": {
@@ -3255,9 +3695,13 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "PATCH",
               "orig": "/shipments/{id}",
-              "parts": [
-                "shipments",
-                "{id}"
+              "segments": [
+                {
+                  "lit": "shipments"
+                },
+                {
+                  "var": "id"
+                }
               ],
               "select": {
                 "exist": [
@@ -3267,7 +3711,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "shipments",
+                "{id}"
+              ]
             },
             {
               "args": {
@@ -3284,9 +3732,13 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "PATCH",
               "orig": "/transactions/{id}",
-              "parts": [
-                "transactions",
-                "{id}"
+              "segments": [
+                {
+                  "lit": "transactions"
+                },
+                {
+                  "var": "id"
+                }
               ],
               "select": {
                 "exist": [
@@ -3296,7 +3748,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "transactions",
+                "{id}"
+              ]
             },
             {
               "args": {
@@ -3313,9 +3769,13 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "PATCH",
               "orig": "/users/{id}",
-              "parts": [
-                "users",
-                "{id}"
+              "segments": [
+                {
+                  "lit": "users"
+                },
+                {
+                  "var": "id"
+                }
               ],
               "select": {
                 "exist": [
@@ -3325,7 +3785,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "users",
+                "{id}"
+              ]
             }
           ]
         }
@@ -3342,6 +3806,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$OBJECT`"
         },
         {
+          "format": "datetime",
           "name": "created",
           "short": "Creation timestamp in ISO 8601 format.",
           "type": "`$STRING`"
@@ -3377,6 +3842,7 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$STRING`"
         },
         {
+          "format": "datetime",
           "name": "modified",
           "short": "Last modified timestamp.",
           "type": "`$STRING`"
@@ -3407,6 +3873,10 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
           "type": "`$INTEGER`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "user",
       "op": {
         "load": {
@@ -3428,9 +3898,13 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "GET",
               "orig": "/users/{id}",
-              "parts": [
-                "users",
-                "{id}"
+              "segments": [
+                {
+                  "lit": "users"
+                },
+                {
+                  "var": "id"
+                }
               ],
               "select": {
                 "exist": [
@@ -3440,7 +3914,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "users",
+                "{id}"
+              ]
             }
           ]
         },
@@ -3463,9 +3941,13 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "kind": "http",
               "method": "DELETE",
               "orig": "/users/{id}",
-              "parts": [
-                "users",
-                "{id}"
+              "segments": [
+                {
+                  "lit": "users"
+                },
+                {
+                  "var": "id"
+                }
               ],
               "select": {
                 "exist": [
@@ -3475,7 +3957,11 @@ my $CONFIG_JSON = <<'END_CONFIG_JSON';
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "users",
+                "{id}"
+              ]
             }
           ]
         }

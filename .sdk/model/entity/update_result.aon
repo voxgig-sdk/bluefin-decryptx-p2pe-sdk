@@ -92,8 +92,10 @@ main: kit: entity: update_result: {
         {
           method: "POST"
           orig: "/users"
-          parts: [
-            "users"
+          segments: [
+            {
+              lit: "users"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -149,8 +151,10 @@ main: kit: entity: update_result: {
           }
           method: "GET"
           orig: "/users"
-          parts: [
-            "users"
+          segments: [
+            {
+              lit: "users"
+            }
           ]
           select: {
             exist: [
@@ -185,9 +189,13 @@ main: kit: entity: update_result: {
           }
           method: "PATCH"
           orig: "/clients/{id}"
-          parts: [
-            "clients"
-            "{id}"
+          segments: [
+            {
+              lit: "clients"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [
@@ -213,9 +221,13 @@ main: kit: entity: update_result: {
           }
           method: "PATCH"
           orig: "/devices/{id}"
-          parts: [
-            "devices"
-            "{id}"
+          segments: [
+            {
+              lit: "devices"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [
@@ -241,9 +253,13 @@ main: kit: entity: update_result: {
           }
           method: "PATCH"
           orig: "/locations/{id}"
-          parts: [
-            "locations"
-            "{id}"
+          segments: [
+            {
+              lit: "locations"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [
@@ -269,9 +285,13 @@ main: kit: entity: update_result: {
           }
           method: "PATCH"
           orig: "/partners/{id}"
-          parts: [
-            "partners"
-            "{id}"
+          segments: [
+            {
+              lit: "partners"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [
@@ -297,9 +317,13 @@ main: kit: entity: update_result: {
           }
           method: "PATCH"
           orig: "/shipments/{id}"
-          parts: [
-            "shipments"
-            "{id}"
+          segments: [
+            {
+              lit: "shipments"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [
@@ -325,9 +349,13 @@ main: kit: entity: update_result: {
           }
           method: "PATCH"
           orig: "/transactions/{id}"
-          parts: [
-            "transactions"
-            "{id}"
+          segments: [
+            {
+              lit: "transactions"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [
@@ -353,9 +381,13 @@ main: kit: entity: update_result: {
           }
           method: "PATCH"
           orig: "/users/{id}"
-          parts: [
-            "users"
-            "{id}"
+          segments: [
+            {
+              lit: "users"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [

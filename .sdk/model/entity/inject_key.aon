@@ -6,6 +6,7 @@ main: kit: entity: inject_key: {
 
   fields: [
     {
+      format: "datetime"
       name: "created"
       req: false
       short: "Creation timestamp in ISO 8601 format."
@@ -36,6 +37,7 @@ main: kit: entity: inject_key: {
       type: "`$STRING`"
     }
     {
+      format: "datetime"
       name: "modified"
       req: false
       short: "Last modified timestamp in ISO 8601 format."
@@ -68,8 +70,10 @@ main: kit: entity: inject_key: {
         {
           method: "GET"
           orig: "/injectKeys"
-          parts: [
-            "injectKeys"
+          segments: [
+            {
+              lit: "injectKeys"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -95,9 +99,13 @@ main: kit: entity: inject_key: {
           }
           method: "GET"
           orig: "/injectKeys/{id}"
-          parts: [
-            "injectKeys"
-            "{id}"
+          segments: [
+            {
+              lit: "injectKeys"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [

@@ -21,10 +21,16 @@ main: kit: entity: device_rki_activate_result: {
         {
           method: "POST"
           orig: "/devices/rki/activate"
-          parts: [
-            "devices"
-            "rki"
-            "activate"
+          segments: [
+            {
+              lit: "devices"
+            }
+            {
+              lit: "rki"
+            }
+            {
+              lit: "activate"
+            }
           ]
           transform: {
             req: "`reqdata`"

@@ -24,12 +24,14 @@ main: kit: entity: transaction: {
       type: "`$STRING`"
     }
     {
+      format: "datetime"
       name: "created"
       req: false
       short: "Creation timestamp in ISO 8601 format."
       type: "`$STRING`"
     }
     {
+      format: "int32"
       name: "decrypted"
       req: false
       short: "A Transcation can process muliple decryptions."
@@ -48,12 +50,14 @@ main: kit: entity: transaction: {
       type: "`$OBJECT`"
     }
     {
+      format: "int32"
       name: "encrypted"
       req: false
       short: "A Transcation can process muliple encryptions."
       type: "`$INTEGER`"
     }
     {
+      format: "datetime"
       name: "endDate"
       req: false
       short: "Timestamp from the end of the transaction."
@@ -132,6 +136,7 @@ main: kit: entity: transaction: {
       type: "`$STRING`"
     }
     {
+      format: "datetime"
       name: "startDate"
       req: false
       short: "Timestamp from the beginning of the transaction."
@@ -164,8 +169,10 @@ main: kit: entity: transaction: {
         {
           method: "POST"
           orig: "/transactions"
-          parts: [
-            "transactions"
+          segments: [
+            {
+              lit: "transactions"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -278,8 +285,10 @@ main: kit: entity: transaction: {
           }
           method: "GET"
           orig: "/transactions"
-          parts: [
-            "transactions"
+          segments: [
+            {
+              lit: "transactions"
+            }
           ]
           select: {
             exist: [
@@ -322,9 +331,13 @@ main: kit: entity: transaction: {
           }
           method: "GET"
           orig: "/transactions/{id}"
-          parts: [
-            "transactions"
-            "{id}"
+          segments: [
+            {
+              lit: "transactions"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [

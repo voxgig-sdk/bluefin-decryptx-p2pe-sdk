@@ -105,7 +105,7 @@ sub inject_key_basic_setup {
     'BLUEFIN_DECRYPTX_P2PE_TEST_INJECT_KEY_ENTID' => $idmap,
     'BLUEFIN_DECRYPTX_P2PE_TEST_LIVE' => 'FALSE',
     'BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN' => 'FALSE',
-    'BLUEFIN_DECRYPTX_P2PE_APIKEY' => 'NONE',
+    'BLUEFIN_DECRYPTX_P2PE_APIKEY' => '',
   });
 
   my $idmap_resolved = BluefinDecryptxP2peHelpers::to_map($env->{'BLUEFIN_DECRYPTX_P2PE_TEST_INJECT_KEY_ENTID'});
@@ -115,6 +115,9 @@ sub inject_key_basic_setup {
 
   if ((($env->{'BLUEFIN_DECRYPTX_P2PE_TEST_LIVE'}) || '') eq 'TRUE') {
     my $merged_opts = Voxgig::Struct::merge([
+      # FIRST, so the generated fields below win: sdk-test-control.json's
+      # test.client.options adds to the live client, it does not redirect it.
+      BluefinDecryptxP2peTestRunner::live_client_options(),
       {
         'apikey' => $env->{'BLUEFIN_DECRYPTX_P2PE_APIKEY'},
       },

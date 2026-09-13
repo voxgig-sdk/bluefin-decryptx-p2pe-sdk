@@ -36,6 +36,7 @@ main: kit: entity: location: {
       type: "`$STRING`"
     }
     {
+      format: "datetime"
       name: "created"
       req: false
       short: "Creation timestamp in ISO 8601 format."
@@ -96,6 +97,7 @@ main: kit: entity: location: {
       type: "`$STRING`"
     }
     {
+      format: "datetime"
       name: "modified"
       req: false
       short: "Last modified timestamp."
@@ -158,8 +160,10 @@ main: kit: entity: location: {
         {
           method: "POST"
           orig: "/locations"
-          parts: [
-            "locations"
+          segments: [
+            {
+              lit: "locations"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -201,8 +205,10 @@ main: kit: entity: location: {
           }
           method: "GET"
           orig: "/locations"
-          parts: [
-            "locations"
+          segments: [
+            {
+              lit: "locations"
+            }
           ]
           select: {
             exist: [
@@ -235,9 +241,13 @@ main: kit: entity: location: {
           }
           method: "GET"
           orig: "/locations/{id}"
-          parts: [
-            "locations"
-            "{id}"
+          segments: [
+            {
+              lit: "locations"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [
@@ -268,9 +278,13 @@ main: kit: entity: location: {
           }
           method: "DELETE"
           orig: "/locations/{id}"
-          parts: [
-            "locations"
-            "{id}"
+          segments: [
+            {
+              lit: "locations"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [

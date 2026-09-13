@@ -184,11 +184,13 @@ class BluefinDecryptxP2peConfig
               'type' => '`$OBJECT`',
             ],
             [
+              'format' => 'datetime',
               'name' => 'completeDate',
               'short' => 'The date and time that the Attestation took place.',
               'type' => '`$STRING`',
             ],
             [
+              'format' => 'datetime',
               'name' => 'created',
               'short' => 'Creation timestamp in ISO 8601 format.',
               'type' => '`$STRING`',
@@ -214,6 +216,10 @@ class BluefinDecryptxP2peConfig
               'type' => '`$STRING`',
             ],
           ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
+          ],
           'name' => 'attestation',
           'op' => [
             'create' => [
@@ -225,13 +231,18 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/attestations',
-                  'parts' => [
-                    'attestations',
+                  'segments' => [
+                    [
+                      'lit' => 'attestations',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'attestations',
                   ],
                 ],
               ],
@@ -269,8 +280,10 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/attestations',
-                  'parts' => [
-                    'attestations',
+                  'segments' => [
+                    [
+                      'lit' => 'attestations',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -282,6 +295,9 @@ class BluefinDecryptxP2peConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    'attestations',
                   ],
                 ],
               ],
@@ -305,9 +321,13 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/attestations/{id}',
-                  'parts' => [
-                    'attestations',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'attestations',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -317,6 +337,10 @@ class BluefinDecryptxP2peConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'attestations',
+                    '{id}',
                   ],
                 ],
               ],
@@ -340,6 +364,7 @@ class BluefinDecryptxP2peConfig
               'type' => '`$OBJECT`',
             ],
             [
+              'format' => 'datetime',
               'name' => 'created',
               'short' => 'Creation timestamp in ISO 8601 format.',
               'type' => '`$STRING`',
@@ -371,6 +396,7 @@ class BluefinDecryptxP2peConfig
               'type' => '`$STRING`',
             ],
             [
+              'format' => 'datetime',
               'name' => 'modified',
               'short' => 'Last modified timestamp.',
               'type' => '`$STRING`',
@@ -391,6 +417,10 @@ class BluefinDecryptxP2peConfig
               'type' => '`$INTEGER`',
             ],
           ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
+          ],
           'name' => 'client',
           'op' => [
             'create' => [
@@ -402,13 +432,18 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/clients',
-                  'parts' => [
-                    'clients',
+                  'segments' => [
+                    [
+                      'lit' => 'clients',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'clients',
                   ],
                 ],
               ],
@@ -446,8 +481,10 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/clients',
-                  'parts' => [
-                    'clients',
+                  'segments' => [
+                    [
+                      'lit' => 'clients',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -459,6 +496,9 @@ class BluefinDecryptxP2peConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    'clients',
                   ],
                 ],
               ],
@@ -482,9 +522,13 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/clients/{id}',
-                  'parts' => [
-                    'clients',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'clients',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -494,6 +538,10 @@ class BluefinDecryptxP2peConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'clients',
+                    '{id}',
                   ],
                 ],
               ],
@@ -517,9 +565,13 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/clients/{id}',
-                  'parts' => [
-                    'clients',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'clients',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -529,6 +581,10 @@ class BluefinDecryptxP2peConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'clients',
+                    '{id}',
                   ],
                 ],
               ],
@@ -568,16 +624,24 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/devices/{serialNumber}/{deviceType}/custody',
-                  'parts' => [
-                    'devices',
-                    '{serial_number}',
-                    '{device_type}',
-                    'custody',
-                  ],
                   'rename' => [
                     'param' => [
                       'deviceType' => 'device_type',
                       'serialNumber' => 'serial_number',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'devices',
+                    ],
+                    [
+                      'var' => 'serial_number',
+                    ],
+                    [
+                      'var' => 'device_type',
+                    ],
+                    [
+                      'lit' => 'custody',
                     ],
                   ],
                   'select' => [
@@ -589,6 +653,12 @@ class BluefinDecryptxP2peConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'devices',
+                    '{serial_number}',
+                    '{device_type}',
+                    'custody',
                   ],
                 ],
               ],
@@ -621,13 +691,18 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/decryption',
-                  'parts' => [
-                    'decryption',
+                  'segments' => [
+                    [
+                      'lit' => 'decryption',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'decryption',
                   ],
                 ],
               ],
@@ -646,6 +721,7 @@ class BluefinDecryptxP2peConfig
               'type' => '`$OBJECT`',
             ],
             [
+              'format' => 'datetime',
               'name' => 'activationDate',
               'short' => 'Timestamp from when the Device was activated.',
               'type' => '`$STRING`',
@@ -656,11 +732,13 @@ class BluefinDecryptxP2peConfig
               'type' => '`$STRING`',
             ],
             [
+              'format' => 'datetime',
               'name' => 'auditNextDate',
               'short' => 'Date and time that the Device is due its next PCI Audit.',
               'type' => '`$STRING`',
             ],
             [
+              'format' => 'datetime',
               'name' => 'auditNotificationDate',
               'short' => 'Date and time that a notification should be sent that a PCI audit is due.',
               'type' => '`$STRING`',
@@ -671,6 +749,7 @@ class BluefinDecryptxP2peConfig
               'type' => '`$OBJECT`',
             ],
             [
+              'format' => 'datetime',
               'name' => 'created',
               'short' => 'Creation timestamp in ISO 8601 format.',
               'type' => '`$STRING`',
@@ -702,6 +781,7 @@ class BluefinDecryptxP2peConfig
               'type' => '`$INTEGER`',
             ],
             [
+              'format' => 'datetime',
               'name' => 'errorLastDate',
               'short' => 'Timestamp from the last time that the Device had an error.',
               'type' => '`$STRING`',
@@ -718,6 +798,7 @@ class BluefinDecryptxP2peConfig
               'type' => '`$OBJECT`',
             ],
             [
+              'format' => 'datetime',
               'name' => 'initializedDate',
               'short' => 'Timestamp from when the Device was initialized.',
               'type' => '`$STRING`',
@@ -738,6 +819,7 @@ class BluefinDecryptxP2peConfig
               'type' => '`$OBJECT`',
             ],
             [
+              'format' => 'datetime',
               'name' => 'lastActivityDate',
               'short' => 'Timestamp from the last time that the Device was used.',
               'type' => '`$STRING`',
@@ -749,6 +831,7 @@ class BluefinDecryptxP2peConfig
               'type' => '`$OBJECT`',
             ],
             [
+              'format' => 'datetime',
               'name' => 'modified',
               'short' => 'Last modified timestamp.',
               'type' => '`$STRING`',
@@ -785,6 +868,10 @@ class BluefinDecryptxP2peConfig
               'type' => '`$INTEGER`',
             ],
           ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
+          ],
           'name' => 'device',
           'op' => [
             'create' => [
@@ -796,13 +883,18 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/devices',
-                  'parts' => [
-                    'devices',
+                  'segments' => [
+                    [
+                      'lit' => 'devices',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'devices',
                   ],
                 ],
               ],
@@ -877,8 +969,10 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/devices',
-                  'parts' => [
-                    'devices',
+                  'segments' => [
+                    [
+                      'lit' => 'devices',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -896,6 +990,9 @@ class BluefinDecryptxP2peConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    'devices',
                   ],
                 ],
               ],
@@ -926,15 +1023,21 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/devices/{serialNumber}/{deviceType}',
-                  'parts' => [
-                    'devices',
-                    '{serial_number}',
-                    '{device_type}',
-                  ],
                   'rename' => [
                     'param' => [
                       'deviceType' => 'device_type',
                       'serialNumber' => 'serial_number',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'devices',
+                    ],
+                    [
+                      'var' => 'serial_number',
+                    ],
+                    [
+                      'var' => 'device_type',
                     ],
                   ],
                   'select' => [
@@ -946,6 +1049,11 @@ class BluefinDecryptxP2peConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'devices',
+                    '{serial_number}',
+                    '{device_type}',
                   ],
                 ],
                 [
@@ -963,9 +1071,13 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/devices/{id}',
-                  'parts' => [
-                    'devices',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'devices',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -975,6 +1087,10 @@ class BluefinDecryptxP2peConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'devices',
+                    '{id}',
                   ],
                 ],
               ],
@@ -1006,6 +1122,7 @@ class BluefinDecryptxP2peConfig
               'type' => '`$STRING`',
             ],
             [
+              'format' => 'date-time',
               'name' => 'created',
               'short' => 'Creation timestamp in ISO 8601 format.',
               'type' => '`$STRING`',
@@ -1026,6 +1143,7 @@ class BluefinDecryptxP2peConfig
               'type' => '`$STRING`',
             ],
             [
+              'format' => 'int64',
               'name' => 'id',
               'short' => 'This resource\'s unique identifier.',
               'type' => '`$INTEGER`',
@@ -1036,6 +1154,7 @@ class BluefinDecryptxP2peConfig
               'type' => '`$BOOLEAN`',
             ],
             [
+              'format' => 'date-time',
               'name' => 'modified',
               'short' => 'Last modified timestamp.',
               'type' => '`$STRING`',
@@ -1065,6 +1184,10 @@ class BluefinDecryptxP2peConfig
               'short' => 'This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren\'t encrypted by the terminal.',
               'type' => '`$BOOLEAN`',
             ],
+          ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
           ],
           'name' => 'device_build',
           'op' => [
@@ -1100,8 +1223,10 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/deviceBuilds',
-                  'parts' => [
-                    'deviceBuilds',
+                  'segments' => [
+                    [
+                      'lit' => 'deviceBuilds',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -1113,6 +1238,9 @@ class BluefinDecryptxP2peConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    'deviceBuilds',
                   ],
                 ],
               ],
@@ -1136,9 +1264,13 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/deviceBuilds/{id}',
-                  'parts' => [
-                    'deviceBuilds',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'deviceBuilds',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -1148,6 +1280,10 @@ class BluefinDecryptxP2peConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'deviceBuilds',
+                    '{id}',
                   ],
                 ],
               ],
@@ -1160,11 +1296,13 @@ class BluefinDecryptxP2peConfig
         'device_custody_detail' => [
           'fields' => [
             [
+              'format' => 'date-time',
               'name' => 'completeDate',
               'short' => 'The date and time that the Custody change took place.',
               'type' => '`$STRING`',
             ],
             [
+              'format' => 'date-time',
               'name' => 'created',
               'short' => 'Creation timestamp in ISO 8601 format.',
               'type' => '`$STRING`',
@@ -1187,6 +1325,7 @@ class BluefinDecryptxP2peConfig
               'type' => '`$OBJECT`',
             ],
             [
+              'format' => 'int64',
               'name' => 'id',
               'short' => 'This resource\'s unique identifier.',
               'type' => '`$INTEGER`',
@@ -1198,6 +1337,7 @@ class BluefinDecryptxP2peConfig
               'type' => '`$OBJECT`',
             ],
             [
+              'format' => 'date-time',
               'name' => 'modified',
               'short' => 'Last modified timestamp.',
               'type' => '`$STRING`',
@@ -1228,6 +1368,10 @@ class BluefinDecryptxP2peConfig
               'short' => 'The number of times that this resource has been updated.',
               'type' => '`$INTEGER`',
             ],
+          ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
           ],
           'name' => 'device_custody_detail',
           'op' => [
@@ -1264,17 +1408,27 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/devices/{serialNumber}/{deviceType}/custody/{id}',
-                  'parts' => [
-                    'devices',
-                    '{serial_number}',
-                    '{device_type}',
-                    'custody',
-                    '{id}',
-                  ],
                   'rename' => [
                     'param' => [
                       'deviceType' => 'device_type',
                       'serialNumber' => 'serial_number',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'devices',
+                    ],
+                    [
+                      'var' => 'serial_number',
+                    ],
+                    [
+                      'var' => 'device_type',
+                    ],
+                    [
+                      'lit' => 'custody',
+                    ],
+                    [
+                      'var' => 'id',
                     ],
                   ],
                   'select' => [
@@ -1287,6 +1441,13 @@ class BluefinDecryptxP2peConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'devices',
+                    '{serial_number}',
+                    '{device_type}',
+                    'custody',
+                    '{id}',
                   ],
                 ],
               ],
@@ -1303,11 +1464,13 @@ class BluefinDecryptxP2peConfig
         'device_custody_list' => [
           'fields' => [
             [
+              'format' => 'date-time',
               'name' => 'completeDate',
               'short' => 'The date and time that the Custody change took place.',
               'type' => '`$STRING`',
             ],
             [
+              'format' => 'date-time',
               'name' => 'created',
               'short' => 'Creation timestamp in ISO 8601 format.',
               'type' => '`$STRING`',
@@ -1330,6 +1493,7 @@ class BluefinDecryptxP2peConfig
               'type' => '`$OBJECT`',
             ],
             [
+              'format' => 'int64',
               'name' => 'id',
               'short' => 'This resource\'s unique identifier.',
               'type' => '`$INTEGER`',
@@ -1341,6 +1505,7 @@ class BluefinDecryptxP2peConfig
               'type' => '`$OBJECT`',
             ],
             [
+              'format' => 'date-time',
               'name' => 'modified',
               'short' => 'Last modified timestamp.',
               'type' => '`$STRING`',
@@ -1371,6 +1536,10 @@ class BluefinDecryptxP2peConfig
               'short' => 'The number of times that this resource has been updated.',
               'type' => '`$INTEGER`',
             ],
+          ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
           ],
           'name' => 'device_custody_list',
           'op' => [
@@ -1416,16 +1585,24 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/devices/{serialNumber}/{deviceType}/custody',
-                  'parts' => [
-                    'devices',
-                    '{serial_number}',
-                    '{device_type}',
-                    'custody',
-                  ],
                   'rename' => [
                     'param' => [
                       'deviceType' => 'device_type',
                       'serialNumber' => 'serial_number',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'devices',
+                    ],
+                    [
+                      'var' => 'serial_number',
+                    ],
+                    [
+                      'var' => 'device_type',
+                    ],
+                    [
+                      'lit' => 'custody',
                     ],
                   ],
                   'select' => [
@@ -1439,6 +1616,12 @@ class BluefinDecryptxP2peConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    'devices',
+                    '{serial_number}',
+                    '{device_type}',
+                    'custody',
                   ],
                 ],
               ],
@@ -1516,13 +1699,17 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/virtualDevices/{sharePartnerTo}',
-                  'parts' => [
-                    'virtualDevices',
-                    '{share_partner_to}',
-                  ],
                   'rename' => [
                     'param' => [
                       'sharePartnerTo' => 'share_partner_to',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'virtualDevices',
+                    ],
+                    [
+                      'var' => 'share_partner_to',
                     ],
                   ],
                   'select' => [
@@ -1537,6 +1724,10 @@ class BluefinDecryptxP2peConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'virtualDevices',
+                    '{share_partner_to}',
                   ],
                 ],
               ],
@@ -1570,14 +1761,22 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/devices/receive',
-                  'parts' => [
-                    'devices',
-                    'receive',
+                  'segments' => [
+                    [
+                      'lit' => 'devices',
+                    ],
+                    [
+                      'lit' => 'receive',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'devices',
+                    'receive',
                   ],
                 ],
               ],
@@ -1607,15 +1806,26 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/devices/rki/activate',
-                  'parts' => [
-                    'devices',
-                    'rki',
-                    'activate',
+                  'segments' => [
+                    [
+                      'lit' => 'devices',
+                    ],
+                    [
+                      'lit' => 'rki',
+                    ],
+                    [
+                      'lit' => 'activate',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'devices',
+                    'rki',
+                    'activate',
                   ],
                 ],
               ],
@@ -1628,6 +1838,7 @@ class BluefinDecryptxP2peConfig
         'device_state' => [
           'fields' => [
             [
+              'format' => 'int64',
               'name' => 'id',
               'short' => 'Unique identifier for this Device state.',
               'type' => '`$INTEGER`',
@@ -1637,6 +1848,10 @@ class BluefinDecryptxP2peConfig
               'short' => 'Descriptive name for this Device state.',
               'type' => '`$STRING`',
             ],
+          ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
           ],
           'name' => 'device_state',
           'op' => [
@@ -1649,13 +1864,18 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/deviceStates',
-                  'parts' => [
-                    'deviceStates',
+                  'segments' => [
+                    [
+                      'lit' => 'deviceStates',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    'deviceStates',
                   ],
                 ],
               ],
@@ -1668,6 +1888,7 @@ class BluefinDecryptxP2peConfig
         'device_type' => [
           'fields' => [
             [
+              'format' => 'datetime',
               'name' => 'created',
               'short' => 'Creation timestamp in ISO 8601 format.',
               'type' => '`$STRING`',
@@ -1703,6 +1924,7 @@ class BluefinDecryptxP2peConfig
               'type' => '`$STRING`',
             ],
             [
+              'format' => 'datetime',
               'name' => 'modified',
               'short' => 'Last modified timestamp.',
               'type' => '`$STRING`',
@@ -1727,6 +1949,10 @@ class BluefinDecryptxP2peConfig
               'type' => '`$INTEGER`',
             ],
           ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
+          ],
           'name' => 'device_type',
           'op' => [
             'list' => [
@@ -1738,13 +1964,18 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/deviceTypes',
-                  'parts' => [
-                    'deviceTypes',
+                  'segments' => [
+                    [
+                      'lit' => 'deviceTypes',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    'deviceTypes',
                   ],
                 ],
               ],
@@ -1768,9 +1999,13 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/deviceTypes/{id}',
-                  'parts' => [
-                    'deviceTypes',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'deviceTypes',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -1780,6 +2015,10 @@ class BluefinDecryptxP2peConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'deviceTypes',
+                    '{id}',
                   ],
                 ],
               ],
@@ -1792,6 +2031,7 @@ class BluefinDecryptxP2peConfig
         'inject_key' => [
           'fields' => [
             [
+              'format' => 'datetime',
               'name' => 'created',
               'short' => 'Creation timestamp in ISO 8601 format.',
               'type' => '`$STRING`',
@@ -1817,6 +2057,7 @@ class BluefinDecryptxP2peConfig
               'type' => '`$STRING`',
             ],
             [
+              'format' => 'datetime',
               'name' => 'modified',
               'short' => 'Last modified timestamp in ISO 8601 format.',
               'type' => '`$STRING`',
@@ -1832,6 +2073,10 @@ class BluefinDecryptxP2peConfig
               'type' => '`$INTEGER`',
             ],
           ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
+          ],
           'name' => 'inject_key',
           'op' => [
             'list' => [
@@ -1843,13 +2088,18 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/injectKeys',
-                  'parts' => [
-                    'injectKeys',
+                  'segments' => [
+                    [
+                      'lit' => 'injectKeys',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    'injectKeys',
                   ],
                 ],
               ],
@@ -1873,9 +2123,13 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/injectKeys/{id}',
-                  'parts' => [
-                    'injectKeys',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'injectKeys',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -1885,6 +2139,10 @@ class BluefinDecryptxP2peConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'injectKeys',
+                    '{id}',
                   ],
                 ],
               ],
@@ -1897,6 +2155,7 @@ class BluefinDecryptxP2peConfig
         'kif' => [
           'fields' => [
             [
+              'format' => 'int64',
               'name' => 'id',
               'short' => 'This resource\'s unique identifier.',
               'type' => '`$INTEGER`',
@@ -1906,6 +2165,10 @@ class BluefinDecryptxP2peConfig
               'short' => 'The KIF\'s name.',
               'type' => '`$STRING`',
             ],
+          ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
           ],
           'name' => 'kif',
           'op' => [
@@ -1918,13 +2181,18 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/kifs',
-                  'parts' => [
-                    'kifs',
+                  'segments' => [
+                    [
+                      'lit' => 'kifs',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    'kifs',
                   ],
                 ],
               ],
@@ -1962,6 +2230,7 @@ class BluefinDecryptxP2peConfig
               'type' => '`$STRING`',
             ],
             [
+              'format' => 'datetime',
               'name' => 'created',
               'short' => 'Creation timestamp in ISO 8601 format.',
               'type' => '`$STRING`',
@@ -2012,6 +2281,7 @@ class BluefinDecryptxP2peConfig
               'type' => '`$STRING`',
             ],
             [
+              'format' => 'datetime',
               'name' => 'modified',
               'short' => 'Last modified timestamp.',
               'type' => '`$STRING`',
@@ -2052,6 +2322,10 @@ class BluefinDecryptxP2peConfig
               'type' => '`$INTEGER`',
             ],
           ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
+          ],
           'name' => 'location',
           'op' => [
             'create' => [
@@ -2063,13 +2337,18 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/locations',
-                  'parts' => [
-                    'locations',
+                  'segments' => [
+                    [
+                      'lit' => 'locations',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'locations',
                   ],
                 ],
               ],
@@ -2107,8 +2386,10 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/locations',
-                  'parts' => [
-                    'locations',
+                  'segments' => [
+                    [
+                      'lit' => 'locations',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -2120,6 +2401,9 @@ class BluefinDecryptxP2peConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    'locations',
                   ],
                 ],
               ],
@@ -2143,9 +2427,13 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/locations/{id}',
-                  'parts' => [
-                    'locations',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'locations',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -2155,6 +2443,10 @@ class BluefinDecryptxP2peConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'locations',
+                    '{id}',
                   ],
                 ],
               ],
@@ -2178,9 +2470,13 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/locations/{id}',
-                  'parts' => [
-                    'locations',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'locations',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -2190,6 +2486,10 @@ class BluefinDecryptxP2peConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'locations',
+                    '{id}',
                   ],
                 ],
               ],
@@ -2223,6 +2523,7 @@ class BluefinDecryptxP2peConfig
               'type' => '`$OBJECT`',
             ],
             [
+              'format' => 'datetime',
               'name' => 'created',
               'short' => 'Creation timestamp in ISO 8601 format.',
               'type' => '`$STRING`',
@@ -2244,6 +2545,7 @@ class BluefinDecryptxP2peConfig
               'type' => '`$OBJECT`',
             ],
             [
+              'format' => 'datetime',
               'name' => 'modified',
               'short' => 'Last modified timestamp.',
               'type' => '`$STRING`',
@@ -2279,6 +2581,10 @@ class BluefinDecryptxP2peConfig
               'type' => '`$INTEGER`',
             ],
           ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
+          ],
           'name' => 'partner',
           'op' => [
             'create' => [
@@ -2290,13 +2596,18 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/partners',
-                  'parts' => [
-                    'partners',
+                  'segments' => [
+                    [
+                      'lit' => 'partners',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'partners',
                   ],
                 ],
               ],
@@ -2333,8 +2644,10 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/partners',
-                  'parts' => [
-                    'partners',
+                  'segments' => [
+                    [
+                      'lit' => 'partners',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -2346,6 +2659,9 @@ class BluefinDecryptxP2peConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    'partners',
                   ],
                 ],
               ],
@@ -2369,9 +2685,13 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/partners/{id}',
-                  'parts' => [
-                    'partners',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'partners',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -2381,6 +2701,10 @@ class BluefinDecryptxP2peConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'partners',
+                    '{id}',
                   ],
                 ],
               ],
@@ -2403,16 +2727,19 @@ class BluefinDecryptxP2peConfig
               'type' => '`$OBJECT`',
             ],
             [
+              'format' => 'datetime',
               'name' => 'created',
               'short' => 'Creation timestamp in ISO 8601 format.',
               'type' => '`$STRING`',
             ],
             [
+              'format' => 'datetime',
               'name' => 'dateReceived',
               'short' => 'The date and time that a package is recieved.',
               'type' => '`$STRING`',
             ],
             [
+              'format' => 'datetime',
               'name' => 'dateShipped',
               'short' => 'The date and time that a package is shipped.',
               'type' => '`$STRING`',
@@ -2437,6 +2764,7 @@ class BluefinDecryptxP2peConfig
               'type' => '`$OBJECT`',
             ],
             [
+              'format' => 'datetime',
               'name' => 'modified',
               'short' => 'Last modified timestamp.',
               'type' => '`$STRING`',
@@ -2457,10 +2785,15 @@ class BluefinDecryptxP2peConfig
               'type' => '`$STRING`',
             ],
             [
+              'format' => 'int32',
               'name' => 'version',
               'short' => 'The number of times that this resource has been updated.',
               'type' => '`$INTEGER`',
             ],
+          ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
           ],
           'name' => 'shipment',
           'op' => [
@@ -2473,13 +2806,18 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/shipments',
-                  'parts' => [
-                    'shipments',
+                  'segments' => [
+                    [
+                      'lit' => 'shipments',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'shipments',
                   ],
                 ],
               ],
@@ -2523,8 +2861,10 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/shipments',
-                  'parts' => [
-                    'shipments',
+                  'segments' => [
+                    [
+                      'lit' => 'shipments',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -2537,6 +2877,9 @@ class BluefinDecryptxP2peConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    'shipments',
                   ],
                 ],
               ],
@@ -2560,9 +2903,13 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/shipments/{id}',
-                  'parts' => [
-                    'shipments',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'shipments',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -2572,6 +2919,10 @@ class BluefinDecryptxP2peConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'shipments',
+                    '{id}',
                   ],
                 ],
               ],
@@ -2610,13 +2961,17 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/virtualDevices/{sharePartnerTo}',
-                  'parts' => [
-                    'virtualDevices',
-                    '{share_partner_to}',
-                  ],
                   'rename' => [
                     'param' => [
                       'sharePartnerTo' => 'share_partner_to',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'virtualDevices',
+                    ],
+                    [
+                      'var' => 'share_partner_to',
                     ],
                   ],
                   'select' => [
@@ -2627,6 +2982,10 @@ class BluefinDecryptxP2peConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'virtualDevices',
+                    '{share_partner_to}',
                   ],
                 ],
               ],
@@ -2650,13 +3009,17 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/virtualDevices/{sharePartnerTo}',
-                  'parts' => [
-                    'virtualDevices',
-                    '{share_partner_to}',
-                  ],
                   'rename' => [
                     'param' => [
                       'sharePartnerTo' => 'share_partner_to',
+                    ],
+                  ],
+                  'segments' => [
+                    [
+                      'lit' => 'virtualDevices',
+                    ],
+                    [
+                      'var' => 'share_partner_to',
                     ],
                   ],
                   'select' => [
@@ -2667,6 +3030,10 @@ class BluefinDecryptxP2peConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'virtualDevices',
+                    '{share_partner_to}',
                   ],
                 ],
               ],
@@ -2698,11 +3065,13 @@ class BluefinDecryptxP2peConfig
               'type' => '`$STRING`',
             ],
             [
+              'format' => 'datetime',
               'name' => 'created',
               'short' => 'Creation timestamp in ISO 8601 format.',
               'type' => '`$STRING`',
             ],
             [
+              'format' => 'int32',
               'name' => 'decrypted',
               'short' => 'A Transcation can process muliple decryptions.',
               'type' => '`$INTEGER`',
@@ -2718,11 +3087,13 @@ class BluefinDecryptxP2peConfig
               'type' => '`$OBJECT`',
             ],
             [
+              'format' => 'int32',
               'name' => 'encrypted',
               'short' => 'A Transcation can process muliple encryptions.',
               'type' => '`$INTEGER`',
             ],
             [
+              'format' => 'datetime',
               'name' => 'endDate',
               'short' => 'Timestamp from the end of the transaction.',
               'type' => '`$STRING`',
@@ -2789,6 +3160,7 @@ class BluefinDecryptxP2peConfig
               'type' => '`$STRING`',
             ],
             [
+              'format' => 'datetime',
               'name' => 'startDate',
               'short' => 'Timestamp from the beginning of the transaction.',
               'type' => '`$STRING`',
@@ -2804,6 +3176,10 @@ class BluefinDecryptxP2peConfig
               'type' => '`$STRING`',
             ],
           ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
+          ],
           'name' => 'transaction',
           'op' => [
             'create' => [
@@ -2815,13 +3191,18 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/transactions',
-                  'parts' => [
-                    'transactions',
+                  'segments' => [
+                    [
+                      'lit' => 'transactions',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'transactions',
                   ],
                 ],
               ],
@@ -2919,8 +3300,10 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/transactions',
-                  'parts' => [
-                    'transactions',
+                  'segments' => [
+                    [
+                      'lit' => 'transactions',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -2942,6 +3325,9 @@ class BluefinDecryptxP2peConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    'transactions',
                   ],
                 ],
               ],
@@ -2965,9 +3351,13 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/transactions/{id}',
-                  'parts' => [
-                    'transactions',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'transactions',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -2977,6 +3367,10 @@ class BluefinDecryptxP2peConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'transactions',
+                    '{id}',
                   ],
                 ],
               ],
@@ -3049,6 +3443,10 @@ class BluefinDecryptxP2peConfig
               'type' => '`$INTEGER`',
             ],
           ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
+          ],
           'name' => 'update_result',
           'op' => [
             'create' => [
@@ -3060,13 +3458,18 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'POST',
                   'orig' => '/users',
-                  'parts' => [
-                    'users',
+                  'segments' => [
+                    [
+                      'lit' => 'users',
+                    ],
                   ],
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'users',
                   ],
                 ],
               ],
@@ -3115,8 +3518,10 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/users',
-                  'parts' => [
-                    'users',
+                  'segments' => [
+                    [
+                      'lit' => 'users',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -3130,6 +3535,9 @@ class BluefinDecryptxP2peConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body.data`',
+                  ],
+                  'parts' => [
+                    'users',
                   ],
                 ],
               ],
@@ -3153,9 +3561,13 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'PATCH',
                   'orig' => '/clients/{id}',
-                  'parts' => [
-                    'clients',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'clients',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -3165,6 +3577,10 @@ class BluefinDecryptxP2peConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'clients',
+                    '{id}',
                   ],
                 ],
                 [
@@ -3182,9 +3598,13 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'PATCH',
                   'orig' => '/devices/{id}',
-                  'parts' => [
-                    'devices',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'devices',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -3194,6 +3614,10 @@ class BluefinDecryptxP2peConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'devices',
+                    '{id}',
                   ],
                 ],
                 [
@@ -3211,9 +3635,13 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'PATCH',
                   'orig' => '/locations/{id}',
-                  'parts' => [
-                    'locations',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'locations',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -3223,6 +3651,10 @@ class BluefinDecryptxP2peConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'locations',
+                    '{id}',
                   ],
                 ],
                 [
@@ -3240,9 +3672,13 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'PATCH',
                   'orig' => '/partners/{id}',
-                  'parts' => [
-                    'partners',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'partners',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -3252,6 +3688,10 @@ class BluefinDecryptxP2peConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'partners',
+                    '{id}',
                   ],
                 ],
                 [
@@ -3269,9 +3709,13 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'PATCH',
                   'orig' => '/shipments/{id}',
-                  'parts' => [
-                    'shipments',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'shipments',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -3281,6 +3725,10 @@ class BluefinDecryptxP2peConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'shipments',
+                    '{id}',
                   ],
                 ],
                 [
@@ -3298,9 +3746,13 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'PATCH',
                   'orig' => '/transactions/{id}',
-                  'parts' => [
-                    'transactions',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'transactions',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -3310,6 +3762,10 @@ class BluefinDecryptxP2peConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'transactions',
+                    '{id}',
                   ],
                 ],
                 [
@@ -3327,9 +3783,13 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'PATCH',
                   'orig' => '/users/{id}',
-                  'parts' => [
-                    'users',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'users',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -3339,6 +3799,10 @@ class BluefinDecryptxP2peConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'users',
+                    '{id}',
                   ],
                 ],
               ],
@@ -3356,6 +3820,7 @@ class BluefinDecryptxP2peConfig
               'type' => '`$OBJECT`',
             ],
             [
+              'format' => 'datetime',
               'name' => 'created',
               'short' => 'Creation timestamp in ISO 8601 format.',
               'type' => '`$STRING`',
@@ -3391,6 +3856,7 @@ class BluefinDecryptxP2peConfig
               'type' => '`$STRING`',
             ],
             [
+              'format' => 'datetime',
               'name' => 'modified',
               'short' => 'Last modified timestamp.',
               'type' => '`$STRING`',
@@ -3421,6 +3887,10 @@ class BluefinDecryptxP2peConfig
               'type' => '`$INTEGER`',
             ],
           ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
+          ],
           'name' => 'user',
           'op' => [
             'load' => [
@@ -3442,9 +3912,13 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/users/{id}',
-                  'parts' => [
-                    'users',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'users',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -3454,6 +3928,10 @@ class BluefinDecryptxP2peConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'users',
+                    '{id}',
                   ],
                 ],
               ],
@@ -3477,9 +3955,13 @@ class BluefinDecryptxP2peConfig
                   'kind' => 'http',
                   'method' => 'DELETE',
                   'orig' => '/users/{id}',
-                  'parts' => [
-                    'users',
-                    '{id}',
+                  'segments' => [
+                    [
+                      'lit' => 'users',
+                    ],
+                    [
+                      'var' => 'id',
+                    ],
                   ],
                   'select' => [
                     'exist' => [
@@ -3489,6 +3971,10 @@ class BluefinDecryptxP2peConfig
                   'transform' => [
                     'req' => '`reqdata`',
                     'res' => '`body`',
+                  ],
+                  'parts' => [
+                    'users',
+                    '{id}',
                   ],
                 ],
               ],

@@ -6,12 +6,14 @@ main: kit: entity: device_custody_detail: {
 
   fields: [
     {
+      format: "date-time"
       name: "completeDate"
       req: false
       short: "The date and time that the Custody change took place."
       type: "`$STRING`"
     }
     {
+      format: "date-time"
       name: "created"
       req: false
       short: "Creation timestamp in ISO 8601 format."
@@ -36,6 +38,7 @@ main: kit: entity: device_custody_detail: {
       type: "`$OBJECT`"
     }
     {
+      format: "int64"
       name: "id"
       req: false
       short: "This resource's unique identifier."
@@ -48,6 +51,7 @@ main: kit: entity: device_custody_detail: {
       type: "`$OBJECT`"
     }
     {
+      format: "date-time"
       name: "modified"
       req: false
       short: "Last modified timestamp."
@@ -123,19 +127,29 @@ main: kit: entity: device_custody_detail: {
           }
           method: "GET"
           orig: "/devices/{serialNumber}/{deviceType}/custody/{id}"
-          parts: [
-            "devices"
-            "{serial_number}"
-            "{device_type}"
-            "custody"
-            "{id}"
-          ]
           rename: {
             param: {
               deviceType: "device_type"
               serialNumber: "serial_number"
             }
           }
+          segments: [
+            {
+              lit: "devices"
+            }
+            {
+              var: "serial_number"
+            }
+            {
+              var: "device_type"
+            }
+            {
+              lit: "custody"
+            }
+            {
+              var: "id"
+            }
+          ]
           select: {
             exist: [
               "device_type"

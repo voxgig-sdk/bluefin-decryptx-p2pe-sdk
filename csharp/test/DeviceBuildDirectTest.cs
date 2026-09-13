@@ -176,17 +176,25 @@ public class DeviceBuildDirectTest
         {
             ["BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_BUILD_ENTID"] = new Dictionary<string, object?>(),
             ["BLUEFIN_DECRYPTX_P2PE_TEST_LIVE"] = "FALSE",
-            ["BLUEFIN_DECRYPTX_P2PE_APIKEY"] = "NONE",
+            ["BLUEFIN_DECRYPTX_P2PE_APIKEY"] = "",
         });
 
         var live = Equals(env["BLUEFIN_DECRYPTX_P2PE_TEST_LIVE"], "TRUE");
 
         if (live)
         {
-            var liveClient = new BluefinDecryptxP2peSDK(new Dictionary<string, object?>
+            // sdk-test-control.json's test.client.options goes UNDER the
+            // generated fields: it adds to the live client, it does not
+            // redirect it, so the generated entries overwrite it here.
+            var liveOpts = TestRunner.LiveClientOptions();
+            foreach (var _kv in new Dictionary<string, object?>
             {
                 ["apikey"] = env["BLUEFIN_DECRYPTX_P2PE_APIKEY"],
-            });
+            })
+            {
+                liveOpts[_kv.Key] = _kv.Value;
+            }
+            var liveClient = new BluefinDecryptxP2peSDK(liveOpts);
 
             var idmap = new Dictionary<string, object?>();
             var entidRaw = env["BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_BUILD_ENTID"];

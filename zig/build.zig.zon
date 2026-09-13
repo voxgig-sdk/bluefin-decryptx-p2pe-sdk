@@ -1,6 +1,7 @@
 .{
-    .name = "bluefin_decryptx_p2pe_sdk",
+    .name = .bluefin_decryptx_p2pe_sdk,
     .version = "0.1.1",
+    .fingerprint = 0x89eb5b9b5e89389c,
     .dependencies = .{},
     .paths = .{
         "src",

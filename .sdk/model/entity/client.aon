@@ -18,6 +18,7 @@ main: kit: entity: client: {
       type: "`$OBJECT`"
     }
     {
+      format: "datetime"
       name: "created"
       req: false
       short: "Creation timestamp in ISO 8601 format."
@@ -54,6 +55,7 @@ main: kit: entity: client: {
       type: "`$STRING`"
     }
     {
+      format: "datetime"
       name: "modified"
       req: false
       short: "Last modified timestamp."
@@ -92,8 +94,10 @@ main: kit: entity: client: {
         {
           method: "POST"
           orig: "/clients"
-          parts: [
-            "clients"
+          segments: [
+            {
+              lit: "clients"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -135,8 +139,10 @@ main: kit: entity: client: {
           }
           method: "GET"
           orig: "/clients"
-          parts: [
-            "clients"
+          segments: [
+            {
+              lit: "clients"
+            }
           ]
           select: {
             exist: [
@@ -169,9 +175,13 @@ main: kit: entity: client: {
           }
           method: "GET"
           orig: "/clients/{id}"
-          parts: [
-            "clients"
-            "{id}"
+          segments: [
+            {
+              lit: "clients"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [
@@ -202,9 +212,13 @@ main: kit: entity: client: {
           }
           method: "DELETE"
           orig: "/clients/{id}"
-          parts: [
-            "clients"
-            "{id}"
+          segments: [
+            {
+              lit: "clients"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [

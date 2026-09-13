@@ -34,6 +34,7 @@ const { BluefinDecryptxP2peEntityBase } = require('./BluefinDecryptxP2peEntityBa
 const { BaseFeature } = require('./feature/base/BaseFeature')
 
 
+
 const stdutil = new Utility()
 
 
@@ -43,6 +44,7 @@ class BluefinDecryptxP2peSDK {
   _utility = new Utility()
   _features
   _rootctx
+  
 
   constructor(options) {
 
@@ -115,6 +117,8 @@ class BluefinDecryptxP2peSDK {
     return this._utility.struct.clone(this._utility)
   }
 
+  
+
 
   async prepare(fetchargs) {
     const utility = this._utility
@@ -160,6 +164,8 @@ class BluefinDecryptxP2peSDK {
         spec.headers[key] = uheaders[key]
       }
     }
+
+    
 
     // Apply SDK auth (apikey, auth prefix, etc.)
     const authResult = prepareAuth(ctx)
@@ -555,6 +561,7 @@ const SDK = BluefinDecryptxP2peSDK
 module.exports = {
   stdutil,
   config,
+  
 
   BaseFeature,
   BluefinDecryptxP2peEntityBase,

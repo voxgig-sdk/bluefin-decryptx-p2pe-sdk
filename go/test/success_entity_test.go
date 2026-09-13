@@ -52,7 +52,7 @@ func TestSuccessEntity(t *testing.T) {
 		// CREATE
 		successRef01Ent := client.Success(nil)
 		successRef01Data := core.ToMapAny(vs.GetProp(
-			vs.GetPath([]any{"new", "success"}, setup.data), "success_ref01"))
+			vs.GetPath(setup.data, []any{"new", "success"}), "success_ref01"))
 		successRef01Data["share_partner_to"] = setup.idmap["share_partner_to01"]
 
 		successRef01DataResult, err := successRef01Ent.Create(successRef01Data, nil)
@@ -92,7 +92,7 @@ func successBasicSetup(extra map[string]any) *entityTestSetup {
 	client := sdk.TestSDK(options, extra)
 
 	// Generate idmap via transform, matching TS pattern.
-	idmap := vs.Transform(
+	idmap, _ := vs.Transform(
 		[]any{"success01", "success02", "success03", "virtual_device01", "virtual_device02", "virtual_device03", "share_partner_to01"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
@@ -112,7 +112,7 @@ func successBasicSetup(extra map[string]any) *entityTestSetup {
 		"BLUEFIN_DECRYPTX_P2PE_TEST_SUCCESS_ENTID": idmap,
 		"BLUEFIN_DECRYPTX_P2PE_TEST_LIVE":      "FALSE",
 		"BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN":   "FALSE",
-		"BLUEFIN_DECRYPTX_P2PE_APIKEY":         "NONE",
+		"BLUEFIN_DECRYPTX_P2PE_APIKEY":         "",
 	})
 
 	idmapResolved := core.ToMapAny(env["BLUEFIN_DECRYPTX_P2PE_TEST_SUCCESS_ENTID"])
@@ -121,11 +121,23 @@ func successBasicSetup(extra map[string]any) *entityTestSetup {
 	}
 
 	if env["BLUEFIN_DECRYPTX_P2PE_TEST_LIVE"] == "TRUE" {
+		// An empty map, not a nil one: Merge returns nil when its last entry
+		// is nil, and BasicSetup is normally called with no extras - so a
+		// bare nil silently discarded the apikey and server values below.
+		extraOpts := extra
+		if extraOpts == nil {
+			extraOpts = map[string]any{}
+		}
+
 		mergedOpts := vs.Merge([]any{
+			// liveClientOptions() FIRST, so the generated fields below win:
+			// sdk-test-control.json's test.client.options adds to the live
+			// client, it does not redirect it.
+			liveClientOptions(),
 			map[string]any{
 				"apikey": env["BLUEFIN_DECRYPTX_P2PE_APIKEY"],
 			},
-			extra,
+			extraOpts,
 		})
 		client = sdk.NewBluefinDecryptxP2peSDK(core.ToMapAny(mergedOpts))
 	}

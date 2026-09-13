@@ -12,12 +12,14 @@ main: kit: entity: attestation: {
       type: "`$OBJECT`"
     }
     {
+      format: "datetime"
       name: "completeDate"
       req: false
       short: "The date and time that the Attestation took place."
       type: "`$STRING`"
     }
     {
+      format: "datetime"
       name: "created"
       req: false
       short: "Creation timestamp in ISO 8601 format."
@@ -62,8 +64,10 @@ main: kit: entity: attestation: {
         {
           method: "POST"
           orig: "/attestations"
-          parts: [
-            "attestations"
+          segments: [
+            {
+              lit: "attestations"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -105,8 +109,10 @@ main: kit: entity: attestation: {
           }
           method: "GET"
           orig: "/attestations"
-          parts: [
-            "attestations"
+          segments: [
+            {
+              lit: "attestations"
+            }
           ]
           select: {
             exist: [
@@ -139,9 +145,13 @@ main: kit: entity: attestation: {
           }
           method: "GET"
           orig: "/attestations/{id}"
-          parts: [
-            "attestations"
-            "{id}"
+          segments: [
+            {
+              lit: "attestations"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [

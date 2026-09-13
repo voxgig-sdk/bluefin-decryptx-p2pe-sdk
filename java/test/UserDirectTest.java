@@ -107,7 +107,7 @@ public class UserDirectTest {
     Map<String, Object> envm = new LinkedHashMap<>();
     envm.put("BLUEFIN_DECRYPTX_P2PE_TEST_USER_ENTID", new LinkedHashMap<>());
     envm.put("BLUEFIN_DECRYPTX_P2PE_TEST_LIVE", "FALSE");
-    envm.put("BLUEFIN_DECRYPTX_P2PE_APIKEY", "NONE");
+    envm.put("BLUEFIN_DECRYPTX_P2PE_APIKEY", "");
     Map<String, Object> env = RunnerSupport.envOverride(envm);
 
     boolean live = "TRUE".equals(env.get("BLUEFIN_DECRYPTX_P2PE_TEST_LIVE"));
@@ -116,7 +116,10 @@ public class UserDirectTest {
     setup.calls = calls;
 
     if (live) {
-      Map<String, Object> mergedOpts = new LinkedHashMap<>();
+      // sdk-test-control.json's test.client.options seeds the live
+      // client; the generated fields below overwrite anything they name.
+      Map<String, Object> mergedOpts =
+          new LinkedHashMap<>(RunnerSupport.liveClientOptions());
       mergedOpts.put("apikey", env.get("BLUEFIN_DECRYPTX_P2PE_APIKEY"));
       setup.client = new BluefinDecryptxP2peSDK(mergedOpts);
       setup.live = true;

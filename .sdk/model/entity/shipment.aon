@@ -18,18 +18,21 @@ main: kit: entity: shipment: {
       type: "`$OBJECT`"
     }
     {
+      format: "datetime"
       name: "created"
       req: false
       short: "Creation timestamp in ISO 8601 format."
       type: "`$STRING`"
     }
     {
+      format: "datetime"
       name: "dateReceived"
       req: false
       short: "The date and time that a package is recieved."
       type: "`$STRING`"
     }
     {
+      format: "datetime"
       name: "dateShipped"
       req: false
       short: "The date and time that a package is shipped."
@@ -59,6 +62,7 @@ main: kit: entity: shipment: {
       type: "`$OBJECT`"
     }
     {
+      format: "datetime"
       name: "modified"
       req: false
       short: "Last modified timestamp."
@@ -83,6 +87,7 @@ main: kit: entity: shipment: {
       type: "`$STRING`"
     }
     {
+      format: "int32"
       name: "version"
       req: false
       short: "The number of times that this resource has been updated."
@@ -103,8 +108,10 @@ main: kit: entity: shipment: {
         {
           method: "POST"
           orig: "/shipments"
-          parts: [
-            "shipments"
+          segments: [
+            {
+              lit: "shipments"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -153,8 +160,10 @@ main: kit: entity: shipment: {
           }
           method: "GET"
           orig: "/shipments"
-          parts: [
-            "shipments"
+          segments: [
+            {
+              lit: "shipments"
+            }
           ]
           select: {
             exist: [
@@ -188,9 +197,13 @@ main: kit: entity: shipment: {
           }
           method: "GET"
           orig: "/shipments/{id}"
-          parts: [
-            "shipments"
-            "{id}"
+          segments: [
+            {
+              lit: "shipments"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [

@@ -72,13 +72,17 @@ sub update_result_direct_setup {
   my $env = BluefinDecryptxP2peTestRunner::env_override({
     'BLUEFIN_DECRYPTX_P2PE_TEST_UPDATE_RESULT_ENTID' => {},
     'BLUEFIN_DECRYPTX_P2PE_TEST_LIVE' => 'FALSE',
-    'BLUEFIN_DECRYPTX_P2PE_APIKEY' => 'NONE',
+    'BLUEFIN_DECRYPTX_P2PE_APIKEY' => '',
   });
 
   my $live = ((($env->{'BLUEFIN_DECRYPTX_P2PE_TEST_LIVE'}) || '') eq 'TRUE') ? 1 : 0;
 
   if ($live) {
+    # live_client_options() FIRST so the generated fields below win:
+    # sdk-test-control.json's test.client.options adds to the live client,
+    # it does not redirect it (a later key wins in a Perl hash literal).
     my $client = BluefinDecryptxP2peSDK->new({
+      %{ BluefinDecryptxP2peTestRunner::live_client_options() },
       'apikey' => $env->{'BLUEFIN_DECRYPTX_P2PE_APIKEY'},
     });
     return {

@@ -21,8 +21,10 @@ main: kit: entity: decryption: {
         {
           method: "POST"
           orig: "/decryption"
-          parts: [
-            "decryption"
+          segments: [
+            {
+              lit: "decryption"
+            }
           ]
           transform: {
             req: "`reqdata`"

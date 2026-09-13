@@ -30,6 +30,7 @@ main: kit: entity: partner: {
       type: "`$OBJECT`"
     }
     {
+      format: "datetime"
       name: "created"
       req: false
       short: "Creation timestamp in ISO 8601 format."
@@ -54,6 +55,7 @@ main: kit: entity: partner: {
       type: "`$OBJECT`"
     }
     {
+      format: "datetime"
       name: "modified"
       req: false
       short: "Last modified timestamp."
@@ -110,8 +112,10 @@ main: kit: entity: partner: {
         {
           method: "POST"
           orig: "/partners"
-          parts: [
-            "partners"
+          segments: [
+            {
+              lit: "partners"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -153,8 +157,10 @@ main: kit: entity: partner: {
           }
           method: "GET"
           orig: "/partners"
-          parts: [
-            "partners"
+          segments: [
+            {
+              lit: "partners"
+            }
           ]
           select: {
             exist: [
@@ -187,9 +193,13 @@ main: kit: entity: partner: {
           }
           method: "GET"
           orig: "/partners/{id}"
-          parts: [
-            "partners"
-            "{id}"
+          segments: [
+            {
+              lit: "partners"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [

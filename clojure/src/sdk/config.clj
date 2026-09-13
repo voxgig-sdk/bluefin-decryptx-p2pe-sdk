@@ -12,10 +12,12 @@
             "short" "Reference to the associated Client resource."
             "type" "`$OBJECT`")
           (vs/jm
+            "format" "datetime"
             "name" "completeDate"
             "short" "The date and time that the Attestation took place."
             "type" "`$STRING`")
           (vs/jm
+            "format" "datetime"
             "name" "created"
             "short" "Creation timestamp in ISO 8601 format."
             "type" "`$STRING`")
@@ -35,6 +37,9 @@
             "name" "notes"
             "short" "Free form field that allows the Client associate notes with the Attestation."
             "type" "`$STRING`"))
+        "id" (vs/jm
+          "field" "id"
+          "name" "id")
         "name" "attestation"
         "op" (vs/jm
           "create" (vs/jm
@@ -48,6 +53,9 @@
                 "orig" "/attestations"
                 "parts" (vs/jt
                   "attestations")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "attestations"))
                 "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
@@ -82,6 +90,9 @@
                 "orig" "/attestations"
                 "parts" (vs/jt
                   "attestations")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "attestations"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "client"
@@ -109,6 +120,11 @@
                 "parts" (vs/jt
                   "attestations"
                   "{id}")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "attestations")
+                  (vs/jm
+                    "var" "id"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "id"))
@@ -128,6 +144,7 @@
             "short" "Reference to the associated User resource."
             "type" "`$OBJECT`")
           (vs/jm
+            "format" "datetime"
             "name" "created"
             "short" "Creation timestamp in ISO 8601 format."
             "type" "`$STRING`")
@@ -153,6 +170,7 @@
             "short" "Some Partners will have an merchant ids on their own software offerings."
             "type" "`$STRING`")
           (vs/jm
+            "format" "datetime"
             "name" "modified"
             "short" "Last modified timestamp."
             "type" "`$STRING`")
@@ -168,6 +186,9 @@
             "name" "version"
             "short" "The number of times that this resource has been updated."
             "type" "`$INTEGER`"))
+        "id" (vs/jm
+          "field" "id"
+          "name" "id")
         "name" "client"
         "op" (vs/jm
           "create" (vs/jm
@@ -181,6 +202,9 @@
                 "orig" "/clients"
                 "parts" (vs/jt
                   "clients")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "clients"))
                 "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
@@ -215,6 +239,9 @@
                 "orig" "/clients"
                 "parts" (vs/jt
                   "clients")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "clients"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "partner"
@@ -242,6 +269,11 @@
                 "parts" (vs/jt
                   "clients"
                   "{id}")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "clients")
+                  (vs/jm
+                    "var" "id"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "id"))
@@ -267,6 +299,11 @@
                 "parts" (vs/jt
                   "clients"
                   "{id}")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "clients")
+                  (vs/jm
+                    "var" "id"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "id"))
@@ -310,6 +347,15 @@
                   "param" (vs/jm
                     "deviceType" "device_type"
                     "serialNumber" "serial_number"))
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "devices")
+                  (vs/jm
+                    "var" "serial_number")
+                  (vs/jm
+                    "var" "device_type")
+                  (vs/jm
+                    "lit" "custody"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "device_type"
@@ -340,6 +386,9 @@
                 "orig" "/decryption"
                 "parts" (vs/jt
                   "decryption")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "decryption"))
                 "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
@@ -354,6 +403,7 @@
             "short" "Reference to the associated User resource."
             "type" "`$OBJECT`")
           (vs/jm
+            "format" "datetime"
             "name" "activationDate"
             "short" "Timestamp from when the Device was activated."
             "type" "`$STRING`")
@@ -362,10 +412,12 @@
             "short" "The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging."
             "type" "`$STRING`")
           (vs/jm
+            "format" "datetime"
             "name" "auditNextDate"
             "short" "Date and time that the Device is due its next PCI Audit."
             "type" "`$STRING`")
           (vs/jm
+            "format" "datetime"
             "name" "auditNotificationDate"
             "short" "Date and time that a notification should be sent that a PCI audit is due."
             "type" "`$STRING`")
@@ -374,6 +426,7 @@
             "short" "Reference to the associated Client resource."
             "type" "`$OBJECT`")
           (vs/jm
+            "format" "datetime"
             "name" "created"
             "short" "Creation timestamp in ISO 8601 format."
             "type" "`$STRING`")
@@ -399,6 +452,7 @@
             "short" "The number times the Device has been in error."
             "type" "`$INTEGER`")
           (vs/jm
+            "format" "datetime"
             "name" "errorLastDate"
             "short" "Timestamp from the last time that the Device had an error."
             "type" "`$STRING`")
@@ -412,6 +466,7 @@
             "short" "Reference to the associated User resource."
             "type" "`$OBJECT`")
           (vs/jm
+            "format" "datetime"
             "name" "initializedDate"
             "short" "Timestamp from when the Device was initialized."
             "type" "`$STRING`")
@@ -428,6 +483,7 @@
             "short" "Reference to the associated KIF resource."
             "type" "`$OBJECT`")
           (vs/jm
+            "format" "datetime"
             "name" "lastActivityDate"
             "short" "Timestamp from the last time that the Device was used."
             "type" "`$STRING`")
@@ -437,6 +493,7 @@
             "short" "Reference to the associated Location resource."
             "type" "`$OBJECT`")
           (vs/jm
+            "format" "datetime"
             "name" "modified"
             "short" "Last modified timestamp."
             "type" "`$STRING`")
@@ -465,6 +522,9 @@
             "name" "version"
             "short" "The number of times that this resource has been updated."
             "type" "`$INTEGER`"))
+        "id" (vs/jm
+          "field" "id"
+          "name" "id")
         "name" "device"
         "op" (vs/jm
           "create" (vs/jm
@@ -478,6 +538,9 @@
                 "orig" "/devices"
                 "parts" (vs/jt
                   "devices")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "devices"))
                 "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
@@ -543,6 +606,9 @@
                 "orig" "/devices"
                 "parts" (vs/jt
                   "devices")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "devices"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "client"
@@ -587,6 +653,13 @@
                   "param" (vs/jm
                     "deviceType" "device_type"
                     "serialNumber" "serial_number"))
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "devices")
+                  (vs/jm
+                    "var" "serial_number")
+                  (vs/jm
+                    "var" "device_type"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "device_type"
@@ -609,6 +682,11 @@
                 "parts" (vs/jt
                   "devices"
                   "{id}")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "devices")
+                  (vs/jm
+                    "var" "id"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "id"))
@@ -634,6 +712,7 @@
             "short" "The name of the configuration file that is uploaded to the device."
             "type" "`$STRING`")
           (vs/jm
+            "format" "date-time"
             "name" "created"
             "short" "Creation timestamp in ISO 8601 format."
             "type" "`$STRING`")
@@ -650,6 +729,7 @@
             "short" "A list of hardware versions that this Device Build covers."
             "type" "`$STRING`")
           (vs/jm
+            "format" "int64"
             "name" "id"
             "short" "This resource's unique identifier."
             "type" "`$INTEGER`")
@@ -658,6 +738,7 @@
             "short" "This property indicates if the device build is still active and not succeeded by subsequent build."
             "type" "`$BOOLEAN`")
           (vs/jm
+            "format" "date-time"
             "name" "modified"
             "short" "Last modified timestamp."
             "type" "`$STRING`")
@@ -681,6 +762,9 @@
             "name" "whiteListingUsed"
             "short" "This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal."
             "type" "`$BOOLEAN`"))
+        "id" (vs/jm
+          "field" "id"
+          "name" "id")
         "name" "device_build"
         "op" (vs/jm
           "list" (vs/jm
@@ -712,6 +796,9 @@
                 "orig" "/deviceBuilds"
                 "parts" (vs/jt
                   "deviceBuilds")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "deviceBuilds"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "device_type"
@@ -739,6 +826,11 @@
                 "parts" (vs/jt
                   "deviceBuilds"
                   "{id}")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "deviceBuilds")
+                  (vs/jm
+                    "var" "id"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "id"))
@@ -750,10 +842,12 @@
       "device_custody_detail" (vs/jm
         "fields" (vs/jt
           (vs/jm
+            "format" "date-time"
             "name" "completeDate"
             "short" "The date and time that the Custody change took place."
             "type" "`$STRING`")
           (vs/jm
+            "format" "date-time"
             "name" "created"
             "short" "Creation timestamp in ISO 8601 format."
             "type" "`$STRING`")
@@ -772,6 +866,7 @@
             "short" "Reference to the associated Device resource."
             "type" "`$OBJECT`")
           (vs/jm
+            "format" "int64"
             "name" "id"
             "short" "This resource's unique identifier."
             "type" "`$INTEGER`")
@@ -781,6 +876,7 @@
             "short" "Reference to the associated Location resource."
             "type" "`$OBJECT`")
           (vs/jm
+            "format" "date-time"
             "name" "modified"
             "short" "Last modified timestamp."
             "type" "`$STRING`")
@@ -805,6 +901,9 @@
             "name" "version"
             "short" "The number of times that this resource has been updated."
             "type" "`$INTEGER`"))
+        "id" (vs/jm
+          "field" "id"
+          "name" "id")
         "name" "device_custody_detail"
         "op" (vs/jm
           "load" (vs/jm
@@ -845,6 +944,17 @@
                   "param" (vs/jm
                     "deviceType" "device_type"
                     "serialNumber" "serial_number"))
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "devices")
+                  (vs/jm
+                    "var" "serial_number")
+                  (vs/jm
+                    "var" "device_type")
+                  (vs/jm
+                    "lit" "custody")
+                  (vs/jm
+                    "var" "id"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "device_type"
@@ -860,10 +970,12 @@
       "device_custody_list" (vs/jm
         "fields" (vs/jt
           (vs/jm
+            "format" "date-time"
             "name" "completeDate"
             "short" "The date and time that the Custody change took place."
             "type" "`$STRING`")
           (vs/jm
+            "format" "date-time"
             "name" "created"
             "short" "Creation timestamp in ISO 8601 format."
             "type" "`$STRING`")
@@ -882,6 +994,7 @@
             "short" "Reference to the associated Device resource."
             "type" "`$OBJECT`")
           (vs/jm
+            "format" "int64"
             "name" "id"
             "short" "This resource's unique identifier."
             "type" "`$INTEGER`")
@@ -891,6 +1004,7 @@
             "short" "Reference to the associated Location resource."
             "type" "`$OBJECT`")
           (vs/jm
+            "format" "date-time"
             "name" "modified"
             "short" "Last modified timestamp."
             "type" "`$STRING`")
@@ -915,6 +1029,9 @@
             "name" "version"
             "short" "The number of times that this resource has been updated."
             "type" "`$INTEGER`"))
+        "id" (vs/jm
+          "field" "id"
+          "name" "id")
         "name" "device_custody_list"
         "op" (vs/jm
           "list" (vs/jm
@@ -961,6 +1078,15 @@
                   "param" (vs/jm
                     "deviceType" "device_type"
                     "serialNumber" "serial_number"))
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "devices")
+                  (vs/jm
+                    "var" "serial_number")
+                  (vs/jm
+                    "var" "device_type")
+                  (vs/jm
+                    "lit" "custody"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "device_type"
@@ -1033,6 +1159,11 @@
                 "rename" (vs/jm
                   "param" (vs/jm
                     "sharePartnerTo" "share_partner_to"))
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "virtualDevices")
+                  (vs/jm
+                    "var" "share_partner_to"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "share_partner_to"
@@ -1068,6 +1199,11 @@
                 "parts" (vs/jt
                   "devices"
                   "receive")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "devices")
+                  (vs/jm
+                    "lit" "receive"))
                 "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
@@ -1096,6 +1232,13 @@
                   "devices"
                   "rki"
                   "activate")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "devices")
+                  (vs/jm
+                    "lit" "rki")
+                  (vs/jm
+                    "lit" "activate"))
                 "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
@@ -1105,6 +1248,7 @@
       "device_state" (vs/jm
         "fields" (vs/jt
           (vs/jm
+            "format" "int64"
             "name" "id"
             "short" "Unique identifier for this Device state."
             "type" "`$INTEGER`")
@@ -1112,6 +1256,9 @@
             "name" "name"
             "short" "Descriptive name for this Device state."
             "type" "`$STRING`"))
+        "id" (vs/jm
+          "field" "id"
+          "name" "id")
         "name" "device_state"
         "op" (vs/jm
           "list" (vs/jm
@@ -1125,6 +1272,9 @@
                 "orig" "/deviceStates"
                 "parts" (vs/jt
                   "deviceStates")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "deviceStates"))
                 "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
@@ -1134,6 +1284,7 @@
       "device_type" (vs/jm
         "fields" (vs/jt
           (vs/jm
+            "format" "datetime"
             "name" "created"
             "short" "Creation timestamp in ISO 8601 format."
             "type" "`$STRING`")
@@ -1162,6 +1313,7 @@
             "short" "The Device model."
             "type" "`$STRING`")
           (vs/jm
+            "format" "datetime"
             "name" "modified"
             "short" "Last modified timestamp."
             "type" "`$STRING`")
@@ -1180,6 +1332,9 @@
             "name" "version"
             "short" "The number of times that this resource has been updated."
             "type" "`$INTEGER`"))
+        "id" (vs/jm
+          "field" "id"
+          "name" "id")
         "name" "device_type"
         "op" (vs/jm
           "list" (vs/jm
@@ -1193,6 +1348,9 @@
                 "orig" "/deviceTypes"
                 "parts" (vs/jt
                   "deviceTypes")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "deviceTypes"))
                 "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
@@ -1216,6 +1374,11 @@
                 "parts" (vs/jt
                   "deviceTypes"
                   "{id}")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "deviceTypes")
+                  (vs/jm
+                    "var" "id"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "id"))
@@ -1227,6 +1390,7 @@
       "inject_key" (vs/jm
         "fields" (vs/jt
           (vs/jm
+            "format" "datetime"
             "name" "created"
             "short" "Creation timestamp in ISO 8601 format."
             "type" "`$STRING`")
@@ -1247,6 +1411,7 @@
             "short" "The cipher type that the key works with."
             "type" "`$STRING`")
           (vs/jm
+            "format" "datetime"
             "name" "modified"
             "short" "Last modified timestamp in ISO 8601 format."
             "type" "`$STRING`")
@@ -1258,6 +1423,9 @@
             "name" "version"
             "short" "The number of times that this resource has been updated."
             "type" "`$INTEGER`"))
+        "id" (vs/jm
+          "field" "id"
+          "name" "id")
         "name" "inject_key"
         "op" (vs/jm
           "list" (vs/jm
@@ -1271,6 +1439,9 @@
                 "orig" "/injectKeys"
                 "parts" (vs/jt
                   "injectKeys")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "injectKeys"))
                 "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
@@ -1294,6 +1465,11 @@
                 "parts" (vs/jt
                   "injectKeys"
                   "{id}")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "injectKeys")
+                  (vs/jm
+                    "var" "id"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "id"))
@@ -1305,6 +1481,7 @@
       "kif" (vs/jm
         "fields" (vs/jt
           (vs/jm
+            "format" "int64"
             "name" "id"
             "short" "This resource's unique identifier."
             "type" "`$INTEGER`")
@@ -1312,6 +1489,9 @@
             "name" "name"
             "short" "The KIF's name."
             "type" "`$STRING`"))
+        "id" (vs/jm
+          "field" "id"
+          "name" "id")
         "name" "kif"
         "op" (vs/jm
           "list" (vs/jm
@@ -1325,6 +1505,9 @@
                 "orig" "/kifs"
                 "parts" (vs/jt
                   "kifs")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "kifs"))
                 "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
@@ -1354,6 +1537,7 @@
             "short" "The Location's country."
             "type" "`$STRING`")
           (vs/jm
+            "format" "datetime"
             "name" "created"
             "short" "Creation timestamp in ISO 8601 format."
             "type" "`$STRING`")
@@ -1394,6 +1578,7 @@
             "short" "The Location's street state or province."
             "type" "`$STRING`")
           (vs/jm
+            "format" "datetime"
             "name" "modified"
             "short" "Last modified timestamp."
             "type" "`$STRING`")
@@ -1425,6 +1610,9 @@
             "name" "version"
             "short" "The number of times that this resource has been updated."
             "type" "`$INTEGER`"))
+        "id" (vs/jm
+          "field" "id"
+          "name" "id")
         "name" "location"
         "op" (vs/jm
           "create" (vs/jm
@@ -1438,6 +1626,9 @@
                 "orig" "/locations"
                 "parts" (vs/jt
                   "locations")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "locations"))
                 "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
@@ -1472,6 +1663,9 @@
                 "orig" "/locations"
                 "parts" (vs/jt
                   "locations")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "locations"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "client"
@@ -1499,6 +1693,11 @@
                 "parts" (vs/jt
                   "locations"
                   "{id}")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "locations")
+                  (vs/jm
+                    "var" "id"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "id"))
@@ -1524,6 +1723,11 @@
                 "parts" (vs/jt
                   "locations"
                   "{id}")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "locations")
+                  (vs/jm
+                    "var" "id"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "id"))
@@ -1551,6 +1755,7 @@
             "short" "Reference to the associated User resource."
             "type" "`$OBJECT`")
           (vs/jm
+            "format" "datetime"
             "name" "created"
             "short" "Creation timestamp in ISO 8601 format."
             "type" "`$STRING`")
@@ -1568,6 +1773,7 @@
             "short" "Reference to the associated Location resource."
             "type" "`$OBJECT`")
           (vs/jm
+            "format" "datetime"
             "name" "modified"
             "short" "Last modified timestamp."
             "type" "`$STRING`")
@@ -1595,6 +1801,9 @@
             "name" "version"
             "short" "The number of times that this resource has been updated."
             "type" "`$INTEGER`"))
+        "id" (vs/jm
+          "field" "id"
+          "name" "id")
         "name" "partner"
         "op" (vs/jm
           "create" (vs/jm
@@ -1608,6 +1817,9 @@
                 "orig" "/partners"
                 "parts" (vs/jt
                   "partners")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "partners"))
                 "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
@@ -1641,6 +1853,9 @@
                 "orig" "/partners"
                 "parts" (vs/jt
                   "partners")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "partners"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "partner"
@@ -1668,6 +1883,11 @@
                 "parts" (vs/jt
                   "partners"
                   "{id}")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "partners")
+                  (vs/jm
+                    "var" "id"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "id"))
@@ -1687,14 +1907,17 @@
             "short" "Reference to the associated Client resource."
             "type" "`$OBJECT`")
           (vs/jm
+            "format" "datetime"
             "name" "created"
             "short" "Creation timestamp in ISO 8601 format."
             "type" "`$STRING`")
           (vs/jm
+            "format" "datetime"
             "name" "dateReceived"
             "short" "The date and time that a package is recieved."
             "type" "`$STRING`")
           (vs/jm
+            "format" "datetime"
             "name" "dateShipped"
             "short" "The date and time that a package is shipped."
             "type" "`$STRING`")
@@ -1714,6 +1937,7 @@
             "short" "Reference to the associated KIF resource."
             "type" "`$OBJECT`")
           (vs/jm
+            "format" "datetime"
             "name" "modified"
             "short" "Last modified timestamp."
             "type" "`$STRING`")
@@ -1730,9 +1954,13 @@
             "short" "The courier's tracking number."
             "type" "`$STRING`")
           (vs/jm
+            "format" "int32"
             "name" "version"
             "short" "The number of times that this resource has been updated."
             "type" "`$INTEGER`"))
+        "id" (vs/jm
+          "field" "id"
+          "name" "id")
         "name" "shipment"
         "op" (vs/jm
           "create" (vs/jm
@@ -1746,6 +1974,9 @@
                 "orig" "/shipments"
                 "parts" (vs/jt
                   "shipments")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "shipments"))
                 "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
@@ -1785,6 +2016,9 @@
                 "orig" "/shipments"
                 "parts" (vs/jt
                   "shipments")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "shipments"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "kif"
@@ -1813,6 +2047,11 @@
                 "parts" (vs/jt
                   "shipments"
                   "{id}")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "shipments")
+                  (vs/jm
+                    "var" "id"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "id"))
@@ -1851,6 +2090,11 @@
                 "rename" (vs/jm
                   "param" (vs/jm
                     "sharePartnerTo" "share_partner_to"))
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "virtualDevices")
+                  (vs/jm
+                    "var" "share_partner_to"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "share_partner_to"))
@@ -1879,6 +2123,11 @@
                 "rename" (vs/jm
                   "param" (vs/jm
                     "sharePartnerTo" "share_partner_to"))
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "virtualDevices")
+                  (vs/jm
+                    "var" "share_partner_to"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "share_partner_to"))
@@ -1904,10 +2153,12 @@
             "short" "Client Reference property that is included in the decrypt API call."
             "type" "`$STRING`")
           (vs/jm
+            "format" "datetime"
             "name" "created"
             "short" "Creation timestamp in ISO 8601 format."
             "type" "`$STRING`")
           (vs/jm
+            "format" "int32"
             "name" "decrypted"
             "short" "A Transcation can process muliple decryptions."
             "type" "`$INTEGER`")
@@ -1920,10 +2171,12 @@
             "short" "Reference to the associated Partner."
             "type" "`$OBJECT`")
           (vs/jm
+            "format" "int32"
             "name" "encrypted"
             "short" "A Transcation can process muliple encryptions."
             "type" "`$INTEGER`")
           (vs/jm
+            "format" "datetime"
             "name" "endDate"
             "short" "Timestamp from the end of the transaction."
             "type" "`$STRING`")
@@ -1977,6 +2230,7 @@
             "short" "The serial number of the Device that generated the payload to decrypt."
             "type" "`$STRING`")
           (vs/jm
+            "format" "datetime"
             "name" "startDate"
             "short" "Timestamp from the beginning of the transaction."
             "type" "`$STRING`")
@@ -1988,6 +2242,9 @@
             "name" "transactionSource"
             "short" "The source of the Transaction."
             "type" "`$STRING`"))
+        "id" (vs/jm
+          "field" "id"
+          "name" "id")
         "name" "transaction"
         "op" (vs/jm
           "create" (vs/jm
@@ -2001,6 +2258,9 @@
                 "orig" "/transactions"
                 "parts" (vs/jt
                   "transactions")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "transactions"))
                 "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
@@ -2085,6 +2345,9 @@
                 "orig" "/transactions"
                 "parts" (vs/jt
                   "transactions")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "transactions"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "client"
@@ -2122,6 +2385,11 @@
                 "parts" (vs/jt
                   "transactions"
                   "{id}")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "transactions")
+                  (vs/jm
+                    "var" "id"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "id"))
@@ -2180,6 +2448,9 @@
             "name" "version"
             "short" "The number of times that this resource has been updated."
             "type" "`$INTEGER`"))
+        "id" (vs/jm
+          "field" "id"
+          "name" "id")
         "name" "update_result"
         "op" (vs/jm
           "create" (vs/jm
@@ -2193,6 +2464,9 @@
                 "orig" "/users"
                 "parts" (vs/jt
                   "users")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "users"))
                 "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
@@ -2236,6 +2510,9 @@
                 "orig" "/users"
                 "parts" (vs/jt
                   "users")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "users"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "client"
@@ -2265,6 +2542,11 @@
                 "parts" (vs/jt
                   "clients"
                   "{id}")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "clients")
+                  (vs/jm
+                    "var" "id"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "id"))
@@ -2286,6 +2568,11 @@
                 "parts" (vs/jt
                   "devices"
                   "{id}")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "devices")
+                  (vs/jm
+                    "var" "id"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "id"))
@@ -2307,6 +2594,11 @@
                 "parts" (vs/jt
                   "locations"
                   "{id}")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "locations")
+                  (vs/jm
+                    "var" "id"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "id"))
@@ -2328,6 +2620,11 @@
                 "parts" (vs/jt
                   "partners"
                   "{id}")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "partners")
+                  (vs/jm
+                    "var" "id"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "id"))
@@ -2349,6 +2646,11 @@
                 "parts" (vs/jt
                   "shipments"
                   "{id}")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "shipments")
+                  (vs/jm
+                    "var" "id"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "id"))
@@ -2370,6 +2672,11 @@
                 "parts" (vs/jt
                   "transactions"
                   "{id}")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "transactions")
+                  (vs/jm
+                    "var" "id"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "id"))
@@ -2391,6 +2698,11 @@
                 "parts" (vs/jt
                   "users"
                   "{id}")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "users")
+                  (vs/jm
+                    "var" "id"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "id"))
@@ -2406,6 +2718,7 @@
             "short" "Reference to the associated Client resource."
             "type" "`$OBJECT`")
           (vs/jm
+            "format" "datetime"
             "name" "created"
             "short" "Creation timestamp in ISO 8601 format."
             "type" "`$STRING`")
@@ -2434,6 +2747,7 @@
             "short" "The User's Surname."
             "type" "`$STRING`")
           (vs/jm
+            "format" "datetime"
             "name" "modified"
             "short" "Last modified timestamp."
             "type" "`$STRING`")
@@ -2457,6 +2771,9 @@
             "name" "version"
             "short" "The number of times that this resource has been updated."
             "type" "`$INTEGER`"))
+        "id" (vs/jm
+          "field" "id"
+          "name" "id")
         "name" "user"
         "op" (vs/jm
           "load" (vs/jm
@@ -2478,6 +2795,11 @@
                 "parts" (vs/jt
                   "users"
                   "{id}")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "users")
+                  (vs/jm
+                    "var" "id"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "id"))
@@ -2503,6 +2825,11 @@
                 "parts" (vs/jt
                   "users"
                   "{id}")
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "users")
+                  (vs/jm
+                    "var" "id"))
                 "select" (vs/jm
                   "exist" (vs/jt
                     "id"))
@@ -2625,3 +2952,9 @@
         "user" (vs/jm))
       "headers" (vs/jm
         "content-type" "application/json"))))
+
+(def feature-plugins
+  {})
+
+(def feature-extra
+  {})

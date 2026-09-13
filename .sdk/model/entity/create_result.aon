@@ -30,18 +30,26 @@ main: kit: entity: create_result: {
           }
           method: "POST"
           orig: "/devices/{serialNumber}/{deviceType}/custody"
-          parts: [
-            "devices"
-            "{serial_number}"
-            "{device_type}"
-            "custody"
-          ]
           rename: {
             param: {
               deviceType: "device_type"
               serialNumber: "serial_number"
             }
           }
+          segments: [
+            {
+              lit: "devices"
+            }
+            {
+              var: "serial_number"
+            }
+            {
+              var: "device_type"
+            }
+            {
+              lit: "custody"
+            }
+          ]
           select: {
             exist: [
               "device_type"

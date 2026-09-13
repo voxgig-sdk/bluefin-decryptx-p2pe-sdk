@@ -6,6 +6,7 @@ main: kit: entity: device_type: {
 
   fields: [
     {
+      format: "datetime"
       name: "created"
       req: false
       short: "Creation timestamp in ISO 8601 format."
@@ -48,6 +49,7 @@ main: kit: entity: device_type: {
       type: "`$STRING`"
     }
     {
+      format: "datetime"
       name: "modified"
       req: false
       short: "Last modified timestamp."
@@ -91,8 +93,10 @@ main: kit: entity: device_type: {
         {
           method: "GET"
           orig: "/deviceTypes"
-          parts: [
-            "deviceTypes"
+          segments: [
+            {
+              lit: "deviceTypes"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -118,9 +122,13 @@ main: kit: entity: device_type: {
           }
           method: "GET"
           orig: "/deviceTypes/{id}"
-          parts: [
-            "deviceTypes"
-            "{id}"
+          segments: [
+            {
+              lit: "deviceTypes"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [

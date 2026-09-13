@@ -52,7 +52,7 @@ func TestCreateResultEntity(t *testing.T) {
 		// CREATE
 		createResultRef01Ent := client.CreateResult(nil)
 		createResultRef01Data := core.ToMapAny(vs.GetProp(
-			vs.GetPath([]any{"new", "create_result"}, setup.data), "create_result_ref01"))
+			vs.GetPath(setup.data, []any{"new", "create_result"}), "create_result_ref01"))
 		createResultRef01Data["device_type"] = setup.idmap["device_type01"]
 		createResultRef01Data["serial_number"] = setup.idmap["serial_number01"]
 
@@ -92,7 +92,7 @@ func create_resultBasicSetup(extra map[string]any) *entityTestSetup {
 	client := sdk.TestSDK(options, extra)
 
 	// Generate idmap via transform, matching TS pattern.
-	idmap := vs.Transform(
+	idmap, _ := vs.Transform(
 		[]any{"create_result01", "create_result02", "create_result03", "device01", "device02", "device03", "device_type01", "serial_number01"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
@@ -112,7 +112,7 @@ func create_resultBasicSetup(extra map[string]any) *entityTestSetup {
 		"BLUEFIN_DECRYPTX_P2PE_TEST_CREATE_RESULT_ENTID": idmap,
 		"BLUEFIN_DECRYPTX_P2PE_TEST_LIVE":      "FALSE",
 		"BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN":   "FALSE",
-		"BLUEFIN_DECRYPTX_P2PE_APIKEY":         "NONE",
+		"BLUEFIN_DECRYPTX_P2PE_APIKEY":         "",
 	})
 
 	idmapResolved := core.ToMapAny(env["BLUEFIN_DECRYPTX_P2PE_TEST_CREATE_RESULT_ENTID"])
@@ -121,11 +121,23 @@ func create_resultBasicSetup(extra map[string]any) *entityTestSetup {
 	}
 
 	if env["BLUEFIN_DECRYPTX_P2PE_TEST_LIVE"] == "TRUE" {
+		// An empty map, not a nil one: Merge returns nil when its last entry
+		// is nil, and BasicSetup is normally called with no extras - so a
+		// bare nil silently discarded the apikey and server values below.
+		extraOpts := extra
+		if extraOpts == nil {
+			extraOpts = map[string]any{}
+		}
+
 		mergedOpts := vs.Merge([]any{
+			// liveClientOptions() FIRST, so the generated fields below win:
+			// sdk-test-control.json's test.client.options adds to the live
+			// client, it does not redirect it.
+			liveClientOptions(),
 			map[string]any{
 				"apikey": env["BLUEFIN_DECRYPTX_P2PE_APIKEY"],
 			},
-			extra,
+			extraOpts,
 		})
 		client = sdk.NewBluefinDecryptxP2peSDK(core.ToMapAny(mergedOpts))
 	}

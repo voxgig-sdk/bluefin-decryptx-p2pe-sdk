@@ -38,6 +38,7 @@ import { Utility } from './utility/Utility'
 import { BaseFeature } from './feature/base/BaseFeature'
 
 
+
 const stdutil = new Utility()
 
 
@@ -47,6 +48,7 @@ class BluefinDecryptxP2peSDK {
   _utility = new Utility()
   _features: Feature[]
   _rootctx: Context
+  
 
   constructor(options?: any) {
 
@@ -119,6 +121,8 @@ class BluefinDecryptxP2peSDK {
     return this._utility.struct.clone(this._utility)
   }
 
+  
+
 
   async prepare(fetchargs?: any) {
     const utility = this._utility
@@ -164,6 +168,8 @@ class BluefinDecryptxP2peSDK {
         spec.headers[key] = uheaders[key]
       }
     }
+
+    
 
     // Apply SDK auth (apikey, auth prefix, etc.)
     const authResult = prepareAuth(ctx)
@@ -559,6 +565,7 @@ const SDK = BluefinDecryptxP2peSDK
 export {
   stdutil,
   config,
+  
 
   BaseFeature,
   BluefinDecryptxP2peEntityBase,

@@ -88,13 +88,16 @@ Map<String, dynamic> directSetup([dynamic mockres]) {
   final env = envOverride({
     'BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_CUSTODY_LIST_ENTID': <String, dynamic>{},
     'BLUEFIN_DECRYPTX_P2PE_TEST_LIVE': 'FALSE',
-    'BLUEFIN_DECRYPTX_P2PE_APIKEY': 'NONE',
+    'BLUEFIN_DECRYPTX_P2PE_APIKEY': '',
   });
 
   final live = 'TRUE' == env['BLUEFIN_DECRYPTX_P2PE_TEST_LIVE'];
 
   if (live) {
-    final client = BluefinDecryptxP2peSDK({
+    // Spread FIRST, so the generated fields below win: sdk-test-control.json's
+    // test.client.options adds to the live client, it does not redirect it.
+    final client = BluefinDecryptxP2peSDK(<String, dynamic>{
+      ...liveClientOptions(),
       'apikey': env['BLUEFIN_DECRYPTX_P2PE_APIKEY'],
     });
 

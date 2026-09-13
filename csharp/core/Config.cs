@@ -199,12 +199,14 @@ public static class SdkConfig
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "datetime",
                             ["name"] = "completeDate",
                             ["short"] = "The date and time that the Attestation took place.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "datetime",
                             ["name"] = "created",
                             ["short"] = "Creation timestamp in ISO 8601 format.",
                             ["type"] = "`$STRING`",
@@ -234,6 +236,11 @@ public static class SdkConfig
                             ["type"] = "`$STRING`",
                         },
                     },
+                    ["id"] = new Dictionary<string, object?>
+                    {
+                        ["field"] = "id",
+                        ["name"] = "id",
+                    },
                     ["name"] = "attestation",
                     ["op"] = new Dictionary<string, object?>
                     {
@@ -249,15 +256,22 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/attestations",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "attestations",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "attestations",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "attestations",
                                     },
                                 },
                             },
@@ -303,9 +317,12 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/attestations",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "attestations",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "attestations",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>
                                     {
@@ -320,6 +337,10 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body.data`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "attestations",
                                     },
                                 },
                             },
@@ -349,10 +370,16 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/attestations/{id}",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "attestations",
-                                        "{id}",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "attestations",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["var"] = "id",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>
                                     {
@@ -365,6 +392,11 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "attestations",
+                                        "{id}",
                                     },
                                 },
                             },
@@ -395,6 +427,7 @@ public static class SdkConfig
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "datetime",
                             ["name"] = "created",
                             ["short"] = "Creation timestamp in ISO 8601 format.",
                             ["type"] = "`$STRING`",
@@ -432,6 +465,7 @@ public static class SdkConfig
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "datetime",
                             ["name"] = "modified",
                             ["short"] = "Last modified timestamp.",
                             ["type"] = "`$STRING`",
@@ -455,6 +489,11 @@ public static class SdkConfig
                             ["type"] = "`$INTEGER`",
                         },
                     },
+                    ["id"] = new Dictionary<string, object?>
+                    {
+                        ["field"] = "id",
+                        ["name"] = "id",
+                    },
                     ["name"] = "client",
                     ["op"] = new Dictionary<string, object?>
                     {
@@ -470,15 +509,22 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/clients",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "clients",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "clients",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "clients",
                                     },
                                 },
                             },
@@ -524,9 +570,12 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/clients",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "clients",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "clients",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>
                                     {
@@ -541,6 +590,10 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body.data`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "clients",
                                     },
                                 },
                             },
@@ -570,10 +623,16 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/clients/{id}",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "clients",
-                                        "{id}",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "clients",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["var"] = "id",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>
                                     {
@@ -586,6 +645,11 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "clients",
+                                        "{id}",
                                     },
                                 },
                             },
@@ -615,10 +679,16 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "DELETE",
                                     ["orig"] = "/clients/{id}",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "clients",
-                                        "{id}",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "clients",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["var"] = "id",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>
                                     {
@@ -631,6 +701,11 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "clients",
+                                        "{id}",
                                     },
                                 },
                             },
@@ -680,19 +755,31 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/devices/{serialNumber}/{deviceType}/custody",
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "devices",
-                                        "{serial_number}",
-                                        "{device_type}",
-                                        "custody",
-                                    },
                                     ["rename"] = new Dictionary<string, object?>
                                     {
                                         ["param"] = new Dictionary<string, object?>
                                         {
                                             ["deviceType"] = "device_type",
                                             ["serialNumber"] = "serial_number",
+                                        },
+                                    },
+                                    ["segments"] = new List<object?>
+                                    {
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "devices",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["var"] = "serial_number",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["var"] = "device_type",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "custody",
                                         },
                                     },
                                     ["select"] = new Dictionary<string, object?>
@@ -707,6 +794,13 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "devices",
+                                        "{serial_number}",
+                                        "{device_type}",
+                                        "custody",
                                     },
                                 },
                             },
@@ -749,15 +843,22 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/decryption",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "decryption",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "decryption",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "decryption",
                                     },
                                 },
                             },
@@ -781,6 +882,7 @@ public static class SdkConfig
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "datetime",
                             ["name"] = "activationDate",
                             ["short"] = "Timestamp from when the Device was activated.",
                             ["type"] = "`$STRING`",
@@ -793,12 +895,14 @@ public static class SdkConfig
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "datetime",
                             ["name"] = "auditNextDate",
                             ["short"] = "Date and time that the Device is due its next PCI Audit.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "datetime",
                             ["name"] = "auditNotificationDate",
                             ["short"] = "Date and time that a notification should be sent that a PCI audit is due.",
                             ["type"] = "`$STRING`",
@@ -811,6 +915,7 @@ public static class SdkConfig
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "datetime",
                             ["name"] = "created",
                             ["short"] = "Creation timestamp in ISO 8601 format.",
                             ["type"] = "`$STRING`",
@@ -848,6 +953,7 @@ public static class SdkConfig
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "datetime",
                             ["name"] = "errorLastDate",
                             ["short"] = "Timestamp from the last time that the Device had an error.",
                             ["type"] = "`$STRING`",
@@ -867,6 +973,7 @@ public static class SdkConfig
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "datetime",
                             ["name"] = "initializedDate",
                             ["short"] = "Timestamp from when the Device was initialized.",
                             ["type"] = "`$STRING`",
@@ -891,6 +998,7 @@ public static class SdkConfig
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "datetime",
                             ["name"] = "lastActivityDate",
                             ["short"] = "Timestamp from the last time that the Device was used.",
                             ["type"] = "`$STRING`",
@@ -904,6 +1012,7 @@ public static class SdkConfig
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "datetime",
                             ["name"] = "modified",
                             ["short"] = "Last modified timestamp.",
                             ["type"] = "`$STRING`",
@@ -946,6 +1055,11 @@ public static class SdkConfig
                             ["type"] = "`$INTEGER`",
                         },
                     },
+                    ["id"] = new Dictionary<string, object?>
+                    {
+                        ["field"] = "id",
+                        ["name"] = "id",
+                    },
                     ["name"] = "device",
                     ["op"] = new Dictionary<string, object?>
                     {
@@ -961,15 +1075,22 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/devices",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "devices",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "devices",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "devices",
                                     },
                                 },
                             },
@@ -1058,9 +1179,12 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/devices",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "devices",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "devices",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>
                                     {
@@ -1081,6 +1205,10 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body.data`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "devices",
                                     },
                                 },
                             },
@@ -1118,18 +1246,27 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/devices/{serialNumber}/{deviceType}",
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "devices",
-                                        "{serial_number}",
-                                        "{device_type}",
-                                    },
                                     ["rename"] = new Dictionary<string, object?>
                                     {
                                         ["param"] = new Dictionary<string, object?>
                                         {
                                             ["deviceType"] = "device_type",
                                             ["serialNumber"] = "serial_number",
+                                        },
+                                    },
+                                    ["segments"] = new List<object?>
+                                    {
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "devices",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["var"] = "serial_number",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["var"] = "device_type",
                                         },
                                     },
                                     ["select"] = new Dictionary<string, object?>
@@ -1144,6 +1281,12 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "devices",
+                                        "{serial_number}",
+                                        "{device_type}",
                                     },
                                 },
                                 new Dictionary<string, object?>
@@ -1165,10 +1308,16 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/devices/{id}",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "devices",
-                                        "{id}",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "devices",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["var"] = "id",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>
                                     {
@@ -1181,6 +1330,11 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "devices",
+                                        "{id}",
                                     },
                                 },
                             },
@@ -1221,6 +1375,7 @@ public static class SdkConfig
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "date-time",
                             ["name"] = "created",
                             ["short"] = "Creation timestamp in ISO 8601 format.",
                             ["type"] = "`$STRING`",
@@ -1245,6 +1400,7 @@ public static class SdkConfig
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "int64",
                             ["name"] = "id",
                             ["short"] = "This resource's unique identifier.",
                             ["type"] = "`$INTEGER`",
@@ -1257,6 +1413,7 @@ public static class SdkConfig
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "date-time",
                             ["name"] = "modified",
                             ["short"] = "Last modified timestamp.",
                             ["type"] = "`$STRING`",
@@ -1291,6 +1448,11 @@ public static class SdkConfig
                             ["short"] = "This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal.",
                             ["type"] = "`$BOOLEAN`",
                         },
+                    },
+                    ["id"] = new Dictionary<string, object?>
+                    {
+                        ["field"] = "id",
+                        ["name"] = "id",
                     },
                     ["name"] = "device_build",
                     ["op"] = new Dictionary<string, object?>
@@ -1335,9 +1497,12 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/deviceBuilds",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "deviceBuilds",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "deviceBuilds",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>
                                     {
@@ -1352,6 +1517,10 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body.data`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "deviceBuilds",
                                     },
                                 },
                             },
@@ -1381,10 +1550,16 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/deviceBuilds/{id}",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "deviceBuilds",
-                                        "{id}",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "deviceBuilds",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["var"] = "id",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>
                                     {
@@ -1397,6 +1572,11 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "deviceBuilds",
+                                        "{id}",
                                     },
                                 },
                             },
@@ -1413,12 +1593,14 @@ public static class SdkConfig
                     {
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "date-time",
                             ["name"] = "completeDate",
                             ["short"] = "The date and time that the Custody change took place.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "date-time",
                             ["name"] = "created",
                             ["short"] = "Creation timestamp in ISO 8601 format.",
                             ["type"] = "`$STRING`",
@@ -1445,6 +1627,7 @@ public static class SdkConfig
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "int64",
                             ["name"] = "id",
                             ["short"] = "This resource's unique identifier.",
                             ["type"] = "`$INTEGER`",
@@ -1458,6 +1641,7 @@ public static class SdkConfig
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "date-time",
                             ["name"] = "modified",
                             ["short"] = "Last modified timestamp.",
                             ["type"] = "`$STRING`",
@@ -1493,6 +1677,11 @@ public static class SdkConfig
                             ["short"] = "The number of times that this resource has been updated.",
                             ["type"] = "`$INTEGER`",
                         },
+                    },
+                    ["id"] = new Dictionary<string, object?>
+                    {
+                        ["field"] = "id",
+                        ["name"] = "id",
                     },
                     ["name"] = "device_custody_detail",
                     ["op"] = new Dictionary<string, object?>
@@ -1538,20 +1727,35 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/devices/{serialNumber}/{deviceType}/custody/{id}",
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "devices",
-                                        "{serial_number}",
-                                        "{device_type}",
-                                        "custody",
-                                        "{id}",
-                                    },
                                     ["rename"] = new Dictionary<string, object?>
                                     {
                                         ["param"] = new Dictionary<string, object?>
                                         {
                                             ["deviceType"] = "device_type",
                                             ["serialNumber"] = "serial_number",
+                                        },
+                                    },
+                                    ["segments"] = new List<object?>
+                                    {
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "devices",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["var"] = "serial_number",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["var"] = "device_type",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "custody",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["var"] = "id",
                                         },
                                     },
                                     ["select"] = new Dictionary<string, object?>
@@ -1567,6 +1771,14 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "devices",
+                                        "{serial_number}",
+                                        "{device_type}",
+                                        "custody",
+                                        "{id}",
                                     },
                                 },
                             },
@@ -1589,12 +1801,14 @@ public static class SdkConfig
                     {
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "date-time",
                             ["name"] = "completeDate",
                             ["short"] = "The date and time that the Custody change took place.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "date-time",
                             ["name"] = "created",
                             ["short"] = "Creation timestamp in ISO 8601 format.",
                             ["type"] = "`$STRING`",
@@ -1621,6 +1835,7 @@ public static class SdkConfig
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "int64",
                             ["name"] = "id",
                             ["short"] = "This resource's unique identifier.",
                             ["type"] = "`$INTEGER`",
@@ -1634,6 +1849,7 @@ public static class SdkConfig
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "date-time",
                             ["name"] = "modified",
                             ["short"] = "Last modified timestamp.",
                             ["type"] = "`$STRING`",
@@ -1669,6 +1885,11 @@ public static class SdkConfig
                             ["short"] = "The number of times that this resource has been updated.",
                             ["type"] = "`$INTEGER`",
                         },
+                    },
+                    ["id"] = new Dictionary<string, object?>
+                    {
+                        ["field"] = "id",
+                        ["name"] = "id",
                     },
                     ["name"] = "device_custody_list",
                     ["op"] = new Dictionary<string, object?>
@@ -1725,19 +1946,31 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/devices/{serialNumber}/{deviceType}/custody",
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "devices",
-                                        "{serial_number}",
-                                        "{device_type}",
-                                        "custody",
-                                    },
                                     ["rename"] = new Dictionary<string, object?>
                                     {
                                         ["param"] = new Dictionary<string, object?>
                                         {
                                             ["deviceType"] = "device_type",
                                             ["serialNumber"] = "serial_number",
+                                        },
+                                    },
+                                    ["segments"] = new List<object?>
+                                    {
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "devices",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["var"] = "serial_number",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["var"] = "device_type",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "custody",
                                         },
                                     },
                                     ["select"] = new Dictionary<string, object?>
@@ -1754,6 +1987,13 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body.data`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "devices",
+                                        "{serial_number}",
+                                        "{device_type}",
+                                        "custody",
                                     },
                                 },
                             },
@@ -1850,16 +2090,22 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/virtualDevices/{sharePartnerTo}",
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "virtualDevices",
-                                        "{share_partner_to}",
-                                    },
                                     ["rename"] = new Dictionary<string, object?>
                                     {
                                         ["param"] = new Dictionary<string, object?>
                                         {
                                             ["sharePartnerTo"] = "share_partner_to",
+                                        },
+                                    },
+                                    ["segments"] = new List<object?>
+                                    {
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "virtualDevices",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["var"] = "share_partner_to",
                                         },
                                     },
                                     ["select"] = new Dictionary<string, object?>
@@ -1877,6 +2123,11 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "virtualDevices",
+                                        "{share_partner_to}",
                                     },
                                 },
                             },
@@ -1920,16 +2171,27 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/devices/receive",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "devices",
-                                        "receive",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "devices",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "receive",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "devices",
+                                        "receive",
                                     },
                                 },
                             },
@@ -1967,17 +2229,32 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/devices/rki/activate",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "devices",
-                                        "rki",
-                                        "activate",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "devices",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "rki",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "activate",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "devices",
+                                        "rki",
+                                        "activate",
                                     },
                                 },
                             },
@@ -1994,6 +2271,7 @@ public static class SdkConfig
                     {
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "int64",
                             ["name"] = "id",
                             ["short"] = "Unique identifier for this Device state.",
                             ["type"] = "`$INTEGER`",
@@ -2004,6 +2282,11 @@ public static class SdkConfig
                             ["short"] = "Descriptive name for this Device state.",
                             ["type"] = "`$STRING`",
                         },
+                    },
+                    ["id"] = new Dictionary<string, object?>
+                    {
+                        ["field"] = "id",
+                        ["name"] = "id",
                     },
                     ["name"] = "device_state",
                     ["op"] = new Dictionary<string, object?>
@@ -2020,15 +2303,22 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/deviceStates",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "deviceStates",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "deviceStates",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body.data`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "deviceStates",
                                     },
                                 },
                             },
@@ -2045,6 +2335,7 @@ public static class SdkConfig
                     {
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "datetime",
                             ["name"] = "created",
                             ["short"] = "Creation timestamp in ISO 8601 format.",
                             ["type"] = "`$STRING`",
@@ -2087,6 +2378,7 @@ public static class SdkConfig
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "datetime",
                             ["name"] = "modified",
                             ["short"] = "Last modified timestamp.",
                             ["type"] = "`$STRING`",
@@ -2115,6 +2407,11 @@ public static class SdkConfig
                             ["type"] = "`$INTEGER`",
                         },
                     },
+                    ["id"] = new Dictionary<string, object?>
+                    {
+                        ["field"] = "id",
+                        ["name"] = "id",
+                    },
                     ["name"] = "device_type",
                     ["op"] = new Dictionary<string, object?>
                     {
@@ -2130,15 +2427,22 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/deviceTypes",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "deviceTypes",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "deviceTypes",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body.data`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "deviceTypes",
                                     },
                                 },
                             },
@@ -2168,10 +2472,16 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/deviceTypes/{id}",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "deviceTypes",
-                                        "{id}",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "deviceTypes",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["var"] = "id",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>
                                     {
@@ -2184,6 +2494,11 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "deviceTypes",
+                                        "{id}",
                                     },
                                 },
                             },
@@ -2200,6 +2515,7 @@ public static class SdkConfig
                     {
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "datetime",
                             ["name"] = "created",
                             ["short"] = "Creation timestamp in ISO 8601 format.",
                             ["type"] = "`$STRING`",
@@ -2230,6 +2546,7 @@ public static class SdkConfig
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "datetime",
                             ["name"] = "modified",
                             ["short"] = "Last modified timestamp in ISO 8601 format.",
                             ["type"] = "`$STRING`",
@@ -2247,6 +2564,11 @@ public static class SdkConfig
                             ["type"] = "`$INTEGER`",
                         },
                     },
+                    ["id"] = new Dictionary<string, object?>
+                    {
+                        ["field"] = "id",
+                        ["name"] = "id",
+                    },
                     ["name"] = "inject_key",
                     ["op"] = new Dictionary<string, object?>
                     {
@@ -2262,15 +2584,22 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/injectKeys",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "injectKeys",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "injectKeys",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body.data`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "injectKeys",
                                     },
                                 },
                             },
@@ -2300,10 +2629,16 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/injectKeys/{id}",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "injectKeys",
-                                        "{id}",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "injectKeys",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["var"] = "id",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>
                                     {
@@ -2316,6 +2651,11 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "injectKeys",
+                                        "{id}",
                                     },
                                 },
                             },
@@ -2332,6 +2672,7 @@ public static class SdkConfig
                     {
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "int64",
                             ["name"] = "id",
                             ["short"] = "This resource's unique identifier.",
                             ["type"] = "`$INTEGER`",
@@ -2342,6 +2683,11 @@ public static class SdkConfig
                             ["short"] = "The KIF's name.",
                             ["type"] = "`$STRING`",
                         },
+                    },
+                    ["id"] = new Dictionary<string, object?>
+                    {
+                        ["field"] = "id",
+                        ["name"] = "id",
                     },
                     ["name"] = "kif",
                     ["op"] = new Dictionary<string, object?>
@@ -2358,15 +2704,22 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/kifs",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "kifs",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "kifs",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body.data`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "kifs",
                                     },
                                 },
                             },
@@ -2413,6 +2766,7 @@ public static class SdkConfig
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "datetime",
                             ["name"] = "created",
                             ["short"] = "Creation timestamp in ISO 8601 format.",
                             ["type"] = "`$STRING`",
@@ -2473,6 +2827,7 @@ public static class SdkConfig
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "datetime",
                             ["name"] = "modified",
                             ["short"] = "Last modified timestamp.",
                             ["type"] = "`$STRING`",
@@ -2520,6 +2875,11 @@ public static class SdkConfig
                             ["type"] = "`$INTEGER`",
                         },
                     },
+                    ["id"] = new Dictionary<string, object?>
+                    {
+                        ["field"] = "id",
+                        ["name"] = "id",
+                    },
                     ["name"] = "location",
                     ["op"] = new Dictionary<string, object?>
                     {
@@ -2535,15 +2895,22 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/locations",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "locations",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "locations",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "locations",
                                     },
                                 },
                             },
@@ -2589,9 +2956,12 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/locations",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "locations",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "locations",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>
                                     {
@@ -2606,6 +2976,10 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body.data`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "locations",
                                     },
                                 },
                             },
@@ -2635,10 +3009,16 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/locations/{id}",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "locations",
-                                        "{id}",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "locations",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["var"] = "id",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>
                                     {
@@ -2651,6 +3031,11 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "locations",
+                                        "{id}",
                                     },
                                 },
                             },
@@ -2680,10 +3065,16 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "DELETE",
                                     ["orig"] = "/locations/{id}",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "locations",
-                                        "{id}",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "locations",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["var"] = "id",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>
                                     {
@@ -2696,6 +3087,11 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "locations",
+                                        "{id}",
                                     },
                                 },
                             },
@@ -2738,6 +3134,7 @@ public static class SdkConfig
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "datetime",
                             ["name"] = "created",
                             ["short"] = "Creation timestamp in ISO 8601 format.",
                             ["type"] = "`$STRING`",
@@ -2763,6 +3160,7 @@ public static class SdkConfig
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "datetime",
                             ["name"] = "modified",
                             ["short"] = "Last modified timestamp.",
                             ["type"] = "`$STRING`",
@@ -2804,6 +3202,11 @@ public static class SdkConfig
                             ["type"] = "`$INTEGER`",
                         },
                     },
+                    ["id"] = new Dictionary<string, object?>
+                    {
+                        ["field"] = "id",
+                        ["name"] = "id",
+                    },
                     ["name"] = "partner",
                     ["op"] = new Dictionary<string, object?>
                     {
@@ -2819,15 +3222,22 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/partners",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "partners",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "partners",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "partners",
                                     },
                                 },
                             },
@@ -2872,9 +3282,12 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/partners",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "partners",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "partners",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>
                                     {
@@ -2889,6 +3302,10 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body.data`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "partners",
                                     },
                                 },
                             },
@@ -2918,10 +3335,16 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/partners/{id}",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "partners",
-                                        "{id}",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "partners",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["var"] = "id",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>
                                     {
@@ -2934,6 +3357,11 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "partners",
+                                        "{id}",
                                     },
                                 },
                             },
@@ -2962,18 +3390,21 @@ public static class SdkConfig
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "datetime",
                             ["name"] = "created",
                             ["short"] = "Creation timestamp in ISO 8601 format.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "datetime",
                             ["name"] = "dateReceived",
                             ["short"] = "The date and time that a package is recieved.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "datetime",
                             ["name"] = "dateShipped",
                             ["short"] = "The date and time that a package is shipped.",
                             ["type"] = "`$STRING`",
@@ -3003,6 +3434,7 @@ public static class SdkConfig
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "datetime",
                             ["name"] = "modified",
                             ["short"] = "Last modified timestamp.",
                             ["type"] = "`$STRING`",
@@ -3027,10 +3459,16 @@ public static class SdkConfig
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "int32",
                             ["name"] = "version",
                             ["short"] = "The number of times that this resource has been updated.",
                             ["type"] = "`$INTEGER`",
                         },
+                    },
+                    ["id"] = new Dictionary<string, object?>
+                    {
+                        ["field"] = "id",
+                        ["name"] = "id",
                     },
                     ["name"] = "shipment",
                     ["op"] = new Dictionary<string, object?>
@@ -3047,15 +3485,22 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/shipments",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "shipments",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "shipments",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "shipments",
                                     },
                                 },
                             },
@@ -3108,9 +3553,12 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/shipments",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "shipments",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "shipments",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>
                                     {
@@ -3126,6 +3574,10 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body.data`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "shipments",
                                     },
                                 },
                             },
@@ -3155,10 +3607,16 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/shipments/{id}",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "shipments",
-                                        "{id}",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "shipments",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["var"] = "id",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>
                                     {
@@ -3171,6 +3629,11 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "shipments",
+                                        "{id}",
                                     },
                                 },
                             },
@@ -3220,16 +3683,22 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/virtualDevices/{sharePartnerTo}",
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "virtualDevices",
-                                        "{share_partner_to}",
-                                    },
                                     ["rename"] = new Dictionary<string, object?>
                                     {
                                         ["param"] = new Dictionary<string, object?>
                                         {
                                             ["sharePartnerTo"] = "share_partner_to",
+                                        },
+                                    },
+                                    ["segments"] = new List<object?>
+                                    {
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "virtualDevices",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["var"] = "share_partner_to",
                                         },
                                     },
                                     ["select"] = new Dictionary<string, object?>
@@ -3243,6 +3712,11 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "virtualDevices",
+                                        "{share_partner_to}",
                                     },
                                 },
                             },
@@ -3272,16 +3746,22 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "DELETE",
                                     ["orig"] = "/virtualDevices/{sharePartnerTo}",
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "virtualDevices",
-                                        "{share_partner_to}",
-                                    },
                                     ["rename"] = new Dictionary<string, object?>
                                     {
                                         ["param"] = new Dictionary<string, object?>
                                         {
                                             ["sharePartnerTo"] = "share_partner_to",
+                                        },
+                                    },
+                                    ["segments"] = new List<object?>
+                                    {
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "virtualDevices",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["var"] = "share_partner_to",
                                         },
                                     },
                                     ["select"] = new Dictionary<string, object?>
@@ -3295,6 +3775,11 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "virtualDevices",
+                                        "{share_partner_to}",
                                     },
                                 },
                             },
@@ -3335,12 +3820,14 @@ public static class SdkConfig
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "datetime",
                             ["name"] = "created",
                             ["short"] = "Creation timestamp in ISO 8601 format.",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "int32",
                             ["name"] = "decrypted",
                             ["short"] = "A Transcation can process muliple decryptions.",
                             ["type"] = "`$INTEGER`",
@@ -3359,12 +3846,14 @@ public static class SdkConfig
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "int32",
                             ["name"] = "encrypted",
                             ["short"] = "A Transcation can process muliple encryptions.",
                             ["type"] = "`$INTEGER`",
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "datetime",
                             ["name"] = "endDate",
                             ["short"] = "Timestamp from the end of the transaction.",
                             ["type"] = "`$STRING`",
@@ -3444,6 +3933,7 @@ public static class SdkConfig
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "datetime",
                             ["name"] = "startDate",
                             ["short"] = "Timestamp from the beginning of the transaction.",
                             ["type"] = "`$STRING`",
@@ -3461,6 +3951,11 @@ public static class SdkConfig
                             ["type"] = "`$STRING`",
                         },
                     },
+                    ["id"] = new Dictionary<string, object?>
+                    {
+                        ["field"] = "id",
+                        ["name"] = "id",
+                    },
                     ["name"] = "transaction",
                     ["op"] = new Dictionary<string, object?>
                     {
@@ -3476,15 +3971,22 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/transactions",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "transactions",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "transactions",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "transactions",
                                     },
                                 },
                             },
@@ -3600,9 +4102,12 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/transactions",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "transactions",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "transactions",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>
                                     {
@@ -3627,6 +4132,10 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body.data`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "transactions",
                                     },
                                 },
                             },
@@ -3656,10 +4165,16 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/transactions/{id}",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "transactions",
-                                        "{id}",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "transactions",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["var"] = "id",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>
                                     {
@@ -3672,6 +4187,11 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "transactions",
+                                        "{id}",
                                     },
                                 },
                             },
@@ -3759,6 +4279,11 @@ public static class SdkConfig
                             ["type"] = "`$INTEGER`",
                         },
                     },
+                    ["id"] = new Dictionary<string, object?>
+                    {
+                        ["field"] = "id",
+                        ["name"] = "id",
+                    },
                     ["name"] = "update_result",
                     ["op"] = new Dictionary<string, object?>
                     {
@@ -3774,15 +4299,22 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/users",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "users",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "users",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "users",
                                     },
                                 },
                             },
@@ -3841,9 +4373,12 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/users",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "users",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "users",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>
                                     {
@@ -3860,6 +4395,10 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body.data`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "users",
                                     },
                                 },
                             },
@@ -3889,10 +4428,16 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "PATCH",
                                     ["orig"] = "/clients/{id}",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "clients",
-                                        "{id}",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "clients",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["var"] = "id",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>
                                     {
@@ -3905,6 +4450,11 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "clients",
+                                        "{id}",
                                     },
                                 },
                                 new Dictionary<string, object?>
@@ -3926,10 +4476,16 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "PATCH",
                                     ["orig"] = "/devices/{id}",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "devices",
-                                        "{id}",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "devices",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["var"] = "id",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>
                                     {
@@ -3942,6 +4498,11 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "devices",
+                                        "{id}",
                                     },
                                 },
                                 new Dictionary<string, object?>
@@ -3963,10 +4524,16 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "PATCH",
                                     ["orig"] = "/locations/{id}",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "locations",
-                                        "{id}",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "locations",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["var"] = "id",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>
                                     {
@@ -3979,6 +4546,11 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "locations",
+                                        "{id}",
                                     },
                                 },
                                 new Dictionary<string, object?>
@@ -4000,10 +4572,16 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "PATCH",
                                     ["orig"] = "/partners/{id}",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "partners",
-                                        "{id}",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "partners",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["var"] = "id",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>
                                     {
@@ -4016,6 +4594,11 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "partners",
+                                        "{id}",
                                     },
                                 },
                                 new Dictionary<string, object?>
@@ -4037,10 +4620,16 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "PATCH",
                                     ["orig"] = "/shipments/{id}",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "shipments",
-                                        "{id}",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "shipments",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["var"] = "id",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>
                                     {
@@ -4053,6 +4642,11 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "shipments",
+                                        "{id}",
                                     },
                                 },
                                 new Dictionary<string, object?>
@@ -4074,10 +4668,16 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "PATCH",
                                     ["orig"] = "/transactions/{id}",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "transactions",
-                                        "{id}",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "transactions",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["var"] = "id",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>
                                     {
@@ -4090,6 +4690,11 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "transactions",
+                                        "{id}",
                                     },
                                 },
                                 new Dictionary<string, object?>
@@ -4111,10 +4716,16 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "PATCH",
                                     ["orig"] = "/users/{id}",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "users",
-                                        "{id}",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "users",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["var"] = "id",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>
                                     {
@@ -4127,6 +4738,11 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "users",
+                                        "{id}",
                                     },
                                 },
                             },
@@ -4149,6 +4765,7 @@ public static class SdkConfig
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "datetime",
                             ["name"] = "created",
                             ["short"] = "Creation timestamp in ISO 8601 format.",
                             ["type"] = "`$STRING`",
@@ -4191,6 +4808,7 @@ public static class SdkConfig
                         },
                         new Dictionary<string, object?>
                         {
+                            ["format"] = "datetime",
                             ["name"] = "modified",
                             ["short"] = "Last modified timestamp.",
                             ["type"] = "`$STRING`",
@@ -4226,6 +4844,11 @@ public static class SdkConfig
                             ["type"] = "`$INTEGER`",
                         },
                     },
+                    ["id"] = new Dictionary<string, object?>
+                    {
+                        ["field"] = "id",
+                        ["name"] = "id",
+                    },
                     ["name"] = "user",
                     ["op"] = new Dictionary<string, object?>
                     {
@@ -4254,10 +4877,16 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/users/{id}",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "users",
-                                        "{id}",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "users",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["var"] = "id",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>
                                     {
@@ -4270,6 +4899,11 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "users",
+                                        "{id}",
                                     },
                                 },
                             },
@@ -4299,10 +4933,16 @@ public static class SdkConfig
                                     ["kind"] = "http",
                                     ["method"] = "DELETE",
                                     ["orig"] = "/users/{id}",
-                                    ["parts"] = new List<object?>
+                                    ["segments"] = new List<object?>
                                     {
-                                        "users",
-                                        "{id}",
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "users",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["var"] = "id",
+                                        },
                                     },
                                     ["select"] = new Dictionary<string, object?>
                                     {
@@ -4315,6 +4955,11 @@ public static class SdkConfig
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "users",
+                                        "{id}",
                                     },
                                 },
                             },
@@ -4339,6 +4984,15 @@ public static class SdkConfig
     public static Dictionary<string, object?> SharedConfig()
     {
         return SharedConfigVal.Value;
+    }
+
+    public static List<object?> FeaturePlugins(string name)
+    {
+        switch (name)
+        {
+            default:
+                return new List<object?>();
+        }
     }
 
     public static Feature.BaseFeature MakeFeature(string name)

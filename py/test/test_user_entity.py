@@ -94,7 +94,7 @@ def _user_basic_setup(extra):
         "BLUEFIN_DECRYPTX_P2PE_TEST_USER_ENTID": idmap,
         "BLUEFIN_DECRYPTX_P2PE_TEST_LIVE": "FALSE",
         "BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN": "FALSE",
-        "BLUEFIN_DECRYPTX_P2PE_APIKEY": "NONE",
+        "BLUEFIN_DECRYPTX_P2PE_APIKEY": "",
     })
 
     idmap_resolved = helpers.to_map(
@@ -104,6 +104,10 @@ def _user_basic_setup(extra):
 
     if env.get("BLUEFIN_DECRYPTX_P2PE_TEST_LIVE") == "TRUE":
         merged_opts = vs.merge([
+            # FIRST, so the generated fields below win: sdk-test-control.json's
+            # test.client.options adds to the live client, it does not
+            # redirect it.
+            runner.live_client_options(),
             {
                 "apikey": env.get("BLUEFIN_DECRYPTX_P2PE_APIKEY"),
             },

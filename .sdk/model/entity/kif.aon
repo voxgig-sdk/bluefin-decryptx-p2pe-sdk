@@ -6,6 +6,7 @@ main: kit: entity: kif: {
 
   fields: [
     {
+      format: "int64"
       name: "id"
       req: false
       short: "This resource's unique identifier."
@@ -32,8 +33,10 @@ main: kit: entity: kif: {
         {
           method: "GET"
           orig: "/kifs"
-          parts: [
-            "kifs"
+          segments: [
+            {
+              lit: "kifs"
+            }
           ]
           transform: {
             req: "`reqdata`"

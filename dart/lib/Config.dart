@@ -12,6 +12,7 @@ import 'feature/test/TestFeature.dart';
 import 'feature/timeout/TimeoutFeature.dart';
 
 
+
 // ignore: non_constant_identifier_names
 final Map<String, BaseFeature Function()> FEATURE_CLASS = {
     'audit': () => AuditFeature(),
@@ -26,6 +27,24 @@ final Map<String, BaseFeature Function()> FEATURE_CLASS = {
   'test': () => TestFeature(),
   'timeout': () => TimeoutFeature(),
 
+};
+
+// Per-feature plugin DEFINITIONS (voxgig/plugin `Definition` values), from
+// the model's active plugin groups. A feature that takes a `plugins` option
+// (secrets over sekreto) reads its own entry; a feature with no plugins has
+// none. The named `show` imports above make each definition statically
+// reachable, so an SDK carries exactly the plugin libraries its model
+// selects - the same leanness the old side-effect registry bought, without
+// a registry.
+//
+// Emitted UNCONDITIONALLY, empty when no group is active: SecretsFeature
+// imports this name, and the feature source can be present in a tree whose
+// model selects no plugin group at all. An emission conditional on the map
+// having entries would make that tree fail `dart analyze`.
+//
+// ignore: non_constant_identifier_names
+final Map<String, List<dynamic>> FEATURE_PLUGINS = <String, List<dynamic>>{
+  
 };
 
 class Config {
@@ -207,11 +226,13 @@ class Config {
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
+          'format': 'datetime',
           'name': 'completeDate',
           'short': 'The date and time that the Attestation took place.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
+          'format': 'datetime',
           'name': 'created',
           'short': 'Creation timestamp in ISO 8601 format.',
           'type': '`\$STRING`',
@@ -237,6 +258,10 @@ class Config {
           'type': '`\$STRING`',
         },
       ],
+      'id': <String, dynamic>{
+        'field': 'id',
+        'name': 'id',
+      },
       'name': 'attestation',
       'op': <String, dynamic>{
         'create': <String, dynamic>{
@@ -248,14 +273,19 @@ class Config {
               'kind': 'http',
               'method': 'POST',
               'orig': '/attestations',
-              'parts': <dynamic>[
-                'attestations',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'attestations',
+                },
               ],
               'select': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'attestations',
+              ],
             },
           ],
         },
@@ -292,8 +322,10 @@ class Config {
               'kind': 'http',
               'method': 'GET',
               'orig': '/attestations',
-              'parts': <dynamic>[
-                'attestations',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'attestations',
+                },
               ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
@@ -306,6 +338,9 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body.data`',
               },
+              'parts': <dynamic>[
+                'attestations',
+              ],
             },
           ],
         },
@@ -328,9 +363,13 @@ class Config {
               'kind': 'http',
               'method': 'GET',
               'orig': '/attestations/{id}',
-              'parts': <dynamic>[
-                'attestations',
-                '{id}',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'attestations',
+                },
+                <String, dynamic>{
+                  'var': 'id',
+                },
               ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
@@ -341,6 +380,10 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'attestations',
+                '{id}',
+              ],
             },
           ],
         },
@@ -363,6 +406,7 @@ class Config {
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
+          'format': 'datetime',
           'name': 'created',
           'short': 'Creation timestamp in ISO 8601 format.',
           'type': '`\$STRING`',
@@ -394,6 +438,7 @@ class Config {
           'type': '`\$STRING`',
         },
         <String, dynamic>{
+          'format': 'datetime',
           'name': 'modified',
           'short': 'Last modified timestamp.',
           'type': '`\$STRING`',
@@ -414,6 +459,10 @@ class Config {
           'type': '`\$INTEGER`',
         },
       ],
+      'id': <String, dynamic>{
+        'field': 'id',
+        'name': 'id',
+      },
       'name': 'client',
       'op': <String, dynamic>{
         'create': <String, dynamic>{
@@ -425,14 +474,19 @@ class Config {
               'kind': 'http',
               'method': 'POST',
               'orig': '/clients',
-              'parts': <dynamic>[
-                'clients',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'clients',
+                },
               ],
               'select': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'clients',
+              ],
             },
           ],
         },
@@ -469,8 +523,10 @@ class Config {
               'kind': 'http',
               'method': 'GET',
               'orig': '/clients',
-              'parts': <dynamic>[
-                'clients',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'clients',
+                },
               ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
@@ -483,6 +539,9 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body.data`',
               },
+              'parts': <dynamic>[
+                'clients',
+              ],
             },
           ],
         },
@@ -505,9 +564,13 @@ class Config {
               'kind': 'http',
               'method': 'GET',
               'orig': '/clients/{id}',
-              'parts': <dynamic>[
-                'clients',
-                '{id}',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'clients',
+                },
+                <String, dynamic>{
+                  'var': 'id',
+                },
               ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
@@ -518,6 +581,10 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'clients',
+                '{id}',
+              ],
             },
           ],
         },
@@ -540,9 +607,13 @@ class Config {
               'kind': 'http',
               'method': 'DELETE',
               'orig': '/clients/{id}',
-              'parts': <dynamic>[
-                'clients',
-                '{id}',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'clients',
+                },
+                <String, dynamic>{
+                  'var': 'id',
+                },
               ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
@@ -553,6 +624,10 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'clients',
+                '{id}',
+              ],
             },
           ],
         },
@@ -591,18 +666,26 @@ class Config {
               'kind': 'http',
               'method': 'POST',
               'orig': '/devices/{serialNumber}/{deviceType}/custody',
-              'parts': <dynamic>[
-                'devices',
-                '{serial_number}',
-                '{device_type}',
-                'custody',
-              ],
               'rename': <String, dynamic>{
                 'param': <String, dynamic>{
                   'deviceType': 'device_type',
                   'serialNumber': 'serial_number',
                 },
               },
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'devices',
+                },
+                <String, dynamic>{
+                  'var': 'serial_number',
+                },
+                <String, dynamic>{
+                  'var': 'device_type',
+                },
+                <String, dynamic>{
+                  'lit': 'custody',
+                },
+              ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'device_type',
@@ -613,6 +696,12 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'devices',
+                '{serial_number}',
+                '{device_type}',
+                'custody',
+              ],
             },
           ],
         },
@@ -644,14 +733,19 @@ class Config {
               'kind': 'http',
               'method': 'POST',
               'orig': '/decryption',
-              'parts': <dynamic>[
-                'decryption',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'decryption',
+                },
               ],
               'select': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'decryption',
+              ],
             },
           ],
         },
@@ -669,6 +763,7 @@ class Config {
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
+          'format': 'datetime',
           'name': 'activationDate',
           'short': 'Timestamp from when the Device was activated.',
           'type': '`\$STRING`',
@@ -679,11 +774,13 @@ class Config {
           'type': '`\$STRING`',
         },
         <String, dynamic>{
+          'format': 'datetime',
           'name': 'auditNextDate',
           'short': 'Date and time that the Device is due its next PCI Audit.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
+          'format': 'datetime',
           'name': 'auditNotificationDate',
           'short': 'Date and time that a notification should be sent that a PCI audit is due.',
           'type': '`\$STRING`',
@@ -694,6 +791,7 @@ class Config {
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
+          'format': 'datetime',
           'name': 'created',
           'short': 'Creation timestamp in ISO 8601 format.',
           'type': '`\$STRING`',
@@ -725,6 +823,7 @@ class Config {
           'type': '`\$INTEGER`',
         },
         <String, dynamic>{
+          'format': 'datetime',
           'name': 'errorLastDate',
           'short': 'Timestamp from the last time that the Device had an error.',
           'type': '`\$STRING`',
@@ -741,6 +840,7 @@ class Config {
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
+          'format': 'datetime',
           'name': 'initializedDate',
           'short': 'Timestamp from when the Device was initialized.',
           'type': '`\$STRING`',
@@ -761,6 +861,7 @@ class Config {
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
+          'format': 'datetime',
           'name': 'lastActivityDate',
           'short': 'Timestamp from the last time that the Device was used.',
           'type': '`\$STRING`',
@@ -772,6 +873,7 @@ class Config {
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
+          'format': 'datetime',
           'name': 'modified',
           'short': 'Last modified timestamp.',
           'type': '`\$STRING`',
@@ -808,6 +910,10 @@ class Config {
           'type': '`\$INTEGER`',
         },
       ],
+      'id': <String, dynamic>{
+        'field': 'id',
+        'name': 'id',
+      },
       'name': 'device',
       'op': <String, dynamic>{
         'create': <String, dynamic>{
@@ -819,14 +925,19 @@ class Config {
               'kind': 'http',
               'method': 'POST',
               'orig': '/devices',
-              'parts': <dynamic>[
-                'devices',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'devices',
+                },
               ],
               'select': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'devices',
+              ],
             },
           ],
         },
@@ -900,8 +1011,10 @@ class Config {
               'kind': 'http',
               'method': 'GET',
               'orig': '/devices',
-              'parts': <dynamic>[
-                'devices',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'devices',
+                },
               ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
@@ -920,6 +1033,9 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body.data`',
               },
+              'parts': <dynamic>[
+                'devices',
+              ],
             },
           ],
         },
@@ -949,17 +1065,23 @@ class Config {
               'kind': 'http',
               'method': 'GET',
               'orig': '/devices/{serialNumber}/{deviceType}',
-              'parts': <dynamic>[
-                'devices',
-                '{serial_number}',
-                '{device_type}',
-              ],
               'rename': <String, dynamic>{
                 'param': <String, dynamic>{
                   'deviceType': 'device_type',
                   'serialNumber': 'serial_number',
                 },
               },
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'devices',
+                },
+                <String, dynamic>{
+                  'var': 'serial_number',
+                },
+                <String, dynamic>{
+                  'var': 'device_type',
+                },
+              ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'device_type',
@@ -970,6 +1092,11 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'devices',
+                '{serial_number}',
+                '{device_type}',
+              ],
             },
             <String, dynamic>{
               'args': <String, dynamic>{
@@ -986,9 +1113,13 @@ class Config {
               'kind': 'http',
               'method': 'GET',
               'orig': '/devices/{id}',
-              'parts': <dynamic>[
-                'devices',
-                '{id}',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'devices',
+                },
+                <String, dynamic>{
+                  'var': 'id',
+                },
               ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
@@ -999,6 +1130,10 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'devices',
+                '{id}',
+              ],
             },
           ],
         },
@@ -1029,6 +1164,7 @@ class Config {
           'type': '`\$STRING`',
         },
         <String, dynamic>{
+          'format': 'date-time',
           'name': 'created',
           'short': 'Creation timestamp in ISO 8601 format.',
           'type': '`\$STRING`',
@@ -1049,6 +1185,7 @@ class Config {
           'type': '`\$STRING`',
         },
         <String, dynamic>{
+          'format': 'int64',
           'name': 'id',
           'short': 'This resource\'s unique identifier.',
           'type': '`\$INTEGER`',
@@ -1059,6 +1196,7 @@ class Config {
           'type': '`\$BOOLEAN`',
         },
         <String, dynamic>{
+          'format': 'date-time',
           'name': 'modified',
           'short': 'Last modified timestamp.',
           'type': '`\$STRING`',
@@ -1089,6 +1227,10 @@ class Config {
           'type': '`\$BOOLEAN`',
         },
       ],
+      'id': <String, dynamic>{
+        'field': 'id',
+        'name': 'id',
+      },
       'name': 'device_build',
       'op': <String, dynamic>{
         'list': <String, dynamic>{
@@ -1123,8 +1265,10 @@ class Config {
               'kind': 'http',
               'method': 'GET',
               'orig': '/deviceBuilds',
-              'parts': <dynamic>[
-                'deviceBuilds',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'deviceBuilds',
+                },
               ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
@@ -1137,6 +1281,9 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body.data`',
               },
+              'parts': <dynamic>[
+                'deviceBuilds',
+              ],
             },
           ],
         },
@@ -1159,9 +1306,13 @@ class Config {
               'kind': 'http',
               'method': 'GET',
               'orig': '/deviceBuilds/{id}',
-              'parts': <dynamic>[
-                'deviceBuilds',
-                '{id}',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'deviceBuilds',
+                },
+                <String, dynamic>{
+                  'var': 'id',
+                },
               ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
@@ -1172,6 +1323,10 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'deviceBuilds',
+                '{id}',
+              ],
             },
           ],
         },
@@ -1183,11 +1338,13 @@ class Config {
     'device_custody_detail': <String, dynamic>{
       'fields': <dynamic>[
         <String, dynamic>{
+          'format': 'date-time',
           'name': 'completeDate',
           'short': 'The date and time that the Custody change took place.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
+          'format': 'date-time',
           'name': 'created',
           'short': 'Creation timestamp in ISO 8601 format.',
           'type': '`\$STRING`',
@@ -1210,6 +1367,7 @@ class Config {
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
+          'format': 'int64',
           'name': 'id',
           'short': 'This resource\'s unique identifier.',
           'type': '`\$INTEGER`',
@@ -1221,6 +1379,7 @@ class Config {
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
+          'format': 'date-time',
           'name': 'modified',
           'short': 'Last modified timestamp.',
           'type': '`\$STRING`',
@@ -1252,6 +1411,10 @@ class Config {
           'type': '`\$INTEGER`',
         },
       ],
+      'id': <String, dynamic>{
+        'field': 'id',
+        'name': 'id',
+      },
       'name': 'device_custody_detail',
       'op': <String, dynamic>{
         'load': <String, dynamic>{
@@ -1287,19 +1450,29 @@ class Config {
               'kind': 'http',
               'method': 'GET',
               'orig': '/devices/{serialNumber}/{deviceType}/custody/{id}',
-              'parts': <dynamic>[
-                'devices',
-                '{serial_number}',
-                '{device_type}',
-                'custody',
-                '{id}',
-              ],
               'rename': <String, dynamic>{
                 'param': <String, dynamic>{
                   'deviceType': 'device_type',
                   'serialNumber': 'serial_number',
                 },
               },
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'devices',
+                },
+                <String, dynamic>{
+                  'var': 'serial_number',
+                },
+                <String, dynamic>{
+                  'var': 'device_type',
+                },
+                <String, dynamic>{
+                  'lit': 'custody',
+                },
+                <String, dynamic>{
+                  'var': 'id',
+                },
+              ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'device_type',
@@ -1311,6 +1484,13 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'devices',
+                '{serial_number}',
+                '{device_type}',
+                'custody',
+                '{id}',
+              ],
             },
           ],
         },
@@ -1326,11 +1506,13 @@ class Config {
     'device_custody_list': <String, dynamic>{
       'fields': <dynamic>[
         <String, dynamic>{
+          'format': 'date-time',
           'name': 'completeDate',
           'short': 'The date and time that the Custody change took place.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
+          'format': 'date-time',
           'name': 'created',
           'short': 'Creation timestamp in ISO 8601 format.',
           'type': '`\$STRING`',
@@ -1353,6 +1535,7 @@ class Config {
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
+          'format': 'int64',
           'name': 'id',
           'short': 'This resource\'s unique identifier.',
           'type': '`\$INTEGER`',
@@ -1364,6 +1547,7 @@ class Config {
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
+          'format': 'date-time',
           'name': 'modified',
           'short': 'Last modified timestamp.',
           'type': '`\$STRING`',
@@ -1395,6 +1579,10 @@ class Config {
           'type': '`\$INTEGER`',
         },
       ],
+      'id': <String, dynamic>{
+        'field': 'id',
+        'name': 'id',
+      },
       'name': 'device_custody_list',
       'op': <String, dynamic>{
         'list': <String, dynamic>{
@@ -1439,18 +1627,26 @@ class Config {
               'kind': 'http',
               'method': 'GET',
               'orig': '/devices/{serialNumber}/{deviceType}/custody',
-              'parts': <dynamic>[
-                'devices',
-                '{serial_number}',
-                '{device_type}',
-                'custody',
-              ],
               'rename': <String, dynamic>{
                 'param': <String, dynamic>{
                   'deviceType': 'device_type',
                   'serialNumber': 'serial_number',
                 },
               },
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'devices',
+                },
+                <String, dynamic>{
+                  'var': 'serial_number',
+                },
+                <String, dynamic>{
+                  'var': 'device_type',
+                },
+                <String, dynamic>{
+                  'lit': 'custody',
+                },
+              ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'device_type',
@@ -1463,6 +1659,12 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body.data`',
               },
+              'parts': <dynamic>[
+                'devices',
+                '{serial_number}',
+                '{device_type}',
+                'custody',
+              ],
             },
           ],
         },
@@ -1539,15 +1741,19 @@ class Config {
               'kind': 'http',
               'method': 'GET',
               'orig': '/virtualDevices/{sharePartnerTo}',
-              'parts': <dynamic>[
-                'virtualDevices',
-                '{share_partner_to}',
-              ],
               'rename': <String, dynamic>{
                 'param': <String, dynamic>{
                   'sharePartnerTo': 'share_partner_to',
                 },
               },
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'virtualDevices',
+                },
+                <String, dynamic>{
+                  'var': 'share_partner_to',
+                },
+              ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'share_partner_to',
@@ -1561,6 +1767,10 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'virtualDevices',
+                '{share_partner_to}',
+              ],
             },
           ],
         },
@@ -1593,15 +1803,23 @@ class Config {
               'kind': 'http',
               'method': 'POST',
               'orig': '/devices/receive',
-              'parts': <dynamic>[
-                'devices',
-                'receive',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'devices',
+                },
+                <String, dynamic>{
+                  'lit': 'receive',
+                },
               ],
               'select': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'devices',
+                'receive',
+              ],
             },
           ],
         },
@@ -1630,16 +1848,27 @@ class Config {
               'kind': 'http',
               'method': 'POST',
               'orig': '/devices/rki/activate',
-              'parts': <dynamic>[
-                'devices',
-                'rki',
-                'activate',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'devices',
+                },
+                <String, dynamic>{
+                  'lit': 'rki',
+                },
+                <String, dynamic>{
+                  'lit': 'activate',
+                },
               ],
               'select': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'devices',
+                'rki',
+                'activate',
+              ],
             },
           ],
         },
@@ -1651,6 +1880,7 @@ class Config {
     'device_state': <String, dynamic>{
       'fields': <dynamic>[
         <String, dynamic>{
+          'format': 'int64',
           'name': 'id',
           'short': 'Unique identifier for this Device state.',
           'type': '`\$INTEGER`',
@@ -1661,6 +1891,10 @@ class Config {
           'type': '`\$STRING`',
         },
       ],
+      'id': <String, dynamic>{
+        'field': 'id',
+        'name': 'id',
+      },
       'name': 'device_state',
       'op': <String, dynamic>{
         'list': <String, dynamic>{
@@ -1672,14 +1906,19 @@ class Config {
               'kind': 'http',
               'method': 'GET',
               'orig': '/deviceStates',
-              'parts': <dynamic>[
-                'deviceStates',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'deviceStates',
+                },
               ],
               'select': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body.data`',
               },
+              'parts': <dynamic>[
+                'deviceStates',
+              ],
             },
           ],
         },
@@ -1691,6 +1930,7 @@ class Config {
     'device_type': <String, dynamic>{
       'fields': <dynamic>[
         <String, dynamic>{
+          'format': 'datetime',
           'name': 'created',
           'short': 'Creation timestamp in ISO 8601 format.',
           'type': '`\$STRING`',
@@ -1726,6 +1966,7 @@ class Config {
           'type': '`\$STRING`',
         },
         <String, dynamic>{
+          'format': 'datetime',
           'name': 'modified',
           'short': 'Last modified timestamp.',
           'type': '`\$STRING`',
@@ -1750,6 +1991,10 @@ class Config {
           'type': '`\$INTEGER`',
         },
       ],
+      'id': <String, dynamic>{
+        'field': 'id',
+        'name': 'id',
+      },
       'name': 'device_type',
       'op': <String, dynamic>{
         'list': <String, dynamic>{
@@ -1761,14 +2006,19 @@ class Config {
               'kind': 'http',
               'method': 'GET',
               'orig': '/deviceTypes',
-              'parts': <dynamic>[
-                'deviceTypes',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'deviceTypes',
+                },
               ],
               'select': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body.data`',
               },
+              'parts': <dynamic>[
+                'deviceTypes',
+              ],
             },
           ],
         },
@@ -1791,9 +2041,13 @@ class Config {
               'kind': 'http',
               'method': 'GET',
               'orig': '/deviceTypes/{id}',
-              'parts': <dynamic>[
-                'deviceTypes',
-                '{id}',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'deviceTypes',
+                },
+                <String, dynamic>{
+                  'var': 'id',
+                },
               ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
@@ -1804,6 +2058,10 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'deviceTypes',
+                '{id}',
+              ],
             },
           ],
         },
@@ -1815,6 +2073,7 @@ class Config {
     'inject_key': <String, dynamic>{
       'fields': <dynamic>[
         <String, dynamic>{
+          'format': 'datetime',
           'name': 'created',
           'short': 'Creation timestamp in ISO 8601 format.',
           'type': '`\$STRING`',
@@ -1840,6 +2099,7 @@ class Config {
           'type': '`\$STRING`',
         },
         <String, dynamic>{
+          'format': 'datetime',
           'name': 'modified',
           'short': 'Last modified timestamp in ISO 8601 format.',
           'type': '`\$STRING`',
@@ -1855,6 +2115,10 @@ class Config {
           'type': '`\$INTEGER`',
         },
       ],
+      'id': <String, dynamic>{
+        'field': 'id',
+        'name': 'id',
+      },
       'name': 'inject_key',
       'op': <String, dynamic>{
         'list': <String, dynamic>{
@@ -1866,14 +2130,19 @@ class Config {
               'kind': 'http',
               'method': 'GET',
               'orig': '/injectKeys',
-              'parts': <dynamic>[
-                'injectKeys',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'injectKeys',
+                },
               ],
               'select': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body.data`',
               },
+              'parts': <dynamic>[
+                'injectKeys',
+              ],
             },
           ],
         },
@@ -1896,9 +2165,13 @@ class Config {
               'kind': 'http',
               'method': 'GET',
               'orig': '/injectKeys/{id}',
-              'parts': <dynamic>[
-                'injectKeys',
-                '{id}',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'injectKeys',
+                },
+                <String, dynamic>{
+                  'var': 'id',
+                },
               ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
@@ -1909,6 +2182,10 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'injectKeys',
+                '{id}',
+              ],
             },
           ],
         },
@@ -1920,6 +2197,7 @@ class Config {
     'kif': <String, dynamic>{
       'fields': <dynamic>[
         <String, dynamic>{
+          'format': 'int64',
           'name': 'id',
           'short': 'This resource\'s unique identifier.',
           'type': '`\$INTEGER`',
@@ -1930,6 +2208,10 @@ class Config {
           'type': '`\$STRING`',
         },
       ],
+      'id': <String, dynamic>{
+        'field': 'id',
+        'name': 'id',
+      },
       'name': 'kif',
       'op': <String, dynamic>{
         'list': <String, dynamic>{
@@ -1941,14 +2223,19 @@ class Config {
               'kind': 'http',
               'method': 'GET',
               'orig': '/kifs',
-              'parts': <dynamic>[
-                'kifs',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'kifs',
+                },
               ],
               'select': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body.data`',
               },
+              'parts': <dynamic>[
+                'kifs',
+              ],
             },
           ],
         },
@@ -1985,6 +2272,7 @@ class Config {
           'type': '`\$STRING`',
         },
         <String, dynamic>{
+          'format': 'datetime',
           'name': 'created',
           'short': 'Creation timestamp in ISO 8601 format.',
           'type': '`\$STRING`',
@@ -2035,6 +2323,7 @@ class Config {
           'type': '`\$STRING`',
         },
         <String, dynamic>{
+          'format': 'datetime',
           'name': 'modified',
           'short': 'Last modified timestamp.',
           'type': '`\$STRING`',
@@ -2075,6 +2364,10 @@ class Config {
           'type': '`\$INTEGER`',
         },
       ],
+      'id': <String, dynamic>{
+        'field': 'id',
+        'name': 'id',
+      },
       'name': 'location',
       'op': <String, dynamic>{
         'create': <String, dynamic>{
@@ -2086,14 +2379,19 @@ class Config {
               'kind': 'http',
               'method': 'POST',
               'orig': '/locations',
-              'parts': <dynamic>[
-                'locations',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'locations',
+                },
               ],
               'select': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'locations',
+              ],
             },
           ],
         },
@@ -2130,8 +2428,10 @@ class Config {
               'kind': 'http',
               'method': 'GET',
               'orig': '/locations',
-              'parts': <dynamic>[
-                'locations',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'locations',
+                },
               ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
@@ -2144,6 +2444,9 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body.data`',
               },
+              'parts': <dynamic>[
+                'locations',
+              ],
             },
           ],
         },
@@ -2166,9 +2469,13 @@ class Config {
               'kind': 'http',
               'method': 'GET',
               'orig': '/locations/{id}',
-              'parts': <dynamic>[
-                'locations',
-                '{id}',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'locations',
+                },
+                <String, dynamic>{
+                  'var': 'id',
+                },
               ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
@@ -2179,6 +2486,10 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'locations',
+                '{id}',
+              ],
             },
           ],
         },
@@ -2201,9 +2512,13 @@ class Config {
               'kind': 'http',
               'method': 'DELETE',
               'orig': '/locations/{id}',
-              'parts': <dynamic>[
-                'locations',
-                '{id}',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'locations',
+                },
+                <String, dynamic>{
+                  'var': 'id',
+                },
               ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
@@ -2214,6 +2529,10 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'locations',
+                '{id}',
+              ],
             },
           ],
         },
@@ -2246,6 +2565,7 @@ class Config {
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
+          'format': 'datetime',
           'name': 'created',
           'short': 'Creation timestamp in ISO 8601 format.',
           'type': '`\$STRING`',
@@ -2267,6 +2587,7 @@ class Config {
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
+          'format': 'datetime',
           'name': 'modified',
           'short': 'Last modified timestamp.',
           'type': '`\$STRING`',
@@ -2302,6 +2623,10 @@ class Config {
           'type': '`\$INTEGER`',
         },
       ],
+      'id': <String, dynamic>{
+        'field': 'id',
+        'name': 'id',
+      },
       'name': 'partner',
       'op': <String, dynamic>{
         'create': <String, dynamic>{
@@ -2313,14 +2638,19 @@ class Config {
               'kind': 'http',
               'method': 'POST',
               'orig': '/partners',
-              'parts': <dynamic>[
-                'partners',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'partners',
+                },
               ],
               'select': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'partners',
+              ],
             },
           ],
         },
@@ -2356,8 +2686,10 @@ class Config {
               'kind': 'http',
               'method': 'GET',
               'orig': '/partners',
-              'parts': <dynamic>[
-                'partners',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'partners',
+                },
               ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
@@ -2370,6 +2702,9 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body.data`',
               },
+              'parts': <dynamic>[
+                'partners',
+              ],
             },
           ],
         },
@@ -2392,9 +2727,13 @@ class Config {
               'kind': 'http',
               'method': 'GET',
               'orig': '/partners/{id}',
-              'parts': <dynamic>[
-                'partners',
-                '{id}',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'partners',
+                },
+                <String, dynamic>{
+                  'var': 'id',
+                },
               ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
@@ -2405,6 +2744,10 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'partners',
+                '{id}',
+              ],
             },
           ],
         },
@@ -2426,16 +2769,19 @@ class Config {
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
+          'format': 'datetime',
           'name': 'created',
           'short': 'Creation timestamp in ISO 8601 format.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
+          'format': 'datetime',
           'name': 'dateReceived',
           'short': 'The date and time that a package is recieved.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
+          'format': 'datetime',
           'name': 'dateShipped',
           'short': 'The date and time that a package is shipped.',
           'type': '`\$STRING`',
@@ -2460,6 +2806,7 @@ class Config {
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
+          'format': 'datetime',
           'name': 'modified',
           'short': 'Last modified timestamp.',
           'type': '`\$STRING`',
@@ -2480,11 +2827,16 @@ class Config {
           'type': '`\$STRING`',
         },
         <String, dynamic>{
+          'format': 'int32',
           'name': 'version',
           'short': 'The number of times that this resource has been updated.',
           'type': '`\$INTEGER`',
         },
       ],
+      'id': <String, dynamic>{
+        'field': 'id',
+        'name': 'id',
+      },
       'name': 'shipment',
       'op': <String, dynamic>{
         'create': <String, dynamic>{
@@ -2496,14 +2848,19 @@ class Config {
               'kind': 'http',
               'method': 'POST',
               'orig': '/shipments',
-              'parts': <dynamic>[
-                'shipments',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'shipments',
+                },
               ],
               'select': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'shipments',
+              ],
             },
           ],
         },
@@ -2546,8 +2903,10 @@ class Config {
               'kind': 'http',
               'method': 'GET',
               'orig': '/shipments',
-              'parts': <dynamic>[
-                'shipments',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'shipments',
+                },
               ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
@@ -2561,6 +2920,9 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body.data`',
               },
+              'parts': <dynamic>[
+                'shipments',
+              ],
             },
           ],
         },
@@ -2583,9 +2945,13 @@ class Config {
               'kind': 'http',
               'method': 'GET',
               'orig': '/shipments/{id}',
-              'parts': <dynamic>[
-                'shipments',
-                '{id}',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'shipments',
+                },
+                <String, dynamic>{
+                  'var': 'id',
+                },
               ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
@@ -2596,6 +2962,10 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'shipments',
+                '{id}',
+              ],
             },
           ],
         },
@@ -2633,15 +3003,19 @@ class Config {
               'kind': 'http',
               'method': 'POST',
               'orig': '/virtualDevices/{sharePartnerTo}',
-              'parts': <dynamic>[
-                'virtualDevices',
-                '{share_partner_to}',
-              ],
               'rename': <String, dynamic>{
                 'param': <String, dynamic>{
                   'sharePartnerTo': 'share_partner_to',
                 },
               },
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'virtualDevices',
+                },
+                <String, dynamic>{
+                  'var': 'share_partner_to',
+                },
+              ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'share_partner_to',
@@ -2651,6 +3025,10 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'virtualDevices',
+                '{share_partner_to}',
+              ],
             },
           ],
         },
@@ -2673,15 +3051,19 @@ class Config {
               'kind': 'http',
               'method': 'DELETE',
               'orig': '/virtualDevices/{sharePartnerTo}',
-              'parts': <dynamic>[
-                'virtualDevices',
-                '{share_partner_to}',
-              ],
               'rename': <String, dynamic>{
                 'param': <String, dynamic>{
                   'sharePartnerTo': 'share_partner_to',
                 },
               },
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'virtualDevices',
+                },
+                <String, dynamic>{
+                  'var': 'share_partner_to',
+                },
+              ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'share_partner_to',
@@ -2691,6 +3073,10 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'virtualDevices',
+                '{share_partner_to}',
+              ],
             },
           ],
         },
@@ -2721,11 +3107,13 @@ class Config {
           'type': '`\$STRING`',
         },
         <String, dynamic>{
+          'format': 'datetime',
           'name': 'created',
           'short': 'Creation timestamp in ISO 8601 format.',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
+          'format': 'int32',
           'name': 'decrypted',
           'short': 'A Transcation can process muliple decryptions.',
           'type': '`\$INTEGER`',
@@ -2741,11 +3129,13 @@ class Config {
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
+          'format': 'int32',
           'name': 'encrypted',
           'short': 'A Transcation can process muliple encryptions.',
           'type': '`\$INTEGER`',
         },
         <String, dynamic>{
+          'format': 'datetime',
           'name': 'endDate',
           'short': 'Timestamp from the end of the transaction.',
           'type': '`\$STRING`',
@@ -2812,6 +3202,7 @@ class Config {
           'type': '`\$STRING`',
         },
         <String, dynamic>{
+          'format': 'datetime',
           'name': 'startDate',
           'short': 'Timestamp from the beginning of the transaction.',
           'type': '`\$STRING`',
@@ -2827,6 +3218,10 @@ class Config {
           'type': '`\$STRING`',
         },
       ],
+      'id': <String, dynamic>{
+        'field': 'id',
+        'name': 'id',
+      },
       'name': 'transaction',
       'op': <String, dynamic>{
         'create': <String, dynamic>{
@@ -2838,14 +3233,19 @@ class Config {
               'kind': 'http',
               'method': 'POST',
               'orig': '/transactions',
-              'parts': <dynamic>[
-                'transactions',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'transactions',
+                },
               ],
               'select': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'transactions',
+              ],
             },
           ],
         },
@@ -2942,8 +3342,10 @@ class Config {
               'kind': 'http',
               'method': 'GET',
               'orig': '/transactions',
-              'parts': <dynamic>[
-                'transactions',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'transactions',
+                },
               ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
@@ -2966,6 +3368,9 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body.data`',
               },
+              'parts': <dynamic>[
+                'transactions',
+              ],
             },
           ],
         },
@@ -2988,9 +3393,13 @@ class Config {
               'kind': 'http',
               'method': 'GET',
               'orig': '/transactions/{id}',
-              'parts': <dynamic>[
-                'transactions',
-                '{id}',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'transactions',
+                },
+                <String, dynamic>{
+                  'var': 'id',
+                },
               ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
@@ -3001,6 +3410,10 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'transactions',
+                '{id}',
+              ],
             },
           ],
         },
@@ -3072,6 +3485,10 @@ class Config {
           'type': '`\$INTEGER`',
         },
       ],
+      'id': <String, dynamic>{
+        'field': 'id',
+        'name': 'id',
+      },
       'name': 'update_result',
       'op': <String, dynamic>{
         'create': <String, dynamic>{
@@ -3083,14 +3500,19 @@ class Config {
               'kind': 'http',
               'method': 'POST',
               'orig': '/users',
-              'parts': <dynamic>[
-                'users',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'users',
+                },
               ],
               'select': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'users',
+              ],
             },
           ],
         },
@@ -3138,8 +3560,10 @@ class Config {
               'kind': 'http',
               'method': 'GET',
               'orig': '/users',
-              'parts': <dynamic>[
-                'users',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'users',
+                },
               ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
@@ -3154,6 +3578,9 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body.data`',
               },
+              'parts': <dynamic>[
+                'users',
+              ],
             },
           ],
         },
@@ -3176,9 +3603,13 @@ class Config {
               'kind': 'http',
               'method': 'PATCH',
               'orig': '/clients/{id}',
-              'parts': <dynamic>[
-                'clients',
-                '{id}',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'clients',
+                },
+                <String, dynamic>{
+                  'var': 'id',
+                },
               ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
@@ -3189,6 +3620,10 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'clients',
+                '{id}',
+              ],
             },
             <String, dynamic>{
               'args': <String, dynamic>{
@@ -3205,9 +3640,13 @@ class Config {
               'kind': 'http',
               'method': 'PATCH',
               'orig': '/devices/{id}',
-              'parts': <dynamic>[
-                'devices',
-                '{id}',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'devices',
+                },
+                <String, dynamic>{
+                  'var': 'id',
+                },
               ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
@@ -3218,6 +3657,10 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'devices',
+                '{id}',
+              ],
             },
             <String, dynamic>{
               'args': <String, dynamic>{
@@ -3234,9 +3677,13 @@ class Config {
               'kind': 'http',
               'method': 'PATCH',
               'orig': '/locations/{id}',
-              'parts': <dynamic>[
-                'locations',
-                '{id}',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'locations',
+                },
+                <String, dynamic>{
+                  'var': 'id',
+                },
               ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
@@ -3247,6 +3694,10 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'locations',
+                '{id}',
+              ],
             },
             <String, dynamic>{
               'args': <String, dynamic>{
@@ -3263,9 +3714,13 @@ class Config {
               'kind': 'http',
               'method': 'PATCH',
               'orig': '/partners/{id}',
-              'parts': <dynamic>[
-                'partners',
-                '{id}',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'partners',
+                },
+                <String, dynamic>{
+                  'var': 'id',
+                },
               ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
@@ -3276,6 +3731,10 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'partners',
+                '{id}',
+              ],
             },
             <String, dynamic>{
               'args': <String, dynamic>{
@@ -3292,9 +3751,13 @@ class Config {
               'kind': 'http',
               'method': 'PATCH',
               'orig': '/shipments/{id}',
-              'parts': <dynamic>[
-                'shipments',
-                '{id}',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'shipments',
+                },
+                <String, dynamic>{
+                  'var': 'id',
+                },
               ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
@@ -3305,6 +3768,10 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'shipments',
+                '{id}',
+              ],
             },
             <String, dynamic>{
               'args': <String, dynamic>{
@@ -3321,9 +3788,13 @@ class Config {
               'kind': 'http',
               'method': 'PATCH',
               'orig': '/transactions/{id}',
-              'parts': <dynamic>[
-                'transactions',
-                '{id}',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'transactions',
+                },
+                <String, dynamic>{
+                  'var': 'id',
+                },
               ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
@@ -3334,6 +3805,10 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'transactions',
+                '{id}',
+              ],
             },
             <String, dynamic>{
               'args': <String, dynamic>{
@@ -3350,9 +3825,13 @@ class Config {
               'kind': 'http',
               'method': 'PATCH',
               'orig': '/users/{id}',
-              'parts': <dynamic>[
-                'users',
-                '{id}',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'users',
+                },
+                <String, dynamic>{
+                  'var': 'id',
+                },
               ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
@@ -3363,6 +3842,10 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'users',
+                '{id}',
+              ],
             },
           ],
         },
@@ -3379,6 +3862,7 @@ class Config {
           'type': '`\$OBJECT`',
         },
         <String, dynamic>{
+          'format': 'datetime',
           'name': 'created',
           'short': 'Creation timestamp in ISO 8601 format.',
           'type': '`\$STRING`',
@@ -3414,6 +3898,7 @@ class Config {
           'type': '`\$STRING`',
         },
         <String, dynamic>{
+          'format': 'datetime',
           'name': 'modified',
           'short': 'Last modified timestamp.',
           'type': '`\$STRING`',
@@ -3444,6 +3929,10 @@ class Config {
           'type': '`\$INTEGER`',
         },
       ],
+      'id': <String, dynamic>{
+        'field': 'id',
+        'name': 'id',
+      },
       'name': 'user',
       'op': <String, dynamic>{
         'load': <String, dynamic>{
@@ -3465,9 +3954,13 @@ class Config {
               'kind': 'http',
               'method': 'GET',
               'orig': '/users/{id}',
-              'parts': <dynamic>[
-                'users',
-                '{id}',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'users',
+                },
+                <String, dynamic>{
+                  'var': 'id',
+                },
               ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
@@ -3478,6 +3971,10 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'users',
+                '{id}',
+              ],
             },
           ],
         },
@@ -3500,9 +3997,13 @@ class Config {
               'kind': 'http',
               'method': 'DELETE',
               'orig': '/users/{id}',
-              'parts': <dynamic>[
-                'users',
-                '{id}',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'users',
+                },
+                <String, dynamic>{
+                  'var': 'id',
+                },
               ],
               'select': <String, dynamic>{
                 'exist': <dynamic>[
@@ -3513,6 +4014,10 @@ class Config {
                 'req': '`reqdata`',
                 'res': '`body`',
               },
+              'parts': <dynamic>[
+                'users',
+                '{id}',
+              ],
             },
           ],
         },

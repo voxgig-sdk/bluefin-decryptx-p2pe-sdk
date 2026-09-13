@@ -41,6 +41,7 @@
             },
             {
               "active": true,
+              "format": "datetime",
               "name": "completeDate",
               "req": false,
               "short": "The date and time that the Attestation took place.",
@@ -48,6 +49,7 @@
             },
             {
               "active": true,
+              "format": "datetime",
               "name": "created",
               "req": false,
               "short": "Creation timestamp in ISO 8601 format.",
@@ -98,8 +100,10 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/attestations",
-                  "parts": [
-                    "attestations"
+                  "segments": [
+                    {
+                      "lit": "attestations"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -148,8 +152,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/attestations",
-                  "parts": [
-                    "attestations"
+                  "segments": [
+                    {
+                      "lit": "attestations"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -186,9 +192,13 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/attestations/{id}",
-                  "parts": [
-                    "attestations",
-                    "{id}"
+                  "segments": [
+                    {
+                      "lit": "attestations"
+                    },
+                    {
+                      "var": "id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -228,6 +238,7 @@
             },
             {
               "active": true,
+              "format": "datetime",
               "name": "created",
               "req": false,
               "short": "Creation timestamp in ISO 8601 format.",
@@ -270,6 +281,7 @@
             },
             {
               "active": true,
+              "format": "datetime",
               "name": "modified",
               "req": false,
               "short": "Last modified timestamp.",
@@ -313,8 +325,10 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/clients",
-                  "parts": [
-                    "clients"
+                  "segments": [
+                    {
+                      "lit": "clients"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -363,8 +377,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/clients",
-                  "parts": [
-                    "clients"
+                  "segments": [
+                    {
+                      "lit": "clients"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -401,9 +417,13 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/clients/{id}",
-                  "parts": [
-                    "clients",
-                    "{id}"
+                  "segments": [
+                    {
+                      "lit": "clients"
+                    },
+                    {
+                      "var": "id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -438,9 +458,13 @@
                   "kind": "http",
                   "method": "DELETE",
                   "orig": "/clients/{id}",
-                  "parts": [
-                    "clients",
-                    "{id}"
+                  "segments": [
+                    {
+                      "lit": "clients"
+                    },
+                    {
+                      "var": "id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -496,18 +520,26 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/devices/{serialNumber}/{deviceType}/custody",
-                  "parts": [
-                    "devices",
-                    "{serial_number}",
-                    "{device_type}",
-                    "custody"
-                  ],
                   "rename": {
                     "param": {
                       "deviceType": "device_type",
                       "serialNumber": "serial_number"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "devices"
+                    },
+                    {
+                      "var": "serial_number"
+                    },
+                    {
+                      "var": "device_type"
+                    },
+                    {
+                      "lit": "custody"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "device_type",
@@ -556,8 +588,10 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/decryption",
-                  "parts": [
-                    "decryption"
+                  "segments": [
+                    {
+                      "lit": "decryption"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -587,6 +621,7 @@
             },
             {
               "active": true,
+              "format": "datetime",
               "name": "activationDate",
               "req": false,
               "short": "Timestamp from when the Device was activated.",
@@ -601,6 +636,7 @@
             },
             {
               "active": true,
+              "format": "datetime",
               "name": "auditNextDate",
               "req": false,
               "short": "Date and time that the Device is due its next PCI Audit.",
@@ -608,6 +644,7 @@
             },
             {
               "active": true,
+              "format": "datetime",
               "name": "auditNotificationDate",
               "req": false,
               "short": "Date and time that a notification should be sent that a PCI audit is due.",
@@ -622,6 +659,7 @@
             },
             {
               "active": true,
+              "format": "datetime",
               "name": "created",
               "req": false,
               "short": "Creation timestamp in ISO 8601 format.",
@@ -664,6 +702,7 @@
             },
             {
               "active": true,
+              "format": "datetime",
               "name": "errorLastDate",
               "req": false,
               "short": "Timestamp from the last time that the Device had an error.",
@@ -685,6 +724,7 @@
             },
             {
               "active": true,
+              "format": "datetime",
               "name": "initializedDate",
               "req": false,
               "short": "Timestamp from when the Device was initialized.",
@@ -713,6 +753,7 @@
             },
             {
               "active": true,
+              "format": "datetime",
               "name": "lastActivityDate",
               "req": false,
               "short": "Timestamp from the last time that the Device was used.",
@@ -727,6 +768,7 @@
             },
             {
               "active": true,
+              "format": "datetime",
               "name": "modified",
               "req": false,
               "short": "Last modified timestamp.",
@@ -791,8 +833,10 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/devices",
-                  "parts": [
-                    "devices"
+                  "segments": [
+                    {
+                      "lit": "devices"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -891,8 +935,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/devices",
-                  "parts": [
-                    "devices"
+                  "segments": [
+                    {
+                      "lit": "devices"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -943,17 +989,23 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/devices/{serialNumber}/{deviceType}",
-                  "parts": [
-                    "devices",
-                    "{serial_number}",
-                    "{device_type}"
-                  ],
                   "rename": {
                     "param": {
                       "deviceType": "device_type",
                       "serialNumber": "serial_number"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "devices"
+                    },
+                    {
+                      "var": "serial_number"
+                    },
+                    {
+                      "var": "device_type"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "device_type",
@@ -982,9 +1034,13 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/devices/{id}",
-                  "parts": [
-                    "devices",
-                    "{id}"
+                  "segments": [
+                    {
+                      "lit": "devices"
+                    },
+                    {
+                      "var": "id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1036,6 +1092,7 @@
             },
             {
               "active": true,
+              "format": "date-time",
               "name": "created",
               "req": false,
               "short": "Creation timestamp in ISO 8601 format.",
@@ -1064,6 +1121,7 @@
             },
             {
               "active": true,
+              "format": "int64",
               "name": "id",
               "req": false,
               "short": "This resource's unique identifier.",
@@ -1078,6 +1136,7 @@
             },
             {
               "active": true,
+              "format": "date-time",
               "name": "modified",
               "req": false,
               "short": "Last modified timestamp.",
@@ -1164,8 +1223,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/deviceBuilds",
-                  "parts": [
-                    "deviceBuilds"
+                  "segments": [
+                    {
+                      "lit": "deviceBuilds"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1202,9 +1263,13 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/deviceBuilds/{id}",
-                  "parts": [
-                    "deviceBuilds",
-                    "{id}"
+                  "segments": [
+                    {
+                      "lit": "deviceBuilds"
+                    },
+                    {
+                      "var": "id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -1231,6 +1296,7 @@
           "fields": [
             {
               "active": true,
+              "format": "date-time",
               "name": "completeDate",
               "req": false,
               "short": "The date and time that the Custody change took place.",
@@ -1238,6 +1304,7 @@
             },
             {
               "active": true,
+              "format": "date-time",
               "name": "created",
               "req": false,
               "short": "Creation timestamp in ISO 8601 format.",
@@ -1266,6 +1333,7 @@
             },
             {
               "active": true,
+              "format": "int64",
               "name": "id",
               "req": false,
               "short": "This resource's unique identifier.",
@@ -1280,6 +1348,7 @@
             },
             {
               "active": true,
+              "format": "date-time",
               "name": "modified",
               "req": false,
               "short": "Last modified timestamp.",
@@ -1364,19 +1433,29 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/devices/{serialNumber}/{deviceType}/custody/{id}",
-                  "parts": [
-                    "devices",
-                    "{serial_number}",
-                    "{device_type}",
-                    "custody",
-                    "{id}"
-                  ],
                   "rename": {
                     "param": {
                       "deviceType": "device_type",
                       "serialNumber": "serial_number"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "devices"
+                    },
+                    {
+                      "var": "serial_number"
+                    },
+                    {
+                      "var": "device_type"
+                    },
+                    {
+                      "lit": "custody"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "device_type",
@@ -1408,6 +1487,7 @@
           "fields": [
             {
               "active": true,
+              "format": "date-time",
               "name": "completeDate",
               "req": false,
               "short": "The date and time that the Custody change took place.",
@@ -1415,6 +1495,7 @@
             },
             {
               "active": true,
+              "format": "date-time",
               "name": "created",
               "req": false,
               "short": "Creation timestamp in ISO 8601 format.",
@@ -1443,6 +1524,7 @@
             },
             {
               "active": true,
+              "format": "int64",
               "name": "id",
               "req": false,
               "short": "This resource's unique identifier.",
@@ -1457,6 +1539,7 @@
             },
             {
               "active": true,
+              "format": "date-time",
               "name": "modified",
               "req": false,
               "short": "Last modified timestamp.",
@@ -1553,18 +1636,26 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/devices/{serialNumber}/{deviceType}/custody",
-                  "parts": [
-                    "devices",
-                    "{serial_number}",
-                    "{device_type}",
-                    "custody"
-                  ],
                   "rename": {
                     "param": {
                       "deviceType": "device_type",
                       "serialNumber": "serial_number"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "devices"
+                    },
+                    {
+                      "var": "serial_number"
+                    },
+                    {
+                      "var": "device_type"
+                    },
+                    {
+                      "lit": "custody"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "device_type",
@@ -1671,15 +1762,19 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/virtualDevices/{sharePartnerTo}",
-                  "parts": [
-                    "virtualDevices",
-                    "{share_partner_to}"
-                  ],
                   "rename": {
                     "param": {
                       "sharePartnerTo": "share_partner_to"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "virtualDevices"
+                    },
+                    {
+                      "var": "share_partner_to"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "share_partner_to",
@@ -1731,9 +1826,13 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/devices/receive",
-                  "parts": [
-                    "devices",
-                    "receive"
+                  "segments": [
+                    {
+                      "lit": "devices"
+                    },
+                    {
+                      "lit": "receive"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -1774,10 +1873,16 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/devices/rki/activate",
-                  "parts": [
-                    "devices",
-                    "rki",
-                    "activate"
+                  "segments": [
+                    {
+                      "lit": "devices"
+                    },
+                    {
+                      "lit": "rki"
+                    },
+                    {
+                      "lit": "activate"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -1800,6 +1905,7 @@
           "fields": [
             {
               "active": true,
+              "format": "int64",
               "name": "id",
               "req": false,
               "short": "Unique identifier for this Device state.",
@@ -1829,8 +1935,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/deviceStates",
-                  "parts": [
-                    "deviceStates"
+                  "segments": [
+                    {
+                      "lit": "deviceStates"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -1853,6 +1961,7 @@
           "fields": [
             {
               "active": true,
+              "format": "datetime",
               "name": "created",
               "req": false,
               "short": "Creation timestamp in ISO 8601 format.",
@@ -1902,6 +2011,7 @@
             },
             {
               "active": true,
+              "format": "datetime",
               "name": "modified",
               "req": false,
               "short": "Last modified timestamp.",
@@ -1951,8 +2061,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/deviceTypes",
-                  "parts": [
-                    "deviceTypes"
+                  "segments": [
+                    {
+                      "lit": "deviceTypes"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -1983,9 +2095,13 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/deviceTypes/{id}",
-                  "parts": [
-                    "deviceTypes",
-                    "{id}"
+                  "segments": [
+                    {
+                      "lit": "deviceTypes"
+                    },
+                    {
+                      "var": "id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -2012,6 +2128,7 @@
           "fields": [
             {
               "active": true,
+              "format": "datetime",
               "name": "created",
               "req": false,
               "short": "Creation timestamp in ISO 8601 format.",
@@ -2047,6 +2164,7 @@
             },
             {
               "active": true,
+              "format": "datetime",
               "name": "modified",
               "req": false,
               "short": "Last modified timestamp in ISO 8601 format.",
@@ -2083,8 +2201,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/injectKeys",
-                  "parts": [
-                    "injectKeys"
+                  "segments": [
+                    {
+                      "lit": "injectKeys"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -2115,9 +2235,13 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/injectKeys/{id}",
-                  "parts": [
-                    "injectKeys",
-                    "{id}"
+                  "segments": [
+                    {
+                      "lit": "injectKeys"
+                    },
+                    {
+                      "var": "id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -2144,6 +2268,7 @@
           "fields": [
             {
               "active": true,
+              "format": "int64",
               "name": "id",
               "req": false,
               "short": "This resource's unique identifier.",
@@ -2173,8 +2298,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/kifs",
-                  "parts": [
-                    "kifs"
+                  "segments": [
+                    {
+                      "lit": "kifs"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -2232,6 +2359,7 @@
             },
             {
               "active": true,
+              "format": "datetime",
               "name": "created",
               "req": false,
               "short": "Creation timestamp in ISO 8601 format.",
@@ -2302,6 +2430,7 @@
             },
             {
               "active": true,
+              "format": "datetime",
               "name": "modified",
               "req": false,
               "short": "Last modified timestamp.",
@@ -2373,8 +2502,10 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/locations",
-                  "parts": [
-                    "locations"
+                  "segments": [
+                    {
+                      "lit": "locations"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -2423,8 +2554,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/locations",
-                  "parts": [
-                    "locations"
+                  "segments": [
+                    {
+                      "lit": "locations"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -2461,9 +2594,13 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/locations/{id}",
-                  "parts": [
-                    "locations",
-                    "{id}"
+                  "segments": [
+                    {
+                      "lit": "locations"
+                    },
+                    {
+                      "var": "id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -2498,9 +2635,13 @@
                   "kind": "http",
                   "method": "DELETE",
                   "orig": "/locations/{id}",
-                  "parts": [
-                    "locations",
-                    "{id}"
+                  "segments": [
+                    {
+                      "lit": "locations"
+                    },
+                    {
+                      "var": "id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -2554,6 +2695,7 @@
             },
             {
               "active": true,
+              "format": "datetime",
               "name": "created",
               "req": false,
               "short": "Creation timestamp in ISO 8601 format.",
@@ -2582,6 +2724,7 @@
             },
             {
               "active": true,
+              "format": "datetime",
               "name": "modified",
               "req": false,
               "short": "Last modified timestamp.",
@@ -2646,8 +2789,10 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/partners",
-                  "parts": [
-                    "partners"
+                  "segments": [
+                    {
+                      "lit": "partners"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -2696,8 +2841,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/partners",
-                  "parts": [
-                    "partners"
+                  "segments": [
+                    {
+                      "lit": "partners"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -2734,9 +2881,13 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/partners/{id}",
-                  "parts": [
-                    "partners",
-                    "{id}"
+                  "segments": [
+                    {
+                      "lit": "partners"
+                    },
+                    {
+                      "var": "id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -2777,6 +2928,7 @@
             },
             {
               "active": true,
+              "format": "datetime",
               "name": "created",
               "req": false,
               "short": "Creation timestamp in ISO 8601 format.",
@@ -2784,6 +2936,7 @@
             },
             {
               "active": true,
+              "format": "datetime",
               "name": "dateReceived",
               "req": false,
               "short": "The date and time that a package is recieved.",
@@ -2791,6 +2944,7 @@
             },
             {
               "active": true,
+              "format": "datetime",
               "name": "dateShipped",
               "req": false,
               "short": "The date and time that a package is shipped.",
@@ -2825,6 +2979,7 @@
             },
             {
               "active": true,
+              "format": "datetime",
               "name": "modified",
               "req": false,
               "short": "Last modified timestamp.",
@@ -2853,6 +3008,7 @@
             },
             {
               "active": true,
+              "format": "int32",
               "name": "version",
               "req": false,
               "short": "The number of times that this resource has been updated.",
@@ -2875,8 +3031,10 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/shipments",
-                  "parts": [
-                    "shipments"
+                  "segments": [
+                    {
+                      "lit": "shipments"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -2933,8 +3091,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/shipments",
-                  "parts": [
-                    "shipments"
+                  "segments": [
+                    {
+                      "lit": "shipments"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -2972,9 +3132,13 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/shipments/{id}",
-                  "parts": [
-                    "shipments",
-                    "{id}"
+                  "segments": [
+                    {
+                      "lit": "shipments"
+                    },
+                    {
+                      "var": "id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -3030,15 +3194,19 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/virtualDevices/{sharePartnerTo}",
-                  "parts": [
-                    "virtualDevices",
-                    "{share_partner_to}"
-                  ],
                   "rename": {
                     "param": {
                       "sharePartnerTo": "share_partner_to"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "virtualDevices"
+                    },
+                    {
+                      "var": "share_partner_to"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "share_partner_to"
@@ -3072,15 +3240,19 @@
                   "kind": "http",
                   "method": "DELETE",
                   "orig": "/virtualDevices/{sharePartnerTo}",
-                  "parts": [
-                    "virtualDevices",
-                    "{share_partner_to}"
-                  ],
                   "rename": {
                     "param": {
                       "sharePartnerTo": "share_partner_to"
                     }
                   },
+                  "segments": [
+                    {
+                      "lit": "virtualDevices"
+                    },
+                    {
+                      "var": "share_partner_to"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "share_partner_to"
@@ -3131,6 +3303,7 @@
             },
             {
               "active": true,
+              "format": "datetime",
               "name": "created",
               "req": false,
               "short": "Creation timestamp in ISO 8601 format.",
@@ -3138,6 +3311,7 @@
             },
             {
               "active": true,
+              "format": "int32",
               "name": "decrypted",
               "req": false,
               "short": "A Transcation can process muliple decryptions.",
@@ -3159,6 +3333,7 @@
             },
             {
               "active": true,
+              "format": "int32",
               "name": "encrypted",
               "req": false,
               "short": "A Transcation can process muliple encryptions.",
@@ -3166,6 +3341,7 @@
             },
             {
               "active": true,
+              "format": "datetime",
               "name": "endDate",
               "req": false,
               "short": "Timestamp from the end of the transaction.",
@@ -3257,6 +3433,7 @@
             },
             {
               "active": true,
+              "format": "datetime",
               "name": "startDate",
               "req": false,
               "short": "Timestamp from the beginning of the transaction.",
@@ -3293,8 +3470,10 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/transactions",
-                  "parts": [
-                    "transactions"
+                  "segments": [
+                    {
+                      "lit": "transactions"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -3424,8 +3603,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/transactions",
-                  "parts": [
-                    "transactions"
+                  "segments": [
+                    {
+                      "lit": "transactions"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -3472,9 +3653,13 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/transactions/{id}",
-                  "parts": [
-                    "transactions",
-                    "{id}"
+                  "segments": [
+                    {
+                      "lit": "transactions"
+                    },
+                    {
+                      "var": "id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -3600,8 +3785,10 @@
                   "kind": "http",
                   "method": "POST",
                   "orig": "/users",
-                  "parts": [
-                    "users"
+                  "segments": [
+                    {
+                      "lit": "users"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -3666,8 +3853,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/users",
-                  "parts": [
-                    "users"
+                  "segments": [
+                    {
+                      "lit": "users"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -3706,9 +3895,13 @@
                   "kind": "http",
                   "method": "PATCH",
                   "orig": "/clients/{id}",
-                  "parts": [
-                    "clients",
-                    "{id}"
+                  "segments": [
+                    {
+                      "lit": "clients"
+                    },
+                    {
+                      "var": "id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -3737,9 +3930,13 @@
                   "kind": "http",
                   "method": "PATCH",
                   "orig": "/devices/{id}",
-                  "parts": [
-                    "devices",
-                    "{id}"
+                  "segments": [
+                    {
+                      "lit": "devices"
+                    },
+                    {
+                      "var": "id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -3768,9 +3965,13 @@
                   "kind": "http",
                   "method": "PATCH",
                   "orig": "/locations/{id}",
-                  "parts": [
-                    "locations",
-                    "{id}"
+                  "segments": [
+                    {
+                      "lit": "locations"
+                    },
+                    {
+                      "var": "id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -3799,9 +4000,13 @@
                   "kind": "http",
                   "method": "PATCH",
                   "orig": "/partners/{id}",
-                  "parts": [
-                    "partners",
-                    "{id}"
+                  "segments": [
+                    {
+                      "lit": "partners"
+                    },
+                    {
+                      "var": "id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -3830,9 +4035,13 @@
                   "kind": "http",
                   "method": "PATCH",
                   "orig": "/shipments/{id}",
-                  "parts": [
-                    "shipments",
-                    "{id}"
+                  "segments": [
+                    {
+                      "lit": "shipments"
+                    },
+                    {
+                      "var": "id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -3861,9 +4070,13 @@
                   "kind": "http",
                   "method": "PATCH",
                   "orig": "/transactions/{id}",
-                  "parts": [
-                    "transactions",
-                    "{id}"
+                  "segments": [
+                    {
+                      "lit": "transactions"
+                    },
+                    {
+                      "var": "id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -3892,9 +4105,13 @@
                   "kind": "http",
                   "method": "PATCH",
                   "orig": "/users/{id}",
-                  "parts": [
-                    "users",
-                    "{id}"
+                  "segments": [
+                    {
+                      "lit": "users"
+                    },
+                    {
+                      "var": "id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -3928,6 +4145,7 @@
             },
             {
               "active": true,
+              "format": "datetime",
               "name": "created",
               "req": false,
               "short": "Creation timestamp in ISO 8601 format.",
@@ -3977,6 +4195,7 @@
             },
             {
               "active": true,
+              "format": "datetime",
               "name": "modified",
               "req": false,
               "short": "Last modified timestamp.",
@@ -4045,9 +4264,13 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/users/{id}",
-                  "parts": [
-                    "users",
-                    "{id}"
+                  "segments": [
+                    {
+                      "lit": "users"
+                    },
+                    {
+                      "var": "id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -4082,9 +4305,13 @@
                   "kind": "http",
                   "method": "DELETE",
                   "orig": "/users/{id}",
-                  "parts": [
-                    "users",
-                    "{id}"
+                  "segments": [
+                    {
+                      "lit": "users"
+                    },
+                    {
+                      "var": "id"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -4170,8 +4397,11 @@
             }
           },
           "name": "audit",
+          "needs": {},
           "origname": "",
           "package": "@voxgig/sdkgen",
+          "plugin": {},
+          "spec": {},
           "target": {
             "c": {
               "deps": {}
@@ -4200,6 +4430,9 @@
             "go-mcp": {
               "deps": {}
             },
+            "haskell": {
+              "deps": {}
+            },
             "java": {
               "deps": {}
             },
@@ -4207,6 +4440,9 @@
               "deps": {}
             },
             "kotlin": {
+              "deps": {}
+            },
+            "lean": {
               "deps": {}
             },
             "lua": {
@@ -4303,8 +4539,11 @@
             }
           },
           "name": "clienttrack",
+          "needs": {},
           "origname": "",
           "package": "@voxgig/sdkgen",
+          "plugin": {},
+          "spec": {},
           "target": {
             "c": {
               "deps": {}
@@ -4333,6 +4572,9 @@
             "go-mcp": {
               "deps": {}
             },
+            "haskell": {
+              "deps": {}
+            },
             "java": {
               "deps": {}
             },
@@ -4340,6 +4582,9 @@
               "deps": {}
             },
             "kotlin": {
+              "deps": {}
+            },
+            "lean": {
               "deps": {}
             },
             "lua": {
@@ -4447,8 +4692,11 @@
             }
           },
           "name": "idempotency",
+          "needs": {},
           "origname": "",
           "package": "@voxgig/sdkgen",
+          "plugin": {},
+          "spec": {},
           "target": {
             "c": {
               "deps": {}
@@ -4477,6 +4725,9 @@
             "go-mcp": {
               "deps": {}
             },
+            "haskell": {
+              "deps": {}
+            },
             "java": {
               "deps": {}
             },
@@ -4484,6 +4735,9 @@
               "deps": {}
             },
             "kotlin": {
+              "deps": {}
+            },
+            "lean": {
               "deps": {}
             },
             "lua": {
@@ -4613,8 +4867,11 @@
             }
           },
           "name": "log",
+          "needs": {},
           "origname": "",
           "package": "@voxgig/sdkgen",
+          "plugin": {},
+          "spec": {},
           "target": {
             "c": {
               "deps": {}
@@ -4643,6 +4900,9 @@
             "go-mcp": {
               "deps": {}
             },
+            "haskell": {
+              "deps": {}
+            },
             "java": {
               "deps": {}
             },
@@ -4650,6 +4910,9 @@
               "deps": {}
             },
             "kotlin": {
+              "deps": {}
+            },
+            "lean": {
               "deps": {}
             },
             "lua": {
@@ -4757,8 +5020,11 @@
             }
           },
           "name": "metrics",
+          "needs": {},
           "origname": "",
           "package": "@voxgig/sdkgen",
+          "plugin": {},
+          "spec": {},
           "target": {
             "c": {
               "deps": {}
@@ -4787,6 +5053,9 @@
             "go-mcp": {
               "deps": {}
             },
+            "haskell": {
+              "deps": {}
+            },
             "java": {
               "deps": {}
             },
@@ -4794,6 +5063,9 @@
               "deps": {}
             },
             "kotlin": {
+              "deps": {}
+            },
+            "lean": {
               "deps": {}
             },
             "lua": {
@@ -4895,8 +5167,11 @@
             }
           },
           "name": "paging",
+          "needs": {},
           "origname": "",
           "package": "@voxgig/sdkgen",
+          "plugin": {},
+          "spec": {},
           "target": {
             "c": {
               "deps": {}
@@ -4925,6 +5200,9 @@
             "go-mcp": {
               "deps": {}
             },
+            "haskell": {
+              "deps": {}
+            },
             "java": {
               "deps": {}
             },
@@ -4932,6 +5210,9 @@
               "deps": {}
             },
             "kotlin": {
+              "deps": {}
+            },
+            "lean": {
               "deps": {}
             },
             "lua": {
@@ -5029,8 +5310,11 @@
             }
           },
           "name": "ratelimit",
+          "needs": {},
           "origname": "",
           "package": "@voxgig/sdkgen",
+          "plugin": {},
+          "spec": {},
           "target": {
             "c": {
               "deps": {}
@@ -5059,6 +5343,9 @@
             "go-mcp": {
               "deps": {}
             },
+            "haskell": {
+              "deps": {}
+            },
             "java": {
               "deps": {}
             },
@@ -5066,6 +5353,9 @@
               "deps": {}
             },
             "kotlin": {
+              "deps": {}
+            },
+            "lean": {
               "deps": {}
             },
             "lua": {
@@ -5174,8 +5464,11 @@
             }
           },
           "name": "retry",
+          "needs": {},
           "origname": "",
           "package": "@voxgig/sdkgen",
+          "plugin": {},
+          "spec": {},
           "target": {
             "c": {
               "deps": {}
@@ -5204,6 +5497,9 @@
             "go-mcp": {
               "deps": {}
             },
+            "haskell": {
+              "deps": {}
+            },
             "java": {
               "deps": {}
             },
@@ -5211,6 +5507,9 @@
               "deps": {}
             },
             "kotlin": {
+              "deps": {}
+            },
+            "lean": {
               "deps": {}
             },
             "lua": {
@@ -5318,8 +5617,11 @@
             }
           },
           "name": "telemetry",
+          "needs": {},
           "origname": "",
           "package": "@voxgig/sdkgen",
+          "plugin": {},
+          "spec": {},
           "target": {
             "c": {
               "deps": {}
@@ -5348,6 +5650,9 @@
             "go-mcp": {
               "deps": {}
             },
+            "haskell": {
+              "deps": {}
+            },
             "java": {
               "deps": {}
             },
@@ -5355,6 +5660,9 @@
               "deps": {}
             },
             "kotlin": {
+              "deps": {}
+            },
+            "lean": {
               "deps": {}
             },
             "lua": {
@@ -5458,8 +5766,11 @@
             }
           },
           "name": "test",
+          "needs": {},
           "origname": "",
           "package": "@voxgig/sdkgen",
+          "plugin": {},
+          "spec": {},
           "target": {
             "c": {
               "deps": {}
@@ -5488,6 +5799,9 @@
             "go-mcp": {
               "deps": {}
             },
+            "haskell": {
+              "deps": {}
+            },
             "java": {
               "deps": {}
             },
@@ -5495,6 +5809,9 @@
               "deps": {}
             },
             "kotlin": {
+              "deps": {}
+            },
+            "lean": {
               "deps": {}
             },
             "lua": {
@@ -5591,8 +5908,11 @@
             }
           },
           "name": "timeout",
+          "needs": {},
           "origname": "",
           "package": "@voxgig/sdkgen",
+          "plugin": {},
+          "spec": {},
           "target": {
             "c": {
               "deps": {}
@@ -5621,6 +5941,9 @@
             "go-mcp": {
               "deps": {}
             },
+            "haskell": {
+              "deps": {}
+            },
             "java": {
               "deps": {}
             },
@@ -5628,6 +5951,9 @@
               "deps": {}
             },
             "kotlin": {
+              "deps": {}
+            },
+            "lean": {
               "deps": {}
             },
             "lua": {
@@ -6718,6 +7044,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -6743,6 +7072,9 @@
             "version": "0.1.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "tests/runner.h"
+          ],
           "title": "C"
         },
         "clojure": {
@@ -6777,6 +7109,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -6802,6 +7137,7 @@
             "version": "0.1.1"
           },
           "srcfeature": false,
+          "superseded": [],
           "title": "Clojure"
         },
         "cpp": {
@@ -6838,6 +7174,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -6863,6 +7202,9 @@
             "version": "0.1.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/struct_runner.hpp"
+          ],
           "title": "C++"
         },
         "csharp": {
@@ -6899,6 +7241,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -6924,6 +7269,9 @@
             "version": "0.1.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/StructRunner.cs"
+          ],
           "title": "C#"
         },
         "dart": {
@@ -6932,7 +7280,7 @@
             "name": "",
             "url": ""
           },
-          "base": "node_modules/@voxgig/sdkgen/project/.sdk",
+          "base": "node_modules/@voxgig/sdkgen-langpack/.sdk",
           "comment": {
             "line": "//"
           },
@@ -6957,7 +7305,10 @@
             "repo": "",
             "sdkrel": ""
           },
-          "package": "@voxgig/sdkgen",
+          "package": "@voxgig/sdkgen-langpack",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -6983,6 +7334,10 @@
             "version": "0.1.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/runner.dart",
+            "test/struct_corpus.dart"
+          ],
           "title": "Dart"
         },
         "elixir": {
@@ -7017,6 +7372,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -7042,6 +7400,9 @@
             "version": "0.1.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/support/struct_corpus.ex"
+          ],
           "title": "Elixir"
         },
         "go": {
@@ -7078,6 +7439,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -7103,6 +7467,10 @@
             "version": "0.1.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/runner_test.go",
+            "test/struct_runner_test.go"
+          ],
           "title": "Golang"
         },
         "go-cli": {
@@ -7154,6 +7522,7 @@
               "active": false
             }
           },
+          "provides": {},
           "publish": {
             "registry": {
               "active": false,
@@ -7178,6 +7547,7 @@
             },
             "version": "0.1.1"
           },
+          "superseded": [],
           "title": "Go CLI"
         },
         "go-mcp": {
@@ -7229,6 +7599,7 @@
               "active": false
             }
           },
+          "provides": {},
           "publish": {
             "registry": {
               "active": false,
@@ -7253,7 +7624,86 @@
             },
             "version": "0.1.1"
           },
+          "superseded": [],
           "title": "Go MCP server"
+        },
+        "haskell": {
+          "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
+          "base": "node_modules/@voxgig/sdkgen-langpack/.sdk",
+          "comment": {
+            "line": "--"
+          },
+          "deps": {},
+          "ext": "hs",
+          "feature": {
+            "fullset": [],
+            "trim": false
+          },
+          "module": {
+            "goversion": "",
+            "name": "bluefin-decryptx-p2pe",
+            "package": "",
+            "path": ""
+          },
+          "name": "haskell",
+          "origname": "",
+          "output": {
+            "adopt": false,
+            "create": true,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
+          "package": "@voxgig/sdkgen-langpack",
+          "phase": {
+            "agentguide": {
+              "active": true
+            },
+            "entity": {
+              "active": false
+            },
+            "feature": {
+              "active": false
+            },
+            "readme": {
+              "active": true
+            },
+            "test": {
+              "active": true
+            }
+          },
+          "provides": {},
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "hackage",
+              "package": "",
+              "state": "pending",
+              "url": "https://hackage.haskell.org",
+              "vault": {
+                "alias": "hackage",
+                "env": "HACKAGE_TOKEN",
+                "recipe": ""
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "port"
+            },
+            "version": "0.0.1"
+          },
+          "srcfeature": false,
+          "superseded": [],
+          "title": "Haskell"
         },
         "java": {
           "active": true,
@@ -7289,6 +7739,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -7314,6 +7767,9 @@
             "version": "0.1.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/StructRunner.java"
+          ],
           "title": "Java"
         },
         "js": {
@@ -7354,6 +7810,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -7378,6 +7837,9 @@
             },
             "version": "0.1.1"
           },
+          "superseded": [
+            "test/runner.js"
+          ],
           "title": "JavaScript"
         },
         "kotlin": {
@@ -7414,6 +7876,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -7439,7 +7904,88 @@
             "version": "0.1.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/StructRunner.kt"
+          ],
           "title": "Kotlin"
+        },
+        "lean": {
+          "active": true,
+          "author": {
+            "name": "",
+            "url": ""
+          },
+          "base": "node_modules/@voxgig/sdkgen-langpack/.sdk",
+          "comment": {
+            "line": "--"
+          },
+          "deps": {},
+          "ext": "lean",
+          "feature": {
+            "fullset": [],
+            "trim": false
+          },
+          "module": {
+            "goversion": "",
+            "name": "bluefin-decryptx-p2pe",
+            "package": "",
+            "path": ""
+          },
+          "name": "lean",
+          "origname": "",
+          "output": {
+            "adopt": false,
+            "create": true,
+            "path": "",
+            "repo": "",
+            "sdkrel": ""
+          },
+          "package": "@voxgig/sdkgen-langpack",
+          "phase": {
+            "agentguide": {
+              "active": true
+            },
+            "entity": {
+              "active": false
+            },
+            "feature": {
+              "active": false
+            },
+            "readme": {
+              "active": true
+            },
+            "test": {
+              "active": true
+            }
+          },
+          "provides": {},
+          "publish": {
+            "registry": {
+              "active": false,
+              "name": "reservoir",
+              "package": "",
+              "state": "pending",
+              "url": "https://reservoir.lean-lang.org",
+              "vault": {
+                "alias": "reservoir",
+                "env": "RESERVOIR_TOKEN",
+                "recipe": ""
+              }
+            },
+            "tag": {
+              "active": true,
+              "prefix": "",
+              "vault": {
+                "alias": "github",
+                "recipe": "github"
+              },
+              "via": "port"
+            },
+            "version": "0.0.1"
+          },
+          "srcfeature": false,
+          "superseded": [],
+          "title": "Lean"
         },
         "lua": {
           "active": true,
@@ -7479,6 +8025,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -7504,6 +8053,9 @@
             "version": "0.1.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/struct_runner.lua"
+          ],
           "title": "Lua"
         },
         "ocaml": {
@@ -7520,7 +8072,7 @@
           "ext": "ml",
           "feature": {
             "fullset": [],
-            "trim": false
+            "trim": true
           },
           "module": {
             "goversion": "",
@@ -7538,6 +8090,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -7563,6 +8118,9 @@
             "version": "0.1.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/corpus_runner.ml"
+          ],
           "title": "OCaml"
         },
         "perl": {
@@ -7597,6 +8155,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -7622,6 +8183,9 @@
             "version": "0.1.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "t/struct_runner.pm"
+          ],
           "title": "Perl"
         },
         "php": {
@@ -7656,6 +8220,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -7681,6 +8248,9 @@
             "version": "0.1.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/StructRunner.php"
+          ],
           "title": "PHP"
         },
         "py": {
@@ -7721,6 +8291,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -7746,6 +8319,9 @@
             "version": "0.1.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/struct_runner.py"
+          ],
           "title": "Python"
         },
         "rb": {
@@ -7791,6 +8367,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -7816,6 +8395,9 @@
             "version": "0.1.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/struct_runner.rb"
+          ],
           "title": "Ruby"
         },
         "rust": {
@@ -7858,6 +8440,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -7883,6 +8468,9 @@
             "version": "0.1.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "tests/struct_runner/mod.rs"
+          ],
           "title": "Rust"
         },
         "scala": {
@@ -7917,6 +8505,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -7942,6 +8533,7 @@
             "version": "0.1.1"
           },
           "srcfeature": false,
+          "superseded": [],
           "title": "Scala"
         },
         "swift": {
@@ -7978,6 +8570,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -8003,6 +8598,7 @@
             "version": "0.1.1"
           },
           "srcfeature": false,
+          "superseded": [],
           "title": "Swift"
         },
         "ts": {
@@ -8020,11 +8616,6 @@
               "active": true,
               "kind": "dev",
               "version": "^25.6.0"
-            },
-            "dotenv": {
-              "active": true,
-              "kind": "dev",
-              "version": "^17.4.2"
             },
             "typescript": {
               "active": true,
@@ -8053,6 +8644,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -8077,6 +8671,14 @@
             },
             "version": "0.1.1"
           },
+          "superseded": [
+            "test/runner.ts",
+            "test/vendor/omni/compat.ts",
+            "src/feature/secrets/sekreto/Providers.ts",
+            "src/feature/secrets/sekreto/Sigv4.ts",
+            "src/feature/secrets/sekreto/provider/Registry.ts",
+            "src/feature/secrets/sekreto/provider/http.ts"
+          ],
           "title": "TypeScript"
         },
         "zig": {
@@ -8111,6 +8713,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -8136,6 +8741,9 @@
             "version": "0.1.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/struct_runner.zig"
+          ],
           "title": "Zig"
         }
       },

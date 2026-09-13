@@ -6,6 +6,7 @@ main: kit: entity: device_state: {
 
   fields: [
     {
+      format: "int64"
       name: "id"
       req: false
       short: "Unique identifier for this Device state."
@@ -32,8 +33,10 @@ main: kit: entity: device_state: {
         {
           method: "GET"
           orig: "/deviceStates"
-          parts: [
-            "deviceStates"
+          segments: [
+            {
+              lit: "deviceStates"
+            }
           ]
           transform: {
             req: "`reqdata`"

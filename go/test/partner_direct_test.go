@@ -196,14 +196,22 @@ func partnerDirectSetup(mockres any) *partnerDirectSetupResult {
 	env := envOverride(map[string]any{
 		"BLUEFIN_DECRYPTX_P2PE_TEST_PARTNER_ENTID": map[string]any{},
 		"BLUEFIN_DECRYPTX_P2PE_TEST_LIVE":    "FALSE",
-		"BLUEFIN_DECRYPTX_P2PE_APIKEY":       "NONE",
+		"BLUEFIN_DECRYPTX_P2PE_APIKEY":       "",
 	})
 
 	live := env["BLUEFIN_DECRYPTX_P2PE_TEST_LIVE"] == "TRUE"
 
 	if live {
-		mergedOpts := map[string]any{
+		// sdk-test-control.json's test.client.options seeds the live
+		// client; the generated fields below overwrite anything they name.
+		mergedOpts := map[string]any{}
+		for k, v := range liveClientOptions() {
+			mergedOpts[k] = v
+		}
+		for k, v := range map[string]any{
 			"apikey": env["BLUEFIN_DECRYPTX_P2PE_APIKEY"],
+		} {
+			mergedOpts[k] = v
 		}
 		client := sdk.NewBluefinDecryptxP2peSDK(mergedOpts)
 

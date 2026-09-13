@@ -177,13 +177,13 @@ Prepare a fetch definition without sending. Returns the `fetchdef` and raises on
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `client` | `Value` | No |  |
-| `completeDate` | `String` | No |  |
-| `created` | `String` | No |  |
-| `device` | `Value` | No |  |
-| `id` | `String` | No |  |
-| `name` | `String` | No |  |
-| `notes` | `String` | No |  |
+| `client` | `Value` | No | Reference to the associated Client resource. |
+| `completeDate` | `String` | No | The date and time that the Attestation took place. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `device` | `Value` | No | Reference to the associated Device resource. |
+| `id` | `String` | No | This resource's unique identifier. |
+| `name` | `String` | No | Text describing the attestation. |
+| `notes` | `String` | No | Free form field that allows the Client associate notes with the Attestation. |
 
 ### Operations
 
@@ -258,17 +258,17 @@ The entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `contact` | `Value` | No |  |
-| `created` | `String` | No |  |
-| `directPartner` | `Value` | No |  |
-| `id` | `String` | No |  |
-| `isActive` | `Bool` | No |  |
-| `location` | `Value` | Yes |  |
-| `mid` | `String` | No |  |
-| `modified` | `String` | No |  |
-| `name` | `String` | No |  |
-| `partner` | `Value` | No |  |
-| `version` | `Int` | No |  |
+| `contact` | `Value` | No | Reference to the associated User resource. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `directPartner` | `Value` | No | Reference to the associated Partner. |
+| `id` | `String` | No | This resource's unique identifier. |
+| `isActive` | `Bool` | No | This property indicates if the Client account is active or disabled. |
+| `location` | `Value` | Yes | Reference to the associated Location resource. |
+| `mid` | `String` | No | Some Partners will have an merchant ids on their own software offerings. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `name` | `String` | No | The Client's name. |
+| `partner` | `Value` | No | Reference to the Client's root Partner. |
+| `version` | `Int` | No | The number of times that this resource has been updated. |
 
 ### Field Usage by Operation
 
@@ -419,7 +419,7 @@ The entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `Bool` | No |  |
+| `success` | `Bool` | No | true if the payload decryption was successful. |
 
 ### Operations
 
@@ -471,34 +471,34 @@ The entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `activatedBy` | `Value` | Yes |  |
-| `activationDate` | `String` | No |  |
-| `alternateKey` | `String` | No |  |
-| `auditNextDate` | `String` | No |  |
-| `auditNotificationDate` | `String` | No |  |
-| `client` | `Value` | No |  |
-| `created` | `String` | No |  |
-| `createdBy` | `Value` | Yes |  |
-| `deviceBuild` | `Value` | No |  |
-| `deviceState` | `Value` | No |  |
-| `deviceType` | `Value` | No |  |
-| `errorCounter` | `Int` | No |  |
-| `errorLastDate` | `String` | No |  |
-| `id` | `String` | No |  |
-| `initializedBy` | `Value` | Yes |  |
-| `initializedDate` | `String` | No |  |
-| `injectKey` | `Value` | No |  |
-| `isVirtual` | `Bool` | No |  |
-| `kif` | `Value` | No |  |
-| `lastActivityDate` | `String` | No |  |
-| `location` | `Value` | Yes |  |
-| `modified` | `String` | No |  |
-| `modifiedBy` | `Value` | Yes |  |
-| `name` | `String` | No |  |
-| `notes` | `String` | No |  |
-| `partner` | `Value` | No |  |
-| `serialNumber` | `String` | No |  |
-| `version` | `Int` | No |  |
+| `activatedBy` | `Value` | Yes | Reference to the associated User resource. |
+| `activationDate` | `String` | No | Timestamp from when the Device was activated. |
+| `alternateKey` | `String` | No | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `String` | No | Date and time that the Device is due its next PCI Audit. |
+| `auditNotificationDate` | `String` | No | Date and time that a notification should be sent that a PCI audit is due. |
+| `client` | `Value` | No | Reference to the associated Client resource. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `Value` | Yes | Reference to the associated User resource. |
+| `deviceBuild` | `Value` | No | Reference to the associated Device Build resource. |
+| `deviceState` | `Value` | No | Reference to the associated Device State resource. |
+| `deviceType` | `Value` | No | Reference to the associated Device Type resource. |
+| `errorCounter` | `Int` | No | The number times the Device has been in error. |
+| `errorLastDate` | `String` | No | Timestamp from the last time that the Device had an error. |
+| `id` | `String` | No | The Device's unique identifier. |
+| `initializedBy` | `Value` | Yes | Reference to the associated User resource. |
+| `initializedDate` | `String` | No | Timestamp from when the Device was initialized. |
+| `injectKey` | `Value` | No | Reference to the associated Device resource. |
+| `isVirtual` | `Bool` | No | Indicates if a Device is Virtual (represents a Device shared with a partner). |
+| `kif` | `Value` | No | Reference to the associated KIF resource. |
+| `lastActivityDate` | `String` | No | Timestamp from the last time that the Device was used. |
+| `location` | `Value` | Yes | Reference to the associated Location resource. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `modifiedBy` | `Value` | Yes | Reference to the associated User resource. |
+| `name` | `String` | No | The Device's name. |
+| `notes` | `String` | No | Arbitary note that can be attached to a Device entry. |
+| `partner` | `Value` | No | Reference to the associated Partner. |
+| `serialNumber` | `String` | No | The Device's serial number. |
+| `version` | `Int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -578,21 +578,21 @@ The entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `appVersion` | `String` | No |  |
-| `buildNumber` | `String` | No |  |
-| `configFileName` | `String` | No |  |
-| `created` | `String` | No |  |
-| `deviceType` | `String` | No |  |
-| `firmwareVersion` | `String` | No |  |
-| `hardwareVersion` | `String` | No |  |
-| `id` | `Int` | No |  |
-| `isActive` | `Bool` | No |  |
-| `modified` | `String` | No |  |
-| `name` | `String` | No |  |
-| `notes` | `String` | No |  |
-| `version` | `Int` | No |  |
-| `whiteListingBinRanges` | `String` | No |  |
-| `whiteListingUsed` | `Bool` | No |  |
+| `appVersion` | `String` | No | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildNumber` | `String` | No | The Build Number. |
+| `configFileName` | `String` | No | The name of the configuration file that is uploaded to the device. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `deviceType` | `String` | No | The Device Type Name. |
+| `firmwareVersion` | `String` | No | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `String` | No | A list of hardware versions that this Device Build covers. |
+| `id` | `Int` | No | This resource's unique identifier. |
+| `isActive` | `Bool` | No | This property indicates if the device build is still active and not succeeded by subsequent build. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `name` | `String` | No | The Device Builds's name. |
+| `notes` | `String` | No | Notes attached to the device build by Bluefin CISO. |
+| `version` | `Int` | No | The number of times that this resource has been updated. |
+| `whiteListingBinRanges` | `String` | No | A comma separated list of BIN ranges that aren't encrypted by the terminal. |
+| `whiteListingUsed` | `Bool` | No | This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal. |
 
 ### Operations
 
@@ -654,19 +654,19 @@ The entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `completeDate` | `String` | No |  |
-| `created` | `String` | No |  |
-| `createdBy` | `Value` | Yes |  |
-| `custodian` | `Value` | Yes |  |
-| `device` | `Value` | No |  |
-| `id` | `Int` | No |  |
-| `location` | `Value` | Yes |  |
-| `modified` | `String` | No |  |
-| `modifiedBy` | `Value` | Yes |  |
-| `notes` | `String` | No |  |
-| `status` | `Value` | No |  |
-| `transferMethod` | `Value` | No |  |
-| `version` | `Int` | No |  |
+| `completeDate` | `String` | No | The date and time that the Custody change took place. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `Value` | Yes | Reference to the associated User resource. |
+| `custodian` | `Value` | Yes | Reference to the associated User resource. |
+| `device` | `Value` | No | Reference to the associated Device resource. |
+| `id` | `Int` | No | This resource's unique identifier. |
+| `location` | `Value` | Yes | Reference to the associated Location resource. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `modifiedBy` | `Value` | Yes | Reference to the associated User resource. |
+| `notes` | `String` | No | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | `Value` | No | Reference to the associated Custody Status. |
+| `transferMethod` | `Value` | No | Reference to the associated Transfer Method. |
+| `version` | `Int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -716,19 +716,19 @@ The entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `completeDate` | `String` | No |  |
-| `created` | `String` | No |  |
-| `createdBy` | `Value` | Yes |  |
-| `custodian` | `Value` | Yes |  |
-| `device` | `Value` | No |  |
-| `id` | `Int` | No |  |
-| `location` | `Value` | Yes |  |
-| `modified` | `String` | No |  |
-| `modifiedBy` | `Value` | Yes |  |
-| `notes` | `String` | No |  |
-| `status` | `Value` | No |  |
-| `transferMethod` | `Value` | No |  |
-| `version` | `Int` | No |  |
+| `completeDate` | `String` | No | The date and time that the Custody change took place. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `createdBy` | `Value` | Yes | Reference to the associated User resource. |
+| `custodian` | `Value` | Yes | Reference to the associated User resource. |
+| `device` | `Value` | No | Reference to the associated Device resource. |
+| `id` | `Int` | No | This resource's unique identifier. |
+| `location` | `Value` | Yes | Reference to the associated Location resource. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `modifiedBy` | `Value` | Yes | Reference to the associated User resource. |
+| `notes` | `String` | No | Free form field that allows the Client associate notes with the Custody Change. |
+| `status` | `Value` | No | Reference to the associated Custody Status. |
+| `transferMethod` | `Value` | No | Reference to the associated Transfer Method. |
+| `version` | `Int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -779,8 +779,8 @@ The entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `data` | `[Value]` | No |  |
-| `total` | `Int` | No |  |
+| `data` | `[Value]` | No | List of Devices. |
+| `total` | `Int` | No | Total number of Devices available (not the number of Users in the response). |
 
 ### Operations
 
@@ -830,7 +830,7 @@ The entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `Bool` | Yes |  |
+| `success` | `Bool` | Yes | Indicates if the action succeeded. |
 
 ### Operations
 
@@ -883,7 +883,7 @@ The entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `Bool` | Yes |  |
+| `success` | `Bool` | Yes | Indicates if the RKI activation succeeded. |
 
 ### Operations
 
@@ -936,8 +936,8 @@ The entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `Int` | No |  |
-| `name` | `String` | No |  |
+| `id` | `Int` | No | Unique identifier for this Device state. |
+| `name` | `String` | No | Descriptive name for this Device state. |
 
 ### Operations
 
@@ -988,18 +988,18 @@ The entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created` | `String` | No |  |
-| `deviceTypeMode` | `String` | No |  |
-| `hardwareVersion` | `String` | No |  |
-| `id` | `String` | No |  |
-| `isActive` | `Bool` | No |  |
-| `manufacturer` | `String` | No |  |
-| `model` | `String` | No |  |
-| `modified` | `String` | No |  |
-| `name` | `String` | No |  |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `deviceTypeMode` | `String` | No | The Device type. |
+| `hardwareVersion` | `String` | No | The Device hardware version. |
+| `id` | `String` | No | Unique idenifier. |
+| `isActive` | `Bool` | No | This property indicates if the DeviceType is active. |
+| `manufacturer` | `String` | No | The Device manufacturer. |
+| `model` | `String` | No | The Device model. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `name` | `String` | No | The DeviceType name. |
 | `photoUrl` | `String` | No |  |
-| `productName` | `String` | No |  |
-| `version` | `Int` | No |  |
+| `productName` | `String` | No | The Device name. |
+| `version` | `Int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1061,14 +1061,14 @@ The entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `created` | `String` | No |  |
-| `id` | `String` | No |  |
-| `isActive` | `Bool` | No |  |
-| `isP2PE` | `Bool` | No |  |
-| `keyType` | `String` | No |  |
-| `modified` | `String` | No |  |
-| `name` | `String` | No |  |
-| `version` | `Int` | No |  |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `id` | `String` | No | unique idenifier |
+| `isActive` | `Bool` | No | Active flag, inactive keys cannot be assigned to devices. |
+| `isP2PE` | `Bool` | No | Flags if a key is for a P2PE compliant cypher. |
+| `keyType` | `String` | No | The cipher type that the key works with. |
+| `modified` | `String` | No | Last modified timestamp in ISO 8601 format. |
+| `name` | `String` | No | Key name. |
+| `version` | `Int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1130,8 +1130,8 @@ The entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `Int` | No |  |
-| `name` | `String` | No |  |
+| `id` | `Int` | No | This resource's unique identifier. |
+| `name` | `String` | No | The KIF's name. |
 
 ### Operations
 
@@ -1182,29 +1182,29 @@ The entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `address1` | `String` | No |  |
-| `address2` | `String` | No |  |
-| `billingId` | `String` | No |  |
-| `city` | `String` | No |  |
-| `country` | `String` | No |  |
-| `created` | `String` | No |  |
-| `customReference` | `String` | No |  |
-| `id` | `String` | No |  |
-| `locationType` | `String` | No |  |
-| `mailAddress1` | `String` | No |  |
-| `mailAddress2` | `String` | No |  |
-| `mailCity` | `String` | No |  |
-| `mailCountry` | `String` | No |  |
-| `mailPostalCode` | `String` | No |  |
-| `mailStateProvince` | `String` | No |  |
-| `modified` | `String` | No |  |
-| `name` | `String` | No |  |
-| `nameOfBusiness` | `String` | No |  |
-| `notes` | `String` | No |  |
-| `postalCode` | `String` | No |  |
-| `stateProvince` | `String` | No |  |
-| `uniqueId` | `String` | No |  |
-| `version` | `Int` | No |  |
+| `address1` | `String` | No | The Location's street address. |
+| `address2` | `String` | No | The Location's street address. |
+| `billingId` | `String` | No | \? |
+| `city` | `String` | No | The Location's city. |
+| `country` | `String` | No | The Location's country. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `customReference` | `String` | No | A Partner specified reference for a location. |
+| `id` | `String` | No | This resource's unique identifier. |
+| `locationType` | `String` | No | The Location's clasification. |
+| `mailAddress1` | `String` | No | The Location's street address. |
+| `mailAddress2` | `String` | No | The Location's street address. |
+| `mailCity` | `String` | No | The Location's city. |
+| `mailCountry` | `String` | No | The Location's street address. |
+| `mailPostalCode` | `String` | No | The Location's postal code. |
+| `mailStateProvince` | `String` | No | The Location's street state or province. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `name` | `String` | No | The Location's name. |
+| `nameOfBusiness` | `String` | No | The name of the business at this location. |
+| `notes` | `String` | No | Note for delivery driver. |
+| `postalCode` | `String` | No | The Location's postal code. |
+| `stateProvince` | `String` | No | The Location's street state or province. |
+| `uniqueId` | `String` | No | Unique Identifier for the Location. |
+| `version` | `Int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1290,20 +1290,20 @@ The entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `billingId` | `String` | No |  |
-| `clientCanOrderEquipment` | `Bool` | No |  |
-| `contact` | `Value` | No |  |
-| `created` | `String` | No |  |
-| `id` | `String` | No |  |
-| `isActive` | `Bool` | No |  |
-| `location` | `Value` | Yes |  |
-| `modified` | `String` | No |  |
-| `name` | `String` | No |  |
-| `parent` | `Value` | No |  |
-| `partnerId` | `String` | No |  |
-| `reference` | `String` | No |  |
-| `verificationPhrase` | `String` | No |  |
-| `version` | `Int` | No |  |
+| `billingId` | `String` | No | The Partner's billing identifier. |
+| `clientCanOrderEquipment` | `Bool` | No | This property indicates if the Partner is allowed to order Equipment. |
+| `contact` | `Value` | No | Reference to the associated User resource. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `id` | `String` | No | This resource's unique identifier. |
+| `isActive` | `Bool` | No | This property indicates if the Parter account is active or disabled. |
+| `location` | `Value` | Yes | Reference to the associated Location resource. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `name` | `String` | No | The Partner's name. |
+| `parent` | `Value` | No | Reference to the associated Partner. |
+| `partnerId` | `String` | No | The Partner's id. |
+| `reference` | `String` | No | The Partner's reference string. |
+| `verificationPhrase` | `String` | No | The verification phrase is a message that the Partner creates. |
+| `version` | `Int` | No | The number of times that this resource has been updated. |
 
 ### Field Usage by Operation
 
@@ -1398,20 +1398,20 @@ The entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `carrier` | `String` | No |  |
-| `client` | `Value` | No |  |
-| `created` | `String` | No |  |
-| `dateReceived` | `String` | No |  |
-| `dateShipped` | `String` | No |  |
-| `dcKif` | `Value` | No |  |
-| `id` | `String` | No |  |
+| `carrier` | `String` | No | The name of the courier. |
+| `client` | `Value` | No | Reference to the associated Client resource. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `dateReceived` | `String` | No | The date and time that a package is recieved. |
+| `dateShipped` | `String` | No | The date and time that a package is shipped. |
+| `dcKif` | `Value` | No | Reference to the associated KIF resource. |
+| `id` | `String` | No | This resource's unique identifier. |
 | `items` | `[Value]` | No |  |
-| `kif` | `Value` | No |  |
-| `modified` | `String` | No |  |
-| `partner` | `Value` | No |  |
-| `shipmentType` | `String` | No |  |
-| `tracking` | `String` | No |  |
-| `version` | `Int` | No |  |
+| `kif` | `Value` | No | Reference to the associated KIF resource. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `partner` | `Value` | No | Reference to the associated Partner. |
+| `shipmentType` | `String` | No | The type of shipment. |
+| `tracking` | `String` | No | The courier's tracking number. |
+| `version` | `Int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1486,7 +1486,7 @@ The entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `success` | `Bool` | No |  |
+| `success` | `Bool` | No | Indicates if the action was a success. |
 
 ### Operations
 
@@ -1550,30 +1550,30 @@ The entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `alternateKey` | `String` | No |  |
-| `client` | `Value` | No |  |
-| `clientRef` | `String` | No |  |
-| `created` | `String` | No |  |
-| `decrypted` | `Int` | No |  |
-| `deviceName` | `String` | No |  |
-| `directPartner` | `Value` | No |  |
-| `encrypted` | `Int` | No |  |
-| `endDate` | `String` | No |  |
-| `errCode` | `String` | No |  |
-| `errMessage` | `String` | No |  |
-| `id` | `String` | No |  |
-| `ipAddress` | `String` | No |  |
-| `isVirtual` | `Bool` | No |  |
-| `keyType` | `String` | No |  |
-| `location` | `Value` | Yes |  |
-| `messageId` | `String` | No |  |
-| `method` | `String` | No |  |
-| `partner` | `Value` | No |  |
-| `reference` | `String` | No |  |
-| `serialNumber` | `String` | No |  |
-| `startDate` | `String` | No |  |
-| `success` | `Bool` | No |  |
-| `transactionSource` | `String` | No |  |
+| `alternateKey` | `String` | No | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `client` | `Value` | No | Reference to the associated Client resource. |
+| `clientRef` | `String` | No | Client Reference property that is included in the decrypt API call. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `decrypted` | `Int` | No | A Transcation can process muliple decryptions. |
+| `deviceName` | `String` | No | The name of the Device that generated the payload to decrypt. |
+| `directPartner` | `Value` | No | Reference to the associated Partner. |
+| `encrypted` | `Int` | No | A Transcation can process muliple encryptions. |
+| `endDate` | `String` | No | Timestamp from the end of the transaction. |
+| `errCode` | `String` | No | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `String` | No | The error messge that is sent in response to a failed decrypt API call. |
+| `id` | `String` | No | This resource's unique identifier. |
+| `ipAddress` | `String` | No | The IP address of the http client that makes the decrypt API call. |
+| `isVirtual` | `Bool` | No | Indicates if the Transaction came from a virtual Device. |
+| `keyType` | `String` | No | The type of cipher used during decrytion. |
+| `location` | `Value` | Yes | Reference to the associated Location resource. |
+| `messageId` | `String` | No | Message ID. |
+| `method` | `String` | No | The decryption cypher/method. |
+| `partner` | `Value` | No | Reference to the associated Partner. |
+| `reference` | `String` | No | The reference property that the Client includes in the decrypt API call. |
+| `serialNumber` | `String` | No | The serial number of the Device that generated the payload to decrypt. |
+| `startDate` | `String` | No | Timestamp from the beginning of the transaction. |
+| `success` | `Bool` | No | The success indicator. |
+| `transactionSource` | `String` | No | The source of the Transaction. |
 
 ### Operations
 
@@ -1649,18 +1649,18 @@ The entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `client` | `Value` | No |  |
-| `email` | `String` | No |  |
-| `firstName` | `String` | No |  |
-| `id` | `String` | No |  |
-| `isActive` | `Bool` | No |  |
-| `kif` | `Value` | No |  |
-| `lastName` | `String` | No |  |
-| `partner` | `Value` | No |  |
-| `phone` | `String` | No |  |
-| `userName` | `String` | No |  |
-| `userRole` | `Value` | No |  |
-| `version` | `Int` | No |  |
+| `client` | `Value` | No | Reference to the associated Client resource. |
+| `email` | `String` | No | The User's email address. |
+| `firstName` | `String` | No | The User's name. |
+| `id` | `String` | No | ID of newly created resource |
+| `isActive` | `Bool` | No | This property indicates if the User account is active or disabled. |
+| `kif` | `Value` | No | Reference to the associated KIF resource. |
+| `lastName` | `String` | No | The User's Surname. |
+| `partner` | `Value` | No | Reference to the associated Partner. |
+| `phone` | `String` | No | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | `String` | No | The User's unique username. |
+| `userRole` | `Value` | No | Reference to the associated User Role. |
+| `version` | `Int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1738,20 +1738,20 @@ The entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `client` | `Value` | No |  |
-| `created` | `String` | No |  |
-| `email` | `String` | No |  |
-| `firstName` | `String` | No |  |
-| `id` | `String` | No |  |
-| `isActive` | `Bool` | No |  |
-| `kif` | `Value` | No |  |
-| `lastName` | `String` | No |  |
-| `modified` | `String` | No |  |
-| `partner` | `Value` | No |  |
-| `phone` | `String` | No |  |
-| `userName` | `String` | No |  |
-| `userRole` | `Value` | No |  |
-| `version` | `Int` | No |  |
+| `client` | `Value` | No | Reference to the associated Client resource. |
+| `created` | `String` | No | Creation timestamp in ISO 8601 format. |
+| `email` | `String` | No | The User's email address. |
+| `firstName` | `String` | No | The User's name. |
+| `id` | `String` | No | This resource's unique identifier. |
+| `isActive` | `Bool` | No | This property indicates if the User account is active or disabled. |
+| `kif` | `Value` | No | Reference to the associated KIF resource. |
+| `lastName` | `String` | No | The User's Surname. |
+| `modified` | `String` | No | Last modified timestamp. |
+| `partner` | `Value` | No | Reference to the associated Partner. |
+| `phone` | `String` | No | The User's phone number without dashes, spaces, or brackets. |
+| `userName` | `String` | No | The User's unique username. |
+| `userRole` | `Value` | No | Reference to the associated User Role. |
+| `version` | `Int` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
@@ -1806,7 +1806,17 @@ The entity name.
 
 | Feature | Version | Description |
 | --- | --- | --- |
+| `audit` | 0.0.1 | Structured audit trail of operations |
+| `clienttrack` | 0.0.1 | Client identity and per-request correlation headers |
+| `idempotency` | 0.0.1 | Idempotency keys for safe retries of mutating operations |
+| `log` | 0.0.1 | Structured request and response logging |
+| `metrics` | 0.0.1 | Statistics capture: per-operation counters and latency |
+| `paging` | 0.0.1 | Pagination signals for list operations |
+| `ratelimit` | 0.0.1 | Client-side rate limiting via a token bucket |
+| `retry` | 0.0.1 | Automatic retry of transient failures with exponential backoff |
+| `telemetry` | 0.0.1 | Distributed tracing spans with W3C trace-context propagation |
 | `test` | 0.0.1 | In-memory mock transport for testing without a live server |
+| `timeout` | 0.0.1 | Per-request timeout with transport abort |
 
 
 Features are activated via the `feature` option:
@@ -1814,7 +1824,17 @@ Features are activated via the `feature` option:
 ```haskell
   active <- jo [("active", VBool True)]
   featureCfg <- jo
-    [ ("test", active)
+    [ ("audit", active)
+    , ("clienttrack", active)
+    , ("idempotency", active)
+    , ("log", active)
+    , ("metrics", active)
+    , ("paging", active)
+    , ("ratelimit", active)
+    , ("retry", active)
+    , ("telemetry", active)
+    , ("test", active)
+    , ("timeout", active)
     ]
   opts <- jo [("feature", featureCfg)]
   client <- Sdk.newSdk opts

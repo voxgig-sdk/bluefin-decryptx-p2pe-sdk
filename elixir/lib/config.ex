@@ -160,11 +160,13 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$OBJECT`"
             },
             %{
+              "format" => "datetime",
               "name" => "completeDate",
               "short" => "The date and time that the Attestation took place.",
               "type" => "`$STRING`"
             },
             %{
+              "format" => "datetime",
               "name" => "created",
               "short" => "Creation timestamp in ISO 8601 format.",
               "type" => "`$STRING`"
@@ -190,6 +192,10 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$STRING`"
             }
           ],
+          "id" => %{
+            "field" => "id",
+            "name" => "id"
+          },
           "name" => "attestation",
           "op" => %{
             "create" => %{
@@ -201,14 +207,19 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "POST",
                   "orig" => "/attestations",
-                  "parts" => [
-                    "attestations"
+                  "segments" => [
+                    %{
+                      "lit" => "attestations"
+                    }
                   ],
                   "select" => %{},
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "attestations"
+                  ]
                 }
               ]
             },
@@ -245,8 +256,10 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/attestations",
-                  "parts" => [
-                    "attestations"
+                  "segments" => [
+                    %{
+                      "lit" => "attestations"
+                    }
                   ],
                   "select" => %{
                     "exist" => [
@@ -258,7 +271,10 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body.data`"
-                  }
+                  },
+                  "parts" => [
+                    "attestations"
+                  ]
                 }
               ]
             },
@@ -281,9 +297,13 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/attestations/{id}",
-                  "parts" => [
-                    "attestations",
-                    "{id}"
+                  "segments" => [
+                    %{
+                      "lit" => "attestations"
+                    },
+                    %{
+                      "var" => "id"
+                    }
                   ],
                   "select" => %{
                     "exist" => [
@@ -293,7 +313,11 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "attestations",
+                    "{id}"
+                  ]
                 }
               ]
             }
@@ -316,6 +340,7 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$OBJECT`"
             },
             %{
+              "format" => "datetime",
               "name" => "created",
               "short" => "Creation timestamp in ISO 8601 format.",
               "type" => "`$STRING`"
@@ -347,6 +372,7 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$STRING`"
             },
             %{
+              "format" => "datetime",
               "name" => "modified",
               "short" => "Last modified timestamp.",
               "type" => "`$STRING`"
@@ -367,6 +393,10 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$INTEGER`"
             }
           ],
+          "id" => %{
+            "field" => "id",
+            "name" => "id"
+          },
           "name" => "client",
           "op" => %{
             "create" => %{
@@ -378,14 +408,19 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "POST",
                   "orig" => "/clients",
-                  "parts" => [
-                    "clients"
+                  "segments" => [
+                    %{
+                      "lit" => "clients"
+                    }
                   ],
                   "select" => %{},
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "clients"
+                  ]
                 }
               ]
             },
@@ -422,8 +457,10 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/clients",
-                  "parts" => [
-                    "clients"
+                  "segments" => [
+                    %{
+                      "lit" => "clients"
+                    }
                   ],
                   "select" => %{
                     "exist" => [
@@ -435,7 +472,10 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body.data`"
-                  }
+                  },
+                  "parts" => [
+                    "clients"
+                  ]
                 }
               ]
             },
@@ -458,9 +498,13 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/clients/{id}",
-                  "parts" => [
-                    "clients",
-                    "{id}"
+                  "segments" => [
+                    %{
+                      "lit" => "clients"
+                    },
+                    %{
+                      "var" => "id"
+                    }
                   ],
                   "select" => %{
                     "exist" => [
@@ -470,7 +514,11 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "clients",
+                    "{id}"
+                  ]
                 }
               ]
             },
@@ -493,9 +541,13 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "DELETE",
                   "orig" => "/clients/{id}",
-                  "parts" => [
-                    "clients",
-                    "{id}"
+                  "segments" => [
+                    %{
+                      "lit" => "clients"
+                    },
+                    %{
+                      "var" => "id"
+                    }
                   ],
                   "select" => %{
                     "exist" => [
@@ -505,7 +557,11 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "clients",
+                    "{id}"
+                  ]
                 }
               ]
             }
@@ -544,18 +600,26 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "POST",
                   "orig" => "/devices/{serialNumber}/{deviceType}/custody",
-                  "parts" => [
-                    "devices",
-                    "{serial_number}",
-                    "{device_type}",
-                    "custody"
-                  ],
                   "rename" => %{
                     "param" => %{
                       "deviceType" => "device_type",
                       "serialNumber" => "serial_number"
                     }
                   },
+                  "segments" => [
+                    %{
+                      "lit" => "devices"
+                    },
+                    %{
+                      "var" => "serial_number"
+                    },
+                    %{
+                      "var" => "device_type"
+                    },
+                    %{
+                      "lit" => "custody"
+                    }
+                  ],
                   "select" => %{
                     "exist" => [
                       "device_type",
@@ -565,7 +629,13 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "devices",
+                    "{serial_number}",
+                    "{device_type}",
+                    "custody"
+                  ]
                 }
               ]
             }
@@ -597,14 +667,19 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "POST",
                   "orig" => "/decryption",
-                  "parts" => [
-                    "decryption"
+                  "segments" => [
+                    %{
+                      "lit" => "decryption"
+                    }
                   ],
                   "select" => %{},
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "decryption"
+                  ]
                 }
               ]
             }
@@ -622,6 +697,7 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$OBJECT`"
             },
             %{
+              "format" => "datetime",
               "name" => "activationDate",
               "short" => "Timestamp from when the Device was activated.",
               "type" => "`$STRING`"
@@ -632,11 +708,13 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$STRING`"
             },
             %{
+              "format" => "datetime",
               "name" => "auditNextDate",
               "short" => "Date and time that the Device is due its next PCI Audit.",
               "type" => "`$STRING`"
             },
             %{
+              "format" => "datetime",
               "name" => "auditNotificationDate",
               "short" => "Date and time that a notification should be sent that a PCI audit is due.",
               "type" => "`$STRING`"
@@ -647,6 +725,7 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$OBJECT`"
             },
             %{
+              "format" => "datetime",
               "name" => "created",
               "short" => "Creation timestamp in ISO 8601 format.",
               "type" => "`$STRING`"
@@ -678,6 +757,7 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$INTEGER`"
             },
             %{
+              "format" => "datetime",
               "name" => "errorLastDate",
               "short" => "Timestamp from the last time that the Device had an error.",
               "type" => "`$STRING`"
@@ -694,6 +774,7 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$OBJECT`"
             },
             %{
+              "format" => "datetime",
               "name" => "initializedDate",
               "short" => "Timestamp from when the Device was initialized.",
               "type" => "`$STRING`"
@@ -714,6 +795,7 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$OBJECT`"
             },
             %{
+              "format" => "datetime",
               "name" => "lastActivityDate",
               "short" => "Timestamp from the last time that the Device was used.",
               "type" => "`$STRING`"
@@ -725,6 +807,7 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$OBJECT`"
             },
             %{
+              "format" => "datetime",
               "name" => "modified",
               "short" => "Last modified timestamp.",
               "type" => "`$STRING`"
@@ -761,6 +844,10 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$INTEGER`"
             }
           ],
+          "id" => %{
+            "field" => "id",
+            "name" => "id"
+          },
           "name" => "device",
           "op" => %{
             "create" => %{
@@ -772,14 +859,19 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "POST",
                   "orig" => "/devices",
-                  "parts" => [
-                    "devices"
+                  "segments" => [
+                    %{
+                      "lit" => "devices"
+                    }
                   ],
                   "select" => %{},
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "devices"
+                  ]
                 }
               ]
             },
@@ -853,8 +945,10 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/devices",
-                  "parts" => [
-                    "devices"
+                  "segments" => [
+                    %{
+                      "lit" => "devices"
+                    }
                   ],
                   "select" => %{
                     "exist" => [
@@ -872,7 +966,10 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body.data`"
-                  }
+                  },
+                  "parts" => [
+                    "devices"
+                  ]
                 }
               ]
             },
@@ -902,17 +999,23 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/devices/{serialNumber}/{deviceType}",
-                  "parts" => [
-                    "devices",
-                    "{serial_number}",
-                    "{device_type}"
-                  ],
                   "rename" => %{
                     "param" => %{
                       "deviceType" => "device_type",
                       "serialNumber" => "serial_number"
                     }
                   },
+                  "segments" => [
+                    %{
+                      "lit" => "devices"
+                    },
+                    %{
+                      "var" => "serial_number"
+                    },
+                    %{
+                      "var" => "device_type"
+                    }
+                  ],
                   "select" => %{
                     "exist" => [
                       "device_type",
@@ -922,7 +1025,12 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "devices",
+                    "{serial_number}",
+                    "{device_type}"
+                  ]
                 },
                 %{
                   "args" => %{
@@ -939,9 +1047,13 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/devices/{id}",
-                  "parts" => [
-                    "devices",
-                    "{id}"
+                  "segments" => [
+                    %{
+                      "lit" => "devices"
+                    },
+                    %{
+                      "var" => "id"
+                    }
                   ],
                   "select" => %{
                     "exist" => [
@@ -951,7 +1063,11 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "devices",
+                    "{id}"
+                  ]
                 }
               ]
             }
@@ -982,6 +1098,7 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$STRING`"
             },
             %{
+              "format" => "date-time",
               "name" => "created",
               "short" => "Creation timestamp in ISO 8601 format.",
               "type" => "`$STRING`"
@@ -1002,6 +1119,7 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$STRING`"
             },
             %{
+              "format" => "int64",
               "name" => "id",
               "short" => "This resource's unique identifier.",
               "type" => "`$INTEGER`"
@@ -1012,6 +1130,7 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$BOOLEAN`"
             },
             %{
+              "format" => "date-time",
               "name" => "modified",
               "short" => "Last modified timestamp.",
               "type" => "`$STRING`"
@@ -1042,6 +1161,10 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$BOOLEAN`"
             }
           ],
+          "id" => %{
+            "field" => "id",
+            "name" => "id"
+          },
           "name" => "device_build",
           "op" => %{
             "list" => %{
@@ -1076,8 +1199,10 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/deviceBuilds",
-                  "parts" => [
-                    "deviceBuilds"
+                  "segments" => [
+                    %{
+                      "lit" => "deviceBuilds"
+                    }
                   ],
                   "select" => %{
                     "exist" => [
@@ -1089,7 +1214,10 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body.data`"
-                  }
+                  },
+                  "parts" => [
+                    "deviceBuilds"
+                  ]
                 }
               ]
             },
@@ -1112,9 +1240,13 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/deviceBuilds/{id}",
-                  "parts" => [
-                    "deviceBuilds",
-                    "{id}"
+                  "segments" => [
+                    %{
+                      "lit" => "deviceBuilds"
+                    },
+                    %{
+                      "var" => "id"
+                    }
                   ],
                   "select" => %{
                     "exist" => [
@@ -1124,7 +1256,11 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "deviceBuilds",
+                    "{id}"
+                  ]
                 }
               ]
             }
@@ -1136,11 +1272,13 @@ defmodule BluefinDecryptxP2pe.Config do
         "device_custody_detail" => %{
           "fields" => [
             %{
+              "format" => "date-time",
               "name" => "completeDate",
               "short" => "The date and time that the Custody change took place.",
               "type" => "`$STRING`"
             },
             %{
+              "format" => "date-time",
               "name" => "created",
               "short" => "Creation timestamp in ISO 8601 format.",
               "type" => "`$STRING`"
@@ -1163,6 +1301,7 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$OBJECT`"
             },
             %{
+              "format" => "int64",
               "name" => "id",
               "short" => "This resource's unique identifier.",
               "type" => "`$INTEGER`"
@@ -1174,6 +1313,7 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$OBJECT`"
             },
             %{
+              "format" => "date-time",
               "name" => "modified",
               "short" => "Last modified timestamp.",
               "type" => "`$STRING`"
@@ -1205,6 +1345,10 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$INTEGER`"
             }
           ],
+          "id" => %{
+            "field" => "id",
+            "name" => "id"
+          },
           "name" => "device_custody_detail",
           "op" => %{
             "load" => %{
@@ -1240,19 +1384,29 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/devices/{serialNumber}/{deviceType}/custody/{id}",
-                  "parts" => [
-                    "devices",
-                    "{serial_number}",
-                    "{device_type}",
-                    "custody",
-                    "{id}"
-                  ],
                   "rename" => %{
                     "param" => %{
                       "deviceType" => "device_type",
                       "serialNumber" => "serial_number"
                     }
                   },
+                  "segments" => [
+                    %{
+                      "lit" => "devices"
+                    },
+                    %{
+                      "var" => "serial_number"
+                    },
+                    %{
+                      "var" => "device_type"
+                    },
+                    %{
+                      "lit" => "custody"
+                    },
+                    %{
+                      "var" => "id"
+                    }
+                  ],
                   "select" => %{
                     "exist" => [
                       "device_type",
@@ -1263,7 +1417,14 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "devices",
+                    "{serial_number}",
+                    "{device_type}",
+                    "custody",
+                    "{id}"
+                  ]
                 }
               ]
             }
@@ -1279,11 +1440,13 @@ defmodule BluefinDecryptxP2pe.Config do
         "device_custody_list" => %{
           "fields" => [
             %{
+              "format" => "date-time",
               "name" => "completeDate",
               "short" => "The date and time that the Custody change took place.",
               "type" => "`$STRING`"
             },
             %{
+              "format" => "date-time",
               "name" => "created",
               "short" => "Creation timestamp in ISO 8601 format.",
               "type" => "`$STRING`"
@@ -1306,6 +1469,7 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$OBJECT`"
             },
             %{
+              "format" => "int64",
               "name" => "id",
               "short" => "This resource's unique identifier.",
               "type" => "`$INTEGER`"
@@ -1317,6 +1481,7 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$OBJECT`"
             },
             %{
+              "format" => "date-time",
               "name" => "modified",
               "short" => "Last modified timestamp.",
               "type" => "`$STRING`"
@@ -1348,6 +1513,10 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$INTEGER`"
             }
           ],
+          "id" => %{
+            "field" => "id",
+            "name" => "id"
+          },
           "name" => "device_custody_list",
           "op" => %{
             "list" => %{
@@ -1392,18 +1561,26 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/devices/{serialNumber}/{deviceType}/custody",
-                  "parts" => [
-                    "devices",
-                    "{serial_number}",
-                    "{device_type}",
-                    "custody"
-                  ],
                   "rename" => %{
                     "param" => %{
                       "deviceType" => "device_type",
                       "serialNumber" => "serial_number"
                     }
                   },
+                  "segments" => [
+                    %{
+                      "lit" => "devices"
+                    },
+                    %{
+                      "var" => "serial_number"
+                    },
+                    %{
+                      "var" => "device_type"
+                    },
+                    %{
+                      "lit" => "custody"
+                    }
+                  ],
                   "select" => %{
                     "exist" => [
                       "device_type",
@@ -1415,7 +1592,13 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body.data`"
-                  }
+                  },
+                  "parts" => [
+                    "devices",
+                    "{serial_number}",
+                    "{device_type}",
+                    "custody"
+                  ]
                 }
               ]
             }
@@ -1492,15 +1675,19 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/virtualDevices/{sharePartnerTo}",
-                  "parts" => [
-                    "virtualDevices",
-                    "{share_partner_to}"
-                  ],
                   "rename" => %{
                     "param" => %{
                       "sharePartnerTo" => "share_partner_to"
                     }
                   },
+                  "segments" => [
+                    %{
+                      "lit" => "virtualDevices"
+                    },
+                    %{
+                      "var" => "share_partner_to"
+                    }
+                  ],
                   "select" => %{
                     "exist" => [
                       "share_partner_to",
@@ -1513,7 +1700,11 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "virtualDevices",
+                    "{share_partner_to}"
+                  ]
                 }
               ]
             }
@@ -1546,15 +1737,23 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "POST",
                   "orig" => "/devices/receive",
-                  "parts" => [
-                    "devices",
-                    "receive"
+                  "segments" => [
+                    %{
+                      "lit" => "devices"
+                    },
+                    %{
+                      "lit" => "receive"
+                    }
                   ],
                   "select" => %{},
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "devices",
+                    "receive"
+                  ]
                 }
               ]
             }
@@ -1583,16 +1782,27 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "POST",
                   "orig" => "/devices/rki/activate",
-                  "parts" => [
-                    "devices",
-                    "rki",
-                    "activate"
+                  "segments" => [
+                    %{
+                      "lit" => "devices"
+                    },
+                    %{
+                      "lit" => "rki"
+                    },
+                    %{
+                      "lit" => "activate"
+                    }
                   ],
                   "select" => %{},
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "devices",
+                    "rki",
+                    "activate"
+                  ]
                 }
               ]
             }
@@ -1604,6 +1814,7 @@ defmodule BluefinDecryptxP2pe.Config do
         "device_state" => %{
           "fields" => [
             %{
+              "format" => "int64",
               "name" => "id",
               "short" => "Unique identifier for this Device state.",
               "type" => "`$INTEGER`"
@@ -1614,6 +1825,10 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$STRING`"
             }
           ],
+          "id" => %{
+            "field" => "id",
+            "name" => "id"
+          },
           "name" => "device_state",
           "op" => %{
             "list" => %{
@@ -1625,14 +1840,19 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/deviceStates",
-                  "parts" => [
-                    "deviceStates"
+                  "segments" => [
+                    %{
+                      "lit" => "deviceStates"
+                    }
                   ],
                   "select" => %{},
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body.data`"
-                  }
+                  },
+                  "parts" => [
+                    "deviceStates"
+                  ]
                 }
               ]
             }
@@ -1644,6 +1864,7 @@ defmodule BluefinDecryptxP2pe.Config do
         "device_type" => %{
           "fields" => [
             %{
+              "format" => "datetime",
               "name" => "created",
               "short" => "Creation timestamp in ISO 8601 format.",
               "type" => "`$STRING`"
@@ -1679,6 +1900,7 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$STRING`"
             },
             %{
+              "format" => "datetime",
               "name" => "modified",
               "short" => "Last modified timestamp.",
               "type" => "`$STRING`"
@@ -1703,6 +1925,10 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$INTEGER`"
             }
           ],
+          "id" => %{
+            "field" => "id",
+            "name" => "id"
+          },
           "name" => "device_type",
           "op" => %{
             "list" => %{
@@ -1714,14 +1940,19 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/deviceTypes",
-                  "parts" => [
-                    "deviceTypes"
+                  "segments" => [
+                    %{
+                      "lit" => "deviceTypes"
+                    }
                   ],
                   "select" => %{},
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body.data`"
-                  }
+                  },
+                  "parts" => [
+                    "deviceTypes"
+                  ]
                 }
               ]
             },
@@ -1744,9 +1975,13 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/deviceTypes/{id}",
-                  "parts" => [
-                    "deviceTypes",
-                    "{id}"
+                  "segments" => [
+                    %{
+                      "lit" => "deviceTypes"
+                    },
+                    %{
+                      "var" => "id"
+                    }
                   ],
                   "select" => %{
                     "exist" => [
@@ -1756,7 +1991,11 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "deviceTypes",
+                    "{id}"
+                  ]
                 }
               ]
             }
@@ -1768,6 +2007,7 @@ defmodule BluefinDecryptxP2pe.Config do
         "inject_key" => %{
           "fields" => [
             %{
+              "format" => "datetime",
               "name" => "created",
               "short" => "Creation timestamp in ISO 8601 format.",
               "type" => "`$STRING`"
@@ -1793,6 +2033,7 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$STRING`"
             },
             %{
+              "format" => "datetime",
               "name" => "modified",
               "short" => "Last modified timestamp in ISO 8601 format.",
               "type" => "`$STRING`"
@@ -1808,6 +2049,10 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$INTEGER`"
             }
           ],
+          "id" => %{
+            "field" => "id",
+            "name" => "id"
+          },
           "name" => "inject_key",
           "op" => %{
             "list" => %{
@@ -1819,14 +2064,19 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/injectKeys",
-                  "parts" => [
-                    "injectKeys"
+                  "segments" => [
+                    %{
+                      "lit" => "injectKeys"
+                    }
                   ],
                   "select" => %{},
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body.data`"
-                  }
+                  },
+                  "parts" => [
+                    "injectKeys"
+                  ]
                 }
               ]
             },
@@ -1849,9 +2099,13 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/injectKeys/{id}",
-                  "parts" => [
-                    "injectKeys",
-                    "{id}"
+                  "segments" => [
+                    %{
+                      "lit" => "injectKeys"
+                    },
+                    %{
+                      "var" => "id"
+                    }
                   ],
                   "select" => %{
                     "exist" => [
@@ -1861,7 +2115,11 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "injectKeys",
+                    "{id}"
+                  ]
                 }
               ]
             }
@@ -1873,6 +2131,7 @@ defmodule BluefinDecryptxP2pe.Config do
         "kif" => %{
           "fields" => [
             %{
+              "format" => "int64",
               "name" => "id",
               "short" => "This resource's unique identifier.",
               "type" => "`$INTEGER`"
@@ -1883,6 +2142,10 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$STRING`"
             }
           ],
+          "id" => %{
+            "field" => "id",
+            "name" => "id"
+          },
           "name" => "kif",
           "op" => %{
             "list" => %{
@@ -1894,14 +2157,19 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/kifs",
-                  "parts" => [
-                    "kifs"
+                  "segments" => [
+                    %{
+                      "lit" => "kifs"
+                    }
                   ],
                   "select" => %{},
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body.data`"
-                  }
+                  },
+                  "parts" => [
+                    "kifs"
+                  ]
                 }
               ]
             }
@@ -1938,6 +2206,7 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$STRING`"
             },
             %{
+              "format" => "datetime",
               "name" => "created",
               "short" => "Creation timestamp in ISO 8601 format.",
               "type" => "`$STRING`"
@@ -1988,6 +2257,7 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$STRING`"
             },
             %{
+              "format" => "datetime",
               "name" => "modified",
               "short" => "Last modified timestamp.",
               "type" => "`$STRING`"
@@ -2028,6 +2298,10 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$INTEGER`"
             }
           ],
+          "id" => %{
+            "field" => "id",
+            "name" => "id"
+          },
           "name" => "location",
           "op" => %{
             "create" => %{
@@ -2039,14 +2313,19 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "POST",
                   "orig" => "/locations",
-                  "parts" => [
-                    "locations"
+                  "segments" => [
+                    %{
+                      "lit" => "locations"
+                    }
                   ],
                   "select" => %{},
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "locations"
+                  ]
                 }
               ]
             },
@@ -2083,8 +2362,10 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/locations",
-                  "parts" => [
-                    "locations"
+                  "segments" => [
+                    %{
+                      "lit" => "locations"
+                    }
                   ],
                   "select" => %{
                     "exist" => [
@@ -2096,7 +2377,10 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body.data`"
-                  }
+                  },
+                  "parts" => [
+                    "locations"
+                  ]
                 }
               ]
             },
@@ -2119,9 +2403,13 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/locations/{id}",
-                  "parts" => [
-                    "locations",
-                    "{id}"
+                  "segments" => [
+                    %{
+                      "lit" => "locations"
+                    },
+                    %{
+                      "var" => "id"
+                    }
                   ],
                   "select" => %{
                     "exist" => [
@@ -2131,7 +2419,11 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "locations",
+                    "{id}"
+                  ]
                 }
               ]
             },
@@ -2154,9 +2446,13 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "DELETE",
                   "orig" => "/locations/{id}",
-                  "parts" => [
-                    "locations",
-                    "{id}"
+                  "segments" => [
+                    %{
+                      "lit" => "locations"
+                    },
+                    %{
+                      "var" => "id"
+                    }
                   ],
                   "select" => %{
                     "exist" => [
@@ -2166,7 +2462,11 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "locations",
+                    "{id}"
+                  ]
                 }
               ]
             }
@@ -2199,6 +2499,7 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$OBJECT`"
             },
             %{
+              "format" => "datetime",
               "name" => "created",
               "short" => "Creation timestamp in ISO 8601 format.",
               "type" => "`$STRING`"
@@ -2220,6 +2521,7 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$OBJECT`"
             },
             %{
+              "format" => "datetime",
               "name" => "modified",
               "short" => "Last modified timestamp.",
               "type" => "`$STRING`"
@@ -2255,6 +2557,10 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$INTEGER`"
             }
           ],
+          "id" => %{
+            "field" => "id",
+            "name" => "id"
+          },
           "name" => "partner",
           "op" => %{
             "create" => %{
@@ -2266,14 +2572,19 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "POST",
                   "orig" => "/partners",
-                  "parts" => [
-                    "partners"
+                  "segments" => [
+                    %{
+                      "lit" => "partners"
+                    }
                   ],
                   "select" => %{},
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "partners"
+                  ]
                 }
               ]
             },
@@ -2309,8 +2620,10 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/partners",
-                  "parts" => [
-                    "partners"
+                  "segments" => [
+                    %{
+                      "lit" => "partners"
+                    }
                   ],
                   "select" => %{
                     "exist" => [
@@ -2322,7 +2635,10 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body.data`"
-                  }
+                  },
+                  "parts" => [
+                    "partners"
+                  ]
                 }
               ]
             },
@@ -2345,9 +2661,13 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/partners/{id}",
-                  "parts" => [
-                    "partners",
-                    "{id}"
+                  "segments" => [
+                    %{
+                      "lit" => "partners"
+                    },
+                    %{
+                      "var" => "id"
+                    }
                   ],
                   "select" => %{
                     "exist" => [
@@ -2357,7 +2677,11 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "partners",
+                    "{id}"
+                  ]
                 }
               ]
             }
@@ -2379,16 +2703,19 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$OBJECT`"
             },
             %{
+              "format" => "datetime",
               "name" => "created",
               "short" => "Creation timestamp in ISO 8601 format.",
               "type" => "`$STRING`"
             },
             %{
+              "format" => "datetime",
               "name" => "dateReceived",
               "short" => "The date and time that a package is recieved.",
               "type" => "`$STRING`"
             },
             %{
+              "format" => "datetime",
               "name" => "dateShipped",
               "short" => "The date and time that a package is shipped.",
               "type" => "`$STRING`"
@@ -2413,6 +2740,7 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$OBJECT`"
             },
             %{
+              "format" => "datetime",
               "name" => "modified",
               "short" => "Last modified timestamp.",
               "type" => "`$STRING`"
@@ -2433,11 +2761,16 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$STRING`"
             },
             %{
+              "format" => "int32",
               "name" => "version",
               "short" => "The number of times that this resource has been updated.",
               "type" => "`$INTEGER`"
             }
           ],
+          "id" => %{
+            "field" => "id",
+            "name" => "id"
+          },
           "name" => "shipment",
           "op" => %{
             "create" => %{
@@ -2449,14 +2782,19 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "POST",
                   "orig" => "/shipments",
-                  "parts" => [
-                    "shipments"
+                  "segments" => [
+                    %{
+                      "lit" => "shipments"
+                    }
                   ],
                   "select" => %{},
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "shipments"
+                  ]
                 }
               ]
             },
@@ -2499,8 +2837,10 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/shipments",
-                  "parts" => [
-                    "shipments"
+                  "segments" => [
+                    %{
+                      "lit" => "shipments"
+                    }
                   ],
                   "select" => %{
                     "exist" => [
@@ -2513,7 +2853,10 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body.data`"
-                  }
+                  },
+                  "parts" => [
+                    "shipments"
+                  ]
                 }
               ]
             },
@@ -2536,9 +2879,13 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/shipments/{id}",
-                  "parts" => [
-                    "shipments",
-                    "{id}"
+                  "segments" => [
+                    %{
+                      "lit" => "shipments"
+                    },
+                    %{
+                      "var" => "id"
+                    }
                   ],
                   "select" => %{
                     "exist" => [
@@ -2548,7 +2895,11 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "shipments",
+                    "{id}"
+                  ]
                 }
               ]
             }
@@ -2586,15 +2937,19 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "POST",
                   "orig" => "/virtualDevices/{sharePartnerTo}",
-                  "parts" => [
-                    "virtualDevices",
-                    "{share_partner_to}"
-                  ],
                   "rename" => %{
                     "param" => %{
                       "sharePartnerTo" => "share_partner_to"
                     }
                   },
+                  "segments" => [
+                    %{
+                      "lit" => "virtualDevices"
+                    },
+                    %{
+                      "var" => "share_partner_to"
+                    }
+                  ],
                   "select" => %{
                     "exist" => [
                       "share_partner_to"
@@ -2603,7 +2958,11 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "virtualDevices",
+                    "{share_partner_to}"
+                  ]
                 }
               ]
             },
@@ -2626,15 +2985,19 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "DELETE",
                   "orig" => "/virtualDevices/{sharePartnerTo}",
-                  "parts" => [
-                    "virtualDevices",
-                    "{share_partner_to}"
-                  ],
                   "rename" => %{
                     "param" => %{
                       "sharePartnerTo" => "share_partner_to"
                     }
                   },
+                  "segments" => [
+                    %{
+                      "lit" => "virtualDevices"
+                    },
+                    %{
+                      "var" => "share_partner_to"
+                    }
+                  ],
                   "select" => %{
                     "exist" => [
                       "share_partner_to"
@@ -2643,7 +3006,11 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "virtualDevices",
+                    "{share_partner_to}"
+                  ]
                 }
               ]
             }
@@ -2674,11 +3041,13 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$STRING`"
             },
             %{
+              "format" => "datetime",
               "name" => "created",
               "short" => "Creation timestamp in ISO 8601 format.",
               "type" => "`$STRING`"
             },
             %{
+              "format" => "int32",
               "name" => "decrypted",
               "short" => "A Transcation can process muliple decryptions.",
               "type" => "`$INTEGER`"
@@ -2694,11 +3063,13 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$OBJECT`"
             },
             %{
+              "format" => "int32",
               "name" => "encrypted",
               "short" => "A Transcation can process muliple encryptions.",
               "type" => "`$INTEGER`"
             },
             %{
+              "format" => "datetime",
               "name" => "endDate",
               "short" => "Timestamp from the end of the transaction.",
               "type" => "`$STRING`"
@@ -2765,6 +3136,7 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$STRING`"
             },
             %{
+              "format" => "datetime",
               "name" => "startDate",
               "short" => "Timestamp from the beginning of the transaction.",
               "type" => "`$STRING`"
@@ -2780,6 +3152,10 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$STRING`"
             }
           ],
+          "id" => %{
+            "field" => "id",
+            "name" => "id"
+          },
           "name" => "transaction",
           "op" => %{
             "create" => %{
@@ -2791,14 +3167,19 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "POST",
                   "orig" => "/transactions",
-                  "parts" => [
-                    "transactions"
+                  "segments" => [
+                    %{
+                      "lit" => "transactions"
+                    }
                   ],
                   "select" => %{},
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "transactions"
+                  ]
                 }
               ]
             },
@@ -2895,8 +3276,10 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/transactions",
-                  "parts" => [
-                    "transactions"
+                  "segments" => [
+                    %{
+                      "lit" => "transactions"
+                    }
                   ],
                   "select" => %{
                     "exist" => [
@@ -2918,7 +3301,10 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body.data`"
-                  }
+                  },
+                  "parts" => [
+                    "transactions"
+                  ]
                 }
               ]
             },
@@ -2941,9 +3327,13 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/transactions/{id}",
-                  "parts" => [
-                    "transactions",
-                    "{id}"
+                  "segments" => [
+                    %{
+                      "lit" => "transactions"
+                    },
+                    %{
+                      "var" => "id"
+                    }
                   ],
                   "select" => %{
                     "exist" => [
@@ -2953,7 +3343,11 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "transactions",
+                    "{id}"
+                  ]
                 }
               ]
             }
@@ -3025,6 +3419,10 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$INTEGER`"
             }
           ],
+          "id" => %{
+            "field" => "id",
+            "name" => "id"
+          },
           "name" => "update_result",
           "op" => %{
             "create" => %{
@@ -3036,14 +3434,19 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "POST",
                   "orig" => "/users",
-                  "parts" => [
-                    "users"
+                  "segments" => [
+                    %{
+                      "lit" => "users"
+                    }
                   ],
                   "select" => %{},
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "users"
+                  ]
                 }
               ]
             },
@@ -3091,8 +3494,10 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/users",
-                  "parts" => [
-                    "users"
+                  "segments" => [
+                    %{
+                      "lit" => "users"
+                    }
                   ],
                   "select" => %{
                     "exist" => [
@@ -3106,7 +3511,10 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body.data`"
-                  }
+                  },
+                  "parts" => [
+                    "users"
+                  ]
                 }
               ]
             },
@@ -3129,9 +3537,13 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "PATCH",
                   "orig" => "/clients/{id}",
-                  "parts" => [
-                    "clients",
-                    "{id}"
+                  "segments" => [
+                    %{
+                      "lit" => "clients"
+                    },
+                    %{
+                      "var" => "id"
+                    }
                   ],
                   "select" => %{
                     "exist" => [
@@ -3141,7 +3553,11 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "clients",
+                    "{id}"
+                  ]
                 },
                 %{
                   "args" => %{
@@ -3158,9 +3574,13 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "PATCH",
                   "orig" => "/devices/{id}",
-                  "parts" => [
-                    "devices",
-                    "{id}"
+                  "segments" => [
+                    %{
+                      "lit" => "devices"
+                    },
+                    %{
+                      "var" => "id"
+                    }
                   ],
                   "select" => %{
                     "exist" => [
@@ -3170,7 +3590,11 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "devices",
+                    "{id}"
+                  ]
                 },
                 %{
                   "args" => %{
@@ -3187,9 +3611,13 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "PATCH",
                   "orig" => "/locations/{id}",
-                  "parts" => [
-                    "locations",
-                    "{id}"
+                  "segments" => [
+                    %{
+                      "lit" => "locations"
+                    },
+                    %{
+                      "var" => "id"
+                    }
                   ],
                   "select" => %{
                     "exist" => [
@@ -3199,7 +3627,11 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "locations",
+                    "{id}"
+                  ]
                 },
                 %{
                   "args" => %{
@@ -3216,9 +3648,13 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "PATCH",
                   "orig" => "/partners/{id}",
-                  "parts" => [
-                    "partners",
-                    "{id}"
+                  "segments" => [
+                    %{
+                      "lit" => "partners"
+                    },
+                    %{
+                      "var" => "id"
+                    }
                   ],
                   "select" => %{
                     "exist" => [
@@ -3228,7 +3664,11 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "partners",
+                    "{id}"
+                  ]
                 },
                 %{
                   "args" => %{
@@ -3245,9 +3685,13 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "PATCH",
                   "orig" => "/shipments/{id}",
-                  "parts" => [
-                    "shipments",
-                    "{id}"
+                  "segments" => [
+                    %{
+                      "lit" => "shipments"
+                    },
+                    %{
+                      "var" => "id"
+                    }
                   ],
                   "select" => %{
                     "exist" => [
@@ -3257,7 +3701,11 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "shipments",
+                    "{id}"
+                  ]
                 },
                 %{
                   "args" => %{
@@ -3274,9 +3722,13 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "PATCH",
                   "orig" => "/transactions/{id}",
-                  "parts" => [
-                    "transactions",
-                    "{id}"
+                  "segments" => [
+                    %{
+                      "lit" => "transactions"
+                    },
+                    %{
+                      "var" => "id"
+                    }
                   ],
                   "select" => %{
                     "exist" => [
@@ -3286,7 +3738,11 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "transactions",
+                    "{id}"
+                  ]
                 },
                 %{
                   "args" => %{
@@ -3303,9 +3759,13 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "PATCH",
                   "orig" => "/users/{id}",
-                  "parts" => [
-                    "users",
-                    "{id}"
+                  "segments" => [
+                    %{
+                      "lit" => "users"
+                    },
+                    %{
+                      "var" => "id"
+                    }
                   ],
                   "select" => %{
                     "exist" => [
@@ -3315,7 +3775,11 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "users",
+                    "{id}"
+                  ]
                 }
               ]
             }
@@ -3332,6 +3796,7 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$OBJECT`"
             },
             %{
+              "format" => "datetime",
               "name" => "created",
               "short" => "Creation timestamp in ISO 8601 format.",
               "type" => "`$STRING`"
@@ -3367,6 +3832,7 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$STRING`"
             },
             %{
+              "format" => "datetime",
               "name" => "modified",
               "short" => "Last modified timestamp.",
               "type" => "`$STRING`"
@@ -3397,6 +3863,10 @@ defmodule BluefinDecryptxP2pe.Config do
               "type" => "`$INTEGER`"
             }
           ],
+          "id" => %{
+            "field" => "id",
+            "name" => "id"
+          },
           "name" => "user",
           "op" => %{
             "load" => %{
@@ -3418,9 +3888,13 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/users/{id}",
-                  "parts" => [
-                    "users",
-                    "{id}"
+                  "segments" => [
+                    %{
+                      "lit" => "users"
+                    },
+                    %{
+                      "var" => "id"
+                    }
                   ],
                   "select" => %{
                     "exist" => [
@@ -3430,7 +3904,11 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "users",
+                    "{id}"
+                  ]
                 }
               ]
             },
@@ -3453,9 +3931,13 @@ defmodule BluefinDecryptxP2pe.Config do
                   "kind" => "http",
                   "method" => "DELETE",
                   "orig" => "/users/{id}",
-                  "parts" => [
-                    "users",
-                    "{id}"
+                  "segments" => [
+                    %{
+                      "lit" => "users"
+                    },
+                    %{
+                      "var" => "id"
+                    }
                   ],
                   "select" => %{
                     "exist" => [
@@ -3465,7 +3947,11 @@ defmodule BluefinDecryptxP2pe.Config do
                   "transform" => %{
                     "req" => "`reqdata`",
                     "res" => "`body`"
-                  }
+                  },
+                  "parts" => [
+                    "users",
+                    "{id}"
+                  ]
                 }
               ]
             }

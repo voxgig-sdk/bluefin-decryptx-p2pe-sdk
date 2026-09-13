@@ -131,3 +131,30 @@ let update_result (client : sdk_client) (entopts : value) : entity_obj =
 (* User entity bound to a client:  user client entopts *)
 let user (client : sdk_client) (entopts : value) : entity_obj =
   Sdk_entity_user.make client entopts
+
+(* Entity by name (None for a name this SDK did not generate). *)
+let entity (client : sdk_client) (name : string) (entopts : value) : entity_obj option =
+  match name with
+  | "attestation" -> Some (Sdk_entity_attestation.make client entopts)
+  | "client" -> Some (Sdk_entity_client.make client entopts)
+  | "create_result" -> Some (Sdk_entity_create_result.make client entopts)
+  | "decryption" -> Some (Sdk_entity_decryption.make client entopts)
+  | "device" -> Some (Sdk_entity_device.make client entopts)
+  | "device_build" -> Some (Sdk_entity_device_build.make client entopts)
+  | "device_custody_detail" -> Some (Sdk_entity_device_custody_detail.make client entopts)
+  | "device_custody_list" -> Some (Sdk_entity_device_custody_list.make client entopts)
+  | "device_list" -> Some (Sdk_entity_device_list.make client entopts)
+  | "device_receive_result" -> Some (Sdk_entity_device_receive_result.make client entopts)
+  | "device_rki_activate_result" -> Some (Sdk_entity_device_rki_activate_result.make client entopts)
+  | "device_state" -> Some (Sdk_entity_device_state.make client entopts)
+  | "device_type" -> Some (Sdk_entity_device_type.make client entopts)
+  | "inject_key" -> Some (Sdk_entity_inject_key.make client entopts)
+  | "kif" -> Some (Sdk_entity_kif.make client entopts)
+  | "location" -> Some (Sdk_entity_location.make client entopts)
+  | "partner" -> Some (Sdk_entity_partner.make client entopts)
+  | "shipment" -> Some (Sdk_entity_shipment.make client entopts)
+  | "success" -> Some (Sdk_entity_success.make client entopts)
+  | "transaction" -> Some (Sdk_entity_transaction.make client entopts)
+  | "update_result" -> Some (Sdk_entity_update_result.make client entopts)
+  | "user" -> Some (Sdk_entity_user.make client entopts)
+  | _ -> None

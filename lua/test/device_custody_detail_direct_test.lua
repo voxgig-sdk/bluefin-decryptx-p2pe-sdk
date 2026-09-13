@@ -74,7 +74,7 @@ function device_custody_detail_direct_setup(mockres)
   local env = runner.env_override({
     ["BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_CUSTODY_DETAIL_ENTID"] = {},
     ["BLUEFIN_DECRYPTX_P2PE_TEST_LIVE"] = "FALSE",
-    ["BLUEFIN_DECRYPTX_P2PE_APIKEY"] = "NONE",
+    ["BLUEFIN_DECRYPTX_P2PE_APIKEY"] = "",
   })
 
   local live = env["BLUEFIN_DECRYPTX_P2PE_TEST_LIVE"] == "TRUE"
@@ -83,6 +83,13 @@ function device_custody_detail_direct_setup(mockres)
     local merged_opts = {
       apikey = env["BLUEFIN_DECRYPTX_P2PE_APIKEY"],
     }
+    -- sdk-test-control.json's test.client.options goes UNDER the generated
+    -- fields: it adds to the live client, it does not redirect it.
+    for _k, _v in pairs(runner.live_client_options()) do
+      if merged_opts[_k] == nil then
+        merged_opts[_k] = _v
+      end
+    end
     local client = sdk.new(merged_opts)
     return {
       client = client,

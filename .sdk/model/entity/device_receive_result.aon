@@ -21,9 +21,13 @@ main: kit: entity: device_receive_result: {
         {
           method: "POST"
           orig: "/devices/receive"
-          parts: [
-            "devices"
-            "receive"
+          segments: [
+            {
+              lit: "devices"
+            }
+            {
+              lit: "receive"
+            }
           ]
           transform: {
             req: "`reqdata`"

@@ -162,11 +162,13 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("datetime") },
                         .{ "name", h.vstr("completeDate") },
                         .{ "short", h.vstr("The date and time that the Attestation took place.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("datetime") },
                         .{ "name", h.vstr("created") },
                         .{ "short", h.vstr("Creation timestamp in ISO 8601 format.") },
                         .{ "type", h.vstr("`$STRING`") },
@@ -192,6 +194,10 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                 }) },
+                .{ "id", h.jo(&.{
+                    .{ "field", h.vstr("id") },
+                    .{ "name", h.vstr("id") },
+                }) },
                 .{ "name", h.vstr("attestation") },
                 .{ "op", h.jo(&.{
                     .{ "create", h.jo(&.{
@@ -203,13 +209,18 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/attestations") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("attestations"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("attestations") },
+                                    }),
                                 }) },
                                 .{ "select", h.omap() },
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("attestations"),
                                 }) },
                             }),
                         }) },
@@ -247,8 +258,10 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/attestations") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("attestations"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("attestations") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -260,6 +273,9 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body.data`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("attestations"),
                                 }) },
                             }),
                         }) },
@@ -283,9 +299,13 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/attestations/{id}") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("attestations"),
-                                    h.vstr("{id}"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("attestations") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "var", h.vstr("id") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -295,6 +315,10 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("attestations"),
+                                    h.vstr("{id}"),
                                 }) },
                             }),
                         }) },
@@ -318,6 +342,7 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("datetime") },
                         .{ "name", h.vstr("created") },
                         .{ "short", h.vstr("Creation timestamp in ISO 8601 format.") },
                         .{ "type", h.vstr("`$STRING`") },
@@ -349,6 +374,7 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("datetime") },
                         .{ "name", h.vstr("modified") },
                         .{ "short", h.vstr("Last modified timestamp.") },
                         .{ "type", h.vstr("`$STRING`") },
@@ -369,6 +395,10 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$INTEGER`") },
                     }),
                 }) },
+                .{ "id", h.jo(&.{
+                    .{ "field", h.vstr("id") },
+                    .{ "name", h.vstr("id") },
+                }) },
                 .{ "name", h.vstr("client") },
                 .{ "op", h.jo(&.{
                     .{ "create", h.jo(&.{
@@ -380,13 +410,18 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/clients") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("clients"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("clients") },
+                                    }),
                                 }) },
                                 .{ "select", h.omap() },
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("clients"),
                                 }) },
                             }),
                         }) },
@@ -424,8 +459,10 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/clients") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("clients"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("clients") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -437,6 +474,9 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body.data`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("clients"),
                                 }) },
                             }),
                         }) },
@@ -460,9 +500,13 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/clients/{id}") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("clients"),
-                                    h.vstr("{id}"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("clients") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "var", h.vstr("id") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -472,6 +516,10 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("clients"),
+                                    h.vstr("{id}"),
                                 }) },
                             }),
                         }) },
@@ -495,9 +543,13 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("DELETE") },
                                 .{ "orig", h.vstr("/clients/{id}") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("clients"),
-                                    h.vstr("{id}"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("clients") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "var", h.vstr("id") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -507,6 +559,10 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("clients"),
+                                    h.vstr("{id}"),
                                 }) },
                             }),
                         }) },
@@ -546,17 +602,25 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/devices/{serialNumber}/{deviceType}/custody") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("devices"),
-                                    h.vstr("{serial_number}"),
-                                    h.vstr("{device_type}"),
-                                    h.vstr("custody"),
-                                }) },
                                 .{ "rename", h.jo(&.{
                                     .{ "param", h.jo(&.{
                                         .{ "deviceType", h.vstr("device_type") },
                                         .{ "serialNumber", h.vstr("serial_number") },
                                     }) },
+                                }) },
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("devices") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "var", h.vstr("serial_number") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "var", h.vstr("device_type") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("custody") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -567,6 +631,12 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("devices"),
+                                    h.vstr("{serial_number}"),
+                                    h.vstr("{device_type}"),
+                                    h.vstr("custody"),
                                 }) },
                             }),
                         }) },
@@ -599,13 +669,18 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/decryption") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("decryption"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("decryption") },
+                                    }),
                                 }) },
                                 .{ "select", h.omap() },
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("decryption"),
                                 }) },
                             }),
                         }) },
@@ -624,6 +699,7 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("datetime") },
                         .{ "name", h.vstr("activationDate") },
                         .{ "short", h.vstr("Timestamp from when the Device was activated.") },
                         .{ "type", h.vstr("`$STRING`") },
@@ -634,11 +710,13 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("datetime") },
                         .{ "name", h.vstr("auditNextDate") },
                         .{ "short", h.vstr("Date and time that the Device is due its next PCI Audit.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("datetime") },
                         .{ "name", h.vstr("auditNotificationDate") },
                         .{ "short", h.vstr("Date and time that a notification should be sent that a PCI audit is due.") },
                         .{ "type", h.vstr("`$STRING`") },
@@ -649,6 +727,7 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("datetime") },
                         .{ "name", h.vstr("created") },
                         .{ "short", h.vstr("Creation timestamp in ISO 8601 format.") },
                         .{ "type", h.vstr("`$STRING`") },
@@ -680,6 +759,7 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$INTEGER`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("datetime") },
                         .{ "name", h.vstr("errorLastDate") },
                         .{ "short", h.vstr("Timestamp from the last time that the Device had an error.") },
                         .{ "type", h.vstr("`$STRING`") },
@@ -696,6 +776,7 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("datetime") },
                         .{ "name", h.vstr("initializedDate") },
                         .{ "short", h.vstr("Timestamp from when the Device was initialized.") },
                         .{ "type", h.vstr("`$STRING`") },
@@ -716,6 +797,7 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("datetime") },
                         .{ "name", h.vstr("lastActivityDate") },
                         .{ "short", h.vstr("Timestamp from the last time that the Device was used.") },
                         .{ "type", h.vstr("`$STRING`") },
@@ -727,6 +809,7 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("datetime") },
                         .{ "name", h.vstr("modified") },
                         .{ "short", h.vstr("Last modified timestamp.") },
                         .{ "type", h.vstr("`$STRING`") },
@@ -763,6 +846,10 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$INTEGER`") },
                     }),
                 }) },
+                .{ "id", h.jo(&.{
+                    .{ "field", h.vstr("id") },
+                    .{ "name", h.vstr("id") },
+                }) },
                 .{ "name", h.vstr("device") },
                 .{ "op", h.jo(&.{
                     .{ "create", h.jo(&.{
@@ -774,13 +861,18 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/devices") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("devices"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("devices") },
+                                    }),
                                 }) },
                                 .{ "select", h.omap() },
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("devices"),
                                 }) },
                             }),
                         }) },
@@ -855,8 +947,10 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/devices") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("devices"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("devices") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -874,6 +968,9 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body.data`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("devices"),
                                 }) },
                             }),
                         }) },
@@ -904,16 +1001,22 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/devices/{serialNumber}/{deviceType}") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("devices"),
-                                    h.vstr("{serial_number}"),
-                                    h.vstr("{device_type}"),
-                                }) },
                                 .{ "rename", h.jo(&.{
                                     .{ "param", h.jo(&.{
                                         .{ "deviceType", h.vstr("device_type") },
                                         .{ "serialNumber", h.vstr("serial_number") },
                                     }) },
+                                }) },
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("devices") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "var", h.vstr("serial_number") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "var", h.vstr("device_type") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -924,6 +1027,11 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("devices"),
+                                    h.vstr("{serial_number}"),
+                                    h.vstr("{device_type}"),
                                 }) },
                             }),
                             h.jo(&.{
@@ -941,9 +1049,13 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/devices/{id}") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("devices"),
-                                    h.vstr("{id}"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("devices") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "var", h.vstr("id") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -953,6 +1065,10 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("devices"),
+                                    h.vstr("{id}"),
                                 }) },
                             }),
                         }) },
@@ -984,6 +1100,7 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("date-time") },
                         .{ "name", h.vstr("created") },
                         .{ "short", h.vstr("Creation timestamp in ISO 8601 format.") },
                         .{ "type", h.vstr("`$STRING`") },
@@ -1004,6 +1121,7 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("int64") },
                         .{ "name", h.vstr("id") },
                         .{ "short", h.vstr("This resource's unique identifier.") },
                         .{ "type", h.vstr("`$INTEGER`") },
@@ -1014,6 +1132,7 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$BOOLEAN`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("date-time") },
                         .{ "name", h.vstr("modified") },
                         .{ "short", h.vstr("Last modified timestamp.") },
                         .{ "type", h.vstr("`$STRING`") },
@@ -1043,6 +1162,10 @@ pub fn make_config() Value {
                         .{ "short", h.vstr("This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal.") },
                         .{ "type", h.vstr("`$BOOLEAN`") },
                     }),
+                }) },
+                .{ "id", h.jo(&.{
+                    .{ "field", h.vstr("id") },
+                    .{ "name", h.vstr("id") },
                 }) },
                 .{ "name", h.vstr("device_build") },
                 .{ "op", h.jo(&.{
@@ -1078,8 +1201,10 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/deviceBuilds") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("deviceBuilds"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("deviceBuilds") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -1091,6 +1216,9 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body.data`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("deviceBuilds"),
                                 }) },
                             }),
                         }) },
@@ -1114,9 +1242,13 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/deviceBuilds/{id}") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("deviceBuilds"),
-                                    h.vstr("{id}"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("deviceBuilds") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "var", h.vstr("id") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -1126,6 +1258,10 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("deviceBuilds"),
+                                    h.vstr("{id}"),
                                 }) },
                             }),
                         }) },
@@ -1138,11 +1274,13 @@ pub fn make_config() Value {
             .{ "device_custody_detail", h.jo(&.{
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
+                        .{ "format", h.vstr("date-time") },
                         .{ "name", h.vstr("completeDate") },
                         .{ "short", h.vstr("The date and time that the Custody change took place.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("date-time") },
                         .{ "name", h.vstr("created") },
                         .{ "short", h.vstr("Creation timestamp in ISO 8601 format.") },
                         .{ "type", h.vstr("`$STRING`") },
@@ -1165,6 +1303,7 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("int64") },
                         .{ "name", h.vstr("id") },
                         .{ "short", h.vstr("This resource's unique identifier.") },
                         .{ "type", h.vstr("`$INTEGER`") },
@@ -1176,6 +1315,7 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("date-time") },
                         .{ "name", h.vstr("modified") },
                         .{ "short", h.vstr("Last modified timestamp.") },
                         .{ "type", h.vstr("`$STRING`") },
@@ -1206,6 +1346,10 @@ pub fn make_config() Value {
                         .{ "short", h.vstr("The number of times that this resource has been updated.") },
                         .{ "type", h.vstr("`$INTEGER`") },
                     }),
+                }) },
+                .{ "id", h.jo(&.{
+                    .{ "field", h.vstr("id") },
+                    .{ "name", h.vstr("id") },
                 }) },
                 .{ "name", h.vstr("device_custody_detail") },
                 .{ "op", h.jo(&.{
@@ -1242,18 +1386,28 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/devices/{serialNumber}/{deviceType}/custody/{id}") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("devices"),
-                                    h.vstr("{serial_number}"),
-                                    h.vstr("{device_type}"),
-                                    h.vstr("custody"),
-                                    h.vstr("{id}"),
-                                }) },
                                 .{ "rename", h.jo(&.{
                                     .{ "param", h.jo(&.{
                                         .{ "deviceType", h.vstr("device_type") },
                                         .{ "serialNumber", h.vstr("serial_number") },
                                     }) },
+                                }) },
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("devices") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "var", h.vstr("serial_number") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "var", h.vstr("device_type") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("custody") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "var", h.vstr("id") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -1265,6 +1419,13 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("devices"),
+                                    h.vstr("{serial_number}"),
+                                    h.vstr("{device_type}"),
+                                    h.vstr("custody"),
+                                    h.vstr("{id}"),
                                 }) },
                             }),
                         }) },
@@ -1281,11 +1442,13 @@ pub fn make_config() Value {
             .{ "device_custody_list", h.jo(&.{
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
+                        .{ "format", h.vstr("date-time") },
                         .{ "name", h.vstr("completeDate") },
                         .{ "short", h.vstr("The date and time that the Custody change took place.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("date-time") },
                         .{ "name", h.vstr("created") },
                         .{ "short", h.vstr("Creation timestamp in ISO 8601 format.") },
                         .{ "type", h.vstr("`$STRING`") },
@@ -1308,6 +1471,7 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("int64") },
                         .{ "name", h.vstr("id") },
                         .{ "short", h.vstr("This resource's unique identifier.") },
                         .{ "type", h.vstr("`$INTEGER`") },
@@ -1319,6 +1483,7 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("date-time") },
                         .{ "name", h.vstr("modified") },
                         .{ "short", h.vstr("Last modified timestamp.") },
                         .{ "type", h.vstr("`$STRING`") },
@@ -1349,6 +1514,10 @@ pub fn make_config() Value {
                         .{ "short", h.vstr("The number of times that this resource has been updated.") },
                         .{ "type", h.vstr("`$INTEGER`") },
                     }),
+                }) },
+                .{ "id", h.jo(&.{
+                    .{ "field", h.vstr("id") },
+                    .{ "name", h.vstr("id") },
                 }) },
                 .{ "name", h.vstr("device_custody_list") },
                 .{ "op", h.jo(&.{
@@ -1394,17 +1563,25 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/devices/{serialNumber}/{deviceType}/custody") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("devices"),
-                                    h.vstr("{serial_number}"),
-                                    h.vstr("{device_type}"),
-                                    h.vstr("custody"),
-                                }) },
                                 .{ "rename", h.jo(&.{
                                     .{ "param", h.jo(&.{
                                         .{ "deviceType", h.vstr("device_type") },
                                         .{ "serialNumber", h.vstr("serial_number") },
                                     }) },
+                                }) },
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("devices") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "var", h.vstr("serial_number") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "var", h.vstr("device_type") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("custody") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -1417,6 +1594,12 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body.data`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("devices"),
+                                    h.vstr("{serial_number}"),
+                                    h.vstr("{device_type}"),
+                                    h.vstr("custody"),
                                 }) },
                             }),
                         }) },
@@ -1494,14 +1677,18 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/virtualDevices/{sharePartnerTo}") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("virtualDevices"),
-                                    h.vstr("{share_partner_to}"),
-                                }) },
                                 .{ "rename", h.jo(&.{
                                     .{ "param", h.jo(&.{
                                         .{ "sharePartnerTo", h.vstr("share_partner_to") },
                                     }) },
+                                }) },
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("virtualDevices") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "var", h.vstr("share_partner_to") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -1515,6 +1702,10 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("virtualDevices"),
+                                    h.vstr("{share_partner_to}"),
                                 }) },
                             }),
                         }) },
@@ -1548,14 +1739,22 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/devices/receive") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("devices"),
-                                    h.vstr("receive"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("devices") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("receive") },
+                                    }),
                                 }) },
                                 .{ "select", h.omap() },
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("devices"),
+                                    h.vstr("receive"),
                                 }) },
                             }),
                         }) },
@@ -1585,15 +1784,26 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/devices/rki/activate") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("devices"),
-                                    h.vstr("rki"),
-                                    h.vstr("activate"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("devices") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("rki") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("activate") },
+                                    }),
                                 }) },
                                 .{ "select", h.omap() },
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("devices"),
+                                    h.vstr("rki"),
+                                    h.vstr("activate"),
                                 }) },
                             }),
                         }) },
@@ -1606,6 +1816,7 @@ pub fn make_config() Value {
             .{ "device_state", h.jo(&.{
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
+                        .{ "format", h.vstr("int64") },
                         .{ "name", h.vstr("id") },
                         .{ "short", h.vstr("Unique identifier for this Device state.") },
                         .{ "type", h.vstr("`$INTEGER`") },
@@ -1615,6 +1826,10 @@ pub fn make_config() Value {
                         .{ "short", h.vstr("Descriptive name for this Device state.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
+                }) },
+                .{ "id", h.jo(&.{
+                    .{ "field", h.vstr("id") },
+                    .{ "name", h.vstr("id") },
                 }) },
                 .{ "name", h.vstr("device_state") },
                 .{ "op", h.jo(&.{
@@ -1627,13 +1842,18 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/deviceStates") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("deviceStates"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("deviceStates") },
+                                    }),
                                 }) },
                                 .{ "select", h.omap() },
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body.data`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("deviceStates"),
                                 }) },
                             }),
                         }) },
@@ -1646,6 +1866,7 @@ pub fn make_config() Value {
             .{ "device_type", h.jo(&.{
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
+                        .{ "format", h.vstr("datetime") },
                         .{ "name", h.vstr("created") },
                         .{ "short", h.vstr("Creation timestamp in ISO 8601 format.") },
                         .{ "type", h.vstr("`$STRING`") },
@@ -1681,6 +1902,7 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("datetime") },
                         .{ "name", h.vstr("modified") },
                         .{ "short", h.vstr("Last modified timestamp.") },
                         .{ "type", h.vstr("`$STRING`") },
@@ -1705,6 +1927,10 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$INTEGER`") },
                     }),
                 }) },
+                .{ "id", h.jo(&.{
+                    .{ "field", h.vstr("id") },
+                    .{ "name", h.vstr("id") },
+                }) },
                 .{ "name", h.vstr("device_type") },
                 .{ "op", h.jo(&.{
                     .{ "list", h.jo(&.{
@@ -1716,13 +1942,18 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/deviceTypes") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("deviceTypes"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("deviceTypes") },
+                                    }),
                                 }) },
                                 .{ "select", h.omap() },
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body.data`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("deviceTypes"),
                                 }) },
                             }),
                         }) },
@@ -1746,9 +1977,13 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/deviceTypes/{id}") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("deviceTypes"),
-                                    h.vstr("{id}"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("deviceTypes") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "var", h.vstr("id") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -1758,6 +1993,10 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("deviceTypes"),
+                                    h.vstr("{id}"),
                                 }) },
                             }),
                         }) },
@@ -1770,6 +2009,7 @@ pub fn make_config() Value {
             .{ "inject_key", h.jo(&.{
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
+                        .{ "format", h.vstr("datetime") },
                         .{ "name", h.vstr("created") },
                         .{ "short", h.vstr("Creation timestamp in ISO 8601 format.") },
                         .{ "type", h.vstr("`$STRING`") },
@@ -1795,6 +2035,7 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("datetime") },
                         .{ "name", h.vstr("modified") },
                         .{ "short", h.vstr("Last modified timestamp in ISO 8601 format.") },
                         .{ "type", h.vstr("`$STRING`") },
@@ -1810,6 +2051,10 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$INTEGER`") },
                     }),
                 }) },
+                .{ "id", h.jo(&.{
+                    .{ "field", h.vstr("id") },
+                    .{ "name", h.vstr("id") },
+                }) },
                 .{ "name", h.vstr("inject_key") },
                 .{ "op", h.jo(&.{
                     .{ "list", h.jo(&.{
@@ -1821,13 +2066,18 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/injectKeys") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("injectKeys"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("injectKeys") },
+                                    }),
                                 }) },
                                 .{ "select", h.omap() },
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body.data`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("injectKeys"),
                                 }) },
                             }),
                         }) },
@@ -1851,9 +2101,13 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/injectKeys/{id}") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("injectKeys"),
-                                    h.vstr("{id}"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("injectKeys") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "var", h.vstr("id") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -1863,6 +2117,10 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("injectKeys"),
+                                    h.vstr("{id}"),
                                 }) },
                             }),
                         }) },
@@ -1875,6 +2133,7 @@ pub fn make_config() Value {
             .{ "kif", h.jo(&.{
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
+                        .{ "format", h.vstr("int64") },
                         .{ "name", h.vstr("id") },
                         .{ "short", h.vstr("This resource's unique identifier.") },
                         .{ "type", h.vstr("`$INTEGER`") },
@@ -1884,6 +2143,10 @@ pub fn make_config() Value {
                         .{ "short", h.vstr("The KIF's name.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
+                }) },
+                .{ "id", h.jo(&.{
+                    .{ "field", h.vstr("id") },
+                    .{ "name", h.vstr("id") },
                 }) },
                 .{ "name", h.vstr("kif") },
                 .{ "op", h.jo(&.{
@@ -1896,13 +2159,18 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/kifs") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("kifs"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("kifs") },
+                                    }),
                                 }) },
                                 .{ "select", h.omap() },
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body.data`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("kifs"),
                                 }) },
                             }),
                         }) },
@@ -1940,6 +2208,7 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("datetime") },
                         .{ "name", h.vstr("created") },
                         .{ "short", h.vstr("Creation timestamp in ISO 8601 format.") },
                         .{ "type", h.vstr("`$STRING`") },
@@ -1990,6 +2259,7 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("datetime") },
                         .{ "name", h.vstr("modified") },
                         .{ "short", h.vstr("Last modified timestamp.") },
                         .{ "type", h.vstr("`$STRING`") },
@@ -2030,6 +2300,10 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$INTEGER`") },
                     }),
                 }) },
+                .{ "id", h.jo(&.{
+                    .{ "field", h.vstr("id") },
+                    .{ "name", h.vstr("id") },
+                }) },
                 .{ "name", h.vstr("location") },
                 .{ "op", h.jo(&.{
                     .{ "create", h.jo(&.{
@@ -2041,13 +2315,18 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/locations") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("locations"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("locations") },
+                                    }),
                                 }) },
                                 .{ "select", h.omap() },
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("locations"),
                                 }) },
                             }),
                         }) },
@@ -2085,8 +2364,10 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/locations") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("locations"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("locations") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -2098,6 +2379,9 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body.data`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("locations"),
                                 }) },
                             }),
                         }) },
@@ -2121,9 +2405,13 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/locations/{id}") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("locations"),
-                                    h.vstr("{id}"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("locations") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "var", h.vstr("id") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -2133,6 +2421,10 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("locations"),
+                                    h.vstr("{id}"),
                                 }) },
                             }),
                         }) },
@@ -2156,9 +2448,13 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("DELETE") },
                                 .{ "orig", h.vstr("/locations/{id}") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("locations"),
-                                    h.vstr("{id}"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("locations") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "var", h.vstr("id") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -2168,6 +2464,10 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("locations"),
+                                    h.vstr("{id}"),
                                 }) },
                             }),
                         }) },
@@ -2201,6 +2501,7 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("datetime") },
                         .{ "name", h.vstr("created") },
                         .{ "short", h.vstr("Creation timestamp in ISO 8601 format.") },
                         .{ "type", h.vstr("`$STRING`") },
@@ -2222,6 +2523,7 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("datetime") },
                         .{ "name", h.vstr("modified") },
                         .{ "short", h.vstr("Last modified timestamp.") },
                         .{ "type", h.vstr("`$STRING`") },
@@ -2257,6 +2559,10 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$INTEGER`") },
                     }),
                 }) },
+                .{ "id", h.jo(&.{
+                    .{ "field", h.vstr("id") },
+                    .{ "name", h.vstr("id") },
+                }) },
                 .{ "name", h.vstr("partner") },
                 .{ "op", h.jo(&.{
                     .{ "create", h.jo(&.{
@@ -2268,13 +2574,18 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/partners") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("partners"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("partners") },
+                                    }),
                                 }) },
                                 .{ "select", h.omap() },
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("partners"),
                                 }) },
                             }),
                         }) },
@@ -2311,8 +2622,10 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/partners") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("partners"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("partners") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -2324,6 +2637,9 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body.data`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("partners"),
                                 }) },
                             }),
                         }) },
@@ -2347,9 +2663,13 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/partners/{id}") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("partners"),
-                                    h.vstr("{id}"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("partners") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "var", h.vstr("id") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -2359,6 +2679,10 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("partners"),
+                                    h.vstr("{id}"),
                                 }) },
                             }),
                         }) },
@@ -2381,16 +2705,19 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("datetime") },
                         .{ "name", h.vstr("created") },
                         .{ "short", h.vstr("Creation timestamp in ISO 8601 format.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("datetime") },
                         .{ "name", h.vstr("dateReceived") },
                         .{ "short", h.vstr("The date and time that a package is recieved.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("datetime") },
                         .{ "name", h.vstr("dateShipped") },
                         .{ "short", h.vstr("The date and time that a package is shipped.") },
                         .{ "type", h.vstr("`$STRING`") },
@@ -2415,6 +2742,7 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("datetime") },
                         .{ "name", h.vstr("modified") },
                         .{ "short", h.vstr("Last modified timestamp.") },
                         .{ "type", h.vstr("`$STRING`") },
@@ -2435,10 +2763,15 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("int32") },
                         .{ "name", h.vstr("version") },
                         .{ "short", h.vstr("The number of times that this resource has been updated.") },
                         .{ "type", h.vstr("`$INTEGER`") },
                     }),
+                }) },
+                .{ "id", h.jo(&.{
+                    .{ "field", h.vstr("id") },
+                    .{ "name", h.vstr("id") },
                 }) },
                 .{ "name", h.vstr("shipment") },
                 .{ "op", h.jo(&.{
@@ -2451,13 +2784,18 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/shipments") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("shipments"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("shipments") },
+                                    }),
                                 }) },
                                 .{ "select", h.omap() },
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("shipments"),
                                 }) },
                             }),
                         }) },
@@ -2501,8 +2839,10 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/shipments") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("shipments"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("shipments") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -2515,6 +2855,9 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body.data`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("shipments"),
                                 }) },
                             }),
                         }) },
@@ -2538,9 +2881,13 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/shipments/{id}") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("shipments"),
-                                    h.vstr("{id}"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("shipments") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "var", h.vstr("id") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -2550,6 +2897,10 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("shipments"),
+                                    h.vstr("{id}"),
                                 }) },
                             }),
                         }) },
@@ -2588,14 +2939,18 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/virtualDevices/{sharePartnerTo}") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("virtualDevices"),
-                                    h.vstr("{share_partner_to}"),
-                                }) },
                                 .{ "rename", h.jo(&.{
                                     .{ "param", h.jo(&.{
                                         .{ "sharePartnerTo", h.vstr("share_partner_to") },
                                     }) },
+                                }) },
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("virtualDevices") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "var", h.vstr("share_partner_to") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -2605,6 +2960,10 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("virtualDevices"),
+                                    h.vstr("{share_partner_to}"),
                                 }) },
                             }),
                         }) },
@@ -2628,14 +2987,18 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("DELETE") },
                                 .{ "orig", h.vstr("/virtualDevices/{sharePartnerTo}") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("virtualDevices"),
-                                    h.vstr("{share_partner_to}"),
-                                }) },
                                 .{ "rename", h.jo(&.{
                                     .{ "param", h.jo(&.{
                                         .{ "sharePartnerTo", h.vstr("share_partner_to") },
                                     }) },
+                                }) },
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("virtualDevices") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "var", h.vstr("share_partner_to") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -2645,6 +3008,10 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("virtualDevices"),
+                                    h.vstr("{share_partner_to}"),
                                 }) },
                             }),
                         }) },
@@ -2676,11 +3043,13 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("datetime") },
                         .{ "name", h.vstr("created") },
                         .{ "short", h.vstr("Creation timestamp in ISO 8601 format.") },
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("int32") },
                         .{ "name", h.vstr("decrypted") },
                         .{ "short", h.vstr("A Transcation can process muliple decryptions.") },
                         .{ "type", h.vstr("`$INTEGER`") },
@@ -2696,11 +3065,13 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("int32") },
                         .{ "name", h.vstr("encrypted") },
                         .{ "short", h.vstr("A Transcation can process muliple encryptions.") },
                         .{ "type", h.vstr("`$INTEGER`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("datetime") },
                         .{ "name", h.vstr("endDate") },
                         .{ "short", h.vstr("Timestamp from the end of the transaction.") },
                         .{ "type", h.vstr("`$STRING`") },
@@ -2767,6 +3138,7 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("datetime") },
                         .{ "name", h.vstr("startDate") },
                         .{ "short", h.vstr("Timestamp from the beginning of the transaction.") },
                         .{ "type", h.vstr("`$STRING`") },
@@ -2782,6 +3154,10 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                 }) },
+                .{ "id", h.jo(&.{
+                    .{ "field", h.vstr("id") },
+                    .{ "name", h.vstr("id") },
+                }) },
                 .{ "name", h.vstr("transaction") },
                 .{ "op", h.jo(&.{
                     .{ "create", h.jo(&.{
@@ -2793,13 +3169,18 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/transactions") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("transactions"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("transactions") },
+                                    }),
                                 }) },
                                 .{ "select", h.omap() },
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("transactions"),
                                 }) },
                             }),
                         }) },
@@ -2897,8 +3278,10 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/transactions") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("transactions"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("transactions") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -2920,6 +3303,9 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body.data`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("transactions"),
                                 }) },
                             }),
                         }) },
@@ -2943,9 +3329,13 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/transactions/{id}") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("transactions"),
-                                    h.vstr("{id}"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("transactions") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "var", h.vstr("id") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -2955,6 +3345,10 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("transactions"),
+                                    h.vstr("{id}"),
                                 }) },
                             }),
                         }) },
@@ -3027,6 +3421,10 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$INTEGER`") },
                     }),
                 }) },
+                .{ "id", h.jo(&.{
+                    .{ "field", h.vstr("id") },
+                    .{ "name", h.vstr("id") },
+                }) },
                 .{ "name", h.vstr("update_result") },
                 .{ "op", h.jo(&.{
                     .{ "create", h.jo(&.{
@@ -3038,13 +3436,18 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("POST") },
                                 .{ "orig", h.vstr("/users") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("users"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("users") },
+                                    }),
                                 }) },
                                 .{ "select", h.omap() },
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("users"),
                                 }) },
                             }),
                         }) },
@@ -3093,8 +3496,10 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/users") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("users"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("users") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -3108,6 +3513,9 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body.data`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("users"),
                                 }) },
                             }),
                         }) },
@@ -3131,9 +3539,13 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("PATCH") },
                                 .{ "orig", h.vstr("/clients/{id}") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("clients"),
-                                    h.vstr("{id}"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("clients") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "var", h.vstr("id") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -3143,6 +3555,10 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("clients"),
+                                    h.vstr("{id}"),
                                 }) },
                             }),
                             h.jo(&.{
@@ -3160,9 +3576,13 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("PATCH") },
                                 .{ "orig", h.vstr("/devices/{id}") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("devices"),
-                                    h.vstr("{id}"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("devices") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "var", h.vstr("id") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -3172,6 +3592,10 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("devices"),
+                                    h.vstr("{id}"),
                                 }) },
                             }),
                             h.jo(&.{
@@ -3189,9 +3613,13 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("PATCH") },
                                 .{ "orig", h.vstr("/locations/{id}") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("locations"),
-                                    h.vstr("{id}"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("locations") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "var", h.vstr("id") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -3201,6 +3629,10 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("locations"),
+                                    h.vstr("{id}"),
                                 }) },
                             }),
                             h.jo(&.{
@@ -3218,9 +3650,13 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("PATCH") },
                                 .{ "orig", h.vstr("/partners/{id}") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("partners"),
-                                    h.vstr("{id}"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("partners") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "var", h.vstr("id") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -3230,6 +3666,10 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("partners"),
+                                    h.vstr("{id}"),
                                 }) },
                             }),
                             h.jo(&.{
@@ -3247,9 +3687,13 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("PATCH") },
                                 .{ "orig", h.vstr("/shipments/{id}") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("shipments"),
-                                    h.vstr("{id}"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("shipments") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "var", h.vstr("id") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -3259,6 +3703,10 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("shipments"),
+                                    h.vstr("{id}"),
                                 }) },
                             }),
                             h.jo(&.{
@@ -3276,9 +3724,13 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("PATCH") },
                                 .{ "orig", h.vstr("/transactions/{id}") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("transactions"),
-                                    h.vstr("{id}"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("transactions") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "var", h.vstr("id") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -3288,6 +3740,10 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("transactions"),
+                                    h.vstr("{id}"),
                                 }) },
                             }),
                             h.jo(&.{
@@ -3305,9 +3761,13 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("PATCH") },
                                 .{ "orig", h.vstr("/users/{id}") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("users"),
-                                    h.vstr("{id}"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("users") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "var", h.vstr("id") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -3317,6 +3777,10 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("users"),
+                                    h.vstr("{id}"),
                                 }) },
                             }),
                         }) },
@@ -3334,6 +3798,7 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$OBJECT`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("datetime") },
                         .{ "name", h.vstr("created") },
                         .{ "short", h.vstr("Creation timestamp in ISO 8601 format.") },
                         .{ "type", h.vstr("`$STRING`") },
@@ -3369,6 +3834,7 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$STRING`") },
                     }),
                     h.jo(&.{
+                        .{ "format", h.vstr("datetime") },
                         .{ "name", h.vstr("modified") },
                         .{ "short", h.vstr("Last modified timestamp.") },
                         .{ "type", h.vstr("`$STRING`") },
@@ -3399,6 +3865,10 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$INTEGER`") },
                     }),
                 }) },
+                .{ "id", h.jo(&.{
+                    .{ "field", h.vstr("id") },
+                    .{ "name", h.vstr("id") },
+                }) },
                 .{ "name", h.vstr("user") },
                 .{ "op", h.jo(&.{
                     .{ "load", h.jo(&.{
@@ -3420,9 +3890,13 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("GET") },
                                 .{ "orig", h.vstr("/users/{id}") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("users"),
-                                    h.vstr("{id}"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("users") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "var", h.vstr("id") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -3432,6 +3906,10 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("users"),
+                                    h.vstr("{id}"),
                                 }) },
                             }),
                         }) },
@@ -3455,9 +3933,13 @@ pub fn make_config() Value {
                                 .{ "kind", h.vstr("http") },
                                 .{ "method", h.vstr("DELETE") },
                                 .{ "orig", h.vstr("/users/{id}") },
-                                .{ "parts", h.ja(&.{
-                                    h.vstr("users"),
-                                    h.vstr("{id}"),
+                                .{ "segments", h.ja(&.{
+                                    h.jo(&.{
+                                        .{ "lit", h.vstr("users") },
+                                    }),
+                                    h.jo(&.{
+                                        .{ "var", h.vstr("id") },
+                                    }),
                                 }) },
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
@@ -3467,6 +3949,10 @@ pub fn make_config() Value {
                                 .{ "transform", h.jo(&.{
                                     .{ "req", h.vstr("`reqdata`") },
                                     .{ "res", h.vstr("`body`") },
+                                }) },
+                                .{ "parts", h.ja(&.{
+                                    h.vstr("users"),
+                                    h.vstr("{id}"),
                                 }) },
                             }),
                         }) },

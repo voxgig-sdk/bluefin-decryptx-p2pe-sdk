@@ -12,6 +12,7 @@ main: kit: entity: device: {
       type: "`$OBJECT`"
     }
     {
+      format: "datetime"
       name: "activationDate"
       req: false
       short: "Timestamp from when the Device was activated."
@@ -24,12 +25,14 @@ main: kit: entity: device: {
       type: "`$STRING`"
     }
     {
+      format: "datetime"
       name: "auditNextDate"
       req: false
       short: "Date and time that the Device is due its next PCI Audit."
       type: "`$STRING`"
     }
     {
+      format: "datetime"
       name: "auditNotificationDate"
       req: false
       short: "Date and time that a notification should be sent that a PCI audit is due."
@@ -42,6 +45,7 @@ main: kit: entity: device: {
       type: "`$OBJECT`"
     }
     {
+      format: "datetime"
       name: "created"
       req: false
       short: "Creation timestamp in ISO 8601 format."
@@ -78,6 +82,7 @@ main: kit: entity: device: {
       type: "`$INTEGER`"
     }
     {
+      format: "datetime"
       name: "errorLastDate"
       req: false
       short: "Timestamp from the last time that the Device had an error."
@@ -96,6 +101,7 @@ main: kit: entity: device: {
       type: "`$OBJECT`"
     }
     {
+      format: "datetime"
       name: "initializedDate"
       req: false
       short: "Timestamp from when the Device was initialized."
@@ -120,6 +126,7 @@ main: kit: entity: device: {
       type: "`$OBJECT`"
     }
     {
+      format: "datetime"
       name: "lastActivityDate"
       req: false
       short: "Timestamp from the last time that the Device was used."
@@ -132,6 +139,7 @@ main: kit: entity: device: {
       type: "`$OBJECT`"
     }
     {
+      format: "datetime"
       name: "modified"
       req: false
       short: "Last modified timestamp."
@@ -188,8 +196,10 @@ main: kit: entity: device: {
         {
           method: "POST"
           orig: "/devices"
-          parts: [
-            "devices"
+          segments: [
+            {
+              lit: "devices"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -275,8 +285,10 @@ main: kit: entity: device: {
           }
           method: "GET"
           orig: "/devices"
-          parts: [
-            "devices"
+          segments: [
+            {
+              lit: "devices"
+            }
           ]
           select: {
             exist: [
@@ -322,17 +334,23 @@ main: kit: entity: device: {
           }
           method: "GET"
           orig: "/devices/{serialNumber}/{deviceType}"
-          parts: [
-            "devices"
-            "{serial_number}"
-            "{device_type}"
-          ]
           rename: {
             param: {
               deviceType: "device_type"
               serialNumber: "serial_number"
             }
           }
+          segments: [
+            {
+              lit: "devices"
+            }
+            {
+              var: "serial_number"
+            }
+            {
+              var: "device_type"
+            }
+          ]
           select: {
             exist: [
               "device_type"
@@ -358,9 +376,13 @@ main: kit: entity: device: {
           }
           method: "GET"
           orig: "/devices/{id}"
-          parts: [
-            "devices"
-            "{id}"
+          segments: [
+            {
+              lit: "devices"
+            }
+            {
+              var: "id"
+            }
           ]
           select: {
             exist: [
