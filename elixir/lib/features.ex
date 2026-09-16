@@ -5,6 +5,7 @@ defmodule BluefinDecryptxP2pe.Features do
     case name do
       "audit" -> BluefinDecryptxP2pe.Feature.Audit.new()
       "clienttrack" -> BluefinDecryptxP2pe.Feature.Clienttrack.new()
+      "debug" -> BluefinDecryptxP2pe.Feature.Debug.new()
       "idempotency" -> BluefinDecryptxP2pe.Feature.Idempotency.new()
       "log" -> BluefinDecryptxP2pe.Feature.Log.new()
       "metrics" -> BluefinDecryptxP2pe.Feature.Metrics.new()

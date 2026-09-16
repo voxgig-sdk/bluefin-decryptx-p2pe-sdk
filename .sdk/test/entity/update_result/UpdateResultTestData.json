@@ -13,7 +13,7 @@
         "phone": "s80",
         "userName": "s81",
         "userRole": {},
-        "version": "s83"
+        "version": 131
       },
       "UPDATE_RESULT01": {
         "client": {},
@@ -27,7 +27,7 @@
         "phone": "sf8",
         "userName": "sf9",
         "userRole": {},
-        "version": "sfb"
+        "version": 251
       },
       "UPDATE_RESULT02": {
         "client": {},
@@ -41,7 +41,7 @@
         "phone": "s170",
         "userName": "s171",
         "userRole": {},
-        "version": "s173"
+        "version": 371
       }
     }
   },
@@ -58,7 +58,2899 @@
         "phone": "s1e8",
         "userName": "s1e9",
         "userRole": {},
-        "version": "s1eb"
+        "version": 491
+      }
+    }
+  },
+  "requests": {
+    "POST /users": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "create-user",
+        "parameters": [],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "properties": {
+                  "client": {
+                    "description": "Reference to the associated Client resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.",
+                    "properties": {
+                      "id": {
+                        "description": "The referenced Client's ID.",
+                        "example": "4684",
+                        "type": "string"
+                      },
+                      "name": {
+                        "description": "The referenced Client's name.",
+                        "example": "The Tired Window",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "email": {
+                    "description": "The User's email address.",
+                    "example": "kgilluley0@zdnet.com",
+                    "maxLength": 255,
+                    "type": "string"
+                  },
+                  "firstName": {
+                    "description": "The User's name.",
+                    "example": "Kaleena",
+                    "maxLength": 255,
+                    "type": "string"
+                  },
+                  "isActive": {
+                    "description": "This property indicates if the User account is active or disabled. Once a user has logged into the system, their account cannot be deleted. As an alternative, their account can be set to inactive.",
+                    "example": true,
+                    "type": "boolean"
+                  },
+                  "kif": {
+                    "description": "Reference to the associated KIF resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.",
+                    "properties": {
+                      "id": {
+                        "description": "The referenced KIF's ID.",
+                        "example": "4",
+                        "type": "string"
+                      },
+                      "name": {
+                        "description": "The referenced KIF's name.",
+                        "example": "Kriptithe Technologies",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "lastName": {
+                    "description": "The User's Surname.",
+                    "example": "Gilluley",
+                    "maxLength": 255,
+                    "type": "string"
+                  },
+                  "partner": {
+                    "description": "Reference to the associated Partner. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.",
+                    "properties": {
+                      "id": {
+                        "description": "The referenced Partner's ID.",
+                        "example": "6580",
+                        "type": "string"
+                      },
+                      "name": {
+                        "description": "The referenced Partner's name.",
+                        "example": "ASM Software",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "phone": {
+                    "description": "The User's phone number without dashes, spaces, or brackets.",
+                    "example": "2025550162",
+                    "maxLength": 255,
+                    "type": "string"
+                  },
+                  "sendWelcomeEmail": {
+                    "description": "If this property is set to '*true*' the newly created user will be sent a welcome email.",
+                    "example": true,
+                    "type": "boolean"
+                  },
+                  "userName": {
+                    "description": "The User's unique username.",
+                    "example": "kgilluley0",
+                    "maxLength": 255,
+                    "type": "string"
+                  },
+                  "userRole": {
+                    "description": "Reference to the associated User Role.",
+                    "properties": {
+                      "name": {
+                        "description": "Role name.",
+                        "enum": [
+                          "System Admin",
+                          "System User",
+                          "Kif User",
+                          "Partner User",
+                          "Client Admin",
+                          "Client User",
+                          "Client Custodian",
+                          "Client Procurement"
+                        ],
+                        "example": "Client User",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "email",
+                  "firstName",
+                  "isActive",
+                  "lastName",
+                  "phone",
+                  "userName",
+                  "userRole"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "description": "User to be created.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "A simple object containing the ID of the newly created resource.",
+                  "properties": {
+                    "id": {
+                      "description": "ID of newly created resource",
+                      "example": "10",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "User create response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output for unauthoised API calls.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7401,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Unauthenticated request.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "fe9d7890-d429-11e7-bcff-49e075da4e68",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when the an authoised API call lacks permissions to access the resource that it is requesting.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7403,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Permission denied.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "971a99a0-d429-11e7-b9e1-edee15522512",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when an API call fails validation.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7409,
+                      "type": "integer"
+                    },
+                    "errors": {
+                      "items": {
+                        "properties": {
+                          "[attribute name]": {
+                            "description": "Error object that is output when an API call fails validation.",
+                            "properties": {
+                              "attribute": {
+                                "description": "The name of the attribute that failed validation.",
+                                "example": "mailCountry",
+                                "type": "string"
+                              },
+                              "errorCode": {
+                                "description": "Error code",
+                                "example": 1002,
+                                "type": "integer"
+                              },
+                              "message": {
+                                "description": "Human readable description of the validation error.",
+                                "example": "Mail country has an incorrect length",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Data validation constraints.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "995ce120-d42c-11e7-a87d-7fe171ffa82f",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Invalid data"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when a server error is encountered.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 1005,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the validation error.",
+                      "example": "Unknown Error",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "basic": []
+          }
+        ],
+        "securitySchemes": {
+          "ApiKeyAuth": {
+            "in": "header",
+            "name": "Authorization",
+            "type": "apiKey"
+          },
+          "basic": {
+            "scheme": "basic",
+            "type": "http"
+          }
+        },
+        "securitySource": "definition"
+      }
+    },
+    "GET /users": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "list-users",
+        "parameters": [
+          {
+            "description": "Filter the list by Partner. The parameter value can be either the Partner's ID or Name.",
+            "in": "query",
+            "name": "partner",
+            "schema": {}
+          },
+          {
+            "description": "Filter the list by Client. The parameter value can be either the Client's ID or Name.",
+            "in": "query",
+            "name": "client",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Filter the list by KIF. The parameter value can be either the KIF's ID or Name.",
+            "in": "query",
+            "name": "kif",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "The number of entries to include in the list.",
+            "in": "query",
+            "name": "take",
+            "schema": {
+              "default": 10,
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "The number of results to skip before listing entries.",
+            "in": "query",
+            "name": "skip",
+            "schema": {
+              "default": 0,
+              "format": "int32",
+              "type": "integer"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "description": "List of Users.",
+                      "items": {
+                        "properties": {
+                          "client": {
+                            "description": "Reference to the associated Client resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.",
+                            "properties": {
+                              "id": {
+                                "description": "The referenced Client's ID.",
+                                "example": "4684",
+                                "type": "string"
+                              },
+                              "name": {
+                                "description": "The referenced Client's name.",
+                                "example": "The Tired Window",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "email": {
+                            "description": "The User's email address.",
+                            "example": "kgilluley0@zdnet.com",
+                            "type": "string"
+                          },
+                          "firstName": {
+                            "description": "The User's name.",
+                            "example": "Kaleena",
+                            "type": "string"
+                          },
+                          "id": {
+                            "description": "This resource's unique identifier.",
+                            "example": "10",
+                            "type": "string"
+                          },
+                          "isActive": {
+                            "description": "This property indicates if the User account is active or disabled. Once a user has logged into the system, their account cannot be deleted. As an alternative, their account can be set to inactive.",
+                            "example": true,
+                            "type": "boolean"
+                          },
+                          "kif": {
+                            "description": "Reference to the associated KIF resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.",
+                            "properties": {
+                              "id": {
+                                "description": "The referenced KIF's ID.",
+                                "example": "4",
+                                "type": "string"
+                              },
+                              "name": {
+                                "description": "The referenced KIF's name.",
+                                "example": "Kriptithe Technologies",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "lastName": {
+                            "description": "The User's Surname.",
+                            "example": "Gilluley",
+                            "type": "string"
+                          },
+                          "partner": {
+                            "description": "Reference to the associated Partner. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.",
+                            "properties": {
+                              "id": {
+                                "description": "The referenced Partner's ID.",
+                                "example": "6580",
+                                "type": "string"
+                              },
+                              "name": {
+                                "description": "The referenced Partner's name.",
+                                "example": "ASM Software",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "phone": {
+                            "description": "The User's phone number without dashes, spaces, or brackets.",
+                            "example": "2025550162",
+                            "type": "string"
+                          },
+                          "userName": {
+                            "description": "The User's unique username.",
+                            "example": "kgilluley0",
+                            "type": "string"
+                          },
+                          "userRole": {
+                            "description": "Reference to the associated User Role.",
+                            "properties": {
+                              "name": {
+                                "description": "Role name.",
+                                "enum": [
+                                  "System Admin",
+                                  "System User",
+                                  "Kif User",
+                                  "Partner User",
+                                  "Client Admin",
+                                  "Client User",
+                                  "Client Custodian",
+                                  "Client Procurement"
+                                ],
+                                "example": "Client User",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "version": {
+                            "description": "The number of times that this resource has been updated.",
+                            "example": 3,
+                            "type": "integer"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "total": {
+                      "description": "Total number of Users available (not the number of Users in the response).",
+                      "example": 10,
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Users list"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output for unauthoised API calls.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7401,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Unauthenticated request.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "fe9d7890-d429-11e7-bcff-49e075da4e68",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when the an authoised API call lacks permissions to access the resource that it is requesting.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7403,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Permission denied.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "971a99a0-d429-11e7-b9e1-edee15522512",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when an API call fails validation.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7409,
+                      "type": "integer"
+                    },
+                    "errors": {
+                      "items": {
+                        "properties": {
+                          "[attribute name]": {
+                            "description": "Error object that is output when an API call fails validation.",
+                            "properties": {
+                              "attribute": {
+                                "description": "The name of the attribute that failed validation.",
+                                "example": "mailCountry",
+                                "type": "string"
+                              },
+                              "errorCode": {
+                                "description": "Error code",
+                                "example": 1002,
+                                "type": "integer"
+                              },
+                              "message": {
+                                "description": "Human readable description of the validation error.",
+                                "example": "Mail country has an incorrect length",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Data validation constraints.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "995ce120-d42c-11e7-a87d-7fe171ffa82f",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Invalid data"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when a server error is encountered.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 1005,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the validation error.",
+                      "example": "Unknown Error",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "basic": []
+          }
+        ],
+        "securitySchemes": {
+          "ApiKeyAuth": {
+            "in": "header",
+            "name": "Authorization",
+            "type": "apiKey"
+          },
+          "basic": {
+            "scheme": "basic",
+            "type": "http"
+          }
+        },
+        "securitySource": "definition"
+      }
+    },
+    "PATCH /clients/{id}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "update-client",
+        "parameters": [
+          {
+            "description": "The Client's unique identifier.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "properties": {
+                  "contact": {
+                    "description": "Reference to the associated User resource. When used for POST and PATCH API calls, the reference must contain the User's id.",
+                    "properties": {
+                      "id": {
+                        "description": "The referenced User's ID.",
+                        "example": "56",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ],
+                    "type": "object"
+                  },
+                  "directPartner": {
+                    "description": "Reference to the associated Partner. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.",
+                    "properties": {
+                      "id": {
+                        "description": "The referenced Partner's ID.",
+                        "example": "6580",
+                        "type": "string"
+                      },
+                      "name": {
+                        "description": "The referenced Partner's name.",
+                        "example": "ASM Software",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "isActive": {
+                    "description": "This property indicates if the Client account is active or disabled. It is not possible to delete Clients, however their account can be set to inactive.",
+                    "example": true,
+                    "type": "boolean"
+                  },
+                  "location": {
+                    "description": "Reference to the associated Location resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.",
+                    "properties": {
+                      "id": {
+                        "description": "The referenced Location's ID.",
+                        "example": "33668",
+                        "type": "string"
+                      },
+                      "name": {
+                        "description": "The referenced Location's name.",
+                        "example": "The Tired Window Atlanta Downtown",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ],
+                    "type": "object"
+                  },
+                  "mid": {
+                    "description": "Some Partners will have an merchant ids on their own software offerings. This is an open field that allows those Partner associate a Client resource with their Merchant Identifier.",
+                    "example": "220654321577",
+                    "maxLength": 50,
+                    "type": "string"
+                  },
+                  "name": {
+                    "description": "The Client's name.",
+                    "example": "The Tired Window",
+                    "maxLength": 255,
+                    "type": "string"
+                  },
+                  "version": {
+                    "description": "The number of times that this resource has been updated.",
+                    "example": 3,
+                    "type": "integer"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "description": "Client to be updated.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "id": {
+                      "description": "The unique identifier of the updated resource",
+                      "example": "10",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Client update response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output for unauthoised API calls.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7401,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Unauthenticated request.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "fe9d7890-d429-11e7-bcff-49e075da4e68",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when the an authoised API call lacks permissions to access the resource that it is requesting.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7403,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Permission denied.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "971a99a0-d429-11e7-b9e1-edee15522512",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when a resource cannot be found.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7404,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Requested resource cannot be found.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "a7518f50-d428-11e7-a87d-7fe171ffa82f",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when an API call fails validation.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7409,
+                      "type": "integer"
+                    },
+                    "errors": {
+                      "items": {
+                        "properties": {
+                          "[attribute name]": {
+                            "description": "Error object that is output when an API call fails validation.",
+                            "properties": {
+                              "attribute": {
+                                "description": "The name of the attribute that failed validation.",
+                                "example": "mailCountry",
+                                "type": "string"
+                              },
+                              "errorCode": {
+                                "description": "Error code",
+                                "example": 1002,
+                                "type": "integer"
+                              },
+                              "message": {
+                                "description": "Human readable description of the validation error.",
+                                "example": "Mail country has an incorrect length",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Data validation constraints.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "995ce120-d42c-11e7-a87d-7fe171ffa82f",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Invalid data"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when a server error is encountered.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 1005,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the validation error.",
+                      "example": "Unknown Error",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "basic": []
+          }
+        ],
+        "securitySchemes": {
+          "ApiKeyAuth": {
+            "in": "header",
+            "name": "Authorization",
+            "type": "apiKey"
+          },
+          "basic": {
+            "scheme": "basic",
+            "type": "http"
+          }
+        },
+        "securitySource": "definition"
+      }
+    },
+    "PATCH /devices/{id}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "update-device",
+        "parameters": [
+          {
+            "description": "The Device's unique identifier.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "properties": {
+                  "alternateKey": {
+                    "description": "The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. If there is a difference between the two, the serial number on the casing or packaging should be used as the alternative key and also in the alterntive key property of any related Shipments entries.",
+                    "example": "ID85000711",
+                    "maxLength": 255,
+                    "type": "string"
+                  },
+                  "auditNextDate": {
+                    "description": "Date and time that the Device is due its next PCI Audit.",
+                    "example": "2017-05-08T20:14:45.000Z",
+                    "format": "datetime",
+                    "type": "string"
+                  },
+                  "client": {
+                    "description": "Reference to the associated Client resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.",
+                    "properties": {
+                      "id": {
+                        "description": "The referenced Client's ID.",
+                        "example": "4684",
+                        "type": "string"
+                      },
+                      "name": {
+                        "description": "The referenced Client's name.",
+                        "example": "The Tired Window",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "deviceBuild": {
+                    "description": "Reference to the associated Device Build resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls the id, name and build number are included in the response.",
+                    "properties": {
+                      "buildNumber": {
+                        "description": "The referenced Device's Build number.",
+                        "example": "IDTECH-007",
+                        "type": "string"
+                      },
+                      "id": {
+                        "description": "The referenced Device Build's ID",
+                        "example": "1305",
+                        "type": "string"
+                      },
+                      "name": {
+                        "description": "The referenced Country's name.",
+                        "example": "SREDKey 2 - PTS 5.X",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "deviceType": {
+                    "description": "Reference to the associated Device Type resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.",
+                    "properties": {
+                      "id": {
+                        "description": "The referenced Device Type's ID.",
+                        "example": "23",
+                        "type": "string"
+                      },
+                      "name": {
+                        "description": "The referenced Device Type's name.",
+                        "example": "SREDKey",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "injectKey": {
+                    "description": "Reference to the associated Device resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are included in the response.",
+                    "properties": {
+                      "id": {
+                        "description": "The referenced Inject Key's ID.",
+                        "example": "1",
+                        "maxLength": 2,
+                        "type": "string"
+                      },
+                      "name": {
+                        "description": "The referenced Inject Key's name.",
+                        "example": "BPSDecrypt 8",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "kif": {
+                    "description": "Reference to the associated KIF resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.",
+                    "properties": {
+                      "id": {
+                        "description": "The referenced KIF's ID.",
+                        "example": "4",
+                        "type": "string"
+                      },
+                      "name": {
+                        "description": "The referenced KIF's name.",
+                        "example": "Kriptithe Technologies",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "name": {
+                    "description": "The Device's name.",
+                    "example": "Atlanta Downtown Front Desk 1",
+                    "maxLength": 255,
+                    "type": "string"
+                  },
+                  "notes": {
+                    "description": "Arbitary note that can be attached to a Device entry.",
+                    "example": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                    "type": "string"
+                  },
+                  "partner": {
+                    "description": "Reference to the associated Partner. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.",
+                    "properties": {
+                      "id": {
+                        "description": "The referenced Partner's ID.",
+                        "example": "6580",
+                        "type": "string"
+                      },
+                      "name": {
+                        "description": "The referenced Partner's name.",
+                        "example": "ASM Software",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "serialNumber": {
+                    "description": "The Device's serial number.",
+                    "example": "85000711",
+                    "maxLength": 255,
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "description": "Device to be updated.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "id": {
+                      "description": "The unique identifier of the updated resource",
+                      "example": "10",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Device update response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output for unauthoised API calls.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7401,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Unauthenticated request.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "fe9d7890-d429-11e7-bcff-49e075da4e68",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when the an authoised API call lacks permissions to access the resource that it is requesting.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7403,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Permission denied.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "971a99a0-d429-11e7-b9e1-edee15522512",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when a resource cannot be found.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7404,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Requested resource cannot be found.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "a7518f50-d428-11e7-a87d-7fe171ffa82f",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when an API call fails validation.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7409,
+                      "type": "integer"
+                    },
+                    "errors": {
+                      "items": {
+                        "properties": {
+                          "[attribute name]": {
+                            "description": "Error object that is output when an API call fails validation.",
+                            "properties": {
+                              "attribute": {
+                                "description": "The name of the attribute that failed validation.",
+                                "example": "mailCountry",
+                                "type": "string"
+                              },
+                              "errorCode": {
+                                "description": "Error code",
+                                "example": 1002,
+                                "type": "integer"
+                              },
+                              "message": {
+                                "description": "Human readable description of the validation error.",
+                                "example": "Mail country has an incorrect length",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Data validation constraints.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "995ce120-d42c-11e7-a87d-7fe171ffa82f",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Invalid data"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when a server error is encountered.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 1005,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the validation error.",
+                      "example": "Unknown Error",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "basic": []
+          }
+        ],
+        "securitySchemes": {
+          "ApiKeyAuth": {
+            "in": "header",
+            "name": "Authorization",
+            "type": "apiKey"
+          },
+          "basic": {
+            "scheme": "basic",
+            "type": "http"
+          }
+        },
+        "securitySource": "definition"
+      }
+    },
+    "PATCH /locations/{id}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "update-location",
+        "parameters": [
+          {
+            "description": "The Location's unique identifier.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "properties": {
+                  "address1": {
+                    "description": "The Location's street address.",
+                    "example": "123 Main St",
+                    "maxLength": 255,
+                    "type": "string"
+                  },
+                  "address2": {
+                    "description": "The Location's street address.",
+                    "example": "Suite 100",
+                    "maxLength": 255,
+                    "type": "string"
+                  },
+                  "billingId": {
+                    "description": "\\?",
+                    "maxLength": 50,
+                    "type": "string"
+                  },
+                  "city": {
+                    "description": "The Location's city.",
+                    "example": "Atlanta",
+                    "maxLength": 255,
+                    "type": "string"
+                  },
+                  "country": {
+                    "description": "Reference to the associated Country. When used for POST and PATCH API calls, the reference can contain either the ISO-ALPHA2 country Code or Name.",
+                    "properties": {
+                      "code": {
+                        "description": "The referenced Country's code (two uppercase symbols).",
+                        "example": "US",
+                        "maxLength": 2,
+                        "type": "string"
+                      },
+                      "name": {
+                        "description": "The referenced Country's name.",
+                        "example": "United States",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "customReference": {
+                    "description": "A Partner specified reference for a location.",
+                    "example": "ASDF234",
+                    "maxLength": 255,
+                    "type": "string"
+                  },
+                  "locationType": {
+                    "description": "The Location's clasification.",
+                    "enum": [
+                      "Manufacturer",
+                      "Manufacturer long term storage",
+                      "KIF",
+                      "Vendor fulfillment location",
+                      "BF fulfillment location",
+                      "Merchant retail location",
+                      "Merchant CSR location",
+                      "Merchant long term storage location",
+                      "Merchant short term storage & distribution",
+                      "Corporate Headquarters",
+                      "Regional Office",
+                      "Field Office",
+                      "Partner Location"
+                    ],
+                    "example": "Merchant retail location",
+                    "type": "string"
+                  },
+                  "mailAddress1": {
+                    "description": "The Location's street address.",
+                    "example": "123 Main St",
+                    "maxLength": 255,
+                    "type": "string"
+                  },
+                  "mailAddress2": {
+                    "description": "The Location's street address.",
+                    "example": "Suite 100",
+                    "maxLength": 255,
+                    "type": "string"
+                  },
+                  "mailCity": {
+                    "description": "The Location's city.",
+                    "example": "Atlanta",
+                    "maxLength": 255,
+                    "type": "string"
+                  },
+                  "mailCountry": {
+                    "description": "The Location's street address.",
+                    "example": "United States",
+                    "type": "string"
+                  },
+                  "mailPostalCode": {
+                    "description": "The Location's postal code.",
+                    "example": "30350",
+                    "maxLength": 10,
+                    "type": "string"
+                  },
+                  "mailStateProvince": {
+                    "description": "The Location's street state or province.",
+                    "example": "Georgia",
+                    "maxLength": 255,
+                    "type": "string"
+                  },
+                  "name": {
+                    "maxLength": 255,
+                    "type": "string"
+                  },
+                  "nameOfBusiness": {
+                    "description": "The name of the business at this location.",
+                    "example": "The Tired Window",
+                    "maxLength": 255,
+                    "type": "string"
+                  },
+                  "notes": {
+                    "description": "Note for delivery driver.",
+                    "example": "Dial 129 on the intercom to speak with our receptionist.",
+                    "type": "string"
+                  },
+                  "postalCode": {
+                    "description": "The Location's postal code.",
+                    "example": "30350",
+                    "maxLength": 10,
+                    "type": "string"
+                  },
+                  "stateProvince": {
+                    "description": "The Location's street state or province.",
+                    "example": "Georgia",
+                    "maxLength": 255,
+                    "type": "string"
+                  },
+                  "uniqueId": {
+                    "description": "Unique Identifier for the Location.",
+                    "example": "8",
+                    "maxLength": 255,
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "description": "Location to be updated.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "id": {
+                      "description": "The unique identifier of the updated resource",
+                      "example": "10",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Location update response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output for unauthoised API calls.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7401,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Unauthenticated request.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "fe9d7890-d429-11e7-bcff-49e075da4e68",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when the an authoised API call lacks permissions to access the resource that it is requesting.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7403,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Permission denied.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "971a99a0-d429-11e7-b9e1-edee15522512",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when a resource cannot be found.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7404,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Requested resource cannot be found.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "a7518f50-d428-11e7-a87d-7fe171ffa82f",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when an API call fails validation.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7409,
+                      "type": "integer"
+                    },
+                    "errors": {
+                      "items": {
+                        "properties": {
+                          "[attribute name]": {
+                            "description": "Error object that is output when an API call fails validation.",
+                            "properties": {
+                              "attribute": {
+                                "description": "The name of the attribute that failed validation.",
+                                "example": "mailCountry",
+                                "type": "string"
+                              },
+                              "errorCode": {
+                                "description": "Error code",
+                                "example": 1002,
+                                "type": "integer"
+                              },
+                              "message": {
+                                "description": "Human readable description of the validation error.",
+                                "example": "Mail country has an incorrect length",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Data validation constraints.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "995ce120-d42c-11e7-a87d-7fe171ffa82f",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Invalid data"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when a server error is encountered.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 1005,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the validation error.",
+                      "example": "Unknown Error",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "basic": []
+          }
+        ],
+        "securitySchemes": {
+          "ApiKeyAuth": {
+            "in": "header",
+            "name": "Authorization",
+            "type": "apiKey"
+          },
+          "basic": {
+            "scheme": "basic",
+            "type": "http"
+          }
+        },
+        "securitySource": "definition"
+      }
+    },
+    "PATCH /partners/{id}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "update-partner",
+        "parameters": [
+          {
+            "description": "The Partner's unique identifier.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "properties": {
+                  "billingId": {
+                    "description": "The Partner's billing identifier.",
+                    "example": "001J000001ngZle",
+                    "type": "string"
+                  },
+                  "clientCanOrderEquipment": {
+                    "description": "This property indicates if the Partner is allowed to order Equipment.",
+                    "example": false,
+                    "type": "boolean"
+                  },
+                  "contact": {
+                    "description": "Reference to the associated User resource. When used for POST and PATCH API calls, the reference must contain the User's id.",
+                    "properties": {
+                      "id": {
+                        "description": "The referenced User's ID.",
+                        "example": "56",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ],
+                    "type": "object"
+                  },
+                  "isActive": {
+                    "description": "This property indicates if the Parter account is active or disabled. It is not possible to delete Partners, their account can be set to inactive as an alternative.",
+                    "example": true,
+                    "type": "boolean"
+                  },
+                  "location": {
+                    "description": "Reference to the associated Location resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.",
+                    "properties": {
+                      "id": {
+                        "description": "The referenced Location's ID.",
+                        "example": "33668",
+                        "type": "string"
+                      },
+                      "name": {
+                        "description": "The referenced Location's name.",
+                        "example": "The Tired Window Atlanta Downtown",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ],
+                    "type": "object"
+                  },
+                  "name": {
+                    "description": "The Partner's name.",
+                    "example": "ASM Software",
+                    "maxLength": 255,
+                    "type": "string"
+                  },
+                  "parent": {
+                    "description": "Reference to the associated Partner. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.",
+                    "properties": {
+                      "id": {
+                        "description": "The referenced Partner's ID.",
+                        "example": "6580",
+                        "type": "string"
+                      },
+                      "name": {
+                        "description": "The referenced Partner's name.",
+                        "example": "ASM Software",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "partnerId": {
+                    "description": "The Partner's id.",
+                    "example": "10",
+                    "type": "string"
+                  },
+                  "reference": {
+                    "description": "The Partner's reference string. This reference is used in to identify the Partner on the Decryption APIs. It equates to the Partner ID.",
+                    "example": "asmsoftware",
+                    "maxLength": 255,
+                    "type": "string"
+                  },
+                  "verificationPhrase": {
+                    "description": "The verification phrase is a message that the Partner creates. It can be used as a mechanism to authorize a partner when they initiate communication over the phone.",
+                    "example": "The quick brown fox jumps over the lazy dog",
+                    "maxLength": 255,
+                    "type": "string"
+                  },
+                  "version": {
+                    "description": "The number of times that this resource has been updated.",
+                    "example": 3,
+                    "type": "integer"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "description": "Partner to be updated.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "id": {
+                      "description": "The unique identifier of the updated resource",
+                      "example": "10",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Partner update response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output for unauthoised API calls.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7401,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Unauthenticated request.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "fe9d7890-d429-11e7-bcff-49e075da4e68",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when the an authoised API call lacks permissions to access the resource that it is requesting.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7403,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Permission denied.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "971a99a0-d429-11e7-b9e1-edee15522512",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when a resource cannot be found.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7404,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Requested resource cannot be found.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "a7518f50-d428-11e7-a87d-7fe171ffa82f",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when an API call fails validation.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7409,
+                      "type": "integer"
+                    },
+                    "errors": {
+                      "items": {
+                        "properties": {
+                          "[attribute name]": {
+                            "description": "Error object that is output when an API call fails validation.",
+                            "properties": {
+                              "attribute": {
+                                "description": "The name of the attribute that failed validation.",
+                                "example": "mailCountry",
+                                "type": "string"
+                              },
+                              "errorCode": {
+                                "description": "Error code",
+                                "example": 1002,
+                                "type": "integer"
+                              },
+                              "message": {
+                                "description": "Human readable description of the validation error.",
+                                "example": "Mail country has an incorrect length",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Data validation constraints.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "995ce120-d42c-11e7-a87d-7fe171ffa82f",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Invalid data"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when a server error is encountered.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 1005,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the validation error.",
+                      "example": "Unknown Error",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "basic": []
+          }
+        ],
+        "securitySchemes": {
+          "ApiKeyAuth": {
+            "in": "header",
+            "name": "Authorization",
+            "type": "apiKey"
+          },
+          "basic": {
+            "scheme": "basic",
+            "type": "http"
+          }
+        },
+        "securitySource": "definition"
+      }
+    },
+    "PATCH /shipments/{id}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "update-shipment",
+        "parameters": [
+          {
+            "description": "The Shipment's unique identifier.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "properties": {
+                  "dateShipped": {
+                    "description": "The date and time that a package is shipped.",
+                    "example": "2017-02-08T20:14:45.000Z",
+                    "format": "datetime",
+                    "type": "string"
+                  },
+                  "items": {
+                    "items": {
+                      "properties": {
+                        "id": {
+                          "description": "The id of the Device that is shipped.",
+                          "example": "46",
+                          "type": "string"
+                        },
+                        "tamperLabel": {
+                          "description": "The code that is printed the tamper label of the Device that is shipped.",
+                          "example": "BF120877",
+                          "maxLength": 255,
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "tracking": {
+                    "description": "The courier's tracking number.",
+                    "example": "1Z999AA10123456784",
+                    "maxLength": 50,
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "description": "Shipment to be updated.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "id": {
+                      "description": "The unique identifier of the updated resource",
+                      "example": "10",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Shipment update response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output for unauthoised API calls.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7401,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Unauthenticated request.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "fe9d7890-d429-11e7-bcff-49e075da4e68",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when the an authoised API call lacks permissions to access the resource that it is requesting.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7403,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Permission denied.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "971a99a0-d429-11e7-b9e1-edee15522512",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when a resource cannot be found.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7404,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Requested resource cannot be found.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "a7518f50-d428-11e7-a87d-7fe171ffa82f",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when an API call fails validation.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7409,
+                      "type": "integer"
+                    },
+                    "errors": {
+                      "items": {
+                        "properties": {
+                          "[attribute name]": {
+                            "description": "Error object that is output when an API call fails validation.",
+                            "properties": {
+                              "attribute": {
+                                "description": "The name of the attribute that failed validation.",
+                                "example": "mailCountry",
+                                "type": "string"
+                              },
+                              "errorCode": {
+                                "description": "Error code",
+                                "example": 1002,
+                                "type": "integer"
+                              },
+                              "message": {
+                                "description": "Human readable description of the validation error.",
+                                "example": "Mail country has an incorrect length",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Data validation constraints.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "995ce120-d42c-11e7-a87d-7fe171ffa82f",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Invalid data"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when a server error is encountered.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 1005,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the validation error.",
+                      "example": "Unknown Error",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "basic": []
+          }
+        ],
+        "securitySchemes": {
+          "ApiKeyAuth": {
+            "in": "header",
+            "name": "Authorization",
+            "type": "apiKey"
+          },
+          "basic": {
+            "scheme": "basic",
+            "type": "http"
+          }
+        },
+        "securitySource": "definition"
+      }
+    },
+    "PATCH /transactions/{id}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "update-transaction",
+        "parameters": [
+          {
+            "description": "The Transaction's unique identifier.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "properties": {
+                  "client": {
+                    "description": "Reference to the associated Client resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.",
+                    "properties": {
+                      "id": {
+                        "description": "The referenced Client's ID.",
+                        "example": "4684",
+                        "type": "string"
+                      },
+                      "name": {
+                        "description": "The referenced Client's name.",
+                        "example": "The Tired Window",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "clientRef": {
+                    "description": "Client Reference property that is included in the decrypt API call.",
+                    "example": "The Tired Window",
+                    "maxLength": 255,
+                    "type": "string"
+                  },
+                  "decrypted": {
+                    "description": "A Transcation can process muliple decryptions. This property contains the total decryption count.",
+                    "example": 2,
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "device": {
+                    "description": "Reference to the associated Device resource. When used for POST and PATCH API calls, the reference can contain either the ID or Serial Number. With GET API calls, both properties are included in the response.",
+                    "properties": {
+                      "id": {
+                        "description": "The referenced Device's ID",
+                        "example": "73",
+                        "type": "string"
+                      },
+                      "serialNumber": {
+                        "description": "The referenced Device's serial number.",
+                        "example": "85000711",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "encrypted": {
+                    "description": "A Transcation can process muliple encryptions. This property contains the total encryptions count.",
+                    "example": 0,
+                    "format": "int32",
+                    "type": "integer"
+                  },
+                  "endDate": {
+                    "description": "Timestamp from the end of the transaction.",
+                    "example": "2017-02-08T20:14:45.000Z",
+                    "format": "datetime",
+                    "type": "string"
+                  },
+                  "errCode": {
+                    "description": "The error code that is sent in response to a failed decrypt API call.",
+                    "example": "1701",
+                    "maxLength": 255,
+                    "type": "string"
+                  },
+                  "errMessage": {
+                    "description": "The error messge that is sent in response to a failed decrypt API call.",
+                    "example": "Device not found",
+                    "type": "string"
+                  },
+                  "ipAddress": {
+                    "description": "The IP address of the http client that makes the decrypt API call.",
+                    "example": "199.83.131.136",
+                    "maxLength": 255,
+                    "type": "string"
+                  },
+                  "keyType": {
+                    "description": "The type of cipher used during decrytion.",
+                    "enum": [
+                      "3DES/CBC",
+                      "3DES/ECB",
+                      "BPS",
+                      "Visa/DSP"
+                    ],
+                    "example": "3DES/CBC",
+                    "type": "string"
+                  },
+                  "messageId": {
+                    "description": "Message ID.",
+                    "example": "1201712060850502212320171",
+                    "maxLength": 255,
+                    "type": "string"
+                  },
+                  "method": {
+                    "description": "The decryption cypher/method.",
+                    "example": "/decrypt/3DES/CBC",
+                    "maxLength": 255,
+                    "type": "string"
+                  },
+                  "partner": {
+                    "description": "Reference to the associated Partner. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.",
+                    "properties": {
+                      "id": {
+                        "description": "The referenced Partner's ID.",
+                        "example": "6580",
+                        "type": "string"
+                      },
+                      "name": {
+                        "description": "The referenced Partner's name.",
+                        "example": "ASM Software",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "reference": {
+                    "description": "The reference property that the Client includes in the decrypt API call.",
+                    "example": "723f57e1-e9c8-48cb-81d9-547ad2b76435",
+                    "maxLength": 255,
+                    "type": "string"
+                  },
+                  "startDate": {
+                    "description": "Timestamp from the beginning of the transaction.",
+                    "example": "2017-02-08T20:14:45.000Z",
+                    "format": "datetime",
+                    "type": "string"
+                  },
+                  "success": {
+                    "description": "The success indicator.",
+                    "example": true,
+                    "type": "boolean"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "description": "Transaction to be updated.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "id": {
+                      "description": "The unique identifier of the updated resource",
+                      "example": "10",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Transaction update response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output for unauthoised API calls.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7401,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Unauthenticated request.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "fe9d7890-d429-11e7-bcff-49e075da4e68",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when the an authoised API call lacks permissions to access the resource that it is requesting.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7403,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Permission denied.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "971a99a0-d429-11e7-b9e1-edee15522512",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when a resource cannot be found.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7404,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Requested resource cannot be found.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "a7518f50-d428-11e7-a87d-7fe171ffa82f",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when an API call fails validation.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7409,
+                      "type": "integer"
+                    },
+                    "errors": {
+                      "items": {
+                        "properties": {
+                          "[attribute name]": {
+                            "description": "Error object that is output when an API call fails validation.",
+                            "properties": {
+                              "attribute": {
+                                "description": "The name of the attribute that failed validation.",
+                                "example": "mailCountry",
+                                "type": "string"
+                              },
+                              "errorCode": {
+                                "description": "Error code",
+                                "example": 1002,
+                                "type": "integer"
+                              },
+                              "message": {
+                                "description": "Human readable description of the validation error.",
+                                "example": "Mail country has an incorrect length",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Data validation constraints.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "995ce120-d42c-11e7-a87d-7fe171ffa82f",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Invalid data"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when a server error is encountered.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 1005,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the validation error.",
+                      "example": "Unknown Error",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "basic": []
+          }
+        ],
+        "securitySchemes": {
+          "ApiKeyAuth": {
+            "in": "header",
+            "name": "Authorization",
+            "type": "apiKey"
+          },
+          "basic": {
+            "scheme": "basic",
+            "type": "http"
+          }
+        },
+        "securitySource": "definition"
+      }
+    },
+    "PATCH /users/{id}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "update-user",
+        "parameters": [
+          {
+            "description": "The unique identifier of the User to update.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "properties": {
+                  "client": {
+                    "description": "Reference to the associated Client resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.",
+                    "properties": {
+                      "id": {
+                        "description": "The referenced Client's ID.",
+                        "example": "4684",
+                        "type": "string"
+                      },
+                      "name": {
+                        "description": "The referenced Client's name.",
+                        "example": "The Tired Window",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "email": {
+                    "description": "The User's email address.",
+                    "example": "kgilluley0@zdnet.com",
+                    "maxLength": 255,
+                    "type": "string"
+                  },
+                  "firstName": {
+                    "description": "The User's name.",
+                    "example": "Kaleena",
+                    "maxLength": 255,
+                    "type": "string"
+                  },
+                  "isActive": {
+                    "description": "This property indicates if the User account is active or disabled. Once a user has logged into the system, their account cannot be deleted. As an alternative, their account can be set to inactive.",
+                    "example": true,
+                    "type": "boolean"
+                  },
+                  "kif": {
+                    "description": "Reference to the associated KIF resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.",
+                    "properties": {
+                      "id": {
+                        "description": "The referenced KIF's ID.",
+                        "example": "4",
+                        "type": "string"
+                      },
+                      "name": {
+                        "description": "The referenced KIF's name.",
+                        "example": "Kriptithe Technologies",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "lastName": {
+                    "description": "The User's Surname.",
+                    "example": "Gilluley",
+                    "maxLength": 255,
+                    "type": "string"
+                  },
+                  "partner": {
+                    "description": "Reference to the associated Partner. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.",
+                    "properties": {
+                      "id": {
+                        "description": "The referenced Partner's ID.",
+                        "example": "6580",
+                        "type": "string"
+                      },
+                      "name": {
+                        "description": "The referenced Partner's name.",
+                        "example": "ASM Software",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "phone": {
+                    "description": "The User's phone number without dashes, spaces, or brackets.",
+                    "example": "2025550162",
+                    "maxLength": 255,
+                    "type": "string"
+                  },
+                  "sendWelcomeEmail": {
+                    "description": "If this property is set to *'true'*, the newly created user will be sent a welcome email.",
+                    "example": true,
+                    "type": "boolean"
+                  },
+                  "userName": {
+                    "description": "The User's unique username.",
+                    "example": "kgilluley0",
+                    "maxLength": 255,
+                    "type": "string"
+                  },
+                  "userRole": {
+                    "description": "Reference to the associated User Role.",
+                    "properties": {
+                      "name": {
+                        "description": "Role name.",
+                        "enum": [
+                          "System Admin",
+                          "System User",
+                          "Kif User",
+                          "Partner User",
+                          "Client Admin",
+                          "Client User",
+                          "Client Custodian",
+                          "Client Procurement"
+                        ],
+                        "example": "Client User",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "description": "The User resource to be updated.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "id": {
+                      "description": "The unique identifier of the updated resource",
+                      "example": "10",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "User update response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output for unauthoised API calls.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7401,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Unauthenticated request.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "fe9d7890-d429-11e7-bcff-49e075da4e68",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when the an authoised API call lacks permissions to access the resource that it is requesting.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7403,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Permission denied.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "971a99a0-d429-11e7-b9e1-edee15522512",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when a resource cannot be found.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7404,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Requested resource cannot be found.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "a7518f50-d428-11e7-a87d-7fe171ffa82f",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when an API call fails validation.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7409,
+                      "type": "integer"
+                    },
+                    "errors": {
+                      "items": {
+                        "properties": {
+                          "[attribute name]": {
+                            "description": "Error object that is output when an API call fails validation.",
+                            "properties": {
+                              "attribute": {
+                                "description": "The name of the attribute that failed validation.",
+                                "example": "mailCountry",
+                                "type": "string"
+                              },
+                              "errorCode": {
+                                "description": "Error code",
+                                "example": 1002,
+                                "type": "integer"
+                              },
+                              "message": {
+                                "description": "Human readable description of the validation error.",
+                                "example": "Mail country has an incorrect length",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Data validation constraints.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "995ce120-d42c-11e7-a87d-7fe171ffa82f",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Invalid data"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when a server error is encountered.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 1005,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the validation error.",
+                      "example": "Unknown Error",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "basic": []
+          }
+        ],
+        "securitySchemes": {
+          "ApiKeyAuth": {
+            "in": "header",
+            "name": "Authorization",
+            "type": "apiKey"
+          },
+          "basic": {
+            "scheme": "basic",
+            "type": "http"
+          }
+        },
+        "securitySource": "definition"
       }
     }
   }

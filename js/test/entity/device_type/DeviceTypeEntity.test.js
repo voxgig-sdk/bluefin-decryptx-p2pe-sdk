@@ -1,12 +1,14 @@
 
 const envlocal = __dirname + '/../../../.env.local'
-require('dotenv').config({ quiet: true, path: [envlocal] })
+require('../../utility').loadEnvLocal(envlocal)
 
 const Path = require('node:path')
 const Fs = require('node:fs')
 
 const { test, describe, afterEach } = require('node:test')
 const assert = require('node:assert')
+const { createLiveTransport } = require('../../live-runner')
+const { runLiveEntity } = require('../../live-entity')
 
 
 const { BluefinDecryptxP2peSDK, BaseFeature, stdutil, config } = require('../../..')
@@ -36,9 +38,13 @@ describe('DeviceTypeEntity', async () => {
   })
 
 
-  test('basic', async () => {
+  test('basic', async (t) => {
 
+    
     const setup = basicSetup()
+    if (setup.live) {
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":[{"active":true,"format":"datetime","name":"created","req":false,"short":"Creation timestamp in ISO 8601 format.","type":"`$STRING`","index$":0},{"active":true,"name":"deviceTypeMode","req":false,"short":"The Device type.","type":"`$STRING`","index$":1},{"active":true,"name":"hardwareVersion","req":false,"short":"The Device hardware version.","type":"`$STRING`","index$":2},{"active":true,"name":"id","req":false,"short":"Unique idenifier.","type":"`$STRING`","index$":3},{"active":true,"name":"isActive","req":false,"short":"This property indicates if the DeviceType is active.","type":"`$BOOLEAN`","index$":4},{"active":true,"name":"manufacturer","req":false,"short":"The Device manufacturer.","type":"`$STRING`","index$":5},{"active":true,"name":"model","req":false,"short":"The Device model.","type":"`$STRING`","index$":6},{"active":true,"format":"datetime","name":"modified","req":false,"short":"Last modified timestamp.","type":"`$STRING`","index$":7},{"active":true,"name":"name","req":false,"short":"The DeviceType name.","type":"`$STRING`","index$":8},{"active":true,"name":"photoUrl","req":false,"type":"`$STRING`","index$":9},{"active":true,"name":"productName","req":false,"short":"The Device name.","type":"`$STRING`","index$":10},{"active":true,"name":"version","req":false,"short":"The number of times that this resource has been updated.","type":"`$INTEGER`","index$":11}],"id":{"field":"id","name":"id"},"name":"device_type","op":{"list":{"input":"data","name":"list","points":[{"active":true,"args":{},"contract":{"id":"GET /deviceTypes","json":"{\"operationId\":\"list-deviceTypes\",\"parameters\":[],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"data\":{\"description\":\"List of Device Types.\",\"items\":{\"properties\":{\"id\":{\"description\":\"Unique idenifier.\",\"example\":\"23\",\"type\":\"string\"},\"isActive\":{\"description\":\"This property indicates if the DeviceType is active. Once a DeviceType has been used once it can no longer be deleted. However a Device can be set to inactive.\",\"example\":true,\"type\":\"boolean\"},\"name\":{\"description\":\"The DeviceType name.\",\"example\":\"IDtech SecuRED\",\"type\":\"string\"}},\"type\":\"object\"},\"type\":\"array\"},\"total\":{\"description\":\"Total number of Device Types available (not the number of Device Types in the response).\",\"example\":1,\"type\":\"integer\"}},\"type\":\"object\"}}},\"description\":\"Device Types list\"},\"401\":{\"content\":{\"application/json\":{\"schema\":{\"description\":\"Error object that is output for unauthoised API calls.\",\"properties\":{\"errorCode\":{\"example\":7401,\"type\":\"integer\"},\"message\":{\"description\":\"Human readable description of the error message.\",\"example\":\"Unauthenticated request.\",\"type\":\"string\"},\"uuid\":{\"example\":\"fe9d7890-d429-11e7-bcff-49e075da4e68\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Unauthorized\"},\"403\":{\"content\":{\"application/json\":{\"schema\":{\"description\":\"Error object that is output when the an authoised API call lacks permissions to access the resource that it is requesting.\",\"properties\":{\"errorCode\":{\"example\":7403,\"type\":\"integer\"},\"message\":{\"description\":\"Human readable description of the error message.\",\"example\":\"Permission denied.\",\"type\":\"string\"},\"uuid\":{\"example\":\"971a99a0-d429-11e7-b9e1-edee15522512\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Forbidden\"},\"409\":{\"content\":{\"application/json\":{\"schema\":{\"description\":\"Error object that is output when an API call fails validation.\",\"properties\":{\"errorCode\":{\"example\":7409,\"type\":\"integer\"},\"errors\":{\"items\":{\"properties\":{\"[attribute name]\":{\"description\":\"Error object that is output when an API call fails validation.\",\"properties\":{\"attribute\":{\"description\":\"The name of the attribute that failed validation.\",\"example\":\"mailCountry\",\"type\":\"string\"},\"errorCode\":{\"description\":\"Error code\",\"example\":1002,\"type\":\"integer\"},\"message\":{\"description\":\"Human readable description of the validation error.\",\"example\":\"Mail country has an incorrect length\",\"type\":\"string\"}},\"type\":\"object\"}},\"type\":\"object\"},\"type\":\"array\"},\"message\":{\"description\":\"Human readable description of the error message.\",\"example\":\"Data validation constraints.\",\"type\":\"string\"},\"uuid\":{\"example\":\"995ce120-d42c-11e7-a87d-7fe171ffa82f\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Invalid data\"},\"500\":{\"content\":{\"application/json\":{\"schema\":{\"description\":\"Error object that is output when a server error is encountered.\",\"properties\":{\"errorCode\":{\"example\":1005,\"type\":\"integer\"},\"message\":{\"description\":\"Human readable description of the validation error.\",\"example\":\"Unknown Error\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Internal server error\"}},\"security\":[{\"basic\":[]}],\"securitySchemes\":{\"ApiKeyAuth\":{\"in\":\"header\",\"name\":\"Authorization\",\"type\":\"apiKey\"},\"basic\":{\"scheme\":\"basic\",\"type\":\"http\"}},\"securitySource\":\"definition\"}","source":"openapi3","version":1},"kind":"http","method":"GET","orig":"/deviceTypes","segments":[{"lit":"deviceTypes"}],"select":{},"transform":{"req":"`reqdata`","res":"`body.data`"},"index$":0}],"key$":"list"},"load":{"input":"data","name":"load","points":[{"active":true,"args":{"params":[{"active":true,"kind":"param","name":"id","orig":"id","reqd":true,"type":"`$STRING`","index$":0}]},"contract":{"id":"GET /deviceTypes/{id}","json":"{\"operationId\":\"get-deviceType\",\"parameters\":[{\"description\":\"The Device Type's unique identifier.\",\"in\":\"path\",\"name\":\"id\",\"required\":true,\"schema\":{\"type\":\"string\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"created\":{\"description\":\"Creation timestamp in ISO 8601 format.\",\"example\":\"2017-02-08T20:14:45.000Z\",\"format\":\"datetime\",\"type\":\"string\"},\"deviceTypeMode\":{\"description\":\"The Device type.\",\"example\":\"Default\",\"type\":\"string\"},\"hardwareVersion\":{\"description\":\"The Device hardware version.\",\"example\":\"1.0\",\"type\":\"string\"},\"id\":{\"description\":\"Unique idenifier.\",\"example\":\"23\",\"type\":\"string\"},\"isActive\":{\"description\":\"This property indicates if the DeviceType is active. Once a DeviceType has been used once it can no longer be deleted. However a Device can be set to inactive.\",\"example\":true,\"type\":\"boolean\"},\"manufacturer\":{\"description\":\"The Device manufacturer.\",\"example\":\"IDTech\",\"type\":\"string\"},\"model\":{\"description\":\"The Device model.\",\"example\":\"IDSK-534833TEB\",\"type\":\"string\"},\"modified\":{\"description\":\"Last modified timestamp.\",\"example\":\"2017-02-08T20:14:45.000Z\",\"format\":\"datetime\",\"type\":\"string\"},\"name\":{\"description\":\"The DeviceType name.\",\"example\":\"IDtech SecuRED\",\"type\":\"string\"},\"photoUrl\":{\"description\":\"\",\"example\":\"\",\"type\":\"string\"},\"productName\":{\"description\":\"The Device name.\",\"example\":\"SecuRed\",\"type\":\"string\"},\"version\":{\"description\":\"The number of times that this resource has been updated.\",\"example\":3,\"type\":\"integer\"}},\"type\":\"object\"}}},\"description\":\"Device Type details\"},\"401\":{\"content\":{\"application/json\":{\"schema\":{\"description\":\"Error object that is output for unauthoised API calls.\",\"properties\":{\"errorCode\":{\"example\":7401,\"type\":\"integer\"},\"message\":{\"description\":\"Human readable description of the error message.\",\"example\":\"Unauthenticated request.\",\"type\":\"string\"},\"uuid\":{\"example\":\"fe9d7890-d429-11e7-bcff-49e075da4e68\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Unauthorized\"},\"403\":{\"content\":{\"application/json\":{\"schema\":{\"description\":\"Error object that is output when the an authoised API call lacks permissions to access the resource that it is requesting.\",\"properties\":{\"errorCode\":{\"example\":7403,\"type\":\"integer\"},\"message\":{\"description\":\"Human readable description of the error message.\",\"example\":\"Permission denied.\",\"type\":\"string\"},\"uuid\":{\"example\":\"971a99a0-d429-11e7-b9e1-edee15522512\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Forbidden\"},\"404\":{\"content\":{\"application/json\":{\"schema\":{\"description\":\"Error object that is output when a resource cannot be found.\",\"properties\":{\"errorCode\":{\"example\":7404,\"type\":\"integer\"},\"message\":{\"description\":\"Human readable description of the error message.\",\"example\":\"Requested resource cannot be found.\",\"type\":\"string\"},\"uuid\":{\"example\":\"a7518f50-d428-11e7-a87d-7fe171ffa82f\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Not found\"},\"500\":{\"content\":{\"application/json\":{\"schema\":{\"description\":\"Error object that is output when a server error is encountered.\",\"properties\":{\"errorCode\":{\"example\":1005,\"type\":\"integer\"},\"message\":{\"description\":\"Human readable description of the validation error.\",\"example\":\"Unknown Error\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Internal server error\"}},\"security\":[{\"basic\":[]}],\"securitySchemes\":{\"ApiKeyAuth\":{\"in\":\"header\",\"name\":\"Authorization\",\"type\":\"apiKey\"},\"basic\":{\"scheme\":\"basic\",\"type\":\"http\"}},\"securitySource\":\"definition\"}","source":"openapi3","version":1},"kind":"http","method":"GET","orig":"/deviceTypes/{id}","segments":[{"lit":"deviceTypes"},{"var":"id"}],"select":{"exist":["id"]},"transform":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"load"}},"relations":{"ancestors":[]},"key$":"device_type","name__orig":"device_type","Name":"DeviceType","name_":"device_type","name-":"device-type","NAME":"DEVICE_TYPE","index$":12}, {"active":true,"entity":"device_type","key$":"BasicDeviceTypeFlow","kind":"basic","name":"BasicDeviceTypeFlow","param":{},"step":[{"active":true,"data":{},"input":{},"match":{},"op":"list","spec":[],"valid":[{"apply":"ItemExists","def":{"ref":"device_type_ref01"}}],"index$":0},{"active":true,"data":{},"input":{"ref":"device_type_ref01","srcdatavar":"device_type_ref01_data","suffix":"_dt0"},"match":{"id":"device_type01"},"op":"load","spec":[],"valid":[{"apply":"TextFieldMark","def":{"mark":"Mark01-device_type_ref01"}}],"index$":1}]}, 'DeviceType')
+    }
     const client = setup.client
     const struct = setup.struct
 
@@ -106,7 +112,14 @@ function basicSetup(extra) {
 
   idmap = env['BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_TYPE_ENTID']
 
-  if ('TRUE' === env.BLUEFIN_DECRYPTX_P2PE_TEST_LIVE) {
+  const live = 'TRUE' === env.BLUEFIN_DECRYPTX_P2PE_TEST_LIVE
+  const transport = createLiveTransport()
+  if (live) {
+    const rawIds = process.env['BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_TYPE_ENTID']
+    idmap = rawIds && rawIds.trim() ? JSON.parse(rawIds) : {}
+    if (!idmap || Array.isArray(idmap) || typeof idmap !== 'object') {
+      throw new Error('Live ENTID must be a JSON object')
+    }
     client = new BluefinDecryptxP2peSDK(merge([
       // FIRST, so the generated fields below win: sdk-test-control.json's
       // test.client.options adds to the live client, it does not redirect it.
@@ -118,7 +131,8 @@ function basicSetup(extra) {
       // the last entry is undefined, and basicSetup is normally called with no
       // argument at all - so a bare 'extra' silently discarded the apikey and
       // server values above and handed the SDK undefined.
-      extra || {}
+      extra || {},
+      { system: { fetch: transport.fetch } }
     ]))
   }
 
@@ -130,6 +144,8 @@ function basicSetup(extra) {
     struct,
     data: entityData,
     explain: 'TRUE' === env.BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN,
+    live,
+    transport,
     now: Date.now(),
   }
 

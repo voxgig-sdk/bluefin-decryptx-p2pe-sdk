@@ -1,0 +1,3129 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>UpdateResult | Decryptx External Api</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><a class="skip" href="#content">Skip to content</a>
+<header class="site-header"><a class="site-title" href="../index.html">Decryptx External Api<span>SDK documentation</span></a><div class="site-links"><a class="repo-link" href="https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk">voxgig-sdk/bluefin-decryptx-p2pe-sdk</a></div></header>
+<div class="site-notice" role="note"></div>
+<div class="shell"><nav class="site-nav" aria-label="Documentation"><div class="search"><label for="search">Search documentation</label><input id="search" type="search" data-base="../" placeholder="Find a guide or reference"><div id="results" aria-live="polite"></div></div><details><summary>Overview</summary><a href="../index.html">Decryptx External Api</a></details>
+<details open><summary>API</summary><a href="../api/index.html">API overview</a>
+<a href="../api/attestation.html">Attestation</a>
+<a href="../api/client.html">Client</a>
+<a href="../api/create_result.html">CreateResult</a>
+<a href="../api/decryption.html">Decryption</a>
+<a href="../api/device.html">Device</a>
+<a href="../api/device_build.html">DeviceBuild</a>
+<a href="../api/device_custody_detail.html">DeviceCustodyDetail</a>
+<a href="../api/device_custody_list.html">DeviceCustodyList</a>
+<a href="../api/device_list.html">DeviceList</a>
+<a href="../api/device_receive_result.html">DeviceReceiveResult</a>
+<a href="../api/device_rki_activate_result.html">DeviceRkiActivateResult</a>
+<a href="../api/device_state.html">DeviceState</a>
+<a href="../api/device_type.html">DeviceType</a>
+<a href="../api/inject_key.html">InjectKey</a>
+<a href="../api/kif.html">Kif</a>
+<a href="../api/location.html">Location</a>
+<a href="../api/partner.html">Partner</a>
+<a href="../api/shipment.html">Shipment</a>
+<a href="../api/success.html">Success</a>
+<a href="../api/transaction.html">Transaction</a>
+<a aria-current="page" href="../api/update_result.html">UpdateResult</a><div class="nav-sections"><a class="nav-section" href="#post-users">POST /users</a>
+<a class="nav-section" href="#get-users">GET /users</a>
+<a class="nav-section" href="#patch-clientsid">PATCH /clients/{id}</a>
+<a class="nav-section" href="#patch-devicesid">PATCH /devices/{id}</a>
+<a class="nav-section" href="#patch-locationsid">PATCH /locations/{id}</a>
+<a class="nav-section" href="#patch-partnersid">PATCH /partners/{id}</a>
+<a class="nav-section" href="#patch-shipmentsid">PATCH /shipments/{id}</a>
+<a class="nav-section" href="#patch-transactionsid">PATCH /transactions/{id}</a>
+<a class="nav-section" href="#patch-usersid">PATCH /users/{id}</a></div>
+<a href="../api/user.html">User</a></details>
+<details><summary>Guides</summary><a href="../guides/authentication.html">Authentication</a>
+<a href="../guides/first-call.html">Make your first API call</a>
+<a href="../guides/errors.html">Handle errors</a>
+<a href="../guides/concepts.html">Entities, SDKs, and tools</a></details>
+<details><summary>SDKs</summary><a href="../sdks/c.html">C</a>
+<a href="../sdks/clojure.html">Clojure</a>
+<a href="../sdks/cpp.html">C++</a>
+<a href="../sdks/csharp.html">C#</a>
+<a href="../sdks/dart.html">Dart</a>
+<a href="../sdks/elixir.html">Elixir</a>
+<a href="../sdks/go.html">Golang</a>
+<a href="../sdks/haskell.html">Haskell</a>
+<a href="../sdks/java.html">Java</a>
+<a href="../sdks/js.html">JavaScript</a>
+<a href="../sdks/kotlin.html">Kotlin</a>
+<a href="../sdks/lean.html">Lean</a>
+<a href="../sdks/lua.html">Lua</a>
+<a href="../sdks/ocaml.html">OCaml</a>
+<a href="../sdks/perl.html">Perl</a>
+<a href="../sdks/php.html">PHP</a>
+<a href="../sdks/py.html">Python</a>
+<a href="../sdks/rb.html">Ruby</a>
+<a href="../sdks/rust.html">Rust</a>
+<a href="../sdks/scala.html">Scala</a>
+<a href="../sdks/swift.html">Swift</a>
+<a href="../sdks/ts.html">TypeScript</a>
+<a href="../sdks/zig.html">Zig</a></details>
+<details><summary>Tools</summary><a href="../tools/go-cli.html">Go CLI</a>
+<a href="../tools/go-mcp.html">Go MCP server</a></details>
+<details><summary>Features</summary><a href="../features/audit.html">Structured audit trail of operations</a>
+<a href="../features/clienttrack.html">Client identity and per-request correlation headers</a>
+<a href="../features/debug.html">Request/response capture ring buffer for debugging</a>
+<a href="../features/idempotency.html">Idempotency keys for safe retries of mutating operations</a>
+<a href="../features/log.html">Structured request and response logging</a>
+<a href="../features/metrics.html">Statistics capture: per-operation counters and latency</a>
+<a href="../features/paging.html">Pagination signals for list operations</a>
+<a href="../features/ratelimit.html">Client-side rate limiting via a token bucket</a>
+<a href="../features/retry.html">Automatic retry of transient failures with exponential backoff</a>
+<a href="../features/telemetry.html">Distributed tracing spans with W3C trace-context propagation</a>
+<a href="../features/test.html">In-memory mock transport for testing without a live server</a>
+<a href="../features/timeout.html">Per-request timeout with transport abort</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="updateresult">UpdateResult</h1>
+<h2 id="operations">Operations</h2>
+<p>Every route this entity exposes. Each route links to its own reference on this page.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Route</th>
+<th>SDK operation</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>POST</code></td>
+<td><a href="#post-users"><code>/users</code></a></td>
+<td><code>create</code></td>
+<td>User create response</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-users"><code>/users</code></a></td>
+<td><code>list</code></td>
+<td>Users list</td>
+</tr>
+<tr>
+<td><code>PATCH</code></td>
+<td><a href="#patch-clientsid"><code>/clients/{id}</code></a></td>
+<td><code>update</code></td>
+<td>Client update response</td>
+</tr>
+<tr>
+<td><code>PATCH</code></td>
+<td><a href="#patch-devicesid"><code>/devices/{id}</code></a></td>
+<td><code>update</code></td>
+<td>Device update response</td>
+</tr>
+<tr>
+<td><code>PATCH</code></td>
+<td><a href="#patch-locationsid"><code>/locations/{id}</code></a></td>
+<td><code>update</code></td>
+<td>Location update response</td>
+</tr>
+<tr>
+<td><code>PATCH</code></td>
+<td><a href="#patch-partnersid"><code>/partners/{id}</code></a></td>
+<td><code>update</code></td>
+<td>Partner update response</td>
+</tr>
+<tr>
+<td><code>PATCH</code></td>
+<td><a href="#patch-shipmentsid"><code>/shipments/{id}</code></a></td>
+<td><code>update</code></td>
+<td>Shipment update response</td>
+</tr>
+<tr>
+<td><code>PATCH</code></td>
+<td><a href="#patch-transactionsid"><code>/transactions/{id}</code></a></td>
+<td><code>update</code></td>
+<td>Transaction update response</td>
+</tr>
+<tr>
+<td><code>PATCH</code></td>
+<td><a href="#patch-usersid"><code>/users/{id}</code></a></td>
+<td><code>update</code></td>
+<td>User update response</td>
+</tr>
+</tbody>
+</table>
+<h2 id="fields">Fields</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>client</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Reference to the associated Client resource.</td>
+</tr>
+<tr>
+<td><code>email</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The User's email address.</td>
+</tr>
+<tr>
+<td><code>firstName</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The User's name.</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>ID of newly created resource</td>
+</tr>
+<tr>
+<td><code>isActive</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>This property indicates if the User account is active or disabled.</td>
+</tr>
+<tr>
+<td><code>kif</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Reference to the associated KIF resource.</td>
+</tr>
+<tr>
+<td><code>lastName</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The User's Surname.</td>
+</tr>
+<tr>
+<td><code>partner</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Reference to the associated Partner.</td>
+</tr>
+<tr>
+<td><code>phone</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The User's phone number without dashes, spaces, or brackets.</td>
+</tr>
+<tr>
+<td><code>userName</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The User's unique username.</td>
+</tr>
+<tr>
+<td><code>userRole</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Reference to the associated User Role.</td>
+</tr>
+<tr>
+<td><code>version</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td>The number of times that this resource has been updated.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="create">create</h2>
+<h3 id="post-users" class="operation" data-method="post"><code>POST</code> /users</h3>
+<p>Operation ID: <code>create-user</code>.</p>
+<p>Authentication: basic token (<code>basic</code>).</p>
+<h4 id="request-body">Request body</h4>
+<p><code>*/*</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>client</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Reference to the associated Client resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.</td>
+</tr>
+<tr>
+<td><code>client.id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced Client's ID.</td>
+</tr>
+<tr>
+<td><code>client.name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced Client's name.</td>
+</tr>
+<tr>
+<td><code>email</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The User's email address.</td>
+</tr>
+<tr>
+<td><code>firstName</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The User's name.</td>
+</tr>
+<tr>
+<td><code>isActive</code></td>
+<td><code>boolean</code></td>
+<td>Yes</td>
+<td>This property indicates if the User account is active or disabled. Once a user has logged into the system, their account cannot be deleted. As an alternative, their account can be set to inactive.</td>
+</tr>
+<tr>
+<td><code>kif</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Reference to the associated KIF resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.</td>
+</tr>
+<tr>
+<td><code>kif.id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced KIF's ID.</td>
+</tr>
+<tr>
+<td><code>kif.name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced KIF's name.</td>
+</tr>
+<tr>
+<td><code>lastName</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The User's Surname.</td>
+</tr>
+<tr>
+<td><code>partner</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Reference to the associated Partner. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.</td>
+</tr>
+<tr>
+<td><code>partner.id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced Partner's ID.</td>
+</tr>
+<tr>
+<td><code>partner.name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced Partner's name.</td>
+</tr>
+<tr>
+<td><code>phone</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The User's phone number without dashes, spaces, or brackets.</td>
+</tr>
+<tr>
+<td><code>sendWelcomeEmail</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>If this property is set to '<em>true</em>' the newly created user will be sent a welcome email.</td>
+</tr>
+<tr>
+<td><code>userName</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The User's unique username.</td>
+</tr>
+<tr>
+<td><code>userRole</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td>Reference to the associated User Role.</td>
+</tr>
+<tr>
+<td><code>userRole.name</code></td>
+<td><code>enum: System Admin, System User, Kif User, Partner User, Client Admin, Client User, ...</code></td>
+<td>No</td>
+<td>Role name.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses">Responses</h4>
+<h5 id="200-user-create-response" class="status" data-status="2xx">200: User create response</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>ID of newly created resource</td>
+</tr>
+</tbody>
+</table>
+<h5 id="401-unauthorized" class="status" data-status="4xx">401: Unauthorized</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the error message.</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="403-forbidden" class="status" data-status="4xx">403: Forbidden</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the error message.</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="409-invalid-data" class="status" data-status="4xx">409: Invalid data</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>errors</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>errors[].[attribute name]</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Error object that is output when an API call fails validation.</td>
+</tr>
+<tr>
+<td><code>errors[].[attribute name].attribute</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The name of the attribute that failed validation.</td>
+</tr>
+<tr>
+<td><code>errors[].[attribute name].errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td>Error code</td>
+</tr>
+<tr>
+<td><code>errors[].[attribute name].message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the validation error.</td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the error message.</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="500-internal-server-error" class="status" data-status="5xx">500: Internal server error</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the validation error.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="list">list</h2>
+<h3 id="get-users" class="operation" data-method="get"><code>GET</code> /users</h3>
+<p>Operation ID: <code>list-users</code>.</p>
+<p>Authentication: basic token (<code>basic</code>).</p>
+<h4 id="parameters">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>partner</code> | <code>query</code> | <code>any</code> | No | Filter the list by Partner. The parameter value can be either the Partner's ID or Name. |
+| <code>client</code> | <code>query</code> | <code>string</code> | No | Filter the list by Client. The parameter value can be either the Client's ID or Name. |
+| <code>kif</code> | <code>query</code> | <code>string</code> | No | Filter the list by KIF. The parameter value can be either the KIF's ID or Name. |
+| <code>take</code> | <code>query</code> | <code>integer (int32)</code> | No | The number of entries to include in the list. |
+| <code>skip</code> | <code>query</code> | <code>integer (int32)</code> | No | The number of results to skip before listing entries. |</p>
+<h4 id="responses-1">Responses</h4>
+<h5 id="200-users-list" class="status" data-status="2xx">200: Users list</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>data</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td>List of Users.</td>
+</tr>
+<tr>
+<td><code>data[].client</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Reference to the associated Client resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.</td>
+</tr>
+<tr>
+<td><code>data[].client.id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced Client's ID.</td>
+</tr>
+<tr>
+<td><code>data[].client.name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced Client's name.</td>
+</tr>
+<tr>
+<td><code>data[].email</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The User's email address.</td>
+</tr>
+<tr>
+<td><code>data[].firstName</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The User's name.</td>
+</tr>
+<tr>
+<td><code>data[].id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>This resource's unique identifier.</td>
+</tr>
+<tr>
+<td><code>data[].isActive</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>This property indicates if the User account is active or disabled. Once a user has logged into the system, their account cannot be deleted. As an alternative, their account can be set to inactive.</td>
+</tr>
+<tr>
+<td><code>data[].kif</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Reference to the associated KIF resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.</td>
+</tr>
+<tr>
+<td><code>data[].kif.id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced KIF's ID.</td>
+</tr>
+<tr>
+<td><code>data[].kif.name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced KIF's name.</td>
+</tr>
+<tr>
+<td><code>data[].lastName</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The User's Surname.</td>
+</tr>
+<tr>
+<td><code>data[].partner</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Reference to the associated Partner. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.</td>
+</tr>
+<tr>
+<td><code>data[].partner.id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced Partner's ID.</td>
+</tr>
+<tr>
+<td><code>data[].partner.name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced Partner's name.</td>
+</tr>
+<tr>
+<td><code>data[].phone</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The User's phone number without dashes, spaces, or brackets.</td>
+</tr>
+<tr>
+<td><code>data[].userName</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The User's unique username.</td>
+</tr>
+<tr>
+<td><code>data[].userRole</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Reference to the associated User Role.</td>
+</tr>
+<tr>
+<td><code>data[].userRole.name</code></td>
+<td><code>enum: System Admin, System User, Kif User, Partner User, Client Admin, Client User, ...</code></td>
+<td>No</td>
+<td>Role name.</td>
+</tr>
+<tr>
+<td><code>data[].version</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td>The number of times that this resource has been updated.</td>
+</tr>
+<tr>
+<td><code>total</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td>Total number of Users available (not the number of Users in the response).</td>
+</tr>
+</tbody>
+</table>
+<h5 id="401-unauthorized-1" class="status" data-status="4xx">401: Unauthorized</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the error message.</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="403-forbidden-1" class="status" data-status="4xx">403: Forbidden</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the error message.</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="409-invalid-data-1" class="status" data-status="4xx">409: Invalid data</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>errors</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>errors[].[attribute name]</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Error object that is output when an API call fails validation.</td>
+</tr>
+<tr>
+<td><code>errors[].[attribute name].attribute</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The name of the attribute that failed validation.</td>
+</tr>
+<tr>
+<td><code>errors[].[attribute name].errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td>Error code</td>
+</tr>
+<tr>
+<td><code>errors[].[attribute name].message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the validation error.</td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the error message.</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="500-internal-server-error-1" class="status" data-status="5xx">500: Internal server error</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the validation error.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="update">update</h2>
+<h3 id="patch-clientsid" class="operation" data-method="patch"><code>PATCH</code> /clients/{id}</h3>
+<p>Operation ID: <code>update-client</code>.</p>
+<p>Authentication: basic token (<code>basic</code>).</p>
+<h4 id="parameters-1">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>id</code> | <code>path</code> | <code>string</code> | Yes | The Client's unique identifier. |</p>
+<h4 id="request-body-1">Request body</h4>
+<p><code>*/*</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>contact</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Reference to the associated User resource. When used for POST and PATCH API calls, the reference must contain the User's id.</td>
+</tr>
+<tr>
+<td><code>contact.id</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The referenced User's ID.</td>
+</tr>
+<tr>
+<td><code>directPartner</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Reference to the associated Partner. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.</td>
+</tr>
+<tr>
+<td><code>directPartner.id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced Partner's ID.</td>
+</tr>
+<tr>
+<td><code>directPartner.name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced Partner's name.</td>
+</tr>
+<tr>
+<td><code>isActive</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>This property indicates if the Client account is active or disabled. It is not possible to delete Clients, however their account can be set to inactive.</td>
+</tr>
+<tr>
+<td><code>location</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Reference to the associated Location resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.</td>
+</tr>
+<tr>
+<td><code>location.id</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The referenced Location's ID.</td>
+</tr>
+<tr>
+<td><code>location.name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced Location's name.</td>
+</tr>
+<tr>
+<td><code>mid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Some Partners will have an merchant ids on their own software offerings. This is an open field that allows those Partner associate a Client resource with their Merchant Identifier.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The Client's name.</td>
+</tr>
+<tr>
+<td><code>version</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td>The number of times that this resource has been updated.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses-2">Responses</h4>
+<h5 id="200-client-update-response" class="status" data-status="2xx">200: Client update response</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The unique identifier of the updated resource</td>
+</tr>
+</tbody>
+</table>
+<h5 id="401-unauthorized-2" class="status" data-status="4xx">401: Unauthorized</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the error message.</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="403-forbidden-2" class="status" data-status="4xx">403: Forbidden</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the error message.</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="404-not-found" class="status" data-status="4xx">404: Not found</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the error message.</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="409-invalid-data-2" class="status" data-status="4xx">409: Invalid data</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>errors</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>errors[].[attribute name]</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Error object that is output when an API call fails validation.</td>
+</tr>
+<tr>
+<td><code>errors[].[attribute name].attribute</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The name of the attribute that failed validation.</td>
+</tr>
+<tr>
+<td><code>errors[].[attribute name].errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td>Error code</td>
+</tr>
+<tr>
+<td><code>errors[].[attribute name].message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the validation error.</td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the error message.</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="500-internal-server-error-2" class="status" data-status="5xx">500: Internal server error</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the validation error.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="patch-devicesid" class="operation" data-method="patch"><code>PATCH</code> /devices/{id}</h3>
+<p>Operation ID: <code>update-device</code>.</p>
+<p>Authentication: basic token (<code>basic</code>).</p>
+<h4 id="parameters-2">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>id</code> | <code>path</code> | <code>string</code> | Yes | The Device's unique identifier. |</p>
+<h4 id="request-body-2">Request body</h4>
+<p><code>*/*</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>alternateKey</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. If there is a difference between the two, the serial number on the casing or packaging should be used as the alternative key and also in the alterntive key property of any related Shipments entries.</td>
+</tr>
+<tr>
+<td><code>auditNextDate</code></td>
+<td><code>string (datetime)</code></td>
+<td>No</td>
+<td>Date and time that the Device is due its next PCI Audit.</td>
+</tr>
+<tr>
+<td><code>client</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Reference to the associated Client resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.</td>
+</tr>
+<tr>
+<td><code>client.id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced Client's ID.</td>
+</tr>
+<tr>
+<td><code>client.name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced Client's name.</td>
+</tr>
+<tr>
+<td><code>deviceBuild</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Reference to the associated Device Build resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls the id, name and build number are included in the response.</td>
+</tr>
+<tr>
+<td><code>deviceBuild.buildNumber</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced Device's Build number.</td>
+</tr>
+<tr>
+<td><code>deviceBuild.id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced Device Build's ID</td>
+</tr>
+<tr>
+<td><code>deviceBuild.name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced Country's name.</td>
+</tr>
+<tr>
+<td><code>deviceType</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Reference to the associated Device Type resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.</td>
+</tr>
+<tr>
+<td><code>deviceType.id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced Device Type's ID.</td>
+</tr>
+<tr>
+<td><code>deviceType.name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced Device Type's name.</td>
+</tr>
+<tr>
+<td><code>injectKey</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Reference to the associated Device resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are included in the response.</td>
+</tr>
+<tr>
+<td><code>injectKey.id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced Inject Key's ID.</td>
+</tr>
+<tr>
+<td><code>injectKey.name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced Inject Key's name.</td>
+</tr>
+<tr>
+<td><code>kif</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Reference to the associated KIF resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.</td>
+</tr>
+<tr>
+<td><code>kif.id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced KIF's ID.</td>
+</tr>
+<tr>
+<td><code>kif.name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced KIF's name.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The Device's name.</td>
+</tr>
+<tr>
+<td><code>notes</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Arbitary note that can be attached to a Device entry.</td>
+</tr>
+<tr>
+<td><code>partner</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Reference to the associated Partner. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.</td>
+</tr>
+<tr>
+<td><code>partner.id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced Partner's ID.</td>
+</tr>
+<tr>
+<td><code>partner.name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced Partner's name.</td>
+</tr>
+<tr>
+<td><code>serialNumber</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The Device's serial number.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses-3">Responses</h4>
+<h5 id="200-device-update-response" class="status" data-status="2xx">200: Device update response</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The unique identifier of the updated resource</td>
+</tr>
+</tbody>
+</table>
+<h5 id="401-unauthorized-3" class="status" data-status="4xx">401: Unauthorized</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the error message.</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="403-forbidden-3" class="status" data-status="4xx">403: Forbidden</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the error message.</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="404-not-found-1" class="status" data-status="4xx">404: Not found</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the error message.</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="409-invalid-data-3" class="status" data-status="4xx">409: Invalid data</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>errors</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>errors[].[attribute name]</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Error object that is output when an API call fails validation.</td>
+</tr>
+<tr>
+<td><code>errors[].[attribute name].attribute</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The name of the attribute that failed validation.</td>
+</tr>
+<tr>
+<td><code>errors[].[attribute name].errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td>Error code</td>
+</tr>
+<tr>
+<td><code>errors[].[attribute name].message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the validation error.</td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the error message.</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="500-internal-server-error-3" class="status" data-status="5xx">500: Internal server error</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the validation error.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="patch-locationsid" class="operation" data-method="patch"><code>PATCH</code> /locations/{id}</h3>
+<p>Operation ID: <code>update-location</code>.</p>
+<p>Authentication: basic token (<code>basic</code>).</p>
+<h4 id="parameters-3">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>id</code> | <code>path</code> | <code>string</code> | Yes | The Location's unique identifier. |</p>
+<h4 id="request-body-3">Request body</h4>
+<p><code>*/*</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>address1</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The Location's street address.</td>
+</tr>
+<tr>
+<td><code>address2</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The Location's street address.</td>
+</tr>
+<tr>
+<td><code>billingId</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>?</td>
+</tr>
+<tr>
+<td><code>city</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The Location's city.</td>
+</tr>
+<tr>
+<td><code>country</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Reference to the associated Country. When used for POST and PATCH API calls, the reference can contain either the ISO-ALPHA2 country Code or Name.</td>
+</tr>
+<tr>
+<td><code>country.code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced Country's code (two uppercase symbols).</td>
+</tr>
+<tr>
+<td><code>country.name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced Country's name.</td>
+</tr>
+<tr>
+<td><code>customReference</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>A Partner specified reference for a location.</td>
+</tr>
+<tr>
+<td><code>locationType</code></td>
+<td><code>enum: Manufacturer, Manufacturer long term storage, KIF, Vendor fulfillment location, BF fulfillment location, Merchant retail location, ...</code></td>
+<td>No</td>
+<td>The Location's clasification.</td>
+</tr>
+<tr>
+<td><code>mailAddress1</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The Location's street address.</td>
+</tr>
+<tr>
+<td><code>mailAddress2</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The Location's street address.</td>
+</tr>
+<tr>
+<td><code>mailCity</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The Location's city.</td>
+</tr>
+<tr>
+<td><code>mailCountry</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The Location's street address.</td>
+</tr>
+<tr>
+<td><code>mailPostalCode</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The Location's postal code.</td>
+</tr>
+<tr>
+<td><code>mailStateProvince</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The Location's street state or province.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>nameOfBusiness</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The name of the business at this location.</td>
+</tr>
+<tr>
+<td><code>notes</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Note for delivery driver.</td>
+</tr>
+<tr>
+<td><code>postalCode</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The Location's postal code.</td>
+</tr>
+<tr>
+<td><code>stateProvince</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The Location's street state or province.</td>
+</tr>
+<tr>
+<td><code>uniqueId</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Unique Identifier for the Location.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses-4">Responses</h4>
+<h5 id="200-location-update-response" class="status" data-status="2xx">200: Location update response</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The unique identifier of the updated resource</td>
+</tr>
+</tbody>
+</table>
+<h5 id="401-unauthorized-4" class="status" data-status="4xx">401: Unauthorized</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the error message.</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="403-forbidden-4" class="status" data-status="4xx">403: Forbidden</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the error message.</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="404-not-found-2" class="status" data-status="4xx">404: Not found</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the error message.</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="409-invalid-data-4" class="status" data-status="4xx">409: Invalid data</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>errors</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>errors[].[attribute name]</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Error object that is output when an API call fails validation.</td>
+</tr>
+<tr>
+<td><code>errors[].[attribute name].attribute</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The name of the attribute that failed validation.</td>
+</tr>
+<tr>
+<td><code>errors[].[attribute name].errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td>Error code</td>
+</tr>
+<tr>
+<td><code>errors[].[attribute name].message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the validation error.</td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the error message.</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="500-internal-server-error-4" class="status" data-status="5xx">500: Internal server error</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the validation error.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="patch-partnersid" class="operation" data-method="patch"><code>PATCH</code> /partners/{id}</h3>
+<p>Operation ID: <code>update-partner</code>.</p>
+<p>Authentication: basic token (<code>basic</code>).</p>
+<h4 id="parameters-4">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>id</code> | <code>path</code> | <code>string</code> | Yes | The Partner's unique identifier. |</p>
+<h4 id="request-body-4">Request body</h4>
+<p><code>*/*</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>billingId</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The Partner's billing identifier.</td>
+</tr>
+<tr>
+<td><code>clientCanOrderEquipment</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>This property indicates if the Partner is allowed to order Equipment.</td>
+</tr>
+<tr>
+<td><code>contact</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Reference to the associated User resource. When used for POST and PATCH API calls, the reference must contain the User's id.</td>
+</tr>
+<tr>
+<td><code>contact.id</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The referenced User's ID.</td>
+</tr>
+<tr>
+<td><code>isActive</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>This property indicates if the Parter account is active or disabled. It is not possible to delete Partners, their account can be set to inactive as an alternative.</td>
+</tr>
+<tr>
+<td><code>location</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Reference to the associated Location resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.</td>
+</tr>
+<tr>
+<td><code>location.id</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>The referenced Location's ID.</td>
+</tr>
+<tr>
+<td><code>location.name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced Location's name.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The Partner's name.</td>
+</tr>
+<tr>
+<td><code>parent</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Reference to the associated Partner. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.</td>
+</tr>
+<tr>
+<td><code>parent.id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced Partner's ID.</td>
+</tr>
+<tr>
+<td><code>parent.name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced Partner's name.</td>
+</tr>
+<tr>
+<td><code>partnerId</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The Partner's id.</td>
+</tr>
+<tr>
+<td><code>reference</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The Partner's reference string. This reference is used in to identify the Partner on the Decryption APIs. It equates to the Partner ID.</td>
+</tr>
+<tr>
+<td><code>verificationPhrase</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The verification phrase is a message that the Partner creates. It can be used as a mechanism to authorize a partner when they initiate communication over the phone.</td>
+</tr>
+<tr>
+<td><code>version</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td>The number of times that this resource has been updated.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses-5">Responses</h4>
+<h5 id="200-partner-update-response" class="status" data-status="2xx">200: Partner update response</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The unique identifier of the updated resource</td>
+</tr>
+</tbody>
+</table>
+<h5 id="401-unauthorized-5" class="status" data-status="4xx">401: Unauthorized</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the error message.</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="403-forbidden-5" class="status" data-status="4xx">403: Forbidden</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the error message.</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="404-not-found-3" class="status" data-status="4xx">404: Not found</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the error message.</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="409-invalid-data-5" class="status" data-status="4xx">409: Invalid data</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>errors</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>errors[].[attribute name]</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Error object that is output when an API call fails validation.</td>
+</tr>
+<tr>
+<td><code>errors[].[attribute name].attribute</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The name of the attribute that failed validation.</td>
+</tr>
+<tr>
+<td><code>errors[].[attribute name].errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td>Error code</td>
+</tr>
+<tr>
+<td><code>errors[].[attribute name].message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the validation error.</td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the error message.</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="500-internal-server-error-5" class="status" data-status="5xx">500: Internal server error</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the validation error.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="patch-shipmentsid" class="operation" data-method="patch"><code>PATCH</code> /shipments/{id}</h3>
+<p>Operation ID: <code>update-shipment</code>.</p>
+<p>Authentication: basic token (<code>basic</code>).</p>
+<h4 id="parameters-5">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>id</code> | <code>path</code> | <code>string</code> | Yes | The Shipment's unique identifier. |</p>
+<h4 id="request-body-5">Request body</h4>
+<p><code>*/*</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>dateShipped</code></td>
+<td><code>string (datetime)</code></td>
+<td>No</td>
+<td>The date and time that a package is shipped.</td>
+</tr>
+<tr>
+<td><code>items</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>items[].id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The id of the Device that is shipped.</td>
+</tr>
+<tr>
+<td><code>items[].tamperLabel</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The code that is printed the tamper label of the Device that is shipped.</td>
+</tr>
+<tr>
+<td><code>tracking</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The courier's tracking number.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses-6">Responses</h4>
+<h5 id="200-shipment-update-response" class="status" data-status="2xx">200: Shipment update response</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The unique identifier of the updated resource</td>
+</tr>
+</tbody>
+</table>
+<h5 id="401-unauthorized-6" class="status" data-status="4xx">401: Unauthorized</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the error message.</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="403-forbidden-6" class="status" data-status="4xx">403: Forbidden</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the error message.</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="404-not-found-4" class="status" data-status="4xx">404: Not found</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the error message.</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="409-invalid-data-6" class="status" data-status="4xx">409: Invalid data</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>errors</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>errors[].[attribute name]</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Error object that is output when an API call fails validation.</td>
+</tr>
+<tr>
+<td><code>errors[].[attribute name].attribute</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The name of the attribute that failed validation.</td>
+</tr>
+<tr>
+<td><code>errors[].[attribute name].errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td>Error code</td>
+</tr>
+<tr>
+<td><code>errors[].[attribute name].message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the validation error.</td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the error message.</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="500-internal-server-error-6" class="status" data-status="5xx">500: Internal server error</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the validation error.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="patch-transactionsid" class="operation" data-method="patch"><code>PATCH</code> /transactions/{id}</h3>
+<p>Operation ID: <code>update-transaction</code>.</p>
+<p>Authentication: basic token (<code>basic</code>).</p>
+<h4 id="parameters-6">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>id</code> | <code>path</code> | <code>string</code> | Yes | The Transaction's unique identifier. |</p>
+<h4 id="request-body-6">Request body</h4>
+<p><code>*/*</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>client</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Reference to the associated Client resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.</td>
+</tr>
+<tr>
+<td><code>client.id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced Client's ID.</td>
+</tr>
+<tr>
+<td><code>client.name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced Client's name.</td>
+</tr>
+<tr>
+<td><code>clientRef</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Client Reference property that is included in the decrypt API call.</td>
+</tr>
+<tr>
+<td><code>decrypted</code></td>
+<td><code>integer (int32)</code></td>
+<td>No</td>
+<td>A Transcation can process muliple decryptions. This property contains the total decryption count.</td>
+</tr>
+<tr>
+<td><code>device</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Reference to the associated Device resource. When used for POST and PATCH API calls, the reference can contain either the ID or Serial Number. With GET API calls, both properties are included in the response.</td>
+</tr>
+<tr>
+<td><code>device.id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced Device's ID</td>
+</tr>
+<tr>
+<td><code>device.serialNumber</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced Device's serial number.</td>
+</tr>
+<tr>
+<td><code>encrypted</code></td>
+<td><code>integer (int32)</code></td>
+<td>No</td>
+<td>A Transcation can process muliple encryptions. This property contains the total encryptions count.</td>
+</tr>
+<tr>
+<td><code>endDate</code></td>
+<td><code>string (datetime)</code></td>
+<td>No</td>
+<td>Timestamp from the end of the transaction.</td>
+</tr>
+<tr>
+<td><code>errCode</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The error code that is sent in response to a failed decrypt API call.</td>
+</tr>
+<tr>
+<td><code>errMessage</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The error messge that is sent in response to a failed decrypt API call.</td>
+</tr>
+<tr>
+<td><code>ipAddress</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The IP address of the http client that makes the decrypt API call.</td>
+</tr>
+<tr>
+<td><code>keyType</code></td>
+<td><code>enum: 3DES/CBC, 3DES/ECB, BPS, Visa/DSP</code></td>
+<td>No</td>
+<td>The type of cipher used during decrytion.</td>
+</tr>
+<tr>
+<td><code>messageId</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Message ID.</td>
+</tr>
+<tr>
+<td><code>method</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The decryption cypher/method.</td>
+</tr>
+<tr>
+<td><code>partner</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Reference to the associated Partner. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.</td>
+</tr>
+<tr>
+<td><code>partner.id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced Partner's ID.</td>
+</tr>
+<tr>
+<td><code>partner.name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced Partner's name.</td>
+</tr>
+<tr>
+<td><code>reference</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The reference property that the Client includes in the decrypt API call.</td>
+</tr>
+<tr>
+<td><code>startDate</code></td>
+<td><code>string (datetime)</code></td>
+<td>No</td>
+<td>Timestamp from the beginning of the transaction.</td>
+</tr>
+<tr>
+<td><code>success</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>The success indicator.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses-7">Responses</h4>
+<h5 id="200-transaction-update-response" class="status" data-status="2xx">200: Transaction update response</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The unique identifier of the updated resource</td>
+</tr>
+</tbody>
+</table>
+<h5 id="401-unauthorized-7" class="status" data-status="4xx">401: Unauthorized</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the error message.</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="403-forbidden-7" class="status" data-status="4xx">403: Forbidden</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the error message.</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="404-not-found-5" class="status" data-status="4xx">404: Not found</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the error message.</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="409-invalid-data-7" class="status" data-status="4xx">409: Invalid data</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>errors</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>errors[].[attribute name]</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Error object that is output when an API call fails validation.</td>
+</tr>
+<tr>
+<td><code>errors[].[attribute name].attribute</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The name of the attribute that failed validation.</td>
+</tr>
+<tr>
+<td><code>errors[].[attribute name].errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td>Error code</td>
+</tr>
+<tr>
+<td><code>errors[].[attribute name].message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the validation error.</td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the error message.</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="500-internal-server-error-7" class="status" data-status="5xx">500: Internal server error</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the validation error.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="patch-usersid" class="operation" data-method="patch"><code>PATCH</code> /users/{id}</h3>
+<p>Operation ID: <code>update-user</code>.</p>
+<p>Authentication: basic token (<code>basic</code>).</p>
+<h4 id="parameters-7">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>id</code> | <code>path</code> | <code>string</code> | Yes | The unique identifier of the User to update. |</p>
+<h4 id="request-body-7">Request body</h4>
+<p><code>*/*</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>client</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Reference to the associated Client resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.</td>
+</tr>
+<tr>
+<td><code>client.id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced Client's ID.</td>
+</tr>
+<tr>
+<td><code>client.name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced Client's name.</td>
+</tr>
+<tr>
+<td><code>email</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The User's email address.</td>
+</tr>
+<tr>
+<td><code>firstName</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The User's name.</td>
+</tr>
+<tr>
+<td><code>isActive</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>This property indicates if the User account is active or disabled. Once a user has logged into the system, their account cannot be deleted. As an alternative, their account can be set to inactive.</td>
+</tr>
+<tr>
+<td><code>kif</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Reference to the associated KIF resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.</td>
+</tr>
+<tr>
+<td><code>kif.id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced KIF's ID.</td>
+</tr>
+<tr>
+<td><code>kif.name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced KIF's name.</td>
+</tr>
+<tr>
+<td><code>lastName</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The User's Surname.</td>
+</tr>
+<tr>
+<td><code>partner</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Reference to the associated Partner. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.</td>
+</tr>
+<tr>
+<td><code>partner.id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced Partner's ID.</td>
+</tr>
+<tr>
+<td><code>partner.name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The referenced Partner's name.</td>
+</tr>
+<tr>
+<td><code>phone</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The User's phone number without dashes, spaces, or brackets.</td>
+</tr>
+<tr>
+<td><code>sendWelcomeEmail</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>If this property is set to <em>'true'</em>, the newly created user will be sent a welcome email.</td>
+</tr>
+<tr>
+<td><code>userName</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The User's unique username.</td>
+</tr>
+<tr>
+<td><code>userRole</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Reference to the associated User Role.</td>
+</tr>
+<tr>
+<td><code>userRole.name</code></td>
+<td><code>enum: System Admin, System User, Kif User, Partner User, Client Admin, Client User, ...</code></td>
+<td>No</td>
+<td>Role name.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses-8">Responses</h4>
+<h5 id="200-user-update-response" class="status" data-status="2xx">200: User update response</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The unique identifier of the updated resource</td>
+</tr>
+</tbody>
+</table>
+<h5 id="401-unauthorized-8" class="status" data-status="4xx">401: Unauthorized</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the error message.</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="403-forbidden-8" class="status" data-status="4xx">403: Forbidden</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the error message.</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="404-not-found-6" class="status" data-status="4xx">404: Not found</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the error message.</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="409-invalid-data-8" class="status" data-status="4xx">409: Invalid data</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>errors</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>errors[].[attribute name]</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Error object that is output when an API call fails validation.</td>
+</tr>
+<tr>
+<td><code>errors[].[attribute name].attribute</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>The name of the attribute that failed validation.</td>
+</tr>
+<tr>
+<td><code>errors[].[attribute name].errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td>Error code</td>
+</tr>
+<tr>
+<td><code>errors[].[attribute name].message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the validation error.</td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the error message.</td>
+</tr>
+<tr>
+<td><code>uuid</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="500-internal-server-error-8" class="status" data-status="5xx">500: Internal server error</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errorCode</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Human readable description of the validation error.</td>
+</tr>
+</tbody>
+</table>
+</main></div>
+<script src="../assets/search.js" defer></script></body></html>

@@ -1,12 +1,14 @@
 
 const envlocal = __dirname + '/../../../.env.local'
-require('dotenv').config({ quiet: true, path: [envlocal] })
+require('../../utility').loadEnvLocal(envlocal)
 
 const Path = require('node:path')
 const Fs = require('node:fs')
 
 const { test, describe, afterEach } = require('node:test')
 const assert = require('node:assert')
+const { createLiveTransport } = require('../../live-runner')
+const { runLiveEntity } = require('../../live-entity')
 
 
 const { BluefinDecryptxP2peSDK, BaseFeature, stdutil, config } = require('../../..')
@@ -36,9 +38,13 @@ describe('CreateResultEntity', async () => {
   })
 
 
-  test('basic', async () => {
+  test('basic', async (t) => {
 
+    
     const setup = basicSetup()
+    if (setup.live) {
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":[],"name":"create_result","op":{"create":{"input":"data","name":"create","points":[{"active":true,"args":{"params":[{"active":true,"kind":"param","name":"device_type","orig":"device_type","reqd":true,"type":"`$STRING`","index$":0},{"active":true,"kind":"param","name":"serial_number","orig":"serial_number","reqd":true,"type":"`$STRING`","index$":1}]},"contract":{"id":"POST /devices/{serialNumber}/{deviceType}/custody","json":"{\"operationId\":\"create-custody\",\"parameters\":[{\"description\":\"Device serial number.\",\"in\":\"path\",\"name\":\"serialNumber\",\"required\":true,\"schema\":{\"type\":\"string\"}},{\"description\":\"Device type name.\",\"in\":\"path\",\"name\":\"deviceType\",\"required\":true,\"schema\":{\"type\":\"string\"}}],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"*/*\":{\"schema\":{\"properties\":{\"completeDate\":{\"description\":\"The date and time that the Custody change took place.\",\"example\":\"2017-02-08T20:14:45.000Z\",\"format\":\"date-time\",\"type\":\"string\"},\"custodian\":{\"description\":\"Reference to the associated User resource. When used for POST and PATCH API calls, the reference must contain the User's id.\",\"properties\":{\"id\":{\"description\":\"The referenced User's ID.\",\"example\":\"56\",\"type\":\"string\"}},\"required\":[\"id\"],\"type\":\"object\"},\"location\":{\"description\":\"Reference to the associated Location resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.\",\"properties\":{\"id\":{\"description\":\"The referenced Location's ID.\",\"example\":\"33668\",\"type\":\"string\"},\"name\":{\"description\":\"The referenced Location's name.\",\"example\":\"The Tired Window Atlanta Downtown\",\"type\":\"string\"}},\"required\":[\"id\"],\"type\":\"object\"},\"notes\":{\"description\":\"Free form field that allows the Client associate notes with the Custody Change.\",\"example\":\"Altering custody due to change of personel at site.\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Device custody to be created.\",\"required\":true},\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"items\":{\"description\":\"A simple object containing the ID of the newly created resource.\",\"properties\":{\"id\":{\"description\":\"ID of newly created resource\",\"example\":\"10\",\"type\":\"string\"}},\"type\":\"object\"},\"type\":\"array\"}}},\"description\":\"Device Custody create response\"},\"401\":{\"content\":{\"application/json\":{\"schema\":{\"description\":\"Error object that is output for unauthoised API calls.\",\"properties\":{\"errorCode\":{\"example\":7401,\"type\":\"integer\"},\"message\":{\"description\":\"Human readable description of the error message.\",\"example\":\"Unauthenticated request.\",\"type\":\"string\"},\"uuid\":{\"example\":\"fe9d7890-d429-11e7-bcff-49e075da4e68\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Unauthorized\"},\"403\":{\"content\":{\"application/json\":{\"schema\":{\"description\":\"Error object that is output when the an authoised API call lacks permissions to access the resource that it is requesting.\",\"properties\":{\"errorCode\":{\"example\":7403,\"type\":\"integer\"},\"message\":{\"description\":\"Human readable description of the error message.\",\"example\":\"Permission denied.\",\"type\":\"string\"},\"uuid\":{\"example\":\"971a99a0-d429-11e7-b9e1-edee15522512\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Forbidden\"},\"409\":{\"content\":{\"application/json\":{\"schema\":{\"description\":\"Error object that is output when an API call fails validation.\",\"properties\":{\"errorCode\":{\"example\":7409,\"type\":\"integer\"},\"errors\":{\"items\":{\"properties\":{\"[attribute name]\":{\"description\":\"Error object that is output when an API call fails validation.\",\"properties\":{\"attribute\":{\"description\":\"The name of the attribute that failed validation.\",\"example\":\"mailCountry\",\"type\":\"string\"},\"errorCode\":{\"description\":\"Error code\",\"example\":1002,\"type\":\"integer\"},\"message\":{\"description\":\"Human readable description of the validation error.\",\"example\":\"Mail country has an incorrect length\",\"type\":\"string\"}},\"type\":\"object\"}},\"type\":\"object\"},\"type\":\"array\"},\"message\":{\"description\":\"Human readable description of the error message.\",\"example\":\"Data validation constraints.\",\"type\":\"string\"},\"uuid\":{\"example\":\"995ce120-d42c-11e7-a87d-7fe171ffa82f\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Invalid data\"},\"500\":{\"content\":{\"application/json\":{\"schema\":{\"description\":\"Error object that is output when a server error is encountered.\",\"properties\":{\"errorCode\":{\"example\":1005,\"type\":\"integer\"},\"message\":{\"description\":\"Human readable description of the validation error.\",\"example\":\"Unknown Error\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Internal server error\"}},\"security\":[{\"basic\":[]}],\"securitySchemes\":{\"ApiKeyAuth\":{\"in\":\"header\",\"name\":\"Authorization\",\"type\":\"apiKey\"},\"basic\":{\"scheme\":\"basic\",\"type\":\"http\"}},\"securitySource\":\"definition\"}","source":"openapi3","version":1},"kind":"http","method":"POST","orig":"/devices/{serialNumber}/{deviceType}/custody","rename":{"param":{"deviceType":"device_type","serialNumber":"serial_number"}},"segments":[{"lit":"devices"},{"var":"serial_number"},{"var":"device_type"},{"lit":"custody"}],"select":{"exist":["device_type","serial_number"]},"transform":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"create"}},"relations":{"ancestors":[["device"]]},"key$":"create_result","name__orig":"create_result","Name":"CreateResult","name_":"create_result","name-":"create-result","NAME":"CREATE_RESULT","index$":2}, {"active":true,"entity":"create_result","key$":"BasicCreateResultFlow","kind":"basic","name":"BasicCreateResultFlow","param":{},"step":[{"active":true,"data":{},"input":{"ref":"create_result_ref01"},"match":{"device_type":"device_type01","serial_number":"serial_number01"},"op":"create","spec":[],"valid":[],"index$":0}]}, 'CreateResult')
+    }
     const client = setup.client
     const struct = setup.struct
 
@@ -101,7 +107,14 @@ function basicSetup(extra) {
 
   idmap = env['BLUEFIN_DECRYPTX_P2PE_TEST_CREATE_RESULT_ENTID']
 
-  if ('TRUE' === env.BLUEFIN_DECRYPTX_P2PE_TEST_LIVE) {
+  const live = 'TRUE' === env.BLUEFIN_DECRYPTX_P2PE_TEST_LIVE
+  const transport = createLiveTransport()
+  if (live) {
+    const rawIds = process.env['BLUEFIN_DECRYPTX_P2PE_TEST_CREATE_RESULT_ENTID']
+    idmap = rawIds && rawIds.trim() ? JSON.parse(rawIds) : {}
+    if (!idmap || Array.isArray(idmap) || typeof idmap !== 'object') {
+      throw new Error('Live ENTID must be a JSON object')
+    }
     client = new BluefinDecryptxP2peSDK(merge([
       // FIRST, so the generated fields below win: sdk-test-control.json's
       // test.client.options adds to the live client, it does not redirect it.
@@ -113,7 +126,8 @@ function basicSetup(extra) {
       // the last entry is undefined, and basicSetup is normally called with no
       // argument at all - so a bare 'extra' silently discarded the apikey and
       // server values above and handed the SDK undefined.
-      extra || {}
+      extra || {},
+      { system: { fetch: transport.fetch } }
     ]))
   }
 
@@ -125,6 +139,8 @@ function basicSetup(extra) {
     struct,
     data: entityData,
     explain: 'TRUE' === env.BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN,
+    live,
+    transport,
     now: Date.now(),
   }
 

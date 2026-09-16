@@ -37,9 +37,10 @@ $client = new BluefinDecryptxP2peSDK([
 
 ```php
 try {
-    // list() returns an array of Attestation records — iterate directly.
+    // list() returns entity instances; data_get() reads each record.
     $attestations = $client->Attestation()->list();
-    foreach ($attestations as $item) {
+    foreach ($attestations as $record) {
+        $item = $record->data_get();
         echo $item["id"] . " " . $item["client"] . "\n";
     }
 } catch (\Throwable $err) {
@@ -55,7 +56,7 @@ DeviceCustodyDetail is nested under device_type, so provide the `device_type`.
 try {
     // load() returns the ENTITY — call data_get() for the DeviceCustodyDetail record (throws on error).
     $devicecustodydetail = $client->DeviceCustodyDetail()->load(["device_type" => "example_device_type", "serial_number" => "example_serial_number", "id" => "example_id"]);
-    print_r($devicecustodydetail);
+    print_r($devicecustodydetail->data_get());
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
 }
@@ -149,13 +150,13 @@ data via the `entity` option so offline calls resolve without a live server:
 
 ```php
 $client = BluefinDecryptxP2peSDK::test([
-    "entity" => ["devicetype" => ["test01" => ["id" => "test01"]]],
+    "entity" => ["shipment" => ["test01" => ["id" => "test01"]]],
 ]);
 
-// Entity ops return the ENTITY (throws on error);
+// list() returns entity instances (throws on error);
 // call data_get() for the mock record.
-$devicetype = $client->DeviceType()->list();
-print_r($devicetype);
+$shipment = $client->Shipment()->list();
+print_r(array_map(fn($item) => $item->data_get(), $shipment));
 ```
 
 ### Use a custom fetch function
@@ -1600,7 +1601,7 @@ $user = $client->User()->load(["id" => "user_id"]);
 
 ## Features
 
-This SDK ships 11 optional features. Each is **inactive until you
+This SDK ships 12 optional features. Each is **inactive until you
 switch it on**, so an SDK you have not configured behaves exactly as if none of
 them existed — no retries, no cache, no logging, no measurable overhead.
 
@@ -1611,6 +1612,7 @@ above:
 |---|---|
 | [`audit`](#audit) | Structured audit trail of operations |
 | [`clienttrack`](#clienttrack) | Client identity and per-request correlation headers |
+| [`debug`](#debug) | Request/response capture ring buffer for debugging |
 | [`idempotency`](#idempotency) | Idempotency keys for safe retries of mutating operations |
 | [`log`](#log) | Structured request and response logging |
 | [`metrics`](#metrics) | Statistics capture: per-operation counters and latency |
@@ -1648,6 +1650,18 @@ Client identity and per-request correlation headers.
 | `clientVersion` | `'0.0.1'` |
 
 Set `feature.clienttrack.active` to enable it, then override any of the options above.
+
+### debug
+
+Request/response capture ring buffer for debugging.
+
+| Option | Default |
+|---|---|
+| `active` | `false` |
+| `max` | `100` |
+| `redact` | `['authorization', 'cookie', 'set-cookie', 'api-key', 'apikey', 'x-api-key', 'idempotency-key']` |
+
+Set `feature.debug.active` to enable it, then override any of the options above.
 
 ### idempotency
 
@@ -1809,6 +1823,7 @@ The SDK ships with built-in features:
 
 - **AuditFeature**: Structured audit trail of operations
 - **ClienttrackFeature**: Client identity and per-request correlation headers
+- **DebugFeature**: Request/response capture ring buffer for debugging
 - **IdempotencyFeature**: Idempotency keys for safe retries of mutating operations
 - **LogFeature**: Structured request and response logging
 - **MetricsFeature**: Statistics capture: per-operation counters and latency

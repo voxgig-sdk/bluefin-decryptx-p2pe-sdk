@@ -3,6 +3,7 @@
 require_relative 'feature/base_feature'
 require_relative 'feature/audit_feature'
 require_relative 'feature/clienttrack_feature'
+require_relative 'feature/debug_feature'
 require_relative 'feature/idempotency_feature'
 require_relative 'feature/log_feature'
 require_relative 'feature/metrics_feature'
@@ -23,6 +24,8 @@ module BluefinDecryptxP2peFeatures
       BluefinDecryptxP2peAuditFeature.new
     when "clienttrack"
       BluefinDecryptxP2peClienttrackFeature.new
+    when "debug"
+      BluefinDecryptxP2peDebugFeature.new
     when "idempotency"
       BluefinDecryptxP2peIdempotencyFeature.new
     when "log"

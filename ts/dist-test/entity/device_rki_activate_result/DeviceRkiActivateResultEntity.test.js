@@ -40,6 +40,8 @@ const node_path_1 = __importDefault(require("node:path"));
 const Fs = __importStar(require("node:fs"));
 const node_test_1 = require("node:test");
 const node_assert_1 = __importDefault(require("node:assert"));
+const live_runner_1 = require("../../live-runner");
+const live_entity_1 = require("../../live-entity");
 const __1 = require("../../..");
 const utility_1 = require("../../utility");
 // AFTER the imports on purpose: TypeScript hoists `import` above any
@@ -59,16 +61,12 @@ const utility_1 = require("../../utility");
     (0, node_test_1.test)('basic', async (t) => {
         const live = 'TRUE' === process.env.BLUEFIN_DECRYPTX_P2PE_TEST_LIVE;
         for (const op of ['create']) {
-            if ((0, utility_1.maybeSkipControl)(t, 'entityOp', 'device_rki_activate_result.' + op, live))
+            if (!live && (0, utility_1.maybeSkipControl)(t, 'entityOp', 'device_rki_activate_result.' + op, live))
                 return;
         }
         const setup = basicSetup();
-        // The basic flow consumes synthetic IDs and field values from the
-        // fixture (entity TestData.json). Those don't exist on the live API.
-        // Skip live runs unless the user provided a real ENTID env override.
-        if (setup.syntheticOnly) {
-            t.skip('live entity test uses synthetic IDs from fixture — set BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_RKI_ACTIVATE_RESULT_ENTID JSON to run live');
-            return;
+        if (setup.live) {
+            return (0, live_entity_1.runLiveEntity)(setup, { "active": true, "alias": { "field": {} }, "fields": [{ "active": true, "name": "success", "req": true, "short": "Indicates if the RKI activation succeeded.", "type": "`$BOOLEAN`", "index$": 0 }], "name": "device_rki_activate_result", "op": { "create": { "input": "data", "name": "create", "points": [{ "active": true, "args": {}, "contract": { "id": "POST /devices/rki/activate", "json": "{\"operationId\":\"activate-rki-device\",\"parameters\":[],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"*/*\":{\"schema\":{\"properties\":{\"appVersion\":{\"description\":\"If a Device Type has more than one Application Code version the supported version is specified here.\",\"example\":\"N/A\",\"type\":\"string\"},\"buildName\":{\"description\":\"The Device Builds's name.\",\"example\":\"SREDKey 2 - PTS 5.X\",\"type\":\"string\"},\"buildNumber\":{\"description\":\"The Build Number.\",\"example\":\"IDTECH-007\",\"type\":\"string\"},\"configFile\":{\"description\":\"\\\\?\",\"example\":\"\",\"type\":\"string\"},\"firmwareVersion\":{\"description\":\"A list of firmware versions that this Device Build covers.\",\"example\":\"SREDKEY2 FW v1.00.xxx.xxxx.S\",\"type\":\"string\"},\"hardwareVersion\":{\"description\":\"A list of hardware versions that this Device Build covers.\",\"example\":\"80172001(With MSR), 80172002(Without MSR)\",\"type\":\"string\"},\"serialNumber\":{\"description\":\"The referenced Device's serial number.\",\"example\":\"85000711\",\"type\":\"string\"},\"whiteListingBinRanges\":{\"description\":\"\\\\?\",\"example\":\"\",\"type\":\"string\"}},\"required\":[\"serialNumber\"],\"type\":\"object\"}}},\"description\":\"Device Activation Details.\",\"required\":true},\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"success\":{\"description\":\"Indicates if the RKI activation succeeded.\",\"example\":false,\"type\":\"boolean\"}},\"required\":[\"success\"],\"type\":\"object\"}}},\"description\":\"Device activation result\"},\"401\":{\"content\":{\"application/json\":{\"schema\":{\"description\":\"Error object that is output for unauthoised API calls.\",\"properties\":{\"errorCode\":{\"example\":7401,\"type\":\"integer\"},\"message\":{\"description\":\"Human readable description of the error message.\",\"example\":\"Unauthenticated request.\",\"type\":\"string\"},\"uuid\":{\"example\":\"fe9d7890-d429-11e7-bcff-49e075da4e68\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Unauthorized\"},\"403\":{\"content\":{\"application/json\":{\"schema\":{\"description\":\"Error object that is output when the an authoised API call lacks permissions to access the resource that it is requesting.\",\"properties\":{\"errorCode\":{\"example\":7403,\"type\":\"integer\"},\"message\":{\"description\":\"Human readable description of the error message.\",\"example\":\"Permission denied.\",\"type\":\"string\"},\"uuid\":{\"example\":\"971a99a0-d429-11e7-b9e1-edee15522512\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Forbidden\"},\"404\":{\"content\":{\"application/json\":{\"schema\":{\"description\":\"Error object that is output when a resource cannot be found.\",\"properties\":{\"errorCode\":{\"example\":7404,\"type\":\"integer\"},\"message\":{\"description\":\"Human readable description of the error message.\",\"example\":\"Requested resource cannot be found.\",\"type\":\"string\"},\"uuid\":{\"example\":\"a7518f50-d428-11e7-a87d-7fe171ffa82f\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Not found\"},\"409\":{\"content\":{\"application/json\":{\"schema\":{\"description\":\"Error object that is output when an API call fails validation.\",\"properties\":{\"errorCode\":{\"example\":7409,\"type\":\"integer\"},\"errors\":{\"items\":{\"properties\":{\"[attribute name]\":{\"description\":\"Error object that is output when an API call fails validation.\",\"properties\":{\"attribute\":{\"description\":\"The name of the attribute that failed validation.\",\"example\":\"mailCountry\",\"type\":\"string\"},\"errorCode\":{\"description\":\"Error code\",\"example\":1002,\"type\":\"integer\"},\"message\":{\"description\":\"Human readable description of the validation error.\",\"example\":\"Mail country has an incorrect length\",\"type\":\"string\"}},\"type\":\"object\"}},\"type\":\"object\"},\"type\":\"array\"},\"message\":{\"description\":\"Human readable description of the error message.\",\"example\":\"Data validation constraints.\",\"type\":\"string\"},\"uuid\":{\"example\":\"995ce120-d42c-11e7-a87d-7fe171ffa82f\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Invalid data\"},\"500\":{\"content\":{\"application/json\":{\"schema\":{\"description\":\"Error object that is output when a server error is encountered.\",\"properties\":{\"errorCode\":{\"example\":1005,\"type\":\"integer\"},\"message\":{\"description\":\"Human readable description of the validation error.\",\"example\":\"Unknown Error\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Internal server error\"}},\"security\":[{\"basic\":[]}],\"securitySchemes\":{\"ApiKeyAuth\":{\"in\":\"header\",\"name\":\"Authorization\",\"type\":\"apiKey\"},\"basic\":{\"scheme\":\"basic\",\"type\":\"http\"}},\"securitySource\":\"definition\"}", "source": "openapi3", "version": 1 }, "kind": "http", "method": "POST", "orig": "/devices/rki/activate", "segments": [{ "lit": "devices" }, { "lit": "rki" }, { "lit": "activate" }], "select": {}, "transform": { "req": "`reqdata`", "res": "`body`" }, "index$": 0 }], "key$": "create" } }, "relations": { "ancestors": [] }, "key$": "device_rki_activate_result", "name__orig": "device_rki_activate_result", "Name": "DeviceRkiActivateResult", "name_": "device_rki_activate_result", "name-": "device-rki-activate-result", "NAME": "DEVICE_RKI_ACTIVATE_RESULT", "index$": 10 }, { "active": true, "entity": "device_rki_activate_result", "key$": "BasicDeviceRkiActivateResultFlow", "kind": "basic", "name": "BasicDeviceRkiActivateResultFlow", "param": {}, "step": [{ "active": true, "data": {}, "input": { "ref": "device_rki_activate_result_ref01" }, "match": {}, "op": "create", "spec": [], "valid": [], "index$": 0 }] }, 'DeviceRkiActivateResult');
         }
         const client = setup.client;
         const struct = setup.struct;
@@ -101,12 +99,6 @@ function basicSetup(extra) {
                 '`$VAL`': ['`$FORMAT`', 'upper', '`$COPY`']
             }]
     });
-    // Detect whether the user provided a real ENTID JSON via env var. The
-    // basic flow consumes synthetic IDs from the fixture file; without an
-    // override those synthetic IDs reach the live API and 4xx. Surface this
-    // to the test so it can skip rather than fail.
-    const idmapEnvVal = process.env['BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_RKI_ACTIVATE_RESULT_ENTID'];
-    const idmapOverridden = null != idmapEnvVal && idmapEnvVal.trim().startsWith('{');
     const env = (0, utility_1.envOverride)({
         'BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_RKI_ACTIVATE_RESULT_ENTID': idmap,
         'BLUEFIN_DECRYPTX_P2PE_TEST_LIVE': 'FALSE',
@@ -116,7 +108,13 @@ function basicSetup(extra) {
     });
     idmap = env['BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_RKI_ACTIVATE_RESULT_ENTID'];
     const live = 'TRUE' === env.BLUEFIN_DECRYPTX_P2PE_TEST_LIVE;
+    const transport = (0, live_runner_1.createLiveTransport)();
     if (live) {
+        const rawIds = process.env['BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_RKI_ACTIVATE_RESULT_ENTID'];
+        idmap = rawIds && rawIds.trim() ? JSON.parse(rawIds) : {};
+        if (!idmap || Array.isArray(idmap) || typeof idmap !== 'object') {
+            throw new Error('Live ENTID must be a JSON object');
+        }
         client = new __1.BluefinDecryptxP2peSDK(merge([
             // FIRST, so the generated fields below win: sdk-test-control.json's
             // test.client.options adds to the live client, it does not redirect it.
@@ -130,7 +128,8 @@ function basicSetup(extra) {
             // argument at all - so a bare 'extra' silently discarded the apikey
             // and server values above and handed the SDK undefined. Harmless
             // while there was nothing in that object; not harmless now.
-            extra || {}
+            extra || {},
+            { system: { fetch: transport.fetch } }
         ]));
     }
     const setup = {
@@ -142,7 +141,7 @@ function basicSetup(extra) {
         data: entityData,
         explain: 'TRUE' === env.BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN,
         live,
-        syntheticOnly: live && !idmapOverridden,
+        transport,
         now: Date.now(),
     };
     return setup;

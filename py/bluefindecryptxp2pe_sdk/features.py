@@ -3,6 +3,7 @@
 from bluefindecryptxp2pe_sdk.feature.base_feature import BluefinDecryptxP2peBaseFeature
 from bluefindecryptxp2pe_sdk.feature.audit_feature import BluefinDecryptxP2peAuditFeature
 from bluefindecryptxp2pe_sdk.feature.clienttrack_feature import BluefinDecryptxP2peClienttrackFeature
+from bluefindecryptxp2pe_sdk.feature.debug_feature import BluefinDecryptxP2peDebugFeature
 from bluefindecryptxp2pe_sdk.feature.idempotency_feature import BluefinDecryptxP2peIdempotencyFeature
 from bluefindecryptxp2pe_sdk.feature.log_feature import BluefinDecryptxP2peLogFeature
 from bluefindecryptxp2pe_sdk.feature.metrics_feature import BluefinDecryptxP2peMetricsFeature
@@ -18,6 +19,7 @@ _FEATURES = {
     "base": lambda: BluefinDecryptxP2peBaseFeature(),
     "audit": lambda: BluefinDecryptxP2peAuditFeature(),
     "clienttrack": lambda: BluefinDecryptxP2peClienttrackFeature(),
+    "debug": lambda: BluefinDecryptxP2peDebugFeature(),
     "idempotency": lambda: BluefinDecryptxP2peIdempotencyFeature(),
     "log": lambda: BluefinDecryptxP2peLogFeature(),
     "metrics": lambda: BluefinDecryptxP2peMetricsFeature(),

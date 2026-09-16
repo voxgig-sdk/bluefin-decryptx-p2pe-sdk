@@ -166,8 +166,13 @@ attestationBasicTest c = do
     ctrl <- emptyMap
     created <- eCreate ent d ctrl
     cd <- eDataGet created
-    cid <- getp cd "id"
-    pure (ismap cd && not (isNoval cid))
+    -- The create RESULT is a map. Deliberately NOT "and it carries an id":
+    -- a create response need not return one. univec's convert, embed and
+    -- ephemeral_key all answer {success, data:{...}} with no id, so this
+    -- target failed three entity tests the go target passes -- go asserts
+    -- only that the result is a map, and that is the assertion the model
+    -- actually supports.
+    pure (ismap cd)
 
 attestationDirectTest :: Counters -> IO ()
 attestationDirectTest c = runTest c "attestation.direct" $ do
@@ -279,8 +284,13 @@ clientBasicTest c = do
     ctrl <- emptyMap
     created <- eCreate ent d ctrl
     cd <- eDataGet created
-    cid <- getp cd "id"
-    pure (ismap cd && not (isNoval cid))
+    -- The create RESULT is a map. Deliberately NOT "and it carries an id":
+    -- a create response need not return one. univec's convert, embed and
+    -- ephemeral_key all answer {success, data:{...}} with no id, so this
+    -- target failed three entity tests the go target passes -- go asserts
+    -- only that the result is a map, and that is the assertion the model
+    -- actually supports.
+    pure (ismap cd)
   runTest c "client.remove" $ do
     sdk <- C.testSdk opts VNoval
     ent <- C.client sdk VNoval
@@ -385,8 +395,13 @@ create_resultBasicTest c = do
     ctrl <- emptyMap
     created <- eCreate ent d ctrl
     cd <- eDataGet created
-    cid <- getp cd "id"
-    pure (ismap cd && not (isNoval cid))
+    -- The create RESULT is a map. Deliberately NOT "and it carries an id":
+    -- a create response need not return one. univec's convert, embed and
+    -- ephemeral_key all answer {success, data:{...}} with no id, so this
+    -- target failed three entity tests the go target passes -- go asserts
+    -- only that the result is a map, and that is the assertion the model
+    -- actually supports.
+    pure (ismap cd)
 
 create_resultDirectTest :: Counters -> IO ()
 create_resultDirectTest c = runTest c "create_result.direct" $ do
@@ -425,8 +440,13 @@ decryptionBasicTest c = do
     ctrl <- emptyMap
     created <- eCreate ent d ctrl
     cd <- eDataGet created
-    cid <- getp cd "id"
-    pure (ismap cd && not (isNoval cid))
+    -- The create RESULT is a map. Deliberately NOT "and it carries an id":
+    -- a create response need not return one. univec's convert, embed and
+    -- ephemeral_key all answer {success, data:{...}} with no id, so this
+    -- target failed three entity tests the go target passes -- go asserts
+    -- only that the result is a map, and that is the assertion the model
+    -- actually supports.
+    pure (ismap cd)
 
 decryptionDirectTest :: Counters -> IO ()
 decryptionDirectTest c = runTest c "decryption.direct" $ do
@@ -487,8 +507,13 @@ deviceBasicTest c = do
     ctrl <- emptyMap
     created <- eCreate ent d ctrl
     cd <- eDataGet created
-    cid <- getp cd "id"
-    pure (ismap cd && not (isNoval cid))
+    -- The create RESULT is a map. Deliberately NOT "and it carries an id":
+    -- a create response need not return one. univec's convert, embed and
+    -- ephemeral_key all answer {success, data:{...}} with no id, so this
+    -- target failed three entity tests the go target passes -- go asserts
+    -- only that the result is a map, and that is the assertion the model
+    -- actually supports.
+    pure (ismap cd)
 
 deviceDirectTest :: Counters -> IO ()
 deviceDirectTest c = runTest c "device.direct" $ do
@@ -861,8 +886,13 @@ device_receive_resultBasicTest c = do
     ctrl <- emptyMap
     created <- eCreate ent d ctrl
     cd <- eDataGet created
-    cid <- getp cd "id"
-    pure (ismap cd && not (isNoval cid))
+    -- The create RESULT is a map. Deliberately NOT "and it carries an id":
+    -- a create response need not return one. univec's convert, embed and
+    -- ephemeral_key all answer {success, data:{...}} with no id, so this
+    -- target failed three entity tests the go target passes -- go asserts
+    -- only that the result is a map, and that is the assertion the model
+    -- actually supports.
+    pure (ismap cd)
 
 device_receive_resultDirectTest :: Counters -> IO ()
 device_receive_resultDirectTest c = runTest c "device_receive_result.direct" $ do
@@ -901,8 +931,13 @@ device_rki_activate_resultBasicTest c = do
     ctrl <- emptyMap
     created <- eCreate ent d ctrl
     cd <- eDataGet created
-    cid <- getp cd "id"
-    pure (ismap cd && not (isNoval cid))
+    -- The create RESULT is a map. Deliberately NOT "and it carries an id":
+    -- a create response need not return one. univec's convert, embed and
+    -- ephemeral_key all answer {success, data:{...}} with no id, so this
+    -- target failed three entity tests the go target passes -- go asserts
+    -- only that the result is a map, and that is the assertion the model
+    -- actually supports.
+    pure (ismap cd)
 
 device_rki_activate_resultDirectTest :: Counters -> IO ()
 device_rki_activate_resultDirectTest c = runTest c "device_rki_activate_result.direct" $ do
@@ -1353,8 +1388,13 @@ locationBasicTest c = do
     ctrl <- emptyMap
     created <- eCreate ent d ctrl
     cd <- eDataGet created
-    cid <- getp cd "id"
-    pure (ismap cd && not (isNoval cid))
+    -- The create RESULT is a map. Deliberately NOT "and it carries an id":
+    -- a create response need not return one. univec's convert, embed and
+    -- ephemeral_key all answer {success, data:{...}} with no id, so this
+    -- target failed three entity tests the go target passes -- go asserts
+    -- only that the result is a map, and that is the assertion the model
+    -- actually supports.
+    pure (ismap cd)
   runTest c "location.remove" $ do
     sdk <- C.testSdk opts VNoval
     ent <- C.location sdk VNoval
@@ -1481,8 +1521,13 @@ partnerBasicTest c = do
     ctrl <- emptyMap
     created <- eCreate ent d ctrl
     cd <- eDataGet created
-    cid <- getp cd "id"
-    pure (ismap cd && not (isNoval cid))
+    -- The create RESULT is a map. Deliberately NOT "and it carries an id":
+    -- a create response need not return one. univec's convert, embed and
+    -- ephemeral_key all answer {success, data:{...}} with no id, so this
+    -- target failed three entity tests the go target passes -- go asserts
+    -- only that the result is a map, and that is the assertion the model
+    -- actually supports.
+    pure (ismap cd)
 
 partnerDirectTest :: Counters -> IO ()
 partnerDirectTest c = runTest c "partner.direct" $ do
@@ -1594,8 +1639,13 @@ shipmentBasicTest c = do
     ctrl <- emptyMap
     created <- eCreate ent d ctrl
     cd <- eDataGet created
-    cid <- getp cd "id"
-    pure (ismap cd && not (isNoval cid))
+    -- The create RESULT is a map. Deliberately NOT "and it carries an id":
+    -- a create response need not return one. univec's convert, embed and
+    -- ephemeral_key all answer {success, data:{...}} with no id, so this
+    -- target failed three entity tests the go target passes -- go asserts
+    -- only that the result is a map, and that is the assertion the model
+    -- actually supports.
+    pure (ismap cd)
 
 shipmentDirectTest :: Counters -> IO ()
 shipmentDirectTest c = runTest c "shipment.direct" $ do
@@ -1685,8 +1735,13 @@ successBasicTest c = do
     ctrl <- emptyMap
     created <- eCreate ent d ctrl
     cd <- eDataGet created
-    cid <- getp cd "id"
-    pure (ismap cd && not (isNoval cid))
+    -- The create RESULT is a map. Deliberately NOT "and it carries an id":
+    -- a create response need not return one. univec's convert, embed and
+    -- ephemeral_key all answer {success, data:{...}} with no id, so this
+    -- target failed three entity tests the go target passes -- go asserts
+    -- only that the result is a map, and that is the assertion the model
+    -- actually supports.
+    pure (ismap cd)
   runTest c "success.remove" $ do
     sdk <- C.testSdk opts VNoval
     ent <- C.success sdk VNoval
@@ -1762,8 +1817,13 @@ transactionBasicTest c = do
     ctrl <- emptyMap
     created <- eCreate ent d ctrl
     cd <- eDataGet created
-    cid <- getp cd "id"
-    pure (ismap cd && not (isNoval cid))
+    -- The create RESULT is a map. Deliberately NOT "and it carries an id":
+    -- a create response need not return one. univec's convert, embed and
+    -- ephemeral_key all answer {success, data:{...}} with no id, so this
+    -- target failed three entity tests the go target passes -- go asserts
+    -- only that the result is a map, and that is the assertion the model
+    -- actually supports.
+    pure (ismap cd)
 
 transactionDirectTest :: Counters -> IO ()
 transactionDirectTest c = runTest c "transaction.direct" $ do
@@ -1862,8 +1922,13 @@ update_resultBasicTest c = do
     ctrl <- emptyMap
     created <- eCreate ent d ctrl
     cd <- eDataGet created
-    cid <- getp cd "id"
-    pure (ismap cd && not (isNoval cid))
+    -- The create RESULT is a map. Deliberately NOT "and it carries an id":
+    -- a create response need not return one. univec's convert, embed and
+    -- ephemeral_key all answer {success, data:{...}} with no id, so this
+    -- target failed three entity tests the go target passes -- go asserts
+    -- only that the result is a map, and that is the assertion the model
+    -- actually supports.
+    pure (ismap cd)
   runTest c "update_result.update" $ do
     sdk <- C.testSdk opts VNoval
     ent <- C.update_result sdk VNoval

@@ -15,7 +15,7 @@
         "partner": {},
         "shipmentType": "s97",
         "tracking": "s98",
-        "version": "s99"
+        "version": 153
       },
       "SHIPMENT01": {
         "carrier": "s118",
@@ -31,7 +31,7 @@
         "partner": {},
         "shipmentType": "s123",
         "tracking": "s124",
-        "version": "s125"
+        "version": 293
       },
       "SHIPMENT02": {
         "carrier": "s1a4",
@@ -47,7 +47,7 @@
         "partner": {},
         "shipmentType": "s1af",
         "tracking": "s1b0",
-        "version": "s1b1"
+        "version": 433
       }
     }
   },
@@ -66,7 +66,998 @@
         "partner": {},
         "shipmentType": "s23b",
         "tracking": "s23c",
-        "version": "s23d"
+        "version": 573
+      }
+    }
+  },
+  "requests": {
+    "POST /shipments": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "create-shipment",
+        "parameters": [],
+        "protocol": "http",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "properties": {
+                  "carrier": {
+                    "description": "The name of the courier.",
+                    "enum": [
+                      "UPS",
+                      "FedEx"
+                    ],
+                    "type": "string"
+                  },
+                  "client": {
+                    "description": "Reference to the associated Client resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.",
+                    "properties": {
+                      "id": {
+                        "description": "The referenced Client's ID.",
+                        "example": "4684",
+                        "type": "string"
+                      },
+                      "name": {
+                        "description": "The referenced Client's name.",
+                        "example": "The Tired Window",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "dateShipped": {
+                    "description": "The date and time that a package is shipped.",
+                    "example": "2017-02-08T20:14:45.000Z",
+                    "format": "datetime",
+                    "type": "string"
+                  },
+                  "dcKif": {
+                    "description": "Reference to the associated KIF resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.",
+                    "properties": {
+                      "id": {
+                        "description": "The referenced KIF's ID.",
+                        "example": "4",
+                        "type": "string"
+                      },
+                      "name": {
+                        "description": "The referenced KIF's name.",
+                        "example": "Kriptithe Technologies",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "items": {
+                    "items": {
+                      "properties": {
+                        "serialNumber": {
+                          "description": "The serial number of the Device that is shipped.",
+                          "example": "85000711",
+                          "maxLength": 255,
+                          "type": "string"
+                        },
+                        "tamperLabel": {
+                          "description": "The code that is printed the tamper label of the Device that is shipped.",
+                          "example": "BF120877",
+                          "maxLength": 255,
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "kif": {
+                    "description": "Reference to the associated KIF resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.",
+                    "properties": {
+                      "id": {
+                        "description": "The referenced KIF's ID.",
+                        "example": "4",
+                        "type": "string"
+                      },
+                      "name": {
+                        "description": "The referenced KIF's name.",
+                        "example": "Kriptithe Technologies",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "location": {
+                    "description": "Reference to the associated Location resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.",
+                    "properties": {
+                      "customReference": {
+                        "description": "A custom refernce to location object. This value can be set",
+                        "example": "ASD234",
+                        "type": "string"
+                      },
+                      "id": {
+                        "description": "The referenced Location's ID.",
+                        "example": "33668",
+                        "type": "string"
+                      },
+                      "name": {
+                        "description": "The referenced Location's name.",
+                        "example": "The Tired Window Atlanta Downtown",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ],
+                    "type": "object"
+                  },
+                  "partner": {
+                    "description": "Reference to the associated Partner. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.",
+                    "properties": {
+                      "id": {
+                        "description": "The referenced Partner's ID.",
+                        "example": "6580",
+                        "type": "string"
+                      },
+                      "name": {
+                        "description": "The referenced Partner's name.",
+                        "example": "ASM Software",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "tracking": {
+                    "description": "The courier's tracking number.",
+                    "example": "1Z999AA10123456784",
+                    "maxLength": 255,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "carrier",
+                  "client",
+                  "dateShipped",
+                  "items",
+                  "kif",
+                  "location",
+                  "partner",
+                  "tracking"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "description": "Shipment to be created.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "A simple object containing the ID of the newly created resource.",
+                  "properties": {
+                    "id": {
+                      "description": "ID of newly created resource",
+                      "example": "10",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Shipment create response"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output for unauthoised API calls.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7401,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Unauthenticated request.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "fe9d7890-d429-11e7-bcff-49e075da4e68",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when the an authoised API call lacks permissions to access the resource that it is requesting.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7403,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Permission denied.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "971a99a0-d429-11e7-b9e1-edee15522512",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when an API call fails validation.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7409,
+                      "type": "integer"
+                    },
+                    "errors": {
+                      "items": {
+                        "properties": {
+                          "[attribute name]": {
+                            "description": "Error object that is output when an API call fails validation.",
+                            "properties": {
+                              "attribute": {
+                                "description": "The name of the attribute that failed validation.",
+                                "example": "mailCountry",
+                                "type": "string"
+                              },
+                              "errorCode": {
+                                "description": "Error code",
+                                "example": 1002,
+                                "type": "integer"
+                              },
+                              "message": {
+                                "description": "Human readable description of the validation error.",
+                                "example": "Mail country has an incorrect length",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Data validation constraints.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "995ce120-d42c-11e7-a87d-7fe171ffa82f",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Invalid data"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when a server error is encountered.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 1005,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the validation error.",
+                      "example": "Unknown Error",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "basic": []
+          }
+        ],
+        "securitySchemes": {
+          "ApiKeyAuth": {
+            "in": "header",
+            "name": "Authorization",
+            "type": "apiKey"
+          },
+          "basic": {
+            "scheme": "basic",
+            "type": "http"
+          }
+        },
+        "securitySource": "definition"
+      }
+    },
+    "GET /shipments": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "list-shipments",
+        "parameters": [
+          {
+            "description": "Filter the list by KIF. The parameter value can be either a KIF ID or Name.",
+            "in": "query",
+            "name": "kif",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Filter the list by shipment mode.",
+            "in": "query",
+            "name": "mode",
+            "schema": {
+              "enum": [
+                "inTransit",
+                "received"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "The number of entries to include in the list.",
+            "in": "query",
+            "name": "take",
+            "schema": {
+              "default": 10,
+              "format": "int32",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "The number of results to skip before listing entries.",
+            "in": "query",
+            "name": "skip",
+            "schema": {
+              "default": 0,
+              "format": "int32",
+              "type": "integer"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "description": "List of Shipments.",
+                      "items": {
+                        "properties": {
+                          "carrier": {
+                            "description": "The name of the courier.",
+                            "enum": [
+                              "UPS",
+                              "FedEx"
+                            ],
+                            "type": "string"
+                          },
+                          "client": {
+                            "description": "Reference to the associated Client resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.",
+                            "properties": {
+                              "id": {
+                                "description": "The referenced Client's ID.",
+                                "example": "4684",
+                                "type": "string"
+                              },
+                              "name": {
+                                "description": "The referenced Client's name.",
+                                "example": "The Tired Window",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "dateReceived": {
+                            "description": "The date and time that a package was recieved.",
+                            "example": "2017-02-09T20:14:45.000Z",
+                            "format": "datetime",
+                            "type": "string"
+                          },
+                          "dateShipped": {
+                            "description": "The date and time that a package is shipped.",
+                            "example": "2017-02-08T20:14:45.000Z",
+                            "format": "datetime",
+                            "type": "string"
+                          },
+                          "dcKif": {
+                            "description": "Reference to the associated KIF resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.",
+                            "properties": {
+                              "id": {
+                                "description": "The referenced KIF's ID.",
+                                "example": "4",
+                                "type": "string"
+                              },
+                              "name": {
+                                "description": "The referenced KIF's name.",
+                                "example": "Kriptithe Technologies",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "id": {
+                            "description": "This resource's unique identifier.",
+                            "example": "73",
+                            "type": "string"
+                          },
+                          "kif": {
+                            "description": "Reference to the associated KIF resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.",
+                            "properties": {
+                              "id": {
+                                "description": "The referenced KIF's ID.",
+                                "example": "4",
+                                "type": "string"
+                              },
+                              "name": {
+                                "description": "The referenced KIF's name.",
+                                "example": "Kriptithe Technologies",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "partner": {
+                            "description": "Reference to the associated Partner. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.",
+                            "properties": {
+                              "id": {
+                                "description": "The referenced Partner's ID.",
+                                "example": "6580",
+                                "type": "string"
+                              },
+                              "name": {
+                                "description": "The referenced Partner's name.",
+                                "example": "ASM Software",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "shipmentType": {
+                            "description": "The type of shipment.",
+                            "enum": [
+                              "KIF Shipment",
+                              "Client Shipment"
+                            ],
+                            "type": "string"
+                          },
+                          "tracking": {
+                            "description": "The courier's tracking number.",
+                            "example": "1Z999AA10123456784",
+                            "type": "string"
+                          },
+                          "version": {
+                            "description": "The number of times that this resource has been updated.",
+                            "example": 3,
+                            "format": "int32",
+                            "type": "integer"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "total": {
+                      "description": "Total number of Shipments available (not the number of Shipments in the response).",
+                      "example": 1,
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Shipments list"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output for unauthoised API calls.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7401,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Unauthenticated request.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "fe9d7890-d429-11e7-bcff-49e075da4e68",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when the an authoised API call lacks permissions to access the resource that it is requesting.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7403,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Permission denied.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "971a99a0-d429-11e7-b9e1-edee15522512",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when an API call fails validation.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7409,
+                      "type": "integer"
+                    },
+                    "errors": {
+                      "items": {
+                        "properties": {
+                          "[attribute name]": {
+                            "description": "Error object that is output when an API call fails validation.",
+                            "properties": {
+                              "attribute": {
+                                "description": "The name of the attribute that failed validation.",
+                                "example": "mailCountry",
+                                "type": "string"
+                              },
+                              "errorCode": {
+                                "description": "Error code",
+                                "example": 1002,
+                                "type": "integer"
+                              },
+                              "message": {
+                                "description": "Human readable description of the validation error.",
+                                "example": "Mail country has an incorrect length",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Data validation constraints.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "995ce120-d42c-11e7-a87d-7fe171ffa82f",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Invalid data"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when a server error is encountered.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 1005,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the validation error.",
+                      "example": "Unknown Error",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "basic": []
+          }
+        ],
+        "securitySchemes": {
+          "ApiKeyAuth": {
+            "in": "header",
+            "name": "Authorization",
+            "type": "apiKey"
+          },
+          "basic": {
+            "scheme": "basic",
+            "type": "http"
+          }
+        },
+        "securitySource": "definition"
+      }
+    },
+    "GET /shipments/{id}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "get-shipment",
+        "parameters": [
+          {
+            "description": "The Shipment's unique identifier.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "carrier": {
+                      "description": "The name of the courier.",
+                      "enum": [
+                        "UPS",
+                        "FedEx"
+                      ],
+                      "type": "string"
+                    },
+                    "client": {
+                      "description": "Reference to the associated Client resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.",
+                      "properties": {
+                        "id": {
+                          "description": "The referenced Client's ID.",
+                          "example": "4684",
+                          "type": "string"
+                        },
+                        "name": {
+                          "description": "The referenced Client's name.",
+                          "example": "The Tired Window",
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "created": {
+                      "description": "Creation timestamp in ISO 8601 format.",
+                      "example": "2017-02-08T20:14:45.000Z",
+                      "format": "datetime",
+                      "type": "string"
+                    },
+                    "dateReceived": {
+                      "description": "The date and time that a package is recieved.",
+                      "example": "2017-02-09T20:14:45.000Z",
+                      "format": "datetime",
+                      "type": "string"
+                    },
+                    "dateShipped": {
+                      "description": "The date and time that a package is shipped.",
+                      "example": "2017-02-08T20:14:45.000Z",
+                      "format": "datetime",
+                      "type": "string"
+                    },
+                    "dcKif": {
+                      "description": "Reference to the associated KIF resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.",
+                      "properties": {
+                        "id": {
+                          "description": "The referenced KIF's ID.",
+                          "example": "4",
+                          "type": "string"
+                        },
+                        "name": {
+                          "description": "The referenced KIF's name.",
+                          "example": "Kriptithe Technologies",
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "id": {
+                      "description": "This resource's unique identifier.",
+                      "example": "73",
+                      "type": "string"
+                    },
+                    "items": {
+                      "items": {
+                        "properties": {
+                          "alternateKey": {
+                            "description": "An encryption key.",
+                            "example": "",
+                            "maxLength": 255,
+                            "type": "string"
+                          },
+                          "created": {
+                            "description": "Creation timestamp in ISO 8601 format.",
+                            "example": "2017-02-08T20:14:45.000Z",
+                            "format": "datetime",
+                            "type": "string"
+                          },
+                          "dateReceived": {
+                            "description": "The date and time that a package was recieved.",
+                            "example": "2017-02-09T20:14:45.000Z",
+                            "format": "datetime",
+                            "type": "string"
+                          },
+                          "deviceName": {
+                            "maxLength": 255,
+                            "type": "string"
+                          },
+                          "deviceState": {
+                            "maxLength": 255,
+                            "type": "string"
+                          },
+                          "id": {
+                            "description": "This resource's unique identifier.",
+                            "example": "73",
+                            "type": "string"
+                          },
+                          "modified": {
+                            "description": "Last modified timestamp.",
+                            "example": "2017-02-08T20:14:45.000Z",
+                            "format": "datetime",
+                            "type": "string"
+                          },
+                          "serialNumber": {
+                            "description": "The serial number of the Device that is shipped.",
+                            "example": "85000711",
+                            "maxLength": 255,
+                            "type": "string"
+                          },
+                          "tamperLabel": {
+                            "description": "The code that is printed the tamper label of the Device that is shipped.",
+                            "example": "BF120877",
+                            "maxLength": 255,
+                            "type": "string"
+                          },
+                          "version": {
+                            "description": "The number of times that this resource has been updated.",
+                            "example": 3,
+                            "format": "int32",
+                            "type": "integer"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "kif": {
+                      "description": "Reference to the associated KIF resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.",
+                      "properties": {
+                        "id": {
+                          "description": "The referenced KIF's ID.",
+                          "example": "4",
+                          "type": "string"
+                        },
+                        "name": {
+                          "description": "The referenced KIF's name.",
+                          "example": "Kriptithe Technologies",
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "modified": {
+                      "description": "Last modified timestamp.",
+                      "example": "2017-02-08T20:14:45.000Z",
+                      "format": "datetime",
+                      "type": "string"
+                    },
+                    "partner": {
+                      "description": "Reference to the associated Partner. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.",
+                      "properties": {
+                        "id": {
+                          "description": "The referenced Partner's ID.",
+                          "example": "6580",
+                          "type": "string"
+                        },
+                        "name": {
+                          "description": "The referenced Partner's name.",
+                          "example": "ASM Software",
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "shipmentType": {
+                      "description": "The type of shipment.",
+                      "enum": [
+                        "KIF Shipment",
+                        "Client Shipment"
+                      ],
+                      "type": "string"
+                    },
+                    "tracking": {
+                      "description": "The courier's tracking number.",
+                      "example": "1Z999AA10123456784",
+                      "type": "string"
+                    },
+                    "version": {
+                      "description": "The number of times that this resource has been updated.",
+                      "example": 3,
+                      "format": "int32",
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Shipment details"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output for unauthoised API calls.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7401,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Unauthenticated request.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "fe9d7890-d429-11e7-bcff-49e075da4e68",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when the an authoised API call lacks permissions to access the resource that it is requesting.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7403,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Permission denied.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "971a99a0-d429-11e7-b9e1-edee15522512",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when a resource cannot be found.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7404,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Requested resource cannot be found.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "a7518f50-d428-11e7-a87d-7fe171ffa82f",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when a server error is encountered.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 1005,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the validation error.",
+                      "example": "Unknown Error",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "basic": []
+          }
+        ],
+        "securitySchemes": {
+          "ApiKeyAuth": {
+            "in": "header",
+            "name": "Authorization",
+            "type": "apiKey"
+          },
+          "basic": {
+            "scheme": "basic",
+            "type": "http"
+          }
+        },
+        "securitySource": "definition"
       }
     }
   }

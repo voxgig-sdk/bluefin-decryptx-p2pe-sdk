@@ -9,7 +9,7 @@
         "keyType": "s54",
         "modified": "s55",
         "name": "s56",
-        "version": "s57"
+        "version": 87
       },
       "INJECT_KEY01": {
         "created": "sa0",
@@ -19,7 +19,7 @@
         "keyType": "sa4",
         "modified": "sa5",
         "name": "sa6",
-        "version": "sa7"
+        "version": 167
       },
       "INJECT_KEY02": {
         "created": "sf0",
@@ -29,7 +29,7 @@
         "keyType": "sf4",
         "modified": "sf5",
         "name": "sf6",
-        "version": "sf7"
+        "version": 247
       }
     }
   },
@@ -42,7 +42,402 @@
         "keyType": "s144",
         "modified": "s145",
         "name": "s146",
-        "version": "s147"
+        "version": 327
+      }
+    }
+  },
+  "requests": {
+    "GET /injectKeys": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "list-injectKeys",
+        "parameters": [],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "description": "List of Inject Key.",
+                      "items": {
+                        "properties": {
+                          "id": {
+                            "description": "unique idenifier",
+                            "example": "1",
+                            "type": "string"
+                          },
+                          "isActive": {
+                            "description": "Active flag, inactive keys cannot be assigned to devices.",
+                            "example": true,
+                            "type": "boolean"
+                          },
+                          "isP2PE": {
+                            "description": "Flags if a key is for a P2PE compliant cypher.",
+                            "example": true,
+                            "type": "boolean"
+                          },
+                          "name": {
+                            "description": "Key name.",
+                            "example": "ANSI TEST KEY (3)",
+                            "type": "string"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "total": {
+                      "description": "Total number of Inject Keys available (not the number of Inject Keys in the response).",
+                      "example": 1,
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Inject Keys list"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output for unauthoised API calls.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7401,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Unauthenticated request.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "fe9d7890-d429-11e7-bcff-49e075da4e68",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when the an authoised API call lacks permissions to access the resource that it is requesting.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7403,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Permission denied.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "971a99a0-d429-11e7-b9e1-edee15522512",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when an API call fails validation.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7409,
+                      "type": "integer"
+                    },
+                    "errors": {
+                      "items": {
+                        "properties": {
+                          "[attribute name]": {
+                            "description": "Error object that is output when an API call fails validation.",
+                            "properties": {
+                              "attribute": {
+                                "description": "The name of the attribute that failed validation.",
+                                "example": "mailCountry",
+                                "type": "string"
+                              },
+                              "errorCode": {
+                                "description": "Error code",
+                                "example": 1002,
+                                "type": "integer"
+                              },
+                              "message": {
+                                "description": "Human readable description of the validation error.",
+                                "example": "Mail country has an incorrect length",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Data validation constraints.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "995ce120-d42c-11e7-a87d-7fe171ffa82f",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Invalid data"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when a server error is encountered.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 1005,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the validation error.",
+                      "example": "Unknown Error",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "basic": []
+          }
+        ],
+        "securitySchemes": {
+          "ApiKeyAuth": {
+            "in": "header",
+            "name": "Authorization",
+            "type": "apiKey"
+          },
+          "basic": {
+            "scheme": "basic",
+            "type": "http"
+          }
+        },
+        "securitySource": "definition"
+      }
+    },
+    "GET /injectKeys/{id}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "get-injectKey",
+        "parameters": [
+          {
+            "description": "The Inject Key's unique identifier.",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "created": {
+                      "description": "Creation timestamp in ISO 8601 format.",
+                      "example": "2017-02-08T20:14:45.000Z",
+                      "format": "datetime",
+                      "type": "string"
+                    },
+                    "id": {
+                      "description": "unique idenifier",
+                      "example": "1",
+                      "type": "string"
+                    },
+                    "isActive": {
+                      "description": "Active flag, inactive keys cannot be assigned to devices.",
+                      "example": true,
+                      "type": "boolean"
+                    },
+                    "isP2PE": {
+                      "description": "Flags if a key is for a P2PE compliant cypher.",
+                      "example": true,
+                      "type": "boolean"
+                    },
+                    "keyType": {
+                      "description": "The cipher type that the key works with.",
+                      "example": "3DES/CBC",
+                      "type": "string"
+                    },
+                    "modified": {
+                      "description": "Last modified timestamp in ISO 8601 format.",
+                      "example": "2017-02-08T20:14:45.000Z",
+                      "format": "datetime",
+                      "type": "string"
+                    },
+                    "name": {
+                      "description": "Key name.",
+                      "example": "ANSI TEST KEY (3)",
+                      "type": "string"
+                    },
+                    "version": {
+                      "description": "The number of times that this resource has been updated.",
+                      "example": 3,
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Inject Key details"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output for unauthoised API calls.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7401,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Unauthenticated request.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "fe9d7890-d429-11e7-bcff-49e075da4e68",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when the an authoised API call lacks permissions to access the resource that it is requesting.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7403,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Permission denied.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "971a99a0-d429-11e7-b9e1-edee15522512",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when a resource cannot be found.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 7404,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the error message.",
+                      "example": "Requested resource cannot be found.",
+                      "type": "string"
+                    },
+                    "uuid": {
+                      "example": "a7518f50-d428-11e7-a87d-7fe171ffa82f",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Not found"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Error object that is output when a server error is encountered.",
+                  "properties": {
+                    "errorCode": {
+                      "example": 1005,
+                      "type": "integer"
+                    },
+                    "message": {
+                      "description": "Human readable description of the validation error.",
+                      "example": "Unknown Error",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "basic": []
+          }
+        ],
+        "securitySchemes": {
+          "ApiKeyAuth": {
+            "in": "header",
+            "name": "Authorization",
+            "type": "apiKey"
+          },
+          "basic": {
+            "scheme": "basic",
+            "type": "http"
+          }
+        },
+        "securitySource": "definition"
       }
     }
   }

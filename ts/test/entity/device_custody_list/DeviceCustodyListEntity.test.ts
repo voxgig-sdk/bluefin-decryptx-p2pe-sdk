@@ -5,6 +5,8 @@ import * as Fs from 'node:fs'
 
 import { test, describe, afterEach } from 'node:test'
 import assert from 'node:assert'
+import { createLiveTransport } from '../../live-runner'
+import { runLiveEntity } from '../../live-entity'
 
 
 import { BluefinDecryptxP2peSDK, BaseFeature, stdutil } from '../../..'
@@ -47,16 +49,13 @@ describe('DeviceCustodyListEntity', async () => {
 
     const live = 'TRUE' === process.env.BLUEFIN_DECRYPTX_P2PE_TEST_LIVE
     for (const op of ['list']) {
-      if (maybeSkipControl(t, 'entityOp', 'device_custody_list.' + op, live)) return
+      if (!live && maybeSkipControl(t, 'entityOp', 'device_custody_list.' + op, live)) return
     }
 
+    
     const setup = basicSetup()
-    // The basic flow consumes synthetic IDs and field values from the
-    // fixture (entity TestData.json). Those don't exist on the live API.
-    // Skip live runs unless the user provided a real ENTID env override.
-    if (setup.syntheticOnly) {
-      t.skip('live entity test uses synthetic IDs from fixture — set BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_CUSTODY_LIST_ENTID JSON to run live')
-      return
+    if (setup.live) {
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":[{"active":true,"format":"date-time","name":"completeDate","req":false,"short":"The date and time that the Custody change took place.","type":"`$STRING`","index$":0},{"active":true,"format":"date-time","name":"created","req":false,"short":"Creation timestamp in ISO 8601 format.","type":"`$STRING`","index$":1},{"active":true,"name":"createdBy","req":true,"short":"Reference to the associated User resource.","type":"`$OBJECT`","index$":2},{"active":true,"name":"custodian","req":true,"short":"Reference to the associated User resource.","type":"`$OBJECT`","index$":3},{"active":true,"name":"device","req":false,"short":"Reference to the associated Device resource.","type":"`$OBJECT`","index$":4},{"active":true,"format":"int64","name":"id","req":false,"short":"This resource's unique identifier.","type":"`$INTEGER`","index$":5},{"active":true,"name":"location","req":true,"short":"Reference to the associated Location resource.","type":"`$OBJECT`","index$":6},{"active":true,"format":"date-time","name":"modified","req":false,"short":"Last modified timestamp.","type":"`$STRING`","index$":7},{"active":true,"name":"modifiedBy","req":true,"short":"Reference to the associated User resource.","type":"`$OBJECT`","index$":8},{"active":true,"name":"notes","req":false,"short":"Free form field that allows the Client associate notes with the Custody Change.","type":"`$STRING`","index$":9},{"active":true,"name":"status","req":false,"short":"Reference to the associated Custody Status.","type":"`$OBJECT`","index$":10},{"active":true,"name":"transferMethod","req":false,"short":"Reference to the associated Transfer Method.","type":"`$OBJECT`","index$":11},{"active":true,"name":"version","req":false,"short":"The number of times that this resource has been updated.","type":"`$INTEGER`","index$":12}],"id":{"field":"id","name":"id"},"name":"device_custody_list","op":{"list":{"input":"data","name":"list","points":[{"active":true,"args":{"params":[{"active":true,"kind":"param","name":"device_type","orig":"device_type","reqd":true,"type":"`$STRING`","index$":0},{"active":true,"kind":"param","name":"serial_number","orig":"serial_number","reqd":true,"type":"`$STRING`","index$":1}],"query":[{"active":true,"example":0,"kind":"query","name":"skip","orig":"skip","reqd":false,"type":"`$INTEGER`","index$":0},{"active":true,"example":10,"kind":"query","name":"take","orig":"take","reqd":false,"type":"`$INTEGER`","index$":1}]},"contract":{"id":"GET /devices/{serialNumber}/{deviceType}/custody","json":"{\"operationId\":\"list-custody\",\"parameters\":[{\"description\":\"Device serial number.\",\"in\":\"path\",\"name\":\"serialNumber\",\"required\":true,\"schema\":{\"type\":\"string\"}},{\"description\":\"Device type name.\",\"in\":\"path\",\"name\":\"deviceType\",\"required\":true,\"schema\":{\"type\":\"string\"}},{\"description\":\"The number of entries to include in the response.\",\"in\":\"query\",\"name\":\"take\",\"schema\":{\"default\":10,\"format\":\"int32\",\"type\":\"integer\"}},{\"description\":\"The number of results to skip before listing the remainder.\",\"in\":\"query\",\"name\":\"skip\",\"schema\":{\"default\":0,\"format\":\"int32\",\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"data\":{\"description\":\"List of Device Custody entries.\",\"items\":{\"properties\":{\"completeDate\":{\"description\":\"The date and time that the Custody change took place. If this value is omitted from the API call the custody change will have to be manually completed on the P2PE Manager GUI.\",\"example\":\"2017-02-08T20:14:45.000Z\",\"format\":\"date-time\",\"type\":\"string\"},\"created\":{\"description\":\"Creation timestamp in ISO 8601 format.\",\"example\":\"2017-02-08T20:14:45.000Z\",\"format\":\"date-time\",\"type\":\"string\"},\"createdBy\":{\"description\":\"Reference to the associated User resource. When used for POST and PATCH API calls, the reference must contain the User's id.\",\"properties\":{\"id\":{\"description\":\"The referenced User's ID.\",\"example\":\"56\",\"type\":\"string\"}},\"required\":[\"id\"],\"type\":\"object\"},\"custodian\":{\"description\":\"Reference to the associated User resource. When used for POST and PATCH API calls, the reference must contain the User's id.\",\"properties\":{\"id\":{\"description\":\"The referenced User's ID.\",\"example\":\"56\",\"type\":\"string\"}},\"required\":[\"id\"],\"type\":\"object\"},\"device\":{\"description\":\"Reference to the associated Device resource. When used for POST and PATCH API calls, the reference can contain either the ID or Serial Number. With GET API calls, both properties are included in the response.\",\"properties\":{\"id\":{\"description\":\"The referenced Device's ID\",\"example\":\"73\",\"type\":\"string\"},\"serialNumber\":{\"description\":\"The referenced Device's serial number.\",\"example\":\"85000711\",\"type\":\"string\"}},\"type\":\"object\"},\"id\":{\"description\":\"This resource's unique identifier.\",\"example\":10,\"format\":\"int64\",\"type\":\"integer\"},\"location\":{\"description\":\"Reference to the associated Location resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.\",\"properties\":{\"id\":{\"description\":\"The referenced Location's ID.\",\"example\":\"33668\",\"type\":\"string\"},\"name\":{\"description\":\"The referenced Location's name.\",\"example\":\"The Tired Window Atlanta Downtown\",\"type\":\"string\"}},\"required\":[\"id\"],\"type\":\"object\"},\"modified\":{\"description\":\"Last modified timestamp.\",\"example\":\"2017-05-08T20:14:45.000Z\",\"format\":\"date-time\",\"type\":\"string\"},\"modifiedBy\":{\"description\":\"Reference to the associated User resource. When used for POST and PATCH API calls, the reference must contain the User's id.\",\"properties\":{\"id\":{\"description\":\"The referenced User's ID.\",\"example\":\"56\",\"type\":\"string\"}},\"required\":[\"id\"],\"type\":\"object\"},\"notes\":{\"description\":\"Free form field that allows the Client associate notes with the Custody Change.\",\"example\":\"Altering custody due to change of personel at site.\",\"type\":\"string\"},\"status\":{\"description\":\"Reference to the associated Custody Status. Can contain either the ID or Name.\",\"properties\":{\"id\":{\"description\":\"Custody Status ID\",\"example\":2,\"format\":\"int64\",\"type\":\"integer\"},\"name\":{\"description\":\"Custody Status name\",\"example\":\"Received\",\"type\":\"string\"}},\"type\":\"object\"},\"transferMethod\":{\"description\":\"Reference to the associated Transfer Method. Can contain either the ID or Name.\",\"properties\":{\"id\":{\"description\":\"Transfer Method ID\",\"example\":3,\"format\":\"int64\",\"type\":\"integer\"},\"name\":{\"description\":\"Transfer Method name\",\"example\":\"Shipment\",\"type\":\"string\"}},\"type\":\"object\"},\"version\":{\"description\":\"The number of times that this resource has been updated.\",\"example\":3,\"type\":\"integer\"}},\"type\":\"object\"},\"type\":\"array\"},\"total\":{\"description\":\"Total number of custody entries available for this Device.\",\"type\":\"integer\"}},\"type\":\"object\"}}},\"description\":\"Device Custody list\"},\"401\":{\"content\":{\"application/json\":{\"schema\":{\"description\":\"Error object that is output for unauthoised API calls.\",\"properties\":{\"errorCode\":{\"example\":7401,\"type\":\"integer\"},\"message\":{\"description\":\"Human readable description of the error message.\",\"example\":\"Unauthenticated request.\",\"type\":\"string\"},\"uuid\":{\"example\":\"fe9d7890-d429-11e7-bcff-49e075da4e68\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Unauthorized\"},\"403\":{\"content\":{\"application/json\":{\"schema\":{\"description\":\"Error object that is output when the an authoised API call lacks permissions to access the resource that it is requesting.\",\"properties\":{\"errorCode\":{\"example\":7403,\"type\":\"integer\"},\"message\":{\"description\":\"Human readable description of the error message.\",\"example\":\"Permission denied.\",\"type\":\"string\"},\"uuid\":{\"example\":\"971a99a0-d429-11e7-b9e1-edee15522512\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Forbidden\"},\"409\":{\"content\":{\"application/json\":{\"schema\":{\"description\":\"Error object that is output when an API call fails validation.\",\"properties\":{\"errorCode\":{\"example\":7409,\"type\":\"integer\"},\"errors\":{\"items\":{\"properties\":{\"[attribute name]\":{\"description\":\"Error object that is output when an API call fails validation.\",\"properties\":{\"attribute\":{\"description\":\"The name of the attribute that failed validation.\",\"example\":\"mailCountry\",\"type\":\"string\"},\"errorCode\":{\"description\":\"Error code\",\"example\":1002,\"type\":\"integer\"},\"message\":{\"description\":\"Human readable description of the validation error.\",\"example\":\"Mail country has an incorrect length\",\"type\":\"string\"}},\"type\":\"object\"}},\"type\":\"object\"},\"type\":\"array\"},\"message\":{\"description\":\"Human readable description of the error message.\",\"example\":\"Data validation constraints.\",\"type\":\"string\"},\"uuid\":{\"example\":\"995ce120-d42c-11e7-a87d-7fe171ffa82f\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Invalid data\"},\"500\":{\"content\":{\"application/json\":{\"schema\":{\"description\":\"Error object that is output when a server error is encountered.\",\"properties\":{\"errorCode\":{\"example\":1005,\"type\":\"integer\"},\"message\":{\"description\":\"Human readable description of the validation error.\",\"example\":\"Unknown Error\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Internal server error\"}},\"security\":[{\"basic\":[]}],\"securitySchemes\":{\"ApiKeyAuth\":{\"in\":\"header\",\"name\":\"Authorization\",\"type\":\"apiKey\"},\"basic\":{\"scheme\":\"basic\",\"type\":\"http\"}},\"securitySource\":\"definition\"}","source":"openapi3","version":1},"kind":"http","method":"GET","orig":"/devices/{serialNumber}/{deviceType}/custody","rename":{"param":{"deviceType":"device_type","serialNumber":"serial_number"}},"segments":[{"lit":"devices"},{"var":"serial_number"},{"var":"device_type"},{"lit":"custody"}],"select":{"exist":["device_type","serial_number","skip","take"]},"transform":{"req":"`reqdata`","res":"`body.data`"},"index$":0}],"key$":"list"}},"relations":{"ancestors":[["device"]]},"key$":"device_custody_list","name__orig":"device_custody_list","Name":"DeviceCustodyList","name_":"device_custody_list","name-":"device-custody-list","NAME":"DEVICE_CUSTODY_LIST","index$":7}, {"active":true,"entity":"device_custody_list","key$":"BasicDeviceCustodyListFlow","kind":"basic","name":"BasicDeviceCustodyListFlow","param":{},"step":[{"active":true,"data":{},"input":{},"match":{"device_type":"device_type01","serial_number":"serial_number01"},"op":"list","spec":[],"valid":[{"apply":"ItemExists","def":{"ref":"device_custody_list_ref01"}}],"index$":0}]}, 'DeviceCustodyList')
     }
     const client = setup.client
     const struct = setup.struct
@@ -111,13 +110,6 @@ function basicSetup(extra?: any) {
       }]
     })
 
-  // Detect whether the user provided a real ENTID JSON via env var. The
-  // basic flow consumes synthetic IDs from the fixture file; without an
-  // override those synthetic IDs reach the live API and 4xx. Surface this
-  // to the test so it can skip rather than fail.
-  const idmapEnvVal = process.env['BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_CUSTODY_LIST_ENTID']
-  const idmapOverridden = null != idmapEnvVal && idmapEnvVal.trim().startsWith('{')
-
   const env = envOverride({
     'BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_CUSTODY_LIST_ENTID': idmap,
     'BLUEFIN_DECRYPTX_P2PE_TEST_LIVE': 'FALSE',
@@ -130,7 +122,13 @@ function basicSetup(extra?: any) {
 
   const live = 'TRUE' === env.BLUEFIN_DECRYPTX_P2PE_TEST_LIVE
 
+  const transport = createLiveTransport()
   if (live) {
+    const rawIds = process.env['BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_CUSTODY_LIST_ENTID']
+    idmap = rawIds && rawIds.trim() ? JSON.parse(rawIds) : {}
+    if (!idmap || Array.isArray(idmap) || typeof idmap !== 'object') {
+      throw new Error('Live ENTID must be a JSON object')
+    }
     client = new BluefinDecryptxP2peSDK(merge([
       // FIRST, so the generated fields below win: sdk-test-control.json's
       // test.client.options adds to the live client, it does not redirect it.
@@ -144,7 +142,8 @@ function basicSetup(extra?: any) {
       // argument at all - so a bare 'extra' silently discarded the apikey
       // and server values above and handed the SDK undefined. Harmless
       // while there was nothing in that object; not harmless now.
-      extra || {}
+      extra || {},
+      { system: { fetch: transport.fetch } }
     ]))
   }
 
@@ -157,7 +156,7 @@ function basicSetup(extra?: any) {
     data: entityData,
     explain: 'TRUE' === env.BLUEFIN_DECRYPTX_P2PE_TEST_EXPLAIN,
     live,
-    syntheticOnly: live && !idmapOverridden,
+    transport,
     now: Date.now(),
   }
 
