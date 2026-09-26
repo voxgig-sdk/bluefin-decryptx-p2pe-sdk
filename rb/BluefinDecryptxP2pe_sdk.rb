@@ -338,17 +338,10 @@ class BluefinDecryptxP2peSDK
   end
 
 
-  # Canonical facade: client.DeviceCustodyList.list / client.DeviceCustodyList.load({ "id" => ... })
-  def DeviceCustodyList(data = nil)
-    require_relative 'entity/device_custody_list_entity'
-    DeviceCustodyListEntity.new(self, data)
-  end
-
-
-  # Canonical facade: client.DeviceList.list / client.DeviceList.load({ "id" => ... })
-  def DeviceList(data = nil)
-    require_relative 'entity/device_list_entity'
-    DeviceListEntity.new(self, data)
+  # Canonical facade: client.DeviceCustodyListItem.list / client.DeviceCustodyListItem.load({ "id" => ... })
+  def DeviceCustodyListItem(data = nil)
+    require_relative 'entity/device_custody_list_item_entity'
+    DeviceCustodyListItemEntity.new(self, data)
   end
 
 
@@ -440,6 +433,13 @@ class BluefinDecryptxP2peSDK
   def User(data = nil)
     require_relative 'entity/user_entity'
     UserEntity.new(self, data)
+  end
+
+
+  # Canonical facade: client.VirtualDevice.list / client.VirtualDevice.load({ "id" => ... })
+  def VirtualDevice(data = nil)
+    require_relative 'entity/virtual_device_entity'
+    VirtualDeviceEntity.new(self, data)
   end
 
 

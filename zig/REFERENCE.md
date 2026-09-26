@@ -79,14 +79,9 @@ initial options.
 Create a new `DeviceCustodyDetailEntity` instance. Pass `h.vnull()` for no
 initial options.
 
-#### `device_custody_list(entopts: Value) *DeviceCustodyListEntity`
+#### `device_custody_list_item(entopts: Value) *DeviceCustodyListItemEntity`
 
-Create a new `DeviceCustodyListEntity` instance. Pass `h.vnull()` for no
-initial options.
-
-#### `device_list(entopts: Value) *DeviceListEntity`
-
-Create a new `DeviceListEntity` instance. Pass `h.vnull()` for no
+Create a new `DeviceCustodyListItemEntity` instance. Pass `h.vnull()` for no
 initial options.
 
 #### `device_receive_result(entopts: Value) *DeviceReceiveResultEntity`
@@ -152,6 +147,11 @@ initial options.
 #### `user(entopts: Value) *UserEntity`
 
 Create a new `UserEntity` instance. Pass `h.vnull()` for no
+initial options.
+
+#### `virtual_device(entopts: Value) *VirtualDeviceEntity`
+
+Create a new `VirtualDeviceEntity` instance. Pass `h.vnull()` for no
 initial options.
 
 #### `options_map() Value`
@@ -690,10 +690,10 @@ Return the entity name.
 
 ---
 
-## DeviceCustodyListEntity
+## DeviceCustodyListItemEntity
 
 ```zig
-const device_custody_list = client.device_custody_list(h.vnull());
+const device_custody_list_item = client.device_custody_list_item(h.vnull());
 ```
 
 ### Fields
@@ -721,56 +721,9 @@ const device_custody_list = client.device_custody_list(h.vnull());
 List entities matching the given criteria. The match is optional — pass `h.vnull()` to list all records. `.ok` is a `Value` array.
 
 ```zig
-switch (client.device_custody_list(h.vnull()).list(h.vnull(), h.vnull())) {
+switch (client.device_custody_list_item(h.vnull()).list(h.vnull(), h.vnull())) {
     .ok => |results| std.debug.print("{s}\n", .{h.stringify(results)}),
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
-}
-```
-
-### Common Methods
-
-#### `data(args: ?Value) Value`
-
-Get the entity data. Pass a map to set it.
-
-#### `matchv(args: ?Value) Value`
-
-Get the entity match criteria. Pass a map to set it.
-
-#### `stream(action: []const u8, args: Value, callopts: Value) []Value`
-
-Run an operation through the pipeline and materialise its result items.
-
-#### `get_name() []const u8`
-
-Return the entity name.
-
-
----
-
-## DeviceListEntity
-
-```zig
-const device_list = client.device_list(h.vnull());
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `data` | `Value (array)` | No | List of Devices. |
-| `total` | `i64` | No | Total number of Devices available (not the number of Users in the response). |
-
-### Operations
-
-#### `load(reqmatch: Value, ctrl: Value) OpResult`
-
-Load a single entity matching the given criteria. `.ok` carries the entity data, `.err` the branded error.
-
-```zig
-switch (client.device_list(h.vnull()).load(h.jo(&.{.{ "share_partner_to", h.vstr("share_partner_to") }}), h.vnull())) {
-    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result)}),
-    .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
 
@@ -1708,22 +1661,70 @@ Return the entity name.
 
 ---
 
+## VirtualDeviceEntity
+
+```zig
+const virtual_device = client.virtual_device(h.vnull());
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `data` | `Value (array)` | No | List of Devices. |
+| `id` | `[]const u8` | No |  |
+| `total` | `i64` | No | Total number of Devices available (not the number of Users in the response). |
+
+### Operations
+
+#### `load(reqmatch: Value, ctrl: Value) OpResult`
+
+Load a single entity matching the given criteria. `.ok` carries the entity data, `.err` the branded error.
+
+```zig
+switch (client.virtual_device(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("virtual_device_id") }}), h.vnull())) {
+    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result)}),
+    .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
+}
+```
+
+### Common Methods
+
+#### `data(args: ?Value) Value`
+
+Get the entity data. Pass a map to set it.
+
+#### `matchv(args: ?Value) Value`
+
+Get the entity match criteria. Pass a map to set it.
+
+#### `stream(action: []const u8, args: Value, callopts: Value) []Value`
+
+Run an operation through the pipeline and materialise its result items.
+
+#### `get_name() []const u8`
+
+Return the entity name.
+
+
+---
+
 ## Features
 
 | Feature | Version | Description |
 | --- | --- | --- |
-| `audit` | 0.0.1 | Structured audit trail of operations |
-| `clienttrack` | 0.0.1 | Client identity and per-request correlation headers |
-| `debug` | 0.0.1 | Request/response capture ring buffer for debugging |
-| `idempotency` | 0.0.1 | Idempotency keys for safe retries of mutating operations |
-| `log` | 0.0.1 | Structured request and response logging |
-| `metrics` | 0.0.1 | Statistics capture: per-operation counters and latency |
-| `paging` | 0.0.1 | Pagination signals for list operations |
-| `ratelimit` | 0.0.1 | Client-side rate limiting via a token bucket |
-| `retry` | 0.0.1 | Automatic retry of transient failures with exponential backoff |
-| `telemetry` | 0.0.1 | Distributed tracing spans with W3C trace-context propagation |
-| `test` | 0.0.1 | In-memory mock transport for testing without a live server |
-| `timeout` | 0.0.1 | Per-request timeout with transport abort |
+| `audit` | 0.0.1 | Audit trail |
+| `clienttrack` | 0.0.1 | Client tracking |
+| `debug` | 0.0.1 | Debug capture |
+| `idempotency` | 0.0.1 | Idempotency |
+| `log` | 0.0.1 | Logging |
+| `metrics` | 0.0.1 | Metrics |
+| `paging` | 0.0.1 | Paging |
+| `ratelimit` | 0.0.1 | Rate limiting |
+| `retry` | 0.0.1 | Retry |
+| `telemetry` | 0.0.1 | Telemetry |
+| `test` | 0.0.1 | Test transport |
+| `timeout` | 0.0.1 | Timeout |
 
 
 Features are activated via the `feature` option:
@@ -1773,7 +1774,7 @@ rather than the transport, so their order does not affect what they observe.
 
 #### `audit`
 
-Structured audit trail of operations.
+Audit trail.
 
 **Configuration**
 
@@ -1804,7 +1805,7 @@ its default unless you name it.
 
 #### `clienttrack`
 
-Client identity and per-request correlation headers.
+Client tracking.
 
 **Configuration**
 
@@ -1836,7 +1837,7 @@ its default unless you name it.
 
 #### `debug`
 
-Request/response capture ring buffer for debugging.
+Debug capture.
 
 **Configuration**
 
@@ -1867,7 +1868,7 @@ its default unless you name it.
 
 #### `idempotency`
 
-Idempotency keys for safe retries of mutating operations.
+Idempotency.
 
 **Configuration**
 
@@ -1898,7 +1899,7 @@ its default unless you name it.
 
 #### `log`
 
-Structured request and response logging.
+Logging.
 
 **Configuration**
 
@@ -1927,7 +1928,7 @@ its default unless you name it.
 
 #### `metrics`
 
-Statistics capture: per-operation counters and latency.
+Metrics.
 
 **Configuration**
 
@@ -1955,7 +1956,7 @@ its default unless you name it.
 
 #### `paging`
 
-Pagination signals for list operations.
+Paging.
 
 **Configuration**
 
@@ -1990,7 +1991,7 @@ its default unless you name it.
 
 #### `ratelimit`
 
-Client-side rate limiting via a token bucket.
+Rate limiting.
 
 **Configuration**
 
@@ -2021,7 +2022,7 @@ its default unless you name it.
 
 #### `retry`
 
-Automatic retry of transient failures with exponential backoff.
+Retry.
 
 **Configuration**
 
@@ -2055,7 +2056,7 @@ its default unless you name it.
 
 #### `telemetry`
 
-Distributed tracing spans with W3C trace-context propagation.
+Telemetry.
 
 **Configuration**
 
@@ -2086,7 +2087,7 @@ its default unless you name it.
 
 #### `test`
 
-In-memory mock transport for testing without a live server.
+Test transport.
 
 **Configuration**
 
@@ -2117,7 +2118,7 @@ its default unless you name it.
 
 #### `timeout`
 
-Per-request timeout with transport abort.
+Timeout.
 
 **Configuration**
 

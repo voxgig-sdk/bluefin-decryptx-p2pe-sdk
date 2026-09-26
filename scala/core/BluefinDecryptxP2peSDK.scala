@@ -67,20 +67,12 @@ class BluefinDecryptxP2peSDK(options: JMap[String, Object]) extends SdkClient(op
     new voxgig.bluefindecryptxp2pesdk.entity.DeviceCustodyDetailEntity(this, entopts)
 
   /**
-   * Returns a device_custody_list entity bound to this client.
-   * Idiomatic usage: client.deviceCustodyList(null).list(null, null) or
-   * client.deviceCustodyList(null).load(java.util.Map.of("id", ...), null).
+   * Returns a device_custody_list_item entity bound to this client.
+   * Idiomatic usage: client.deviceCustodyListItem(null).list(null, null) or
+   * client.deviceCustodyListItem(null).load(java.util.Map.of("id", ...), null).
    */
-  def deviceCustodyList(entopts: java.util.Map[String, Object]): SdkEntity =
-    new voxgig.bluefindecryptxp2pesdk.entity.DeviceCustodyListEntity(this, entopts)
-
-  /**
-   * Returns a device_list entity bound to this client.
-   * Idiomatic usage: client.deviceList(null).list(null, null) or
-   * client.deviceList(null).load(java.util.Map.of("id", ...), null).
-   */
-  def deviceList(entopts: java.util.Map[String, Object]): SdkEntity =
-    new voxgig.bluefindecryptxp2pesdk.entity.DeviceListEntity(this, entopts)
+  def deviceCustodyListItem(entopts: java.util.Map[String, Object]): SdkEntity =
+    new voxgig.bluefindecryptxp2pesdk.entity.DeviceCustodyListItemEntity(this, entopts)
 
   /**
    * Returns a device_receive_result entity bound to this client.
@@ -185,6 +177,14 @@ class BluefinDecryptxP2peSDK(options: JMap[String, Object]) extends SdkClient(op
    */
   def user(entopts: java.util.Map[String, Object]): SdkEntity =
     new voxgig.bluefindecryptxp2pesdk.entity.UserEntity(this, entopts)
+
+  /**
+   * Returns a virtual_device entity bound to this client.
+   * Idiomatic usage: client.virtualDevice(null).list(null, null) or
+   * client.virtualDevice(null).load(java.util.Map.of("id", ...), null).
+   */
+  def virtualDevice(entopts: java.util.Map[String, Object]): SdkEntity =
+    new voxgig.bluefindecryptxp2pesdk.entity.VirtualDeviceEntity(this, entopts)
 
 
 }

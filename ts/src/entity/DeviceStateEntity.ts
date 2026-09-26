@@ -19,7 +19,6 @@ import type {
   DeviceStateListMatch,
 } from '../BluefinDecryptxP2peTypes'
 
-// TODO: needs Entity superclass
 class DeviceStateEntity extends BluefinDecryptxP2peEntityBase<DeviceState> {
 
   constructor(client: BluefinDecryptxP2peSDK, entopts: any) {

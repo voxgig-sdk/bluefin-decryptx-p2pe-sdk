@@ -12,7 +12,7 @@ Learn more about Voxgig SDKs at [voxgig.com/sdk](https://voxgig.com/sdk/).
 
 > TypeScript, Python, PHP, Golang, Ruby, Lua, C, Clojure, C++, C#, Dart, Elixir, Haskell, Java, JavaScript, Kotlin, Lean, OCaml, Perl, Rust, Scala, Swift, Zig SDKs, a CLI with an interactive REPL, and an MCP server for AI agents — all generated from one OpenAPI spec by [@voxgig/sdkgen](https://github.com/voxgig/sdkgen).
 
-> **Features:** `audit`, `clienttrack`, `debug`, `idempotency`, `log`, `metrics`, `paging`, `ratelimit`, `retry`, `telemetry`, `test`, `timeout` — opt-in,
+> **Features:** `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined` — opt-in,
 > inactive until switched on, and configured per client. See the Features
 > section of any SDK README below for what each one does.
 
@@ -282,29 +282,29 @@ switch (client.device_type(h.vnull()).list(h.vnull(), h.vnull())) {
 
 | Language | Package | Install |
 | --- | --- | --- |
-| TypeScript | `@voxgig-sdk/bluefin-decryptx-p2pe` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases) |
-| Python | `voxgig-sdk-bluefin-decryptx-p2pe` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases) |
-| PHP | `voxgig-sdk/bluefin-decryptx-p2pe` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases) |
+| TypeScript | `@voxgig-sdk/bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
+| Python | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
+| PHP | `voxgig-sdk/bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
 | Golang | `github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/go` | `go get github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/go@latest` |
-| Ruby | `voxgig-sdk-bluefin-decryptx-p2pe` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases) |
-| Lua | `voxgig-sdk-bluefin-decryptx-p2pe` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases) |
-| C | `voxgig-sdk-bluefin-decryptx-p2pe` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases) |
-| Clojure | `voxgig-sdk-bluefin-decryptx-p2pe` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases) |
-| C++ | `voxgig-sdk-bluefin-decryptx-p2pe` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases) |
-| C# | `voxgig-sdk-bluefin-decryptx-p2pe` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases) |
-| Dart | `voxgig-sdk-bluefin-decryptx-p2pe` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases) |
-| Elixir | `voxgig-sdk-bluefin-decryptx-p2pe` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases) |
-| Haskell | `voxgig-sdk-bluefin-decryptx-p2pe` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases) |
-| Java | `voxgig-sdk-bluefin-decryptx-p2pe` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases) |
-| JavaScript | `@voxgig-sdk/bluefin-decryptx-p2pe-js` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases) |
-| Kotlin | `voxgig-sdk-bluefin-decryptx-p2pe` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases) |
-| Lean | `voxgig-sdk-bluefin-decryptx-p2pe` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases) |
-| OCaml | `voxgig-sdk-bluefin-decryptx-p2pe` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases) |
-| Perl | `voxgig-sdk-bluefin-decryptx-p2pe` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases) |
-| Rust | `voxgig-sdk-bluefin-decryptx-p2pe` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases) |
-| Scala | `voxgig-sdk-bluefin-decryptx-p2pe` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases) |
-| Swift | `voxgig-sdk-bluefin-decryptx-p2pe` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases) |
-| Zig | `voxgig-sdk-bluefin-decryptx-p2pe` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases) |
+| Ruby | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
+| Lua | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
+| C | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
+| Clojure | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
+| C++ | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
+| C# | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
+| Dart | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
+| Elixir | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
+| Haskell | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
+| Java | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
+| JavaScript | `@voxgig-sdk/bluefin-decryptx-p2pe-sdk-js` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
+| Kotlin | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
+| Lean | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
+| OCaml | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
+| Perl | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
+| Rust | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
+| Scala | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
+| Swift | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
+| Zig | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
 | Go CLI | `github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/go-cli` | `go install github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/go-cli/cmd/bluefin-decryptx-p2pe@latest` |
 | Go MCP server | `github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/go-mcp` | `go get github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/go-mcp@latest` |
 
@@ -313,7 +313,7 @@ switch (client.device_type(h.vnull()).list(h.vnull(), h.vnull())) {
 ### TypeScript
 
 ```ts
-import { BluefinDecryptxP2peSDK } from '@voxgig-sdk/bluefin-decryptx-p2pe'
+import { BluefinDecryptxP2peSDK } from '@voxgig-sdk/bluefin-decryptx-p2pe-sdk'
 
 const client = new BluefinDecryptxP2peSDK({
   apikey: process.env.BLUEFIN_DECRYPTX_P2PE_APIKEY,
@@ -380,8 +380,7 @@ The API exposes 22 entities:
 | **Device** | The Device entity (create, list, load). | `/devices` |
 | **DeviceBuild** | The DeviceBuild entity (list, load). | `/deviceBuilds` |
 | **DeviceCustodyDetail** | The DeviceCustodyDetail entity (load). | `/devices/{serialNumber}/{deviceType}/custody/{id}` |
-| **DeviceCustodyList** | The DeviceCustodyList entity (list). | `/devices/{serialNumber}/{deviceType}/custody` |
-| **DeviceList** | The DeviceList entity (load). | `/virtualDevices/{sharePartnerTo}` |
+| **DeviceCustodyListItem** | The DeviceCustodyListItem entity (list). | `/devices/{serialNumber}/{deviceType}/custody` |
 | **DeviceReceiveResult** | The DeviceReceiveResult entity (create). | `/devices/receive` |
 | **DeviceRkiActivateResult** | The DeviceRkiActivateResult entity (create). | `/devices/rki/activate` |
 | **DeviceState** | The DeviceState entity (list). | `/deviceStates` |
@@ -395,6 +394,7 @@ The API exposes 22 entities:
 | **Transaction** | The Transaction entity (create, list, load). | `/transactions` |
 | **UpdateResult** | The UpdateResult entity (create, list, update). | `/users` |
 | **User** | The User entity (load, remove). | `/users/{id}` |
+| **VirtualDevice** | The VirtualDevice entity (load). | `/virtualDevices/{sharePartnerTo}` |
 
 The operations available across these entities are **load**, **list**, **create**, **update**, **remove** — see each entity's
 own list above for exactly which it supports.
@@ -676,7 +676,7 @@ System.out.println(attestation);
 ### JavaScript
 
 ```js
-const { BluefinDecryptxP2peSDK } = require('@voxgig-sdk/bluefin-decryptx-p2pe-js')
+const { BluefinDecryptxP2peSDK } = require('@voxgig-sdk/bluefin-decryptx-p2pe-sdk-js')
 
 const client = new BluefinDecryptxP2peSDK({
   apikey: process.env.BLUEFIN_DECRYPTX_P2PE_APIKEY,
@@ -1114,18 +1114,18 @@ forking the SDK.
 
 | Feature | Purpose |
 | --- | --- |
-| **AuditFeature** | Structured audit trail of operations |
-| **ClienttrackFeature** | Client identity and per-request correlation headers |
-| **DebugFeature** | Request/response capture ring buffer for debugging |
-| **IdempotencyFeature** | Idempotency keys for safe retries of mutating operations |
-| **LogFeature** | Structured request and response logging |
-| **MetricsFeature** | Statistics capture: per-operation counters and latency |
-| **PagingFeature** | Pagination signals for list operations |
-| **RatelimitFeature** | Client-side rate limiting via a token bucket |
-| **RetryFeature** | Automatic retry of transient failures with exponential backoff |
-| **TelemetryFeature** | Distributed tracing spans with W3C trace-context propagation |
-| **TestFeature** | In-memory mock transport for testing without a live server |
-| **TimeoutFeature** | Per-request timeout with transport abort |
+| **AuditFeature** | Audit trail |
+| **ClienttrackFeature** | Client tracking |
+| **DebugFeature** | Debug capture |
+| **IdempotencyFeature** | Idempotency |
+| **LogFeature** | Logging |
+| **MetricsFeature** | Metrics |
+| **PagingFeature** | Paging |
+| **RatelimitFeature** | Rate limiting |
+| **RetryFeature** | Retry |
+| **TelemetryFeature** | Telemetry |
+| **TestFeature** | Test transport |
+| **TimeoutFeature** | Timeout |
 
 Pass custom features via the `extend` option at construction time.
 

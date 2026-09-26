@@ -74,13 +74,9 @@ Create a `DeviceBuild` entity accessor. Pass `Noval` for no initial options.
 
 Create a `DeviceCustodyDetail` entity accessor. Pass `Noval` for no initial options.
 
-#### `Sdk_client.device_custody_list client entopts : entity_obj`
+#### `Sdk_client.device_custody_list_item client entopts : entity_obj`
 
-Create a `DeviceCustodyList` entity accessor. Pass `Noval` for no initial options.
-
-#### `Sdk_client.device_list client entopts : entity_obj`
-
-Create a `DeviceList` entity accessor. Pass `Noval` for no initial options.
+Create a `DeviceCustodyListItem` entity accessor. Pass `Noval` for no initial options.
 
 #### `Sdk_client.device_receive_result client entopts : entity_obj`
 
@@ -133,6 +129,10 @@ Create a `UpdateResult` entity accessor. Pass `Noval` for no initial options.
 #### `Sdk_client.user client entopts : entity_obj`
 
 Create a `User` entity accessor. Pass `Noval` for no initial options.
+
+#### `Sdk_client.virtual_device client entopts : entity_obj`
+
+Create a `VirtualDevice` entity accessor. Pass `Noval` for no initial options.
 
 #### `Sdk_client.direct client fetchargs : value`
 
@@ -693,10 +693,10 @@ The entity name.
 
 ---
 
-## DeviceCustodyList
+## DeviceCustodyListItem
 
 ```ocaml
-let device_custody_list = Sdk_client.device_custody_list client Noval
+let device_custody_list_item = Sdk_client.device_custody_list_item client Noval
 ```
 
 ### Fields
@@ -725,7 +725,7 @@ List entities matching the given criteria. The match is optional — pass `(empt
 
 ```ocaml
 (* One ENTITY per record; the record is reached with e_data_get. *)
-let results = (Sdk_client.device_custody_list client Noval).e_list (empty_map ()) Noval in
+let results = (Sdk_client.device_custody_list_item client Noval).e_list (empty_map ()) Noval in
 List.iter (fun e -> print_endline (stringify (e.e_data_get ()))) results
 ```
 
@@ -749,60 +749,7 @@ Set the entity match criteria.
 
 #### `e_make : unit -> entity_obj`
 
-Create a new `DeviceCustodyList` entity accessor with the same options.
-
-#### `e_name : string`
-
-The entity name.
-
-
----
-
-## DeviceList
-
-```ocaml
-let device_list = Sdk_client.device_list client Noval
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `data` | `value list` | No | List of Devices. |
-| `total` | `int` | No | Total number of Devices available (not the number of Users in the response). |
-
-### Operations
-
-#### `e_load reqmatch ctrl : entity_obj`
-
-Load a single entity matching the given criteria. Resolves to the ENTITY (read the record with `e_data_get`) and raises on error.
-
-```ocaml
-let result = (Sdk_client.device_list client Noval).e_load (jo [("share_partner_to", (Str "share_partner_to"))]) Noval
-let result_data = result.e_data_get ()
-```
-
-### Common Fields
-
-#### `e_data_get : unit -> value`
-
-Get the entity data.
-
-#### `e_data_set : value -> unit`
-
-Set the entity data.
-
-#### `e_match_get : unit -> value`
-
-Get the entity match criteria.
-
-#### `e_match_set : value -> unit`
-
-Set the entity match criteria.
-
-#### `e_make : unit -> entity_obj`
-
-Create a new `DeviceList` entity accessor with the same options.
+Create a new `DeviceCustodyListItem` entity accessor with the same options.
 
 #### `e_name : string`
 
@@ -1781,22 +1728,76 @@ The entity name.
 
 ---
 
+## VirtualDevice
+
+```ocaml
+let virtual_device = Sdk_client.virtual_device client Noval
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `data` | `value list` | No | List of Devices. |
+| `id` | `string` | No |  |
+| `total` | `int` | No | Total number of Devices available (not the number of Users in the response). |
+
+### Operations
+
+#### `e_load reqmatch ctrl : entity_obj`
+
+Load a single entity matching the given criteria. Resolves to the ENTITY (read the record with `e_data_get`) and raises on error.
+
+```ocaml
+let result = (Sdk_client.virtual_device client Noval).e_load (jo [("id", (Str "virtual_device_id"))]) Noval
+let result_data = result.e_data_get ()
+```
+
+### Common Fields
+
+#### `e_data_get : unit -> value`
+
+Get the entity data.
+
+#### `e_data_set : value -> unit`
+
+Set the entity data.
+
+#### `e_match_get : unit -> value`
+
+Get the entity match criteria.
+
+#### `e_match_set : value -> unit`
+
+Set the entity match criteria.
+
+#### `e_make : unit -> entity_obj`
+
+Create a new `VirtualDevice` entity accessor with the same options.
+
+#### `e_name : string`
+
+The entity name.
+
+
+---
+
 ## Features
 
 | Feature | Version | Description |
 | --- | --- | --- |
-| `audit` | 0.0.1 | Structured audit trail of operations |
-| `clienttrack` | 0.0.1 | Client identity and per-request correlation headers |
-| `debug` | 0.0.1 | Request/response capture ring buffer for debugging |
-| `idempotency` | 0.0.1 | Idempotency keys for safe retries of mutating operations |
-| `log` | 0.0.1 | Structured request and response logging |
-| `metrics` | 0.0.1 | Statistics capture: per-operation counters and latency |
-| `paging` | 0.0.1 | Pagination signals for list operations |
-| `ratelimit` | 0.0.1 | Client-side rate limiting via a token bucket |
-| `retry` | 0.0.1 | Automatic retry of transient failures with exponential backoff |
-| `telemetry` | 0.0.1 | Distributed tracing spans with W3C trace-context propagation |
-| `test` | 0.0.1 | In-memory mock transport for testing without a live server |
-| `timeout` | 0.0.1 | Per-request timeout with transport abort |
+| `audit` | 0.0.1 | Audit trail |
+| `clienttrack` | 0.0.1 | Client tracking |
+| `debug` | 0.0.1 | Debug capture |
+| `idempotency` | 0.0.1 | Idempotency |
+| `log` | 0.0.1 | Logging |
+| `metrics` | 0.0.1 | Metrics |
+| `paging` | 0.0.1 | Paging |
+| `ratelimit` | 0.0.1 | Rate limiting |
+| `retry` | 0.0.1 | Retry |
+| `telemetry` | 0.0.1 | Telemetry |
+| `test` | 0.0.1 | Test transport |
+| `timeout` | 0.0.1 | Timeout |
 
 
 Features are activated via the `feature` option:
@@ -1846,7 +1847,7 @@ rather than the transport, so their order does not affect what they observe.
 
 #### `audit`
 
-Structured audit trail of operations.
+Audit trail.
 
 **Configuration**
 
@@ -1877,7 +1878,7 @@ its default unless you name it.
 
 #### `clienttrack`
 
-Client identity and per-request correlation headers.
+Client tracking.
 
 **Configuration**
 
@@ -1909,7 +1910,7 @@ its default unless you name it.
 
 #### `debug`
 
-Request/response capture ring buffer for debugging.
+Debug capture.
 
 **Configuration**
 
@@ -1940,7 +1941,7 @@ its default unless you name it.
 
 #### `idempotency`
 
-Idempotency keys for safe retries of mutating operations.
+Idempotency.
 
 **Configuration**
 
@@ -1971,7 +1972,7 @@ its default unless you name it.
 
 #### `log`
 
-Structured request and response logging.
+Logging.
 
 **Configuration**
 
@@ -2000,7 +2001,7 @@ its default unless you name it.
 
 #### `metrics`
 
-Statistics capture: per-operation counters and latency.
+Metrics.
 
 **Configuration**
 
@@ -2028,7 +2029,7 @@ its default unless you name it.
 
 #### `paging`
 
-Pagination signals for list operations.
+Paging.
 
 **Configuration**
 
@@ -2063,7 +2064,7 @@ its default unless you name it.
 
 #### `ratelimit`
 
-Client-side rate limiting via a token bucket.
+Rate limiting.
 
 **Configuration**
 
@@ -2094,7 +2095,7 @@ its default unless you name it.
 
 #### `retry`
 
-Automatic retry of transient failures with exponential backoff.
+Retry.
 
 **Configuration**
 
@@ -2128,7 +2129,7 @@ its default unless you name it.
 
 #### `telemetry`
 
-Distributed tracing spans with W3C trace-context propagation.
+Telemetry.
 
 **Configuration**
 
@@ -2159,7 +2160,7 @@ its default unless you name it.
 
 #### `test`
 
-In-memory mock transport for testing without a live server.
+Test transport.
 
 **Configuration**
 
@@ -2190,7 +2191,7 @@ its default unless you name it.
 
 #### `timeout`
 
-Per-request timeout with transport abort.
+Timeout.
 
 **Configuration**
 

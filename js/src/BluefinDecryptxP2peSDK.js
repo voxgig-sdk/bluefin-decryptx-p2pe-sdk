@@ -7,8 +7,7 @@ const { DecryptionEntity } = require('./entity/DecryptionEntity')
 const { DeviceEntity } = require('./entity/DeviceEntity')
 const { DeviceBuildEntity } = require('./entity/DeviceBuildEntity')
 const { DeviceCustodyDetailEntity } = require('./entity/DeviceCustodyDetailEntity')
-const { DeviceCustodyListEntity } = require('./entity/DeviceCustodyListEntity')
-const { DeviceListEntity } = require('./entity/DeviceListEntity')
+const { DeviceCustodyListItemEntity } = require('./entity/DeviceCustodyListItemEntity')
 const { DeviceReceiveResultEntity } = require('./entity/DeviceReceiveResultEntity')
 const { DeviceRkiActivateResultEntity } = require('./entity/DeviceRkiActivateResultEntity')
 const { DeviceStateEntity } = require('./entity/DeviceStateEntity')
@@ -22,6 +21,7 @@ const { SuccessEntity } = require('./entity/SuccessEntity')
 const { TransactionEntity } = require('./entity/TransactionEntity')
 const { UpdateResultEntity } = require('./entity/UpdateResultEntity')
 const { UserEntity } = require('./entity/UserEntity')
+const { VirtualDeviceEntity } = require('./entity/VirtualDeviceEntity')
 
 
 const { inspect } = require('node:util')
@@ -377,21 +377,12 @@ class BluefinDecryptxP2peSDK {
   }
 
 
-  // Entity access: `client.DeviceCustodyList().list()` / `client.DeviceCustodyList().load({ id })`.
+  // Entity access: `client.DeviceCustodyListItem().list()` / `client.DeviceCustodyListItem().load({ id })`.
   // The argument is the entity OPTIONS object (passed to the entity
   // constructor as entopts), not initial entity data.
-  DeviceCustodyList(entopts) {
+  DeviceCustodyListItem(entopts) {
     const self = this
-    return new DeviceCustodyListEntity(self, entopts)
-  }
-
-
-  // Entity access: `client.DeviceList().list()` / `client.DeviceList().load({ id })`.
-  // The argument is the entity OPTIONS object (passed to the entity
-  // constructor as entopts), not initial entity data.
-  DeviceList(entopts) {
-    const self = this
-    return new DeviceListEntity(self, entopts)
+    return new DeviceCustodyListItemEntity(self, entopts)
   }
 
 
@@ -509,6 +500,15 @@ class BluefinDecryptxP2peSDK {
   User(entopts) {
     const self = this
     return new UserEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.VirtualDevice().list()` / `client.VirtualDevice().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  VirtualDevice(entopts) {
+    const self = this
+    return new VirtualDeviceEntity(self, entopts)
   }
 
 

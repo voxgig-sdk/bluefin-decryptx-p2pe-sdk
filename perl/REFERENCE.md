@@ -71,13 +71,9 @@ Create a new `DeviceBuild` entity instance. Pass `undef` for no initial data.
 
 Create a new `DeviceCustodyDetail` entity instance. Pass `undef` for no initial data.
 
-#### `DeviceCustodyList($data)`
+#### `DeviceCustodyListItem($data)`
 
-Create a new `DeviceCustodyList` entity instance. Pass `undef` for no initial data.
-
-#### `DeviceList($data)`
-
-Create a new `DeviceList` entity instance. Pass `undef` for no initial data.
+Create a new `DeviceCustodyListItem` entity instance. Pass `undef` for no initial data.
 
 #### `DeviceReceiveResult($data)`
 
@@ -130,6 +126,10 @@ Create a new `UpdateResult` entity instance. Pass `undef` for no initial data.
 #### `User($data)`
 
 Create a new `User` entity instance. Pass `undef` for no initial data.
+
+#### `VirtualDevice($data)`
+
+Create a new `VirtualDevice` entity instance. Pass `undef` for no initial data.
 
 #### `options_map() -> hashref`
 
@@ -688,10 +688,10 @@ Return the entity name.
 
 ---
 
-## DeviceCustodyList entity
+## DeviceCustodyListItem entity
 
 ```perl
-my $device_custody_list = $client->DeviceCustodyList;
+my $device_custody_list_item = $client->DeviceCustodyListItem;
 ```
 
 ### Fields
@@ -719,9 +719,9 @@ my $device_custody_list = $client->DeviceCustodyList;
 List entities matching the given criteria. The match is optional — call `list` with no argument to list all records. Returns an arrayref and dies on error.
 
 ```perl
-my $results = $client->DeviceCustodyList->list;
-for my $device_custody_list (@$results) {
-    print "$device_custody_list->{id}\n";
+my $results = $client->DeviceCustodyListItem->list;
+for my $device_custody_list_item (@$results) {
+    print "$device_custody_list_item->{id}\n";
 }
 ```
 
@@ -745,59 +745,7 @@ Set the entity match criteria.
 
 #### `make() -> entity`
 
-Create a new `DeviceCustodyList` entity instance with the same options.
-
-#### `get_name() -> string`
-
-Return the entity name.
-
-
----
-
-## DeviceList entity
-
-```perl
-my $device_list = $client->DeviceList;
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `data` | `arrayref` | No | List of Devices. |
-| `total` | `integer` | No | Total number of Devices available (not the number of Users in the response). |
-
-### Operations
-
-#### `load($reqmatch, $ctrl) -> hashref`
-
-Load a single entity matching the given criteria. Returns the entity data and dies on error.
-
-```perl
-my $result = $client->DeviceList->load({ 'share_partner_to' => 'share_partner_to' });
-```
-
-### Common Methods
-
-#### `data_get() -> hashref`
-
-Get the entity data.
-
-#### `data_set($data)`
-
-Set the entity data.
-
-#### `match_get() -> hashref`
-
-Get the entity match criteria.
-
-#### `match_set($match)`
-
-Set the entity match criteria.
-
-#### `make() -> entity`
-
-Create a new `DeviceList` entity instance with the same options.
+Create a new `DeviceCustodyListItem` entity instance with the same options.
 
 #### `get_name() -> string`
 
@@ -1766,22 +1714,75 @@ Return the entity name.
 
 ---
 
+## VirtualDevice entity
+
+```perl
+my $virtual_device = $client->VirtualDevice;
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `data` | `arrayref` | No | List of Devices. |
+| `id` | `string` | No |  |
+| `total` | `integer` | No | Total number of Devices available (not the number of Users in the response). |
+
+### Operations
+
+#### `load($reqmatch, $ctrl) -> hashref`
+
+Load a single entity matching the given criteria. Returns the entity data and dies on error.
+
+```perl
+my $result = $client->VirtualDevice->load({ 'id' => 'virtual_device_id' });
+```
+
+### Common Methods
+
+#### `data_get() -> hashref`
+
+Get the entity data.
+
+#### `data_set($data)`
+
+Set the entity data.
+
+#### `match_get() -> hashref`
+
+Get the entity match criteria.
+
+#### `match_set($match)`
+
+Set the entity match criteria.
+
+#### `make() -> entity`
+
+Create a new `VirtualDevice` entity instance with the same options.
+
+#### `get_name() -> string`
+
+Return the entity name.
+
+
+---
+
 ## Features
 
 | Feature | Version | Description |
 | --- | --- | --- |
-| `audit` | 0.0.1 | Structured audit trail of operations |
-| `clienttrack` | 0.0.1 | Client identity and per-request correlation headers |
-| `debug` | 0.0.1 | Request/response capture ring buffer for debugging |
-| `idempotency` | 0.0.1 | Idempotency keys for safe retries of mutating operations |
-| `log` | 0.0.1 | Structured request and response logging |
-| `metrics` | 0.0.1 | Statistics capture: per-operation counters and latency |
-| `paging` | 0.0.1 | Pagination signals for list operations |
-| `ratelimit` | 0.0.1 | Client-side rate limiting via a token bucket |
-| `retry` | 0.0.1 | Automatic retry of transient failures with exponential backoff |
-| `telemetry` | 0.0.1 | Distributed tracing spans with W3C trace-context propagation |
-| `test` | 0.0.1 | In-memory mock transport for testing without a live server |
-| `timeout` | 0.0.1 | Per-request timeout with transport abort |
+| `audit` | 0.0.1 | Audit trail |
+| `clienttrack` | 0.0.1 | Client tracking |
+| `debug` | 0.0.1 | Debug capture |
+| `idempotency` | 0.0.1 | Idempotency |
+| `log` | 0.0.1 | Logging |
+| `metrics` | 0.0.1 | Metrics |
+| `paging` | 0.0.1 | Paging |
+| `ratelimit` | 0.0.1 | Rate limiting |
+| `retry` | 0.0.1 | Retry |
+| `telemetry` | 0.0.1 | Telemetry |
+| `test` | 0.0.1 | Test transport |
+| `timeout` | 0.0.1 | Timeout |
 
 
 Features are activated via the `feature` option:
@@ -1831,7 +1832,7 @@ rather than the transport, so their order does not affect what they observe.
 
 #### `audit`
 
-Structured audit trail of operations.
+Audit trail.
 
 **Configuration**
 
@@ -1862,7 +1863,7 @@ its default unless you name it.
 
 #### `clienttrack`
 
-Client identity and per-request correlation headers.
+Client tracking.
 
 **Configuration**
 
@@ -1894,7 +1895,7 @@ its default unless you name it.
 
 #### `debug`
 
-Request/response capture ring buffer for debugging.
+Debug capture.
 
 **Configuration**
 
@@ -1925,7 +1926,7 @@ its default unless you name it.
 
 #### `idempotency`
 
-Idempotency keys for safe retries of mutating operations.
+Idempotency.
 
 **Configuration**
 
@@ -1956,7 +1957,7 @@ its default unless you name it.
 
 #### `log`
 
-Structured request and response logging.
+Logging.
 
 **Configuration**
 
@@ -1985,7 +1986,7 @@ its default unless you name it.
 
 #### `metrics`
 
-Statistics capture: per-operation counters and latency.
+Metrics.
 
 **Configuration**
 
@@ -2013,7 +2014,7 @@ its default unless you name it.
 
 #### `paging`
 
-Pagination signals for list operations.
+Paging.
 
 **Configuration**
 
@@ -2048,7 +2049,7 @@ its default unless you name it.
 
 #### `ratelimit`
 
-Client-side rate limiting via a token bucket.
+Rate limiting.
 
 **Configuration**
 
@@ -2079,7 +2080,7 @@ its default unless you name it.
 
 #### `retry`
 
-Automatic retry of transient failures with exponential backoff.
+Retry.
 
 **Configuration**
 
@@ -2113,7 +2114,7 @@ its default unless you name it.
 
 #### `telemetry`
 
-Distributed tracing spans with W3C trace-context propagation.
+Telemetry.
 
 **Configuration**
 
@@ -2144,7 +2145,7 @@ its default unless you name it.
 
 #### `test`
 
-In-memory mock transport for testing without a live server.
+Test transport.
 
 **Configuration**
 
@@ -2175,7 +2176,7 @@ its default unless you name it.
 
 #### `timeout`
 
-Per-request timeout with transport abort.
+Timeout.
 
 **Configuration**
 

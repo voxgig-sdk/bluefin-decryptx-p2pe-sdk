@@ -86,11 +86,8 @@ func init() {
 	core.NewDeviceCustodyDetailEntityFunc = func(client *core.BluefinDecryptxP2peSDK, entopts map[string]any) core.BluefinDecryptxP2peEntity {
 		return entity.NewDeviceCustodyDetailEntity(client, entopts)
 	}
-	core.NewDeviceCustodyListEntityFunc = func(client *core.BluefinDecryptxP2peSDK, entopts map[string]any) core.BluefinDecryptxP2peEntity {
-		return entity.NewDeviceCustodyListEntity(client, entopts)
-	}
-	core.NewDeviceListEntityFunc = func(client *core.BluefinDecryptxP2peSDK, entopts map[string]any) core.BluefinDecryptxP2peEntity {
-		return entity.NewDeviceListEntity(client, entopts)
+	core.NewDeviceCustodyListItemEntityFunc = func(client *core.BluefinDecryptxP2peSDK, entopts map[string]any) core.BluefinDecryptxP2peEntity {
+		return entity.NewDeviceCustodyListItemEntity(client, entopts)
 	}
 	core.NewDeviceReceiveResultEntityFunc = func(client *core.BluefinDecryptxP2peSDK, entopts map[string]any) core.BluefinDecryptxP2peEntity {
 		return entity.NewDeviceReceiveResultEntity(client, entopts)
@@ -130,6 +127,9 @@ func init() {
 	}
 	core.NewUserEntityFunc = func(client *core.BluefinDecryptxP2peSDK, entopts map[string]any) core.BluefinDecryptxP2peEntity {
 		return entity.NewUserEntity(client, entopts)
+	}
+	core.NewVirtualDeviceEntityFunc = func(client *core.BluefinDecryptxP2peSDK, entopts map[string]any) core.BluefinDecryptxP2peEntity {
+		return entity.NewVirtualDeviceEntity(client, entopts)
 	}
 }
 

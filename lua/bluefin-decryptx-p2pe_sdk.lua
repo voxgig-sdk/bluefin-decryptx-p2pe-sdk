@@ -455,29 +455,15 @@ function BluefinDecryptxP2peSDK:DeviceCustodyDetail(data)
 end
 
 
--- Idiomatic facade: client:DeviceCustodyList():list() / client:DeviceCustodyList():load({ id = ... })
+-- Idiomatic facade: client:DeviceCustodyListItem():list() / client:DeviceCustodyListItem():load({ id = ... })
 -- Entity access is capitalised (PascalCase) for parity with the other SDKs.
-function BluefinDecryptxP2peSDK:DeviceCustodyList(data)
-  local EntityMod = require("entity.device_custody_list_entity")
+function BluefinDecryptxP2peSDK:DeviceCustodyListItem(data)
+  local EntityMod = require("entity.device_custody_list_item_entity")
   if data == nil then
-    if self._device_custody_list == nil then
-      self._device_custody_list = EntityMod.new(self, nil)
+    if self._device_custody_list_item == nil then
+      self._device_custody_list_item = EntityMod.new(self, nil)
     end
-    return self._device_custody_list
-  end
-  return EntityMod.new(self, data)
-end
-
-
--- Idiomatic facade: client:DeviceList():list() / client:DeviceList():load({ id = ... })
--- Entity access is capitalised (PascalCase) for parity with the other SDKs.
-function BluefinDecryptxP2peSDK:DeviceList(data)
-  local EntityMod = require("entity.device_list_entity")
-  if data == nil then
-    if self._device_list == nil then
-      self._device_list = EntityMod.new(self, nil)
-    end
-    return self._device_list
+    return self._device_custody_list_item
   end
   return EntityMod.new(self, data)
 end
@@ -660,6 +646,20 @@ function BluefinDecryptxP2peSDK:User(data)
       self._user = EntityMod.new(self, nil)
     end
     return self._user
+  end
+  return EntityMod.new(self, data)
+end
+
+
+-- Idiomatic facade: client:VirtualDevice():list() / client:VirtualDevice():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function BluefinDecryptxP2peSDK:VirtualDevice(data)
+  local EntityMod = require("entity.virtual_device_entity")
+  if data == nil then
+    if self._virtual_device == nil then
+      self._virtual_device = EntityMod.new(self, nil)
+    end
+    return self._virtual_device
   end
   return EntityMod.new(self, data)
 end

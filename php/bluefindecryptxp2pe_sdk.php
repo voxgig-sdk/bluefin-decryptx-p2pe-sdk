@@ -467,39 +467,21 @@ class BluefinDecryptxP2peSDK
     }
 
 
-    private $_device_custody_list = null;
+    private $_device_custody_list_item = null;
 
-    // Canonical facade: $client->DeviceCustodyList()->list() / ->load(["id" => ...]).
-    // PHP method names are case-insensitive, so lowercase $client->device_custody_list()
+    // Canonical facade: $client->DeviceCustodyListItem()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->device_custody_list_item()
     // resolves here too.
-    public function DeviceCustodyList($data = null)
+    public function DeviceCustodyListItem($data = null)
     {
-        require_once __DIR__ . '/entity/device_custody_list_entity.php';
+        require_once __DIR__ . '/entity/device_custody_list_item_entity.php';
         if ($data === null) {
-            if ($this->_device_custody_list === null) {
-                $this->_device_custody_list = new DeviceCustodyListEntity($this, null);
+            if ($this->_device_custody_list_item === null) {
+                $this->_device_custody_list_item = new DeviceCustodyListItemEntity($this, null);
             }
-            return $this->_device_custody_list;
+            return $this->_device_custody_list_item;
         }
-        return new DeviceCustodyListEntity($this, $data);
-    }
-
-
-    private $_device_list = null;
-
-    // Canonical facade: $client->DeviceList()->list() / ->load(["id" => ...]).
-    // PHP method names are case-insensitive, so lowercase $client->device_list()
-    // resolves here too.
-    public function DeviceList($data = null)
-    {
-        require_once __DIR__ . '/entity/device_list_entity.php';
-        if ($data === null) {
-            if ($this->_device_list === null) {
-                $this->_device_list = new DeviceListEntity($this, null);
-            }
-            return $this->_device_list;
-        }
-        return new DeviceListEntity($this, $data);
+        return new DeviceCustodyListItemEntity($this, $data);
     }
 
 
@@ -734,6 +716,24 @@ class BluefinDecryptxP2peSDK
             return $this->_user;
         }
         return new UserEntity($this, $data);
+    }
+
+
+    private $_virtual_device = null;
+
+    // Canonical facade: $client->VirtualDevice()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->virtual_device()
+    // resolves here too.
+    public function VirtualDevice($data = null)
+    {
+        require_once __DIR__ . '/entity/virtual_device_entity.php';
+        if ($data === null) {
+            if ($this->_virtual_device === null) {
+                $this->_virtual_device = new VirtualDeviceEntity($this, null);
+            }
+            return $this->_virtual_device;
+        }
+        return new VirtualDeviceEntity($this, $data);
     }
 
 

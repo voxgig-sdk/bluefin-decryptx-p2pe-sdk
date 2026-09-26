@@ -7,8 +7,7 @@ import 'entity/DecryptionEntity.dart';
 import 'entity/DeviceEntity.dart';
 import 'entity/DeviceBuildEntity.dart';
 import 'entity/DeviceCustodyDetailEntity.dart';
-import 'entity/DeviceCustodyListEntity.dart';
-import 'entity/DeviceListEntity.dart';
+import 'entity/DeviceCustodyListItemEntity.dart';
 import 'entity/DeviceReceiveResultEntity.dart';
 import 'entity/DeviceRkiActivateResultEntity.dart';
 import 'entity/DeviceStateEntity.dart';
@@ -22,6 +21,7 @@ import 'entity/SuccessEntity.dart';
 import 'entity/TransactionEntity.dart';
 import 'entity/UpdateResultEntity.dart';
 import 'entity/UserEntity.dart';
+import 'entity/VirtualDeviceEntity.dart';
 
 
 export 'BluefinDecryptxP2peTypes.dart';
@@ -32,8 +32,7 @@ export 'entity/DecryptionEntity.dart';
 export 'entity/DeviceEntity.dart';
 export 'entity/DeviceBuildEntity.dart';
 export 'entity/DeviceCustodyDetailEntity.dart';
-export 'entity/DeviceCustodyListEntity.dart';
-export 'entity/DeviceListEntity.dart';
+export 'entity/DeviceCustodyListItemEntity.dart';
 export 'entity/DeviceReceiveResultEntity.dart';
 export 'entity/DeviceRkiActivateResultEntity.dart';
 export 'entity/DeviceStateEntity.dart';
@@ -47,6 +46,7 @@ export 'entity/SuccessEntity.dart';
 export 'entity/TransactionEntity.dart';
 export 'entity/UpdateResultEntity.dart';
 export 'entity/UserEntity.dart';
+export 'entity/VirtualDeviceEntity.dart';
 
 
 // ignore_for_file: non_constant_identifier_names
@@ -395,15 +395,9 @@ class BluefinDecryptxP2peSDK {
   }
 
 
-  // Entity access: `client.DeviceCustodyList().list()` / `client.DeviceCustodyList().load({'id': ...})`.
-  DeviceCustodyListEntity DeviceCustodyList([dynamic entopts]) {
-    return DeviceCustodyListEntity(this, entopts);
-  }
-
-
-  // Entity access: `client.DeviceList().list()` / `client.DeviceList().load({'id': ...})`.
-  DeviceListEntity DeviceList([dynamic entopts]) {
-    return DeviceListEntity(this, entopts);
+  // Entity access: `client.DeviceCustodyListItem().list()` / `client.DeviceCustodyListItem().load({'id': ...})`.
+  DeviceCustodyListItemEntity DeviceCustodyListItem([dynamic entopts]) {
+    return DeviceCustodyListItemEntity(this, entopts);
   }
 
 
@@ -482,6 +476,12 @@ class BluefinDecryptxP2peSDK {
   // Entity access: `client.User().list()` / `client.User().load({'id': ...})`.
   UserEntity User([dynamic entopts]) {
     return UserEntity(this, entopts);
+  }
+
+
+  // Entity access: `client.VirtualDevice().list()` / `client.VirtualDevice().load({'id': ...})`.
+  VirtualDeviceEntity VirtualDevice([dynamic entopts]) {
+    return VirtualDeviceEntity(this, entopts);
   }
 
 

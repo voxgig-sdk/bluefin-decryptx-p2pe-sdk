@@ -57,12 +57,6 @@ impl BluefinDecryptxP2peSDK {
         *rootctx.options.borrow_mut() = opts.clone();
         *sdk.rootctx.borrow_mut() = Some(rootctx.clone());
 
-        // Add features in the resolved order (make_options puts an explicit
-        // List order first, else defaults to test-first). Ordering matters:
-        // the `test` feature installs the base mock transport and the
-        // transport features (retry/cache/netsim/proxy/ratelimit) wrap
-        // whatever is current, so `test` must be added before them to sit at
-        // the base of the transport wrapper chain.
         let feature_opts = to_map(&getp(&opts, "feature"));
         if let Value::List(order) = getpath(&["__derived__", "featureorder"], &opts) {
             let names: Vec<String> = order
@@ -302,18 +296,6 @@ impl BluefinDecryptxP2peSDK {
         ]))
     }
 
-    // Raw GraphQL access: the pressure valve that makes the generated
-    // surface's deliberate omissions (per-call selection sets, typed filter
-    // builders, batching, subscriptions) livable — the whole schema stays
-    // reachable.
-    //
-    // Thin wrapper over the same prepare/fetch path direct uses, with the one
-    // thing raw direct cannot do for GraphQL: a GraphQL failure rides HTTP
-    // 200 as a top-level `errors` array, so status alone would report a
-    // failed query as ok.
-    //
-    // NOTE: like direct, this bypasses the feature pipeline — no retry,
-    // ratelimit or paging features apply.
     pub fn graphql(
         &self, query: &str, variables: Value, ctrl: Value,
     ) -> Result<Value, BluefinDecryptxP2peError> {
@@ -342,7 +324,6 @@ impl BluefinDecryptxP2peSDK {
         // { errors: [...] } body, and the raw path represents a non-2xx as
         // ok:false with no err — so returning early on status would discard
         // the server's own diagnostics, which are the only useful part of
-        // that response.
         let errors = getpath(&["data", "errors"], &res);
 
         if let Value::List(items) = &errors {
@@ -397,14 +378,9 @@ impl BluefinDecryptxP2peSDK {
         crate::entity::device_custody_detail::DeviceCustodyDetailEntity::new(self, entopts)
     }
 
-    /// DeviceCustodyList entity bound to this client.
-    pub fn device_custody_list(self: &Rc<Self>, entopts: Value) -> Rc<crate::entity::device_custody_list::DeviceCustodyListEntity> {
-        crate::entity::device_custody_list::DeviceCustodyListEntity::new(self, entopts)
-    }
-
-    /// DeviceList entity bound to this client.
-    pub fn device_list(self: &Rc<Self>, entopts: Value) -> Rc<crate::entity::device_list::DeviceListEntity> {
-        crate::entity::device_list::DeviceListEntity::new(self, entopts)
+    /// DeviceCustodyListItem entity bound to this client.
+    pub fn device_custody_list_item(self: &Rc<Self>, entopts: Value) -> Rc<crate::entity::device_custody_list_item::DeviceCustodyListItemEntity> {
+        crate::entity::device_custody_list_item::DeviceCustodyListItemEntity::new(self, entopts)
     }
 
     /// DeviceReceiveResult entity bound to this client.
@@ -472,6 +448,11 @@ impl BluefinDecryptxP2peSDK {
         crate::entity::user::UserEntity::new(self, entopts)
     }
 
+    /// VirtualDevice entity bound to this client.
+    pub fn virtual_device(self: &Rc<Self>, entopts: Value) -> Rc<crate::entity::virtual_device::VirtualDeviceEntity> {
+        crate::entity::virtual_device::VirtualDeviceEntity::new(self, entopts)
+    }
+
 }
 
 pub fn test_sdk(testopts: Value, sdkopts: Value) -> Rc<BluefinDecryptxP2peSDK> {
@@ -487,7 +468,6 @@ pub fn test_sdk(testopts: Value, sdkopts: Value) -> Rc<BluefinDecryptxP2peSDK> {
     setp(&testopts, "active", Value::Bool(true));
 
     // set_path mutates `sdkopts` in place and returns the inner parent node;
-    // discard the return so we pass the full options root (mirrors go's
     // vs.SetPath(sdkopts, ...) which does not rebind).
     vs::set_path(
         &sdkopts,

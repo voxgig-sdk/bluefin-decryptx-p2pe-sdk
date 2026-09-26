@@ -26,7 +26,7 @@ const String _sdkClass = 'BluefinDecryptxP2peSDK';
 
 // The API's capitalised semantic entities, used to spot a client.<Entity>()
 // factory call inside a block.
-const List<String> _entities = <String>['Attestation', 'Client', 'CreateResult', 'Decryption', 'Device', 'DeviceBuild', 'DeviceCustodyDetail', 'DeviceCustodyList', 'DeviceList', 'DeviceReceiveResult', 'DeviceRkiActivateResult', 'DeviceState', 'DeviceType', 'InjectKey', 'Kif', 'Location', 'Partner', 'Shipment', 'Success', 'Transaction', 'UpdateResult', 'User'];
+const List<String> _entities = <String>['Attestation', 'Client', 'CreateResult', 'Decryption', 'Device', 'DeviceBuild', 'DeviceCustodyDetail', 'DeviceCustodyListItem', 'DeviceReceiveResult', 'DeviceRkiActivateResult', 'DeviceState', 'DeviceType', 'InjectKey', 'Kif', 'Location', 'Partner', 'Shipment', 'Success', 'Transaction', 'UpdateResult', 'User', 'VirtualDevice'];
 
 // The three documents held to the gate, tagged by human label and path
 // (relative to the package root, which is the CWD for 'dart run test/...').

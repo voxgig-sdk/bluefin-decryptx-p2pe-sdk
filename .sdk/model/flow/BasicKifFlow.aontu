@@ -1,0 +1,22 @@
+# BasicKifFlow
+
+main: kit: flow: BasicKifFlow:
+{
+  entity: "kif",
+  kind: "basic",
+  name: "BasicKifFlow",
+  step: [
+    {
+      o: "list",
+      v: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "kif_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicKifFlow"
+}

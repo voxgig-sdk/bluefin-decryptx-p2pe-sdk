@@ -1,0 +1,171 @@
+# Entity: device_type
+
+main: kit: entity: device_type: {
+
+  alias: field: {}
+
+  fields: {
+    created: {
+      fo: "datetime"
+      h: "Created"
+      n: "created"
+      r: false
+      sh: "Creation timestamp in ISO 8601 format."
+      t: "`$STRING`"
+    }
+    deviceTypeMode: {
+      h: "Device Type Mode"
+      n: "deviceTypeMode"
+      r: false
+      sh: "The Device type."
+      t: "`$STRING`"
+    }
+    hardwareVersion: {
+      h: "Hardware Version"
+      n: "hardwareVersion"
+      r: false
+      sh: "The Device hardware version."
+      t: "`$STRING`"
+    }
+    id: {
+      h: "Id"
+      n: "id"
+      r: false
+      sh: "Unique idenifier."
+      t: "`$STRING`"
+    }
+    isActive: {
+      h: "Is Active"
+      n: "isActive"
+      r: false
+      sh: "This property indicates if the DeviceType is active."
+      t: "`$BOOLEAN`"
+    }
+    manufacturer: {
+      h: "Manufacturer"
+      n: "manufacturer"
+      r: false
+      sh: "The Device manufacturer."
+      t: "`$STRING`"
+    }
+    model: {
+      h: "Model"
+      n: "model"
+      r: false
+      sh: "The Device model."
+      t: "`$STRING`"
+    }
+    modified: {
+      fo: "datetime"
+      h: "Modified"
+      n: "modified"
+      r: false
+      sh: "Last modified timestamp."
+      t: "`$STRING`"
+    }
+    name: {
+      h: "Name"
+      n: "name"
+      r: false
+      sh: "The DeviceType name."
+      t: "`$STRING`"
+    }
+    photoUrl: {
+      h: "Photo Url"
+      n: "photoUrl"
+      r: false
+      t: "`$STRING`"
+    }
+    productName: {
+      h: "Product Name"
+      n: "productName"
+      r: false
+      sh: "The Device name."
+      t: "`$STRING`"
+    }
+    version: {
+      h: "Version"
+      n: "version"
+      r: false
+      sh: "The number of times that this resource has been updated."
+      t: "`$INTEGER`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "device_type"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /deviceTypes"
+            source: "openapi3"
+            version: 2
+          }
+          m: "GET"
+          o: "/deviceTypes"
+          s: [
+            {
+              lit: "deviceTypes"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.data`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /deviceTypes/{id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/deviceTypes/{id}"
+          q: {
+            exist: [
+              "id"
+            ]
+          }
+          s: [
+            {
+              lit: "deviceTypes"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

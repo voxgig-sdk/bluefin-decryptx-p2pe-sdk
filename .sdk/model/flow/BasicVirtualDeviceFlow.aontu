@@ -1,0 +1,32 @@
+# BasicVirtualDeviceFlow
+
+main: kit: flow: BasicVirtualDeviceFlow:
+{
+  entity: "virtual_device",
+  kind: "basic",
+  name: "BasicVirtualDeviceFlow",
+  step: [
+    {
+      i: {
+        ref: "virtual_device_ref01",
+        srcdatavar: "virtual_device_ref01_data",
+        suffix: "_dt0"
+      }
+
+      m: {
+        id: "virtual_device01"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-virtual_device_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicVirtualDeviceFlow"
+}

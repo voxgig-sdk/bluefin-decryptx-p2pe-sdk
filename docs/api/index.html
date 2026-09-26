@@ -13,8 +13,7 @@
 <a href="../api/device.html">Device</a>
 <a href="../api/device_build.html">DeviceBuild</a>
 <a href="../api/device_custody_detail.html">DeviceCustodyDetail</a>
-<a href="../api/device_custody_list.html">DeviceCustodyList</a>
-<a href="../api/device_list.html">DeviceList</a>
+<a href="../api/device_custody_list_item.html">DeviceCustodyListItem</a>
 <a href="../api/device_receive_result.html">DeviceReceiveResult</a>
 <a href="../api/device_rki_activate_result.html">DeviceRkiActivateResult</a>
 <a href="../api/device_state.html">DeviceState</a>
@@ -27,7 +26,8 @@
 <a href="../api/success.html">Success</a>
 <a href="../api/transaction.html">Transaction</a>
 <a href="../api/update_result.html">UpdateResult</a>
-<a href="../api/user.html">User</a></details>
+<a href="../api/user.html">User</a>
+<a href="../api/virtual_device.html">VirtualDevice</a></details>
 <details><summary>Guides</summary><a href="../guides/authentication.html">Authentication</a>
 <a href="../guides/first-call.html">Make your first API call</a>
 <a href="../guides/errors.html">Handle errors</a>
@@ -57,18 +57,18 @@
 <a href="../sdks/zig.html">Zig</a></details>
 <details><summary>Tools</summary><a href="../tools/go-cli.html">Go CLI</a>
 <a href="../tools/go-mcp.html">Go MCP server</a></details>
-<details><summary>Features</summary><a href="../features/audit.html">Structured audit trail of operations</a>
-<a href="../features/clienttrack.html">Client identity and per-request correlation headers</a>
-<a href="../features/debug.html">Request/response capture ring buffer for debugging</a>
-<a href="../features/idempotency.html">Idempotency keys for safe retries of mutating operations</a>
-<a href="../features/log.html">Structured request and response logging</a>
-<a href="../features/metrics.html">Statistics capture: per-operation counters and latency</a>
-<a href="../features/paging.html">Pagination signals for list operations</a>
-<a href="../features/ratelimit.html">Client-side rate limiting via a token bucket</a>
-<a href="../features/retry.html">Automatic retry of transient failures with exponential backoff</a>
-<a href="../features/telemetry.html">Distributed tracing spans with W3C trace-context propagation</a>
-<a href="../features/test.html">In-memory mock transport for testing without a live server</a>
-<a href="../features/timeout.html">Per-request timeout with transport abort</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="api-overview">API overview</h1>
+<details><summary>Features</summary><a href="../features/audit.html">Audit trail</a>
+<a href="../features/clienttrack.html">Client tracking</a>
+<a href="../features/debug.html">Debug capture</a>
+<a href="../features/idempotency.html">Idempotency</a>
+<a href="../features/log.html">Logging</a>
+<a href="../features/metrics.html">Metrics</a>
+<a href="../features/paging.html">Paging</a>
+<a href="../features/ratelimit.html">Rate limiting</a>
+<a href="../features/retry.html">Retry</a>
+<a href="../features/telemetry.html">Telemetry</a>
+<a href="../features/test.html">Test transport</a>
+<a href="../features/timeout.html">Timeout</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="api-overview">API overview</h1>
 <p>The purpose of the Decryptx management APIs are to provide Decryptx Partners and Key Injection Facilities (KIFs) a way to integrate their services to the Decryptx Platform.</p>
 <ul>
 <li><code>https://apis.p2pemanager.com/api/v1</code></li>
@@ -83,8 +83,7 @@
 <li><a href="device.html">Device</a></li>
 <li><a href="device_build.html">DeviceBuild</a></li>
 <li><a href="device_custody_detail.html">DeviceCustodyDetail</a></li>
-<li><a href="device_custody_list.html">DeviceCustodyList</a></li>
-<li><a href="device_list.html">DeviceList</a></li>
+<li><a href="device_custody_list_item.html">DeviceCustodyListItem</a></li>
 <li><a href="device_receive_result.html">DeviceReceiveResult</a></li>
 <li><a href="device_rki_activate_result.html">DeviceRkiActivateResult</a></li>
 <li><a href="device_state.html">DeviceState</a></li>
@@ -98,6 +97,7 @@
 <li><a href="transaction.html">Transaction</a></li>
 <li><a href="update_result.html">UpdateResult</a></li>
 <li><a href="user.html">User</a></li>
+<li><a href="virtual_device.html">VirtualDevice</a></li>
 </ul>
 </main></div>
 <script src="../assets/search.js" defer></script></body></html>

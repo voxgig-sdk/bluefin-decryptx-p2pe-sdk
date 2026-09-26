@@ -76,13 +76,9 @@ Create a new `DeviceBuild` entity instance. Pass `nil` for no initial data.
 
 Create a new `DeviceCustodyDetail` entity instance. Pass `nil` for no initial data.
 
-#### `DeviceCustodyList(data map[string]any) BluefinDecryptxP2peEntity`
+#### `DeviceCustodyListItem(data map[string]any) BluefinDecryptxP2peEntity`
 
-Create a new `DeviceCustodyList` entity instance. Pass `nil` for no initial data.
-
-#### `DeviceList(data map[string]any) BluefinDecryptxP2peEntity`
-
-Create a new `DeviceList` entity instance. Pass `nil` for no initial data.
+Create a new `DeviceCustodyListItem` entity instance. Pass `nil` for no initial data.
 
 #### `DeviceReceiveResult(data map[string]any) BluefinDecryptxP2peEntity`
 
@@ -135,6 +131,10 @@ Create a new `UpdateResult` entity instance. Pass `nil` for no initial data.
 #### `User(data map[string]any) BluefinDecryptxP2peEntity`
 
 Create a new `User` entity instance. Pass `nil` for no initial data.
+
+#### `VirtualDevice(data map[string]any) BluefinDecryptxP2peEntity`
+
+Create a new `VirtualDevice` entity instance. Pass `nil` for no initial data.
 
 #### `OptionsMap() map[string]any`
 
@@ -717,11 +717,11 @@ Return the entity name.
 
 ---
 
-## DeviceCustodyListEntity
+## DeviceCustodyListItemEntity
 
 ```go
-deviceCustodyList := client.DeviceCustodyList(nil)
-fmt.Println(deviceCustodyList.GetName()) // "device_custody_list"
+deviceCustodyListItem := client.DeviceCustodyListItem(nil)
+fmt.Println(deviceCustodyListItem.GetName()) // "device_custody_list_item"
 ```
 
 ### Fields
@@ -749,7 +749,7 @@ fmt.Println(deviceCustodyList.GetName()) // "device_custody_list"
 List entities matching the given criteria. Returns an array.
 
 ```go
-results, err := client.DeviceCustodyList(nil).List(nil, nil)
+results, err := client.DeviceCustodyListItem(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
@@ -770,59 +770,7 @@ Get or set the entity match criteria. Works the same as `Data()`.
 
 #### `Make() Entity`
 
-Create a new `DeviceCustodyListEntity` instance with the same client and
-options.
-
-#### `GetName() string`
-
-Return the entity name.
-
-
----
-
-## DeviceListEntity
-
-```go
-deviceList := client.DeviceList(nil)
-fmt.Println(deviceList.GetName()) // "device_list"
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `data` | `[]any` | No | List of Devices. |
-| `total` | `int` | No | Total number of Devices available (not the number of Users in the response). |
-
-### Operations
-
-#### `Load(reqmatch, ctrl map[string]any) (any, error)`
-
-Load a single entity matching the given criteria.
-
-```go
-result, err := client.DeviceList(nil).Load(map[string]any{"share_partner_to": "share_partner_to"}, nil)
-if err != nil {
-    panic(err)
-}
-fmt.Println(result)
-```
-
-### Common Methods
-
-#### `Data(args ...any) any`
-
-Get or set the entity data. When called with data, sets the entity's
-internal data and returns the current data. When called without
-arguments, returns a copy of the current data.
-
-#### `Match(args ...any) any`
-
-Get or set the entity match criteria. Works the same as `Data()`.
-
-#### `Make() Entity`
-
-Create a new `DeviceListEntity` instance with the same client and
+Create a new `DeviceCustodyListItemEntity` instance with the same client and
 options.
 
 #### `GetName() string`
@@ -1825,22 +1773,75 @@ Return the entity name.
 
 ---
 
+## VirtualDeviceEntity
+
+```go
+virtualDevice := client.VirtualDevice(nil)
+fmt.Println(virtualDevice.GetName()) // "virtual_device"
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `data` | `[]any` | No | List of Devices. |
+| `id` | `string` | No |  |
+| `total` | `int` | No | Total number of Devices available (not the number of Users in the response). |
+
+### Operations
+
+#### `Load(reqmatch, ctrl map[string]any) (any, error)`
+
+Load a single entity matching the given criteria.
+
+```go
+result, err := client.VirtualDevice(nil).Load(map[string]any{"id": "virtual_device_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
+```
+
+### Common Methods
+
+#### `Data(args ...any) any`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `Match(args ...any) any`
+
+Get or set the entity match criteria. Works the same as `Data()`.
+
+#### `Make() Entity`
+
+Create a new `VirtualDeviceEntity` instance with the same client and
+options.
+
+#### `GetName() string`
+
+Return the entity name.
+
+
+---
+
 ## Features
 
 | Feature | Version | Description |
 | --- | --- | --- |
-| `audit` | 0.0.1 | Structured audit trail of operations |
-| `clienttrack` | 0.0.1 | Client identity and per-request correlation headers |
-| `debug` | 0.0.1 | Request/response capture ring buffer for debugging |
-| `idempotency` | 0.0.1 | Idempotency keys for safe retries of mutating operations |
-| `log` | 0.0.1 | Structured request and response logging |
-| `metrics` | 0.0.1 | Statistics capture: per-operation counters and latency |
-| `paging` | 0.0.1 | Pagination signals for list operations |
-| `ratelimit` | 0.0.1 | Client-side rate limiting via a token bucket |
-| `retry` | 0.0.1 | Automatic retry of transient failures with exponential backoff |
-| `telemetry` | 0.0.1 | Distributed tracing spans with W3C trace-context propagation |
-| `test` | 0.0.1 | In-memory mock transport for testing without a live server |
-| `timeout` | 0.0.1 | Per-request timeout with transport abort |
+| `audit` | 0.0.1 | Audit trail |
+| `clienttrack` | 0.0.1 | Client tracking |
+| `debug` | 0.0.1 | Debug capture |
+| `idempotency` | 0.0.1 | Idempotency |
+| `log` | 0.0.1 | Logging |
+| `metrics` | 0.0.1 | Metrics |
+| `paging` | 0.0.1 | Paging |
+| `ratelimit` | 0.0.1 | Rate limiting |
+| `retry` | 0.0.1 | Retry |
+| `telemetry` | 0.0.1 | Telemetry |
+| `test` | 0.0.1 | Test transport |
+| `timeout` | 0.0.1 | Timeout |
 
 
 Features are activated via the `feature` option:
@@ -1890,7 +1891,7 @@ rather than the transport, so their order does not affect what they observe.
 
 #### `audit`
 
-Structured audit trail of operations.
+Audit trail.
 
 **Configuration**
 
@@ -1921,7 +1922,7 @@ its default unless you name it.
 
 #### `clienttrack`
 
-Client identity and per-request correlation headers.
+Client tracking.
 
 **Configuration**
 
@@ -1953,7 +1954,7 @@ its default unless you name it.
 
 #### `debug`
 
-Request/response capture ring buffer for debugging.
+Debug capture.
 
 **Configuration**
 
@@ -1984,7 +1985,7 @@ its default unless you name it.
 
 #### `idempotency`
 
-Idempotency keys for safe retries of mutating operations.
+Idempotency.
 
 **Configuration**
 
@@ -2015,7 +2016,7 @@ its default unless you name it.
 
 #### `log`
 
-Structured request and response logging.
+Logging.
 
 **Configuration**
 
@@ -2044,7 +2045,7 @@ its default unless you name it.
 
 #### `metrics`
 
-Statistics capture: per-operation counters and latency.
+Metrics.
 
 **Configuration**
 
@@ -2072,7 +2073,7 @@ its default unless you name it.
 
 #### `paging`
 
-Pagination signals for list operations.
+Paging.
 
 **Configuration**
 
@@ -2107,7 +2108,7 @@ its default unless you name it.
 
 #### `ratelimit`
 
-Client-side rate limiting via a token bucket.
+Rate limiting.
 
 **Configuration**
 
@@ -2138,7 +2139,7 @@ its default unless you name it.
 
 #### `retry`
 
-Automatic retry of transient failures with exponential backoff.
+Retry.
 
 **Configuration**
 
@@ -2172,7 +2173,7 @@ its default unless you name it.
 
 #### `telemetry`
 
-Distributed tracing spans with W3C trace-context propagation.
+Telemetry.
 
 **Configuration**
 
@@ -2203,7 +2204,7 @@ its default unless you name it.
 
 #### `test`
 
-In-memory mock transport for testing without a live server.
+Test transport.
 
 **Configuration**
 
@@ -2234,7 +2235,7 @@ its default unless you name it.
 
 #### `timeout`
 
-Per-request timeout with transport abort.
+Timeout.
 
 **Configuration**
 

@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 // Typed models for the BluefinDecryptxP2pe SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types come from the
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types come from the
 // canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 //
@@ -272,8 +272,8 @@ class DeviceCustodyDetailLoadMatch
     public string $serial_number;
 }
 
-/** DeviceCustodyList entity data model. */
-class DeviceCustodyList
+/** DeviceCustodyListItem entity data model. */
+class DeviceCustodyListItem
 {
     public ?string $completeDate = null;
     public ?string $created = null;
@@ -290,29 +290,12 @@ class DeviceCustodyList
     public ?int $version = null;
 }
 
-/** Request payload for DeviceCustodyList#list. */
-class DeviceCustodyListListMatch
+/** Request payload for DeviceCustodyListItem#list. */
+class DeviceCustodyListItemListMatch
 {
     public string $device_type;
     public string $serial_number;
     public ?int $skip = null;
-    public ?int $take = null;
-}
-
-/** DeviceList entity data model. */
-class DeviceList
-{
-    public ?array $data = null;
-    public ?int $total = null;
-}
-
-/** Request payload for DeviceList#load. */
-class DeviceListLoadMatch
-{
-    public string $share_partner_to;
-    public ?int $skip = null;
-    public ?string $sorting_direction = null;
-    public ?string $sorting_field = null;
     public ?int $take = null;
 }
 
@@ -812,5 +795,23 @@ class UserLoadMatch
 class UserRemoveMatch
 {
     public string $id;
+}
+
+/** VirtualDevice entity data model. */
+class VirtualDevice
+{
+    public ?array $data = null;
+    public ?string $id = null;
+    public ?int $total = null;
+}
+
+/** Request payload for VirtualDevice#load. */
+class VirtualDeviceLoadMatch
+{
+    public string $id;
+    public ?int $skip = null;
+    public ?string $sorting_direction = null;
+    public ?string $sorting_field = null;
+    public ?int $take = null;
 }
 

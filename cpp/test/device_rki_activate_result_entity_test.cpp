@@ -50,7 +50,7 @@ static DeviceRkiActivateResultSetup device_rki_activate_result_basic_setup(const
 
   DeviceRkiActivateResultSetup s;
   s.client = client;
-  s.data = entity_data;
+  s.d = entity_data;
   s.idmap = idmap_resolved;
   s.env = env;
   s.live = live;

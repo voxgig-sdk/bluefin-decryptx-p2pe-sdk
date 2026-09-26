@@ -69,13 +69,9 @@ Create a new `DeviceBuildEntity` instance. Pass no argument for no initial data.
 
 Create a new `DeviceCustodyDetailEntity` instance. Pass no argument for no initial data.
 
-#### `DeviceCustodyList([entopts])`
+#### `DeviceCustodyListItem([entopts])`
 
-Create a new `DeviceCustodyListEntity` instance. Pass no argument for no initial data.
-
-#### `DeviceList([entopts])`
-
-Create a new `DeviceListEntity` instance. Pass no argument for no initial data.
+Create a new `DeviceCustodyListItemEntity` instance. Pass no argument for no initial data.
 
 #### `DeviceReceiveResult([entopts])`
 
@@ -128,6 +124,10 @@ Create a new `UpdateResultEntity` instance. Pass no argument for no initial data
 #### `User([entopts])`
 
 Create a new `UserEntity` instance. Pass no argument for no initial data.
+
+#### `VirtualDevice([entopts])`
+
+Create a new `VirtualDeviceEntity` instance. Pass no argument for no initial data.
 
 #### `options() -> Map`
 
@@ -630,10 +630,10 @@ Return the entity options.
 
 ---
 
-## DeviceCustodyListEntity
+## DeviceCustodyListItemEntity
 
 ```dart
-final device_custody_list = client.DeviceCustodyList();
+final device_custody_list_item = client.DeviceCustodyListItem();
 ```
 
 ### Fields
@@ -661,9 +661,9 @@ final device_custody_list = client.DeviceCustodyList();
 List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entity instances and throws on error.
 
 ```dart
-final results = await client.DeviceCustodyList().list({ device_type: "example", serial_number: "example" });
-for (final device_custody_list in results) {
-  print(device_custody_list.data());
+final results = await client.DeviceCustodyListItem().list({ device_type: "example", serial_number: "example" });
+for (final device_custody_list_item in results) {
+  print(device_custody_list_item.data());
 }
 ```
 
@@ -679,51 +679,7 @@ Get the entity match criteria, or set it when passed an argument.
 
 #### `make() -> Entity`
 
-Create a new `DeviceCustodyListEntity` instance with the same options.
-
-#### `entopts() -> Map`
-
-Return the entity options.
-
-
----
-
-## DeviceListEntity
-
-```dart
-final device_list = client.DeviceList();
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `data` | `List<dynamic>` | No | List of Devices. |
-| `total` | `int` | No | Total number of Devices available (not the number of Users in the response). |
-
-### Operations
-
-#### `load(reqmatch, [ctrl]) -> Future<dynamic>`
-
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
-
-```dart
-final result = await client.DeviceList().load({'share_partner_to': 'share_partner_to'});
-```
-
-### Common Methods
-
-#### `data([d]) -> Map`
-
-Get the entity data, or set it when passed an argument.
-
-#### `match([m]) -> Map`
-
-Get the entity match criteria, or set it when passed an argument.
-
-#### `make() -> Entity`
-
-Create a new `DeviceListEntity` instance with the same options.
+Create a new `DeviceCustodyListItemEntity` instance with the same options.
 
 #### `entopts() -> Map`
 
@@ -1588,22 +1544,67 @@ Return the entity options.
 
 ---
 
+## VirtualDeviceEntity
+
+```dart
+final virtual_device = client.VirtualDevice();
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `data` | `List<dynamic>` | No | List of Devices. |
+| `id` | `String` | No |  |
+| `total` | `int` | No | Total number of Devices available (not the number of Users in the response). |
+
+### Operations
+
+#### `load(reqmatch, [ctrl]) -> Future<dynamic>`
+
+Load a single entity matching the given criteria. Returns the entity data and throws on error.
+
+```dart
+final result = await client.VirtualDevice().load({'id': 'virtual_device_id'});
+```
+
+### Common Methods
+
+#### `data([d]) -> Map`
+
+Get the entity data, or set it when passed an argument.
+
+#### `match([m]) -> Map`
+
+Get the entity match criteria, or set it when passed an argument.
+
+#### `make() -> Entity`
+
+Create a new `VirtualDeviceEntity` instance with the same options.
+
+#### `entopts() -> Map`
+
+Return the entity options.
+
+
+---
+
 ## Features
 
 | Feature | Version | Description |
 | --- | --- | --- |
-| `audit` | 0.0.1 | Structured audit trail of operations |
-| `clienttrack` | 0.0.1 | Client identity and per-request correlation headers |
-| `debug` | 0.0.1 | Request/response capture ring buffer for debugging |
-| `idempotency` | 0.0.1 | Idempotency keys for safe retries of mutating operations |
-| `log` | 0.0.1 | Structured request and response logging |
-| `metrics` | 0.0.1 | Statistics capture: per-operation counters and latency |
-| `paging` | 0.0.1 | Pagination signals for list operations |
-| `ratelimit` | 0.0.1 | Client-side rate limiting via a token bucket |
-| `retry` | 0.0.1 | Automatic retry of transient failures with exponential backoff |
-| `telemetry` | 0.0.1 | Distributed tracing spans with W3C trace-context propagation |
-| `test` | 0.0.1 | In-memory mock transport for testing without a live server |
-| `timeout` | 0.0.1 | Per-request timeout with transport abort |
+| `audit` | 0.0.1 | Audit trail |
+| `clienttrack` | 0.0.1 | Client tracking |
+| `debug` | 0.0.1 | Debug capture |
+| `idempotency` | 0.0.1 | Idempotency |
+| `log` | 0.0.1 | Logging |
+| `metrics` | 0.0.1 | Metrics |
+| `paging` | 0.0.1 | Paging |
+| `ratelimit` | 0.0.1 | Rate limiting |
+| `retry` | 0.0.1 | Retry |
+| `telemetry` | 0.0.1 | Telemetry |
+| `test` | 0.0.1 | Test transport |
+| `timeout` | 0.0.1 | Timeout |
 
 
 Features are activated via the `feature` option:
@@ -1653,7 +1654,7 @@ rather than the transport, so their order does not affect what they observe.
 
 #### `audit`
 
-Structured audit trail of operations.
+Audit trail.
 
 **Configuration**
 
@@ -1684,7 +1685,7 @@ its default unless you name it.
 
 #### `clienttrack`
 
-Client identity and per-request correlation headers.
+Client tracking.
 
 **Configuration**
 
@@ -1716,7 +1717,7 @@ its default unless you name it.
 
 #### `debug`
 
-Request/response capture ring buffer for debugging.
+Debug capture.
 
 **Configuration**
 
@@ -1747,7 +1748,7 @@ its default unless you name it.
 
 #### `idempotency`
 
-Idempotency keys for safe retries of mutating operations.
+Idempotency.
 
 **Configuration**
 
@@ -1778,7 +1779,7 @@ its default unless you name it.
 
 #### `log`
 
-Structured request and response logging.
+Logging.
 
 **Configuration**
 
@@ -1807,7 +1808,7 @@ its default unless you name it.
 
 #### `metrics`
 
-Statistics capture: per-operation counters and latency.
+Metrics.
 
 **Configuration**
 
@@ -1835,7 +1836,7 @@ its default unless you name it.
 
 #### `paging`
 
-Pagination signals for list operations.
+Paging.
 
 **Configuration**
 
@@ -1870,7 +1871,7 @@ its default unless you name it.
 
 #### `ratelimit`
 
-Client-side rate limiting via a token bucket.
+Rate limiting.
 
 **Configuration**
 
@@ -1901,7 +1902,7 @@ its default unless you name it.
 
 #### `retry`
 
-Automatic retry of transient failures with exponential backoff.
+Retry.
 
 **Configuration**
 
@@ -1935,7 +1936,7 @@ its default unless you name it.
 
 #### `telemetry`
 
-Distributed tracing spans with W3C trace-context propagation.
+Telemetry.
 
 **Configuration**
 
@@ -1966,7 +1967,7 @@ its default unless you name it.
 
 #### `test`
 
-In-memory mock transport for testing without a live server.
+Test transport.
 
 **Configuration**
 
@@ -1997,7 +1998,7 @@ its default unless you name it.
 
 #### `timeout`
 
-Per-request timeout with transport abort.
+Timeout.
 
 **Configuration**
 

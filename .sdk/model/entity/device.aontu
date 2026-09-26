@@ -1,0 +1,451 @@
+# Entity: device
+
+main: kit: entity: device: {
+
+  alias: field: {}
+
+  fields: {
+    activatedBy: {
+      h: "Activated By"
+      n: "activatedBy"
+      r: true
+      sh: "Reference to the associated User resource."
+      t: "`$OBJECT`"
+    }
+    activationDate: {
+      fo: "datetime"
+      h: "Activation Date"
+      n: "activationDate"
+      r: false
+      sh: "Timestamp from when the Device was activated."
+      t: "`$STRING`"
+    }
+    alternateKey: {
+      h: "Alternate Key"
+      n: "alternateKey"
+      r: false
+      sh: "The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging."
+      t: "`$STRING`"
+    }
+    auditNextDate: {
+      fo: "datetime"
+      h: "Audit Next Date"
+      n: "auditNextDate"
+      r: false
+      sh: "Date and time that the Device is due its next PCI Audit."
+      t: "`$STRING`"
+    }
+    auditNotificationDate: {
+      fo: "datetime"
+      h: "Audit Notification Date"
+      n: "auditNotificationDate"
+      r: false
+      sh: "Date and time that a notification should be sent that a PCI audit is due."
+      t: "`$STRING`"
+    }
+    client: {
+      h: "Client"
+      n: "client"
+      r: false
+      sh: "Reference to the associated Client resource."
+      t: "`$OBJECT`"
+    }
+    created: {
+      fo: "datetime"
+      h: "Created"
+      n: "created"
+      r: false
+      sh: "Creation timestamp in ISO 8601 format."
+      t: "`$STRING`"
+    }
+    createdBy: {
+      h: "Created By"
+      n: "createdBy"
+      r: true
+      sh: "Reference to the associated User resource."
+      t: "`$OBJECT`"
+    }
+    deviceBuild: {
+      h: "Device Build"
+      n: "deviceBuild"
+      r: false
+      sh: "Reference to the associated Device Build resource."
+      t: "`$OBJECT`"
+    }
+    deviceState: {
+      h: "Device State"
+      n: "deviceState"
+      r: false
+      sh: "Reference to the associated Device State resource."
+      t: "`$OBJECT`"
+    }
+    deviceType: {
+      h: "Device Type"
+      n: "deviceType"
+      r: false
+      sh: "Reference to the associated Device Type resource."
+      t: "`$OBJECT`"
+    }
+    errorCounter: {
+      h: "Error Counter"
+      n: "errorCounter"
+      r: false
+      sh: "The number times the Device has been in error."
+      t: "`$INTEGER`"
+    }
+    errorLastDate: {
+      fo: "datetime"
+      h: "Error Last Date"
+      n: "errorLastDate"
+      r: false
+      sh: "Timestamp from the last time that the Device had an error."
+      t: "`$STRING`"
+    }
+    id: {
+      h: "Id"
+      n: "id"
+      r: false
+      sh: "The Device's unique identifier."
+      t: "`$STRING`"
+    }
+    initializedBy: {
+      h: "Initialized By"
+      n: "initializedBy"
+      r: true
+      sh: "Reference to the associated User resource."
+      t: "`$OBJECT`"
+    }
+    initializedDate: {
+      fo: "datetime"
+      h: "Initialized Date"
+      n: "initializedDate"
+      r: false
+      sh: "Timestamp from when the Device was initialized."
+      t: "`$STRING`"
+    }
+    injectKey: {
+      h: "Inject Key"
+      n: "injectKey"
+      r: false
+      sh: "Reference to the associated Device resource."
+      t: "`$OBJECT`"
+    }
+    isVirtual: {
+      h: "Is Virtual"
+      n: "isVirtual"
+      r: false
+      sh: "Indicates if a Device is Virtual (represents a Device shared with a partner)."
+      t: "`$BOOLEAN`"
+    }
+    kif: {
+      h: "Kif"
+      n: "kif"
+      r: false
+      sh: "Reference to the associated KIF resource."
+      t: "`$OBJECT`"
+    }
+    lastActivityDate: {
+      fo: "datetime"
+      h: "Last Activity Date"
+      n: "lastActivityDate"
+      r: false
+      sh: "Timestamp from the last time that the Device was used."
+      t: "`$STRING`"
+    }
+    location: {
+      h: "Location"
+      n: "location"
+      r: true
+      sh: "Reference to the associated Location resource."
+      t: "`$OBJECT`"
+    }
+    modified: {
+      fo: "datetime"
+      h: "Modified"
+      n: "modified"
+      r: false
+      sh: "Last modified timestamp."
+      t: "`$STRING`"
+    }
+    modifiedBy: {
+      h: "Modified By"
+      n: "modifiedBy"
+      r: true
+      sh: "Reference to the associated User resource."
+      t: "`$OBJECT`"
+    }
+    name: {
+      h: "Name"
+      n: "name"
+      r: false
+      sh: "The Device's name."
+      t: "`$STRING`"
+    }
+    notes: {
+      h: "Notes"
+      n: "notes"
+      r: false
+      sh: "Arbitary note that can be attached to a Device entry."
+      t: "`$STRING`"
+    }
+    partner: {
+      h: "Partner"
+      n: "partner"
+      r: false
+      sh: "Reference to the associated Partner."
+      t: "`$OBJECT`"
+    }
+    serialNumber: {
+      h: "Serial Number"
+      n: "serialNumber"
+      r: false
+      sh: "The Device's serial number."
+      t: "`$STRING`"
+    }
+    version: {
+      h: "Version"
+      n: "version"
+      r: false
+      sh: "The number of times that this resource has been updated."
+      t: "`$INTEGER`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "device"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /devices"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/devices"
+          s: [
+            {
+              lit: "devices"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /devices"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                k: "query"
+                n: "client"
+                or: "client"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "device_state"
+                or: "device_state"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "kif"
+                or: "kif"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "partner"
+                or: "partner"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "serial_number"
+                or: "serial_number"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                ex: 0
+                k: "query"
+                n: "skip"
+                or: "skip"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                ex: "asc"
+                k: "query"
+                n: "sorting_direction"
+                or: "sorting_direction"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                ex: "serialnumber"
+                k: "query"
+                n: "sorting_field"
+                or: "sorting_field"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                ex: 10
+                k: "query"
+                n: "take"
+                or: "take"
+                r: false
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/devices"
+          q: {
+            exist: [
+              "client"
+              "device_state"
+              "kif"
+              "partner"
+              "serial_number"
+              "skip"
+              "sorting_direction"
+              "sorting_field"
+              "take"
+            ]
+          }
+          s: [
+            {
+              lit: "devices"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.data`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /devices/{serialNumber}/{deviceType}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "device_type"
+                or: "device_type"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                k: "param"
+                n: "serial_number"
+                or: "serial_number"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/devices/{serialNumber}/{deviceType}"
+          q: {
+            exist: [
+              "device_type"
+              "serial_number"
+            ]
+          }
+          r: {
+            param: {
+              deviceType: "device_type"
+              serialNumber: "serial_number"
+            }
+          }
+          s: [
+            {
+              lit: "devices"
+            }
+            {
+              var: "serial_number"
+            }
+            {
+              var: "device_type"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "GET /devices/{id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/devices/{id}"
+          q: {
+            exist: [
+              "id"
+            ]
+          }
+          s: [
+            {
+              lit: "devices"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

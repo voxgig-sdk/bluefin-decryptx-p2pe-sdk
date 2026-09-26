@@ -9,18 +9,6 @@ import (
 	sdk "github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/go"
 )
 
-// registerSDKWords installs three native boru words bound to the SDK:
-// list / load / update. Each is declared with two overloads matching
-// the signature  [query?:(Node or Scalar) entity:atom]:
-//
-//   [entity:Atom]            — no query (e.g. `list book`)
-//   [query:Any entity:Atom]  — query is any Node or Scalar (e.g.
-//                              `load {id:1} book`, `load 1 book`)
-//
-// The entity slot is /q-quoted so a bareword `book` parses as the
-// Atom "book" rather than dispatching as an undefined word. Both
-// overloads are all-forward (BarrierAllForward), so args are collected
-// from the tokens following the word.
 func registerSDKWords(r *eng.Registry, client *sdk.BluefinDecryptxP2peSDK) {
 	for _, op := range []string{"list", "load", "update"} {
 		op := op
@@ -103,10 +91,8 @@ func entityFor(client *sdk.BluefinDecryptxP2peSDK, name string) (sdk.BluefinDecr
 		return client.DeviceBuild(nil), nil
 	case "device_custody_detail":
 		return client.DeviceCustodyDetail(nil), nil
-	case "device_custody_list":
-		return client.DeviceCustodyList(nil), nil
-	case "device_list":
-		return client.DeviceList(nil), nil
+	case "device_custody_list_item":
+		return client.DeviceCustodyListItem(nil), nil
 	case "device_receive_result":
 		return client.DeviceReceiveResult(nil), nil
 	case "device_rki_activate_result":
@@ -133,6 +119,8 @@ func entityFor(client *sdk.BluefinDecryptxP2peSDK, name string) (sdk.BluefinDecr
 		return client.UpdateResult(nil), nil
 	case "user":
 		return client.User(nil), nil
+	case "virtual_device":
+		return client.VirtualDevice(nil), nil
 
 	}
 	return nil, fmt.Errorf("unknown entity %q", name)

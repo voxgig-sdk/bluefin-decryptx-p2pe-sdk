@@ -349,16 +349,10 @@ class BluefinDecryptxP2peSDK:
         return DeviceCustodyDetailEntity(self, data)
 
 
-    def DeviceCustodyList(self, data=None) -> "DeviceCustodyListEntity":
-        """Entity factory: client.DeviceCustodyList().list() / client.DeviceCustodyList().load({"id": ...})."""
-        from bluefindecryptxp2pe_sdk.entity.device_custody_list_entity import DeviceCustodyListEntity
-        return DeviceCustodyListEntity(self, data)
-
-
-    def DeviceList(self, data=None) -> "DeviceListEntity":
-        """Entity factory: client.DeviceList().list() / client.DeviceList().load({"id": ...})."""
-        from bluefindecryptxp2pe_sdk.entity.device_list_entity import DeviceListEntity
-        return DeviceListEntity(self, data)
+    def DeviceCustodyListItem(self, data=None) -> "DeviceCustodyListItemEntity":
+        """Entity factory: client.DeviceCustodyListItem().list() / client.DeviceCustodyListItem().load({"id": ...})."""
+        from bluefindecryptxp2pe_sdk.entity.device_custody_list_item_entity import DeviceCustodyListItemEntity
+        return DeviceCustodyListItemEntity(self, data)
 
 
     def DeviceReceiveResult(self, data=None) -> "DeviceReceiveResultEntity":
@@ -439,6 +433,12 @@ class BluefinDecryptxP2peSDK:
         return UserEntity(self, data)
 
 
+    def VirtualDevice(self, data=None) -> "VirtualDeviceEntity":
+        """Entity factory: client.VirtualDevice().list() / client.VirtualDevice().load({"id": ...})."""
+        from bluefindecryptxp2pe_sdk.entity.virtual_device_entity import VirtualDeviceEntity
+        return VirtualDeviceEntity(self, data)
+
+
 
     @classmethod
     def test(cls, testopts=None, sdkopts=None) -> "BluefinDecryptxP2peSDK":
@@ -473,8 +473,7 @@ if TYPE_CHECKING:
     from bluefindecryptxp2pe_sdk.entity.device_entity import DeviceEntity
     from bluefindecryptxp2pe_sdk.entity.device_build_entity import DeviceBuildEntity
     from bluefindecryptxp2pe_sdk.entity.device_custody_detail_entity import DeviceCustodyDetailEntity
-    from bluefindecryptxp2pe_sdk.entity.device_custody_list_entity import DeviceCustodyListEntity
-    from bluefindecryptxp2pe_sdk.entity.device_list_entity import DeviceListEntity
+    from bluefindecryptxp2pe_sdk.entity.device_custody_list_item_entity import DeviceCustodyListItemEntity
     from bluefindecryptxp2pe_sdk.entity.device_receive_result_entity import DeviceReceiveResultEntity
     from bluefindecryptxp2pe_sdk.entity.device_rki_activate_result_entity import DeviceRkiActivateResultEntity
     from bluefindecryptxp2pe_sdk.entity.device_state_entity import DeviceStateEntity
@@ -488,3 +487,4 @@ if TYPE_CHECKING:
     from bluefindecryptxp2pe_sdk.entity.transaction_entity import TransactionEntity
     from bluefindecryptxp2pe_sdk.entity.update_result_entity import UpdateResultEntity
     from bluefindecryptxp2pe_sdk.entity.user_entity import UserEntity
+    from bluefindecryptxp2pe_sdk.entity.virtual_device_entity import VirtualDeviceEntity

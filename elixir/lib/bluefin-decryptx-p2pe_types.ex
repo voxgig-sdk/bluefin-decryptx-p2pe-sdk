@@ -1,7 +1,7 @@
 # Typed models for the BluefinDecryptxP2pe SDK.
 #
-# GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-# params (op.<name>.points[].args.params[]). Member types come from the
+# GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+# params (op.<name>.points[].g.params[]). Member types come from the
 # canonical type sentinels. The SDK carries data as string-keyed struct value
 # nodes, so each alias is an open string-keyed map; the @typedoc member lists
 # document the concrete shapes. Do not edit by hand.
@@ -318,7 +318,7 @@ defmodule BluefinDecryptxP2pe.Types do
   @type device_custody_detail_load_match :: %{optional(String.t()) => any()}
 
   @typedoc """
-  DeviceCustodyList entity data model.
+  DeviceCustodyListItem entity data model.
 
   Members:
     * `"completeDate"` — String.t() (optional)
@@ -335,10 +335,10 @@ defmodule BluefinDecryptxP2pe.Types do
     * `"transferMethod"` — map() (optional)
     * `"version"` — integer() (optional)
   """
-  @type device_custody_list :: %{optional(String.t()) => any()}
+  @type device_custody_list_item :: %{optional(String.t()) => any()}
 
   @typedoc """
-  Request payload for DeviceCustodyList list.
+  Request payload for DeviceCustodyListItem list.
 
   Members:
     * `"device_type"` — String.t() (required)
@@ -346,28 +346,7 @@ defmodule BluefinDecryptxP2pe.Types do
     * `"skip"` — integer() (optional)
     * `"take"` — integer() (optional)
   """
-  @type device_custody_list_list_match :: %{optional(String.t()) => any()}
-
-  @typedoc """
-  DeviceList entity data model.
-
-  Members:
-    * `"data"` — list() (optional)
-    * `"total"` — integer() (optional)
-  """
-  @type device_list :: %{optional(String.t()) => any()}
-
-  @typedoc """
-  Request payload for DeviceList load.
-
-  Members:
-    * `"share_partner_to"` — String.t() (required)
-    * `"skip"` — integer() (optional)
-    * `"sorting_direction"` — String.t() (optional)
-    * `"sorting_field"` — String.t() (optional)
-    * `"take"` — integer() (optional)
-  """
-  @type device_list_load_match :: %{optional(String.t()) => any()}
+  @type device_custody_list_item_list_match :: %{optional(String.t()) => any()}
 
   @typedoc """
   DeviceReceiveResult entity data model.
@@ -948,5 +927,27 @@ defmodule BluefinDecryptxP2pe.Types do
     * `"id"` — String.t() (required)
   """
   @type user_remove_match :: %{optional(String.t()) => any()}
+
+  @typedoc """
+  VirtualDevice entity data model.
+
+  Members:
+    * `"data"` — list() (optional)
+    * `"id"` — String.t() (optional)
+    * `"total"` — integer() (optional)
+  """
+  @type virtual_device :: %{optional(String.t()) => any()}
+
+  @typedoc """
+  Request payload for VirtualDevice load.
+
+  Members:
+    * `"id"` — String.t() (required)
+    * `"skip"` — integer() (optional)
+    * `"sorting_direction"` — String.t() (optional)
+    * `"sorting_field"` — String.t() (optional)
+    * `"take"` — integer() (optional)
+  """
+  @type virtual_device_load_match :: %{optional(String.t()) => any()}
 
 end

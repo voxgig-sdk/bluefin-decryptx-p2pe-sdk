@@ -1,7 +1,7 @@
 // Typed models for the BluefinDecryptxP2pe SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types come from the
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types come from the
 // canonical type sentinels (source of truth: @voxgig/apidef VALID_CANON).
 // Do not edit by hand.
 //
@@ -1360,7 +1360,7 @@ class DeviceCustodyDetailLoadMatch {
   }
 }
 
-class DeviceCustodyList {
+class DeviceCustodyListItem {
   /// STRING
   String? completeDate;
   /// STRING
@@ -1388,7 +1388,7 @@ class DeviceCustodyList {
   /// INTEGER
   int? version;
 
-  DeviceCustodyList({
+  DeviceCustodyListItem({
     this.completeDate,
     this.created,
     this.createdBy,
@@ -1404,7 +1404,7 @@ class DeviceCustodyList {
     this.version,
   });
 
-  factory DeviceCustodyList.fromMap(Map<String, dynamic> m) => DeviceCustodyList(
+  factory DeviceCustodyListItem.fromMap(Map<String, dynamic> m) => DeviceCustodyListItem(
         completeDate: m['completeDate'] is String ? m['completeDate'] : null,
         created: m['created'] is String ? m['created'] : null,
         createdBy: m['createdBy'] is Map<String, dynamic> ? m['createdBy'] : null,
@@ -1465,7 +1465,7 @@ class DeviceCustodyList {
   }
 }
 
-class DeviceCustodyListListMatch {
+class DeviceCustodyListItemListMatch {
   /// STRING (required at the API)
   String? device_type;
   /// STRING (required at the API)
@@ -1475,14 +1475,14 @@ class DeviceCustodyListListMatch {
   /// INTEGER
   int? take;
 
-  DeviceCustodyListListMatch({
+  DeviceCustodyListItemListMatch({
     this.device_type,
     this.serial_number,
     this.skip,
     this.take,
   });
 
-  factory DeviceCustodyListListMatch.fromMap(Map<String, dynamic> m) => DeviceCustodyListListMatch(
+  factory DeviceCustodyListItemListMatch.fromMap(Map<String, dynamic> m) => DeviceCustodyListItemListMatch(
         device_type: m['device_type'] is String ? m['device_type'] : null,
         serial_number: m['serial_number'] is String ? m['serial_number'] : null,
         skip: m['skip'] is int ? m['skip'] : null,
@@ -1499,83 +1499,6 @@ class DeviceCustodyListListMatch {
     }
     if (null != skip) {
       m['skip'] = skip;
-    }
-    if (null != take) {
-      m['take'] = take;
-    }
-    return m;
-  }
-}
-
-class DeviceList {
-  /// ARRAY
-  List<dynamic>? data;
-  /// INTEGER
-  int? total;
-
-  DeviceList({
-    this.data,
-    this.total,
-  });
-
-  factory DeviceList.fromMap(Map<String, dynamic> m) => DeviceList(
-        data: m['data'] is List<dynamic> ? m['data'] : null,
-        total: m['total'] is int ? m['total'] : null,
-      );
-
-  Map<String, dynamic> toMap() {
-    final m = <String, dynamic>{};
-    if (null != data) {
-      m['data'] = data;
-    }
-    if (null != total) {
-      m['total'] = total;
-    }
-    return m;
-  }
-}
-
-class DeviceListLoadMatch {
-  /// STRING (required at the API)
-  String? share_partner_to;
-  /// INTEGER
-  int? skip;
-  /// STRING
-  String? sorting_direction;
-  /// STRING
-  String? sorting_field;
-  /// INTEGER
-  int? take;
-
-  DeviceListLoadMatch({
-    this.share_partner_to,
-    this.skip,
-    this.sorting_direction,
-    this.sorting_field,
-    this.take,
-  });
-
-  factory DeviceListLoadMatch.fromMap(Map<String, dynamic> m) => DeviceListLoadMatch(
-        share_partner_to: m['share_partner_to'] is String ? m['share_partner_to'] : null,
-        skip: m['skip'] is int ? m['skip'] : null,
-        sorting_direction: m['sorting_direction'] is String ? m['sorting_direction'] : null,
-        sorting_field: m['sorting_field'] is String ? m['sorting_field'] : null,
-        take: m['take'] is int ? m['take'] : null,
-      );
-
-  Map<String, dynamic> toMap() {
-    final m = <String, dynamic>{};
-    if (null != share_partner_to) {
-      m['share_partner_to'] = share_partner_to;
-    }
-    if (null != skip) {
-      m['skip'] = skip;
-    }
-    if (null != sorting_direction) {
-      m['sorting_direction'] = sorting_direction;
-    }
-    if (null != sorting_field) {
-      m['sorting_field'] = sorting_field;
     }
     if (null != take) {
       m['take'] = take;
@@ -4204,6 +4127,90 @@ class UserRemoveMatch {
     final m = <String, dynamic>{};
     if (null != id) {
       m['id'] = id;
+    }
+    return m;
+  }
+}
+
+class VirtualDevice {
+  /// ARRAY
+  List<dynamic>? data;
+  /// STRING
+  String? id;
+  /// INTEGER
+  int? total;
+
+  VirtualDevice({
+    this.data,
+    this.id,
+    this.total,
+  });
+
+  factory VirtualDevice.fromMap(Map<String, dynamic> m) => VirtualDevice(
+        data: m['data'] is List<dynamic> ? m['data'] : null,
+        id: m['id'] is String ? m['id'] : null,
+        total: m['total'] is int ? m['total'] : null,
+      );
+
+  Map<String, dynamic> toMap() {
+    final m = <String, dynamic>{};
+    if (null != data) {
+      m['data'] = data;
+    }
+    if (null != id) {
+      m['id'] = id;
+    }
+    if (null != total) {
+      m['total'] = total;
+    }
+    return m;
+  }
+}
+
+class VirtualDeviceLoadMatch {
+  /// STRING (required at the API)
+  String? id;
+  /// INTEGER
+  int? skip;
+  /// STRING
+  String? sorting_direction;
+  /// STRING
+  String? sorting_field;
+  /// INTEGER
+  int? take;
+
+  VirtualDeviceLoadMatch({
+    this.id,
+    this.skip,
+    this.sorting_direction,
+    this.sorting_field,
+    this.take,
+  });
+
+  factory VirtualDeviceLoadMatch.fromMap(Map<String, dynamic> m) => VirtualDeviceLoadMatch(
+        id: m['id'] is String ? m['id'] : null,
+        skip: m['skip'] is int ? m['skip'] : null,
+        sorting_direction: m['sorting_direction'] is String ? m['sorting_direction'] : null,
+        sorting_field: m['sorting_field'] is String ? m['sorting_field'] : null,
+        take: m['take'] is int ? m['take'] : null,
+      );
+
+  Map<String, dynamic> toMap() {
+    final m = <String, dynamic>{};
+    if (null != id) {
+      m['id'] = id;
+    }
+    if (null != skip) {
+      m['skip'] = skip;
+    }
+    if (null != sorting_direction) {
+      m['sorting_direction'] = sorting_direction;
+    }
+    if (null != sorting_field) {
+      m['sorting_field'] = sorting_field;
+    }
+    if (null != take) {
+      m['take'] = take;
     }
     return m;
   }

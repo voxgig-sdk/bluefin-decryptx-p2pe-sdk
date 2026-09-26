@@ -74,21 +74,12 @@ class BluefinDecryptxP2peSDK(options: MutableMap<String, Any?>?) : SdkClient(opt
   }
 
   /**
-   * Returns a device_custody_list entity bound to this client.
-   * Idiomatic usage: client.deviceCustodyList(null).list(null, null) or
-   * client.deviceCustodyList(null).load(mutableMapOf("id" to ...), null).
+   * Returns a device_custody_list_item entity bound to this client.
+   * Idiomatic usage: client.deviceCustodyListItem(null).list(null, null) or
+   * client.deviceCustodyListItem(null).load(mutableMapOf("id" to ...), null).
    */
-  fun deviceCustodyList(entopts: MutableMap<String, Any?>?): SdkEntity {
-    return voxgig.bluefindecryptxp2pesdk.entity.DeviceCustodyListEntity(this, entopts)
-  }
-
-  /**
-   * Returns a device_list entity bound to this client.
-   * Idiomatic usage: client.deviceList(null).list(null, null) or
-   * client.deviceList(null).load(mutableMapOf("id" to ...), null).
-   */
-  fun deviceList(entopts: MutableMap<String, Any?>?): SdkEntity {
-    return voxgig.bluefindecryptxp2pesdk.entity.DeviceListEntity(this, entopts)
+  fun deviceCustodyListItem(entopts: MutableMap<String, Any?>?): SdkEntity {
+    return voxgig.bluefindecryptxp2pesdk.entity.DeviceCustodyListItemEntity(this, entopts)
   }
 
   /**
@@ -206,6 +197,15 @@ class BluefinDecryptxP2peSDK(options: MutableMap<String, Any?>?) : SdkClient(opt
    */
   fun user(entopts: MutableMap<String, Any?>?): SdkEntity {
     return voxgig.bluefindecryptxp2pesdk.entity.UserEntity(this, entopts)
+  }
+
+  /**
+   * Returns a virtual_device entity bound to this client.
+   * Idiomatic usage: client.virtualDevice(null).list(null, null) or
+   * client.virtualDevice(null).load(mutableMapOf("id" to ...), null).
+   */
+  fun virtualDevice(entopts: MutableMap<String, Any?>?): SdkEntity {
+    return voxgig.bluefindecryptxp2pesdk.entity.VirtualDeviceEntity(this, entopts)
   }
 
 

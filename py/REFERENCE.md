@@ -70,13 +70,9 @@ Create a new `DeviceBuildEntity` instance. Pass `None` for no initial data.
 
 Create a new `DeviceCustodyDetailEntity` instance. Pass `None` for no initial data.
 
-#### `DeviceCustodyList(data=None)`
+#### `DeviceCustodyListItem(data=None)`
 
-Create a new `DeviceCustodyListEntity` instance. Pass `None` for no initial data.
-
-#### `DeviceList(data=None)`
-
-Create a new `DeviceListEntity` instance. Pass `None` for no initial data.
+Create a new `DeviceCustodyListItemEntity` instance. Pass `None` for no initial data.
 
 #### `DeviceReceiveResult(data=None)`
 
@@ -129,6 +125,10 @@ Create a new `UpdateResultEntity` instance. Pass `None` for no initial data.
 #### `User(data=None)`
 
 Create a new `UserEntity` instance. Pass `None` for no initial data.
+
+#### `VirtualDevice(data=None)`
+
+Create a new `VirtualDeviceEntity` instance. Pass `None` for no initial data.
 
 #### `options_map() -> dict`
 
@@ -683,10 +683,10 @@ Return the entity name.
 
 ---
 
-## DeviceCustodyListEntity
+## DeviceCustodyListItemEntity
 
 ```python
-device_custody_list = client.DeviceCustodyList()
+device_custody_list_item = client.DeviceCustodyListItem()
 ```
 
 ### Fields
@@ -714,9 +714,9 @@ device_custody_list = client.DeviceCustodyList()
 List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
 
 ```python
-results = client.DeviceCustodyList().list({"device_type": "example", "serial_number": "example"})
-for device_custody_list in results:
-    print(device_custody_list)
+results = client.DeviceCustodyListItem().list({"device_type": "example", "serial_number": "example"})
+for device_custody_list_item in results:
+    print(device_custody_list_item)
 ```
 
 ### Common Methods
@@ -739,59 +739,7 @@ Set the entity match criteria.
 
 #### `make() -> Entity`
 
-Create a new `DeviceCustodyListEntity` instance with the same options.
-
-#### `get_name() -> str`
-
-Return the entity name.
-
-
----
-
-## DeviceListEntity
-
-```python
-device_list = client.DeviceList()
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `data` | `list` | No | List of Devices. |
-| `total` | `int` | No | Total number of Devices available (not the number of Users in the response). |
-
-### Operations
-
-#### `load(reqmatch, ctrl=None) -> dict`
-
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
-
-```python
-result = client.DeviceList().load({"share_partner_to": "share_partner_to"})
-```
-
-### Common Methods
-
-#### `data_get() -> dict`
-
-Get the entity data.
-
-#### `data_set(data)`
-
-Set the entity data.
-
-#### `match_get() -> dict`
-
-Get the entity match criteria.
-
-#### `match_set(match)`
-
-Set the entity match criteria.
-
-#### `make() -> Entity`
-
-Create a new `DeviceListEntity` instance with the same options.
+Create a new `DeviceCustodyListItemEntity` instance with the same options.
 
 #### `get_name() -> str`
 
@@ -1751,22 +1699,75 @@ Return the entity name.
 
 ---
 
+## VirtualDeviceEntity
+
+```python
+virtual_device = client.VirtualDevice()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `data` | `list` | No | List of Devices. |
+| `id` | `str` | No |  |
+| `total` | `int` | No | Total number of Devices available (not the number of Users in the response). |
+
+### Operations
+
+#### `load(reqmatch, ctrl=None) -> dict`
+
+Load a single entity matching the given criteria. Returns the entity data and raises on error.
+
+```python
+result = client.VirtualDevice().load({"id": "virtual_device_id"})
+```
+
+### Common Methods
+
+#### `data_get() -> dict`
+
+Get the entity data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> dict`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `VirtualDeviceEntity` instance with the same options.
+
+#### `get_name() -> str`
+
+Return the entity name.
+
+
+---
+
 ## Features
 
 | Feature | Version | Description |
 | --- | --- | --- |
-| `audit` | 0.0.1 | Structured audit trail of operations |
-| `clienttrack` | 0.0.1 | Client identity and per-request correlation headers |
-| `debug` | 0.0.1 | Request/response capture ring buffer for debugging |
-| `idempotency` | 0.0.1 | Idempotency keys for safe retries of mutating operations |
-| `log` | 0.0.1 | Structured request and response logging |
-| `metrics` | 0.0.1 | Statistics capture: per-operation counters and latency |
-| `paging` | 0.0.1 | Pagination signals for list operations |
-| `ratelimit` | 0.0.1 | Client-side rate limiting via a token bucket |
-| `retry` | 0.0.1 | Automatic retry of transient failures with exponential backoff |
-| `telemetry` | 0.0.1 | Distributed tracing spans with W3C trace-context propagation |
-| `test` | 0.0.1 | In-memory mock transport for testing without a live server |
-| `timeout` | 0.0.1 | Per-request timeout with transport abort |
+| `audit` | 0.0.1 | Audit trail |
+| `clienttrack` | 0.0.1 | Client tracking |
+| `debug` | 0.0.1 | Debug capture |
+| `idempotency` | 0.0.1 | Idempotency |
+| `log` | 0.0.1 | Logging |
+| `metrics` | 0.0.1 | Metrics |
+| `paging` | 0.0.1 | Paging |
+| `ratelimit` | 0.0.1 | Rate limiting |
+| `retry` | 0.0.1 | Retry |
+| `telemetry` | 0.0.1 | Telemetry |
+| `test` | 0.0.1 | Test transport |
+| `timeout` | 0.0.1 | Timeout |
 
 
 Features are activated via the `feature` option:
@@ -1816,7 +1817,7 @@ rather than the transport, so their order does not affect what they observe.
 
 #### `audit`
 
-Structured audit trail of operations.
+Audit trail.
 
 **Configuration**
 
@@ -1847,7 +1848,7 @@ its default unless you name it.
 
 #### `clienttrack`
 
-Client identity and per-request correlation headers.
+Client tracking.
 
 **Configuration**
 
@@ -1879,7 +1880,7 @@ its default unless you name it.
 
 #### `debug`
 
-Request/response capture ring buffer for debugging.
+Debug capture.
 
 **Configuration**
 
@@ -1910,7 +1911,7 @@ its default unless you name it.
 
 #### `idempotency`
 
-Idempotency keys for safe retries of mutating operations.
+Idempotency.
 
 **Configuration**
 
@@ -1941,7 +1942,7 @@ its default unless you name it.
 
 #### `log`
 
-Structured request and response logging.
+Logging.
 
 **Configuration**
 
@@ -1970,7 +1971,7 @@ its default unless you name it.
 
 #### `metrics`
 
-Statistics capture: per-operation counters and latency.
+Metrics.
 
 **Configuration**
 
@@ -1998,7 +1999,7 @@ its default unless you name it.
 
 #### `paging`
 
-Pagination signals for list operations.
+Paging.
 
 **Configuration**
 
@@ -2033,7 +2034,7 @@ its default unless you name it.
 
 #### `ratelimit`
 
-Client-side rate limiting via a token bucket.
+Rate limiting.
 
 **Configuration**
 
@@ -2064,7 +2065,7 @@ its default unless you name it.
 
 #### `retry`
 
-Automatic retry of transient failures with exponential backoff.
+Retry.
 
 **Configuration**
 
@@ -2098,7 +2099,7 @@ its default unless you name it.
 
 #### `telemetry`
 
-Distributed tracing spans with W3C trace-context propagation.
+Telemetry.
 
 **Configuration**
 
@@ -2129,7 +2130,7 @@ its default unless you name it.
 
 #### `test`
 
-In-memory mock transport for testing without a live server.
+Test transport.
 
 **Configuration**
 
@@ -2160,7 +2161,7 @@ its default unless you name it.
 
 #### `timeout`
 
-Per-request timeout with transport abort.
+Timeout.
 
 **Configuration**
 

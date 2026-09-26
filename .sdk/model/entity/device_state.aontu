@@ -1,0 +1,59 @@
+# Entity: device_state
+
+main: kit: entity: device_state: {
+
+  alias: field: {}
+
+  fields: {
+    id: {
+      fo: "int64"
+      h: "Id"
+      n: "id"
+      r: false
+      sh: "Unique identifier for this Device state."
+      t: "`$INTEGER`"
+    }
+    name: {
+      h: "Name"
+      n: "name"
+      r: false
+      sh: "Descriptive name for this Device state."
+      t: "`$STRING`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "device_state"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /deviceStates"
+            source: "openapi3"
+            version: 2
+          }
+          m: "GET"
+          o: "/deviceStates"
+          s: [
+            {
+              lit: "deviceStates"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.data`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

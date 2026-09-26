@@ -12,8 +12,7 @@
             [sdk.entity.device :as e-device]
             [sdk.entity.device_build :as e-device_build]
             [sdk.entity.device_custody_detail :as e-device_custody_detail]
-            [sdk.entity.device_custody_list :as e-device_custody_list]
-            [sdk.entity.device_list :as e-device_list]
+            [sdk.entity.device_custody_list_item :as e-device_custody_list_item]
             [sdk.entity.device_receive_result :as e-device_receive_result]
             [sdk.entity.device_rki_activate_result :as e-device_rki_activate_result]
             [sdk.entity.device_state :as e-device_state]
@@ -26,7 +25,8 @@
             [sdk.entity.success :as e-success]
             [sdk.entity.transaction :as e-transaction]
             [sdk.entity.update_result :as e-update_result]
-            [sdk.entity.user :as e-user]))
+            [sdk.entity.user :as e-user]
+            [sdk.entity.virtual_device :as e-virtual_device]))
 
 (defn run [rec]
   (t/run-check rec "gen-exists-attestation"
@@ -199,41 +199,38 @@
   (t/run-check rec "gen-exists-device_custody_detail"
     (fn [] (let [sdk (api/test-sdk nil nil)]
              (t/is-true (some? (api/device_custody_detail sdk nil)) "device_custody_detail accessor present"))))
-  (t/run-check rec "gen-exists-device_custody_list"
+  (t/run-check rec "gen-exists-device_custody_list_item"
     (fn [] (let [sdk (api/test-sdk nil nil)]
-             (t/is-true (some? (api/device_custody_list sdk nil)) "device_custody_list accessor present"))))
-  (t/run-check rec "gen-smoke-device_custody_list"
+             (t/is-true (some? (api/device_custody_list_item sdk nil)) "device_custody_list_item accessor present"))))
+  (t/run-check rec "gen-smoke-device_custody_list_item"
     (fn [] (let [sdk (api/test-sdk nil nil)
-                 ent (api/device_custody_list sdk nil)]
-             (let [items (e-device_custody_list/list ent (vs/jm) nil)]
+                 ent (api/device_custody_list_item sdk nil)]
+             (let [items (e-device_custody_list_item/list ent (vs/jm) nil)]
                ;; list resolves to one entity per record.
                (t/is-true (sequential? items) "list returns a sequential collection"))
              )))
-  (t/run-check rec "gen-stream-device_custody_list"
-    (fn [] (let [seed (vs/jm "device_custody_list" (vs/jm "S1" (vs/jm "id" "S1" "name" "a")
+  (t/run-check rec "gen-stream-device_custody_list_item"
+    (fn [] (let [seed (vs/jm "device_custody_list_item" (vs/jm "S1" (vs/jm "id" "S1" "name" "a")
                                                 "S2" (vs/jm "id" "S2" "name" "b")
                                                 "S3" (vs/jm "id" "S3" "name" "c")))]
              ;; Fallback (no streaming feature): materialised items.
              (let [sdk (api/test-sdk (vs/jm "entity" seed) nil)
-                   items (vec (e-device_custody_list/stream (api/device_custody_list sdk nil) "list" (vs/jm) nil))]
+                   items (vec (e-device_custody_list_item/stream (api/device_custody_list_item sdk nil) "list" (vs/jm) nil))]
                (t/is-eq (count items) 3 "stream fallback yields materialised items")
                (t/is-true (vs/ismap (first items)) "stream yields bare record maps"))
              ;; signal cancels iteration between yields.
              (let [sdk (api/test-sdk (vs/jm "entity" seed) nil)
                    n (atom 0) sig (fn [] (>= (swap! n inc) 2))
-                   items (vec (e-device_custody_list/stream (api/device_custody_list sdk nil) "list" (vs/jm) (vs/jm "signal" sig)))]
+                   items (vec (e-device_custody_list_item/stream (api/device_custody_list_item sdk nil) "list" (vs/jm) (vs/jm "signal" sig)))]
                (t/is-eq (count items) 1 "stream signal stops after first yield"))
              ;; Streaming feature active: yields from the streaming iterator.
              (when (vs/getpath (config/make-config) "feature.streaming")
                (let [ssdk (api/test-sdk (vs/jm "entity" seed) (vs/jm "feature" (vs/jm "streaming" (vs/jm "active" true))))]
-                 (t/is-eq (count (vec (e-device_custody_list/stream (api/device_custody_list ssdk nil) "list" (vs/jm) nil))) 3
+                 (t/is-eq (count (vec (e-device_custody_list_item/stream (api/device_custody_list_item ssdk nil) "list" (vs/jm) nil))) 3
                           "stream (streaming active) yields all items"))
                (let [csdk (api/test-sdk (vs/jm "entity" seed) (vs/jm "feature" (vs/jm "streaming" (vs/jm "active" true "chunkSize" 2))))
-                     batches (vec (e-device_custody_list/stream (api/device_custody_list csdk nil) "list" (vs/jm) nil))]
+                     batches (vec (e-device_custody_list_item/stream (api/device_custody_list_item csdk nil) "list" (vs/jm) nil))]
                  (t/is-eq (count batches) 2 "stream chunkSize groups items into 2 batches"))))))
-  (t/run-check rec "gen-exists-device_list"
-    (fn [] (let [sdk (api/test-sdk nil nil)]
-             (t/is-true (some? (api/device_list sdk nil)) "device_list accessor present"))))
   (t/run-check rec "gen-exists-device_receive_result"
     (fn [] (let [sdk (api/test-sdk nil nil)]
              (t/is-true (some? (api/device_receive_result sdk nil)) "device_receive_result accessor present"))))
@@ -586,6 +583,9 @@
   (t/run-check rec "gen-exists-user"
     (fn [] (let [sdk (api/test-sdk nil nil)]
              (t/is-true (some? (api/user sdk nil)) "user accessor present"))))
+  (t/run-check rec "gen-exists-virtual_device"
+    (fn [] (let [sdk (api/test-sdk nil nil)]
+             (t/is-true (some? (api/virtual_device sdk nil)) "virtual_device accessor present"))))
   (t/run-check rec "gen-prepare-attestation"
     (fn [] (let [client (api/make-sdk (vs/jm "base" "http://example.test" "apikey" "test-key"))
                  fetchdef (api/prepare client (vs/jm "path" "/api/attestation" "method" "GET"))]
@@ -666,35 +666,19 @@
              (t/is-true (vs/ismap result) "direct returns a result map")
              (t/is-true (vs/getprop result "ok") "direct 200 => ok true")
              (t/is-eq (vs/getprop result "status") 200 "direct surfaces the status"))))
-  (t/run-check rec "gen-prepare-device_custody_list"
+  (t/run-check rec "gen-prepare-device_custody_list_item"
     (fn [] (let [client (api/make-sdk (vs/jm "base" "http://example.test" "apikey" "test-key"))
-                 fetchdef (api/prepare client (vs/jm "path" "/api/device_custody_list" "method" "GET"))]
+                 fetchdef (api/prepare client (vs/jm "path" "/api/device_custody_list_item" "method" "GET"))]
              (t/is-true (vs/ismap fetchdef) "prepare returns a fetchdef map")
              (t/is-some (vs/getprop fetchdef "url") "fetchdef carries a url")
              (t/is-eq (vs/getprop fetchdef "method") "GET" "fetchdef preserves the method"))))
-  (t/run-check rec "gen-direct-device_custody_list"
+  (t/run-check rec "gen-direct-device_custody_list_item"
     (fn [] (let [fetch (fn [_url _fetchdef]
                          [(vs/jm "status" 200 "statusText" "OK" "headers" (vs/jm)
                                  "json" (fn [] (vs/jm "id" "d1"))) nil])
                  client (api/make-sdk (vs/jm "base" "http://example.test" "apikey" "test-key"
                                              "system" (vs/jm "fetch" fetch)))
-                 result (api/direct client (vs/jm "path" "/api/device_custody_list" "method" "GET"))]
-             (t/is-true (vs/ismap result) "direct returns a result map")
-             (t/is-true (vs/getprop result "ok") "direct 200 => ok true")
-             (t/is-eq (vs/getprop result "status") 200 "direct surfaces the status"))))
-  (t/run-check rec "gen-prepare-device_list"
-    (fn [] (let [client (api/make-sdk (vs/jm "base" "http://example.test" "apikey" "test-key"))
-                 fetchdef (api/prepare client (vs/jm "path" "/api/device_list" "method" "GET"))]
-             (t/is-true (vs/ismap fetchdef) "prepare returns a fetchdef map")
-             (t/is-some (vs/getprop fetchdef "url") "fetchdef carries a url")
-             (t/is-eq (vs/getprop fetchdef "method") "GET" "fetchdef preserves the method"))))
-  (t/run-check rec "gen-direct-device_list"
-    (fn [] (let [fetch (fn [_url _fetchdef]
-                         [(vs/jm "status" 200 "statusText" "OK" "headers" (vs/jm)
-                                 "json" (fn [] (vs/jm "id" "d1"))) nil])
-                 client (api/make-sdk (vs/jm "base" "http://example.test" "apikey" "test-key"
-                                             "system" (vs/jm "fetch" fetch)))
-                 result (api/direct client (vs/jm "path" "/api/device_list" "method" "GET"))]
+                 result (api/direct client (vs/jm "path" "/api/device_custody_list_item" "method" "GET"))]
              (t/is-true (vs/ismap result) "direct returns a result map")
              (t/is-true (vs/getprop result "ok") "direct 200 => ok true")
              (t/is-eq (vs/getprop result "status") 200 "direct surfaces the status"))))
@@ -855,6 +839,22 @@
                  client (api/make-sdk (vs/jm "base" "http://example.test" "apikey" "test-key"
                                              "system" (vs/jm "fetch" fetch)))
                  result (api/direct client (vs/jm "path" "/api/user" "method" "GET"))]
+             (t/is-true (vs/ismap result) "direct returns a result map")
+             (t/is-true (vs/getprop result "ok") "direct 200 => ok true")
+             (t/is-eq (vs/getprop result "status") 200 "direct surfaces the status"))))
+  (t/run-check rec "gen-prepare-virtual_device"
+    (fn [] (let [client (api/make-sdk (vs/jm "base" "http://example.test" "apikey" "test-key"))
+                 fetchdef (api/prepare client (vs/jm "path" "/api/virtual_device" "method" "GET"))]
+             (t/is-true (vs/ismap fetchdef) "prepare returns a fetchdef map")
+             (t/is-some (vs/getprop fetchdef "url") "fetchdef carries a url")
+             (t/is-eq (vs/getprop fetchdef "method") "GET" "fetchdef preserves the method"))))
+  (t/run-check rec "gen-direct-virtual_device"
+    (fn [] (let [fetch (fn [_url _fetchdef]
+                         [(vs/jm "status" 200 "statusText" "OK" "headers" (vs/jm)
+                                 "json" (fn [] (vs/jm "id" "d1"))) nil])
+                 client (api/make-sdk (vs/jm "base" "http://example.test" "apikey" "test-key"
+                                             "system" (vs/jm "fetch" fetch)))
+                 result (api/direct client (vs/jm "path" "/api/virtual_device" "method" "GET"))]
              (t/is-true (vs/ismap result) "direct returns a result map")
              (t/is-true (vs/getprop result "ok") "direct 200 => ok true")
              (t/is-eq (vs/getprop result "status") 200 "direct surfaces the status"))))

@@ -336,14 +336,9 @@ defmodule BluefinDecryptxP2pe do
     BluefinDecryptxP2pe.Entity.DeviceCustodyDetail.new(client, entopts)
   end
 
-  @doc "Entity factory for device_custody_list."
-  def device_custody_list(client, entopts \\ nil) do
-    BluefinDecryptxP2pe.Entity.DeviceCustodyList.new(client, entopts)
-  end
-
-  @doc "Entity factory for device_list."
-  def device_list(client, entopts \\ nil) do
-    BluefinDecryptxP2pe.Entity.DeviceList.new(client, entopts)
+  @doc "Entity factory for device_custody_list_item."
+  def device_custody_list_item(client, entopts \\ nil) do
+    BluefinDecryptxP2pe.Entity.DeviceCustodyListItem.new(client, entopts)
   end
 
   @doc "Entity factory for device_receive_result."
@@ -409,6 +404,11 @@ defmodule BluefinDecryptxP2pe do
   @doc "Entity factory for user."
   def user(client, entopts \\ nil) do
     BluefinDecryptxP2pe.Entity.User.new(client, entopts)
+  end
+
+  @doc "Entity factory for virtual_device."
+  def virtual_device(client, entopts \\ nil) do
+    BluefinDecryptxP2pe.Entity.VirtualDevice.new(client, entopts)
   end
 
 end

@@ -42,9 +42,7 @@ var NewDeviceBuildEntityFunc func(client *BluefinDecryptxP2peSDK, entopts map[st
 
 var NewDeviceCustodyDetailEntityFunc func(client *BluefinDecryptxP2peSDK, entopts map[string]any) BluefinDecryptxP2peEntity
 
-var NewDeviceCustodyListEntityFunc func(client *BluefinDecryptxP2peSDK, entopts map[string]any) BluefinDecryptxP2peEntity
-
-var NewDeviceListEntityFunc func(client *BluefinDecryptxP2peSDK, entopts map[string]any) BluefinDecryptxP2peEntity
+var NewDeviceCustodyListItemEntityFunc func(client *BluefinDecryptxP2peSDK, entopts map[string]any) BluefinDecryptxP2peEntity
 
 var NewDeviceReceiveResultEntityFunc func(client *BluefinDecryptxP2peSDK, entopts map[string]any) BluefinDecryptxP2peEntity
 
@@ -71,4 +69,6 @@ var NewTransactionEntityFunc func(client *BluefinDecryptxP2peSDK, entopts map[st
 var NewUpdateResultEntityFunc func(client *BluefinDecryptxP2peSDK, entopts map[string]any) BluefinDecryptxP2peEntity
 
 var NewUserEntityFunc func(client *BluefinDecryptxP2peSDK, entopts map[string]any) BluefinDecryptxP2peEntity
+
+var NewVirtualDeviceEntityFunc func(client *BluefinDecryptxP2peSDK, entopts map[string]any) BluefinDecryptxP2peEntity
 

@@ -1,6 +1,6 @@
 // Typed reference models for the BluefinDecryptxP2pe SDK (C++).
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
 // params. The C++ SDK runtime is Value-based, so these structs are
 // DOCUMENTATION / convenience types only — the SDK neither includes nor
 // requires this header. Array fields surface as std::vector<Value>, object
@@ -236,7 +236,7 @@ struct DeviceCustodyDetailLoadMatch {
   std::string serial_number;
 };
 
-struct DeviceCustodyList {
+struct DeviceCustodyListItem {
   std::string completeDate;  // optional
   std::string created;  // optional
   std::map<std::string, Value> createdBy;
@@ -252,23 +252,10 @@ struct DeviceCustodyList {
   int64_t version;  // optional
 };
 
-struct DeviceCustodyListListMatch {
+struct DeviceCustodyListItemListMatch {
   std::string device_type;
   std::string serial_number;
   int64_t skip;  // optional
-  int64_t take;  // optional
-};
-
-struct DeviceList {
-  std::vector<Value> data;  // optional
-  int64_t total;  // optional
-};
-
-struct DeviceListLoadMatch {
-  std::string share_partner_to;
-  int64_t skip;  // optional
-  std::string sorting_direction;  // optional
-  std::string sorting_field;  // optional
   int64_t take;  // optional
 };
 
@@ -686,6 +673,20 @@ struct UserLoadMatch {
 
 struct UserRemoveMatch {
   std::string id;
+};
+
+struct VirtualDevice {
+  std::vector<Value> data;  // optional
+  std::string id;  // optional
+  int64_t total;  // optional
+};
+
+struct VirtualDeviceLoadMatch {
+  std::string id;
+  int64_t skip;  // optional
+  std::string sorting_direction;  // optional
+  std::string sorting_field;  // optional
+  int64_t take;  // optional
 };
 
 } // namespace types

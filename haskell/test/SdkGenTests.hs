@@ -70,13 +70,10 @@ genTests c = do
   device_custody_detailInstanceTest c
   device_custody_detailBasicTest c
   device_custody_detailDirectTest c
-  device_custody_listInstanceTest c
-  device_custody_listBasicTest c
-  device_custody_listDirectTest c
-  device_custody_listStreamTest c
-  device_listInstanceTest c
-  device_listBasicTest c
-  device_listDirectTest c
+  device_custody_list_itemInstanceTest c
+  device_custody_list_itemBasicTest c
+  device_custody_list_itemDirectTest c
+  device_custody_list_itemStreamTest c
   device_receive_resultInstanceTest c
   device_receive_resultBasicTest c
   device_receive_resultDirectTest c
@@ -125,6 +122,9 @@ genTests c = do
   userInstanceTest c
   userBasicTest c
   userDirectTest c
+  virtual_deviceInstanceTest c
+  virtual_deviceBasicTest c
+  virtual_deviceDirectTest c
 
 attestationInstanceTest :: Counters -> IO ()
 attestationInstanceTest c = runTest c "attestation.instance" $ do
@@ -733,20 +733,20 @@ device_custody_detailDirectTest c = runTest c "device_custody_detail.direct" $ d
   n <- readIORef calls
   pure (isTrueV ok && toInt st == 200 && vstring did == "direct01" && n == 1)
 
-device_custody_listInstanceTest :: Counters -> IO ()
-device_custody_listInstanceTest c = runTest c "device_custody_list.instance" $ do
+device_custody_list_itemInstanceTest :: Counters -> IO ()
+device_custody_list_itemInstanceTest c = runTest c "device_custody_list_item.instance" $ do
   sdk <- C.testSdk0
-  ent <- C.device_custody_list sdk VNoval
-  pure (eName ent == "device_custody_list")
+  ent <- C.device_custody_list_item sdk VNoval
+  pure (eName ent == "device_custody_list_item")
 
-device_custody_listBasicTest :: Counters -> IO ()
-device_custody_listBasicTest c = do
-  fixture <- loadFixture "DeviceCustodyList"
+device_custody_list_itemBasicTest :: Counters -> IO ()
+device_custody_list_itemBasicTest c = do
+  fixture <- loadFixture "DeviceCustodyListItem"
   existing <- getp fixture "existing"
   opts <- jo [("entity", existing)]
-  runTest c "device_custody_list.list" $ do
+  runTest c "device_custody_list_item.list" $ do
     sdk <- C.testSdk opts VNoval
-    ent <- C.device_custody_list sdk VNoval
+    ent <- C.device_custody_list_item sdk VNoval
     em1 <- emptyMap; em2 <- emptyMap
     lst <- eList ent em1 em2
     -- `list` resolves to one ENTITY per record; the record is reached
@@ -754,8 +754,8 @@ device_custody_listBasicTest c = do
     ok <- mapM (\en -> ismap <$> eDataGet en) lst
     pure (all id ok)
 
-device_custody_listDirectTest :: Counters -> IO ()
-device_custody_listDirectTest c = runTest c "device_custody_list.direct" $ do
+device_custody_list_itemDirectTest :: Counters -> IO ()
+device_custody_list_itemDirectTest c = runTest c "device_custody_list_item.direct" $ do
   calls <- newIORef (0 :: Int)
   let mock = VFunc (\_ _ _ _ -> do
         modifyIORef calls (+ 1)
@@ -764,7 +764,7 @@ device_custody_listDirectTest c = runTest c "device_custody_list.direct" $ do
   sys <- jo [("fetch", mock)]
   opts <- jo [("base", VStr "http://localhost:8080"), ("system", sys)]
   sdk <- C.newSdk opts
-  args <- jo [("path", VStr "/device_custody_list/x"), ("method", VStr "GET")]
+  args <- jo [("path", VStr "/device_custody_list_item/x"), ("method", VStr "GET")]
   res <- F.direct sdk args
   ok <- getp res "ok"
   st <- getp res "status"
@@ -773,100 +773,56 @@ device_custody_listDirectTest c = runTest c "device_custody_list.direct" $ do
   n <- readIORef calls
   pure (isTrueV ok && toInt st == 200 && vstring did == "direct01" && n == 1)
 
-device_custody_listStreamTest :: Counters -> IO ()
-device_custody_listStreamTest c = do
+device_custody_list_itemStreamTest :: Counters -> IO ()
+device_custody_list_itemStreamTest c = do
   let mkSeed = do
         r1 <- jo [("id", VStr "S1"), ("name", VStr "a")]
         r2 <- jo [("id", VStr "S2"), ("name", VStr "b")]
         r3 <- jo [("id", VStr "S3"), ("name", VStr "c")]
         recs <- jo [("S1", r1), ("S2", r2), ("S3", r3)]
-        jo [("device_custody_list", recs)]
+        jo [("device_custody_list_item", recs)]
       hasStreaming = do
         sdk0 <- C.testSdk0
         fs <- getp (clConfig sdk0) "feature"
         st <- getp fs "streaming"
         pure (not (isNoval st))
-  runTest c "device_custody_list.stream" $ do
+  runTest c "device_custody_list_item.stream" $ do
     seed <- mkSeed; opts <- jo [("entity", seed)]
     sdk <- C.testSdk opts VNoval
-    ent <- C.device_custody_list sdk VNoval
+    ent <- C.device_custody_list_item sdk VNoval
     em1 <- emptyMap
     items <- eStream ent "list" em1 VNoval
     pure (length items == 3 && (case items of (x : _) -> ismap x; [] -> False))
-  runTest c "device_custody_list.stream_signal" $ do
+  runTest c "device_custody_list_item.stream_signal" $ do
     seed <- mkSeed; opts <- jo [("entity", seed)]
     sdk <- C.testSdk opts VNoval
-    ent <- C.device_custody_list sdk VNoval
+    ent <- C.device_custody_list_item sdk VNoval
     em1 <- emptyMap
     n <- newIORef (0 :: Int)
     let sig = vfunc0 (do modifyIORef n (+ 1); v <- readIORef n; pure (VBool (v >= 2)))
     co <- jo [("signal", sig)]
     items <- eStream ent "list" em1 co
     pure (length items == 1)
-  runTest c "device_custody_list.stream_active" $ do
+  runTest c "device_custody_list_item.stream_active" $ do
     hs <- hasStreaming
     if not hs then pure True else do
       seed <- mkSeed; opts <- jo [("entity", seed)]
       stg <- jo [("active", VBool True)]; strm <- jo [("streaming", stg)]; sopts <- jo [("feature", strm)]
       sdk <- C.testSdk opts sopts
-      ent <- C.device_custody_list sdk VNoval
+      ent <- C.device_custody_list_item sdk VNoval
       em1 <- emptyMap
       items <- eStream ent "list" em1 VNoval
       pure (length items == 3)
-  runTest c "device_custody_list.stream_chunk" $ do
+  runTest c "device_custody_list_item.stream_chunk" $ do
     hs <- hasStreaming
     if not hs then pure True else do
       seed <- mkSeed; opts <- jo [("entity", seed)]
       stg <- jo [("active", VBool True), ("chunkSize", VNum 2)]; strm <- jo [("streaming", stg)]; sopts <- jo [("feature", strm)]
       sdk <- C.testSdk opts sopts
-      ent <- C.device_custody_list sdk VNoval
+      ent <- C.device_custody_list_item sdk VNoval
       em1 <- emptyMap
       batches <- eStream ent "list" em1 VNoval
       pure (length batches == 2)
-
-device_listInstanceTest :: Counters -> IO ()
-device_listInstanceTest c = runTest c "device_list.instance" $ do
-  sdk <- C.testSdk0
-  ent <- C.device_list sdk VNoval
-  pure (eName ent == "device_list")
-
-device_listBasicTest :: Counters -> IO ()
-device_listBasicTest c = do
-  fixture <- loadFixture "DeviceList"
-  existing <- getp fixture "existing"
-  opts <- jo [("entity", existing)]
-  runTest c "device_list.load" $ do
-    sdk <- C.testSdk opts VNoval
-    ent <- C.device_list sdk VNoval
-    entmap <- getp existing "device_list"
-    ids <- keysof entmap
-    case ids of
-      [] -> pure True
-      (id0 : _) -> do
-        m <- jo [("id", VStr id0)]; ctrl <- emptyMap
-        loaded <- eLoad ent m ctrl
-        ld <- eDataGet loaded
-        lid <- getp ld "id"
-        pure (ismap ld && vstring lid == id0)
-
-device_listDirectTest :: Counters -> IO ()
-device_listDirectTest c = runTest c "device_list.direct" $ do
-  calls <- newIORef (0 :: Int)
-  let mock = VFunc (\_ _ _ _ -> do
-        modifyIORef calls (+ 1)
-        d <- jo [("id", VStr "direct01")]
-        jo [("status", VNum 200), ("statusText", VStr "OK"), ("json", jsonThunk d)])
-  sys <- jo [("fetch", mock)]
-  opts <- jo [("base", VStr "http://localhost:8080"), ("system", sys)]
-  sdk <- C.newSdk opts
-  args <- jo [("path", VStr "/device_list/x"), ("method", VStr "GET")]
-  res <- F.direct sdk args
-  ok <- getp res "ok"
-  st <- getp res "status"
-  dat <- getp res "data"
-  did <- getp dat "id"
-  n <- readIORef calls
-  pure (isTrueV ok && toInt st == 200 && vstring did == "direct01" && n == 1)
 
 device_receive_resultInstanceTest :: Counters -> IO ()
 device_receive_resultInstanceTest c = runTest c "device_receive_result.instance" $ do
@@ -1937,11 +1893,11 @@ update_resultBasicTest c = do
     created <- eCreate ent d ctrl
     cd <- eDataGet created
     cid <- getp cd "id"
-    upd <- jo [("id", cid), ("0", VStr "UpdatedMark")]
+    upd <- jo [("id", cid), ("client", VStr "UpdatedMark")]
     ctrl2 <- emptyMap
     updated <- eUpdate ent upd ctrl2
     ud <- eDataGet updated
-    uv <- getp ud "0"
+    uv <- getp ud "client"
     pure (ismap ud && vstring uv == "UpdatedMark")
 
 update_resultDirectTest :: Counters -> IO ()
@@ -2050,6 +2006,50 @@ userDirectTest c = runTest c "user.direct" $ do
   opts <- jo [("base", VStr "http://localhost:8080"), ("system", sys)]
   sdk <- C.newSdk opts
   args <- jo [("path", VStr "/user/x"), ("method", VStr "GET")]
+  res <- F.direct sdk args
+  ok <- getp res "ok"
+  st <- getp res "status"
+  dat <- getp res "data"
+  did <- getp dat "id"
+  n <- readIORef calls
+  pure (isTrueV ok && toInt st == 200 && vstring did == "direct01" && n == 1)
+
+virtual_deviceInstanceTest :: Counters -> IO ()
+virtual_deviceInstanceTest c = runTest c "virtual_device.instance" $ do
+  sdk <- C.testSdk0
+  ent <- C.virtual_device sdk VNoval
+  pure (eName ent == "virtual_device")
+
+virtual_deviceBasicTest :: Counters -> IO ()
+virtual_deviceBasicTest c = do
+  fixture <- loadFixture "VirtualDevice"
+  existing <- getp fixture "existing"
+  opts <- jo [("entity", existing)]
+  runTest c "virtual_device.load" $ do
+    sdk <- C.testSdk opts VNoval
+    ent <- C.virtual_device sdk VNoval
+    entmap <- getp existing "virtual_device"
+    ids <- keysof entmap
+    case ids of
+      [] -> pure True
+      (id0 : _) -> do
+        m <- jo [("id", VStr id0)]; ctrl <- emptyMap
+        loaded <- eLoad ent m ctrl
+        ld <- eDataGet loaded
+        lid <- getp ld "id"
+        pure (ismap ld && vstring lid == id0)
+
+virtual_deviceDirectTest :: Counters -> IO ()
+virtual_deviceDirectTest c = runTest c "virtual_device.direct" $ do
+  calls <- newIORef (0 :: Int)
+  let mock = VFunc (\_ _ _ _ -> do
+        modifyIORef calls (+ 1)
+        d <- jo [("id", VStr "direct01")]
+        jo [("status", VNum 200), ("statusText", VStr "OK"), ("json", jsonThunk d)])
+  sys <- jo [("fetch", mock)]
+  opts <- jo [("base", VStr "http://localhost:8080"), ("system", sys)]
+  sdk <- C.newSdk opts
+  args <- jo [("path", VStr "/virtual_device/x"), ("method", VStr "GET")]
   res <- F.direct sdk args
   ok <- getp res "ok"
   st <- getp res "status"

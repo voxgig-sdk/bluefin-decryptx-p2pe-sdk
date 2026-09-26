@@ -1,7 +1,7 @@
 // Typed reference models for the BluefinDecryptxP2pe SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types come from the
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types come from the
 // canonical type sentinels (source of truth: @voxgig/apidef VALID_CANON). Do
 // not edit by hand.
 //
@@ -249,7 +249,7 @@ public record DeviceCustodyDetailLoadMatch
     public string serial_number { get; init; }
 }
 
-public record DeviceCustodyList
+public record DeviceCustodyListItem
 {
     public string? completeDate { get; init; }
     public string? created { get; init; }
@@ -266,26 +266,11 @@ public record DeviceCustodyList
     public long? version { get; init; }
 }
 
-public record DeviceCustodyListListMatch
+public record DeviceCustodyListItemListMatch
 {
     public string device_type { get; init; }
     public string serial_number { get; init; }
     public long? skip { get; init; }
-    public long? take { get; init; }
-}
-
-public record DeviceList
-{
-    public List<object?>? data { get; init; }
-    public long? total { get; init; }
-}
-
-public record DeviceListLoadMatch
-{
-    public string share_partner_to { get; init; }
-    public long? skip { get; init; }
-    public string? sorting_direction { get; init; }
-    public string? sorting_field { get; init; }
     public long? take { get; init; }
 }
 
@@ -744,5 +729,21 @@ public record UserLoadMatch
 public record UserRemoveMatch
 {
     public string id { get; init; }
+}
+
+public record VirtualDevice
+{
+    public List<object?>? data { get; init; }
+    public string? id { get; init; }
+    public long? total { get; init; }
+}
+
+public record VirtualDeviceLoadMatch
+{
+    public string id { get; init; }
+    public long? skip { get; init; }
+    public string? sorting_direction { get; init; }
+    public string? sorting_field { get; init; }
+    public long? take { get; init; }
 }
 

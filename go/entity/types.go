@@ -1,7 +1,7 @@
 // Typed models for the BluefinDecryptxP2pe SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types come from the
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types come from the
 // canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 package entity
@@ -14,13 +14,6 @@ import (
 
 // Attestation is the typed data model for the attestation entity.
 type Attestation struct {
-	Client *map[string]any `json:"client,omitempty"`
-	CompleteDate *string `json:"completeDate,omitempty"`
-	Created *string `json:"created,omitempty"`
-	Device *map[string]any `json:"device,omitempty"`
-	Id *string `json:"id,omitempty"`
-	Name *string `json:"name,omitempty"`
-	Notes *string `json:"notes,omitempty"`
 }
 
 // AttestationLoadMatch is the typed request payload for Attestation.LoadTyped.
@@ -48,17 +41,6 @@ type AttestationCreateData struct {
 
 // Client is the typed data model for the client entity.
 type Client struct {
-	Contact *map[string]any `json:"contact,omitempty"`
-	Created *string `json:"created,omitempty"`
-	DirectPartner *map[string]any `json:"directPartner,omitempty"`
-	Id *string `json:"id,omitempty"`
-	IsActive *bool `json:"isActive,omitempty"`
-	Location map[string]any `json:"location"`
-	Mid *string `json:"mid,omitempty"`
-	Modified *string `json:"modified,omitempty"`
-	Name *string `json:"name,omitempty"`
-	Partner *map[string]any `json:"partner,omitempty"`
-	Version *int `json:"version,omitempty"`
 }
 
 // ClientLoadMatch is the typed request payload for Client.LoadTyped.
@@ -105,7 +87,6 @@ type CreateResultCreateData struct {
 
 // Decryption is the typed data model for the decryption entity.
 type Decryption struct {
-	Success *bool `json:"success,omitempty"`
 }
 
 // DecryptionCreateData is the typed request payload for Decryption.CreateTyped.
@@ -115,34 +96,6 @@ type DecryptionCreateData struct {
 
 // Device is the typed data model for the device entity.
 type Device struct {
-	ActivatedBy map[string]any `json:"activatedBy"`
-	ActivationDate *string `json:"activationDate,omitempty"`
-	AlternateKey *string `json:"alternateKey,omitempty"`
-	AuditNextDate *string `json:"auditNextDate,omitempty"`
-	AuditNotificationDate *string `json:"auditNotificationDate,omitempty"`
-	Client *map[string]any `json:"client,omitempty"`
-	Created *string `json:"created,omitempty"`
-	CreatedBy map[string]any `json:"createdBy"`
-	DeviceBuild *map[string]any `json:"deviceBuild,omitempty"`
-	DeviceState *map[string]any `json:"deviceState,omitempty"`
-	DeviceType *map[string]any `json:"deviceType,omitempty"`
-	ErrorCounter *int `json:"errorCounter,omitempty"`
-	ErrorLastDate *string `json:"errorLastDate,omitempty"`
-	Id *string `json:"id,omitempty"`
-	InitializedBy map[string]any `json:"initializedBy"`
-	InitializedDate *string `json:"initializedDate,omitempty"`
-	InjectKey *map[string]any `json:"injectKey,omitempty"`
-	IsVirtual *bool `json:"isVirtual,omitempty"`
-	Kif *map[string]any `json:"kif,omitempty"`
-	LastActivityDate *string `json:"lastActivityDate,omitempty"`
-	Location map[string]any `json:"location"`
-	Modified *string `json:"modified,omitempty"`
-	ModifiedBy map[string]any `json:"modifiedBy"`
-	Name *string `json:"name,omitempty"`
-	Notes *string `json:"notes,omitempty"`
-	Partner *map[string]any `json:"partner,omitempty"`
-	SerialNumber *string `json:"serialNumber,omitempty"`
-	Version *int `json:"version,omitempty"`
 }
 
 // DeviceLoadMatch is the typed request payload for Device.LoadTyped.
@@ -197,21 +150,6 @@ type DeviceCreateData struct {
 
 // DeviceBuild is the typed data model for the device_build entity.
 type DeviceBuild struct {
-	AppVersion *string `json:"appVersion,omitempty"`
-	BuildNumber *string `json:"buildNumber,omitempty"`
-	ConfigFileName *string `json:"configFileName,omitempty"`
-	Created *string `json:"created,omitempty"`
-	DeviceType *string `json:"deviceType,omitempty"`
-	FirmwareVersion *string `json:"firmwareVersion,omitempty"`
-	HardwareVersion *string `json:"hardwareVersion,omitempty"`
-	Id *int `json:"id,omitempty"`
-	IsActive *bool `json:"isActive,omitempty"`
-	Modified *string `json:"modified,omitempty"`
-	Name *string `json:"name,omitempty"`
-	Notes *string `json:"notes,omitempty"`
-	Version *int `json:"version,omitempty"`
-	WhiteListingBinRanges *string `json:"whiteListingBinRanges,omitempty"`
-	WhiteListingUsed *bool `json:"whiteListingUsed,omitempty"`
 }
 
 // DeviceBuildLoadMatch is the typed request payload for DeviceBuild.LoadTyped.
@@ -228,19 +166,6 @@ type DeviceBuildListMatch struct {
 
 // DeviceCustodyDetail is the typed data model for the device_custody_detail entity.
 type DeviceCustodyDetail struct {
-	CompleteDate *string `json:"completeDate,omitempty"`
-	Created *string `json:"created,omitempty"`
-	CreatedBy map[string]any `json:"createdBy"`
-	Custodian map[string]any `json:"custodian"`
-	Device *map[string]any `json:"device,omitempty"`
-	Id *int `json:"id,omitempty"`
-	Location map[string]any `json:"location"`
-	Modified *string `json:"modified,omitempty"`
-	ModifiedBy map[string]any `json:"modifiedBy"`
-	Notes *string `json:"notes,omitempty"`
-	Status *map[string]any `json:"status,omitempty"`
-	TransferMethod *map[string]any `json:"transferMethod,omitempty"`
-	Version *int `json:"version,omitempty"`
 }
 
 // DeviceCustodyDetailLoadMatch is the typed request payload for DeviceCustodyDetail.LoadTyped.
@@ -250,49 +175,20 @@ type DeviceCustodyDetailLoadMatch struct {
 	SerialNumber string `json:"serial_number"`
 }
 
-// DeviceCustodyList is the typed data model for the device_custody_list entity.
-type DeviceCustodyList struct {
-	CompleteDate *string `json:"completeDate,omitempty"`
-	Created *string `json:"created,omitempty"`
-	CreatedBy map[string]any `json:"createdBy"`
-	Custodian map[string]any `json:"custodian"`
-	Device *map[string]any `json:"device,omitempty"`
-	Id *int `json:"id,omitempty"`
-	Location map[string]any `json:"location"`
-	Modified *string `json:"modified,omitempty"`
-	ModifiedBy map[string]any `json:"modifiedBy"`
-	Notes *string `json:"notes,omitempty"`
-	Status *map[string]any `json:"status,omitempty"`
-	TransferMethod *map[string]any `json:"transferMethod,omitempty"`
-	Version *int `json:"version,omitempty"`
+// DeviceCustodyListItem is the typed data model for the device_custody_list_item entity.
+type DeviceCustodyListItem struct {
 }
 
-// DeviceCustodyListListMatch is the typed request payload for DeviceCustodyList.ListTyped.
-type DeviceCustodyListListMatch struct {
+// DeviceCustodyListItemListMatch is the typed request payload for DeviceCustodyListItem.ListTyped.
+type DeviceCustodyListItemListMatch struct {
 	DeviceType string `json:"device_type"`
 	SerialNumber string `json:"serial_number"`
 	Skip *int `json:"skip,omitempty"`
 	Take *int `json:"take,omitempty"`
 }
 
-// DeviceList is the typed data model for the device_list entity.
-type DeviceList struct {
-	Data *[]any `json:"data,omitempty"`
-	Total *int `json:"total,omitempty"`
-}
-
-// DeviceListLoadMatch is the typed request payload for DeviceList.LoadTyped.
-type DeviceListLoadMatch struct {
-	SharePartnerTo string `json:"share_partner_to"`
-	Skip *int `json:"skip,omitempty"`
-	SortingDirection *string `json:"sorting_direction,omitempty"`
-	SortingField *string `json:"sorting_field,omitempty"`
-	Take *int `json:"take,omitempty"`
-}
-
 // DeviceReceiveResult is the typed data model for the device_receive_result entity.
 type DeviceReceiveResult struct {
-	Success bool `json:"success"`
 }
 
 // DeviceReceiveResultCreateData is the typed request payload for DeviceReceiveResult.CreateTyped.
@@ -302,7 +198,6 @@ type DeviceReceiveResultCreateData struct {
 
 // DeviceRkiActivateResult is the typed data model for the device_rki_activate_result entity.
 type DeviceRkiActivateResult struct {
-	Success bool `json:"success"`
 }
 
 // DeviceRkiActivateResultCreateData is the typed request payload for DeviceRkiActivateResult.CreateTyped.
@@ -312,8 +207,6 @@ type DeviceRkiActivateResultCreateData struct {
 
 // DeviceState is the typed data model for the device_state entity.
 type DeviceState struct {
-	Id *int `json:"id,omitempty"`
-	Name *string `json:"name,omitempty"`
 }
 
 // DeviceStateListMatch is the typed request payload for DeviceState.ListTyped.
@@ -324,18 +217,6 @@ type DeviceStateListMatch struct {
 
 // DeviceType is the typed data model for the device_type entity.
 type DeviceType struct {
-	Created *string `json:"created,omitempty"`
-	DeviceTypeMode *string `json:"deviceTypeMode,omitempty"`
-	HardwareVersion *string `json:"hardwareVersion,omitempty"`
-	Id *string `json:"id,omitempty"`
-	IsActive *bool `json:"isActive,omitempty"`
-	Manufacturer *string `json:"manufacturer,omitempty"`
-	Model *string `json:"model,omitempty"`
-	Modified *string `json:"modified,omitempty"`
-	Name *string `json:"name,omitempty"`
-	PhotoUrl *string `json:"photoUrl,omitempty"`
-	ProductName *string `json:"productName,omitempty"`
-	Version *int `json:"version,omitempty"`
 }
 
 // DeviceTypeLoadMatch is the typed request payload for DeviceType.LoadTyped.
@@ -361,14 +242,6 @@ type DeviceTypeListMatch struct {
 
 // InjectKey is the typed data model for the inject_key entity.
 type InjectKey struct {
-	Created *string `json:"created,omitempty"`
-	Id *string `json:"id,omitempty"`
-	IsActive *bool `json:"isActive,omitempty"`
-	IsP2PE *bool `json:"isP2PE,omitempty"`
-	KeyType *string `json:"keyType,omitempty"`
-	Modified *string `json:"modified,omitempty"`
-	Name *string `json:"name,omitempty"`
-	Version *int `json:"version,omitempty"`
 }
 
 // InjectKeyLoadMatch is the typed request payload for InjectKey.LoadTyped.
@@ -390,8 +263,6 @@ type InjectKeyListMatch struct {
 
 // Kif is the typed data model for the kif entity.
 type Kif struct {
-	Id *int `json:"id,omitempty"`
-	Name *string `json:"name,omitempty"`
 }
 
 // KifListMatch is the typed request payload for Kif.ListTyped.
@@ -402,29 +273,6 @@ type KifListMatch struct {
 
 // Location is the typed data model for the location entity.
 type Location struct {
-	Address1 *string `json:"address1,omitempty"`
-	Address2 *string `json:"address2,omitempty"`
-	BillingId *string `json:"billingId,omitempty"`
-	City *string `json:"city,omitempty"`
-	Country *string `json:"country,omitempty"`
-	Created *string `json:"created,omitempty"`
-	CustomReference *string `json:"customReference,omitempty"`
-	Id *string `json:"id,omitempty"`
-	LocationType *string `json:"locationType,omitempty"`
-	MailAddress1 *string `json:"mailAddress1,omitempty"`
-	MailAddress2 *string `json:"mailAddress2,omitempty"`
-	MailCity *string `json:"mailCity,omitempty"`
-	MailCountry *string `json:"mailCountry,omitempty"`
-	MailPostalCode *string `json:"mailPostalCode,omitempty"`
-	MailStateProvince *string `json:"mailStateProvince,omitempty"`
-	Modified *string `json:"modified,omitempty"`
-	Name *string `json:"name,omitempty"`
-	NameOfBusiness *string `json:"nameOfBusiness,omitempty"`
-	Notes *string `json:"notes,omitempty"`
-	PostalCode *string `json:"postalCode,omitempty"`
-	StateProvince *string `json:"stateProvince,omitempty"`
-	UniqueId *string `json:"uniqueId,omitempty"`
-	Version *int `json:"version,omitempty"`
 }
 
 // LocationLoadMatch is the typed request payload for Location.LoadTyped.
@@ -473,20 +321,6 @@ type LocationRemoveMatch struct {
 
 // Partner is the typed data model for the partner entity.
 type Partner struct {
-	BillingId *string `json:"billingId,omitempty"`
-	ClientCanOrderEquipment *bool `json:"clientCanOrderEquipment,omitempty"`
-	Contact *map[string]any `json:"contact,omitempty"`
-	Created *string `json:"created,omitempty"`
-	Id *string `json:"id,omitempty"`
-	IsActive *bool `json:"isActive,omitempty"`
-	Location map[string]any `json:"location"`
-	Modified *string `json:"modified,omitempty"`
-	Name *string `json:"name,omitempty"`
-	Parent *map[string]any `json:"parent,omitempty"`
-	PartnerId *string `json:"partnerId,omitempty"`
-	Reference *string `json:"reference,omitempty"`
-	VerificationPhrase *string `json:"verificationPhrase,omitempty"`
-	Version *int `json:"version,omitempty"`
 }
 
 // PartnerLoadMatch is the typed request payload for Partner.LoadTyped.
@@ -521,20 +355,6 @@ type PartnerCreateData struct {
 
 // Shipment is the typed data model for the shipment entity.
 type Shipment struct {
-	Carrier *string `json:"carrier,omitempty"`
-	Client *map[string]any `json:"client,omitempty"`
-	Created *string `json:"created,omitempty"`
-	DateReceived *string `json:"dateReceived,omitempty"`
-	DateShipped *string `json:"dateShipped,omitempty"`
-	DcKif *map[string]any `json:"dcKif,omitempty"`
-	Id *string `json:"id,omitempty"`
-	Items *[]any `json:"items,omitempty"`
-	Kif *map[string]any `json:"kif,omitempty"`
-	Modified *string `json:"modified,omitempty"`
-	Partner *map[string]any `json:"partner,omitempty"`
-	ShipmentType *string `json:"shipmentType,omitempty"`
-	Tracking *string `json:"tracking,omitempty"`
-	Version *int `json:"version,omitempty"`
 }
 
 // ShipmentLoadMatch is the typed request payload for Shipment.LoadTyped.
@@ -570,7 +390,6 @@ type ShipmentCreateData struct {
 
 // Success is the typed data model for the success entity.
 type Success struct {
-	Success *bool `json:"success,omitempty"`
 }
 
 // SuccessCreateData is the typed request payload for Success.CreateTyped.
@@ -586,30 +405,6 @@ type SuccessRemoveMatch struct {
 
 // Transaction is the typed data model for the transaction entity.
 type Transaction struct {
-	AlternateKey *string `json:"alternateKey,omitempty"`
-	Client *map[string]any `json:"client,omitempty"`
-	ClientRef *string `json:"clientRef,omitempty"`
-	Created *string `json:"created,omitempty"`
-	Decrypted *int `json:"decrypted,omitempty"`
-	DeviceName *string `json:"deviceName,omitempty"`
-	DirectPartner *map[string]any `json:"directPartner,omitempty"`
-	Encrypted *int `json:"encrypted,omitempty"`
-	EndDate *string `json:"endDate,omitempty"`
-	ErrCode *string `json:"errCode,omitempty"`
-	ErrMessage *string `json:"errMessage,omitempty"`
-	Id *string `json:"id,omitempty"`
-	IpAddress *string `json:"ipAddress,omitempty"`
-	IsVirtual *bool `json:"isVirtual,omitempty"`
-	KeyType *string `json:"keyType,omitempty"`
-	Location map[string]any `json:"location"`
-	MessageId *string `json:"messageId,omitempty"`
-	Method *string `json:"method,omitempty"`
-	Partner *map[string]any `json:"partner,omitempty"`
-	Reference *string `json:"reference,omitempty"`
-	SerialNumber *string `json:"serialNumber,omitempty"`
-	StartDate *string `json:"startDate,omitempty"`
-	Success *bool `json:"success,omitempty"`
-	TransactionSource *string `json:"transactionSource,omitempty"`
 }
 
 // TransactionLoadMatch is the typed request payload for Transaction.LoadTyped.
@@ -664,18 +459,6 @@ type TransactionCreateData struct {
 
 // UpdateResult is the typed data model for the update_result entity.
 type UpdateResult struct {
-	Client *map[string]any `json:"client,omitempty"`
-	Email *string `json:"email,omitempty"`
-	FirstName *string `json:"firstName,omitempty"`
-	Id *string `json:"id,omitempty"`
-	IsActive *bool `json:"isActive,omitempty"`
-	Kif *map[string]any `json:"kif,omitempty"`
-	LastName *string `json:"lastName,omitempty"`
-	Partner *map[string]any `json:"partner,omitempty"`
-	Phone *string `json:"phone,omitempty"`
-	UserName *string `json:"userName,omitempty"`
-	UserRole *map[string]any `json:"userRole,omitempty"`
-	Version *int `json:"version,omitempty"`
 }
 
 // UpdateResultListMatch is the typed request payload for UpdateResult.ListTyped.
@@ -721,20 +504,6 @@ type UpdateResultUpdateData struct {
 
 // User is the typed data model for the user entity.
 type User struct {
-	Client *map[string]any `json:"client,omitempty"`
-	Created *string `json:"created,omitempty"`
-	Email *string `json:"email,omitempty"`
-	FirstName *string `json:"firstName,omitempty"`
-	Id *string `json:"id,omitempty"`
-	IsActive *bool `json:"isActive,omitempty"`
-	Kif *map[string]any `json:"kif,omitempty"`
-	LastName *string `json:"lastName,omitempty"`
-	Modified *string `json:"modified,omitempty"`
-	Partner *map[string]any `json:"partner,omitempty"`
-	Phone *string `json:"phone,omitempty"`
-	UserName *string `json:"userName,omitempty"`
-	UserRole *map[string]any `json:"userRole,omitempty"`
-	Version *int `json:"version,omitempty"`
 }
 
 // UserLoadMatch is the typed request payload for User.LoadTyped.
@@ -745,6 +514,19 @@ type UserLoadMatch struct {
 // UserRemoveMatch is the typed request payload for User.RemoveTyped.
 type UserRemoveMatch struct {
 	Id string `json:"id"`
+}
+
+// VirtualDevice is the typed data model for the virtual_device entity.
+type VirtualDevice struct {
+}
+
+// VirtualDeviceLoadMatch is the typed request payload for VirtualDevice.LoadTyped.
+type VirtualDeviceLoadMatch struct {
+	Id string `json:"id"`
+	Skip *int `json:"skip,omitempty"`
+	SortingDirection *string `json:"sorting_direction,omitempty"`
+	SortingField *string `json:"sorting_field,omitempty"`
+	Take *int `json:"take,omitempty"`
 }
 
 // asMap turns a typed request/data struct into the map[string]any the

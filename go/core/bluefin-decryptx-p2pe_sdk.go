@@ -264,7 +264,6 @@ func (sdk *BluefinDecryptxP2peSDK) rawRequest(fetchargs map[string]any) (map[str
 		if !noBody {
 			if jf := vs.GetProp(fm, "json"); jf != nil {
 				if f, ok := jf.(func() any); ok {
-					// f() returns nil on parse error in our fetcher.
 					jsonData = f()
 				}
 			}
@@ -281,17 +280,6 @@ func (sdk *BluefinDecryptxP2peSDK) rawRequest(fetchargs map[string]any) (map[str
 	return map[string]any{"ok": false, "err": ctx.MakeError("direct_invalid", "invalid response type")}, nil
 }
 
-// Raw GraphQL access: the pressure valve that makes the generated surface's
-// deliberate omissions (per-call selection sets, typed filter builders,
-// batching, subscriptions) livable — the whole schema stays reachable.
-//
-// Thin wrapper over the same prepare/fetch path Direct uses, with the one
-// thing raw Direct cannot do for GraphQL: a GraphQL failure rides HTTP 200
-// as a top-level `errors` array, so status alone would report a failed query
-// as ok.
-//
-// NOTE: like Direct, this bypasses the feature pipeline — no retry,
-// ratelimit or paging features apply.
 func (sdk *BluefinDecryptxP2peSDK) Graphql(
 	query string, variables map[string]any, ctrl map[string]any,
 ) (map[string]any, error) {
@@ -394,19 +382,11 @@ func (sdk *BluefinDecryptxP2peSDK) DeviceCustodyDetail(data map[string]any) Blue
 }
 
 
-// DeviceCustodyList returns a DeviceCustodyList entity bound to this client.
-// Idiomatic usage: client.DeviceCustodyList(nil).List(nil, nil) or
-// client.DeviceCustodyList(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *BluefinDecryptxP2peSDK) DeviceCustodyList(data map[string]any) BluefinDecryptxP2peEntity {
-	return NewDeviceCustodyListEntityFunc(sdk, data)
-}
-
-
-// DeviceList returns a DeviceList entity bound to this client.
-// Idiomatic usage: client.DeviceList(nil).List(nil, nil) or
-// client.DeviceList(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *BluefinDecryptxP2peSDK) DeviceList(data map[string]any) BluefinDecryptxP2peEntity {
-	return NewDeviceListEntityFunc(sdk, data)
+// DeviceCustodyListItem returns a DeviceCustodyListItem entity bound to this client.
+// Idiomatic usage: client.DeviceCustodyListItem(nil).List(nil, nil) or
+// client.DeviceCustodyListItem(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *BluefinDecryptxP2peSDK) DeviceCustodyListItem(data map[string]any) BluefinDecryptxP2peEntity {
+	return NewDeviceCustodyListItemEntityFunc(sdk, data)
 }
 
 
@@ -511,6 +491,14 @@ func (sdk *BluefinDecryptxP2peSDK) UpdateResult(data map[string]any) BluefinDecr
 // client.User(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *BluefinDecryptxP2peSDK) User(data map[string]any) BluefinDecryptxP2peEntity {
 	return NewUserEntityFunc(sdk, data)
+}
+
+
+// VirtualDevice returns a VirtualDevice entity bound to this client.
+// Idiomatic usage: client.VirtualDevice(nil).List(nil, nil) or
+// client.VirtualDevice(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *BluefinDecryptxP2peSDK) VirtualDevice(data map[string]any) BluefinDecryptxP2peEntity {
+	return NewVirtualDeviceEntityFunc(sdk, data)
 }
 
 

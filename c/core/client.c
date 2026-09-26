@@ -329,14 +329,9 @@ Entity* bluefindecryptxp2pe_device_custody_detail(BluefinDecryptxP2peSDK* client
   return device_custody_detail_entity_new(client, entopts);
 }
 
-// DeviceCustodyList entity bound to this client.
-Entity* bluefindecryptxp2pe_device_custody_list(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
-  return device_custody_list_entity_new(client, entopts);
-}
-
-// DeviceList entity bound to this client.
-Entity* bluefindecryptxp2pe_device_list(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
-  return device_list_entity_new(client, entopts);
+// DeviceCustodyListItem entity bound to this client.
+Entity* bluefindecryptxp2pe_device_custody_list_item(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
+  return device_custody_list_item_entity_new(client, entopts);
 }
 
 // DeviceReceiveResult entity bound to this client.
@@ -402,6 +397,11 @@ Entity* bluefindecryptxp2pe_update_result(BluefinDecryptxP2peSDK* client, voxgig
 // User entity bound to this client.
 Entity* bluefindecryptxp2pe_user(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
   return user_entity_new(client, entopts);
+}
+
+// VirtualDevice entity bound to this client.
+Entity* bluefindecryptxp2pe_virtual_device(BluefinDecryptxP2peSDK* client, voxgig_value* entopts) {
+  return virtual_device_entity_new(client, entopts);
 }
 
 

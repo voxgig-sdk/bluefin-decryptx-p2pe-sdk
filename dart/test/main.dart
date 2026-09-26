@@ -25,10 +25,8 @@ import 'entity/device_build/DeviceBuildEntity_test.dart' as device_build_entity_
 import 'entity/device_build/DeviceBuildDirect_test.dart' as device_build_direct_test;
 import 'entity/device_custody_detail/DeviceCustodyDetailEntity_test.dart' as device_custody_detail_entity_test;
 import 'entity/device_custody_detail/DeviceCustodyDetailDirect_test.dart' as device_custody_detail_direct_test;
-import 'entity/device_custody_list/DeviceCustodyListEntity_test.dart' as device_custody_list_entity_test;
-import 'entity/device_custody_list/DeviceCustodyListDirect_test.dart' as device_custody_list_direct_test;
-import 'entity/device_list/DeviceListEntity_test.dart' as device_list_entity_test;
-import 'entity/device_list/DeviceListDirect_test.dart' as device_list_direct_test;
+import 'entity/device_custody_list_item/DeviceCustodyListItemEntity_test.dart' as device_custody_list_item_entity_test;
+import 'entity/device_custody_list_item/DeviceCustodyListItemDirect_test.dart' as device_custody_list_item_direct_test;
 import 'entity/device_receive_result/DeviceReceiveResultEntity_test.dart' as device_receive_result_entity_test;
 import 'entity/device_rki_activate_result/DeviceRkiActivateResultEntity_test.dart' as device_rki_activate_result_entity_test;
 import 'entity/device_state/DeviceStateEntity_test.dart' as device_state_entity_test;
@@ -52,6 +50,8 @@ import 'entity/update_result/UpdateResultEntity_test.dart' as update_result_enti
 import 'entity/update_result/UpdateResultDirect_test.dart' as update_result_direct_test;
 import 'entity/user/UserEntity_test.dart' as user_entity_test;
 import 'entity/user/UserDirect_test.dart' as user_direct_test;
+import 'entity/virtual_device/VirtualDeviceEntity_test.dart' as virtual_device_entity_test;
+import 'entity/virtual_device/VirtualDeviceDirect_test.dart' as virtual_device_direct_test;
 
 Future<void> main() async {
   exists_test.tests();
@@ -75,10 +75,8 @@ Future<void> main() async {
   device_build_direct_test.tests();
   device_custody_detail_entity_test.tests();
   device_custody_detail_direct_test.tests();
-  device_custody_list_entity_test.tests();
-  device_custody_list_direct_test.tests();
-  device_list_entity_test.tests();
-  device_list_direct_test.tests();
+  device_custody_list_item_entity_test.tests();
+  device_custody_list_item_direct_test.tests();
   device_receive_result_entity_test.tests();
   device_rki_activate_result_entity_test.tests();
   device_state_entity_test.tests();
@@ -102,6 +100,8 @@ Future<void> main() async {
   update_result_direct_test.tests();
   user_entity_test.tests();
   user_direct_test.tests();
+  virtual_device_entity_test.tests();
+  virtual_device_direct_test.tests();
 
   final failed = await harness.runAll();
   if (0 < failed) {

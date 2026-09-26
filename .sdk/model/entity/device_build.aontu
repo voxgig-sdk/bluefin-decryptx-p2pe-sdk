@@ -1,0 +1,228 @@
+# Entity: device_build
+
+main: kit: entity: device_build: {
+
+  alias: field: {}
+
+  fields: {
+    appVersion: {
+      h: "App Version"
+      n: "appVersion"
+      r: false
+      sh: "If a Device Type has more than one Application Code version the supported version is specified here."
+      t: "`$STRING`"
+    }
+    buildNumber: {
+      h: "Build Number"
+      n: "buildNumber"
+      r: false
+      sh: "The Build Number."
+      t: "`$STRING`"
+    }
+    configFileName: {
+      h: "Config File Name"
+      n: "configFileName"
+      r: false
+      sh: "The name of the configuration file that is uploaded to the device."
+      t: "`$STRING`"
+    }
+    created: {
+      fo: "date-time"
+      h: "Created"
+      n: "created"
+      r: false
+      sh: "Creation timestamp in ISO 8601 format."
+      t: "`$STRING`"
+    }
+    deviceType: {
+      h: "Device Type"
+      n: "deviceType"
+      r: false
+      sh: "The Device Type Name."
+      t: "`$STRING`"
+    }
+    firmwareVersion: {
+      h: "Firmware Version"
+      n: "firmwareVersion"
+      r: false
+      sh: "A list of firmware versions that this Device Build covers."
+      t: "`$STRING`"
+    }
+    hardwareVersion: {
+      h: "Hardware Version"
+      n: "hardwareVersion"
+      r: false
+      sh: "A list of hardware versions that this Device Build covers."
+      t: "`$STRING`"
+    }
+    id: {
+      fo: "int64"
+      h: "Id"
+      n: "id"
+      r: false
+      sh: "This resource's unique identifier."
+      t: "`$INTEGER`"
+    }
+    isActive: {
+      h: "Is Active"
+      n: "isActive"
+      r: false
+      sh: "This property indicates if the device build is still active and not succeeded by subsequent build."
+      t: "`$BOOLEAN`"
+    }
+    modified: {
+      fo: "date-time"
+      h: "Modified"
+      n: "modified"
+      r: false
+      sh: "Last modified timestamp."
+      t: "`$STRING`"
+    }
+    name: {
+      h: "Name"
+      n: "name"
+      r: false
+      sh: "The Device Builds's name."
+      t: "`$STRING`"
+    }
+    notes: {
+      h: "Notes"
+      n: "notes"
+      r: false
+      sh: "Notes attached to the device build by Bluefin CISO."
+      t: "`$STRING`"
+    }
+    version: {
+      h: "Version"
+      n: "version"
+      r: false
+      sh: "The number of times that this resource has been updated."
+      t: "`$INTEGER`"
+    }
+    whiteListingBinRanges: {
+      h: "White Listing Bin Ranges"
+      n: "whiteListingBinRanges"
+      r: false
+      sh: "A comma separated list of BIN ranges that aren't encrypted by the terminal."
+      t: "`$STRING`"
+    }
+    whiteListingUsed: {
+      h: "White Listing Used"
+      n: "whiteListingUsed"
+      r: false
+      sh: "This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal."
+      t: "`$BOOLEAN`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "device_build"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /deviceBuilds"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                k: "query"
+                n: "device_type"
+                or: "device_type"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                ex: 0
+                k: "query"
+                n: "skip"
+                or: "skip"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                ex: 10
+                k: "query"
+                n: "take"
+                or: "take"
+                r: false
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/deviceBuilds"
+          q: {
+            exist: [
+              "device_type"
+              "skip"
+              "take"
+            ]
+          }
+          s: [
+            {
+              lit: "deviceBuilds"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.data`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /deviceBuilds/{id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/deviceBuilds/{id}"
+          q: {
+            exist: [
+              "id"
+            ]
+          }
+          s: [
+            {
+              lit: "deviceBuilds"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

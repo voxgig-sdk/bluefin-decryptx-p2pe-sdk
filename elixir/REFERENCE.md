@@ -68,13 +68,9 @@ Create a `BluefinDecryptxP2pe.Entity.DeviceBuild` handle.
 
 Create a `BluefinDecryptxP2pe.Entity.DeviceCustodyDetail` handle.
 
-#### `BluefinDecryptxP2pe.device_custody_list(client, entopts \\ nil)`
+#### `BluefinDecryptxP2pe.device_custody_list_item(client, entopts \\ nil)`
 
-Create a `BluefinDecryptxP2pe.Entity.DeviceCustodyList` handle.
-
-#### `BluefinDecryptxP2pe.device_list(client, entopts \\ nil)`
-
-Create a `BluefinDecryptxP2pe.Entity.DeviceList` handle.
+Create a `BluefinDecryptxP2pe.Entity.DeviceCustodyListItem` handle.
 
 #### `BluefinDecryptxP2pe.device_receive_result(client, entopts \\ nil)`
 
@@ -127,6 +123,10 @@ Create a `BluefinDecryptxP2pe.Entity.UpdateResult` handle.
 #### `BluefinDecryptxP2pe.user(client, entopts \\ nil)`
 
 Create a `BluefinDecryptxP2pe.Entity.User` handle.
+
+#### `BluefinDecryptxP2pe.virtual_device(client, entopts \\ nil)`
+
+Create a `BluefinDecryptxP2pe.Entity.VirtualDevice` handle.
 
 #### `options_map(client) :: map()`
 
@@ -658,10 +658,10 @@ Return the entity name.
 
 ---
 
-## BluefinDecryptxP2pe.Entity.DeviceCustodyList
+## BluefinDecryptxP2pe.Entity.DeviceCustodyListItem
 
 ```elixir
-device_custody_list = BluefinDecryptxP2pe.device_custody_list(sdk)
+device_custody_list_item = BluefinDecryptxP2pe.device_custody_list_item(sdk)
 ```
 
 ### Fields
@@ -689,7 +689,7 @@ device_custody_list = BluefinDecryptxP2pe.device_custody_list(sdk)
 List entities matching the given criteria. The match is optional — call `list(entity)` to list all records. Returns a list and raises on error.
 
 ```elixir
-records = BluefinDecryptxP2pe.Entity.DeviceCustodyList.list(device_custody_list)
+records = BluefinDecryptxP2pe.Entity.DeviceCustodyListItem.list(device_custody_list_item)
 ```
 
 ### Common Functions
@@ -712,59 +712,7 @@ Set the entity match criteria.
 
 #### `make(entity) :: entity`
 
-Create a new `BluefinDecryptxP2pe.Entity.DeviceCustodyList` handle with the same options.
-
-#### `get_name(entity) :: String.t()`
-
-Return the entity name.
-
-
----
-
-## BluefinDecryptxP2pe.Entity.DeviceList
-
-```elixir
-device_list = BluefinDecryptxP2pe.device_list(sdk)
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `data` | `list()` | No | List of Devices. |
-| `total` | `integer()` | No | Total number of Devices available (not the number of Users in the response). |
-
-### Operations
-
-#### `load(entity, reqmatch, ctrl \\ nil) :: map()`
-
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
-
-```elixir
-record = BluefinDecryptxP2pe.Entity.DeviceList.load(device_list, BluefinDecryptxP2pe.Helpers.deep(%{"share_partner_to" => "share_partner_to"}))
-```
-
-### Common Functions
-
-#### `data_get(entity) :: map()`
-
-Get the entity data.
-
-#### `data_set(entity, data)`
-
-Set the entity data.
-
-#### `match_get(entity) :: map()`
-
-Get the entity match criteria.
-
-#### `match_set(entity, match)`
-
-Set the entity match criteria.
-
-#### `make(entity) :: entity`
-
-Create a new `BluefinDecryptxP2pe.Entity.DeviceList` handle with the same options.
+Create a new `BluefinDecryptxP2pe.Entity.DeviceCustodyListItem` handle with the same options.
 
 #### `get_name(entity) :: String.t()`
 
@@ -1687,22 +1635,75 @@ Return the entity name.
 
 ---
 
+## BluefinDecryptxP2pe.Entity.VirtualDevice
+
+```elixir
+virtual_device = BluefinDecryptxP2pe.virtual_device(sdk)
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `data` | `list()` | No | List of Devices. |
+| `id` | `String.t()` | No |  |
+| `total` | `integer()` | No | Total number of Devices available (not the number of Users in the response). |
+
+### Operations
+
+#### `load(entity, reqmatch, ctrl \\ nil) :: map()`
+
+Load a single entity matching the given criteria. Returns the entity data and raises on error.
+
+```elixir
+record = BluefinDecryptxP2pe.Entity.VirtualDevice.load(virtual_device, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "virtual_device_id"}))
+```
+
+### Common Functions
+
+#### `data_get(entity) :: map()`
+
+Get the entity data.
+
+#### `data_set(entity, data)`
+
+Set the entity data.
+
+#### `match_get(entity) :: map()`
+
+Get the entity match criteria.
+
+#### `match_set(entity, match)`
+
+Set the entity match criteria.
+
+#### `make(entity) :: entity`
+
+Create a new `BluefinDecryptxP2pe.Entity.VirtualDevice` handle with the same options.
+
+#### `get_name(entity) :: String.t()`
+
+Return the entity name.
+
+
+---
+
 ## Features
 
 | Feature | Version | Description |
 | --- | --- | --- |
-| `audit` | 0.0.1 | Structured audit trail of operations |
-| `clienttrack` | 0.0.1 | Client identity and per-request correlation headers |
-| `debug` | 0.0.1 | Request/response capture ring buffer for debugging |
-| `idempotency` | 0.0.1 | Idempotency keys for safe retries of mutating operations |
-| `log` | 0.0.1 | Structured request and response logging |
-| `metrics` | 0.0.1 | Statistics capture: per-operation counters and latency |
-| `paging` | 0.0.1 | Pagination signals for list operations |
-| `ratelimit` | 0.0.1 | Client-side rate limiting via a token bucket |
-| `retry` | 0.0.1 | Automatic retry of transient failures with exponential backoff |
-| `telemetry` | 0.0.1 | Distributed tracing spans with W3C trace-context propagation |
-| `test` | 0.0.1 | In-memory mock transport for testing without a live server |
-| `timeout` | 0.0.1 | Per-request timeout with transport abort |
+| `audit` | 0.0.1 | Audit trail |
+| `clienttrack` | 0.0.1 | Client tracking |
+| `debug` | 0.0.1 | Debug capture |
+| `idempotency` | 0.0.1 | Idempotency |
+| `log` | 0.0.1 | Logging |
+| `metrics` | 0.0.1 | Metrics |
+| `paging` | 0.0.1 | Paging |
+| `ratelimit` | 0.0.1 | Rate limiting |
+| `retry` | 0.0.1 | Retry |
+| `telemetry` | 0.0.1 | Telemetry |
+| `test` | 0.0.1 | Test transport |
+| `timeout` | 0.0.1 | Timeout |
 
 
 Features are activated via the `feature` option:
@@ -1752,7 +1753,7 @@ rather than the transport, so their order does not affect what they observe.
 
 #### `audit`
 
-Structured audit trail of operations.
+Audit trail.
 
 **Configuration**
 
@@ -1783,7 +1784,7 @@ its default unless you name it.
 
 #### `clienttrack`
 
-Client identity and per-request correlation headers.
+Client tracking.
 
 **Configuration**
 
@@ -1815,7 +1816,7 @@ its default unless you name it.
 
 #### `debug`
 
-Request/response capture ring buffer for debugging.
+Debug capture.
 
 **Configuration**
 
@@ -1846,7 +1847,7 @@ its default unless you name it.
 
 #### `idempotency`
 
-Idempotency keys for safe retries of mutating operations.
+Idempotency.
 
 **Configuration**
 
@@ -1877,7 +1878,7 @@ its default unless you name it.
 
 #### `log`
 
-Structured request and response logging.
+Logging.
 
 **Configuration**
 
@@ -1906,7 +1907,7 @@ its default unless you name it.
 
 #### `metrics`
 
-Statistics capture: per-operation counters and latency.
+Metrics.
 
 **Configuration**
 
@@ -1934,7 +1935,7 @@ its default unless you name it.
 
 #### `paging`
 
-Pagination signals for list operations.
+Paging.
 
 **Configuration**
 
@@ -1969,7 +1970,7 @@ its default unless you name it.
 
 #### `ratelimit`
 
-Client-side rate limiting via a token bucket.
+Rate limiting.
 
 **Configuration**
 
@@ -2000,7 +2001,7 @@ its default unless you name it.
 
 #### `retry`
 
-Automatic retry of transient failures with exponential backoff.
+Retry.
 
 **Configuration**
 
@@ -2034,7 +2035,7 @@ its default unless you name it.
 
 #### `telemetry`
 
-Distributed tracing spans with W3C trace-context propagation.
+Telemetry.
 
 **Configuration**
 
@@ -2065,7 +2066,7 @@ its default unless you name it.
 
 #### `test`
 
-In-memory mock transport for testing without a live server.
+Test transport.
 
 **Configuration**
 
@@ -2096,7 +2097,7 @@ its default unless you name it.
 
 #### `timeout`
 
-Per-request timeout with transport abort.
+Timeout.
 
 **Configuration**
 

@@ -215,8 +215,7 @@ pub fn make_config() -> Value {
                 ("device".to_string(), Value::empty_map()),
                 ("device_build".to_string(), Value::empty_map()),
                 ("device_custody_detail".to_string(), Value::empty_map()),
-                ("device_custody_list".to_string(), Value::empty_map()),
-                ("device_list".to_string(), Value::empty_map()),
+                ("device_custody_list_item".to_string(), Value::empty_map()),
                 ("device_receive_result".to_string(), Value::empty_map()),
                 ("device_rki_activate_result".to_string(), Value::empty_map()),
                 ("device_state".to_string(), Value::empty_map()),
@@ -230,6 +229,7 @@ pub fn make_config() -> Value {
                 ("transaction".to_string(), Value::empty_map()),
                 ("update_result".to_string(), Value::empty_map()),
                 ("user".to_string(), Value::empty_map()),
+                ("virtual_device".to_string(), Value::empty_map()),
             ])),
         ])),
         ("entity".to_string(), Value::map_of([
@@ -237,40 +237,47 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("name".to_string(), Value::str("client")),
-                        ("short".to_string(), Value::str("Reference to the associated Client resource.")),
+                        ("title".to_string(), Value::str("Client")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated Client resource.")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("datetime")),
                         ("name".to_string(), Value::str("completeDate")),
-                        ("short".to_string(), Value::str("The date and time that the Attestation took place.")),
+                        ("title".to_string(), Value::str("Complete Date")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The date and time that the Attestation took place.")),
+                        ("format".to_string(), Value::str("datetime")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("datetime")),
                         ("name".to_string(), Value::str("created")),
-                        ("short".to_string(), Value::str("Creation timestamp in ISO 8601 format.")),
+                        ("title".to_string(), Value::str("Created")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Creation timestamp in ISO 8601 format.")),
+                        ("format".to_string(), Value::str("datetime")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("device")),
-                        ("short".to_string(), Value::str("Reference to the associated Device resource.")),
+                        ("title".to_string(), Value::str("Device")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated Device resource.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("id")),
-                        ("short".to_string(), Value::str("This resource's unique identifier.")),
+                        ("title".to_string(), Value::str("Id")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("This resource's unique identifier.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("name")),
-                        ("short".to_string(), Value::str("Text describing the attestation.")),
+                        ("title".to_string(), Value::str("Name")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Text describing the attestation.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("notes")),
-                        ("short".to_string(), Value::str("Free form field that allows the Client associate notes with the Attestation.")),
+                        ("title".to_string(), Value::str("Notes")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Free form field that allows the Client associate notes with the Attestation.")),
                     ]),
                 ])),
                 ("id".to_string(), Value::map_of([
@@ -284,7 +291,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("create")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::empty_map()),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/attestations")),
@@ -293,14 +299,16 @@ pub fn make_config() -> Value {
                                         ("lit".to_string(), Value::str("attestations")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::empty_map()),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("attestations"),
+                                ])),
+                                ("rename".to_string(), Value::empty_map()),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("attestations"),
-                                ])),
+                                ("args".to_string(), Value::empty_map()),
+                                ("select".to_string(), Value::empty_map()),
                             ]),
                         ])),
                     ])),
@@ -309,31 +317,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("list")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("query".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("client")),
-                                            ("orig".to_string(), Value::str("client")),
-                                            ("reqd".to_string(), Value::Bool(true)),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("example".to_string(), Value::Num(0f64)),
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("skip")),
-                                            ("orig".to_string(), Value::str("skip")),
-                                            ("type".to_string(), Value::str("`$INTEGER`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("example".to_string(), Value::Num(10f64)),
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("take")),
-                                            ("orig".to_string(), Value::str("take")),
-                                            ("type".to_string(), Value::str("`$INTEGER`")),
-                                        ]),
-                                    ])),
-                                ])),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/attestations")),
@@ -342,19 +325,45 @@ pub fn make_config() -> Value {
                                         ("lit".to_string(), Value::str("attestations")),
                                     ]),
                                 ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("attestations"),
+                                ])),
+                                ("rename".to_string(), Value::empty_map()),
+                                ("transform".to_string(), Value::map_of([
+                                    ("req".to_string(), Value::str("`reqdata`")),
+                                    ("res".to_string(), Value::str("`body.data`")),
+                                ])),
+                                ("args".to_string(), Value::map_of([
+                                    ("query".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("client")),
+                                            ("orig".to_string(), Value::str("client")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                            ("reqd".to_string(), Value::Bool(true)),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("skip")),
+                                            ("orig".to_string(), Value::str("skip")),
+                                            ("type".to_string(), Value::str("`$INTEGER`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                            ("example".to_string(), Value::Num(0f64)),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("take")),
+                                            ("orig".to_string(), Value::str("take")),
+                                            ("type".to_string(), Value::str("`$INTEGER`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                            ("example".to_string(), Value::Num(10f64)),
+                                        ]),
+                                    ])),
+                                ])),
                                 ("select".to_string(), Value::map_of([
                                     ("exist".to_string(), Value::list(vec![
                                         Value::str("client"),
                                         Value::str("skip"),
                                         Value::str("take"),
                                     ])),
-                                ])),
-                                ("transform".to_string(), Value::map_of([
-                                    ("req".to_string(), Value::str("`reqdata`")),
-                                    ("res".to_string(), Value::str("`body.data`")),
-                                ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("attestations"),
                                 ])),
                             ]),
                         ])),
@@ -364,17 +373,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("load")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("params".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("param")),
-                                            ("name".to_string(), Value::str("id")),
-                                            ("orig".to_string(), Value::str("id")),
-                                            ("reqd".to_string(), Value::Bool(true)),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                    ])),
-                                ])),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/attestations/{id}")),
@@ -386,18 +384,30 @@ pub fn make_config() -> Value {
                                         ("var".to_string(), Value::str("id")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::map_of([
-                                    ("exist".to_string(), Value::list(vec![
-                                        Value::str("id"),
-                                    ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("attestations"),
+                                    Value::str("{id}"),
                                 ])),
+                                ("rename".to_string(), Value::empty_map()),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("attestations"),
-                                    Value::str("{id}"),
+                                ("args".to_string(), Value::map_of([
+                                    ("params".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("id")),
+                                            ("orig".to_string(), Value::str("id")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("param")),
+                                            ("reqd".to_string(), Value::Bool(true)),
+                                        ]),
+                                    ])),
+                                ])),
+                                ("select".to_string(), Value::map_of([
+                                    ("exist".to_string(), Value::list(vec![
+                                        Value::str("id"),
+                                    ])),
                                 ])),
                             ]),
                         ])),
@@ -411,6 +421,8 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("name".to_string(), Value::str("contact")),
+                        ("title".to_string(), Value::str("Contact")),
+                        ("type".to_string(), Value::str("`$OBJECT`")),
                         ("op".to_string(), Value::map_of([
                             ("list".to_string(), Value::map_of([
                                 ("req".to_string(), Value::Bool(true)),
@@ -418,60 +430,69 @@ pub fn make_config() -> Value {
                             ])),
                         ])),
                         ("short".to_string(), Value::str("Reference to the associated User resource.")),
-                        ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("datetime")),
                         ("name".to_string(), Value::str("created")),
-                        ("short".to_string(), Value::str("Creation timestamp in ISO 8601 format.")),
+                        ("title".to_string(), Value::str("Created")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Creation timestamp in ISO 8601 format.")),
+                        ("format".to_string(), Value::str("datetime")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("directPartner")),
-                        ("short".to_string(), Value::str("Reference to the associated Partner.")),
+                        ("title".to_string(), Value::str("Direct Partner")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated Partner.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("id")),
-                        ("short".to_string(), Value::str("This resource's unique identifier.")),
+                        ("title".to_string(), Value::str("Id")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("This resource's unique identifier.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("isActive")),
-                        ("short".to_string(), Value::str("This property indicates if the Client account is active or disabled.")),
+                        ("title".to_string(), Value::str("Is Active")),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
+                        ("short".to_string(), Value::str("This property indicates if the Client account is active or disabled.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("location")),
+                        ("title".to_string(), Value::str("Location")),
+                        ("type".to_string(), Value::str("`$OBJECT`")),
                         ("req".to_string(), Value::Bool(true)),
                         ("short".to_string(), Value::str("Reference to the associated Location resource.")),
-                        ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("mid")),
-                        ("short".to_string(), Value::str("Some Partners will have an merchant ids on their own software offerings.")),
+                        ("title".to_string(), Value::str("Mid")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Some Partners will have an merchant ids on their own software offerings.")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("datetime")),
                         ("name".to_string(), Value::str("modified")),
-                        ("short".to_string(), Value::str("Last modified timestamp.")),
+                        ("title".to_string(), Value::str("Modified")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Last modified timestamp.")),
+                        ("format".to_string(), Value::str("datetime")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("name")),
-                        ("short".to_string(), Value::str("The Client's name.")),
+                        ("title".to_string(), Value::str("Name")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Client's name.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("partner")),
-                        ("short".to_string(), Value::str("Reference to the Client's root Partner.")),
+                        ("title".to_string(), Value::str("Partner")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the Client's root Partner.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("version")),
-                        ("short".to_string(), Value::str("The number of times that this resource has been updated.")),
+                        ("title".to_string(), Value::str("Version")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
+                        ("short".to_string(), Value::str("The number of times that this resource has been updated.")),
                     ]),
                 ])),
                 ("id".to_string(), Value::map_of([
@@ -485,7 +506,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("create")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::empty_map()),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/clients")),
@@ -494,14 +514,16 @@ pub fn make_config() -> Value {
                                         ("lit".to_string(), Value::str("clients")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::empty_map()),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("clients"),
+                                ])),
+                                ("rename".to_string(), Value::empty_map()),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("clients"),
-                                ])),
+                                ("args".to_string(), Value::empty_map()),
+                                ("select".to_string(), Value::empty_map()),
                             ]),
                         ])),
                     ])),
@@ -510,31 +532,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("list")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("query".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("partner")),
-                                            ("orig".to_string(), Value::str("partner")),
-                                            ("reqd".to_string(), Value::Bool(true)),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("example".to_string(), Value::Num(0f64)),
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("skip")),
-                                            ("orig".to_string(), Value::str("skip")),
-                                            ("type".to_string(), Value::str("`$INTEGER`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("example".to_string(), Value::Num(10f64)),
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("take")),
-                                            ("orig".to_string(), Value::str("take")),
-                                            ("type".to_string(), Value::str("`$INTEGER`")),
-                                        ]),
-                                    ])),
-                                ])),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/clients")),
@@ -543,19 +540,45 @@ pub fn make_config() -> Value {
                                         ("lit".to_string(), Value::str("clients")),
                                     ]),
                                 ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("clients"),
+                                ])),
+                                ("rename".to_string(), Value::empty_map()),
+                                ("transform".to_string(), Value::map_of([
+                                    ("req".to_string(), Value::str("`reqdata`")),
+                                    ("res".to_string(), Value::str("`body.data`")),
+                                ])),
+                                ("args".to_string(), Value::map_of([
+                                    ("query".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("partner")),
+                                            ("orig".to_string(), Value::str("partner")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                            ("reqd".to_string(), Value::Bool(true)),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("skip")),
+                                            ("orig".to_string(), Value::str("skip")),
+                                            ("type".to_string(), Value::str("`$INTEGER`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                            ("example".to_string(), Value::Num(0f64)),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("take")),
+                                            ("orig".to_string(), Value::str("take")),
+                                            ("type".to_string(), Value::str("`$INTEGER`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                            ("example".to_string(), Value::Num(10f64)),
+                                        ]),
+                                    ])),
+                                ])),
                                 ("select".to_string(), Value::map_of([
                                     ("exist".to_string(), Value::list(vec![
                                         Value::str("partner"),
                                         Value::str("skip"),
                                         Value::str("take"),
                                     ])),
-                                ])),
-                                ("transform".to_string(), Value::map_of([
-                                    ("req".to_string(), Value::str("`reqdata`")),
-                                    ("res".to_string(), Value::str("`body.data`")),
-                                ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("clients"),
                                 ])),
                             ]),
                         ])),
@@ -565,17 +588,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("load")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("params".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("param")),
-                                            ("name".to_string(), Value::str("id")),
-                                            ("orig".to_string(), Value::str("id")),
-                                            ("reqd".to_string(), Value::Bool(true)),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                    ])),
-                                ])),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/clients/{id}")),
@@ -587,18 +599,30 @@ pub fn make_config() -> Value {
                                         ("var".to_string(), Value::str("id")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::map_of([
-                                    ("exist".to_string(), Value::list(vec![
-                                        Value::str("id"),
-                                    ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("clients"),
+                                    Value::str("{id}"),
                                 ])),
+                                ("rename".to_string(), Value::empty_map()),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("clients"),
-                                    Value::str("{id}"),
+                                ("args".to_string(), Value::map_of([
+                                    ("params".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("id")),
+                                            ("orig".to_string(), Value::str("id")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("param")),
+                                            ("reqd".to_string(), Value::Bool(true)),
+                                        ]),
+                                    ])),
+                                ])),
+                                ("select".to_string(), Value::map_of([
+                                    ("exist".to_string(), Value::list(vec![
+                                        Value::str("id"),
+                                    ])),
                                 ])),
                             ]),
                         ])),
@@ -608,17 +632,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("remove")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("params".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("param")),
-                                            ("name".to_string(), Value::str("id")),
-                                            ("orig".to_string(), Value::str("id")),
-                                            ("reqd".to_string(), Value::Bool(true)),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                    ])),
-                                ])),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("DELETE")),
                                 ("orig".to_string(), Value::str("/clients/{id}")),
@@ -630,18 +643,30 @@ pub fn make_config() -> Value {
                                         ("var".to_string(), Value::str("id")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::map_of([
-                                    ("exist".to_string(), Value::list(vec![
-                                        Value::str("id"),
-                                    ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("clients"),
+                                    Value::str("{id}"),
                                 ])),
+                                ("rename".to_string(), Value::empty_map()),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("clients"),
-                                    Value::str("{id}"),
+                                ("args".to_string(), Value::map_of([
+                                    ("params".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("id")),
+                                            ("orig".to_string(), Value::str("id")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("param")),
+                                            ("reqd".to_string(), Value::Bool(true)),
+                                        ]),
+                                    ])),
+                                ])),
+                                ("select".to_string(), Value::map_of([
+                                    ("exist".to_string(), Value::list(vec![
+                                        Value::str("id"),
+                                    ])),
                                 ])),
                             ]),
                         ])),
@@ -660,33 +685,9 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("create")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("params".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("param")),
-                                            ("name".to_string(), Value::str("device_type")),
-                                            ("orig".to_string(), Value::str("device_type")),
-                                            ("reqd".to_string(), Value::Bool(true)),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("param")),
-                                            ("name".to_string(), Value::str("serial_number")),
-                                            ("orig".to_string(), Value::str("serial_number")),
-                                            ("reqd".to_string(), Value::Bool(true)),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                    ])),
-                                ])),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/devices/{serialNumber}/{deviceType}/custody")),
-                                ("rename".to_string(), Value::map_of([
-                                    ("param".to_string(), Value::map_of([
-                                        ("deviceType".to_string(), Value::str("device_type")),
-                                        ("serialNumber".to_string(), Value::str("serial_number")),
-                                    ])),
-                                ])),
                                 ("segments".to_string(), Value::list(vec![
                                     Value::map_of([
                                         ("lit".to_string(), Value::str("devices")),
@@ -701,21 +702,45 @@ pub fn make_config() -> Value {
                                         ("lit".to_string(), Value::str("custody")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::map_of([
-                                    ("exist".to_string(), Value::list(vec![
-                                        Value::str("device_type"),
-                                        Value::str("serial_number"),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("devices"),
+                                    Value::str("{serial_number}"),
+                                    Value::str("{device_type}"),
+                                    Value::str("custody"),
+                                ])),
+                                ("rename".to_string(), Value::map_of([
+                                    ("param".to_string(), Value::map_of([
+                                        ("deviceType".to_string(), Value::str("device_type")),
+                                        ("serialNumber".to_string(), Value::str("serial_number")),
                                     ])),
                                 ])),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("devices"),
-                                    Value::str("{serial_number}"),
-                                    Value::str("{device_type}"),
-                                    Value::str("custody"),
+                                ("args".to_string(), Value::map_of([
+                                    ("params".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("device_type")),
+                                            ("orig".to_string(), Value::str("device_type")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("param")),
+                                            ("reqd".to_string(), Value::Bool(true)),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("serial_number")),
+                                            ("orig".to_string(), Value::str("serial_number")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("param")),
+                                            ("reqd".to_string(), Value::Bool(true)),
+                                        ]),
+                                    ])),
+                                ])),
+                                ("select".to_string(), Value::map_of([
+                                    ("exist".to_string(), Value::list(vec![
+                                        Value::str("device_type"),
+                                        Value::str("serial_number"),
+                                    ])),
                                 ])),
                             ]),
                         ])),
@@ -724,7 +749,7 @@ pub fn make_config() -> Value {
                 ("relations".to_string(), Value::map_of([
                     ("ancestors".to_string(), Value::list(vec![
                         Value::list(vec![
-                            Value::str("device"),
+                            Value::str("$.main.kit.entity.device"),
                         ]),
                     ])),
                 ])),
@@ -733,8 +758,9 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("name".to_string(), Value::str("success")),
-                        ("short".to_string(), Value::str("true if the payload decryption was successful.")),
+                        ("title".to_string(), Value::str("Success")),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
+                        ("short".to_string(), Value::str("true if the payload decryption was successful.")),
                     ]),
                 ])),
                 ("name".to_string(), Value::str("decryption")),
@@ -744,7 +770,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("create")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::empty_map()),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/decryption")),
@@ -753,14 +778,16 @@ pub fn make_config() -> Value {
                                         ("lit".to_string(), Value::str("decryption")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::empty_map()),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("decryption"),
+                                ])),
+                                ("rename".to_string(), Value::empty_map()),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("decryption"),
-                                ])),
+                                ("args".to_string(), Value::empty_map()),
+                                ("select".to_string(), Value::empty_map()),
                             ]),
                         ])),
                     ])),
@@ -773,156 +800,184 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("name".to_string(), Value::str("activatedBy")),
+                        ("title".to_string(), Value::str("Activated By")),
+                        ("type".to_string(), Value::str("`$OBJECT`")),
                         ("req".to_string(), Value::Bool(true)),
                         ("short".to_string(), Value::str("Reference to the associated User resource.")),
-                        ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("datetime")),
                         ("name".to_string(), Value::str("activationDate")),
-                        ("short".to_string(), Value::str("Timestamp from when the Device was activated.")),
+                        ("title".to_string(), Value::str("Activation Date")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Timestamp from when the Device was activated.")),
+                        ("format".to_string(), Value::str("datetime")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("alternateKey")),
+                        ("title".to_string(), Value::str("Alternate Key")),
+                        ("type".to_string(), Value::str("`$STRING`")),
                         ("short".to_string(), Value::str("The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging.")),
-                        ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("datetime")),
                         ("name".to_string(), Value::str("auditNextDate")),
-                        ("short".to_string(), Value::str("Date and time that the Device is due its next PCI Audit.")),
+                        ("title".to_string(), Value::str("Audit Next Date")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Date and time that the Device is due its next PCI Audit.")),
+                        ("format".to_string(), Value::str("datetime")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("datetime")),
                         ("name".to_string(), Value::str("auditNotificationDate")),
-                        ("short".to_string(), Value::str("Date and time that a notification should be sent that a PCI audit is due.")),
+                        ("title".to_string(), Value::str("Audit Notification Date")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Date and time that a notification should be sent that a PCI audit is due.")),
+                        ("format".to_string(), Value::str("datetime")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("client")),
-                        ("short".to_string(), Value::str("Reference to the associated Client resource.")),
+                        ("title".to_string(), Value::str("Client")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated Client resource.")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("datetime")),
                         ("name".to_string(), Value::str("created")),
-                        ("short".to_string(), Value::str("Creation timestamp in ISO 8601 format.")),
+                        ("title".to_string(), Value::str("Created")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Creation timestamp in ISO 8601 format.")),
+                        ("format".to_string(), Value::str("datetime")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("createdBy")),
+                        ("title".to_string(), Value::str("Created By")),
+                        ("type".to_string(), Value::str("`$OBJECT`")),
                         ("req".to_string(), Value::Bool(true)),
                         ("short".to_string(), Value::str("Reference to the associated User resource.")),
-                        ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("deviceBuild")),
-                        ("short".to_string(), Value::str("Reference to the associated Device Build resource.")),
+                        ("title".to_string(), Value::str("Device Build")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated Device Build resource.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("deviceState")),
-                        ("short".to_string(), Value::str("Reference to the associated Device State resource.")),
+                        ("title".to_string(), Value::str("Device State")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated Device State resource.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("deviceType")),
-                        ("short".to_string(), Value::str("Reference to the associated Device Type resource.")),
+                        ("title".to_string(), Value::str("Device Type")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated Device Type resource.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("errorCounter")),
-                        ("short".to_string(), Value::str("The number times the Device has been in error.")),
+                        ("title".to_string(), Value::str("Error Counter")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
+                        ("short".to_string(), Value::str("The number times the Device has been in error.")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("datetime")),
                         ("name".to_string(), Value::str("errorLastDate")),
-                        ("short".to_string(), Value::str("Timestamp from the last time that the Device had an error.")),
+                        ("title".to_string(), Value::str("Error Last Date")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Timestamp from the last time that the Device had an error.")),
+                        ("format".to_string(), Value::str("datetime")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("id")),
-                        ("short".to_string(), Value::str("The Device's unique identifier.")),
+                        ("title".to_string(), Value::str("Id")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Device's unique identifier.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("initializedBy")),
+                        ("title".to_string(), Value::str("Initialized By")),
+                        ("type".to_string(), Value::str("`$OBJECT`")),
                         ("req".to_string(), Value::Bool(true)),
                         ("short".to_string(), Value::str("Reference to the associated User resource.")),
-                        ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("datetime")),
                         ("name".to_string(), Value::str("initializedDate")),
-                        ("short".to_string(), Value::str("Timestamp from when the Device was initialized.")),
+                        ("title".to_string(), Value::str("Initialized Date")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Timestamp from when the Device was initialized.")),
+                        ("format".to_string(), Value::str("datetime")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("injectKey")),
-                        ("short".to_string(), Value::str("Reference to the associated Device resource.")),
+                        ("title".to_string(), Value::str("Inject Key")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated Device resource.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("isVirtual")),
-                        ("short".to_string(), Value::str("Indicates if a Device is Virtual (represents a Device shared with a partner).")),
+                        ("title".to_string(), Value::str("Is Virtual")),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
+                        ("short".to_string(), Value::str("Indicates if a Device is Virtual (represents a Device shared with a partner).")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("kif")),
-                        ("short".to_string(), Value::str("Reference to the associated KIF resource.")),
+                        ("title".to_string(), Value::str("Kif")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated KIF resource.")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("datetime")),
                         ("name".to_string(), Value::str("lastActivityDate")),
-                        ("short".to_string(), Value::str("Timestamp from the last time that the Device was used.")),
+                        ("title".to_string(), Value::str("Last Activity Date")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Timestamp from the last time that the Device was used.")),
+                        ("format".to_string(), Value::str("datetime")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("location")),
+                        ("title".to_string(), Value::str("Location")),
+                        ("type".to_string(), Value::str("`$OBJECT`")),
                         ("req".to_string(), Value::Bool(true)),
                         ("short".to_string(), Value::str("Reference to the associated Location resource.")),
-                        ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("datetime")),
                         ("name".to_string(), Value::str("modified")),
-                        ("short".to_string(), Value::str("Last modified timestamp.")),
+                        ("title".to_string(), Value::str("Modified")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Last modified timestamp.")),
+                        ("format".to_string(), Value::str("datetime")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("modifiedBy")),
+                        ("title".to_string(), Value::str("Modified By")),
+                        ("type".to_string(), Value::str("`$OBJECT`")),
                         ("req".to_string(), Value::Bool(true)),
                         ("short".to_string(), Value::str("Reference to the associated User resource.")),
-                        ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("name")),
-                        ("short".to_string(), Value::str("The Device's name.")),
+                        ("title".to_string(), Value::str("Name")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Device's name.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("notes")),
-                        ("short".to_string(), Value::str("Arbitary note that can be attached to a Device entry.")),
+                        ("title".to_string(), Value::str("Notes")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Arbitary note that can be attached to a Device entry.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("partner")),
-                        ("short".to_string(), Value::str("Reference to the associated Partner.")),
+                        ("title".to_string(), Value::str("Partner")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated Partner.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("serialNumber")),
-                        ("short".to_string(), Value::str("The Device's serial number.")),
+                        ("title".to_string(), Value::str("Serial Number")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Device's serial number.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("version")),
-                        ("short".to_string(), Value::str("The number of times that this resource has been updated.")),
+                        ("title".to_string(), Value::str("Version")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
+                        ("short".to_string(), Value::str("The number of times that this resource has been updated.")),
                     ]),
                 ])),
                 ("id".to_string(), Value::map_of([
@@ -936,7 +991,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("create")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::empty_map()),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/devices")),
@@ -945,14 +999,16 @@ pub fn make_config() -> Value {
                                         ("lit".to_string(), Value::str("devices")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::empty_map()),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("devices"),
+                                ])),
+                                ("rename".to_string(), Value::empty_map()),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("devices"),
-                                ])),
+                                ("args".to_string(), Value::empty_map()),
+                                ("select".to_string(), Value::empty_map()),
                             ]),
                         ])),
                     ])),
@@ -961,68 +1017,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("list")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("query".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("client")),
-                                            ("orig".to_string(), Value::str("client")),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("device_state")),
-                                            ("orig".to_string(), Value::str("device_state")),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("kif")),
-                                            ("orig".to_string(), Value::str("kif")),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("partner")),
-                                            ("orig".to_string(), Value::str("partner")),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("serial_number")),
-                                            ("orig".to_string(), Value::str("serial_number")),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("example".to_string(), Value::Num(0f64)),
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("skip")),
-                                            ("orig".to_string(), Value::str("skip")),
-                                            ("type".to_string(), Value::str("`$INTEGER`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("example".to_string(), Value::str("asc")),
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("sorting_direction")),
-                                            ("orig".to_string(), Value::str("sorting_direction")),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("example".to_string(), Value::str("serialnumber")),
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("sorting_field")),
-                                            ("orig".to_string(), Value::str("sorting_field")),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("example".to_string(), Value::Num(10f64)),
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("take")),
-                                            ("orig".to_string(), Value::str("take")),
-                                            ("type".to_string(), Value::str("`$INTEGER`")),
-                                        ]),
-                                    ])),
-                                ])),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/devices")),
@@ -1030,6 +1024,76 @@ pub fn make_config() -> Value {
                                     Value::map_of([
                                         ("lit".to_string(), Value::str("devices")),
                                     ]),
+                                ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("devices"),
+                                ])),
+                                ("rename".to_string(), Value::empty_map()),
+                                ("transform".to_string(), Value::map_of([
+                                    ("req".to_string(), Value::str("`reqdata`")),
+                                    ("res".to_string(), Value::str("`body.data`")),
+                                ])),
+                                ("args".to_string(), Value::map_of([
+                                    ("query".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("client")),
+                                            ("orig".to_string(), Value::str("client")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("device_state")),
+                                            ("orig".to_string(), Value::str("device_state")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("kif")),
+                                            ("orig".to_string(), Value::str("kif")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("partner")),
+                                            ("orig".to_string(), Value::str("partner")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("serial_number")),
+                                            ("orig".to_string(), Value::str("serial_number")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("skip")),
+                                            ("orig".to_string(), Value::str("skip")),
+                                            ("type".to_string(), Value::str("`$INTEGER`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                            ("example".to_string(), Value::Num(0f64)),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("sorting_direction")),
+                                            ("orig".to_string(), Value::str("sorting_direction")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                            ("example".to_string(), Value::str("asc")),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("sorting_field")),
+                                            ("orig".to_string(), Value::str("sorting_field")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                            ("example".to_string(), Value::str("serialnumber")),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("take")),
+                                            ("orig".to_string(), Value::str("take")),
+                                            ("type".to_string(), Value::str("`$INTEGER`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                            ("example".to_string(), Value::Num(10f64)),
+                                        ]),
+                                    ])),
                                 ])),
                                 ("select".to_string(), Value::map_of([
                                     ("exist".to_string(), Value::list(vec![
@@ -1044,13 +1108,6 @@ pub fn make_config() -> Value {
                                         Value::str("take"),
                                     ])),
                                 ])),
-                                ("transform".to_string(), Value::map_of([
-                                    ("req".to_string(), Value::str("`reqdata`")),
-                                    ("res".to_string(), Value::str("`body.data`")),
-                                ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("devices"),
-                                ])),
                             ]),
                         ])),
                     ])),
@@ -1059,33 +1116,9 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("load")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("params".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("param")),
-                                            ("name".to_string(), Value::str("device_type")),
-                                            ("orig".to_string(), Value::str("device_type")),
-                                            ("reqd".to_string(), Value::Bool(true)),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("param")),
-                                            ("name".to_string(), Value::str("serial_number")),
-                                            ("orig".to_string(), Value::str("serial_number")),
-                                            ("reqd".to_string(), Value::Bool(true)),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                    ])),
-                                ])),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/devices/{serialNumber}/{deviceType}")),
-                                ("rename".to_string(), Value::map_of([
-                                    ("param".to_string(), Value::map_of([
-                                        ("deviceType".to_string(), Value::str("device_type")),
-                                        ("serialNumber".to_string(), Value::str("serial_number")),
-                                    ])),
-                                ])),
                                 ("segments".to_string(), Value::list(vec![
                                     Value::map_of([
                                         ("lit".to_string(), Value::str("devices")),
@@ -1097,34 +1130,47 @@ pub fn make_config() -> Value {
                                         ("var".to_string(), Value::str("device_type")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::map_of([
-                                    ("exist".to_string(), Value::list(vec![
-                                        Value::str("device_type"),
-                                        Value::str("serial_number"),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("devices"),
+                                    Value::str("{serial_number}"),
+                                    Value::str("{device_type}"),
+                                ])),
+                                ("rename".to_string(), Value::map_of([
+                                    ("param".to_string(), Value::map_of([
+                                        ("deviceType".to_string(), Value::str("device_type")),
+                                        ("serialNumber".to_string(), Value::str("serial_number")),
                                     ])),
                                 ])),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("devices"),
-                                    Value::str("{serial_number}"),
-                                    Value::str("{device_type}"),
-                                ])),
-                            ]),
-                            Value::map_of([
                                 ("args".to_string(), Value::map_of([
                                     ("params".to_string(), Value::list(vec![
                                         Value::map_of([
-                                            ("kind".to_string(), Value::str("param")),
-                                            ("name".to_string(), Value::str("id")),
-                                            ("orig".to_string(), Value::str("id")),
-                                            ("reqd".to_string(), Value::Bool(true)),
+                                            ("name".to_string(), Value::str("device_type")),
+                                            ("orig".to_string(), Value::str("device_type")),
                                             ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("param")),
+                                            ("reqd".to_string(), Value::Bool(true)),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("serial_number")),
+                                            ("orig".to_string(), Value::str("serial_number")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("param")),
+                                            ("reqd".to_string(), Value::Bool(true)),
                                         ]),
                                     ])),
                                 ])),
+                                ("select".to_string(), Value::map_of([
+                                    ("exist".to_string(), Value::list(vec![
+                                        Value::str("device_type"),
+                                        Value::str("serial_number"),
+                                    ])),
+                                ])),
+                            ]),
+                            Value::map_of([
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/devices/{id}")),
@@ -1136,110 +1182,133 @@ pub fn make_config() -> Value {
                                         ("var".to_string(), Value::str("id")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::map_of([
-                                    ("exist".to_string(), Value::list(vec![
-                                        Value::str("id"),
-                                    ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("devices"),
+                                    Value::str("{id}"),
                                 ])),
+                                ("rename".to_string(), Value::empty_map()),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("devices"),
-                                    Value::str("{id}"),
+                                ("args".to_string(), Value::map_of([
+                                    ("params".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("id")),
+                                            ("orig".to_string(), Value::str("id")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("param")),
+                                            ("reqd".to_string(), Value::Bool(true)),
+                                        ]),
+                                    ])),
+                                ])),
+                                ("select".to_string(), Value::map_of([
+                                    ("exist".to_string(), Value::list(vec![
+                                        Value::str("id"),
+                                    ])),
                                 ])),
                             ]),
                         ])),
                     ])),
                 ])),
                 ("relations".to_string(), Value::map_of([
-                    ("ancestors".to_string(), Value::list(vec![
-                        Value::list(vec![
-                            Value::str("device"),
-                        ]),
-                    ])),
+                    ("ancestors".to_string(), Value::empty_list()),
                 ])),
             ])),
             ("device_build".to_string(), Value::map_of([
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("name".to_string(), Value::str("appVersion")),
-                        ("short".to_string(), Value::str("If a Device Type has more than one Application Code version the supported version is specified here.")),
+                        ("title".to_string(), Value::str("App Version")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("If a Device Type has more than one Application Code version the supported version is specified here.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("buildNumber")),
-                        ("short".to_string(), Value::str("The Build Number.")),
+                        ("title".to_string(), Value::str("Build Number")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Build Number.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("configFileName")),
-                        ("short".to_string(), Value::str("The name of the configuration file that is uploaded to the device.")),
+                        ("title".to_string(), Value::str("Config File Name")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The name of the configuration file that is uploaded to the device.")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("date-time")),
                         ("name".to_string(), Value::str("created")),
-                        ("short".to_string(), Value::str("Creation timestamp in ISO 8601 format.")),
+                        ("title".to_string(), Value::str("Created")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Creation timestamp in ISO 8601 format.")),
+                        ("format".to_string(), Value::str("date-time")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("deviceType")),
-                        ("short".to_string(), Value::str("The Device Type Name.")),
+                        ("title".to_string(), Value::str("Device Type")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Device Type Name.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("firmwareVersion")),
-                        ("short".to_string(), Value::str("A list of firmware versions that this Device Build covers.")),
+                        ("title".to_string(), Value::str("Firmware Version")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("A list of firmware versions that this Device Build covers.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("hardwareVersion")),
-                        ("short".to_string(), Value::str("A list of hardware versions that this Device Build covers.")),
+                        ("title".to_string(), Value::str("Hardware Version")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("A list of hardware versions that this Device Build covers.")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("int64")),
                         ("name".to_string(), Value::str("id")),
-                        ("short".to_string(), Value::str("This resource's unique identifier.")),
+                        ("title".to_string(), Value::str("Id")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
+                        ("short".to_string(), Value::str("This resource's unique identifier.")),
+                        ("format".to_string(), Value::str("int64")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("isActive")),
-                        ("short".to_string(), Value::str("This property indicates if the device build is still active and not succeeded by subsequent build.")),
+                        ("title".to_string(), Value::str("Is Active")),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
+                        ("short".to_string(), Value::str("This property indicates if the device build is still active and not succeeded by subsequent build.")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("date-time")),
                         ("name".to_string(), Value::str("modified")),
-                        ("short".to_string(), Value::str("Last modified timestamp.")),
+                        ("title".to_string(), Value::str("Modified")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Last modified timestamp.")),
+                        ("format".to_string(), Value::str("date-time")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("name")),
-                        ("short".to_string(), Value::str("The Device Builds's name.")),
+                        ("title".to_string(), Value::str("Name")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Device Builds's name.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("notes")),
-                        ("short".to_string(), Value::str("Notes attached to the device build by Bluefin CISO.")),
+                        ("title".to_string(), Value::str("Notes")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Notes attached to the device build by Bluefin CISO.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("version")),
-                        ("short".to_string(), Value::str("The number of times that this resource has been updated.")),
+                        ("title".to_string(), Value::str("Version")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
+                        ("short".to_string(), Value::str("The number of times that this resource has been updated.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("whiteListingBinRanges")),
-                        ("short".to_string(), Value::str("A comma separated list of BIN ranges that aren't encrypted by the terminal.")),
+                        ("title".to_string(), Value::str("White Listing Bin Ranges")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("A comma separated list of BIN ranges that aren't encrypted by the terminal.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("whiteListingUsed")),
-                        ("short".to_string(), Value::str("This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal.")),
+                        ("title".to_string(), Value::str("White Listing Used")),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
+                        ("short".to_string(), Value::str("This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal.")),
                     ]),
                 ])),
                 ("id".to_string(), Value::map_of([
@@ -1253,30 +1322,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("list")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("query".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("device_type")),
-                                            ("orig".to_string(), Value::str("device_type")),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("example".to_string(), Value::Num(0f64)),
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("skip")),
-                                            ("orig".to_string(), Value::str("skip")),
-                                            ("type".to_string(), Value::str("`$INTEGER`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("example".to_string(), Value::Num(10f64)),
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("take")),
-                                            ("orig".to_string(), Value::str("take")),
-                                            ("type".to_string(), Value::str("`$INTEGER`")),
-                                        ]),
-                                    ])),
-                                ])),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/deviceBuilds")),
@@ -1285,19 +1330,44 @@ pub fn make_config() -> Value {
                                         ("lit".to_string(), Value::str("deviceBuilds")),
                                     ]),
                                 ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("deviceBuilds"),
+                                ])),
+                                ("rename".to_string(), Value::empty_map()),
+                                ("transform".to_string(), Value::map_of([
+                                    ("req".to_string(), Value::str("`reqdata`")),
+                                    ("res".to_string(), Value::str("`body.data`")),
+                                ])),
+                                ("args".to_string(), Value::map_of([
+                                    ("query".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("device_type")),
+                                            ("orig".to_string(), Value::str("device_type")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("skip")),
+                                            ("orig".to_string(), Value::str("skip")),
+                                            ("type".to_string(), Value::str("`$INTEGER`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                            ("example".to_string(), Value::Num(0f64)),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("take")),
+                                            ("orig".to_string(), Value::str("take")),
+                                            ("type".to_string(), Value::str("`$INTEGER`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                            ("example".to_string(), Value::Num(10f64)),
+                                        ]),
+                                    ])),
+                                ])),
                                 ("select".to_string(), Value::map_of([
                                     ("exist".to_string(), Value::list(vec![
                                         Value::str("device_type"),
                                         Value::str("skip"),
                                         Value::str("take"),
                                     ])),
-                                ])),
-                                ("transform".to_string(), Value::map_of([
-                                    ("req".to_string(), Value::str("`reqdata`")),
-                                    ("res".to_string(), Value::str("`body.data`")),
-                                ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("deviceBuilds"),
                                 ])),
                             ]),
                         ])),
@@ -1307,17 +1377,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("load")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("params".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("param")),
-                                            ("name".to_string(), Value::str("id")),
-                                            ("orig".to_string(), Value::str("id")),
-                                            ("reqd".to_string(), Value::Bool(true)),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                    ])),
-                                ])),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/deviceBuilds/{id}")),
@@ -1329,18 +1388,30 @@ pub fn make_config() -> Value {
                                         ("var".to_string(), Value::str("id")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::map_of([
-                                    ("exist".to_string(), Value::list(vec![
-                                        Value::str("id"),
-                                    ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("deviceBuilds"),
+                                    Value::str("{id}"),
                                 ])),
+                                ("rename".to_string(), Value::empty_map()),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("deviceBuilds"),
-                                    Value::str("{id}"),
+                                ("args".to_string(), Value::map_of([
+                                    ("params".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("id")),
+                                            ("orig".to_string(), Value::str("id")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("param")),
+                                            ("reqd".to_string(), Value::Bool(true)),
+                                        ]),
+                                    ])),
+                                ])),
+                                ("select".to_string(), Value::map_of([
+                                    ("exist".to_string(), Value::list(vec![
+                                        Value::str("id"),
+                                    ])),
                                 ])),
                             ]),
                         ])),
@@ -1353,77 +1424,90 @@ pub fn make_config() -> Value {
             ("device_custody_detail".to_string(), Value::map_of([
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
-                        ("format".to_string(), Value::str("date-time")),
                         ("name".to_string(), Value::str("completeDate")),
-                        ("short".to_string(), Value::str("The date and time that the Custody change took place.")),
+                        ("title".to_string(), Value::str("Complete Date")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The date and time that the Custody change took place.")),
+                        ("format".to_string(), Value::str("date-time")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("date-time")),
                         ("name".to_string(), Value::str("created")),
-                        ("short".to_string(), Value::str("Creation timestamp in ISO 8601 format.")),
+                        ("title".to_string(), Value::str("Created")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Creation timestamp in ISO 8601 format.")),
+                        ("format".to_string(), Value::str("date-time")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("createdBy")),
+                        ("title".to_string(), Value::str("Created By")),
+                        ("type".to_string(), Value::str("`$OBJECT`")),
                         ("req".to_string(), Value::Bool(true)),
                         ("short".to_string(), Value::str("Reference to the associated User resource.")),
-                        ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("custodian")),
+                        ("title".to_string(), Value::str("Custodian")),
+                        ("type".to_string(), Value::str("`$OBJECT`")),
                         ("req".to_string(), Value::Bool(true)),
                         ("short".to_string(), Value::str("Reference to the associated User resource.")),
-                        ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("device")),
-                        ("short".to_string(), Value::str("Reference to the associated Device resource.")),
+                        ("title".to_string(), Value::str("Device")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated Device resource.")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("int64")),
                         ("name".to_string(), Value::str("id")),
-                        ("short".to_string(), Value::str("This resource's unique identifier.")),
+                        ("title".to_string(), Value::str("Id")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
+                        ("short".to_string(), Value::str("This resource's unique identifier.")),
+                        ("format".to_string(), Value::str("int64")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("location")),
+                        ("title".to_string(), Value::str("Location")),
+                        ("type".to_string(), Value::str("`$OBJECT`")),
                         ("req".to_string(), Value::Bool(true)),
                         ("short".to_string(), Value::str("Reference to the associated Location resource.")),
-                        ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("date-time")),
                         ("name".to_string(), Value::str("modified")),
-                        ("short".to_string(), Value::str("Last modified timestamp.")),
+                        ("title".to_string(), Value::str("Modified")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Last modified timestamp.")),
+                        ("format".to_string(), Value::str("date-time")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("modifiedBy")),
+                        ("title".to_string(), Value::str("Modified By")),
+                        ("type".to_string(), Value::str("`$OBJECT`")),
                         ("req".to_string(), Value::Bool(true)),
                         ("short".to_string(), Value::str("Reference to the associated User resource.")),
-                        ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("notes")),
-                        ("short".to_string(), Value::str("Free form field that allows the Client associate notes with the Custody Change.")),
+                        ("title".to_string(), Value::str("Notes")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Free form field that allows the Client associate notes with the Custody Change.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("status")),
-                        ("short".to_string(), Value::str("Reference to the associated Custody Status.")),
+                        ("title".to_string(), Value::str("Status")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated Custody Status.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("transferMethod")),
-                        ("short".to_string(), Value::str("Reference to the associated Transfer Method.")),
+                        ("title".to_string(), Value::str("Transfer Method")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated Transfer Method.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("version")),
-                        ("short".to_string(), Value::str("The number of times that this resource has been updated.")),
+                        ("title".to_string(), Value::str("Version")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
+                        ("short".to_string(), Value::str("The number of times that this resource has been updated.")),
                     ]),
                 ])),
                 ("id".to_string(), Value::map_of([
@@ -1437,40 +1521,9 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("load")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("params".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("param")),
-                                            ("name".to_string(), Value::str("device_type")),
-                                            ("orig".to_string(), Value::str("device_type")),
-                                            ("reqd".to_string(), Value::Bool(true)),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("param")),
-                                            ("name".to_string(), Value::str("id")),
-                                            ("orig".to_string(), Value::str("id")),
-                                            ("reqd".to_string(), Value::Bool(true)),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("param")),
-                                            ("name".to_string(), Value::str("serial_number")),
-                                            ("orig".to_string(), Value::str("serial_number")),
-                                            ("reqd".to_string(), Value::Bool(true)),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                    ])),
-                                ])),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/devices/{serialNumber}/{deviceType}/custody/{id}")),
-                                ("rename".to_string(), Value::map_of([
-                                    ("param".to_string(), Value::map_of([
-                                        ("deviceType".to_string(), Value::str("device_type")),
-                                        ("serialNumber".to_string(), Value::str("serial_number")),
-                                    ])),
-                                ])),
                                 ("segments".to_string(), Value::list(vec![
                                     Value::map_of([
                                         ("lit".to_string(), Value::str("devices")),
@@ -1488,23 +1541,54 @@ pub fn make_config() -> Value {
                                         ("var".to_string(), Value::str("id")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::map_of([
-                                    ("exist".to_string(), Value::list(vec![
-                                        Value::str("device_type"),
-                                        Value::str("id"),
-                                        Value::str("serial_number"),
-                                    ])),
-                                ])),
-                                ("transform".to_string(), Value::map_of([
-                                    ("req".to_string(), Value::str("`reqdata`")),
-                                    ("res".to_string(), Value::str("`body`")),
-                                ])),
                                 ("parts".to_string(), Value::list(vec![
                                     Value::str("devices"),
                                     Value::str("{serial_number}"),
                                     Value::str("{device_type}"),
                                     Value::str("custody"),
                                     Value::str("{id}"),
+                                ])),
+                                ("rename".to_string(), Value::map_of([
+                                    ("param".to_string(), Value::map_of([
+                                        ("deviceType".to_string(), Value::str("device_type")),
+                                        ("serialNumber".to_string(), Value::str("serial_number")),
+                                    ])),
+                                ])),
+                                ("transform".to_string(), Value::map_of([
+                                    ("req".to_string(), Value::str("`reqdata`")),
+                                    ("res".to_string(), Value::str("`body`")),
+                                ])),
+                                ("args".to_string(), Value::map_of([
+                                    ("params".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("device_type")),
+                                            ("orig".to_string(), Value::str("device_type")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("param")),
+                                            ("reqd".to_string(), Value::Bool(true)),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("id")),
+                                            ("orig".to_string(), Value::str("id")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("param")),
+                                            ("reqd".to_string(), Value::Bool(true)),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("serial_number")),
+                                            ("orig".to_string(), Value::str("serial_number")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("param")),
+                                            ("reqd".to_string(), Value::Bool(true)),
+                                        ]),
+                                    ])),
+                                ])),
+                                ("select".to_string(), Value::map_of([
+                                    ("exist".to_string(), Value::list(vec![
+                                        Value::str("device_type"),
+                                        Value::str("id"),
+                                        Value::str("serial_number"),
+                                    ])),
                                 ])),
                             ]),
                         ])),
@@ -1513,141 +1597,114 @@ pub fn make_config() -> Value {
                 ("relations".to_string(), Value::map_of([
                     ("ancestors".to_string(), Value::list(vec![
                         Value::list(vec![
-                            Value::str("device"),
+                            Value::str("$.main.kit.entity.device"),
                         ]),
                     ])),
                 ])),
             ])),
-            ("device_custody_list".to_string(), Value::map_of([
+            ("device_custody_list_item".to_string(), Value::map_of([
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
-                        ("format".to_string(), Value::str("date-time")),
                         ("name".to_string(), Value::str("completeDate")),
-                        ("short".to_string(), Value::str("The date and time that the Custody change took place.")),
+                        ("title".to_string(), Value::str("Complete Date")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The date and time that the Custody change took place.")),
+                        ("format".to_string(), Value::str("date-time")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("date-time")),
                         ("name".to_string(), Value::str("created")),
-                        ("short".to_string(), Value::str("Creation timestamp in ISO 8601 format.")),
+                        ("title".to_string(), Value::str("Created")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Creation timestamp in ISO 8601 format.")),
+                        ("format".to_string(), Value::str("date-time")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("createdBy")),
+                        ("title".to_string(), Value::str("Created By")),
+                        ("type".to_string(), Value::str("`$OBJECT`")),
                         ("req".to_string(), Value::Bool(true)),
                         ("short".to_string(), Value::str("Reference to the associated User resource.")),
-                        ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("custodian")),
+                        ("title".to_string(), Value::str("Custodian")),
+                        ("type".to_string(), Value::str("`$OBJECT`")),
                         ("req".to_string(), Value::Bool(true)),
                         ("short".to_string(), Value::str("Reference to the associated User resource.")),
-                        ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("device")),
-                        ("short".to_string(), Value::str("Reference to the associated Device resource.")),
+                        ("title".to_string(), Value::str("Device")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated Device resource.")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("int64")),
                         ("name".to_string(), Value::str("id")),
-                        ("short".to_string(), Value::str("This resource's unique identifier.")),
+                        ("title".to_string(), Value::str("Id")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
+                        ("short".to_string(), Value::str("This resource's unique identifier.")),
+                        ("format".to_string(), Value::str("int64")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("location")),
+                        ("title".to_string(), Value::str("Location")),
+                        ("type".to_string(), Value::str("`$OBJECT`")),
                         ("req".to_string(), Value::Bool(true)),
                         ("short".to_string(), Value::str("Reference to the associated Location resource.")),
-                        ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("date-time")),
                         ("name".to_string(), Value::str("modified")),
-                        ("short".to_string(), Value::str("Last modified timestamp.")),
+                        ("title".to_string(), Value::str("Modified")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Last modified timestamp.")),
+                        ("format".to_string(), Value::str("date-time")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("modifiedBy")),
+                        ("title".to_string(), Value::str("Modified By")),
+                        ("type".to_string(), Value::str("`$OBJECT`")),
                         ("req".to_string(), Value::Bool(true)),
                         ("short".to_string(), Value::str("Reference to the associated User resource.")),
-                        ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("notes")),
-                        ("short".to_string(), Value::str("Free form field that allows the Client associate notes with the Custody Change.")),
+                        ("title".to_string(), Value::str("Notes")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Free form field that allows the Client associate notes with the Custody Change.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("status")),
-                        ("short".to_string(), Value::str("Reference to the associated Custody Status.")),
+                        ("title".to_string(), Value::str("Status")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated Custody Status.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("transferMethod")),
-                        ("short".to_string(), Value::str("Reference to the associated Transfer Method.")),
+                        ("title".to_string(), Value::str("Transfer Method")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated Transfer Method.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("version")),
-                        ("short".to_string(), Value::str("The number of times that this resource has been updated.")),
+                        ("title".to_string(), Value::str("Version")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
+                        ("short".to_string(), Value::str("The number of times that this resource has been updated.")),
                     ]),
                 ])),
                 ("id".to_string(), Value::map_of([
                     ("field".to_string(), Value::str("id")),
                     ("name".to_string(), Value::str("id")),
                 ])),
-                ("name".to_string(), Value::str("device_custody_list")),
+                ("name".to_string(), Value::str("device_custody_list_item")),
                 ("op".to_string(), Value::map_of([
                     ("list".to_string(), Value::map_of([
                         ("input".to_string(), Value::str("data")),
                         ("name".to_string(), Value::str("list")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("params".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("param")),
-                                            ("name".to_string(), Value::str("device_type")),
-                                            ("orig".to_string(), Value::str("device_type")),
-                                            ("reqd".to_string(), Value::Bool(true)),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("param")),
-                                            ("name".to_string(), Value::str("serial_number")),
-                                            ("orig".to_string(), Value::str("serial_number")),
-                                            ("reqd".to_string(), Value::Bool(true)),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                    ])),
-                                    ("query".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("example".to_string(), Value::Num(0f64)),
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("skip")),
-                                            ("orig".to_string(), Value::str("skip")),
-                                            ("type".to_string(), Value::str("`$INTEGER`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("example".to_string(), Value::Num(10f64)),
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("take")),
-                                            ("orig".to_string(), Value::str("take")),
-                                            ("type".to_string(), Value::str("`$INTEGER`")),
-                                        ]),
-                                    ])),
-                                ])),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/devices/{serialNumber}/{deviceType}/custody")),
-                                ("rename".to_string(), Value::map_of([
-                                    ("param".to_string(), Value::map_of([
-                                        ("deviceType".to_string(), Value::str("device_type")),
-                                        ("serialNumber".to_string(), Value::str("serial_number")),
-                                    ])),
-                                ])),
                                 ("segments".to_string(), Value::list(vec![
                                     Value::map_of([
                                         ("lit".to_string(), Value::str("devices")),
@@ -1662,6 +1719,56 @@ pub fn make_config() -> Value {
                                         ("lit".to_string(), Value::str("custody")),
                                     ]),
                                 ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("devices"),
+                                    Value::str("{serial_number}"),
+                                    Value::str("{device_type}"),
+                                    Value::str("custody"),
+                                ])),
+                                ("rename".to_string(), Value::map_of([
+                                    ("param".to_string(), Value::map_of([
+                                        ("deviceType".to_string(), Value::str("device_type")),
+                                        ("serialNumber".to_string(), Value::str("serial_number")),
+                                    ])),
+                                ])),
+                                ("transform".to_string(), Value::map_of([
+                                    ("req".to_string(), Value::str("`reqdata`")),
+                                    ("res".to_string(), Value::str("`body.data`")),
+                                ])),
+                                ("args".to_string(), Value::map_of([
+                                    ("params".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("device_type")),
+                                            ("orig".to_string(), Value::str("device_type")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("param")),
+                                            ("reqd".to_string(), Value::Bool(true)),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("serial_number")),
+                                            ("orig".to_string(), Value::str("serial_number")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("param")),
+                                            ("reqd".to_string(), Value::Bool(true)),
+                                        ]),
+                                    ])),
+                                    ("query".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("skip")),
+                                            ("orig".to_string(), Value::str("skip")),
+                                            ("type".to_string(), Value::str("`$INTEGER`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                            ("example".to_string(), Value::Num(0f64)),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("take")),
+                                            ("orig".to_string(), Value::str("take")),
+                                            ("type".to_string(), Value::str("`$INTEGER`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                            ("example".to_string(), Value::Num(10f64)),
+                                        ]),
+                                    ])),
+                                ])),
                                 ("select".to_string(), Value::map_of([
                                     ("exist".to_string(), Value::list(vec![
                                         Value::str("device_type"),
@@ -1670,16 +1777,6 @@ pub fn make_config() -> Value {
                                         Value::str("take"),
                                     ])),
                                 ])),
-                                ("transform".to_string(), Value::map_of([
-                                    ("req".to_string(), Value::str("`reqdata`")),
-                                    ("res".to_string(), Value::str("`body.data`")),
-                                ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("devices"),
-                                    Value::str("{serial_number}"),
-                                    Value::str("{device_type}"),
-                                    Value::str("custody"),
-                                ])),
                             ]),
                         ])),
                     ])),
@@ -1687,113 +1784,7 @@ pub fn make_config() -> Value {
                 ("relations".to_string(), Value::map_of([
                     ("ancestors".to_string(), Value::list(vec![
                         Value::list(vec![
-                            Value::str("device"),
-                        ]),
-                    ])),
-                ])),
-            ])),
-            ("device_list".to_string(), Value::map_of([
-                ("fields".to_string(), Value::list(vec![
-                    Value::map_of([
-                        ("name".to_string(), Value::str("data")),
-                        ("short".to_string(), Value::str("List of Devices.")),
-                        ("type".to_string(), Value::str("`$ARRAY`")),
-                    ]),
-                    Value::map_of([
-                        ("name".to_string(), Value::str("total")),
-                        ("short".to_string(), Value::str("Total number of Devices available (not the number of Users in the response).")),
-                        ("type".to_string(), Value::str("`$INTEGER`")),
-                    ]),
-                ])),
-                ("name".to_string(), Value::str("device_list")),
-                ("op".to_string(), Value::map_of([
-                    ("load".to_string(), Value::map_of([
-                        ("input".to_string(), Value::str("data")),
-                        ("name".to_string(), Value::str("load")),
-                        ("points".to_string(), Value::list(vec![
-                            Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("params".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("param")),
-                                            ("name".to_string(), Value::str("share_partner_to")),
-                                            ("orig".to_string(), Value::str("share_partner_to")),
-                                            ("reqd".to_string(), Value::Bool(true)),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                    ])),
-                                    ("query".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("example".to_string(), Value::Num(0f64)),
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("skip")),
-                                            ("orig".to_string(), Value::str("skip")),
-                                            ("type".to_string(), Value::str("`$INTEGER`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("example".to_string(), Value::str("asc")),
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("sorting_direction")),
-                                            ("orig".to_string(), Value::str("sorting_direction")),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("example".to_string(), Value::str("serialnumber")),
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("sorting_field")),
-                                            ("orig".to_string(), Value::str("sorting_field")),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("example".to_string(), Value::Num(10f64)),
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("take")),
-                                            ("orig".to_string(), Value::str("take")),
-                                            ("type".to_string(), Value::str("`$INTEGER`")),
-                                        ]),
-                                    ])),
-                                ])),
-                                ("kind".to_string(), Value::str("http")),
-                                ("method".to_string(), Value::str("GET")),
-                                ("orig".to_string(), Value::str("/virtualDevices/{sharePartnerTo}")),
-                                ("rename".to_string(), Value::map_of([
-                                    ("param".to_string(), Value::map_of([
-                                        ("sharePartnerTo".to_string(), Value::str("share_partner_to")),
-                                    ])),
-                                ])),
-                                ("segments".to_string(), Value::list(vec![
-                                    Value::map_of([
-                                        ("lit".to_string(), Value::str("virtualDevices")),
-                                    ]),
-                                    Value::map_of([
-                                        ("var".to_string(), Value::str("share_partner_to")),
-                                    ]),
-                                ])),
-                                ("select".to_string(), Value::map_of([
-                                    ("exist".to_string(), Value::list(vec![
-                                        Value::str("share_partner_to"),
-                                        Value::str("skip"),
-                                        Value::str("sorting_direction"),
-                                        Value::str("sorting_field"),
-                                        Value::str("take"),
-                                    ])),
-                                ])),
-                                ("transform".to_string(), Value::map_of([
-                                    ("req".to_string(), Value::str("`reqdata`")),
-                                    ("res".to_string(), Value::str("`body`")),
-                                ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("virtualDevices"),
-                                    Value::str("{share_partner_to}"),
-                                ])),
-                            ]),
-                        ])),
-                    ])),
-                ])),
-                ("relations".to_string(), Value::map_of([
-                    ("ancestors".to_string(), Value::list(vec![
-                        Value::list(vec![
-                            Value::str("virtual_device"),
+                            Value::str("$.main.kit.entity.device"),
                         ]),
                     ])),
                 ])),
@@ -1802,9 +1793,10 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("name".to_string(), Value::str("success")),
+                        ("title".to_string(), Value::str("Success")),
+                        ("type".to_string(), Value::str("`$BOOLEAN`")),
                         ("req".to_string(), Value::Bool(true)),
                         ("short".to_string(), Value::str("Indicates if the action succeeded.")),
-                        ("type".to_string(), Value::str("`$BOOLEAN`")),
                     ]),
                 ])),
                 ("name".to_string(), Value::str("device_receive_result")),
@@ -1814,7 +1806,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("create")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::empty_map()),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/devices/receive")),
@@ -1826,15 +1817,17 @@ pub fn make_config() -> Value {
                                         ("lit".to_string(), Value::str("receive")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::empty_map()),
-                                ("transform".to_string(), Value::map_of([
-                                    ("req".to_string(), Value::str("`reqdata`")),
-                                    ("res".to_string(), Value::str("`body`")),
-                                ])),
                                 ("parts".to_string(), Value::list(vec![
                                     Value::str("devices"),
                                     Value::str("receive"),
                                 ])),
+                                ("rename".to_string(), Value::empty_map()),
+                                ("transform".to_string(), Value::map_of([
+                                    ("req".to_string(), Value::str("`reqdata`")),
+                                    ("res".to_string(), Value::str("`body`")),
+                                ])),
+                                ("args".to_string(), Value::empty_map()),
+                                ("select".to_string(), Value::empty_map()),
                             ]),
                         ])),
                     ])),
@@ -1847,9 +1840,10 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("name".to_string(), Value::str("success")),
+                        ("title".to_string(), Value::str("Success")),
+                        ("type".to_string(), Value::str("`$BOOLEAN`")),
                         ("req".to_string(), Value::Bool(true)),
                         ("short".to_string(), Value::str("Indicates if the RKI activation succeeded.")),
-                        ("type".to_string(), Value::str("`$BOOLEAN`")),
                     ]),
                 ])),
                 ("name".to_string(), Value::str("device_rki_activate_result")),
@@ -1859,7 +1853,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("create")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::empty_map()),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/devices/rki/activate")),
@@ -1874,16 +1867,18 @@ pub fn make_config() -> Value {
                                         ("lit".to_string(), Value::str("activate")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::empty_map()),
-                                ("transform".to_string(), Value::map_of([
-                                    ("req".to_string(), Value::str("`reqdata`")),
-                                    ("res".to_string(), Value::str("`body`")),
-                                ])),
                                 ("parts".to_string(), Value::list(vec![
                                     Value::str("devices"),
                                     Value::str("rki"),
                                     Value::str("activate"),
                                 ])),
+                                ("rename".to_string(), Value::empty_map()),
+                                ("transform".to_string(), Value::map_of([
+                                    ("req".to_string(), Value::str("`reqdata`")),
+                                    ("res".to_string(), Value::str("`body`")),
+                                ])),
+                                ("args".to_string(), Value::empty_map()),
+                                ("select".to_string(), Value::empty_map()),
                             ]),
                         ])),
                     ])),
@@ -1895,15 +1890,17 @@ pub fn make_config() -> Value {
             ("device_state".to_string(), Value::map_of([
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
-                        ("format".to_string(), Value::str("int64")),
                         ("name".to_string(), Value::str("id")),
-                        ("short".to_string(), Value::str("Unique identifier for this Device state.")),
+                        ("title".to_string(), Value::str("Id")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
+                        ("short".to_string(), Value::str("Unique identifier for this Device state.")),
+                        ("format".to_string(), Value::str("int64")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("name")),
-                        ("short".to_string(), Value::str("Descriptive name for this Device state.")),
+                        ("title".to_string(), Value::str("Name")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Descriptive name for this Device state.")),
                     ]),
                 ])),
                 ("id".to_string(), Value::map_of([
@@ -1917,7 +1914,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("list")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::empty_map()),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/deviceStates")),
@@ -1926,14 +1922,16 @@ pub fn make_config() -> Value {
                                         ("lit".to_string(), Value::str("deviceStates")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::empty_map()),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("deviceStates"),
+                                ])),
+                                ("rename".to_string(), Value::empty_map()),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body.data`")),
                                 ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("deviceStates"),
-                                ])),
+                                ("args".to_string(), Value::empty_map()),
+                                ("select".to_string(), Value::empty_map()),
                             ]),
                         ])),
                     ])),
@@ -1945,65 +1943,77 @@ pub fn make_config() -> Value {
             ("device_type".to_string(), Value::map_of([
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
-                        ("format".to_string(), Value::str("datetime")),
                         ("name".to_string(), Value::str("created")),
-                        ("short".to_string(), Value::str("Creation timestamp in ISO 8601 format.")),
+                        ("title".to_string(), Value::str("Created")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Creation timestamp in ISO 8601 format.")),
+                        ("format".to_string(), Value::str("datetime")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("deviceTypeMode")),
-                        ("short".to_string(), Value::str("The Device type.")),
+                        ("title".to_string(), Value::str("Device Type Mode")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Device type.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("hardwareVersion")),
-                        ("short".to_string(), Value::str("The Device hardware version.")),
+                        ("title".to_string(), Value::str("Hardware Version")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Device hardware version.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("id")),
-                        ("short".to_string(), Value::str("Unique idenifier.")),
+                        ("title".to_string(), Value::str("Id")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Unique idenifier.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("isActive")),
-                        ("short".to_string(), Value::str("This property indicates if the DeviceType is active.")),
+                        ("title".to_string(), Value::str("Is Active")),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
+                        ("short".to_string(), Value::str("This property indicates if the DeviceType is active.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("manufacturer")),
-                        ("short".to_string(), Value::str("The Device manufacturer.")),
+                        ("title".to_string(), Value::str("Manufacturer")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Device manufacturer.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("model")),
-                        ("short".to_string(), Value::str("The Device model.")),
+                        ("title".to_string(), Value::str("Model")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Device model.")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("datetime")),
                         ("name".to_string(), Value::str("modified")),
-                        ("short".to_string(), Value::str("Last modified timestamp.")),
+                        ("title".to_string(), Value::str("Modified")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Last modified timestamp.")),
+                        ("format".to_string(), Value::str("datetime")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("name")),
-                        ("short".to_string(), Value::str("The DeviceType name.")),
+                        ("title".to_string(), Value::str("Name")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The DeviceType name.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("photoUrl")),
+                        ("title".to_string(), Value::str("Photo Url")),
                         ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("productName")),
-                        ("short".to_string(), Value::str("The Device name.")),
+                        ("title".to_string(), Value::str("Product Name")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Device name.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("version")),
-                        ("short".to_string(), Value::str("The number of times that this resource has been updated.")),
+                        ("title".to_string(), Value::str("Version")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
+                        ("short".to_string(), Value::str("The number of times that this resource has been updated.")),
                     ]),
                 ])),
                 ("id".to_string(), Value::map_of([
@@ -2017,7 +2027,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("list")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::empty_map()),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/deviceTypes")),
@@ -2026,14 +2035,16 @@ pub fn make_config() -> Value {
                                         ("lit".to_string(), Value::str("deviceTypes")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::empty_map()),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("deviceTypes"),
+                                ])),
+                                ("rename".to_string(), Value::empty_map()),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body.data`")),
                                 ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("deviceTypes"),
-                                ])),
+                                ("args".to_string(), Value::empty_map()),
+                                ("select".to_string(), Value::empty_map()),
                             ]),
                         ])),
                     ])),
@@ -2042,17 +2053,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("load")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("params".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("param")),
-                                            ("name".to_string(), Value::str("id")),
-                                            ("orig".to_string(), Value::str("id")),
-                                            ("reqd".to_string(), Value::Bool(true)),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                    ])),
-                                ])),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/deviceTypes/{id}")),
@@ -2064,18 +2064,30 @@ pub fn make_config() -> Value {
                                         ("var".to_string(), Value::str("id")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::map_of([
-                                    ("exist".to_string(), Value::list(vec![
-                                        Value::str("id"),
-                                    ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("deviceTypes"),
+                                    Value::str("{id}"),
                                 ])),
+                                ("rename".to_string(), Value::empty_map()),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("deviceTypes"),
-                                    Value::str("{id}"),
+                                ("args".to_string(), Value::map_of([
+                                    ("params".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("id")),
+                                            ("orig".to_string(), Value::str("id")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("param")),
+                                            ("reqd".to_string(), Value::Bool(true)),
+                                        ]),
+                                    ])),
+                                ])),
+                                ("select".to_string(), Value::map_of([
+                                    ("exist".to_string(), Value::list(vec![
+                                        Value::str("id"),
+                                    ])),
                                 ])),
                             ]),
                         ])),
@@ -2088,46 +2100,54 @@ pub fn make_config() -> Value {
             ("inject_key".to_string(), Value::map_of([
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
-                        ("format".to_string(), Value::str("datetime")),
                         ("name".to_string(), Value::str("created")),
-                        ("short".to_string(), Value::str("Creation timestamp in ISO 8601 format.")),
+                        ("title".to_string(), Value::str("Created")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Creation timestamp in ISO 8601 format.")),
+                        ("format".to_string(), Value::str("datetime")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("id")),
-                        ("short".to_string(), Value::str("unique idenifier")),
+                        ("title".to_string(), Value::str("Id")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("unique idenifier")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("isActive")),
-                        ("short".to_string(), Value::str("Active flag, inactive keys cannot be assigned to devices.")),
+                        ("title".to_string(), Value::str("Is Active")),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
+                        ("short".to_string(), Value::str("Active flag, inactive keys cannot be assigned to devices.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("isP2PE")),
-                        ("short".to_string(), Value::str("Flags if a key is for a P2PE compliant cypher.")),
+                        ("title".to_string(), Value::str("Is P2 Pe")),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
+                        ("short".to_string(), Value::str("Flags if a key is for a P2PE compliant cypher.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("keyType")),
-                        ("short".to_string(), Value::str("The cipher type that the key works with.")),
+                        ("title".to_string(), Value::str("Key Type")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The cipher type that the key works with.")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("datetime")),
                         ("name".to_string(), Value::str("modified")),
-                        ("short".to_string(), Value::str("Last modified timestamp in ISO 8601 format.")),
+                        ("title".to_string(), Value::str("Modified")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Last modified timestamp in ISO 8601 format.")),
+                        ("format".to_string(), Value::str("datetime")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("name")),
-                        ("short".to_string(), Value::str("Key name.")),
+                        ("title".to_string(), Value::str("Name")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Key name.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("version")),
-                        ("short".to_string(), Value::str("The number of times that this resource has been updated.")),
+                        ("title".to_string(), Value::str("Version")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
+                        ("short".to_string(), Value::str("The number of times that this resource has been updated.")),
                     ]),
                 ])),
                 ("id".to_string(), Value::map_of([
@@ -2141,7 +2161,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("list")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::empty_map()),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/injectKeys")),
@@ -2150,14 +2169,16 @@ pub fn make_config() -> Value {
                                         ("lit".to_string(), Value::str("injectKeys")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::empty_map()),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("injectKeys"),
+                                ])),
+                                ("rename".to_string(), Value::empty_map()),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body.data`")),
                                 ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("injectKeys"),
-                                ])),
+                                ("args".to_string(), Value::empty_map()),
+                                ("select".to_string(), Value::empty_map()),
                             ]),
                         ])),
                     ])),
@@ -2166,17 +2187,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("load")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("params".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("param")),
-                                            ("name".to_string(), Value::str("id")),
-                                            ("orig".to_string(), Value::str("id")),
-                                            ("reqd".to_string(), Value::Bool(true)),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                    ])),
-                                ])),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/injectKeys/{id}")),
@@ -2188,18 +2198,30 @@ pub fn make_config() -> Value {
                                         ("var".to_string(), Value::str("id")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::map_of([
-                                    ("exist".to_string(), Value::list(vec![
-                                        Value::str("id"),
-                                    ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("injectKeys"),
+                                    Value::str("{id}"),
                                 ])),
+                                ("rename".to_string(), Value::empty_map()),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("injectKeys"),
-                                    Value::str("{id}"),
+                                ("args".to_string(), Value::map_of([
+                                    ("params".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("id")),
+                                            ("orig".to_string(), Value::str("id")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("param")),
+                                            ("reqd".to_string(), Value::Bool(true)),
+                                        ]),
+                                    ])),
+                                ])),
+                                ("select".to_string(), Value::map_of([
+                                    ("exist".to_string(), Value::list(vec![
+                                        Value::str("id"),
+                                    ])),
                                 ])),
                             ]),
                         ])),
@@ -2212,15 +2234,17 @@ pub fn make_config() -> Value {
             ("kif".to_string(), Value::map_of([
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
-                        ("format".to_string(), Value::str("int64")),
                         ("name".to_string(), Value::str("id")),
-                        ("short".to_string(), Value::str("This resource's unique identifier.")),
+                        ("title".to_string(), Value::str("Id")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
+                        ("short".to_string(), Value::str("This resource's unique identifier.")),
+                        ("format".to_string(), Value::str("int64")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("name")),
-                        ("short".to_string(), Value::str("The KIF's name.")),
+                        ("title".to_string(), Value::str("Name")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The KIF's name.")),
                     ]),
                 ])),
                 ("id".to_string(), Value::map_of([
@@ -2234,7 +2258,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("list")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::empty_map()),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/kifs")),
@@ -2243,14 +2266,16 @@ pub fn make_config() -> Value {
                                         ("lit".to_string(), Value::str("kifs")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::empty_map()),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("kifs"),
+                                ])),
+                                ("rename".to_string(), Value::empty_map()),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body.data`")),
                                 ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("kifs"),
-                                ])),
+                                ("args".to_string(), Value::empty_map()),
+                                ("select".to_string(), Value::empty_map()),
                             ]),
                         ])),
                     ])),
@@ -2263,120 +2288,143 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("name".to_string(), Value::str("address1")),
-                        ("short".to_string(), Value::str("The Location's street address.")),
+                        ("title".to_string(), Value::str("Address1")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Location's street address.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("address2")),
-                        ("short".to_string(), Value::str("The Location's street address.")),
+                        ("title".to_string(), Value::str("Address2")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Location's street address.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("billingId")),
-                        ("short".to_string(), Value::str("\\?")),
+                        ("title".to_string(), Value::str("Billing Id")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("\\?")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("city")),
-                        ("short".to_string(), Value::str("The Location's city.")),
+                        ("title".to_string(), Value::str("City")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Location's city.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("country")),
-                        ("short".to_string(), Value::str("The Location's country.")),
+                        ("title".to_string(), Value::str("Country")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Location's country.")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("datetime")),
                         ("name".to_string(), Value::str("created")),
-                        ("short".to_string(), Value::str("Creation timestamp in ISO 8601 format.")),
+                        ("title".to_string(), Value::str("Created")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Creation timestamp in ISO 8601 format.")),
+                        ("format".to_string(), Value::str("datetime")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("customReference")),
-                        ("short".to_string(), Value::str("A Partner specified reference for a location.")),
+                        ("title".to_string(), Value::str("Custom Reference")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("A Partner specified reference for a location.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("id")),
-                        ("short".to_string(), Value::str("This resource's unique identifier.")),
+                        ("title".to_string(), Value::str("Id")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("This resource's unique identifier.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("locationType")),
-                        ("short".to_string(), Value::str("The Location's clasification.")),
+                        ("title".to_string(), Value::str("Location Type")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Location's clasification.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("mailAddress1")),
-                        ("short".to_string(), Value::str("The Location's street address.")),
+                        ("title".to_string(), Value::str("Mail Address1")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Location's street address.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("mailAddress2")),
-                        ("short".to_string(), Value::str("The Location's street address.")),
+                        ("title".to_string(), Value::str("Mail Address2")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Location's street address.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("mailCity")),
-                        ("short".to_string(), Value::str("The Location's city.")),
+                        ("title".to_string(), Value::str("Mail City")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Location's city.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("mailCountry")),
-                        ("short".to_string(), Value::str("The Location's street address.")),
+                        ("title".to_string(), Value::str("Mail Country")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Location's street address.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("mailPostalCode")),
-                        ("short".to_string(), Value::str("The Location's postal code.")),
+                        ("title".to_string(), Value::str("Mail Postal Code")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Location's postal code.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("mailStateProvince")),
-                        ("short".to_string(), Value::str("The Location's street state or province.")),
+                        ("title".to_string(), Value::str("Mail State Province")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Location's street state or province.")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("datetime")),
                         ("name".to_string(), Value::str("modified")),
-                        ("short".to_string(), Value::str("Last modified timestamp.")),
+                        ("title".to_string(), Value::str("Modified")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Last modified timestamp.")),
+                        ("format".to_string(), Value::str("datetime")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("name")),
-                        ("short".to_string(), Value::str("The Location's name.")),
+                        ("title".to_string(), Value::str("Name")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Location's name.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("nameOfBusiness")),
-                        ("short".to_string(), Value::str("The name of the business at this location.")),
+                        ("title".to_string(), Value::str("Name Of Business")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The name of the business at this location.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("notes")),
-                        ("short".to_string(), Value::str("Note for delivery driver.")),
+                        ("title".to_string(), Value::str("Notes")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Note for delivery driver.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("postalCode")),
-                        ("short".to_string(), Value::str("The Location's postal code.")),
+                        ("title".to_string(), Value::str("Postal Code")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Location's postal code.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("stateProvince")),
-                        ("short".to_string(), Value::str("The Location's street state or province.")),
+                        ("title".to_string(), Value::str("State Province")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Location's street state or province.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("uniqueId")),
-                        ("short".to_string(), Value::str("Unique Identifier for the Location.")),
+                        ("title".to_string(), Value::str("Unique Id")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Unique Identifier for the Location.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("version")),
-                        ("short".to_string(), Value::str("The number of times that this resource has been updated.")),
+                        ("title".to_string(), Value::str("Version")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
+                        ("short".to_string(), Value::str("The number of times that this resource has been updated.")),
                     ]),
                 ])),
                 ("id".to_string(), Value::map_of([
@@ -2390,7 +2438,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("create")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::empty_map()),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/locations")),
@@ -2399,14 +2446,16 @@ pub fn make_config() -> Value {
                                         ("lit".to_string(), Value::str("locations")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::empty_map()),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("locations"),
+                                ])),
+                                ("rename".to_string(), Value::empty_map()),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("locations"),
-                                ])),
+                                ("args".to_string(), Value::empty_map()),
+                                ("select".to_string(), Value::empty_map()),
                             ]),
                         ])),
                     ])),
@@ -2415,31 +2464,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("list")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("query".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("client")),
-                                            ("orig".to_string(), Value::str("client")),
-                                            ("reqd".to_string(), Value::Bool(true)),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("example".to_string(), Value::Num(0f64)),
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("skip")),
-                                            ("orig".to_string(), Value::str("skip")),
-                                            ("type".to_string(), Value::str("`$INTEGER`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("example".to_string(), Value::Num(10f64)),
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("take")),
-                                            ("orig".to_string(), Value::str("take")),
-                                            ("type".to_string(), Value::str("`$INTEGER`")),
-                                        ]),
-                                    ])),
-                                ])),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/locations")),
@@ -2448,19 +2472,45 @@ pub fn make_config() -> Value {
                                         ("lit".to_string(), Value::str("locations")),
                                     ]),
                                 ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("locations"),
+                                ])),
+                                ("rename".to_string(), Value::empty_map()),
+                                ("transform".to_string(), Value::map_of([
+                                    ("req".to_string(), Value::str("`reqdata`")),
+                                    ("res".to_string(), Value::str("`body.data`")),
+                                ])),
+                                ("args".to_string(), Value::map_of([
+                                    ("query".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("client")),
+                                            ("orig".to_string(), Value::str("client")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                            ("reqd".to_string(), Value::Bool(true)),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("skip")),
+                                            ("orig".to_string(), Value::str("skip")),
+                                            ("type".to_string(), Value::str("`$INTEGER`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                            ("example".to_string(), Value::Num(0f64)),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("take")),
+                                            ("orig".to_string(), Value::str("take")),
+                                            ("type".to_string(), Value::str("`$INTEGER`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                            ("example".to_string(), Value::Num(10f64)),
+                                        ]),
+                                    ])),
+                                ])),
                                 ("select".to_string(), Value::map_of([
                                     ("exist".to_string(), Value::list(vec![
                                         Value::str("client"),
                                         Value::str("skip"),
                                         Value::str("take"),
                                     ])),
-                                ])),
-                                ("transform".to_string(), Value::map_of([
-                                    ("req".to_string(), Value::str("`reqdata`")),
-                                    ("res".to_string(), Value::str("`body.data`")),
-                                ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("locations"),
                                 ])),
                             ]),
                         ])),
@@ -2470,17 +2520,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("load")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("params".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("param")),
-                                            ("name".to_string(), Value::str("id")),
-                                            ("orig".to_string(), Value::str("id")),
-                                            ("reqd".to_string(), Value::Bool(true)),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                    ])),
-                                ])),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/locations/{id}")),
@@ -2492,18 +2531,30 @@ pub fn make_config() -> Value {
                                         ("var".to_string(), Value::str("id")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::map_of([
-                                    ("exist".to_string(), Value::list(vec![
-                                        Value::str("id"),
-                                    ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("locations"),
+                                    Value::str("{id}"),
                                 ])),
+                                ("rename".to_string(), Value::empty_map()),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("locations"),
-                                    Value::str("{id}"),
+                                ("args".to_string(), Value::map_of([
+                                    ("params".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("id")),
+                                            ("orig".to_string(), Value::str("id")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("param")),
+                                            ("reqd".to_string(), Value::Bool(true)),
+                                        ]),
+                                    ])),
+                                ])),
+                                ("select".to_string(), Value::map_of([
+                                    ("exist".to_string(), Value::list(vec![
+                                        Value::str("id"),
+                                    ])),
                                 ])),
                             ]),
                         ])),
@@ -2513,17 +2564,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("remove")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("params".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("param")),
-                                            ("name".to_string(), Value::str("id")),
-                                            ("orig".to_string(), Value::str("id")),
-                                            ("reqd".to_string(), Value::Bool(true)),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                    ])),
-                                ])),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("DELETE")),
                                 ("orig".to_string(), Value::str("/locations/{id}")),
@@ -2535,18 +2575,30 @@ pub fn make_config() -> Value {
                                         ("var".to_string(), Value::str("id")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::map_of([
-                                    ("exist".to_string(), Value::list(vec![
-                                        Value::str("id"),
-                                    ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("locations"),
+                                    Value::str("{id}"),
                                 ])),
+                                ("rename".to_string(), Value::empty_map()),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("locations"),
-                                    Value::str("{id}"),
+                                ("args".to_string(), Value::map_of([
+                                    ("params".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("id")),
+                                            ("orig".to_string(), Value::str("id")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("param")),
+                                            ("reqd".to_string(), Value::Bool(true)),
+                                        ]),
+                                    ])),
+                                ])),
+                                ("select".to_string(), Value::map_of([
+                                    ("exist".to_string(), Value::list(vec![
+                                        Value::str("id"),
+                                    ])),
                                 ])),
                             ]),
                         ])),
@@ -2560,16 +2612,20 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("name".to_string(), Value::str("billingId")),
-                        ("short".to_string(), Value::str("The Partner's billing identifier.")),
+                        ("title".to_string(), Value::str("Billing Id")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Partner's billing identifier.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("clientCanOrderEquipment")),
-                        ("short".to_string(), Value::str("This property indicates if the Partner is allowed to order Equipment.")),
+                        ("title".to_string(), Value::str("Client Can Order Equipment")),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
+                        ("short".to_string(), Value::str("This property indicates if the Partner is allowed to order Equipment.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("contact")),
+                        ("title".to_string(), Value::str("Contact")),
+                        ("type".to_string(), Value::str("`$OBJECT`")),
                         ("op".to_string(), Value::map_of([
                             ("list".to_string(), Value::map_of([
                                 ("req".to_string(), Value::Bool(true)),
@@ -2577,65 +2633,75 @@ pub fn make_config() -> Value {
                             ])),
                         ])),
                         ("short".to_string(), Value::str("Reference to the associated User resource.")),
-                        ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("datetime")),
                         ("name".to_string(), Value::str("created")),
-                        ("short".to_string(), Value::str("Creation timestamp in ISO 8601 format.")),
+                        ("title".to_string(), Value::str("Created")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Creation timestamp in ISO 8601 format.")),
+                        ("format".to_string(), Value::str("datetime")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("id")),
-                        ("short".to_string(), Value::str("This resource's unique identifier.")),
+                        ("title".to_string(), Value::str("Id")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("This resource's unique identifier.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("isActive")),
-                        ("short".to_string(), Value::str("This property indicates if the Parter account is active or disabled.")),
+                        ("title".to_string(), Value::str("Is Active")),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
+                        ("short".to_string(), Value::str("This property indicates if the Parter account is active or disabled.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("location")),
+                        ("title".to_string(), Value::str("Location")),
+                        ("type".to_string(), Value::str("`$OBJECT`")),
                         ("req".to_string(), Value::Bool(true)),
                         ("short".to_string(), Value::str("Reference to the associated Location resource.")),
-                        ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("datetime")),
                         ("name".to_string(), Value::str("modified")),
-                        ("short".to_string(), Value::str("Last modified timestamp.")),
+                        ("title".to_string(), Value::str("Modified")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Last modified timestamp.")),
+                        ("format".to_string(), Value::str("datetime")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("name")),
-                        ("short".to_string(), Value::str("The Partner's name.")),
+                        ("title".to_string(), Value::str("Name")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Partner's name.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("parent")),
-                        ("short".to_string(), Value::str("Reference to the associated Partner.")),
+                        ("title".to_string(), Value::str("Parent")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated Partner.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("partnerId")),
-                        ("short".to_string(), Value::str("The Partner's id.")),
+                        ("title".to_string(), Value::str("Partner Id")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Partner's id.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("reference")),
-                        ("short".to_string(), Value::str("The Partner's reference string.")),
+                        ("title".to_string(), Value::str("Reference")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Partner's reference string.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("verificationPhrase")),
-                        ("short".to_string(), Value::str("The verification phrase is a message that the Partner creates.")),
+                        ("title".to_string(), Value::str("Verification Phrase")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The verification phrase is a message that the Partner creates.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("version")),
-                        ("short".to_string(), Value::str("The number of times that this resource has been updated.")),
+                        ("title".to_string(), Value::str("Version")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
+                        ("short".to_string(), Value::str("The number of times that this resource has been updated.")),
                     ]),
                 ])),
                 ("id".to_string(), Value::map_of([
@@ -2649,7 +2715,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("create")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::empty_map()),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/partners")),
@@ -2658,14 +2723,16 @@ pub fn make_config() -> Value {
                                         ("lit".to_string(), Value::str("partners")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::empty_map()),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("partners"),
+                                ])),
+                                ("rename".to_string(), Value::empty_map()),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("partners"),
-                                ])),
+                                ("args".to_string(), Value::empty_map()),
+                                ("select".to_string(), Value::empty_map()),
                             ]),
                         ])),
                     ])),
@@ -2674,30 +2741,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("list")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("query".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("partner")),
-                                            ("orig".to_string(), Value::str("partner")),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("example".to_string(), Value::Num(0f64)),
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("skip")),
-                                            ("orig".to_string(), Value::str("skip")),
-                                            ("type".to_string(), Value::str("`$INTEGER`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("example".to_string(), Value::Num(10f64)),
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("take")),
-                                            ("orig".to_string(), Value::str("take")),
-                                            ("type".to_string(), Value::str("`$INTEGER`")),
-                                        ]),
-                                    ])),
-                                ])),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/partners")),
@@ -2706,19 +2749,44 @@ pub fn make_config() -> Value {
                                         ("lit".to_string(), Value::str("partners")),
                                     ]),
                                 ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("partners"),
+                                ])),
+                                ("rename".to_string(), Value::empty_map()),
+                                ("transform".to_string(), Value::map_of([
+                                    ("req".to_string(), Value::str("`reqdata`")),
+                                    ("res".to_string(), Value::str("`body.data`")),
+                                ])),
+                                ("args".to_string(), Value::map_of([
+                                    ("query".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("partner")),
+                                            ("orig".to_string(), Value::str("partner")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("skip")),
+                                            ("orig".to_string(), Value::str("skip")),
+                                            ("type".to_string(), Value::str("`$INTEGER`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                            ("example".to_string(), Value::Num(0f64)),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("take")),
+                                            ("orig".to_string(), Value::str("take")),
+                                            ("type".to_string(), Value::str("`$INTEGER`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                            ("example".to_string(), Value::Num(10f64)),
+                                        ]),
+                                    ])),
+                                ])),
                                 ("select".to_string(), Value::map_of([
                                     ("exist".to_string(), Value::list(vec![
                                         Value::str("partner"),
                                         Value::str("skip"),
                                         Value::str("take"),
                                     ])),
-                                ])),
-                                ("transform".to_string(), Value::map_of([
-                                    ("req".to_string(), Value::str("`reqdata`")),
-                                    ("res".to_string(), Value::str("`body.data`")),
-                                ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("partners"),
                                 ])),
                             ]),
                         ])),
@@ -2728,17 +2796,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("load")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("params".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("param")),
-                                            ("name".to_string(), Value::str("id")),
-                                            ("orig".to_string(), Value::str("id")),
-                                            ("reqd".to_string(), Value::Bool(true)),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                    ])),
-                                ])),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/partners/{id}")),
@@ -2750,18 +2807,30 @@ pub fn make_config() -> Value {
                                         ("var".to_string(), Value::str("id")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::map_of([
-                                    ("exist".to_string(), Value::list(vec![
-                                        Value::str("id"),
-                                    ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("partners"),
+                                    Value::str("{id}"),
                                 ])),
+                                ("rename".to_string(), Value::empty_map()),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("partners"),
-                                    Value::str("{id}"),
+                                ("args".to_string(), Value::map_of([
+                                    ("params".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("id")),
+                                            ("orig".to_string(), Value::str("id")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("param")),
+                                            ("reqd".to_string(), Value::Bool(true)),
+                                        ]),
+                                    ])),
+                                ])),
+                                ("select".to_string(), Value::map_of([
+                                    ("exist".to_string(), Value::list(vec![
+                                        Value::str("id"),
+                                    ])),
                                 ])),
                             ]),
                         ])),
@@ -2775,77 +2844,91 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("name".to_string(), Value::str("carrier")),
-                        ("short".to_string(), Value::str("The name of the courier.")),
+                        ("title".to_string(), Value::str("Carrier")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The name of the courier.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("client")),
-                        ("short".to_string(), Value::str("Reference to the associated Client resource.")),
+                        ("title".to_string(), Value::str("Client")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated Client resource.")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("datetime")),
                         ("name".to_string(), Value::str("created")),
+                        ("title".to_string(), Value::str("Created")),
+                        ("type".to_string(), Value::str("`$STRING`")),
                         ("short".to_string(), Value::str("Creation timestamp in ISO 8601 format.")),
-                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("format".to_string(), Value::str("datetime")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("datetime")),
                         ("name".to_string(), Value::str("dateReceived")),
-                        ("short".to_string(), Value::str("The date and time that a package is recieved.")),
+                        ("title".to_string(), Value::str("Date Received")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The date and time that a package is recieved.")),
+                        ("format".to_string(), Value::str("datetime")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("datetime")),
                         ("name".to_string(), Value::str("dateShipped")),
-                        ("short".to_string(), Value::str("The date and time that a package is shipped.")),
+                        ("title".to_string(), Value::str("Date Shipped")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The date and time that a package is shipped.")),
+                        ("format".to_string(), Value::str("datetime")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("dcKif")),
-                        ("short".to_string(), Value::str("Reference to the associated KIF resource.")),
+                        ("title".to_string(), Value::str("Dc Kif")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated KIF resource.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("id")),
-                        ("short".to_string(), Value::str("This resource's unique identifier.")),
+                        ("title".to_string(), Value::str("Id")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("This resource's unique identifier.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("items")),
+                        ("title".to_string(), Value::str("Items")),
                         ("type".to_string(), Value::str("`$ARRAY`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("kif")),
-                        ("short".to_string(), Value::str("Reference to the associated KIF resource.")),
+                        ("title".to_string(), Value::str("Kif")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated KIF resource.")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("datetime")),
                         ("name".to_string(), Value::str("modified")),
-                        ("short".to_string(), Value::str("Last modified timestamp.")),
+                        ("title".to_string(), Value::str("Modified")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Last modified timestamp.")),
+                        ("format".to_string(), Value::str("datetime")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("partner")),
-                        ("short".to_string(), Value::str("Reference to the associated Partner.")),
+                        ("title".to_string(), Value::str("Partner")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated Partner.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("shipmentType")),
-                        ("short".to_string(), Value::str("The type of shipment.")),
+                        ("title".to_string(), Value::str("Shipment Type")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The type of shipment.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("tracking")),
-                        ("short".to_string(), Value::str("The courier's tracking number.")),
+                        ("title".to_string(), Value::str("Tracking")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The courier's tracking number.")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("int32")),
                         ("name".to_string(), Value::str("version")),
-                        ("short".to_string(), Value::str("The number of times that this resource has been updated.")),
+                        ("title".to_string(), Value::str("Version")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
+                        ("short".to_string(), Value::str("The number of times that this resource has been updated.")),
+                        ("format".to_string(), Value::str("int32")),
                     ]),
                 ])),
                 ("id".to_string(), Value::map_of([
@@ -2859,7 +2942,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("create")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::empty_map()),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/shipments")),
@@ -2868,14 +2950,16 @@ pub fn make_config() -> Value {
                                         ("lit".to_string(), Value::str("shipments")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::empty_map()),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("shipments"),
+                                ])),
+                                ("rename".to_string(), Value::empty_map()),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("shipments"),
-                                ])),
+                                ("args".to_string(), Value::empty_map()),
+                                ("select".to_string(), Value::empty_map()),
                             ]),
                         ])),
                     ])),
@@ -2884,37 +2968,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("list")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("query".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("kif")),
-                                            ("orig".to_string(), Value::str("kif")),
-                                            ("reqd".to_string(), Value::Bool(true)),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("mode")),
-                                            ("orig".to_string(), Value::str("mode")),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("example".to_string(), Value::Num(0f64)),
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("skip")),
-                                            ("orig".to_string(), Value::str("skip")),
-                                            ("type".to_string(), Value::str("`$INTEGER`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("example".to_string(), Value::Num(10f64)),
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("take")),
-                                            ("orig".to_string(), Value::str("take")),
-                                            ("type".to_string(), Value::str("`$INTEGER`")),
-                                        ]),
-                                    ])),
-                                ])),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/shipments")),
@@ -2922,6 +2975,45 @@ pub fn make_config() -> Value {
                                     Value::map_of([
                                         ("lit".to_string(), Value::str("shipments")),
                                     ]),
+                                ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("shipments"),
+                                ])),
+                                ("rename".to_string(), Value::empty_map()),
+                                ("transform".to_string(), Value::map_of([
+                                    ("req".to_string(), Value::str("`reqdata`")),
+                                    ("res".to_string(), Value::str("`body.data`")),
+                                ])),
+                                ("args".to_string(), Value::map_of([
+                                    ("query".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("kif")),
+                                            ("orig".to_string(), Value::str("kif")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                            ("reqd".to_string(), Value::Bool(true)),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("mode")),
+                                            ("orig".to_string(), Value::str("mode")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("skip")),
+                                            ("orig".to_string(), Value::str("skip")),
+                                            ("type".to_string(), Value::str("`$INTEGER`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                            ("example".to_string(), Value::Num(0f64)),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("take")),
+                                            ("orig".to_string(), Value::str("take")),
+                                            ("type".to_string(), Value::str("`$INTEGER`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                            ("example".to_string(), Value::Num(10f64)),
+                                        ]),
+                                    ])),
                                 ])),
                                 ("select".to_string(), Value::map_of([
                                     ("exist".to_string(), Value::list(vec![
@@ -2931,13 +3023,6 @@ pub fn make_config() -> Value {
                                         Value::str("take"),
                                     ])),
                                 ])),
-                                ("transform".to_string(), Value::map_of([
-                                    ("req".to_string(), Value::str("`reqdata`")),
-                                    ("res".to_string(), Value::str("`body.data`")),
-                                ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("shipments"),
-                                ])),
                             ]),
                         ])),
                     ])),
@@ -2946,17 +3031,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("load")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("params".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("param")),
-                                            ("name".to_string(), Value::str("id")),
-                                            ("orig".to_string(), Value::str("id")),
-                                            ("reqd".to_string(), Value::Bool(true)),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                    ])),
-                                ])),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/shipments/{id}")),
@@ -2968,18 +3042,30 @@ pub fn make_config() -> Value {
                                         ("var".to_string(), Value::str("id")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::map_of([
-                                    ("exist".to_string(), Value::list(vec![
-                                        Value::str("id"),
-                                    ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("shipments"),
+                                    Value::str("{id}"),
                                 ])),
+                                ("rename".to_string(), Value::empty_map()),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("shipments"),
-                                    Value::str("{id}"),
+                                ("args".to_string(), Value::map_of([
+                                    ("params".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("id")),
+                                            ("orig".to_string(), Value::str("id")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("param")),
+                                            ("reqd".to_string(), Value::Bool(true)),
+                                        ]),
+                                    ])),
+                                ])),
+                                ("select".to_string(), Value::map_of([
+                                    ("exist".to_string(), Value::list(vec![
+                                        Value::str("id"),
+                                    ])),
                                 ])),
                             ]),
                         ])),
@@ -2993,8 +3079,9 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("name".to_string(), Value::str("success")),
-                        ("short".to_string(), Value::str("Indicates if the action was a success.")),
+                        ("title".to_string(), Value::str("Success")),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
+                        ("short".to_string(), Value::str("Indicates if the action was a success.")),
                     ]),
                 ])),
                 ("name".to_string(), Value::str("success")),
@@ -3004,25 +3091,9 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("create")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("params".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("param")),
-                                            ("name".to_string(), Value::str("share_partner_to")),
-                                            ("orig".to_string(), Value::str("share_partner_to")),
-                                            ("reqd".to_string(), Value::Bool(true)),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                    ])),
-                                ])),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/virtualDevices/{sharePartnerTo}")),
-                                ("rename".to_string(), Value::map_of([
-                                    ("param".to_string(), Value::map_of([
-                                        ("sharePartnerTo".to_string(), Value::str("share_partner_to")),
-                                    ])),
-                                ])),
                                 ("segments".to_string(), Value::list(vec![
                                     Value::map_of([
                                         ("lit".to_string(), Value::str("virtualDevices")),
@@ -3031,18 +3102,34 @@ pub fn make_config() -> Value {
                                         ("var".to_string(), Value::str("share_partner_to")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::map_of([
-                                    ("exist".to_string(), Value::list(vec![
-                                        Value::str("share_partner_to"),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("virtualDevices"),
+                                    Value::str("{share_partner_to}"),
+                                ])),
+                                ("rename".to_string(), Value::map_of([
+                                    ("param".to_string(), Value::map_of([
+                                        ("sharePartnerTo".to_string(), Value::str("share_partner_to")),
                                     ])),
                                 ])),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("virtualDevices"),
-                                    Value::str("{share_partner_to}"),
+                                ("args".to_string(), Value::map_of([
+                                    ("params".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("share_partner_to")),
+                                            ("orig".to_string(), Value::str("share_partner_to")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("param")),
+                                            ("reqd".to_string(), Value::Bool(true)),
+                                        ]),
+                                    ])),
+                                ])),
+                                ("select".to_string(), Value::map_of([
+                                    ("exist".to_string(), Value::list(vec![
+                                        Value::str("share_partner_to"),
+                                    ])),
                                 ])),
                             ]),
                         ])),
@@ -3052,25 +3139,9 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("remove")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("params".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("param")),
-                                            ("name".to_string(), Value::str("share_partner_to")),
-                                            ("orig".to_string(), Value::str("share_partner_to")),
-                                            ("reqd".to_string(), Value::Bool(true)),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                    ])),
-                                ])),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("DELETE")),
                                 ("orig".to_string(), Value::str("/virtualDevices/{sharePartnerTo}")),
-                                ("rename".to_string(), Value::map_of([
-                                    ("param".to_string(), Value::map_of([
-                                        ("sharePartnerTo".to_string(), Value::str("share_partner_to")),
-                                    ])),
-                                ])),
                                 ("segments".to_string(), Value::list(vec![
                                     Value::map_of([
                                         ("lit".to_string(), Value::str("virtualDevices")),
@@ -3079,18 +3150,34 @@ pub fn make_config() -> Value {
                                         ("var".to_string(), Value::str("share_partner_to")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::map_of([
-                                    ("exist".to_string(), Value::list(vec![
-                                        Value::str("share_partner_to"),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("virtualDevices"),
+                                    Value::str("{share_partner_to}"),
+                                ])),
+                                ("rename".to_string(), Value::map_of([
+                                    ("param".to_string(), Value::map_of([
+                                        ("sharePartnerTo".to_string(), Value::str("share_partner_to")),
                                     ])),
                                 ])),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("virtualDevices"),
-                                    Value::str("{share_partner_to}"),
+                                ("args".to_string(), Value::map_of([
+                                    ("params".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("share_partner_to")),
+                                            ("orig".to_string(), Value::str("share_partner_to")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("param")),
+                                            ("reqd".to_string(), Value::Bool(true)),
+                                        ]),
+                                    ])),
+                                ])),
+                                ("select".to_string(), Value::map_of([
+                                    ("exist".to_string(), Value::list(vec![
+                                        Value::str("share_partner_to"),
+                                    ])),
                                 ])),
                             ]),
                         ])),
@@ -3099,7 +3186,7 @@ pub fn make_config() -> Value {
                 ("relations".to_string(), Value::map_of([
                     ("ancestors".to_string(), Value::list(vec![
                         Value::list(vec![
-                            Value::str("virtual_device"),
+                            Value::str("$.main.kit.entity.virtual_device"),
                         ]),
                     ])),
                 ])),
@@ -3108,129 +3195,153 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("name".to_string(), Value::str("alternateKey")),
-                        ("short".to_string(), Value::str("The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging.")),
+                        ("title".to_string(), Value::str("Alternate Key")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("client")),
-                        ("short".to_string(), Value::str("Reference to the associated Client resource.")),
+                        ("title".to_string(), Value::str("Client")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated Client resource.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("clientRef")),
+                        ("title".to_string(), Value::str("Client Ref")),
+                        ("type".to_string(), Value::str("`$STRING`")),
                         ("short".to_string(), Value::str("Client Reference property that is included in the decrypt API call.")),
-                        ("type".to_string(), Value::str("`$STRING`")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("datetime")),
                         ("name".to_string(), Value::str("created")),
-                        ("short".to_string(), Value::str("Creation timestamp in ISO 8601 format.")),
+                        ("title".to_string(), Value::str("Created")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Creation timestamp in ISO 8601 format.")),
+                        ("format".to_string(), Value::str("datetime")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("int32")),
                         ("name".to_string(), Value::str("decrypted")),
-                        ("short".to_string(), Value::str("A Transcation can process muliple decryptions.")),
+                        ("title".to_string(), Value::str("Decrypted")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
+                        ("short".to_string(), Value::str("A Transcation can process muliple decryptions.")),
+                        ("format".to_string(), Value::str("int32")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("deviceName")),
-                        ("short".to_string(), Value::str("The name of the Device that generated the payload to decrypt.")),
+                        ("title".to_string(), Value::str("Device Name")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The name of the Device that generated the payload to decrypt.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("directPartner")),
-                        ("short".to_string(), Value::str("Reference to the associated Partner.")),
+                        ("title".to_string(), Value::str("Direct Partner")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated Partner.")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("int32")),
                         ("name".to_string(), Value::str("encrypted")),
-                        ("short".to_string(), Value::str("A Transcation can process muliple encryptions.")),
+                        ("title".to_string(), Value::str("Encrypted")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
+                        ("short".to_string(), Value::str("A Transcation can process muliple encryptions.")),
+                        ("format".to_string(), Value::str("int32")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("datetime")),
                         ("name".to_string(), Value::str("endDate")),
-                        ("short".to_string(), Value::str("Timestamp from the end of the transaction.")),
+                        ("title".to_string(), Value::str("End Date")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Timestamp from the end of the transaction.")),
+                        ("format".to_string(), Value::str("datetime")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("errCode")),
-                        ("short".to_string(), Value::str("The error code that is sent in response to a failed decrypt API call.")),
+                        ("title".to_string(), Value::str("Err Code")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The error code that is sent in response to a failed decrypt API call.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("errMessage")),
-                        ("short".to_string(), Value::str("The error messge that is sent in response to a failed decrypt API call.")),
+                        ("title".to_string(), Value::str("Err Message")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The error messge that is sent in response to a failed decrypt API call.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("id")),
-                        ("short".to_string(), Value::str("This resource's unique identifier.")),
+                        ("title".to_string(), Value::str("Id")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("This resource's unique identifier.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("ipAddress")),
-                        ("short".to_string(), Value::str("The IP address of the http client that makes the decrypt API call.")),
+                        ("title".to_string(), Value::str("Ip Address")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The IP address of the http client that makes the decrypt API call.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("isVirtual")),
-                        ("short".to_string(), Value::str("Indicates if the Transaction came from a virtual Device.")),
+                        ("title".to_string(), Value::str("Is Virtual")),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
+                        ("short".to_string(), Value::str("Indicates if the Transaction came from a virtual Device.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("keyType")),
-                        ("short".to_string(), Value::str("The type of cipher used during decrytion.")),
+                        ("title".to_string(), Value::str("Key Type")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The type of cipher used during decrytion.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("location")),
+                        ("title".to_string(), Value::str("Location")),
+                        ("type".to_string(), Value::str("`$OBJECT`")),
                         ("req".to_string(), Value::Bool(true)),
                         ("short".to_string(), Value::str("Reference to the associated Location resource.")),
-                        ("type".to_string(), Value::str("`$OBJECT`")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("messageId")),
-                        ("short".to_string(), Value::str("Message ID.")),
+                        ("title".to_string(), Value::str("Message Id")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Message ID.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("method")),
-                        ("short".to_string(), Value::str("The decryption cypher/method.")),
+                        ("title".to_string(), Value::str("Method")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The decryption cypher/method.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("partner")),
-                        ("short".to_string(), Value::str("Reference to the associated Partner.")),
+                        ("title".to_string(), Value::str("Partner")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated Partner.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("reference")),
-                        ("short".to_string(), Value::str("The reference property that the Client includes in the decrypt API call.")),
+                        ("title".to_string(), Value::str("Reference")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The reference property that the Client includes in the decrypt API call.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("serialNumber")),
-                        ("short".to_string(), Value::str("The serial number of the Device that generated the payload to decrypt.")),
+                        ("title".to_string(), Value::str("Serial Number")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The serial number of the Device that generated the payload to decrypt.")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("datetime")),
                         ("name".to_string(), Value::str("startDate")),
-                        ("short".to_string(), Value::str("Timestamp from the beginning of the transaction.")),
+                        ("title".to_string(), Value::str("Start Date")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Timestamp from the beginning of the transaction.")),
+                        ("format".to_string(), Value::str("datetime")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("success")),
-                        ("short".to_string(), Value::str("The success indicator.")),
+                        ("title".to_string(), Value::str("Success")),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
+                        ("short".to_string(), Value::str("The success indicator.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("transactionSource")),
-                        ("short".to_string(), Value::str("The source of the Transaction.")),
+                        ("title".to_string(), Value::str("Transaction Source")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The source of the Transaction.")),
                     ]),
                 ])),
                 ("id".to_string(), Value::map_of([
@@ -3244,7 +3355,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("create")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::empty_map()),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/transactions")),
@@ -3253,14 +3363,16 @@ pub fn make_config() -> Value {
                                         ("lit".to_string(), Value::str("transactions")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::empty_map()),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("transactions"),
+                                ])),
+                                ("rename".to_string(), Value::empty_map()),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("transactions"),
-                                ])),
+                                ("args".to_string(), Value::empty_map()),
+                                ("select".to_string(), Value::empty_map()),
                             ]),
                         ])),
                     ])),
@@ -3269,91 +3381,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("list")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("query".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("client")),
-                                            ("orig".to_string(), Value::str("client")),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("client_ref")),
-                                            ("orig".to_string(), Value::str("client_ref")),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("date_from")),
-                                            ("orig".to_string(), Value::str("date_from")),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("date_to")),
-                                            ("orig".to_string(), Value::str("date_to")),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("location")),
-                                            ("orig".to_string(), Value::str("location")),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("message_id")),
-                                            ("orig".to_string(), Value::str("message_id")),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("example".to_string(), Value::str("nocount")),
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("paging_mode")),
-                                            ("orig".to_string(), Value::str("paging_mode")),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("partner")),
-                                            ("orig".to_string(), Value::str("partner")),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("reference")),
-                                            ("orig".to_string(), Value::str("reference")),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("serial_number")),
-                                            ("orig".to_string(), Value::str("serial_number")),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("example".to_string(), Value::Num(0f64)),
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("skip")),
-                                            ("orig".to_string(), Value::str("skip")),
-                                            ("type".to_string(), Value::str("`$INTEGER`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("success")),
-                                            ("orig".to_string(), Value::str("success")),
-                                            ("type".to_string(), Value::str("`$BOOLEAN`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("example".to_string(), Value::Num(10f64)),
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("take")),
-                                            ("orig".to_string(), Value::str("take")),
-                                            ("type".to_string(), Value::str("`$INTEGER`")),
-                                        ]),
-                                    ])),
-                                ])),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/transactions")),
@@ -3361,6 +3388,99 @@ pub fn make_config() -> Value {
                                     Value::map_of([
                                         ("lit".to_string(), Value::str("transactions")),
                                     ]),
+                                ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("transactions"),
+                                ])),
+                                ("rename".to_string(), Value::empty_map()),
+                                ("transform".to_string(), Value::map_of([
+                                    ("req".to_string(), Value::str("`reqdata`")),
+                                    ("res".to_string(), Value::str("`body.data`")),
+                                ])),
+                                ("args".to_string(), Value::map_of([
+                                    ("query".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("client")),
+                                            ("orig".to_string(), Value::str("client")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("client_ref")),
+                                            ("orig".to_string(), Value::str("client_ref")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("date_from")),
+                                            ("orig".to_string(), Value::str("date_from")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("date_to")),
+                                            ("orig".to_string(), Value::str("date_to")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("location")),
+                                            ("orig".to_string(), Value::str("location")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("message_id")),
+                                            ("orig".to_string(), Value::str("message_id")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("paging_mode")),
+                                            ("orig".to_string(), Value::str("paging_mode")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                            ("example".to_string(), Value::str("nocount")),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("partner")),
+                                            ("orig".to_string(), Value::str("partner")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("reference")),
+                                            ("orig".to_string(), Value::str("reference")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("serial_number")),
+                                            ("orig".to_string(), Value::str("serial_number")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("skip")),
+                                            ("orig".to_string(), Value::str("skip")),
+                                            ("type".to_string(), Value::str("`$INTEGER`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                            ("example".to_string(), Value::Num(0f64)),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("success")),
+                                            ("orig".to_string(), Value::str("success")),
+                                            ("type".to_string(), Value::str("`$BOOLEAN`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("take")),
+                                            ("orig".to_string(), Value::str("take")),
+                                            ("type".to_string(), Value::str("`$INTEGER`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                            ("example".to_string(), Value::Num(10f64)),
+                                        ]),
+                                    ])),
                                 ])),
                                 ("select".to_string(), Value::map_of([
                                     ("exist".to_string(), Value::list(vec![
@@ -3379,13 +3499,6 @@ pub fn make_config() -> Value {
                                         Value::str("take"),
                                     ])),
                                 ])),
-                                ("transform".to_string(), Value::map_of([
-                                    ("req".to_string(), Value::str("`reqdata`")),
-                                    ("res".to_string(), Value::str("`body.data`")),
-                                ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("transactions"),
-                                ])),
                             ]),
                         ])),
                     ])),
@@ -3394,17 +3507,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("load")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("params".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("param")),
-                                            ("name".to_string(), Value::str("id")),
-                                            ("orig".to_string(), Value::str("id")),
-                                            ("reqd".to_string(), Value::Bool(true)),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                    ])),
-                                ])),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/transactions/{id}")),
@@ -3416,18 +3518,30 @@ pub fn make_config() -> Value {
                                         ("var".to_string(), Value::str("id")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::map_of([
-                                    ("exist".to_string(), Value::list(vec![
-                                        Value::str("id"),
-                                    ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("transactions"),
+                                    Value::str("{id}"),
                                 ])),
+                                ("rename".to_string(), Value::empty_map()),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("transactions"),
-                                    Value::str("{id}"),
+                                ("args".to_string(), Value::map_of([
+                                    ("params".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("id")),
+                                            ("orig".to_string(), Value::str("id")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("param")),
+                                            ("reqd".to_string(), Value::Bool(true)),
+                                        ]),
+                                    ])),
+                                ])),
+                                ("select".to_string(), Value::map_of([
+                                    ("exist".to_string(), Value::list(vec![
+                                        Value::str("id"),
+                                    ])),
                                 ])),
                             ]),
                         ])),
@@ -3441,63 +3555,75 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("name".to_string(), Value::str("client")),
-                        ("short".to_string(), Value::str("Reference to the associated Client resource.")),
+                        ("title".to_string(), Value::str("Client")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated Client resource.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("email")),
-                        ("short".to_string(), Value::str("The User's email address.")),
+                        ("title".to_string(), Value::str("Email")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The User's email address.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("firstName")),
-                        ("short".to_string(), Value::str("The User's name.")),
+                        ("title".to_string(), Value::str("First Name")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The User's name.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("id")),
-                        ("short".to_string(), Value::str("ID of newly created resource")),
+                        ("title".to_string(), Value::str("Id")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("ID of newly created resource")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("isActive")),
-                        ("short".to_string(), Value::str("This property indicates if the User account is active or disabled.")),
+                        ("title".to_string(), Value::str("Is Active")),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
+                        ("short".to_string(), Value::str("This property indicates if the User account is active or disabled.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("kif")),
-                        ("short".to_string(), Value::str("Reference to the associated KIF resource.")),
+                        ("title".to_string(), Value::str("Kif")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated KIF resource.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("lastName")),
-                        ("short".to_string(), Value::str("The User's Surname.")),
+                        ("title".to_string(), Value::str("Last Name")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The User's Surname.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("partner")),
-                        ("short".to_string(), Value::str("Reference to the associated Partner.")),
+                        ("title".to_string(), Value::str("Partner")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated Partner.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("phone")),
-                        ("short".to_string(), Value::str("The User's phone number without dashes, spaces, or brackets.")),
+                        ("title".to_string(), Value::str("Phone")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The User's phone number without dashes, spaces, or brackets.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("userName")),
-                        ("short".to_string(), Value::str("The User's unique username.")),
+                        ("title".to_string(), Value::str("User Name")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The User's unique username.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("userRole")),
-                        ("short".to_string(), Value::str("Reference to the associated User Role.")),
+                        ("title".to_string(), Value::str("User Role")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated User Role.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("version")),
-                        ("short".to_string(), Value::str("The number of times that this resource has been updated.")),
+                        ("title".to_string(), Value::str("Version")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
+                        ("short".to_string(), Value::str("The number of times that this resource has been updated.")),
                     ]),
                 ])),
                 ("id".to_string(), Value::map_of([
@@ -3511,7 +3637,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("create")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::empty_map()),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("POST")),
                                 ("orig".to_string(), Value::str("/users")),
@@ -3520,14 +3645,16 @@ pub fn make_config() -> Value {
                                         ("lit".to_string(), Value::str("users")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::empty_map()),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("users"),
+                                ])),
+                                ("rename".to_string(), Value::empty_map()),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("users"),
-                                ])),
+                                ("args".to_string(), Value::empty_map()),
+                                ("select".to_string(), Value::empty_map()),
                             ]),
                         ])),
                     ])),
@@ -3536,42 +3663,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("list")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("query".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("client")),
-                                            ("orig".to_string(), Value::str("client")),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("kif")),
-                                            ("orig".to_string(), Value::str("kif")),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("partner")),
-                                            ("orig".to_string(), Value::str("partner")),
-                                            ("type".to_string(), Value::str("`$ANY`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("example".to_string(), Value::Num(0f64)),
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("skip")),
-                                            ("orig".to_string(), Value::str("skip")),
-                                            ("type".to_string(), Value::str("`$INTEGER`")),
-                                        ]),
-                                        Value::map_of([
-                                            ("example".to_string(), Value::Num(10f64)),
-                                            ("kind".to_string(), Value::str("query")),
-                                            ("name".to_string(), Value::str("take")),
-                                            ("orig".to_string(), Value::str("take")),
-                                            ("type".to_string(), Value::str("`$INTEGER`")),
-                                        ]),
-                                    ])),
-                                ])),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/users")),
@@ -3579,6 +3670,50 @@ pub fn make_config() -> Value {
                                     Value::map_of([
                                         ("lit".to_string(), Value::str("users")),
                                     ]),
+                                ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("users"),
+                                ])),
+                                ("rename".to_string(), Value::empty_map()),
+                                ("transform".to_string(), Value::map_of([
+                                    ("req".to_string(), Value::str("`reqdata`")),
+                                    ("res".to_string(), Value::str("`body.data`")),
+                                ])),
+                                ("args".to_string(), Value::map_of([
+                                    ("query".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("client")),
+                                            ("orig".to_string(), Value::str("client")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("kif")),
+                                            ("orig".to_string(), Value::str("kif")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("partner")),
+                                            ("orig".to_string(), Value::str("partner")),
+                                            ("type".to_string(), Value::str("`$ANY`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("skip")),
+                                            ("orig".to_string(), Value::str("skip")),
+                                            ("type".to_string(), Value::str("`$INTEGER`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                            ("example".to_string(), Value::Num(0f64)),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("take")),
+                                            ("orig".to_string(), Value::str("take")),
+                                            ("type".to_string(), Value::str("`$INTEGER`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                            ("example".to_string(), Value::Num(10f64)),
+                                        ]),
+                                    ])),
                                 ])),
                                 ("select".to_string(), Value::map_of([
                                     ("exist".to_string(), Value::list(vec![
@@ -3589,13 +3724,6 @@ pub fn make_config() -> Value {
                                         Value::str("take"),
                                     ])),
                                 ])),
-                                ("transform".to_string(), Value::map_of([
-                                    ("req".to_string(), Value::str("`reqdata`")),
-                                    ("res".to_string(), Value::str("`body.data`")),
-                                ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("users"),
-                                ])),
                             ]),
                         ])),
                     ])),
@@ -3604,17 +3732,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("update")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("params".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("param")),
-                                            ("name".to_string(), Value::str("id")),
-                                            ("orig".to_string(), Value::str("id")),
-                                            ("reqd".to_string(), Value::Bool(true)),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                    ])),
-                                ])),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("PATCH")),
                                 ("orig".to_string(), Value::str("/clients/{id}")),
@@ -3626,32 +3743,33 @@ pub fn make_config() -> Value {
                                         ("var".to_string(), Value::str("id")),
                                     ]),
                                 ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("clients"),
+                                    Value::str("{id}"),
+                                ])),
+                                ("rename".to_string(), Value::empty_map()),
+                                ("transform".to_string(), Value::map_of([
+                                    ("req".to_string(), Value::str("`reqdata`")),
+                                    ("res".to_string(), Value::str("`body`")),
+                                ])),
+                                ("args".to_string(), Value::map_of([
+                                    ("params".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("id")),
+                                            ("orig".to_string(), Value::str("id")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("param")),
+                                            ("reqd".to_string(), Value::Bool(true)),
+                                        ]),
+                                    ])),
+                                ])),
                                 ("select".to_string(), Value::map_of([
                                     ("exist".to_string(), Value::list(vec![
                                         Value::str("id"),
                                     ])),
                                 ])),
-                                ("transform".to_string(), Value::map_of([
-                                    ("req".to_string(), Value::str("`reqdata`")),
-                                    ("res".to_string(), Value::str("`body`")),
-                                ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("clients"),
-                                    Value::str("{id}"),
-                                ])),
                             ]),
                             Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("params".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("param")),
-                                            ("name".to_string(), Value::str("id")),
-                                            ("orig".to_string(), Value::str("id")),
-                                            ("reqd".to_string(), Value::Bool(true)),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                    ])),
-                                ])),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("PATCH")),
                                 ("orig".to_string(), Value::str("/devices/{id}")),
@@ -3663,32 +3781,33 @@ pub fn make_config() -> Value {
                                         ("var".to_string(), Value::str("id")),
                                     ]),
                                 ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("devices"),
+                                    Value::str("{id}"),
+                                ])),
+                                ("rename".to_string(), Value::empty_map()),
+                                ("transform".to_string(), Value::map_of([
+                                    ("req".to_string(), Value::str("`reqdata`")),
+                                    ("res".to_string(), Value::str("`body`")),
+                                ])),
+                                ("args".to_string(), Value::map_of([
+                                    ("params".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("id")),
+                                            ("orig".to_string(), Value::str("id")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("param")),
+                                            ("reqd".to_string(), Value::Bool(true)),
+                                        ]),
+                                    ])),
+                                ])),
                                 ("select".to_string(), Value::map_of([
                                     ("exist".to_string(), Value::list(vec![
                                         Value::str("id"),
                                     ])),
                                 ])),
-                                ("transform".to_string(), Value::map_of([
-                                    ("req".to_string(), Value::str("`reqdata`")),
-                                    ("res".to_string(), Value::str("`body`")),
-                                ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("devices"),
-                                    Value::str("{id}"),
-                                ])),
                             ]),
                             Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("params".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("param")),
-                                            ("name".to_string(), Value::str("id")),
-                                            ("orig".to_string(), Value::str("id")),
-                                            ("reqd".to_string(), Value::Bool(true)),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                    ])),
-                                ])),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("PATCH")),
                                 ("orig".to_string(), Value::str("/locations/{id}")),
@@ -3700,32 +3819,33 @@ pub fn make_config() -> Value {
                                         ("var".to_string(), Value::str("id")),
                                     ]),
                                 ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("locations"),
+                                    Value::str("{id}"),
+                                ])),
+                                ("rename".to_string(), Value::empty_map()),
+                                ("transform".to_string(), Value::map_of([
+                                    ("req".to_string(), Value::str("`reqdata`")),
+                                    ("res".to_string(), Value::str("`body`")),
+                                ])),
+                                ("args".to_string(), Value::map_of([
+                                    ("params".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("id")),
+                                            ("orig".to_string(), Value::str("id")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("param")),
+                                            ("reqd".to_string(), Value::Bool(true)),
+                                        ]),
+                                    ])),
+                                ])),
                                 ("select".to_string(), Value::map_of([
                                     ("exist".to_string(), Value::list(vec![
                                         Value::str("id"),
                                     ])),
                                 ])),
-                                ("transform".to_string(), Value::map_of([
-                                    ("req".to_string(), Value::str("`reqdata`")),
-                                    ("res".to_string(), Value::str("`body`")),
-                                ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("locations"),
-                                    Value::str("{id}"),
-                                ])),
                             ]),
                             Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("params".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("param")),
-                                            ("name".to_string(), Value::str("id")),
-                                            ("orig".to_string(), Value::str("id")),
-                                            ("reqd".to_string(), Value::Bool(true)),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                    ])),
-                                ])),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("PATCH")),
                                 ("orig".to_string(), Value::str("/partners/{id}")),
@@ -3737,32 +3857,33 @@ pub fn make_config() -> Value {
                                         ("var".to_string(), Value::str("id")),
                                     ]),
                                 ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("partners"),
+                                    Value::str("{id}"),
+                                ])),
+                                ("rename".to_string(), Value::empty_map()),
+                                ("transform".to_string(), Value::map_of([
+                                    ("req".to_string(), Value::str("`reqdata`")),
+                                    ("res".to_string(), Value::str("`body`")),
+                                ])),
+                                ("args".to_string(), Value::map_of([
+                                    ("params".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("id")),
+                                            ("orig".to_string(), Value::str("id")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("param")),
+                                            ("reqd".to_string(), Value::Bool(true)),
+                                        ]),
+                                    ])),
+                                ])),
                                 ("select".to_string(), Value::map_of([
                                     ("exist".to_string(), Value::list(vec![
                                         Value::str("id"),
                                     ])),
                                 ])),
-                                ("transform".to_string(), Value::map_of([
-                                    ("req".to_string(), Value::str("`reqdata`")),
-                                    ("res".to_string(), Value::str("`body`")),
-                                ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("partners"),
-                                    Value::str("{id}"),
-                                ])),
                             ]),
                             Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("params".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("param")),
-                                            ("name".to_string(), Value::str("id")),
-                                            ("orig".to_string(), Value::str("id")),
-                                            ("reqd".to_string(), Value::Bool(true)),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                    ])),
-                                ])),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("PATCH")),
                                 ("orig".to_string(), Value::str("/shipments/{id}")),
@@ -3774,32 +3895,33 @@ pub fn make_config() -> Value {
                                         ("var".to_string(), Value::str("id")),
                                     ]),
                                 ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("shipments"),
+                                    Value::str("{id}"),
+                                ])),
+                                ("rename".to_string(), Value::empty_map()),
+                                ("transform".to_string(), Value::map_of([
+                                    ("req".to_string(), Value::str("`reqdata`")),
+                                    ("res".to_string(), Value::str("`body`")),
+                                ])),
+                                ("args".to_string(), Value::map_of([
+                                    ("params".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("id")),
+                                            ("orig".to_string(), Value::str("id")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("param")),
+                                            ("reqd".to_string(), Value::Bool(true)),
+                                        ]),
+                                    ])),
+                                ])),
                                 ("select".to_string(), Value::map_of([
                                     ("exist".to_string(), Value::list(vec![
                                         Value::str("id"),
                                     ])),
                                 ])),
-                                ("transform".to_string(), Value::map_of([
-                                    ("req".to_string(), Value::str("`reqdata`")),
-                                    ("res".to_string(), Value::str("`body`")),
-                                ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("shipments"),
-                                    Value::str("{id}"),
-                                ])),
                             ]),
                             Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("params".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("param")),
-                                            ("name".to_string(), Value::str("id")),
-                                            ("orig".to_string(), Value::str("id")),
-                                            ("reqd".to_string(), Value::Bool(true)),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                    ])),
-                                ])),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("PATCH")),
                                 ("orig".to_string(), Value::str("/transactions/{id}")),
@@ -3811,32 +3933,33 @@ pub fn make_config() -> Value {
                                         ("var".to_string(), Value::str("id")),
                                     ]),
                                 ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("transactions"),
+                                    Value::str("{id}"),
+                                ])),
+                                ("rename".to_string(), Value::empty_map()),
+                                ("transform".to_string(), Value::map_of([
+                                    ("req".to_string(), Value::str("`reqdata`")),
+                                    ("res".to_string(), Value::str("`body`")),
+                                ])),
+                                ("args".to_string(), Value::map_of([
+                                    ("params".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("id")),
+                                            ("orig".to_string(), Value::str("id")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("param")),
+                                            ("reqd".to_string(), Value::Bool(true)),
+                                        ]),
+                                    ])),
+                                ])),
                                 ("select".to_string(), Value::map_of([
                                     ("exist".to_string(), Value::list(vec![
                                         Value::str("id"),
                                     ])),
                                 ])),
-                                ("transform".to_string(), Value::map_of([
-                                    ("req".to_string(), Value::str("`reqdata`")),
-                                    ("res".to_string(), Value::str("`body`")),
-                                ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("transactions"),
-                                    Value::str("{id}"),
-                                ])),
                             ]),
                             Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("params".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("param")),
-                                            ("name".to_string(), Value::str("id")),
-                                            ("orig".to_string(), Value::str("id")),
-                                            ("reqd".to_string(), Value::Bool(true)),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                    ])),
-                                ])),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("PATCH")),
                                 ("orig".to_string(), Value::str("/users/{id}")),
@@ -3848,18 +3971,30 @@ pub fn make_config() -> Value {
                                         ("var".to_string(), Value::str("id")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::map_of([
-                                    ("exist".to_string(), Value::list(vec![
-                                        Value::str("id"),
-                                    ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("users"),
+                                    Value::str("{id}"),
                                 ])),
+                                ("rename".to_string(), Value::empty_map()),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("users"),
-                                    Value::str("{id}"),
+                                ("args".to_string(), Value::map_of([
+                                    ("params".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("id")),
+                                            ("orig".to_string(), Value::str("id")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("param")),
+                                            ("reqd".to_string(), Value::Bool(true)),
+                                        ]),
+                                    ])),
+                                ])),
+                                ("select".to_string(), Value::map_of([
+                                    ("exist".to_string(), Value::list(vec![
+                                        Value::str("id"),
+                                    ])),
                                 ])),
                             ]),
                         ])),
@@ -3873,75 +4008,89 @@ pub fn make_config() -> Value {
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
                         ("name".to_string(), Value::str("client")),
-                        ("short".to_string(), Value::str("Reference to the associated Client resource.")),
+                        ("title".to_string(), Value::str("Client")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated Client resource.")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("datetime")),
                         ("name".to_string(), Value::str("created")),
-                        ("short".to_string(), Value::str("Creation timestamp in ISO 8601 format.")),
+                        ("title".to_string(), Value::str("Created")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Creation timestamp in ISO 8601 format.")),
+                        ("format".to_string(), Value::str("datetime")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("email")),
-                        ("short".to_string(), Value::str("The User's email address.")),
+                        ("title".to_string(), Value::str("Email")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The User's email address.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("firstName")),
-                        ("short".to_string(), Value::str("The User's name.")),
+                        ("title".to_string(), Value::str("First Name")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The User's name.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("id")),
-                        ("short".to_string(), Value::str("This resource's unique identifier.")),
+                        ("title".to_string(), Value::str("Id")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("This resource's unique identifier.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("isActive")),
-                        ("short".to_string(), Value::str("This property indicates if the User account is active or disabled.")),
+                        ("title".to_string(), Value::str("Is Active")),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
+                        ("short".to_string(), Value::str("This property indicates if the User account is active or disabled.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("kif")),
-                        ("short".to_string(), Value::str("Reference to the associated KIF resource.")),
+                        ("title".to_string(), Value::str("Kif")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated KIF resource.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("lastName")),
-                        ("short".to_string(), Value::str("The User's Surname.")),
+                        ("title".to_string(), Value::str("Last Name")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The User's Surname.")),
                     ]),
                     Value::map_of([
-                        ("format".to_string(), Value::str("datetime")),
                         ("name".to_string(), Value::str("modified")),
-                        ("short".to_string(), Value::str("Last modified timestamp.")),
+                        ("title".to_string(), Value::str("Modified")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Last modified timestamp.")),
+                        ("format".to_string(), Value::str("datetime")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("partner")),
-                        ("short".to_string(), Value::str("Reference to the associated Partner.")),
+                        ("title".to_string(), Value::str("Partner")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated Partner.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("phone")),
-                        ("short".to_string(), Value::str("The User's phone number without dashes, spaces, or brackets.")),
+                        ("title".to_string(), Value::str("Phone")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The User's phone number without dashes, spaces, or brackets.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("userName")),
-                        ("short".to_string(), Value::str("The User's unique username.")),
+                        ("title".to_string(), Value::str("User Name")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The User's unique username.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("userRole")),
-                        ("short".to_string(), Value::str("Reference to the associated User Role.")),
+                        ("title".to_string(), Value::str("User Role")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated User Role.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("version")),
-                        ("short".to_string(), Value::str("The number of times that this resource has been updated.")),
+                        ("title".to_string(), Value::str("Version")),
                         ("type".to_string(), Value::str("`$INTEGER`")),
+                        ("short".to_string(), Value::str("The number of times that this resource has been updated.")),
                     ]),
                 ])),
                 ("id".to_string(), Value::map_of([
@@ -3955,17 +4104,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("load")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("params".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("param")),
-                                            ("name".to_string(), Value::str("id")),
-                                            ("orig".to_string(), Value::str("id")),
-                                            ("reqd".to_string(), Value::Bool(true)),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                    ])),
-                                ])),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("GET")),
                                 ("orig".to_string(), Value::str("/users/{id}")),
@@ -3977,18 +4115,30 @@ pub fn make_config() -> Value {
                                         ("var".to_string(), Value::str("id")),
                                     ]),
                                 ])),
-                                ("select".to_string(), Value::map_of([
-                                    ("exist".to_string(), Value::list(vec![
-                                        Value::str("id"),
-                                    ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("users"),
+                                    Value::str("{id}"),
                                 ])),
+                                ("rename".to_string(), Value::empty_map()),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("users"),
-                                    Value::str("{id}"),
+                                ("args".to_string(), Value::map_of([
+                                    ("params".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("id")),
+                                            ("orig".to_string(), Value::str("id")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("param")),
+                                            ("reqd".to_string(), Value::Bool(true)),
+                                        ]),
+                                    ])),
+                                ])),
+                                ("select".to_string(), Value::map_of([
+                                    ("exist".to_string(), Value::list(vec![
+                                        Value::str("id"),
+                                    ])),
                                 ])),
                             ]),
                         ])),
@@ -3998,17 +4148,6 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("remove")),
                         ("points".to_string(), Value::list(vec![
                             Value::map_of([
-                                ("args".to_string(), Value::map_of([
-                                    ("params".to_string(), Value::list(vec![
-                                        Value::map_of([
-                                            ("kind".to_string(), Value::str("param")),
-                                            ("name".to_string(), Value::str("id")),
-                                            ("orig".to_string(), Value::str("id")),
-                                            ("reqd".to_string(), Value::Bool(true)),
-                                            ("type".to_string(), Value::str("`$STRING`")),
-                                        ]),
-                                    ])),
-                                ])),
                                 ("kind".to_string(), Value::str("http")),
                                 ("method".to_string(), Value::str("DELETE")),
                                 ("orig".to_string(), Value::str("/users/{id}")),
@@ -4020,18 +4159,143 @@ pub fn make_config() -> Value {
                                         ("var".to_string(), Value::str("id")),
                                     ]),
                                 ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("users"),
+                                    Value::str("{id}"),
+                                ])),
+                                ("rename".to_string(), Value::empty_map()),
+                                ("transform".to_string(), Value::map_of([
+                                    ("req".to_string(), Value::str("`reqdata`")),
+                                    ("res".to_string(), Value::str("`body`")),
+                                ])),
+                                ("args".to_string(), Value::map_of([
+                                    ("params".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("id")),
+                                            ("orig".to_string(), Value::str("id")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("param")),
+                                            ("reqd".to_string(), Value::Bool(true)),
+                                        ]),
+                                    ])),
+                                ])),
                                 ("select".to_string(), Value::map_of([
                                     ("exist".to_string(), Value::list(vec![
                                         Value::str("id"),
+                                    ])),
+                                ])),
+                            ]),
+                        ])),
+                    ])),
+                ])),
+                ("relations".to_string(), Value::map_of([
+                    ("ancestors".to_string(), Value::empty_list()),
+                ])),
+            ])),
+            ("virtual_device".to_string(), Value::map_of([
+                ("fields".to_string(), Value::list(vec![
+                    Value::map_of([
+                        ("name".to_string(), Value::str("data")),
+                        ("title".to_string(), Value::str("Data")),
+                        ("type".to_string(), Value::str("`$ARRAY`")),
+                        ("short".to_string(), Value::str("List of Devices.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("id")),
+                        ("title".to_string(), Value::str("Id")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("total")),
+                        ("title".to_string(), Value::str("Total")),
+                        ("type".to_string(), Value::str("`$INTEGER`")),
+                        ("short".to_string(), Value::str("Total number of Devices available (not the number of Users in the response).")),
+                    ]),
+                ])),
+                ("id".to_string(), Value::map_of([
+                    ("field".to_string(), Value::str("id")),
+                    ("name".to_string(), Value::str("id")),
+                ])),
+                ("name".to_string(), Value::str("virtual_device")),
+                ("op".to_string(), Value::map_of([
+                    ("load".to_string(), Value::map_of([
+                        ("input".to_string(), Value::str("data")),
+                        ("name".to_string(), Value::str("load")),
+                        ("points".to_string(), Value::list(vec![
+                            Value::map_of([
+                                ("kind".to_string(), Value::str("http")),
+                                ("method".to_string(), Value::str("GET")),
+                                ("orig".to_string(), Value::str("/virtualDevices/{sharePartnerTo}")),
+                                ("segments".to_string(), Value::list(vec![
+                                    Value::map_of([
+                                        ("lit".to_string(), Value::str("virtualDevices")),
+                                    ]),
+                                    Value::map_of([
+                                        ("var".to_string(), Value::str("id")),
+                                    ]),
+                                ])),
+                                ("parts".to_string(), Value::list(vec![
+                                    Value::str("virtualDevices"),
+                                    Value::str("{id}"),
+                                ])),
+                                ("rename".to_string(), Value::map_of([
+                                    ("param".to_string(), Value::map_of([
+                                        ("sharePartnerTo".to_string(), Value::str("id")),
                                     ])),
                                 ])),
                                 ("transform".to_string(), Value::map_of([
                                     ("req".to_string(), Value::str("`reqdata`")),
                                     ("res".to_string(), Value::str("`body`")),
                                 ])),
-                                ("parts".to_string(), Value::list(vec![
-                                    Value::str("users"),
-                                    Value::str("{id}"),
+                                ("args".to_string(), Value::map_of([
+                                    ("params".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("id")),
+                                            ("orig".to_string(), Value::str("share_partner_to")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("param")),
+                                            ("reqd".to_string(), Value::Bool(true)),
+                                        ]),
+                                    ])),
+                                    ("query".to_string(), Value::list(vec![
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("skip")),
+                                            ("orig".to_string(), Value::str("skip")),
+                                            ("type".to_string(), Value::str("`$INTEGER`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                            ("example".to_string(), Value::Num(0f64)),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("sorting_direction")),
+                                            ("orig".to_string(), Value::str("sorting_direction")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                            ("example".to_string(), Value::str("asc")),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("sorting_field")),
+                                            ("orig".to_string(), Value::str("sorting_field")),
+                                            ("type".to_string(), Value::str("`$STRING`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                            ("example".to_string(), Value::str("serialnumber")),
+                                        ]),
+                                        Value::map_of([
+                                            ("name".to_string(), Value::str("take")),
+                                            ("orig".to_string(), Value::str("take")),
+                                            ("type".to_string(), Value::str("`$INTEGER`")),
+                                            ("kind".to_string(), Value::str("query")),
+                                            ("example".to_string(), Value::Num(10f64)),
+                                        ]),
+                                    ])),
+                                ])),
+                                ("select".to_string(), Value::map_of([
+                                    ("exist".to_string(), Value::list(vec![
+                                        Value::str("id"),
+                                        Value::str("skip"),
+                                        Value::str("sorting_direction"),
+                                        Value::str("sorting_field"),
+                                        Value::str("take"),
+                                    ])),
                                 ])),
                             ]),
                         ])),

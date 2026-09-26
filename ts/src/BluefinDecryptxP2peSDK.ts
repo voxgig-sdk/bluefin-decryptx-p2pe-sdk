@@ -7,8 +7,7 @@ import { DecryptionEntity } from './entity/DecryptionEntity'
 import { DeviceEntity } from './entity/DeviceEntity'
 import { DeviceBuildEntity } from './entity/DeviceBuildEntity'
 import { DeviceCustodyDetailEntity } from './entity/DeviceCustodyDetailEntity'
-import { DeviceCustodyListEntity } from './entity/DeviceCustodyListEntity'
-import { DeviceListEntity } from './entity/DeviceListEntity'
+import { DeviceCustodyListItemEntity } from './entity/DeviceCustodyListItemEntity'
 import { DeviceReceiveResultEntity } from './entity/DeviceReceiveResultEntity'
 import { DeviceRkiActivateResultEntity } from './entity/DeviceRkiActivateResultEntity'
 import { DeviceStateEntity } from './entity/DeviceStateEntity'
@@ -22,6 +21,7 @@ import { SuccessEntity } from './entity/SuccessEntity'
 import { TransactionEntity } from './entity/TransactionEntity'
 import { UpdateResultEntity } from './entity/UpdateResultEntity'
 import { UserEntity } from './entity/UserEntity'
+import { VirtualDeviceEntity } from './entity/VirtualDeviceEntity'
 
 export type * from './BluefinDecryptxP2peTypes'
 
@@ -145,7 +145,6 @@ class BluefinDecryptxP2peSDK {
 
     const options = this._options
 
-    // Build spec directly from SDK options + user-provided fetch args.
     const spec: any = {
       base: options.base,
       prefix: options.prefix,
@@ -161,7 +160,6 @@ class BluefinDecryptxP2peSDK {
 
     ctx.spec = spec
 
-    // Merge user-provided headers over SDK defaults.
     if (fetchargs.headers) {
       const uheaders = fetchargs.headers
       for (let key in uheaders) {
@@ -171,7 +169,6 @@ class BluefinDecryptxP2peSDK {
 
     
 
-    // Apply SDK auth (apikey, auth prefix, etc.)
     const authResult = prepareAuth(ctx)
     if (authResult instanceof Error) {
       return authResult
@@ -264,18 +261,6 @@ class BluefinDecryptxP2peSDK {
 
 
 
-  // Raw GraphQL access: the pressure valve that makes the generated
-  // surface's deliberate omissions (per-call selection sets, typed filter
-  // builders, batching, subscriptions) livable — the whole schema stays
-  // reachable.
-  //
-  // Thin wrapper over the same prepare/fetch path `direct` uses, with the
-  // one thing raw `direct` cannot do for GraphQL: a GraphQL failure rides
-  // HTTP 200 as a top-level `errors` array, so status alone would report a
-  // failed query as ok.
-  //
-  // NOTE: like `direct`, this bypasses the feature pipeline — no retry,
-  // ratelimit or paging features apply.
   async graphql(query: string, variables?: any, ctrl?: any) {
     const options = this._options
 
@@ -381,21 +366,12 @@ class BluefinDecryptxP2peSDK {
   }
 
 
-  // Entity access: `client.DeviceCustodyList().list()` / `client.DeviceCustodyList().load({ id })`.
+  // Entity access: `client.DeviceCustodyListItem().list()` / `client.DeviceCustodyListItem().load({ id })`.
   // The argument is the entity OPTIONS object (passed to the entity
   // constructor as entopts), not initial entity data.
-  DeviceCustodyList(entopts?: Record<string, any>) {
+  DeviceCustodyListItem(entopts?: Record<string, any>) {
     const self = this
-    return new DeviceCustodyListEntity(self, entopts)
-  }
-
-
-  // Entity access: `client.DeviceList().list()` / `client.DeviceList().load({ id })`.
-  // The argument is the entity OPTIONS object (passed to the entity
-  // constructor as entopts), not initial entity data.
-  DeviceList(entopts?: Record<string, any>) {
-    const self = this
-    return new DeviceListEntity(self, entopts)
+    return new DeviceCustodyListItemEntity(self, entopts)
   }
 
 
@@ -513,6 +489,15 @@ class BluefinDecryptxP2peSDK {
   User(entopts?: Record<string, any>) {
     const self = this
     return new UserEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.VirtualDevice().list()` / `client.VirtualDevice().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  VirtualDevice(entopts?: Record<string, any>) {
+    const self = this
+    return new VirtualDeviceEntity(self, entopts)
   }
 
 

@@ -251,8 +251,7 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `device` | `(client data) -> Device entity` | Create a Device entity instance. |
 | `device_build` | `(client data) -> DeviceBuild entity` | Create a DeviceBuild entity instance. |
 | `device_custody_detail` | `(client data) -> DeviceCustodyDetail entity` | Create a DeviceCustodyDetail entity instance. |
-| `device_custody_list` | `(client data) -> DeviceCustodyList entity` | Create a DeviceCustodyList entity instance. |
-| `device_list` | `(client data) -> DeviceList entity` | Create a DeviceList entity instance. |
+| `device_custody_list_item` | `(client data) -> DeviceCustodyListItem entity` | Create a DeviceCustodyListItem entity instance. |
 | `device_receive_result` | `(client data) -> DeviceReceiveResult entity` | Create a DeviceReceiveResult entity instance. |
 | `device_rki_activate_result` | `(client data) -> DeviceRkiActivateResult entity` | Create a DeviceRkiActivateResult entity instance. |
 | `device_state` | `(client data) -> DeviceState entity` | Create a DeviceState entity instance. |
@@ -266,6 +265,7 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `transaction` | `(client data) -> Transaction entity` | Create a Transaction entity instance. |
 | `update_result` | `(client data) -> UpdateResult entity` | Create an UpdateResult entity instance. |
 | `user` | `(client data) -> User entity` | Create an User entity instance. |
+| `virtual_device` | `(client data) -> VirtualDevice entity` | Create a VirtualDevice entity instance. |
 
 ### Entity interface
 
@@ -448,7 +448,7 @@ Operations: Load.
 
 API path: `/devices/{serialNumber}/{deviceType}/custody/{id}`
 
-#### DeviceCustodyList
+#### DeviceCustodyListItem
 
 | Field | Description |
 | --- | --- |
@@ -469,17 +469,6 @@ API path: `/devices/{serialNumber}/{deviceType}/custody/{id}`
 Operations: List.
 
 API path: `/devices/{serialNumber}/{deviceType}/custody`
-
-#### DeviceList
-
-| Field | Description |
-| --- | --- |
-| `data` | List of Devices. |
-| `total` | Total number of Devices available (not the number of Users in the response). |
-
-Operations: Load.
-
-API path: `/virtualDevices/{sharePartnerTo}`
 
 #### DeviceReceiveResult
 
@@ -725,6 +714,18 @@ API path: `/users`
 Operations: Load, Remove.
 
 API path: `/users/{id}`
+
+#### VirtualDevice
+
+| Field | Description |
+| --- | --- |
+| `data` | List of Devices. |
+| `id` |  |
+| `total` | Total number of Devices available (not the number of Users in the response). |
+
+Operations: Load.
+
+API path: `/virtualDevices/{sharePartnerTo}`
 
 
 
@@ -1033,9 +1034,9 @@ Create an instance: `(def device_custody_detail (api/device_custody_detail clien
 ```
 
 
-### DeviceCustodyList
+### DeviceCustodyListItem
 
-Create an instance: `(def device_custody_list (api/device_custody_list client nil))`
+Create an instance: `(def device_custody_list_item (api/device_custody_list_item client nil))`
 
 #### Operations
 
@@ -1064,31 +1065,7 @@ Create an instance: `(def device_custody_list (api/device_custody_list client ni
 #### Example: List
 
 ```clojure
-(def device_custody_lists (e-device_custody_list/list (api/device_custody_list client nil) nil nil))
-```
-
-
-### DeviceList
-
-Create an instance: `(def device_list (api/device_list client nil))`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `(load ent match ctrl)` | Load a single entity by match criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `data` | `vector` | List of Devices. |
-| `total` | `long` | Total number of Devices available (not the number of Users in the response). |
-
-#### Example: Load
-
-```clojure
-(def device_list (e-device_list/load (api/device_list client nil) (vs/jm "share_partner_to" "share_partner_to") nil))
+(def device_custody_list_items (e-device_custody_list_item/list (api/device_custody_list_item client nil) nil nil))
 ```
 
 
@@ -1623,6 +1600,31 @@ Create an instance: `(def user (api/user client nil))`
 (def user (e-user/load (api/user client nil) (vs/jm "id" "user_id") nil))
 ```
 
+
+### VirtualDevice
+
+Create an instance: `(def virtual_device (api/virtual_device client nil))`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `(load ent match ctrl)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `data` | `vector` | List of Devices. |
+| `id` | `string` |  |
+| `total` | `long` | Total number of Devices available (not the number of Users in the response). |
+
+#### Example: Load
+
+```clojure
+(def virtual_device (e-virtual_device/load (api/virtual_device client nil) (vs/jm "id" "virtual_device_id") nil))
+```
+
 ## Features
 
 This SDK ships 12 optional features. Each is **inactive until you
@@ -1634,18 +1636,18 @@ above:
 
 | Feature | What it does |
 |---|---|
-| [`audit`](#audit) | Structured audit trail of operations |
-| [`clienttrack`](#clienttrack) | Client identity and per-request correlation headers |
-| [`debug`](#debug) | Request/response capture ring buffer for debugging |
-| [`idempotency`](#idempotency) | Idempotency keys for safe retries of mutating operations |
-| [`log`](#log) | Structured request and response logging |
-| [`metrics`](#metrics) | Statistics capture: per-operation counters and latency |
-| [`paging`](#paging) | Pagination signals for list operations |
-| [`ratelimit`](#ratelimit) | Client-side rate limiting via a token bucket |
-| [`retry`](#retry) | Automatic retry of transient failures with exponential backoff |
-| [`telemetry`](#telemetry) | Distributed tracing spans with W3C trace-context propagation |
-| [`test`](#test) | In-memory mock transport for testing without a live server |
-| [`timeout`](#timeout) | Per-request timeout with transport abort |
+| [`audit`](#audit) | Audit trail |
+| [`clienttrack`](#clienttrack) | Client tracking |
+| [`debug`](#debug) | Debug capture |
+| [`idempotency`](#idempotency) | Idempotency |
+| [`log`](#log) | Logging |
+| [`metrics`](#metrics) | Metrics |
+| [`paging`](#paging) | Paging |
+| [`ratelimit`](#ratelimit) | Rate limiting |
+| [`retry`](#retry) | Retry |
+| [`telemetry`](#telemetry) | Telemetry |
+| [`test`](#test) | Test transport |
+| [`timeout`](#timeout) | Timeout |
 
 > **Order matters for `ratelimit`, `retry`, `timeout`.** These wrap the
 > transport, so each one wraps whatever is already installed: the order you
@@ -1654,7 +1656,7 @@ above:
 
 ### audit
 
-Structured audit trail of operations.
+Audit trail.
 
 | Option | Default |
 |---|---|
@@ -1666,7 +1668,7 @@ Set `feature.audit.active` to enable it, then override any of the options above.
 
 ### clienttrack
 
-Client identity and per-request correlation headers.
+Client tracking.
 
 | Option | Default |
 |---|---|
@@ -1677,7 +1679,7 @@ Set `feature.clienttrack.active` to enable it, then override any of the options 
 
 ### debug
 
-Request/response capture ring buffer for debugging.
+Debug capture.
 
 | Option | Default |
 |---|---|
@@ -1689,7 +1691,7 @@ Set `feature.debug.active` to enable it, then override any of the options above.
 
 ### idempotency
 
-Idempotency keys for safe retries of mutating operations.
+Idempotency.
 
 | Option | Default |
 |---|---|
@@ -1702,7 +1704,7 @@ Set `feature.idempotency.active` to enable it, then override any of the options 
 
 ### log
 
-Structured request and response logging.
+Logging.
 
 | Option | Default |
 |---|---|
@@ -1712,7 +1714,7 @@ Set `feature.log.active` to enable it, then override any of the options above.
 
 ### metrics
 
-Statistics capture: per-operation counters and latency.
+Metrics.
 
 | Option | Default |
 |---|---|
@@ -1722,7 +1724,7 @@ Set `feature.metrics.active` to enable it, then override any of the options abov
 
 ### paging
 
-Pagination signals for list operations.
+Paging.
 
 | Option | Default |
 |---|---|
@@ -1738,7 +1740,7 @@ Set `feature.paging.active` to enable it, then override any of the options above
 
 ### ratelimit
 
-Client-side rate limiting via a token bucket.
+Rate limiting.
 
 | Option | Default |
 |---|---|
@@ -1754,7 +1756,7 @@ activated earlier.
 
 ### retry
 
-Automatic retry of transient failures with exponential backoff.
+Retry.
 
 | Option | Default |
 |---|---|
@@ -1773,7 +1775,7 @@ activated earlier.
 
 ### telemetry
 
-Distributed tracing spans with W3C trace-context propagation.
+Telemetry.
 
 | Option | Default |
 |---|---|
@@ -1783,7 +1785,7 @@ Set `feature.telemetry.active` to enable it, then override any of the options ab
 
 ### test
 
-In-memory mock transport for testing without a live server.
+Test transport.
 
 | Option | Default |
 |---|---|
@@ -1793,7 +1795,7 @@ Set `feature.test.active` to enable it, then override any of the options above.
 
 ### timeout
 
-Per-request timeout with transport abort.
+Timeout.
 
 | Option | Default |
 |---|---|
@@ -1845,18 +1847,18 @@ a function that receives the context.
 
 The SDK ships with built-in features:
 
-- **AuditFeature**: Structured audit trail of operations
-- **ClienttrackFeature**: Client identity and per-request correlation headers
-- **DebugFeature**: Request/response capture ring buffer for debugging
-- **IdempotencyFeature**: Idempotency keys for safe retries of mutating operations
-- **LogFeature**: Structured request and response logging
-- **MetricsFeature**: Statistics capture: per-operation counters and latency
-- **PagingFeature**: Pagination signals for list operations
-- **RatelimitFeature**: Client-side rate limiting via a token bucket
-- **RetryFeature**: Automatic retry of transient failures with exponential backoff
-- **TelemetryFeature**: Distributed tracing spans with W3C trace-context propagation
-- **TestFeature**: In-memory mock transport for testing without a live server
-- **TimeoutFeature**: Per-request timeout with transport abort
+- **AuditFeature**: Audit trail
+- **ClienttrackFeature**: Client tracking
+- **DebugFeature**: Debug capture
+- **IdempotencyFeature**: Idempotency
+- **LogFeature**: Logging
+- **MetricsFeature**: Metrics
+- **PagingFeature**: Paging
+- **RatelimitFeature**: Rate limiting
+- **RetryFeature**: Retry
+- **TelemetryFeature**: Telemetry
+- **TestFeature**: Test transport
+- **TimeoutFeature**: Timeout
 
 Features are initialized in order. Hooks fire in the order features
 were added, so later features can override earlier ones.
@@ -1879,6 +1881,7 @@ clojure/
 ├── src/sdk/api.clj        -- public API namespace (entity accessors)
 ├── src/sdk/client.clj     -- client constructors (make-sdk, test-sdk)
 ├── src/sdk/config.clj     -- generated configuration
+├── src/sdk/schema.clj     -- generated option + entity specs
 ├── src/sdk/core.clj       -- core types, context and pipeline
 ├── src/sdk/features.clj   -- feature factory
 ├── src/sdk/entity/        -- entity namespaces (one per entity)

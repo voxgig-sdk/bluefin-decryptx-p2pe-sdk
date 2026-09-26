@@ -1,7 +1,7 @@
 // Typed models for the BluefinDecryptxP2pe SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types are mapped
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types are mapped
 // from the canonical type sentinels. Do not edit by hand.
 //
 // These are DOCUMENTARY: the SDK runtime is dynamic (ops take/return the
@@ -271,9 +271,9 @@ pub struct DeviceCustodyDetailLoadMatch {
     pub serial_number: String,
 }
 
-/// DeviceCustodyList is the typed data model for the device_custody_list entity.
+/// DeviceCustodyListItem is the typed data model for the device_custody_list_item entity.
 #[derive(Debug, Clone)]
-pub struct DeviceCustodyList {
+pub struct DeviceCustodyListItem {
     pub completedate: Option<String>,
     pub created: Option<String>,
     pub createdby: std::collections::HashMap<String, Value>,
@@ -289,29 +289,12 @@ pub struct DeviceCustodyList {
     pub version: Option<i64>,
 }
 
-/// DeviceCustodyListListMatch is the typed request payload for DeviceCustodyList.list.
+/// DeviceCustodyListItemListMatch is the typed request payload for DeviceCustodyListItem.list.
 #[derive(Debug, Clone)]
-pub struct DeviceCustodyListListMatch {
+pub struct DeviceCustodyListItemListMatch {
     pub device_type: String,
     pub serial_number: String,
     pub skip: Option<i64>,
-    pub take: Option<i64>,
-}
-
-/// DeviceList is the typed data model for the device_list entity.
-#[derive(Debug, Clone)]
-pub struct DeviceList {
-    pub data: Option<Vec<Value>>,
-    pub total: Option<i64>,
-}
-
-/// DeviceListLoadMatch is the typed request payload for DeviceList.load.
-#[derive(Debug, Clone)]
-pub struct DeviceListLoadMatch {
-    pub share_partner_to: String,
-    pub skip: Option<i64>,
-    pub sorting_direction: Option<String>,
-    pub sorting_field: Option<String>,
     pub take: Option<i64>,
 }
 
@@ -811,5 +794,23 @@ pub struct UserLoadMatch {
 #[derive(Debug, Clone)]
 pub struct UserRemoveMatch {
     pub id: String,
+}
+
+/// VirtualDevice is the typed data model for the virtual_device entity.
+#[derive(Debug, Clone)]
+pub struct VirtualDevice {
+    pub data: Option<Vec<Value>>,
+    pub id: Option<String>,
+    pub total: Option<i64>,
+}
+
+/// VirtualDeviceLoadMatch is the typed request payload for VirtualDevice.load.
+#[derive(Debug, Clone)]
+pub struct VirtualDeviceLoadMatch {
+    pub id: String,
+    pub skip: Option<i64>,
+    pub sorting_direction: Option<String>,
+    pub sorting_field: Option<String>,
+    pub take: Option<i64>,
 }
 

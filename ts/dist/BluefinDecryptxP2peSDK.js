@@ -9,8 +9,7 @@ const DecryptionEntity_1 = require("./entity/DecryptionEntity");
 const DeviceEntity_1 = require("./entity/DeviceEntity");
 const DeviceBuildEntity_1 = require("./entity/DeviceBuildEntity");
 const DeviceCustodyDetailEntity_1 = require("./entity/DeviceCustodyDetailEntity");
-const DeviceCustodyListEntity_1 = require("./entity/DeviceCustodyListEntity");
-const DeviceListEntity_1 = require("./entity/DeviceListEntity");
+const DeviceCustodyListItemEntity_1 = require("./entity/DeviceCustodyListItemEntity");
 const DeviceReceiveResultEntity_1 = require("./entity/DeviceReceiveResultEntity");
 const DeviceRkiActivateResultEntity_1 = require("./entity/DeviceRkiActivateResultEntity");
 const DeviceStateEntity_1 = require("./entity/DeviceStateEntity");
@@ -24,6 +23,7 @@ const SuccessEntity_1 = require("./entity/SuccessEntity");
 const TransactionEntity_1 = require("./entity/TransactionEntity");
 const UpdateResultEntity_1 = require("./entity/UpdateResultEntity");
 const UserEntity_1 = require("./entity/UserEntity");
+const VirtualDeviceEntity_1 = require("./entity/VirtualDeviceEntity");
 const node_util_1 = require("node:util");
 const Config_1 = require("./Config");
 Object.defineProperty(exports, "config", { enumerable: true, get: function () { return Config_1.config; } });
@@ -105,7 +105,6 @@ class BluefinDecryptxP2peSDK {
             ctrl: fetchargs.ctrl || {},
         }, this._rootctx);
         const options = this._options;
-        // Build spec directly from SDK options + user-provided fetch args.
         const spec = {
             base: options.base,
             prefix: options.prefix,
@@ -119,14 +118,12 @@ class BluefinDecryptxP2peSDK {
             step: 'start',
         };
         ctx.spec = spec;
-        // Merge user-provided headers over SDK defaults.
         if (fetchargs.headers) {
             const uheaders = fetchargs.headers;
             for (let key in uheaders) {
                 spec.headers[key] = uheaders[key];
             }
         }
-        // Apply SDK auth (apikey, auth prefix, etc.)
         const authResult = prepareAuth(ctx);
         if (authResult instanceof Error) {
             return authResult;
@@ -201,18 +198,6 @@ class BluefinDecryptxP2peSDK {
             return { ok: false, err };
         }
     }
-    // Raw GraphQL access: the pressure valve that makes the generated
-    // surface's deliberate omissions (per-call selection sets, typed filter
-    // builders, batching, subscriptions) livable — the whole schema stays
-    // reachable.
-    //
-    // Thin wrapper over the same prepare/fetch path `direct` uses, with the
-    // one thing raw `direct` cannot do for GraphQL: a GraphQL failure rides
-    // HTTP 200 as a top-level `errors` array, so status alone would report a
-    // failed query as ok.
-    //
-    // NOTE: like `direct`, this bypasses the feature pipeline — no retry,
-    // ratelimit or paging features apply.
     async graphql(query, variables, ctrl) {
         const options = this._options;
         if (!options.allow.op.includes('graphql')) {
@@ -295,19 +280,12 @@ class BluefinDecryptxP2peSDK {
         const self = this;
         return new DeviceCustodyDetailEntity_1.DeviceCustodyDetailEntity(self, entopts);
     }
-    // Entity access: `client.DeviceCustodyList().list()` / `client.DeviceCustodyList().load({ id })`.
+    // Entity access: `client.DeviceCustodyListItem().list()` / `client.DeviceCustodyListItem().load({ id })`.
     // The argument is the entity OPTIONS object (passed to the entity
     // constructor as entopts), not initial entity data.
-    DeviceCustodyList(entopts) {
+    DeviceCustodyListItem(entopts) {
         const self = this;
-        return new DeviceCustodyListEntity_1.DeviceCustodyListEntity(self, entopts);
-    }
-    // Entity access: `client.DeviceList().list()` / `client.DeviceList().load({ id })`.
-    // The argument is the entity OPTIONS object (passed to the entity
-    // constructor as entopts), not initial entity data.
-    DeviceList(entopts) {
-        const self = this;
-        return new DeviceListEntity_1.DeviceListEntity(self, entopts);
+        return new DeviceCustodyListItemEntity_1.DeviceCustodyListItemEntity(self, entopts);
     }
     // Entity access: `client.DeviceReceiveResult().list()` / `client.DeviceReceiveResult().load({ id })`.
     // The argument is the entity OPTIONS object (passed to the entity
@@ -399,6 +377,13 @@ class BluefinDecryptxP2peSDK {
     User(entopts) {
         const self = this;
         return new UserEntity_1.UserEntity(self, entopts);
+    }
+    // Entity access: `client.VirtualDevice().list()` / `client.VirtualDevice().load({ id })`.
+    // The argument is the entity OPTIONS object (passed to the entity
+    // constructor as entopts), not initial entity data.
+    VirtualDevice(entopts) {
+        const self = this;
+        return new VirtualDeviceEntity_1.VirtualDeviceEntity(self, entopts);
     }
     static test(testoptsarg, sdkoptsarg) {
         const struct = stdutil.struct;

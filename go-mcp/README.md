@@ -153,7 +153,7 @@ JSON schemas are emitted by the SDK from the `Args` struct's `json` /
 
 The 22 entities valid as the `entity` argument:
 
-attestation | client | create_result | decryption | device | device_build | device_custody_detail | device_custody_list | device_list | device_receive_result | device_rki_activate_result | device_state | device_type | inject_key | kif | location | partner | shipment | success | transaction | update_result | user
+attestation | client | create_result | decryption | device | device_build | device_custody_detail | device_custody_list_item | device_receive_result | device_rki_activate_result | device_state | device_type | inject_key | kif | location | partner | shipment | success | transaction | update_result | user | virtual_device
 
 ### Smoke test via HTTP (raw JSON-RPC)
 

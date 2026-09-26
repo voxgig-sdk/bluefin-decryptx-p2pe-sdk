@@ -1,0 +1,49 @@
+# Entity: device_receive_result
+
+main: kit: entity: device_receive_result: {
+
+  alias: field: {}
+
+  fields: {
+    success: {
+      h: "Success"
+      n: "success"
+      r: true
+      sh: "Indicates if the action succeeded."
+      t: "`$BOOLEAN`"
+    }
+  }
+
+  name: "device_receive_result"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /devices/receive"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/devices/receive"
+          s: [
+            {
+              lit: "devices"
+            }
+            {
+              lit: "receive"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

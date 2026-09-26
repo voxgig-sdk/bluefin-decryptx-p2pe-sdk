@@ -285,8 +285,7 @@ mock transport (`testSdk0 :: IO Client` for the no-argument form). Pass
 | `device` | `Client -> Value -> IO Entity` | Create a Device entity instance. |
 | `device_build` | `Client -> Value -> IO Entity` | Create a DeviceBuild entity instance. |
 | `device_custody_detail` | `Client -> Value -> IO Entity` | Create a DeviceCustodyDetail entity instance. |
-| `device_custody_list` | `Client -> Value -> IO Entity` | Create a DeviceCustodyList entity instance. |
-| `device_list` | `Client -> Value -> IO Entity` | Create a DeviceList entity instance. |
+| `device_custody_list_item` | `Client -> Value -> IO Entity` | Create a DeviceCustodyListItem entity instance. |
 | `device_receive_result` | `Client -> Value -> IO Entity` | Create a DeviceReceiveResult entity instance. |
 | `device_rki_activate_result` | `Client -> Value -> IO Entity` | Create a DeviceRkiActivateResult entity instance. |
 | `device_state` | `Client -> Value -> IO Entity` | Create a DeviceState entity instance. |
@@ -300,6 +299,7 @@ mock transport (`testSdk0 :: IO Client` for the no-argument form). Pass
 | `transaction` | `Client -> Value -> IO Entity` | Create a Transaction entity instance. |
 | `update_result` | `Client -> Value -> IO Entity` | Create an UpdateResult entity instance. |
 | `user` | `Client -> Value -> IO Entity` | Create an User entity instance. |
+| `virtual_device` | `Client -> Value -> IO Entity` | Create a VirtualDevice entity instance. |
 
 ### Entity interface
 
@@ -478,7 +478,7 @@ Operations: Load.
 
 API path: `/devices/{serialNumber}/{deviceType}/custody/{id}`
 
-#### DeviceCustodyList
+#### DeviceCustodyListItem
 
 | Field | Description |
 | --- | --- |
@@ -499,17 +499,6 @@ API path: `/devices/{serialNumber}/{deviceType}/custody/{id}`
 Operations: List.
 
 API path: `/devices/{serialNumber}/{deviceType}/custody`
-
-#### DeviceList
-
-| Field | Description |
-| --- | --- |
-| `data` | List of Devices. |
-| `total` | Total number of Devices available (not the number of Users in the response). |
-
-Operations: Load.
-
-API path: `/virtualDevices/{sharePartnerTo}`
 
 #### DeviceReceiveResult
 
@@ -755,6 +744,18 @@ API path: `/users`
 Operations: Load, Remove.
 
 API path: `/users/{id}`
+
+#### VirtualDevice
+
+| Field | Description |
+| --- | --- |
+| `data` | List of Devices. |
+| `id` |  |
+| `total` | Total number of Devices available (not the number of Users in the response). |
+
+Operations: Load.
+
+API path: `/virtualDevices/{sharePartnerTo}`
 
 
 
@@ -1113,9 +1114,9 @@ Create an instance: `device_custody_detail <- Sdk.device_custody_detail sdk VNov
 ```
 
 
-### DeviceCustodyList
+### DeviceCustodyListItem
 
-Create an instance: `device_custody_list <- Sdk.device_custody_list sdk VNoval`
+Create an instance: `device_custody_list_item <- Sdk.device_custody_list_item sdk VNoval`
 
 #### Operations
 
@@ -1144,41 +1145,12 @@ Create an instance: `device_custody_list <- Sdk.device_custody_list sdk VNoval`
 #### Example: List
 
 ```haskell
-  ent <- Sdk.device_custody_list sdk VNoval
+  ent <- Sdk.device_custody_list_item sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
   -- One ENTITY per record.
-  device_custody_lists <- Sdk.eList ent match ctrl
-  device_custody_listDatas <- mapM Sdk.eDataGet device_custody_lists
-```
-
-
-### DeviceList
-
-Create an instance: `device_list <- Sdk.device_list sdk VNoval`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `eLoad ent match ctrl` | Load a single entity by match criteria. Resolves to the entity. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `data` | `[Value]` | List of Devices. |
-| `total` | `Int` | Total number of Devices available (not the number of Users in the response). |
-
-#### Example: Load
-
-```haskell
-  ent <- Sdk.device_list sdk VNoval
-  match <- jo [("share_partner_to", VStr "share_partner_to")]
-  ctrl <- emptyMap
-  device_list <- Sdk.eLoad ent match ctrl
-  -- The op resolves to the ENTITY; the record is inside it.
-  device_listData <- Sdk.eDataGet device_list
+  device_custody_list_items <- Sdk.eList ent match ctrl
+  device_custody_list_itemDatas <- mapM Sdk.eDataGet device_custody_list_items
 ```
 
 
@@ -1801,6 +1773,36 @@ Create an instance: `user <- Sdk.user sdk VNoval`
   userData <- Sdk.eDataGet user
 ```
 
+
+### VirtualDevice
+
+Create an instance: `virtual_device <- Sdk.virtual_device sdk VNoval`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `eLoad ent match ctrl` | Load a single entity by match criteria. Resolves to the entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `data` | `[Value]` | List of Devices. |
+| `id` | `String` |  |
+| `total` | `Int` | Total number of Devices available (not the number of Users in the response). |
+
+#### Example: Load
+
+```haskell
+  ent <- Sdk.virtual_device sdk VNoval
+  match <- jo [("id", VStr "virtual_device_id")]
+  ctrl <- emptyMap
+  virtual_device <- Sdk.eLoad ent match ctrl
+  -- The op resolves to the ENTITY; the record is inside it.
+  virtual_deviceData <- Sdk.eDataGet virtual_device
+```
+
 ## Features
 
 This SDK ships 12 optional features. Each is **inactive until you
@@ -1812,18 +1814,18 @@ above:
 
 | Feature | What it does |
 |---|---|
-| [`audit`](#audit) | Structured audit trail of operations |
-| [`clienttrack`](#clienttrack) | Client identity and per-request correlation headers |
-| [`debug`](#debug) | Request/response capture ring buffer for debugging |
-| [`idempotency`](#idempotency) | Idempotency keys for safe retries of mutating operations |
-| [`log`](#log) | Structured request and response logging |
-| [`metrics`](#metrics) | Statistics capture: per-operation counters and latency |
-| [`paging`](#paging) | Pagination signals for list operations |
-| [`ratelimit`](#ratelimit) | Client-side rate limiting via a token bucket |
-| [`retry`](#retry) | Automatic retry of transient failures with exponential backoff |
-| [`telemetry`](#telemetry) | Distributed tracing spans with W3C trace-context propagation |
-| [`test`](#test) | In-memory mock transport for testing without a live server |
-| [`timeout`](#timeout) | Per-request timeout with transport abort |
+| [`audit`](#audit) | Audit trail |
+| [`clienttrack`](#clienttrack) | Client tracking |
+| [`debug`](#debug) | Debug capture |
+| [`idempotency`](#idempotency) | Idempotency |
+| [`log`](#log) | Logging |
+| [`metrics`](#metrics) | Metrics |
+| [`paging`](#paging) | Paging |
+| [`ratelimit`](#ratelimit) | Rate limiting |
+| [`retry`](#retry) | Retry |
+| [`telemetry`](#telemetry) | Telemetry |
+| [`test`](#test) | Test transport |
+| [`timeout`](#timeout) | Timeout |
 
 > **Order matters for `ratelimit`, `retry`, `timeout`.** These wrap the
 > transport, so each one wraps whatever is already installed: the order you
@@ -1832,7 +1834,7 @@ above:
 
 ### audit
 
-Structured audit trail of operations.
+Audit trail.
 
 | Option | Default |
 |---|---|
@@ -1844,7 +1846,7 @@ Set `feature.audit.active` to enable it, then override any of the options above.
 
 ### clienttrack
 
-Client identity and per-request correlation headers.
+Client tracking.
 
 | Option | Default |
 |---|---|
@@ -1855,7 +1857,7 @@ Set `feature.clienttrack.active` to enable it, then override any of the options 
 
 ### debug
 
-Request/response capture ring buffer for debugging.
+Debug capture.
 
 | Option | Default |
 |---|---|
@@ -1867,7 +1869,7 @@ Set `feature.debug.active` to enable it, then override any of the options above.
 
 ### idempotency
 
-Idempotency keys for safe retries of mutating operations.
+Idempotency.
 
 | Option | Default |
 |---|---|
@@ -1880,7 +1882,7 @@ Set `feature.idempotency.active` to enable it, then override any of the options 
 
 ### log
 
-Structured request and response logging.
+Logging.
 
 | Option | Default |
 |---|---|
@@ -1890,7 +1892,7 @@ Set `feature.log.active` to enable it, then override any of the options above.
 
 ### metrics
 
-Statistics capture: per-operation counters and latency.
+Metrics.
 
 | Option | Default |
 |---|---|
@@ -1900,7 +1902,7 @@ Set `feature.metrics.active` to enable it, then override any of the options abov
 
 ### paging
 
-Pagination signals for list operations.
+Paging.
 
 | Option | Default |
 |---|---|
@@ -1916,7 +1918,7 @@ Set `feature.paging.active` to enable it, then override any of the options above
 
 ### ratelimit
 
-Client-side rate limiting via a token bucket.
+Rate limiting.
 
 | Option | Default |
 |---|---|
@@ -1932,7 +1934,7 @@ activated earlier.
 
 ### retry
 
-Automatic retry of transient failures with exponential backoff.
+Retry.
 
 | Option | Default |
 |---|---|
@@ -1951,7 +1953,7 @@ activated earlier.
 
 ### telemetry
 
-Distributed tracing spans with W3C trace-context propagation.
+Telemetry.
 
 | Option | Default |
 |---|---|
@@ -1961,7 +1963,7 @@ Set `feature.telemetry.active` to enable it, then override any of the options ab
 
 ### test
 
-In-memory mock transport for testing without a live server.
+Test transport.
 
 | Option | Default |
 |---|---|
@@ -1971,7 +1973,7 @@ Set `feature.test.active` to enable it, then override any of the options above.
 
 ### timeout
 
-Per-request timeout with transport abort.
+Timeout.
 
 | Option | Default |
 |---|---|
@@ -2023,18 +2025,18 @@ a function that receives the context.
 
 The SDK ships with built-in features:
 
-- **AuditFeature**: Structured audit trail of operations
-- **ClienttrackFeature**: Client identity and per-request correlation headers
-- **DebugFeature**: Request/response capture ring buffer for debugging
-- **IdempotencyFeature**: Idempotency keys for safe retries of mutating operations
-- **LogFeature**: Structured request and response logging
-- **MetricsFeature**: Statistics capture: per-operation counters and latency
-- **PagingFeature**: Pagination signals for list operations
-- **RatelimitFeature**: Client-side rate limiting via a token bucket
-- **RetryFeature**: Automatic retry of transient failures with exponential backoff
-- **TelemetryFeature**: Distributed tracing spans with W3C trace-context propagation
-- **TestFeature**: In-memory mock transport for testing without a live server
-- **TimeoutFeature**: Per-request timeout with transport abort
+- **AuditFeature**: Audit trail
+- **ClienttrackFeature**: Client tracking
+- **DebugFeature**: Debug capture
+- **IdempotencyFeature**: Idempotency
+- **LogFeature**: Logging
+- **MetricsFeature**: Metrics
+- **PagingFeature**: Paging
+- **RatelimitFeature**: Rate limiting
+- **RetryFeature**: Retry
+- **TelemetryFeature**: Telemetry
+- **TestFeature**: Test transport
+- **TimeoutFeature**: Timeout
 
 Features are initialized in order. Hooks fire in the order features
 were added, so later features can override earlier ones.

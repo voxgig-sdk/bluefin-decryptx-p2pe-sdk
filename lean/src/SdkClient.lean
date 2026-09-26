@@ -65,13 +65,9 @@ namespace Device_custody_detail
   def load (c m co : Value) : SIO Value := SdkRuntime.opLoad c "device_custody_detail" m co
 end Device_custody_detail
 
-namespace Device_custody_list
-  def list (c m co : Value) : SIO Value := SdkRuntime.opList c "device_custody_list" m co
-end Device_custody_list
-
-namespace Device_list
-  def load (c m co : Value) : SIO Value := SdkRuntime.opLoad c "device_list" m co
-end Device_list
+namespace Device_custody_list_item
+  def list (c m co : Value) : SIO Value := SdkRuntime.opList c "device_custody_list_item" m co
+end Device_custody_list_item
 
 namespace Device_receive_result
   def create (c d co : Value) : SIO Value := SdkRuntime.opCreate c "device_receive_result" d co
@@ -139,4 +135,8 @@ namespace User
   def load (c m co : Value) : SIO Value := SdkRuntime.opLoad c "user" m co
   def remove (c m co : Value) : SIO Value := SdkRuntime.opRemove c "user" m co
 end User
+
+namespace Virtual_device
+  def load (c m co : Value) : SIO Value := SdkRuntime.opLoad c "virtual_device" m co
+end Virtual_device
 

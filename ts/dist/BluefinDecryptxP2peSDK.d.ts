@@ -5,8 +5,7 @@ import { DecryptionEntity } from './entity/DecryptionEntity';
 import { DeviceEntity } from './entity/DeviceEntity';
 import { DeviceBuildEntity } from './entity/DeviceBuildEntity';
 import { DeviceCustodyDetailEntity } from './entity/DeviceCustodyDetailEntity';
-import { DeviceCustodyListEntity } from './entity/DeviceCustodyListEntity';
-import { DeviceListEntity } from './entity/DeviceListEntity';
+import { DeviceCustodyListItemEntity } from './entity/DeviceCustodyListItemEntity';
 import { DeviceReceiveResultEntity } from './entity/DeviceReceiveResultEntity';
 import { DeviceRkiActivateResultEntity } from './entity/DeviceRkiActivateResultEntity';
 import { DeviceStateEntity } from './entity/DeviceStateEntity';
@@ -20,6 +19,7 @@ import { SuccessEntity } from './entity/SuccessEntity';
 import { TransactionEntity } from './entity/TransactionEntity';
 import { UpdateResultEntity } from './entity/UpdateResultEntity';
 import { UserEntity } from './entity/UserEntity';
+import { VirtualDeviceEntity } from './entity/VirtualDeviceEntity';
 export type * from './BluefinDecryptxP2peTypes';
 import { inspect } from 'node:util';
 import type { Context, Feature } from './types';
@@ -72,8 +72,7 @@ declare class BluefinDecryptxP2peSDK {
     Device(entopts?: Record<string, any>): DeviceEntity;
     DeviceBuild(entopts?: Record<string, any>): DeviceBuildEntity;
     DeviceCustodyDetail(entopts?: Record<string, any>): DeviceCustodyDetailEntity;
-    DeviceCustodyList(entopts?: Record<string, any>): DeviceCustodyListEntity;
-    DeviceList(entopts?: Record<string, any>): DeviceListEntity;
+    DeviceCustodyListItem(entopts?: Record<string, any>): DeviceCustodyListItemEntity;
     DeviceReceiveResult(entopts?: Record<string, any>): DeviceReceiveResultEntity;
     DeviceRkiActivateResult(entopts?: Record<string, any>): DeviceRkiActivateResultEntity;
     DeviceState(entopts?: Record<string, any>): DeviceStateEntity;
@@ -87,6 +86,7 @@ declare class BluefinDecryptxP2peSDK {
     Transaction(entopts?: Record<string, any>): TransactionEntity;
     UpdateResult(entopts?: Record<string, any>): UpdateResultEntity;
     User(entopts?: Record<string, any>): UserEntity;
+    VirtualDevice(entopts?: Record<string, any>): VirtualDeviceEntity;
     static test(testoptsarg?: any, sdkoptsarg?: any): BluefinDecryptxP2peSDK;
     tester(testopts?: any, sdkopts?: any): BluefinDecryptxP2peSDK;
     toJSON(): {

@@ -280,8 +280,7 @@ class Config {
       'device': <String, dynamic>{},
       'device_build': <String, dynamic>{},
       'device_custody_detail': <String, dynamic>{},
-      'device_custody_list': <String, dynamic>{},
-      'device_list': <String, dynamic>{},
+      'device_custody_list_item': <String, dynamic>{},
       'device_receive_result': <String, dynamic>{},
       'device_rki_activate_result': <String, dynamic>{},
       'device_state': <String, dynamic>{},
@@ -295,6 +294,7 @@ class Config {
       'transaction': <String, dynamic>{},
       'update_result': <String, dynamic>{},
       'user': <String, dynamic>{},
+      'virtual_device': <String, dynamic>{},
     },
   };
 
@@ -303,40 +303,47 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'client',
-          'short': 'Reference to the associated Client resource.',
+          'title': 'Client',
           'type': '`\$OBJECT`',
+          'short': 'Reference to the associated Client resource.',
         },
         <String, dynamic>{
-          'format': 'datetime',
           'name': 'completeDate',
-          'short': 'The date and time that the Attestation took place.',
+          'title': 'Complete Date',
           'type': '`\$STRING`',
+          'short': 'The date and time that the Attestation took place.',
+          'format': 'datetime',
         },
         <String, dynamic>{
-          'format': 'datetime',
           'name': 'created',
-          'short': 'Creation timestamp in ISO 8601 format.',
+          'title': 'Created',
           'type': '`\$STRING`',
+          'short': 'Creation timestamp in ISO 8601 format.',
+          'format': 'datetime',
         },
         <String, dynamic>{
           'name': 'device',
-          'short': 'Reference to the associated Device resource.',
+          'title': 'Device',
           'type': '`\$OBJECT`',
+          'short': 'Reference to the associated Device resource.',
         },
         <String, dynamic>{
           'name': 'id',
-          'short': 'This resource\'s unique identifier.',
+          'title': 'Id',
           'type': '`\$STRING`',
+          'short': 'This resource\'s unique identifier.',
         },
         <String, dynamic>{
           'name': 'name',
-          'short': 'Text describing the attestation.',
+          'title': 'Name',
           'type': '`\$STRING`',
+          'short': 'Text describing the attestation.',
         },
         <String, dynamic>{
           'name': 'notes',
-          'short': 'Free form field that allows the Client associate notes with the Attestation.',
+          'title': 'Notes',
           'type': '`\$STRING`',
+          'short': 'Free form field that allows the Client associate notes with the Attestation.',
         },
       ],
       'id': <String, dynamic>{
@@ -350,7 +357,6 @@ class Config {
           'name': 'create',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/attestations',
@@ -359,14 +365,16 @@ class Config {
                   'lit': 'attestations',
                 },
               ],
-              'select': <String, dynamic>{},
+              'parts': <dynamic>[
+                'attestations',
+              ],
+              'rename': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'parts': <dynamic>[
-                'attestations',
-              ],
+              'args': <String, dynamic>{},
+              'select': <String, dynamic>{},
             },
           ],
         },
@@ -375,31 +383,6 @@ class Config {
           'name': 'list',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'query': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'query',
-                    'name': 'client',
-                    'orig': 'client',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'example': 0,
-                    'kind': 'query',
-                    'name': 'skip',
-                    'orig': 'skip',
-                    'type': '`\$INTEGER`',
-                  },
-                  <String, dynamic>{
-                    'example': 10,
-                    'kind': 'query',
-                    'name': 'take',
-                    'orig': 'take',
-                    'type': '`\$INTEGER`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'GET',
               'orig': '/attestations',
@@ -408,6 +391,39 @@ class Config {
                   'lit': 'attestations',
                 },
               ],
+              'parts': <dynamic>[
+                'attestations',
+              ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body.data`',
+              },
+              'args': <String, dynamic>{
+                'query': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'client',
+                    'orig': 'client',
+                    'type': '`\$STRING`',
+                    'kind': 'query',
+                    'reqd': true,
+                  },
+                  <String, dynamic>{
+                    'name': 'skip',
+                    'orig': 'skip',
+                    'type': '`\$INTEGER`',
+                    'kind': 'query',
+                    'example': 0,
+                  },
+                  <String, dynamic>{
+                    'name': 'take',
+                    'orig': 'take',
+                    'type': '`\$INTEGER`',
+                    'kind': 'query',
+                    'example': 10,
+                  },
+                ],
+              },
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'client',
@@ -415,13 +431,6 @@ class Config {
                   'take',
                 ],
               },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body.data`',
-              },
-              'parts': <dynamic>[
-                'attestations',
-              ],
             },
           ],
         },
@@ -430,17 +439,6 @@ class Config {
           'name': 'load',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'params': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'id',
-                    'orig': 'id',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'GET',
               'orig': '/attestations/{id}',
@@ -452,19 +450,31 @@ class Config {
                   'var': 'id',
                 },
               ],
+              'parts': <dynamic>[
+                'attestations',
+                '{id}',
+              ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{
+                'params': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'id',
+                    'orig': 'id',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                ],
+              },
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'id',
                 ],
               },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
-              'parts': <dynamic>[
-                'attestations',
-                '{id}',
-              ],
             },
           ],
         },
@@ -477,6 +487,8 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'contact',
+          'title': 'Contact',
+          'type': '`\$OBJECT`',
           'op': <String, dynamic>{
             'list': <String, dynamic>{
               'req': true,
@@ -484,60 +496,69 @@ class Config {
             },
           },
           'short': 'Reference to the associated User resource.',
-          'type': '`\$OBJECT`',
         },
         <String, dynamic>{
-          'format': 'datetime',
           'name': 'created',
-          'short': 'Creation timestamp in ISO 8601 format.',
+          'title': 'Created',
           'type': '`\$STRING`',
+          'short': 'Creation timestamp in ISO 8601 format.',
+          'format': 'datetime',
         },
         <String, dynamic>{
           'name': 'directPartner',
-          'short': 'Reference to the associated Partner.',
+          'title': 'Direct Partner',
           'type': '`\$OBJECT`',
+          'short': 'Reference to the associated Partner.',
         },
         <String, dynamic>{
           'name': 'id',
-          'short': 'This resource\'s unique identifier.',
+          'title': 'Id',
           'type': '`\$STRING`',
+          'short': 'This resource\'s unique identifier.',
         },
         <String, dynamic>{
           'name': 'isActive',
-          'short': 'This property indicates if the Client account is active or disabled.',
+          'title': 'Is Active',
           'type': '`\$BOOLEAN`',
+          'short': 'This property indicates if the Client account is active or disabled.',
         },
         <String, dynamic>{
           'name': 'location',
+          'title': 'Location',
+          'type': '`\$OBJECT`',
           'req': true,
           'short': 'Reference to the associated Location resource.',
-          'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'mid',
-          'short': 'Some Partners will have an merchant ids on their own software offerings.',
+          'title': 'Mid',
           'type': '`\$STRING`',
+          'short': 'Some Partners will have an merchant ids on their own software offerings.',
         },
         <String, dynamic>{
-          'format': 'datetime',
           'name': 'modified',
-          'short': 'Last modified timestamp.',
+          'title': 'Modified',
           'type': '`\$STRING`',
+          'short': 'Last modified timestamp.',
+          'format': 'datetime',
         },
         <String, dynamic>{
           'name': 'name',
-          'short': 'The Client\'s name.',
+          'title': 'Name',
           'type': '`\$STRING`',
+          'short': 'The Client\'s name.',
         },
         <String, dynamic>{
           'name': 'partner',
-          'short': 'Reference to the Client\'s root Partner.',
+          'title': 'Partner',
           'type': '`\$OBJECT`',
+          'short': 'Reference to the Client\'s root Partner.',
         },
         <String, dynamic>{
           'name': 'version',
-          'short': 'The number of times that this resource has been updated.',
+          'title': 'Version',
           'type': '`\$INTEGER`',
+          'short': 'The number of times that this resource has been updated.',
         },
       ],
       'id': <String, dynamic>{
@@ -551,7 +572,6 @@ class Config {
           'name': 'create',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/clients',
@@ -560,14 +580,16 @@ class Config {
                   'lit': 'clients',
                 },
               ],
-              'select': <String, dynamic>{},
+              'parts': <dynamic>[
+                'clients',
+              ],
+              'rename': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'parts': <dynamic>[
-                'clients',
-              ],
+              'args': <String, dynamic>{},
+              'select': <String, dynamic>{},
             },
           ],
         },
@@ -576,31 +598,6 @@ class Config {
           'name': 'list',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'query': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'query',
-                    'name': 'partner',
-                    'orig': 'partner',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'example': 0,
-                    'kind': 'query',
-                    'name': 'skip',
-                    'orig': 'skip',
-                    'type': '`\$INTEGER`',
-                  },
-                  <String, dynamic>{
-                    'example': 10,
-                    'kind': 'query',
-                    'name': 'take',
-                    'orig': 'take',
-                    'type': '`\$INTEGER`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'GET',
               'orig': '/clients',
@@ -609,6 +606,39 @@ class Config {
                   'lit': 'clients',
                 },
               ],
+              'parts': <dynamic>[
+                'clients',
+              ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body.data`',
+              },
+              'args': <String, dynamic>{
+                'query': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'partner',
+                    'orig': 'partner',
+                    'type': '`\$STRING`',
+                    'kind': 'query',
+                    'reqd': true,
+                  },
+                  <String, dynamic>{
+                    'name': 'skip',
+                    'orig': 'skip',
+                    'type': '`\$INTEGER`',
+                    'kind': 'query',
+                    'example': 0,
+                  },
+                  <String, dynamic>{
+                    'name': 'take',
+                    'orig': 'take',
+                    'type': '`\$INTEGER`',
+                    'kind': 'query',
+                    'example': 10,
+                  },
+                ],
+              },
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'partner',
@@ -616,13 +646,6 @@ class Config {
                   'take',
                 ],
               },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body.data`',
-              },
-              'parts': <dynamic>[
-                'clients',
-              ],
             },
           ],
         },
@@ -631,17 +654,6 @@ class Config {
           'name': 'load',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'params': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'id',
-                    'orig': 'id',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'GET',
               'orig': '/clients/{id}',
@@ -653,19 +665,31 @@ class Config {
                   'var': 'id',
                 },
               ],
+              'parts': <dynamic>[
+                'clients',
+                '{id}',
+              ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{
+                'params': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'id',
+                    'orig': 'id',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                ],
+              },
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'id',
                 ],
               },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
-              'parts': <dynamic>[
-                'clients',
-                '{id}',
-              ],
             },
           ],
         },
@@ -674,17 +698,6 @@ class Config {
           'name': 'remove',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'params': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'id',
-                    'orig': 'id',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'DELETE',
               'orig': '/clients/{id}',
@@ -696,19 +709,31 @@ class Config {
                   'var': 'id',
                 },
               ],
+              'parts': <dynamic>[
+                'clients',
+                '{id}',
+              ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{
+                'params': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'id',
+                    'orig': 'id',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                ],
+              },
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'id',
                 ],
               },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
-              'parts': <dynamic>[
-                'clients',
-                '{id}',
-              ],
             },
           ],
         },
@@ -726,33 +751,9 @@ class Config {
           'name': 'create',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'params': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'device_type',
-                    'orig': 'device_type',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'serial_number',
-                    'orig': 'serial_number',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'POST',
               'orig': '/devices/{serialNumber}/{deviceType}/custody',
-              'rename': <String, dynamic>{
-                'param': <String, dynamic>{
-                  'deviceType': 'device_type',
-                  'serialNumber': 'serial_number',
-                },
-              },
               'segments': <dynamic>[
                 <String, dynamic>{
                   'lit': 'devices',
@@ -767,22 +768,46 @@ class Config {
                   'lit': 'custody',
                 },
               ],
-              'select': <String, dynamic>{
-                'exist': <dynamic>[
-                  'device_type',
-                  'serial_number',
-                ],
-              },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
               'parts': <dynamic>[
                 'devices',
                 '{serial_number}',
                 '{device_type}',
                 'custody',
               ],
+              'rename': <String, dynamic>{
+                'param': <String, dynamic>{
+                  'deviceType': 'device_type',
+                  'serialNumber': 'serial_number',
+                },
+              },
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{
+                'params': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'device_type',
+                    'orig': 'device_type',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                  <String, dynamic>{
+                    'name': 'serial_number',
+                    'orig': 'serial_number',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                ],
+              },
+              'select': <String, dynamic>{
+                'exist': <dynamic>[
+                  'device_type',
+                  'serial_number',
+                ],
+              },
             },
           ],
         },
@@ -790,7 +815,7 @@ class Config {
       'relations': <String, dynamic>{
         'ancestors': <dynamic>[
           <dynamic>[
-            'device',
+            '\$.main.kit.entity.device',
           ],
         ],
       },
@@ -799,8 +824,9 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'success',
-          'short': 'true if the payload decryption was successful.',
+          'title': 'Success',
           'type': '`\$BOOLEAN`',
+          'short': 'true if the payload decryption was successful.',
         },
       ],
       'name': 'decryption',
@@ -810,7 +836,6 @@ class Config {
           'name': 'create',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/decryption',
@@ -819,14 +844,16 @@ class Config {
                   'lit': 'decryption',
                 },
               ],
-              'select': <String, dynamic>{},
+              'parts': <dynamic>[
+                'decryption',
+              ],
+              'rename': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'parts': <dynamic>[
-                'decryption',
-              ],
+              'args': <String, dynamic>{},
+              'select': <String, dynamic>{},
             },
           ],
         },
@@ -839,156 +866,184 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'activatedBy',
+          'title': 'Activated By',
+          'type': '`\$OBJECT`',
           'req': true,
           'short': 'Reference to the associated User resource.',
-          'type': '`\$OBJECT`',
         },
         <String, dynamic>{
-          'format': 'datetime',
           'name': 'activationDate',
-          'short': 'Timestamp from when the Device was activated.',
+          'title': 'Activation Date',
           'type': '`\$STRING`',
+          'short': 'Timestamp from when the Device was activated.',
+          'format': 'datetime',
         },
         <String, dynamic>{
           'name': 'alternateKey',
+          'title': 'Alternate Key',
+          'type': '`\$STRING`',
           'short': 'The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device\'s casing or its packaging.',
-          'type': '`\$STRING`',
         },
         <String, dynamic>{
-          'format': 'datetime',
           'name': 'auditNextDate',
-          'short': 'Date and time that the Device is due its next PCI Audit.',
+          'title': 'Audit Next Date',
           'type': '`\$STRING`',
+          'short': 'Date and time that the Device is due its next PCI Audit.',
+          'format': 'datetime',
         },
         <String, dynamic>{
-          'format': 'datetime',
           'name': 'auditNotificationDate',
-          'short': 'Date and time that a notification should be sent that a PCI audit is due.',
+          'title': 'Audit Notification Date',
           'type': '`\$STRING`',
+          'short': 'Date and time that a notification should be sent that a PCI audit is due.',
+          'format': 'datetime',
         },
         <String, dynamic>{
           'name': 'client',
-          'short': 'Reference to the associated Client resource.',
+          'title': 'Client',
           'type': '`\$OBJECT`',
+          'short': 'Reference to the associated Client resource.',
         },
         <String, dynamic>{
-          'format': 'datetime',
           'name': 'created',
-          'short': 'Creation timestamp in ISO 8601 format.',
+          'title': 'Created',
           'type': '`\$STRING`',
+          'short': 'Creation timestamp in ISO 8601 format.',
+          'format': 'datetime',
         },
         <String, dynamic>{
           'name': 'createdBy',
+          'title': 'Created By',
+          'type': '`\$OBJECT`',
           'req': true,
           'short': 'Reference to the associated User resource.',
-          'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'deviceBuild',
-          'short': 'Reference to the associated Device Build resource.',
+          'title': 'Device Build',
           'type': '`\$OBJECT`',
+          'short': 'Reference to the associated Device Build resource.',
         },
         <String, dynamic>{
           'name': 'deviceState',
-          'short': 'Reference to the associated Device State resource.',
+          'title': 'Device State',
           'type': '`\$OBJECT`',
+          'short': 'Reference to the associated Device State resource.',
         },
         <String, dynamic>{
           'name': 'deviceType',
-          'short': 'Reference to the associated Device Type resource.',
+          'title': 'Device Type',
           'type': '`\$OBJECT`',
+          'short': 'Reference to the associated Device Type resource.',
         },
         <String, dynamic>{
           'name': 'errorCounter',
-          'short': 'The number times the Device has been in error.',
+          'title': 'Error Counter',
           'type': '`\$INTEGER`',
+          'short': 'The number times the Device has been in error.',
         },
         <String, dynamic>{
-          'format': 'datetime',
           'name': 'errorLastDate',
-          'short': 'Timestamp from the last time that the Device had an error.',
+          'title': 'Error Last Date',
           'type': '`\$STRING`',
+          'short': 'Timestamp from the last time that the Device had an error.',
+          'format': 'datetime',
         },
         <String, dynamic>{
           'name': 'id',
-          'short': 'The Device\'s unique identifier.',
+          'title': 'Id',
           'type': '`\$STRING`',
+          'short': 'The Device\'s unique identifier.',
         },
         <String, dynamic>{
           'name': 'initializedBy',
+          'title': 'Initialized By',
+          'type': '`\$OBJECT`',
           'req': true,
           'short': 'Reference to the associated User resource.',
-          'type': '`\$OBJECT`',
         },
         <String, dynamic>{
-          'format': 'datetime',
           'name': 'initializedDate',
-          'short': 'Timestamp from when the Device was initialized.',
+          'title': 'Initialized Date',
           'type': '`\$STRING`',
+          'short': 'Timestamp from when the Device was initialized.',
+          'format': 'datetime',
         },
         <String, dynamic>{
           'name': 'injectKey',
-          'short': 'Reference to the associated Device resource.',
+          'title': 'Inject Key',
           'type': '`\$OBJECT`',
+          'short': 'Reference to the associated Device resource.',
         },
         <String, dynamic>{
           'name': 'isVirtual',
-          'short': 'Indicates if a Device is Virtual (represents a Device shared with a partner).',
+          'title': 'Is Virtual',
           'type': '`\$BOOLEAN`',
+          'short': 'Indicates if a Device is Virtual (represents a Device shared with a partner).',
         },
         <String, dynamic>{
           'name': 'kif',
-          'short': 'Reference to the associated KIF resource.',
+          'title': 'Kif',
           'type': '`\$OBJECT`',
+          'short': 'Reference to the associated KIF resource.',
         },
         <String, dynamic>{
-          'format': 'datetime',
           'name': 'lastActivityDate',
-          'short': 'Timestamp from the last time that the Device was used.',
+          'title': 'Last Activity Date',
           'type': '`\$STRING`',
+          'short': 'Timestamp from the last time that the Device was used.',
+          'format': 'datetime',
         },
         <String, dynamic>{
           'name': 'location',
+          'title': 'Location',
+          'type': '`\$OBJECT`',
           'req': true,
           'short': 'Reference to the associated Location resource.',
-          'type': '`\$OBJECT`',
         },
         <String, dynamic>{
-          'format': 'datetime',
           'name': 'modified',
-          'short': 'Last modified timestamp.',
+          'title': 'Modified',
           'type': '`\$STRING`',
+          'short': 'Last modified timestamp.',
+          'format': 'datetime',
         },
         <String, dynamic>{
           'name': 'modifiedBy',
+          'title': 'Modified By',
+          'type': '`\$OBJECT`',
           'req': true,
           'short': 'Reference to the associated User resource.',
-          'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'name',
-          'short': 'The Device\'s name.',
+          'title': 'Name',
           'type': '`\$STRING`',
+          'short': 'The Device\'s name.',
         },
         <String, dynamic>{
           'name': 'notes',
-          'short': 'Arbitary note that can be attached to a Device entry.',
+          'title': 'Notes',
           'type': '`\$STRING`',
+          'short': 'Arbitary note that can be attached to a Device entry.',
         },
         <String, dynamic>{
           'name': 'partner',
-          'short': 'Reference to the associated Partner.',
+          'title': 'Partner',
           'type': '`\$OBJECT`',
+          'short': 'Reference to the associated Partner.',
         },
         <String, dynamic>{
           'name': 'serialNumber',
-          'short': 'The Device\'s serial number.',
+          'title': 'Serial Number',
           'type': '`\$STRING`',
+          'short': 'The Device\'s serial number.',
         },
         <String, dynamic>{
           'name': 'version',
-          'short': 'The number of times that this resource has been updated.',
+          'title': 'Version',
           'type': '`\$INTEGER`',
+          'short': 'The number of times that this resource has been updated.',
         },
       ],
       'id': <String, dynamic>{
@@ -1002,7 +1057,6 @@ class Config {
           'name': 'create',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/devices',
@@ -1011,14 +1065,16 @@ class Config {
                   'lit': 'devices',
                 },
               ],
-              'select': <String, dynamic>{},
+              'parts': <dynamic>[
+                'devices',
+              ],
+              'rename': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'parts': <dynamic>[
-                'devices',
-              ],
+              'args': <String, dynamic>{},
+              'select': <String, dynamic>{},
             },
           ],
         },
@@ -1027,68 +1083,6 @@ class Config {
           'name': 'list',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'query': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'query',
-                    'name': 'client',
-                    'orig': 'client',
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'kind': 'query',
-                    'name': 'device_state',
-                    'orig': 'device_state',
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'kind': 'query',
-                    'name': 'kif',
-                    'orig': 'kif',
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'kind': 'query',
-                    'name': 'partner',
-                    'orig': 'partner',
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'kind': 'query',
-                    'name': 'serial_number',
-                    'orig': 'serial_number',
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'example': 0,
-                    'kind': 'query',
-                    'name': 'skip',
-                    'orig': 'skip',
-                    'type': '`\$INTEGER`',
-                  },
-                  <String, dynamic>{
-                    'example': 'asc',
-                    'kind': 'query',
-                    'name': 'sorting_direction',
-                    'orig': 'sorting_direction',
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'example': 'serialnumber',
-                    'kind': 'query',
-                    'name': 'sorting_field',
-                    'orig': 'sorting_field',
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'example': 10,
-                    'kind': 'query',
-                    'name': 'take',
-                    'orig': 'take',
-                    'type': '`\$INTEGER`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'GET',
               'orig': '/devices',
@@ -1097,6 +1091,76 @@ class Config {
                   'lit': 'devices',
                 },
               ],
+              'parts': <dynamic>[
+                'devices',
+              ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body.data`',
+              },
+              'args': <String, dynamic>{
+                'query': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'client',
+                    'orig': 'client',
+                    'type': '`\$STRING`',
+                    'kind': 'query',
+                  },
+                  <String, dynamic>{
+                    'name': 'device_state',
+                    'orig': 'device_state',
+                    'type': '`\$STRING`',
+                    'kind': 'query',
+                  },
+                  <String, dynamic>{
+                    'name': 'kif',
+                    'orig': 'kif',
+                    'type': '`\$STRING`',
+                    'kind': 'query',
+                  },
+                  <String, dynamic>{
+                    'name': 'partner',
+                    'orig': 'partner',
+                    'type': '`\$STRING`',
+                    'kind': 'query',
+                  },
+                  <String, dynamic>{
+                    'name': 'serial_number',
+                    'orig': 'serial_number',
+                    'type': '`\$STRING`',
+                    'kind': 'query',
+                  },
+                  <String, dynamic>{
+                    'name': 'skip',
+                    'orig': 'skip',
+                    'type': '`\$INTEGER`',
+                    'kind': 'query',
+                    'example': 0,
+                  },
+                  <String, dynamic>{
+                    'name': 'sorting_direction',
+                    'orig': 'sorting_direction',
+                    'type': '`\$STRING`',
+                    'kind': 'query',
+                    'example': 'asc',
+                  },
+                  <String, dynamic>{
+                    'name': 'sorting_field',
+                    'orig': 'sorting_field',
+                    'type': '`\$STRING`',
+                    'kind': 'query',
+                    'example': 'serialnumber',
+                  },
+                  <String, dynamic>{
+                    'name': 'take',
+                    'orig': 'take',
+                    'type': '`\$INTEGER`',
+                    'kind': 'query',
+                    'example': 10,
+                  },
+                ],
+              },
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'client',
@@ -1110,13 +1174,6 @@ class Config {
                   'take',
                 ],
               },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body.data`',
-              },
-              'parts': <dynamic>[
-                'devices',
-              ],
             },
           ],
         },
@@ -1125,33 +1182,9 @@ class Config {
           'name': 'load',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'params': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'device_type',
-                    'orig': 'device_type',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'serial_number',
-                    'orig': 'serial_number',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'GET',
               'orig': '/devices/{serialNumber}/{deviceType}',
-              'rename': <String, dynamic>{
-                'param': <String, dynamic>{
-                  'deviceType': 'device_type',
-                  'serialNumber': 'serial_number',
-                },
-              },
               'segments': <dynamic>[
                 <String, dynamic>{
                   'lit': 'devices',
@@ -1163,34 +1196,47 @@ class Config {
                   'var': 'device_type',
                 },
               ],
+              'parts': <dynamic>[
+                'devices',
+                '{serial_number}',
+                '{device_type}',
+              ],
+              'rename': <String, dynamic>{
+                'param': <String, dynamic>{
+                  'deviceType': 'device_type',
+                  'serialNumber': 'serial_number',
+                },
+              },
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{
+                'params': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'device_type',
+                    'orig': 'device_type',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                  <String, dynamic>{
+                    'name': 'serial_number',
+                    'orig': 'serial_number',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                ],
+              },
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'device_type',
                   'serial_number',
                 ],
               },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
-              'parts': <dynamic>[
-                'devices',
-                '{serial_number}',
-                '{device_type}',
-              ],
             },
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'params': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'id',
-                    'orig': 'id',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'GET',
               'orig': '/devices/{id}',
@@ -1202,110 +1248,133 @@ class Config {
                   'var': 'id',
                 },
               ],
+              'parts': <dynamic>[
+                'devices',
+                '{id}',
+              ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{
+                'params': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'id',
+                    'orig': 'id',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                ],
+              },
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'id',
                 ],
               },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
-              'parts': <dynamic>[
-                'devices',
-                '{id}',
-              ],
             },
           ],
         },
       },
       'relations': <String, dynamic>{
-        'ancestors': <dynamic>[
-          <dynamic>[
-            'device',
-          ],
-        ],
+        'ancestors': <dynamic>[],
       },
     },
     'device_build': <String, dynamic>{
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'appVersion',
-          'short': 'If a Device Type has more than one Application Code version the supported version is specified here.',
+          'title': 'App Version',
           'type': '`\$STRING`',
+          'short': 'If a Device Type has more than one Application Code version the supported version is specified here.',
         },
         <String, dynamic>{
           'name': 'buildNumber',
-          'short': 'The Build Number.',
+          'title': 'Build Number',
           'type': '`\$STRING`',
+          'short': 'The Build Number.',
         },
         <String, dynamic>{
           'name': 'configFileName',
-          'short': 'The name of the configuration file that is uploaded to the device.',
+          'title': 'Config File Name',
           'type': '`\$STRING`',
+          'short': 'The name of the configuration file that is uploaded to the device.',
         },
         <String, dynamic>{
-          'format': 'date-time',
           'name': 'created',
-          'short': 'Creation timestamp in ISO 8601 format.',
+          'title': 'Created',
           'type': '`\$STRING`',
+          'short': 'Creation timestamp in ISO 8601 format.',
+          'format': 'date-time',
         },
         <String, dynamic>{
           'name': 'deviceType',
-          'short': 'The Device Type Name.',
+          'title': 'Device Type',
           'type': '`\$STRING`',
+          'short': 'The Device Type Name.',
         },
         <String, dynamic>{
           'name': 'firmwareVersion',
-          'short': 'A list of firmware versions that this Device Build covers.',
+          'title': 'Firmware Version',
           'type': '`\$STRING`',
+          'short': 'A list of firmware versions that this Device Build covers.',
         },
         <String, dynamic>{
           'name': 'hardwareVersion',
-          'short': 'A list of hardware versions that this Device Build covers.',
+          'title': 'Hardware Version',
           'type': '`\$STRING`',
+          'short': 'A list of hardware versions that this Device Build covers.',
         },
         <String, dynamic>{
-          'format': 'int64',
           'name': 'id',
-          'short': 'This resource\'s unique identifier.',
+          'title': 'Id',
           'type': '`\$INTEGER`',
+          'short': 'This resource\'s unique identifier.',
+          'format': 'int64',
         },
         <String, dynamic>{
           'name': 'isActive',
-          'short': 'This property indicates if the device build is still active and not succeeded by subsequent build.',
+          'title': 'Is Active',
           'type': '`\$BOOLEAN`',
+          'short': 'This property indicates if the device build is still active and not succeeded by subsequent build.',
         },
         <String, dynamic>{
-          'format': 'date-time',
           'name': 'modified',
-          'short': 'Last modified timestamp.',
+          'title': 'Modified',
           'type': '`\$STRING`',
+          'short': 'Last modified timestamp.',
+          'format': 'date-time',
         },
         <String, dynamic>{
           'name': 'name',
-          'short': 'The Device Builds\'s name.',
+          'title': 'Name',
           'type': '`\$STRING`',
+          'short': 'The Device Builds\'s name.',
         },
         <String, dynamic>{
           'name': 'notes',
-          'short': 'Notes attached to the device build by Bluefin CISO.',
+          'title': 'Notes',
           'type': '`\$STRING`',
+          'short': 'Notes attached to the device build by Bluefin CISO.',
         },
         <String, dynamic>{
           'name': 'version',
-          'short': 'The number of times that this resource has been updated.',
+          'title': 'Version',
           'type': '`\$INTEGER`',
+          'short': 'The number of times that this resource has been updated.',
         },
         <String, dynamic>{
           'name': 'whiteListingBinRanges',
-          'short': 'A comma separated list of BIN ranges that aren\'t encrypted by the terminal.',
+          'title': 'White Listing Bin Ranges',
           'type': '`\$STRING`',
+          'short': 'A comma separated list of BIN ranges that aren\'t encrypted by the terminal.',
         },
         <String, dynamic>{
           'name': 'whiteListingUsed',
-          'short': 'This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren\'t encrypted by the terminal.',
+          'title': 'White Listing Used',
           'type': '`\$BOOLEAN`',
+          'short': 'This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren\'t encrypted by the terminal.',
         },
       ],
       'id': <String, dynamic>{
@@ -1319,30 +1388,6 @@ class Config {
           'name': 'list',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'query': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'query',
-                    'name': 'device_type',
-                    'orig': 'device_type',
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'example': 0,
-                    'kind': 'query',
-                    'name': 'skip',
-                    'orig': 'skip',
-                    'type': '`\$INTEGER`',
-                  },
-                  <String, dynamic>{
-                    'example': 10,
-                    'kind': 'query',
-                    'name': 'take',
-                    'orig': 'take',
-                    'type': '`\$INTEGER`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'GET',
               'orig': '/deviceBuilds',
@@ -1351,6 +1396,38 @@ class Config {
                   'lit': 'deviceBuilds',
                 },
               ],
+              'parts': <dynamic>[
+                'deviceBuilds',
+              ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body.data`',
+              },
+              'args': <String, dynamic>{
+                'query': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'device_type',
+                    'orig': 'device_type',
+                    'type': '`\$STRING`',
+                    'kind': 'query',
+                  },
+                  <String, dynamic>{
+                    'name': 'skip',
+                    'orig': 'skip',
+                    'type': '`\$INTEGER`',
+                    'kind': 'query',
+                    'example': 0,
+                  },
+                  <String, dynamic>{
+                    'name': 'take',
+                    'orig': 'take',
+                    'type': '`\$INTEGER`',
+                    'kind': 'query',
+                    'example': 10,
+                  },
+                ],
+              },
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'device_type',
@@ -1358,13 +1435,6 @@ class Config {
                   'take',
                 ],
               },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body.data`',
-              },
-              'parts': <dynamic>[
-                'deviceBuilds',
-              ],
             },
           ],
         },
@@ -1373,17 +1443,6 @@ class Config {
           'name': 'load',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'params': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'id',
-                    'orig': 'id',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'GET',
               'orig': '/deviceBuilds/{id}',
@@ -1395,19 +1454,31 @@ class Config {
                   'var': 'id',
                 },
               ],
+              'parts': <dynamic>[
+                'deviceBuilds',
+                '{id}',
+              ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{
+                'params': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'id',
+                    'orig': 'id',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                ],
+              },
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'id',
                 ],
               },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
-              'parts': <dynamic>[
-                'deviceBuilds',
-                '{id}',
-              ],
             },
           ],
         },
@@ -1419,77 +1490,90 @@ class Config {
     'device_custody_detail': <String, dynamic>{
       'fields': <dynamic>[
         <String, dynamic>{
-          'format': 'date-time',
           'name': 'completeDate',
-          'short': 'The date and time that the Custody change took place.',
+          'title': 'Complete Date',
           'type': '`\$STRING`',
+          'short': 'The date and time that the Custody change took place.',
+          'format': 'date-time',
         },
         <String, dynamic>{
-          'format': 'date-time',
           'name': 'created',
-          'short': 'Creation timestamp in ISO 8601 format.',
+          'title': 'Created',
           'type': '`\$STRING`',
+          'short': 'Creation timestamp in ISO 8601 format.',
+          'format': 'date-time',
         },
         <String, dynamic>{
           'name': 'createdBy',
+          'title': 'Created By',
+          'type': '`\$OBJECT`',
           'req': true,
           'short': 'Reference to the associated User resource.',
-          'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'custodian',
+          'title': 'Custodian',
+          'type': '`\$OBJECT`',
           'req': true,
           'short': 'Reference to the associated User resource.',
-          'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'device',
-          'short': 'Reference to the associated Device resource.',
+          'title': 'Device',
           'type': '`\$OBJECT`',
+          'short': 'Reference to the associated Device resource.',
         },
         <String, dynamic>{
-          'format': 'int64',
           'name': 'id',
-          'short': 'This resource\'s unique identifier.',
+          'title': 'Id',
           'type': '`\$INTEGER`',
+          'short': 'This resource\'s unique identifier.',
+          'format': 'int64',
         },
         <String, dynamic>{
           'name': 'location',
+          'title': 'Location',
+          'type': '`\$OBJECT`',
           'req': true,
           'short': 'Reference to the associated Location resource.',
-          'type': '`\$OBJECT`',
         },
         <String, dynamic>{
-          'format': 'date-time',
           'name': 'modified',
-          'short': 'Last modified timestamp.',
+          'title': 'Modified',
           'type': '`\$STRING`',
+          'short': 'Last modified timestamp.',
+          'format': 'date-time',
         },
         <String, dynamic>{
           'name': 'modifiedBy',
+          'title': 'Modified By',
+          'type': '`\$OBJECT`',
           'req': true,
           'short': 'Reference to the associated User resource.',
-          'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'notes',
-          'short': 'Free form field that allows the Client associate notes with the Custody Change.',
+          'title': 'Notes',
           'type': '`\$STRING`',
+          'short': 'Free form field that allows the Client associate notes with the Custody Change.',
         },
         <String, dynamic>{
           'name': 'status',
-          'short': 'Reference to the associated Custody Status.',
+          'title': 'Status',
           'type': '`\$OBJECT`',
+          'short': 'Reference to the associated Custody Status.',
         },
         <String, dynamic>{
           'name': 'transferMethod',
-          'short': 'Reference to the associated Transfer Method.',
+          'title': 'Transfer Method',
           'type': '`\$OBJECT`',
+          'short': 'Reference to the associated Transfer Method.',
         },
         <String, dynamic>{
           'name': 'version',
-          'short': 'The number of times that this resource has been updated.',
+          'title': 'Version',
           'type': '`\$INTEGER`',
+          'short': 'The number of times that this resource has been updated.',
         },
       ],
       'id': <String, dynamic>{
@@ -1503,40 +1587,9 @@ class Config {
           'name': 'load',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'params': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'device_type',
-                    'orig': 'device_type',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'id',
-                    'orig': 'id',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'serial_number',
-                    'orig': 'serial_number',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'GET',
               'orig': '/devices/{serialNumber}/{deviceType}/custody/{id}',
-              'rename': <String, dynamic>{
-                'param': <String, dynamic>{
-                  'deviceType': 'device_type',
-                  'serialNumber': 'serial_number',
-                },
-              },
               'segments': <dynamic>[
                 <String, dynamic>{
                   'lit': 'devices',
@@ -1554,17 +1607,6 @@ class Config {
                   'var': 'id',
                 },
               ],
-              'select': <String, dynamic>{
-                'exist': <dynamic>[
-                  'device_type',
-                  'id',
-                  'serial_number',
-                ],
-              },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
               'parts': <dynamic>[
                 'devices',
                 '{serial_number}',
@@ -1572,6 +1614,48 @@ class Config {
                 'custody',
                 '{id}',
               ],
+              'rename': <String, dynamic>{
+                'param': <String, dynamic>{
+                  'deviceType': 'device_type',
+                  'serialNumber': 'serial_number',
+                },
+              },
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{
+                'params': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'device_type',
+                    'orig': 'device_type',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                  <String, dynamic>{
+                    'name': 'id',
+                    'orig': 'id',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                  <String, dynamic>{
+                    'name': 'serial_number',
+                    'orig': 'serial_number',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                ],
+              },
+              'select': <String, dynamic>{
+                'exist': <dynamic>[
+                  'device_type',
+                  'id',
+                  'serial_number',
+                ],
+              },
             },
           ],
         },
@@ -1579,141 +1663,114 @@ class Config {
       'relations': <String, dynamic>{
         'ancestors': <dynamic>[
           <dynamic>[
-            'device',
+            '\$.main.kit.entity.device',
           ],
         ],
       },
     },
-    'device_custody_list': <String, dynamic>{
+    'device_custody_list_item': <String, dynamic>{
       'fields': <dynamic>[
         <String, dynamic>{
-          'format': 'date-time',
           'name': 'completeDate',
-          'short': 'The date and time that the Custody change took place.',
+          'title': 'Complete Date',
           'type': '`\$STRING`',
+          'short': 'The date and time that the Custody change took place.',
+          'format': 'date-time',
         },
         <String, dynamic>{
-          'format': 'date-time',
           'name': 'created',
-          'short': 'Creation timestamp in ISO 8601 format.',
+          'title': 'Created',
           'type': '`\$STRING`',
+          'short': 'Creation timestamp in ISO 8601 format.',
+          'format': 'date-time',
         },
         <String, dynamic>{
           'name': 'createdBy',
+          'title': 'Created By',
+          'type': '`\$OBJECT`',
           'req': true,
           'short': 'Reference to the associated User resource.',
-          'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'custodian',
+          'title': 'Custodian',
+          'type': '`\$OBJECT`',
           'req': true,
           'short': 'Reference to the associated User resource.',
-          'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'device',
-          'short': 'Reference to the associated Device resource.',
+          'title': 'Device',
           'type': '`\$OBJECT`',
+          'short': 'Reference to the associated Device resource.',
         },
         <String, dynamic>{
-          'format': 'int64',
           'name': 'id',
-          'short': 'This resource\'s unique identifier.',
+          'title': 'Id',
           'type': '`\$INTEGER`',
+          'short': 'This resource\'s unique identifier.',
+          'format': 'int64',
         },
         <String, dynamic>{
           'name': 'location',
+          'title': 'Location',
+          'type': '`\$OBJECT`',
           'req': true,
           'short': 'Reference to the associated Location resource.',
-          'type': '`\$OBJECT`',
         },
         <String, dynamic>{
-          'format': 'date-time',
           'name': 'modified',
-          'short': 'Last modified timestamp.',
+          'title': 'Modified',
           'type': '`\$STRING`',
+          'short': 'Last modified timestamp.',
+          'format': 'date-time',
         },
         <String, dynamic>{
           'name': 'modifiedBy',
+          'title': 'Modified By',
+          'type': '`\$OBJECT`',
           'req': true,
           'short': 'Reference to the associated User resource.',
-          'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'notes',
-          'short': 'Free form field that allows the Client associate notes with the Custody Change.',
+          'title': 'Notes',
           'type': '`\$STRING`',
+          'short': 'Free form field that allows the Client associate notes with the Custody Change.',
         },
         <String, dynamic>{
           'name': 'status',
-          'short': 'Reference to the associated Custody Status.',
+          'title': 'Status',
           'type': '`\$OBJECT`',
+          'short': 'Reference to the associated Custody Status.',
         },
         <String, dynamic>{
           'name': 'transferMethod',
-          'short': 'Reference to the associated Transfer Method.',
+          'title': 'Transfer Method',
           'type': '`\$OBJECT`',
+          'short': 'Reference to the associated Transfer Method.',
         },
         <String, dynamic>{
           'name': 'version',
-          'short': 'The number of times that this resource has been updated.',
+          'title': 'Version',
           'type': '`\$INTEGER`',
+          'short': 'The number of times that this resource has been updated.',
         },
       ],
       'id': <String, dynamic>{
         'field': 'id',
         'name': 'id',
       },
-      'name': 'device_custody_list',
+      'name': 'device_custody_list_item',
       'op': <String, dynamic>{
         'list': <String, dynamic>{
           'input': 'data',
           'name': 'list',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'params': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'device_type',
-                    'orig': 'device_type',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'serial_number',
-                    'orig': 'serial_number',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                ],
-                'query': <dynamic>[
-                  <String, dynamic>{
-                    'example': 0,
-                    'kind': 'query',
-                    'name': 'skip',
-                    'orig': 'skip',
-                    'type': '`\$INTEGER`',
-                  },
-                  <String, dynamic>{
-                    'example': 10,
-                    'kind': 'query',
-                    'name': 'take',
-                    'orig': 'take',
-                    'type': '`\$INTEGER`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'GET',
               'orig': '/devices/{serialNumber}/{deviceType}/custody',
-              'rename': <String, dynamic>{
-                'param': <String, dynamic>{
-                  'deviceType': 'device_type',
-                  'serialNumber': 'serial_number',
-                },
-              },
               'segments': <dynamic>[
                 <String, dynamic>{
                   'lit': 'devices',
@@ -1728,6 +1785,56 @@ class Config {
                   'lit': 'custody',
                 },
               ],
+              'parts': <dynamic>[
+                'devices',
+                '{serial_number}',
+                '{device_type}',
+                'custody',
+              ],
+              'rename': <String, dynamic>{
+                'param': <String, dynamic>{
+                  'deviceType': 'device_type',
+                  'serialNumber': 'serial_number',
+                },
+              },
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body.data`',
+              },
+              'args': <String, dynamic>{
+                'params': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'device_type',
+                    'orig': 'device_type',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                  <String, dynamic>{
+                    'name': 'serial_number',
+                    'orig': 'serial_number',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                ],
+                'query': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'skip',
+                    'orig': 'skip',
+                    'type': '`\$INTEGER`',
+                    'kind': 'query',
+                    'example': 0,
+                  },
+                  <String, dynamic>{
+                    'name': 'take',
+                    'orig': 'take',
+                    'type': '`\$INTEGER`',
+                    'kind': 'query',
+                    'example': 10,
+                  },
+                ],
+              },
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'device_type',
@@ -1736,16 +1843,6 @@ class Config {
                   'take',
                 ],
               },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body.data`',
-              },
-              'parts': <dynamic>[
-                'devices',
-                '{serial_number}',
-                '{device_type}',
-                'custody',
-              ],
             },
           ],
         },
@@ -1753,113 +1850,7 @@ class Config {
       'relations': <String, dynamic>{
         'ancestors': <dynamic>[
           <dynamic>[
-            'device',
-          ],
-        ],
-      },
-    },
-    'device_list': <String, dynamic>{
-      'fields': <dynamic>[
-        <String, dynamic>{
-          'name': 'data',
-          'short': 'List of Devices.',
-          'type': '`\$ARRAY`',
-        },
-        <String, dynamic>{
-          'name': 'total',
-          'short': 'Total number of Devices available (not the number of Users in the response).',
-          'type': '`\$INTEGER`',
-        },
-      ],
-      'name': 'device_list',
-      'op': <String, dynamic>{
-        'load': <String, dynamic>{
-          'input': 'data',
-          'name': 'load',
-          'points': <dynamic>[
-            <String, dynamic>{
-              'args': <String, dynamic>{
-                'params': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'share_partner_to',
-                    'orig': 'share_partner_to',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                ],
-                'query': <dynamic>[
-                  <String, dynamic>{
-                    'example': 0,
-                    'kind': 'query',
-                    'name': 'skip',
-                    'orig': 'skip',
-                    'type': '`\$INTEGER`',
-                  },
-                  <String, dynamic>{
-                    'example': 'asc',
-                    'kind': 'query',
-                    'name': 'sorting_direction',
-                    'orig': 'sorting_direction',
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'example': 'serialnumber',
-                    'kind': 'query',
-                    'name': 'sorting_field',
-                    'orig': 'sorting_field',
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'example': 10,
-                    'kind': 'query',
-                    'name': 'take',
-                    'orig': 'take',
-                    'type': '`\$INTEGER`',
-                  },
-                ],
-              },
-              'kind': 'http',
-              'method': 'GET',
-              'orig': '/virtualDevices/{sharePartnerTo}',
-              'rename': <String, dynamic>{
-                'param': <String, dynamic>{
-                  'sharePartnerTo': 'share_partner_to',
-                },
-              },
-              'segments': <dynamic>[
-                <String, dynamic>{
-                  'lit': 'virtualDevices',
-                },
-                <String, dynamic>{
-                  'var': 'share_partner_to',
-                },
-              ],
-              'select': <String, dynamic>{
-                'exist': <dynamic>[
-                  'share_partner_to',
-                  'skip',
-                  'sorting_direction',
-                  'sorting_field',
-                  'take',
-                ],
-              },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
-              'parts': <dynamic>[
-                'virtualDevices',
-                '{share_partner_to}',
-              ],
-            },
-          ],
-        },
-      },
-      'relations': <String, dynamic>{
-        'ancestors': <dynamic>[
-          <dynamic>[
-            'virtual_device',
+            '\$.main.kit.entity.device',
           ],
         ],
       },
@@ -1868,9 +1859,10 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'success',
+          'title': 'Success',
+          'type': '`\$BOOLEAN`',
           'req': true,
           'short': 'Indicates if the action succeeded.',
-          'type': '`\$BOOLEAN`',
         },
       ],
       'name': 'device_receive_result',
@@ -1880,7 +1872,6 @@ class Config {
           'name': 'create',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/devices/receive',
@@ -1892,15 +1883,17 @@ class Config {
                   'lit': 'receive',
                 },
               ],
-              'select': <String, dynamic>{},
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
               'parts': <dynamic>[
                 'devices',
                 'receive',
               ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{},
+              'select': <String, dynamic>{},
             },
           ],
         },
@@ -1913,9 +1906,10 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'success',
+          'title': 'Success',
+          'type': '`\$BOOLEAN`',
           'req': true,
           'short': 'Indicates if the RKI activation succeeded.',
-          'type': '`\$BOOLEAN`',
         },
       ],
       'name': 'device_rki_activate_result',
@@ -1925,7 +1919,6 @@ class Config {
           'name': 'create',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/devices/rki/activate',
@@ -1940,16 +1933,18 @@ class Config {
                   'lit': 'activate',
                 },
               ],
-              'select': <String, dynamic>{},
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
               'parts': <dynamic>[
                 'devices',
                 'rki',
                 'activate',
               ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{},
+              'select': <String, dynamic>{},
             },
           ],
         },
@@ -1961,15 +1956,17 @@ class Config {
     'device_state': <String, dynamic>{
       'fields': <dynamic>[
         <String, dynamic>{
-          'format': 'int64',
           'name': 'id',
-          'short': 'Unique identifier for this Device state.',
+          'title': 'Id',
           'type': '`\$INTEGER`',
+          'short': 'Unique identifier for this Device state.',
+          'format': 'int64',
         },
         <String, dynamic>{
           'name': 'name',
-          'short': 'Descriptive name for this Device state.',
+          'title': 'Name',
           'type': '`\$STRING`',
+          'short': 'Descriptive name for this Device state.',
         },
       ],
       'id': <String, dynamic>{
@@ -1983,7 +1980,6 @@ class Config {
           'name': 'list',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'GET',
               'orig': '/deviceStates',
@@ -1992,14 +1988,16 @@ class Config {
                   'lit': 'deviceStates',
                 },
               ],
-              'select': <String, dynamic>{},
+              'parts': <dynamic>[
+                'deviceStates',
+              ],
+              'rename': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body.data`',
               },
-              'parts': <dynamic>[
-                'deviceStates',
-              ],
+              'args': <String, dynamic>{},
+              'select': <String, dynamic>{},
             },
           ],
         },
@@ -2011,65 +2009,77 @@ class Config {
     'device_type': <String, dynamic>{
       'fields': <dynamic>[
         <String, dynamic>{
-          'format': 'datetime',
           'name': 'created',
-          'short': 'Creation timestamp in ISO 8601 format.',
+          'title': 'Created',
           'type': '`\$STRING`',
+          'short': 'Creation timestamp in ISO 8601 format.',
+          'format': 'datetime',
         },
         <String, dynamic>{
           'name': 'deviceTypeMode',
-          'short': 'The Device type.',
+          'title': 'Device Type Mode',
           'type': '`\$STRING`',
+          'short': 'The Device type.',
         },
         <String, dynamic>{
           'name': 'hardwareVersion',
-          'short': 'The Device hardware version.',
+          'title': 'Hardware Version',
           'type': '`\$STRING`',
+          'short': 'The Device hardware version.',
         },
         <String, dynamic>{
           'name': 'id',
-          'short': 'Unique idenifier.',
+          'title': 'Id',
           'type': '`\$STRING`',
+          'short': 'Unique idenifier.',
         },
         <String, dynamic>{
           'name': 'isActive',
-          'short': 'This property indicates if the DeviceType is active.',
+          'title': 'Is Active',
           'type': '`\$BOOLEAN`',
+          'short': 'This property indicates if the DeviceType is active.',
         },
         <String, dynamic>{
           'name': 'manufacturer',
-          'short': 'The Device manufacturer.',
+          'title': 'Manufacturer',
           'type': '`\$STRING`',
+          'short': 'The Device manufacturer.',
         },
         <String, dynamic>{
           'name': 'model',
-          'short': 'The Device model.',
+          'title': 'Model',
           'type': '`\$STRING`',
+          'short': 'The Device model.',
         },
         <String, dynamic>{
-          'format': 'datetime',
           'name': 'modified',
-          'short': 'Last modified timestamp.',
+          'title': 'Modified',
           'type': '`\$STRING`',
+          'short': 'Last modified timestamp.',
+          'format': 'datetime',
         },
         <String, dynamic>{
           'name': 'name',
-          'short': 'The DeviceType name.',
+          'title': 'Name',
           'type': '`\$STRING`',
+          'short': 'The DeviceType name.',
         },
         <String, dynamic>{
           'name': 'photoUrl',
+          'title': 'Photo Url',
           'type': '`\$STRING`',
         },
         <String, dynamic>{
           'name': 'productName',
-          'short': 'The Device name.',
+          'title': 'Product Name',
           'type': '`\$STRING`',
+          'short': 'The Device name.',
         },
         <String, dynamic>{
           'name': 'version',
-          'short': 'The number of times that this resource has been updated.',
+          'title': 'Version',
           'type': '`\$INTEGER`',
+          'short': 'The number of times that this resource has been updated.',
         },
       ],
       'id': <String, dynamic>{
@@ -2083,7 +2093,6 @@ class Config {
           'name': 'list',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'GET',
               'orig': '/deviceTypes',
@@ -2092,14 +2101,16 @@ class Config {
                   'lit': 'deviceTypes',
                 },
               ],
-              'select': <String, dynamic>{},
+              'parts': <dynamic>[
+                'deviceTypes',
+              ],
+              'rename': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body.data`',
               },
-              'parts': <dynamic>[
-                'deviceTypes',
-              ],
+              'args': <String, dynamic>{},
+              'select': <String, dynamic>{},
             },
           ],
         },
@@ -2108,17 +2119,6 @@ class Config {
           'name': 'load',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'params': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'id',
-                    'orig': 'id',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'GET',
               'orig': '/deviceTypes/{id}',
@@ -2130,19 +2130,31 @@ class Config {
                   'var': 'id',
                 },
               ],
+              'parts': <dynamic>[
+                'deviceTypes',
+                '{id}',
+              ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{
+                'params': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'id',
+                    'orig': 'id',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                ],
+              },
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'id',
                 ],
               },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
-              'parts': <dynamic>[
-                'deviceTypes',
-                '{id}',
-              ],
             },
           ],
         },
@@ -2154,46 +2166,54 @@ class Config {
     'inject_key': <String, dynamic>{
       'fields': <dynamic>[
         <String, dynamic>{
-          'format': 'datetime',
           'name': 'created',
-          'short': 'Creation timestamp in ISO 8601 format.',
+          'title': 'Created',
           'type': '`\$STRING`',
+          'short': 'Creation timestamp in ISO 8601 format.',
+          'format': 'datetime',
         },
         <String, dynamic>{
           'name': 'id',
-          'short': 'unique idenifier',
+          'title': 'Id',
           'type': '`\$STRING`',
+          'short': 'unique idenifier',
         },
         <String, dynamic>{
           'name': 'isActive',
-          'short': 'Active flag, inactive keys cannot be assigned to devices.',
+          'title': 'Is Active',
           'type': '`\$BOOLEAN`',
+          'short': 'Active flag, inactive keys cannot be assigned to devices.',
         },
         <String, dynamic>{
           'name': 'isP2PE',
-          'short': 'Flags if a key is for a P2PE compliant cypher.',
+          'title': 'Is P2 Pe',
           'type': '`\$BOOLEAN`',
+          'short': 'Flags if a key is for a P2PE compliant cypher.',
         },
         <String, dynamic>{
           'name': 'keyType',
-          'short': 'The cipher type that the key works with.',
+          'title': 'Key Type',
           'type': '`\$STRING`',
+          'short': 'The cipher type that the key works with.',
         },
         <String, dynamic>{
-          'format': 'datetime',
           'name': 'modified',
-          'short': 'Last modified timestamp in ISO 8601 format.',
+          'title': 'Modified',
           'type': '`\$STRING`',
+          'short': 'Last modified timestamp in ISO 8601 format.',
+          'format': 'datetime',
         },
         <String, dynamic>{
           'name': 'name',
-          'short': 'Key name.',
+          'title': 'Name',
           'type': '`\$STRING`',
+          'short': 'Key name.',
         },
         <String, dynamic>{
           'name': 'version',
-          'short': 'The number of times that this resource has been updated.',
+          'title': 'Version',
           'type': '`\$INTEGER`',
+          'short': 'The number of times that this resource has been updated.',
         },
       ],
       'id': <String, dynamic>{
@@ -2207,7 +2227,6 @@ class Config {
           'name': 'list',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'GET',
               'orig': '/injectKeys',
@@ -2216,14 +2235,16 @@ class Config {
                   'lit': 'injectKeys',
                 },
               ],
-              'select': <String, dynamic>{},
+              'parts': <dynamic>[
+                'injectKeys',
+              ],
+              'rename': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body.data`',
               },
-              'parts': <dynamic>[
-                'injectKeys',
-              ],
+              'args': <String, dynamic>{},
+              'select': <String, dynamic>{},
             },
           ],
         },
@@ -2232,17 +2253,6 @@ class Config {
           'name': 'load',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'params': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'id',
-                    'orig': 'id',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'GET',
               'orig': '/injectKeys/{id}',
@@ -2254,19 +2264,31 @@ class Config {
                   'var': 'id',
                 },
               ],
+              'parts': <dynamic>[
+                'injectKeys',
+                '{id}',
+              ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{
+                'params': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'id',
+                    'orig': 'id',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                ],
+              },
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'id',
                 ],
               },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
-              'parts': <dynamic>[
-                'injectKeys',
-                '{id}',
-              ],
             },
           ],
         },
@@ -2278,15 +2300,17 @@ class Config {
     'kif': <String, dynamic>{
       'fields': <dynamic>[
         <String, dynamic>{
-          'format': 'int64',
           'name': 'id',
-          'short': 'This resource\'s unique identifier.',
+          'title': 'Id',
           'type': '`\$INTEGER`',
+          'short': 'This resource\'s unique identifier.',
+          'format': 'int64',
         },
         <String, dynamic>{
           'name': 'name',
-          'short': 'The KIF\'s name.',
+          'title': 'Name',
           'type': '`\$STRING`',
+          'short': 'The KIF\'s name.',
         },
       ],
       'id': <String, dynamic>{
@@ -2300,7 +2324,6 @@ class Config {
           'name': 'list',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'GET',
               'orig': '/kifs',
@@ -2309,14 +2332,16 @@ class Config {
                   'lit': 'kifs',
                 },
               ],
-              'select': <String, dynamic>{},
+              'parts': <dynamic>[
+                'kifs',
+              ],
+              'rename': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body.data`',
               },
-              'parts': <dynamic>[
-                'kifs',
-              ],
+              'args': <String, dynamic>{},
+              'select': <String, dynamic>{},
             },
           ],
         },
@@ -2329,120 +2354,143 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'address1',
-          'short': 'The Location\'s street address.',
+          'title': 'Address1',
           'type': '`\$STRING`',
+          'short': 'The Location\'s street address.',
         },
         <String, dynamic>{
           'name': 'address2',
-          'short': 'The Location\'s street address.',
+          'title': 'Address2',
           'type': '`\$STRING`',
+          'short': 'The Location\'s street address.',
         },
         <String, dynamic>{
           'name': 'billingId',
-          'short': '\\?',
+          'title': 'Billing Id',
           'type': '`\$STRING`',
+          'short': '\\?',
         },
         <String, dynamic>{
           'name': 'city',
-          'short': 'The Location\'s city.',
+          'title': 'City',
           'type': '`\$STRING`',
+          'short': 'The Location\'s city.',
         },
         <String, dynamic>{
           'name': 'country',
-          'short': 'The Location\'s country.',
+          'title': 'Country',
           'type': '`\$STRING`',
+          'short': 'The Location\'s country.',
         },
         <String, dynamic>{
-          'format': 'datetime',
           'name': 'created',
-          'short': 'Creation timestamp in ISO 8601 format.',
+          'title': 'Created',
           'type': '`\$STRING`',
+          'short': 'Creation timestamp in ISO 8601 format.',
+          'format': 'datetime',
         },
         <String, dynamic>{
           'name': 'customReference',
-          'short': 'A Partner specified reference for a location.',
+          'title': 'Custom Reference',
           'type': '`\$STRING`',
+          'short': 'A Partner specified reference for a location.',
         },
         <String, dynamic>{
           'name': 'id',
-          'short': 'This resource\'s unique identifier.',
+          'title': 'Id',
           'type': '`\$STRING`',
+          'short': 'This resource\'s unique identifier.',
         },
         <String, dynamic>{
           'name': 'locationType',
-          'short': 'The Location\'s clasification.',
+          'title': 'Location Type',
           'type': '`\$STRING`',
+          'short': 'The Location\'s clasification.',
         },
         <String, dynamic>{
           'name': 'mailAddress1',
-          'short': 'The Location\'s street address.',
+          'title': 'Mail Address1',
           'type': '`\$STRING`',
+          'short': 'The Location\'s street address.',
         },
         <String, dynamic>{
           'name': 'mailAddress2',
-          'short': 'The Location\'s street address.',
+          'title': 'Mail Address2',
           'type': '`\$STRING`',
+          'short': 'The Location\'s street address.',
         },
         <String, dynamic>{
           'name': 'mailCity',
-          'short': 'The Location\'s city.',
+          'title': 'Mail City',
           'type': '`\$STRING`',
+          'short': 'The Location\'s city.',
         },
         <String, dynamic>{
           'name': 'mailCountry',
-          'short': 'The Location\'s street address.',
+          'title': 'Mail Country',
           'type': '`\$STRING`',
+          'short': 'The Location\'s street address.',
         },
         <String, dynamic>{
           'name': 'mailPostalCode',
-          'short': 'The Location\'s postal code.',
+          'title': 'Mail Postal Code',
           'type': '`\$STRING`',
+          'short': 'The Location\'s postal code.',
         },
         <String, dynamic>{
           'name': 'mailStateProvince',
-          'short': 'The Location\'s street state or province.',
+          'title': 'Mail State Province',
           'type': '`\$STRING`',
+          'short': 'The Location\'s street state or province.',
         },
         <String, dynamic>{
-          'format': 'datetime',
           'name': 'modified',
-          'short': 'Last modified timestamp.',
+          'title': 'Modified',
           'type': '`\$STRING`',
+          'short': 'Last modified timestamp.',
+          'format': 'datetime',
         },
         <String, dynamic>{
           'name': 'name',
-          'short': 'The Location\'s name.',
+          'title': 'Name',
           'type': '`\$STRING`',
+          'short': 'The Location\'s name.',
         },
         <String, dynamic>{
           'name': 'nameOfBusiness',
-          'short': 'The name of the business at this location.',
+          'title': 'Name Of Business',
           'type': '`\$STRING`',
+          'short': 'The name of the business at this location.',
         },
         <String, dynamic>{
           'name': 'notes',
-          'short': 'Note for delivery driver.',
+          'title': 'Notes',
           'type': '`\$STRING`',
+          'short': 'Note for delivery driver.',
         },
         <String, dynamic>{
           'name': 'postalCode',
-          'short': 'The Location\'s postal code.',
+          'title': 'Postal Code',
           'type': '`\$STRING`',
+          'short': 'The Location\'s postal code.',
         },
         <String, dynamic>{
           'name': 'stateProvince',
-          'short': 'The Location\'s street state or province.',
+          'title': 'State Province',
           'type': '`\$STRING`',
+          'short': 'The Location\'s street state or province.',
         },
         <String, dynamic>{
           'name': 'uniqueId',
-          'short': 'Unique Identifier for the Location.',
+          'title': 'Unique Id',
           'type': '`\$STRING`',
+          'short': 'Unique Identifier for the Location.',
         },
         <String, dynamic>{
           'name': 'version',
-          'short': 'The number of times that this resource has been updated.',
+          'title': 'Version',
           'type': '`\$INTEGER`',
+          'short': 'The number of times that this resource has been updated.',
         },
       ],
       'id': <String, dynamic>{
@@ -2456,7 +2504,6 @@ class Config {
           'name': 'create',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/locations',
@@ -2465,14 +2512,16 @@ class Config {
                   'lit': 'locations',
                 },
               ],
-              'select': <String, dynamic>{},
+              'parts': <dynamic>[
+                'locations',
+              ],
+              'rename': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'parts': <dynamic>[
-                'locations',
-              ],
+              'args': <String, dynamic>{},
+              'select': <String, dynamic>{},
             },
           ],
         },
@@ -2481,31 +2530,6 @@ class Config {
           'name': 'list',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'query': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'query',
-                    'name': 'client',
-                    'orig': 'client',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'example': 0,
-                    'kind': 'query',
-                    'name': 'skip',
-                    'orig': 'skip',
-                    'type': '`\$INTEGER`',
-                  },
-                  <String, dynamic>{
-                    'example': 10,
-                    'kind': 'query',
-                    'name': 'take',
-                    'orig': 'take',
-                    'type': '`\$INTEGER`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'GET',
               'orig': '/locations',
@@ -2514,6 +2538,39 @@ class Config {
                   'lit': 'locations',
                 },
               ],
+              'parts': <dynamic>[
+                'locations',
+              ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body.data`',
+              },
+              'args': <String, dynamic>{
+                'query': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'client',
+                    'orig': 'client',
+                    'type': '`\$STRING`',
+                    'kind': 'query',
+                    'reqd': true,
+                  },
+                  <String, dynamic>{
+                    'name': 'skip',
+                    'orig': 'skip',
+                    'type': '`\$INTEGER`',
+                    'kind': 'query',
+                    'example': 0,
+                  },
+                  <String, dynamic>{
+                    'name': 'take',
+                    'orig': 'take',
+                    'type': '`\$INTEGER`',
+                    'kind': 'query',
+                    'example': 10,
+                  },
+                ],
+              },
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'client',
@@ -2521,13 +2578,6 @@ class Config {
                   'take',
                 ],
               },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body.data`',
-              },
-              'parts': <dynamic>[
-                'locations',
-              ],
             },
           ],
         },
@@ -2536,17 +2586,6 @@ class Config {
           'name': 'load',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'params': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'id',
-                    'orig': 'id',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'GET',
               'orig': '/locations/{id}',
@@ -2558,19 +2597,31 @@ class Config {
                   'var': 'id',
                 },
               ],
+              'parts': <dynamic>[
+                'locations',
+                '{id}',
+              ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{
+                'params': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'id',
+                    'orig': 'id',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                ],
+              },
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'id',
                 ],
               },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
-              'parts': <dynamic>[
-                'locations',
-                '{id}',
-              ],
             },
           ],
         },
@@ -2579,17 +2630,6 @@ class Config {
           'name': 'remove',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'params': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'id',
-                    'orig': 'id',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'DELETE',
               'orig': '/locations/{id}',
@@ -2601,19 +2641,31 @@ class Config {
                   'var': 'id',
                 },
               ],
+              'parts': <dynamic>[
+                'locations',
+                '{id}',
+              ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{
+                'params': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'id',
+                    'orig': 'id',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                ],
+              },
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'id',
                 ],
               },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
-              'parts': <dynamic>[
-                'locations',
-                '{id}',
-              ],
             },
           ],
         },
@@ -2626,16 +2678,20 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'billingId',
-          'short': 'The Partner\'s billing identifier.',
+          'title': 'Billing Id',
           'type': '`\$STRING`',
+          'short': 'The Partner\'s billing identifier.',
         },
         <String, dynamic>{
           'name': 'clientCanOrderEquipment',
-          'short': 'This property indicates if the Partner is allowed to order Equipment.',
+          'title': 'Client Can Order Equipment',
           'type': '`\$BOOLEAN`',
+          'short': 'This property indicates if the Partner is allowed to order Equipment.',
         },
         <String, dynamic>{
           'name': 'contact',
+          'title': 'Contact',
+          'type': '`\$OBJECT`',
           'op': <String, dynamic>{
             'list': <String, dynamic>{
               'req': true,
@@ -2643,65 +2699,75 @@ class Config {
             },
           },
           'short': 'Reference to the associated User resource.',
-          'type': '`\$OBJECT`',
         },
         <String, dynamic>{
-          'format': 'datetime',
           'name': 'created',
-          'short': 'Creation timestamp in ISO 8601 format.',
+          'title': 'Created',
           'type': '`\$STRING`',
+          'short': 'Creation timestamp in ISO 8601 format.',
+          'format': 'datetime',
         },
         <String, dynamic>{
           'name': 'id',
-          'short': 'This resource\'s unique identifier.',
+          'title': 'Id',
           'type': '`\$STRING`',
+          'short': 'This resource\'s unique identifier.',
         },
         <String, dynamic>{
           'name': 'isActive',
-          'short': 'This property indicates if the Parter account is active or disabled.',
+          'title': 'Is Active',
           'type': '`\$BOOLEAN`',
+          'short': 'This property indicates if the Parter account is active or disabled.',
         },
         <String, dynamic>{
           'name': 'location',
+          'title': 'Location',
+          'type': '`\$OBJECT`',
           'req': true,
           'short': 'Reference to the associated Location resource.',
-          'type': '`\$OBJECT`',
         },
         <String, dynamic>{
-          'format': 'datetime',
           'name': 'modified',
-          'short': 'Last modified timestamp.',
+          'title': 'Modified',
           'type': '`\$STRING`',
+          'short': 'Last modified timestamp.',
+          'format': 'datetime',
         },
         <String, dynamic>{
           'name': 'name',
-          'short': 'The Partner\'s name.',
+          'title': 'Name',
           'type': '`\$STRING`',
+          'short': 'The Partner\'s name.',
         },
         <String, dynamic>{
           'name': 'parent',
-          'short': 'Reference to the associated Partner.',
+          'title': 'Parent',
           'type': '`\$OBJECT`',
+          'short': 'Reference to the associated Partner.',
         },
         <String, dynamic>{
           'name': 'partnerId',
-          'short': 'The Partner\'s id.',
+          'title': 'Partner Id',
           'type': '`\$STRING`',
+          'short': 'The Partner\'s id.',
         },
         <String, dynamic>{
           'name': 'reference',
-          'short': 'The Partner\'s reference string.',
+          'title': 'Reference',
           'type': '`\$STRING`',
+          'short': 'The Partner\'s reference string.',
         },
         <String, dynamic>{
           'name': 'verificationPhrase',
-          'short': 'The verification phrase is a message that the Partner creates.',
+          'title': 'Verification Phrase',
           'type': '`\$STRING`',
+          'short': 'The verification phrase is a message that the Partner creates.',
         },
         <String, dynamic>{
           'name': 'version',
-          'short': 'The number of times that this resource has been updated.',
+          'title': 'Version',
           'type': '`\$INTEGER`',
+          'short': 'The number of times that this resource has been updated.',
         },
       ],
       'id': <String, dynamic>{
@@ -2715,7 +2781,6 @@ class Config {
           'name': 'create',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/partners',
@@ -2724,14 +2789,16 @@ class Config {
                   'lit': 'partners',
                 },
               ],
-              'select': <String, dynamic>{},
+              'parts': <dynamic>[
+                'partners',
+              ],
+              'rename': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'parts': <dynamic>[
-                'partners',
-              ],
+              'args': <String, dynamic>{},
+              'select': <String, dynamic>{},
             },
           ],
         },
@@ -2740,30 +2807,6 @@ class Config {
           'name': 'list',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'query': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'query',
-                    'name': 'partner',
-                    'orig': 'partner',
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'example': 0,
-                    'kind': 'query',
-                    'name': 'skip',
-                    'orig': 'skip',
-                    'type': '`\$INTEGER`',
-                  },
-                  <String, dynamic>{
-                    'example': 10,
-                    'kind': 'query',
-                    'name': 'take',
-                    'orig': 'take',
-                    'type': '`\$INTEGER`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'GET',
               'orig': '/partners',
@@ -2772,6 +2815,38 @@ class Config {
                   'lit': 'partners',
                 },
               ],
+              'parts': <dynamic>[
+                'partners',
+              ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body.data`',
+              },
+              'args': <String, dynamic>{
+                'query': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'partner',
+                    'orig': 'partner',
+                    'type': '`\$STRING`',
+                    'kind': 'query',
+                  },
+                  <String, dynamic>{
+                    'name': 'skip',
+                    'orig': 'skip',
+                    'type': '`\$INTEGER`',
+                    'kind': 'query',
+                    'example': 0,
+                  },
+                  <String, dynamic>{
+                    'name': 'take',
+                    'orig': 'take',
+                    'type': '`\$INTEGER`',
+                    'kind': 'query',
+                    'example': 10,
+                  },
+                ],
+              },
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'partner',
@@ -2779,13 +2854,6 @@ class Config {
                   'take',
                 ],
               },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body.data`',
-              },
-              'parts': <dynamic>[
-                'partners',
-              ],
             },
           ],
         },
@@ -2794,17 +2862,6 @@ class Config {
           'name': 'load',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'params': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'id',
-                    'orig': 'id',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'GET',
               'orig': '/partners/{id}',
@@ -2816,19 +2873,31 @@ class Config {
                   'var': 'id',
                 },
               ],
+              'parts': <dynamic>[
+                'partners',
+                '{id}',
+              ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{
+                'params': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'id',
+                    'orig': 'id',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                ],
+              },
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'id',
                 ],
               },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
-              'parts': <dynamic>[
-                'partners',
-                '{id}',
-              ],
             },
           ],
         },
@@ -2841,77 +2910,91 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'carrier',
-          'short': 'The name of the courier.',
+          'title': 'Carrier',
           'type': '`\$STRING`',
+          'short': 'The name of the courier.',
         },
         <String, dynamic>{
           'name': 'client',
-          'short': 'Reference to the associated Client resource.',
+          'title': 'Client',
           'type': '`\$OBJECT`',
+          'short': 'Reference to the associated Client resource.',
         },
         <String, dynamic>{
-          'format': 'datetime',
           'name': 'created',
+          'title': 'Created',
+          'type': '`\$STRING`',
           'short': 'Creation timestamp in ISO 8601 format.',
-          'type': '`\$STRING`',
+          'format': 'datetime',
         },
         <String, dynamic>{
-          'format': 'datetime',
           'name': 'dateReceived',
-          'short': 'The date and time that a package is recieved.',
+          'title': 'Date Received',
           'type': '`\$STRING`',
+          'short': 'The date and time that a package is recieved.',
+          'format': 'datetime',
         },
         <String, dynamic>{
-          'format': 'datetime',
           'name': 'dateShipped',
-          'short': 'The date and time that a package is shipped.',
+          'title': 'Date Shipped',
           'type': '`\$STRING`',
+          'short': 'The date and time that a package is shipped.',
+          'format': 'datetime',
         },
         <String, dynamic>{
           'name': 'dcKif',
-          'short': 'Reference to the associated KIF resource.',
+          'title': 'Dc Kif',
           'type': '`\$OBJECT`',
+          'short': 'Reference to the associated KIF resource.',
         },
         <String, dynamic>{
           'name': 'id',
-          'short': 'This resource\'s unique identifier.',
+          'title': 'Id',
           'type': '`\$STRING`',
+          'short': 'This resource\'s unique identifier.',
         },
         <String, dynamic>{
           'name': 'items',
+          'title': 'Items',
           'type': '`\$ARRAY`',
         },
         <String, dynamic>{
           'name': 'kif',
-          'short': 'Reference to the associated KIF resource.',
+          'title': 'Kif',
           'type': '`\$OBJECT`',
+          'short': 'Reference to the associated KIF resource.',
         },
         <String, dynamic>{
-          'format': 'datetime',
           'name': 'modified',
-          'short': 'Last modified timestamp.',
+          'title': 'Modified',
           'type': '`\$STRING`',
+          'short': 'Last modified timestamp.',
+          'format': 'datetime',
         },
         <String, dynamic>{
           'name': 'partner',
-          'short': 'Reference to the associated Partner.',
+          'title': 'Partner',
           'type': '`\$OBJECT`',
+          'short': 'Reference to the associated Partner.',
         },
         <String, dynamic>{
           'name': 'shipmentType',
-          'short': 'The type of shipment.',
+          'title': 'Shipment Type',
           'type': '`\$STRING`',
+          'short': 'The type of shipment.',
         },
         <String, dynamic>{
           'name': 'tracking',
-          'short': 'The courier\'s tracking number.',
+          'title': 'Tracking',
           'type': '`\$STRING`',
+          'short': 'The courier\'s tracking number.',
         },
         <String, dynamic>{
-          'format': 'int32',
           'name': 'version',
-          'short': 'The number of times that this resource has been updated.',
+          'title': 'Version',
           'type': '`\$INTEGER`',
+          'short': 'The number of times that this resource has been updated.',
+          'format': 'int32',
         },
       ],
       'id': <String, dynamic>{
@@ -2925,7 +3008,6 @@ class Config {
           'name': 'create',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/shipments',
@@ -2934,14 +3016,16 @@ class Config {
                   'lit': 'shipments',
                 },
               ],
-              'select': <String, dynamic>{},
+              'parts': <dynamic>[
+                'shipments',
+              ],
+              'rename': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'parts': <dynamic>[
-                'shipments',
-              ],
+              'args': <String, dynamic>{},
+              'select': <String, dynamic>{},
             },
           ],
         },
@@ -2950,37 +3034,6 @@ class Config {
           'name': 'list',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'query': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'query',
-                    'name': 'kif',
-                    'orig': 'kif',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'kind': 'query',
-                    'name': 'mode',
-                    'orig': 'mode',
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'example': 0,
-                    'kind': 'query',
-                    'name': 'skip',
-                    'orig': 'skip',
-                    'type': '`\$INTEGER`',
-                  },
-                  <String, dynamic>{
-                    'example': 10,
-                    'kind': 'query',
-                    'name': 'take',
-                    'orig': 'take',
-                    'type': '`\$INTEGER`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'GET',
               'orig': '/shipments',
@@ -2989,6 +3042,45 @@ class Config {
                   'lit': 'shipments',
                 },
               ],
+              'parts': <dynamic>[
+                'shipments',
+              ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body.data`',
+              },
+              'args': <String, dynamic>{
+                'query': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'kif',
+                    'orig': 'kif',
+                    'type': '`\$STRING`',
+                    'kind': 'query',
+                    'reqd': true,
+                  },
+                  <String, dynamic>{
+                    'name': 'mode',
+                    'orig': 'mode',
+                    'type': '`\$STRING`',
+                    'kind': 'query',
+                  },
+                  <String, dynamic>{
+                    'name': 'skip',
+                    'orig': 'skip',
+                    'type': '`\$INTEGER`',
+                    'kind': 'query',
+                    'example': 0,
+                  },
+                  <String, dynamic>{
+                    'name': 'take',
+                    'orig': 'take',
+                    'type': '`\$INTEGER`',
+                    'kind': 'query',
+                    'example': 10,
+                  },
+                ],
+              },
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'kif',
@@ -2997,13 +3089,6 @@ class Config {
                   'take',
                 ],
               },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body.data`',
-              },
-              'parts': <dynamic>[
-                'shipments',
-              ],
             },
           ],
         },
@@ -3012,17 +3097,6 @@ class Config {
           'name': 'load',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'params': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'id',
-                    'orig': 'id',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'GET',
               'orig': '/shipments/{id}',
@@ -3034,19 +3108,31 @@ class Config {
                   'var': 'id',
                 },
               ],
+              'parts': <dynamic>[
+                'shipments',
+                '{id}',
+              ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{
+                'params': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'id',
+                    'orig': 'id',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                ],
+              },
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'id',
                 ],
               },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
-              'parts': <dynamic>[
-                'shipments',
-                '{id}',
-              ],
             },
           ],
         },
@@ -3059,8 +3145,9 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'success',
-          'short': 'Indicates if the action was a success.',
+          'title': 'Success',
           'type': '`\$BOOLEAN`',
+          'short': 'Indicates if the action was a success.',
         },
       ],
       'name': 'success',
@@ -3070,25 +3157,9 @@ class Config {
           'name': 'create',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'params': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'share_partner_to',
-                    'orig': 'share_partner_to',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'POST',
               'orig': '/virtualDevices/{sharePartnerTo}',
-              'rename': <String, dynamic>{
-                'param': <String, dynamic>{
-                  'sharePartnerTo': 'share_partner_to',
-                },
-              },
               'segments': <dynamic>[
                 <String, dynamic>{
                   'lit': 'virtualDevices',
@@ -3097,19 +3168,35 @@ class Config {
                   'var': 'share_partner_to',
                 },
               ],
-              'select': <String, dynamic>{
-                'exist': <dynamic>[
-                  'share_partner_to',
-                ],
+              'parts': <dynamic>[
+                'virtualDevices',
+                '{share_partner_to}',
+              ],
+              'rename': <String, dynamic>{
+                'param': <String, dynamic>{
+                  'sharePartnerTo': 'share_partner_to',
+                },
               },
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'parts': <dynamic>[
-                'virtualDevices',
-                '{share_partner_to}',
-              ],
+              'args': <String, dynamic>{
+                'params': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'share_partner_to',
+                    'orig': 'share_partner_to',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                ],
+              },
+              'select': <String, dynamic>{
+                'exist': <dynamic>[
+                  'share_partner_to',
+                ],
+              },
             },
           ],
         },
@@ -3118,25 +3205,9 @@ class Config {
           'name': 'remove',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'params': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'share_partner_to',
-                    'orig': 'share_partner_to',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'DELETE',
               'orig': '/virtualDevices/{sharePartnerTo}',
-              'rename': <String, dynamic>{
-                'param': <String, dynamic>{
-                  'sharePartnerTo': 'share_partner_to',
-                },
-              },
               'segments': <dynamic>[
                 <String, dynamic>{
                   'lit': 'virtualDevices',
@@ -3145,19 +3216,35 @@ class Config {
                   'var': 'share_partner_to',
                 },
               ],
-              'select': <String, dynamic>{
-                'exist': <dynamic>[
-                  'share_partner_to',
-                ],
+              'parts': <dynamic>[
+                'virtualDevices',
+                '{share_partner_to}',
+              ],
+              'rename': <String, dynamic>{
+                'param': <String, dynamic>{
+                  'sharePartnerTo': 'share_partner_to',
+                },
               },
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'parts': <dynamic>[
-                'virtualDevices',
-                '{share_partner_to}',
-              ],
+              'args': <String, dynamic>{
+                'params': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'share_partner_to',
+                    'orig': 'share_partner_to',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                ],
+              },
+              'select': <String, dynamic>{
+                'exist': <dynamic>[
+                  'share_partner_to',
+                ],
+              },
             },
           ],
         },
@@ -3165,7 +3252,7 @@ class Config {
       'relations': <String, dynamic>{
         'ancestors': <dynamic>[
           <dynamic>[
-            'virtual_device',
+            '\$.main.kit.entity.virtual_device',
           ],
         ],
       },
@@ -3174,129 +3261,153 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'alternateKey',
-          'short': 'The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device\'s casing or its packaging.',
+          'title': 'Alternate Key',
           'type': '`\$STRING`',
+          'short': 'The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device\'s casing or its packaging.',
         },
         <String, dynamic>{
           'name': 'client',
-          'short': 'Reference to the associated Client resource.',
+          'title': 'Client',
           'type': '`\$OBJECT`',
+          'short': 'Reference to the associated Client resource.',
         },
         <String, dynamic>{
           'name': 'clientRef',
+          'title': 'Client Ref',
+          'type': '`\$STRING`',
           'short': 'Client Reference property that is included in the decrypt API call.',
-          'type': '`\$STRING`',
         },
         <String, dynamic>{
-          'format': 'datetime',
           'name': 'created',
-          'short': 'Creation timestamp in ISO 8601 format.',
+          'title': 'Created',
           'type': '`\$STRING`',
+          'short': 'Creation timestamp in ISO 8601 format.',
+          'format': 'datetime',
         },
         <String, dynamic>{
-          'format': 'int32',
           'name': 'decrypted',
-          'short': 'A Transcation can process muliple decryptions.',
+          'title': 'Decrypted',
           'type': '`\$INTEGER`',
+          'short': 'A Transcation can process muliple decryptions.',
+          'format': 'int32',
         },
         <String, dynamic>{
           'name': 'deviceName',
-          'short': 'The name of the Device that generated the payload to decrypt.',
+          'title': 'Device Name',
           'type': '`\$STRING`',
+          'short': 'The name of the Device that generated the payload to decrypt.',
         },
         <String, dynamic>{
           'name': 'directPartner',
-          'short': 'Reference to the associated Partner.',
+          'title': 'Direct Partner',
           'type': '`\$OBJECT`',
+          'short': 'Reference to the associated Partner.',
         },
         <String, dynamic>{
-          'format': 'int32',
           'name': 'encrypted',
-          'short': 'A Transcation can process muliple encryptions.',
+          'title': 'Encrypted',
           'type': '`\$INTEGER`',
+          'short': 'A Transcation can process muliple encryptions.',
+          'format': 'int32',
         },
         <String, dynamic>{
-          'format': 'datetime',
           'name': 'endDate',
-          'short': 'Timestamp from the end of the transaction.',
+          'title': 'End Date',
           'type': '`\$STRING`',
+          'short': 'Timestamp from the end of the transaction.',
+          'format': 'datetime',
         },
         <String, dynamic>{
           'name': 'errCode',
-          'short': 'The error code that is sent in response to a failed decrypt API call.',
+          'title': 'Err Code',
           'type': '`\$STRING`',
+          'short': 'The error code that is sent in response to a failed decrypt API call.',
         },
         <String, dynamic>{
           'name': 'errMessage',
-          'short': 'The error messge that is sent in response to a failed decrypt API call.',
+          'title': 'Err Message',
           'type': '`\$STRING`',
+          'short': 'The error messge that is sent in response to a failed decrypt API call.',
         },
         <String, dynamic>{
           'name': 'id',
-          'short': 'This resource\'s unique identifier.',
+          'title': 'Id',
           'type': '`\$STRING`',
+          'short': 'This resource\'s unique identifier.',
         },
         <String, dynamic>{
           'name': 'ipAddress',
-          'short': 'The IP address of the http client that makes the decrypt API call.',
+          'title': 'Ip Address',
           'type': '`\$STRING`',
+          'short': 'The IP address of the http client that makes the decrypt API call.',
         },
         <String, dynamic>{
           'name': 'isVirtual',
-          'short': 'Indicates if the Transaction came from a virtual Device.',
+          'title': 'Is Virtual',
           'type': '`\$BOOLEAN`',
+          'short': 'Indicates if the Transaction came from a virtual Device.',
         },
         <String, dynamic>{
           'name': 'keyType',
-          'short': 'The type of cipher used during decrytion.',
+          'title': 'Key Type',
           'type': '`\$STRING`',
+          'short': 'The type of cipher used during decrytion.',
         },
         <String, dynamic>{
           'name': 'location',
+          'title': 'Location',
+          'type': '`\$OBJECT`',
           'req': true,
           'short': 'Reference to the associated Location resource.',
-          'type': '`\$OBJECT`',
         },
         <String, dynamic>{
           'name': 'messageId',
-          'short': 'Message ID.',
+          'title': 'Message Id',
           'type': '`\$STRING`',
+          'short': 'Message ID.',
         },
         <String, dynamic>{
           'name': 'method',
-          'short': 'The decryption cypher/method.',
+          'title': 'Method',
           'type': '`\$STRING`',
+          'short': 'The decryption cypher/method.',
         },
         <String, dynamic>{
           'name': 'partner',
-          'short': 'Reference to the associated Partner.',
+          'title': 'Partner',
           'type': '`\$OBJECT`',
+          'short': 'Reference to the associated Partner.',
         },
         <String, dynamic>{
           'name': 'reference',
-          'short': 'The reference property that the Client includes in the decrypt API call.',
+          'title': 'Reference',
           'type': '`\$STRING`',
+          'short': 'The reference property that the Client includes in the decrypt API call.',
         },
         <String, dynamic>{
           'name': 'serialNumber',
-          'short': 'The serial number of the Device that generated the payload to decrypt.',
+          'title': 'Serial Number',
           'type': '`\$STRING`',
+          'short': 'The serial number of the Device that generated the payload to decrypt.',
         },
         <String, dynamic>{
-          'format': 'datetime',
           'name': 'startDate',
-          'short': 'Timestamp from the beginning of the transaction.',
+          'title': 'Start Date',
           'type': '`\$STRING`',
+          'short': 'Timestamp from the beginning of the transaction.',
+          'format': 'datetime',
         },
         <String, dynamic>{
           'name': 'success',
-          'short': 'The success indicator.',
+          'title': 'Success',
           'type': '`\$BOOLEAN`',
+          'short': 'The success indicator.',
         },
         <String, dynamic>{
           'name': 'transactionSource',
-          'short': 'The source of the Transaction.',
+          'title': 'Transaction Source',
           'type': '`\$STRING`',
+          'short': 'The source of the Transaction.',
         },
       ],
       'id': <String, dynamic>{
@@ -3310,7 +3421,6 @@ class Config {
           'name': 'create',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/transactions',
@@ -3319,14 +3429,16 @@ class Config {
                   'lit': 'transactions',
                 },
               ],
-              'select': <String, dynamic>{},
+              'parts': <dynamic>[
+                'transactions',
+              ],
+              'rename': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'parts': <dynamic>[
-                'transactions',
-              ],
+              'args': <String, dynamic>{},
+              'select': <String, dynamic>{},
             },
           ],
         },
@@ -3335,91 +3447,6 @@ class Config {
           'name': 'list',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'query': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'query',
-                    'name': 'client',
-                    'orig': 'client',
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'kind': 'query',
-                    'name': 'client_ref',
-                    'orig': 'client_ref',
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'kind': 'query',
-                    'name': 'date_from',
-                    'orig': 'date_from',
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'kind': 'query',
-                    'name': 'date_to',
-                    'orig': 'date_to',
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'kind': 'query',
-                    'name': 'location',
-                    'orig': 'location',
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'kind': 'query',
-                    'name': 'message_id',
-                    'orig': 'message_id',
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'example': 'nocount',
-                    'kind': 'query',
-                    'name': 'paging_mode',
-                    'orig': 'paging_mode',
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'kind': 'query',
-                    'name': 'partner',
-                    'orig': 'partner',
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'kind': 'query',
-                    'name': 'reference',
-                    'orig': 'reference',
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'kind': 'query',
-                    'name': 'serial_number',
-                    'orig': 'serial_number',
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'example': 0,
-                    'kind': 'query',
-                    'name': 'skip',
-                    'orig': 'skip',
-                    'type': '`\$INTEGER`',
-                  },
-                  <String, dynamic>{
-                    'kind': 'query',
-                    'name': 'success',
-                    'orig': 'success',
-                    'type': '`\$BOOLEAN`',
-                  },
-                  <String, dynamic>{
-                    'example': 10,
-                    'kind': 'query',
-                    'name': 'take',
-                    'orig': 'take',
-                    'type': '`\$INTEGER`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'GET',
               'orig': '/transactions',
@@ -3428,6 +3455,99 @@ class Config {
                   'lit': 'transactions',
                 },
               ],
+              'parts': <dynamic>[
+                'transactions',
+              ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body.data`',
+              },
+              'args': <String, dynamic>{
+                'query': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'client',
+                    'orig': 'client',
+                    'type': '`\$STRING`',
+                    'kind': 'query',
+                  },
+                  <String, dynamic>{
+                    'name': 'client_ref',
+                    'orig': 'client_ref',
+                    'type': '`\$STRING`',
+                    'kind': 'query',
+                  },
+                  <String, dynamic>{
+                    'name': 'date_from',
+                    'orig': 'date_from',
+                    'type': '`\$STRING`',
+                    'kind': 'query',
+                  },
+                  <String, dynamic>{
+                    'name': 'date_to',
+                    'orig': 'date_to',
+                    'type': '`\$STRING`',
+                    'kind': 'query',
+                  },
+                  <String, dynamic>{
+                    'name': 'location',
+                    'orig': 'location',
+                    'type': '`\$STRING`',
+                    'kind': 'query',
+                  },
+                  <String, dynamic>{
+                    'name': 'message_id',
+                    'orig': 'message_id',
+                    'type': '`\$STRING`',
+                    'kind': 'query',
+                  },
+                  <String, dynamic>{
+                    'name': 'paging_mode',
+                    'orig': 'paging_mode',
+                    'type': '`\$STRING`',
+                    'kind': 'query',
+                    'example': 'nocount',
+                  },
+                  <String, dynamic>{
+                    'name': 'partner',
+                    'orig': 'partner',
+                    'type': '`\$STRING`',
+                    'kind': 'query',
+                  },
+                  <String, dynamic>{
+                    'name': 'reference',
+                    'orig': 'reference',
+                    'type': '`\$STRING`',
+                    'kind': 'query',
+                  },
+                  <String, dynamic>{
+                    'name': 'serial_number',
+                    'orig': 'serial_number',
+                    'type': '`\$STRING`',
+                    'kind': 'query',
+                  },
+                  <String, dynamic>{
+                    'name': 'skip',
+                    'orig': 'skip',
+                    'type': '`\$INTEGER`',
+                    'kind': 'query',
+                    'example': 0,
+                  },
+                  <String, dynamic>{
+                    'name': 'success',
+                    'orig': 'success',
+                    'type': '`\$BOOLEAN`',
+                    'kind': 'query',
+                  },
+                  <String, dynamic>{
+                    'name': 'take',
+                    'orig': 'take',
+                    'type': '`\$INTEGER`',
+                    'kind': 'query',
+                    'example': 10,
+                  },
+                ],
+              },
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'client',
@@ -3445,13 +3565,6 @@ class Config {
                   'take',
                 ],
               },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body.data`',
-              },
-              'parts': <dynamic>[
-                'transactions',
-              ],
             },
           ],
         },
@@ -3460,17 +3573,6 @@ class Config {
           'name': 'load',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'params': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'id',
-                    'orig': 'id',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'GET',
               'orig': '/transactions/{id}',
@@ -3482,19 +3584,31 @@ class Config {
                   'var': 'id',
                 },
               ],
+              'parts': <dynamic>[
+                'transactions',
+                '{id}',
+              ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{
+                'params': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'id',
+                    'orig': 'id',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                ],
+              },
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'id',
                 ],
               },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
-              'parts': <dynamic>[
-                'transactions',
-                '{id}',
-              ],
             },
           ],
         },
@@ -3507,63 +3621,75 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'client',
-          'short': 'Reference to the associated Client resource.',
+          'title': 'Client',
           'type': '`\$OBJECT`',
+          'short': 'Reference to the associated Client resource.',
         },
         <String, dynamic>{
           'name': 'email',
-          'short': 'The User\'s email address.',
+          'title': 'Email',
           'type': '`\$STRING`',
+          'short': 'The User\'s email address.',
         },
         <String, dynamic>{
           'name': 'firstName',
-          'short': 'The User\'s name.',
+          'title': 'First Name',
           'type': '`\$STRING`',
+          'short': 'The User\'s name.',
         },
         <String, dynamic>{
           'name': 'id',
-          'short': 'ID of newly created resource',
+          'title': 'Id',
           'type': '`\$STRING`',
+          'short': 'ID of newly created resource',
         },
         <String, dynamic>{
           'name': 'isActive',
-          'short': 'This property indicates if the User account is active or disabled.',
+          'title': 'Is Active',
           'type': '`\$BOOLEAN`',
+          'short': 'This property indicates if the User account is active or disabled.',
         },
         <String, dynamic>{
           'name': 'kif',
-          'short': 'Reference to the associated KIF resource.',
+          'title': 'Kif',
           'type': '`\$OBJECT`',
+          'short': 'Reference to the associated KIF resource.',
         },
         <String, dynamic>{
           'name': 'lastName',
-          'short': 'The User\'s Surname.',
+          'title': 'Last Name',
           'type': '`\$STRING`',
+          'short': 'The User\'s Surname.',
         },
         <String, dynamic>{
           'name': 'partner',
-          'short': 'Reference to the associated Partner.',
+          'title': 'Partner',
           'type': '`\$OBJECT`',
+          'short': 'Reference to the associated Partner.',
         },
         <String, dynamic>{
           'name': 'phone',
-          'short': 'The User\'s phone number without dashes, spaces, or brackets.',
+          'title': 'Phone',
           'type': '`\$STRING`',
+          'short': 'The User\'s phone number without dashes, spaces, or brackets.',
         },
         <String, dynamic>{
           'name': 'userName',
-          'short': 'The User\'s unique username.',
+          'title': 'User Name',
           'type': '`\$STRING`',
+          'short': 'The User\'s unique username.',
         },
         <String, dynamic>{
           'name': 'userRole',
-          'short': 'Reference to the associated User Role.',
+          'title': 'User Role',
           'type': '`\$OBJECT`',
+          'short': 'Reference to the associated User Role.',
         },
         <String, dynamic>{
           'name': 'version',
-          'short': 'The number of times that this resource has been updated.',
+          'title': 'Version',
           'type': '`\$INTEGER`',
+          'short': 'The number of times that this resource has been updated.',
         },
       ],
       'id': <String, dynamic>{
@@ -3577,7 +3703,6 @@ class Config {
           'name': 'create',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{},
               'kind': 'http',
               'method': 'POST',
               'orig': '/users',
@@ -3586,14 +3711,16 @@ class Config {
                   'lit': 'users',
                 },
               ],
-              'select': <String, dynamic>{},
+              'parts': <dynamic>[
+                'users',
+              ],
+              'rename': <String, dynamic>{},
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'parts': <dynamic>[
-                'users',
-              ],
+              'args': <String, dynamic>{},
+              'select': <String, dynamic>{},
             },
           ],
         },
@@ -3602,42 +3729,6 @@ class Config {
           'name': 'list',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'query': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'query',
-                    'name': 'client',
-                    'orig': 'client',
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'kind': 'query',
-                    'name': 'kif',
-                    'orig': 'kif',
-                    'type': '`\$STRING`',
-                  },
-                  <String, dynamic>{
-                    'kind': 'query',
-                    'name': 'partner',
-                    'orig': 'partner',
-                    'type': '`\$ANY`',
-                  },
-                  <String, dynamic>{
-                    'example': 0,
-                    'kind': 'query',
-                    'name': 'skip',
-                    'orig': 'skip',
-                    'type': '`\$INTEGER`',
-                  },
-                  <String, dynamic>{
-                    'example': 10,
-                    'kind': 'query',
-                    'name': 'take',
-                    'orig': 'take',
-                    'type': '`\$INTEGER`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'GET',
               'orig': '/users',
@@ -3646,6 +3737,50 @@ class Config {
                   'lit': 'users',
                 },
               ],
+              'parts': <dynamic>[
+                'users',
+              ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body.data`',
+              },
+              'args': <String, dynamic>{
+                'query': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'client',
+                    'orig': 'client',
+                    'type': '`\$STRING`',
+                    'kind': 'query',
+                  },
+                  <String, dynamic>{
+                    'name': 'kif',
+                    'orig': 'kif',
+                    'type': '`\$STRING`',
+                    'kind': 'query',
+                  },
+                  <String, dynamic>{
+                    'name': 'partner',
+                    'orig': 'partner',
+                    'type': '`\$ANY`',
+                    'kind': 'query',
+                  },
+                  <String, dynamic>{
+                    'name': 'skip',
+                    'orig': 'skip',
+                    'type': '`\$INTEGER`',
+                    'kind': 'query',
+                    'example': 0,
+                  },
+                  <String, dynamic>{
+                    'name': 'take',
+                    'orig': 'take',
+                    'type': '`\$INTEGER`',
+                    'kind': 'query',
+                    'example': 10,
+                  },
+                ],
+              },
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'client',
@@ -3655,13 +3790,6 @@ class Config {
                   'take',
                 ],
               },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body.data`',
-              },
-              'parts': <dynamic>[
-                'users',
-              ],
             },
           ],
         },
@@ -3670,17 +3798,6 @@ class Config {
           'name': 'update',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'params': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'id',
-                    'orig': 'id',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'PATCH',
               'orig': '/clients/{id}',
@@ -3692,32 +3809,33 @@ class Config {
                   'var': 'id',
                 },
               ],
+              'parts': <dynamic>[
+                'clients',
+                '{id}',
+              ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{
+                'params': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'id',
+                    'orig': 'id',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                ],
+              },
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'id',
                 ],
               },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
-              'parts': <dynamic>[
-                'clients',
-                '{id}',
-              ],
             },
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'params': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'id',
-                    'orig': 'id',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'PATCH',
               'orig': '/devices/{id}',
@@ -3729,32 +3847,33 @@ class Config {
                   'var': 'id',
                 },
               ],
+              'parts': <dynamic>[
+                'devices',
+                '{id}',
+              ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{
+                'params': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'id',
+                    'orig': 'id',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                ],
+              },
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'id',
                 ],
               },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
-              'parts': <dynamic>[
-                'devices',
-                '{id}',
-              ],
             },
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'params': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'id',
-                    'orig': 'id',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'PATCH',
               'orig': '/locations/{id}',
@@ -3766,32 +3885,33 @@ class Config {
                   'var': 'id',
                 },
               ],
+              'parts': <dynamic>[
+                'locations',
+                '{id}',
+              ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{
+                'params': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'id',
+                    'orig': 'id',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                ],
+              },
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'id',
                 ],
               },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
-              'parts': <dynamic>[
-                'locations',
-                '{id}',
-              ],
             },
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'params': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'id',
-                    'orig': 'id',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'PATCH',
               'orig': '/partners/{id}',
@@ -3803,32 +3923,33 @@ class Config {
                   'var': 'id',
                 },
               ],
+              'parts': <dynamic>[
+                'partners',
+                '{id}',
+              ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{
+                'params': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'id',
+                    'orig': 'id',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                ],
+              },
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'id',
                 ],
               },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
-              'parts': <dynamic>[
-                'partners',
-                '{id}',
-              ],
             },
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'params': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'id',
-                    'orig': 'id',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'PATCH',
               'orig': '/shipments/{id}',
@@ -3840,32 +3961,33 @@ class Config {
                   'var': 'id',
                 },
               ],
+              'parts': <dynamic>[
+                'shipments',
+                '{id}',
+              ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{
+                'params': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'id',
+                    'orig': 'id',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                ],
+              },
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'id',
                 ],
               },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
-              'parts': <dynamic>[
-                'shipments',
-                '{id}',
-              ],
             },
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'params': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'id',
-                    'orig': 'id',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'PATCH',
               'orig': '/transactions/{id}',
@@ -3877,32 +3999,33 @@ class Config {
                   'var': 'id',
                 },
               ],
+              'parts': <dynamic>[
+                'transactions',
+                '{id}',
+              ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{
+                'params': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'id',
+                    'orig': 'id',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                ],
+              },
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'id',
                 ],
               },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
-              'parts': <dynamic>[
-                'transactions',
-                '{id}',
-              ],
             },
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'params': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'id',
-                    'orig': 'id',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'PATCH',
               'orig': '/users/{id}',
@@ -3914,19 +4037,31 @@ class Config {
                   'var': 'id',
                 },
               ],
+              'parts': <dynamic>[
+                'users',
+                '{id}',
+              ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{
+                'params': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'id',
+                    'orig': 'id',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                ],
+              },
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'id',
                 ],
               },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
-              'parts': <dynamic>[
-                'users',
-                '{id}',
-              ],
             },
           ],
         },
@@ -3939,75 +4074,89 @@ class Config {
       'fields': <dynamic>[
         <String, dynamic>{
           'name': 'client',
-          'short': 'Reference to the associated Client resource.',
+          'title': 'Client',
           'type': '`\$OBJECT`',
+          'short': 'Reference to the associated Client resource.',
         },
         <String, dynamic>{
-          'format': 'datetime',
           'name': 'created',
-          'short': 'Creation timestamp in ISO 8601 format.',
+          'title': 'Created',
           'type': '`\$STRING`',
+          'short': 'Creation timestamp in ISO 8601 format.',
+          'format': 'datetime',
         },
         <String, dynamic>{
           'name': 'email',
-          'short': 'The User\'s email address.',
+          'title': 'Email',
           'type': '`\$STRING`',
+          'short': 'The User\'s email address.',
         },
         <String, dynamic>{
           'name': 'firstName',
-          'short': 'The User\'s name.',
+          'title': 'First Name',
           'type': '`\$STRING`',
+          'short': 'The User\'s name.',
         },
         <String, dynamic>{
           'name': 'id',
-          'short': 'This resource\'s unique identifier.',
+          'title': 'Id',
           'type': '`\$STRING`',
+          'short': 'This resource\'s unique identifier.',
         },
         <String, dynamic>{
           'name': 'isActive',
-          'short': 'This property indicates if the User account is active or disabled.',
+          'title': 'Is Active',
           'type': '`\$BOOLEAN`',
+          'short': 'This property indicates if the User account is active or disabled.',
         },
         <String, dynamic>{
           'name': 'kif',
-          'short': 'Reference to the associated KIF resource.',
+          'title': 'Kif',
           'type': '`\$OBJECT`',
+          'short': 'Reference to the associated KIF resource.',
         },
         <String, dynamic>{
           'name': 'lastName',
-          'short': 'The User\'s Surname.',
+          'title': 'Last Name',
           'type': '`\$STRING`',
+          'short': 'The User\'s Surname.',
         },
         <String, dynamic>{
-          'format': 'datetime',
           'name': 'modified',
-          'short': 'Last modified timestamp.',
+          'title': 'Modified',
           'type': '`\$STRING`',
+          'short': 'Last modified timestamp.',
+          'format': 'datetime',
         },
         <String, dynamic>{
           'name': 'partner',
-          'short': 'Reference to the associated Partner.',
+          'title': 'Partner',
           'type': '`\$OBJECT`',
+          'short': 'Reference to the associated Partner.',
         },
         <String, dynamic>{
           'name': 'phone',
-          'short': 'The User\'s phone number without dashes, spaces, or brackets.',
+          'title': 'Phone',
           'type': '`\$STRING`',
+          'short': 'The User\'s phone number without dashes, spaces, or brackets.',
         },
         <String, dynamic>{
           'name': 'userName',
-          'short': 'The User\'s unique username.',
+          'title': 'User Name',
           'type': '`\$STRING`',
+          'short': 'The User\'s unique username.',
         },
         <String, dynamic>{
           'name': 'userRole',
-          'short': 'Reference to the associated User Role.',
+          'title': 'User Role',
           'type': '`\$OBJECT`',
+          'short': 'Reference to the associated User Role.',
         },
         <String, dynamic>{
           'name': 'version',
-          'short': 'The number of times that this resource has been updated.',
+          'title': 'Version',
           'type': '`\$INTEGER`',
+          'short': 'The number of times that this resource has been updated.',
         },
       ],
       'id': <String, dynamic>{
@@ -4021,17 +4170,6 @@ class Config {
           'name': 'load',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'params': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'id',
-                    'orig': 'id',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'GET',
               'orig': '/users/{id}',
@@ -4043,19 +4181,31 @@ class Config {
                   'var': 'id',
                 },
               ],
+              'parts': <dynamic>[
+                'users',
+                '{id}',
+              ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{
+                'params': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'id',
+                    'orig': 'id',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                ],
+              },
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'id',
                 ],
               },
-              'transform': <String, dynamic>{
-                'req': '`reqdata`',
-                'res': '`body`',
-              },
-              'parts': <dynamic>[
-                'users',
-                '{id}',
-              ],
             },
           ],
         },
@@ -4064,17 +4214,6 @@ class Config {
           'name': 'remove',
           'points': <dynamic>[
             <String, dynamic>{
-              'args': <String, dynamic>{
-                'params': <dynamic>[
-                  <String, dynamic>{
-                    'kind': 'param',
-                    'name': 'id',
-                    'orig': 'id',
-                    'reqd': true,
-                    'type': '`\$STRING`',
-                  },
-                ],
-              },
               'kind': 'http',
               'method': 'DELETE',
               'orig': '/users/{id}',
@@ -4086,19 +4225,144 @@ class Config {
                   'var': 'id',
                 },
               ],
+              'parts': <dynamic>[
+                'users',
+                '{id}',
+              ],
+              'rename': <String, dynamic>{},
+              'transform': <String, dynamic>{
+                'req': '`reqdata`',
+                'res': '`body`',
+              },
+              'args': <String, dynamic>{
+                'params': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'id',
+                    'orig': 'id',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                ],
+              },
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'id',
                 ],
               },
+            },
+          ],
+        },
+      },
+      'relations': <String, dynamic>{
+        'ancestors': <dynamic>[],
+      },
+    },
+    'virtual_device': <String, dynamic>{
+      'fields': <dynamic>[
+        <String, dynamic>{
+          'name': 'data',
+          'title': 'Data',
+          'type': '`\$ARRAY`',
+          'short': 'List of Devices.',
+        },
+        <String, dynamic>{
+          'name': 'id',
+          'title': 'Id',
+          'type': '`\$STRING`',
+        },
+        <String, dynamic>{
+          'name': 'total',
+          'title': 'Total',
+          'type': '`\$INTEGER`',
+          'short': 'Total number of Devices available (not the number of Users in the response).',
+        },
+      ],
+      'id': <String, dynamic>{
+        'field': 'id',
+        'name': 'id',
+      },
+      'name': 'virtual_device',
+      'op': <String, dynamic>{
+        'load': <String, dynamic>{
+          'input': 'data',
+          'name': 'load',
+          'points': <dynamic>[
+            <String, dynamic>{
+              'kind': 'http',
+              'method': 'GET',
+              'orig': '/virtualDevices/{sharePartnerTo}',
+              'segments': <dynamic>[
+                <String, dynamic>{
+                  'lit': 'virtualDevices',
+                },
+                <String, dynamic>{
+                  'var': 'id',
+                },
+              ],
+              'parts': <dynamic>[
+                'virtualDevices',
+                '{id}',
+              ],
+              'rename': <String, dynamic>{
+                'param': <String, dynamic>{
+                  'sharePartnerTo': 'id',
+                },
+              },
               'transform': <String, dynamic>{
                 'req': '`reqdata`',
                 'res': '`body`',
               },
-              'parts': <dynamic>[
-                'users',
-                '{id}',
-              ],
+              'args': <String, dynamic>{
+                'params': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'id',
+                    'orig': 'share_partner_to',
+                    'type': '`\$STRING`',
+                    'kind': 'param',
+                    'reqd': true,
+                  },
+                ],
+                'query': <dynamic>[
+                  <String, dynamic>{
+                    'name': 'skip',
+                    'orig': 'skip',
+                    'type': '`\$INTEGER`',
+                    'kind': 'query',
+                    'example': 0,
+                  },
+                  <String, dynamic>{
+                    'name': 'sorting_direction',
+                    'orig': 'sorting_direction',
+                    'type': '`\$STRING`',
+                    'kind': 'query',
+                    'example': 'asc',
+                  },
+                  <String, dynamic>{
+                    'name': 'sorting_field',
+                    'orig': 'sorting_field',
+                    'type': '`\$STRING`',
+                    'kind': 'query',
+                    'example': 'serialnumber',
+                  },
+                  <String, dynamic>{
+                    'name': 'take',
+                    'orig': 'take',
+                    'type': '`\$INTEGER`',
+                    'kind': 'query',
+                    'example': 10,
+                  },
+                ],
+              },
+              'select': <String, dynamic>{
+                'exist': <dynamic>[
+                  'id',
+                  'skip',
+                  'sorting_direction',
+                  'sorting_field',
+                  'take',
+                ],
+              },
             },
           ],
         },

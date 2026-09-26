@@ -1,0 +1,253 @@
+# Entity: shipment
+
+main: kit: entity: shipment: {
+
+  alias: field: {}
+
+  fields: {
+    carrier: {
+      h: "Carrier"
+      n: "carrier"
+      r: false
+      sh: "The name of the courier."
+      t: "`$STRING`"
+    }
+    client: {
+      h: "Client"
+      n: "client"
+      r: false
+      sh: "Reference to the associated Client resource."
+      t: "`$OBJECT`"
+    }
+    created: {
+      fo: "datetime"
+      h: "Created"
+      n: "created"
+      r: false
+      sh: "Creation timestamp in ISO 8601 format."
+      t: "`$STRING`"
+    }
+    dateReceived: {
+      fo: "datetime"
+      h: "Date Received"
+      n: "dateReceived"
+      r: false
+      sh: "The date and time that a package is recieved."
+      t: "`$STRING`"
+    }
+    dateShipped: {
+      fo: "datetime"
+      h: "Date Shipped"
+      n: "dateShipped"
+      r: false
+      sh: "The date and time that a package is shipped."
+      t: "`$STRING`"
+    }
+    dcKif: {
+      h: "Dc Kif"
+      n: "dcKif"
+      r: false
+      sh: "Reference to the associated KIF resource."
+      t: "`$OBJECT`"
+    }
+    id: {
+      h: "Id"
+      n: "id"
+      r: false
+      sh: "This resource's unique identifier."
+      t: "`$STRING`"
+    }
+    items: {
+      h: "Items"
+      n: "items"
+      r: false
+      t: "`$ARRAY`"
+    }
+    kif: {
+      h: "Kif"
+      n: "kif"
+      r: false
+      sh: "Reference to the associated KIF resource."
+      t: "`$OBJECT`"
+    }
+    modified: {
+      fo: "datetime"
+      h: "Modified"
+      n: "modified"
+      r: false
+      sh: "Last modified timestamp."
+      t: "`$STRING`"
+    }
+    partner: {
+      h: "Partner"
+      n: "partner"
+      r: false
+      sh: "Reference to the associated Partner."
+      t: "`$OBJECT`"
+    }
+    shipmentType: {
+      h: "Shipment Type"
+      n: "shipmentType"
+      r: false
+      sh: "The type of shipment."
+      t: "`$STRING`"
+    }
+    tracking: {
+      h: "Tracking"
+      n: "tracking"
+      r: false
+      sh: "The courier's tracking number."
+      t: "`$STRING`"
+    }
+    version: {
+      fo: "int32"
+      h: "Version"
+      n: "version"
+      r: false
+      sh: "The number of times that this resource has been updated."
+      t: "`$INTEGER`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "shipment"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /shipments"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/shipments"
+          s: [
+            {
+              lit: "shipments"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /shipments"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                k: "query"
+                n: "kif"
+                or: "kif"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "mode"
+                or: "mode"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                ex: 0
+                k: "query"
+                n: "skip"
+                or: "skip"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                ex: 10
+                k: "query"
+                n: "take"
+                or: "take"
+                r: false
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/shipments"
+          q: {
+            exist: [
+              "kif"
+              "mode"
+              "skip"
+              "take"
+            ]
+          }
+          s: [
+            {
+              lit: "shipments"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.data`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /shipments/{id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/shipments/{id}"
+          q: {
+            exist: [
+              "id"
+            ]
+          }
+          s: [
+            {
+              lit: "shipments"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

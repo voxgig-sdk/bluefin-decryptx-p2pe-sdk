@@ -401,14 +401,9 @@ pub const BluefinDecryptxP2peSDK = struct {
         return @import("../entity/device_custody_detail.zig").DeviceCustodyDetailEntity.new(self, entopts);
     }
 
-    /// DeviceCustodyList entity bound to this client.
-    pub fn device_custody_list(self: *@This(), entopts: Value) *@import("../entity/device_custody_list.zig").DeviceCustodyListEntity {
-        return @import("../entity/device_custody_list.zig").DeviceCustodyListEntity.new(self, entopts);
-    }
-
-    /// DeviceList entity bound to this client.
-    pub fn device_list(self: *@This(), entopts: Value) *@import("../entity/device_list.zig").DeviceListEntity {
-        return @import("../entity/device_list.zig").DeviceListEntity.new(self, entopts);
+    /// DeviceCustodyListItem entity bound to this client.
+    pub fn device_custody_list_item(self: *@This(), entopts: Value) *@import("../entity/device_custody_list_item.zig").DeviceCustodyListItemEntity {
+        return @import("../entity/device_custody_list_item.zig").DeviceCustodyListItemEntity.new(self, entopts);
     }
 
     /// DeviceReceiveResult entity bound to this client.
@@ -474,6 +469,11 @@ pub const BluefinDecryptxP2peSDK = struct {
     /// User entity bound to this client.
     pub fn user(self: *@This(), entopts: Value) *@import("../entity/user.zig").UserEntity {
         return @import("../entity/user.zig").UserEntity.new(self, entopts);
+    }
+
+    /// VirtualDevice entity bound to this client.
+    pub fn virtual_device(self: *@This(), entopts: Value) *@import("../entity/virtual_device.zig").VirtualDeviceEntity {
+        return @import("../entity/virtual_device.zig").VirtualDeviceEntity.new(self, entopts);
     }
 
 };

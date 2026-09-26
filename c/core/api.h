@@ -33,14 +33,10 @@ voxgig_value* device_build_stream(Entity* e, const char* action, voxgig_value* a
 Entity* device_custody_detail_entity_new(BluefinDecryptxP2peSDK* client, voxgig_value* entopts);
 Entity* bluefindecryptxp2pe_device_custody_detail(BluefinDecryptxP2peSDK* client, voxgig_value* entopts);
 voxgig_value* device_custody_detail_stream(Entity* e, const char* action, voxgig_value* args, voxgig_value* callopts, PNError** err);
-// DeviceCustodyList entity.
-Entity* device_custody_list_entity_new(BluefinDecryptxP2peSDK* client, voxgig_value* entopts);
-Entity* bluefindecryptxp2pe_device_custody_list(BluefinDecryptxP2peSDK* client, voxgig_value* entopts);
-voxgig_value* device_custody_list_stream(Entity* e, const char* action, voxgig_value* args, voxgig_value* callopts, PNError** err);
-// DeviceList entity.
-Entity* device_list_entity_new(BluefinDecryptxP2peSDK* client, voxgig_value* entopts);
-Entity* bluefindecryptxp2pe_device_list(BluefinDecryptxP2peSDK* client, voxgig_value* entopts);
-voxgig_value* device_list_stream(Entity* e, const char* action, voxgig_value* args, voxgig_value* callopts, PNError** err);
+// DeviceCustodyListItem entity.
+Entity* device_custody_list_item_entity_new(BluefinDecryptxP2peSDK* client, voxgig_value* entopts);
+Entity* bluefindecryptxp2pe_device_custody_list_item(BluefinDecryptxP2peSDK* client, voxgig_value* entopts);
+voxgig_value* device_custody_list_item_stream(Entity* e, const char* action, voxgig_value* args, voxgig_value* callopts, PNError** err);
 // DeviceReceiveResult entity.
 Entity* device_receive_result_entity_new(BluefinDecryptxP2peSDK* client, voxgig_value* entopts);
 Entity* bluefindecryptxp2pe_device_receive_result(BluefinDecryptxP2peSDK* client, voxgig_value* entopts);
@@ -93,5 +89,9 @@ voxgig_value* update_result_stream(Entity* e, const char* action, voxgig_value* 
 Entity* user_entity_new(BluefinDecryptxP2peSDK* client, voxgig_value* entopts);
 Entity* bluefindecryptxp2pe_user(BluefinDecryptxP2peSDK* client, voxgig_value* entopts);
 voxgig_value* user_stream(Entity* e, const char* action, voxgig_value* args, voxgig_value* callopts, PNError** err);
+// VirtualDevice entity.
+Entity* virtual_device_entity_new(BluefinDecryptxP2peSDK* client, voxgig_value* entopts);
+Entity* bluefindecryptxp2pe_virtual_device(BluefinDecryptxP2peSDK* client, voxgig_value* entopts);
+voxgig_value* virtual_device_stream(Entity* e, const char* action, voxgig_value* args, voxgig_value* callopts, PNError** err);
 
 #endif // BLUEFINDECRYPTXP2PE_API_H

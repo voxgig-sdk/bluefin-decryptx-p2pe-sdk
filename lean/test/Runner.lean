@@ -161,40 +161,21 @@ def main : IO UInt32 := do
           if gid == wid then pass s!"device_custody_detail.load offline (id={wid})"
           else fail s!"device_custody_detail.load offline: got {gid}, want {wid}"
 )
-    -- device_custody_list: offline (test-mode) entity behaviour
+    -- device_custody_list_item: offline (test-mode) entity behaviour
     (do
-      let seedPath := "../.sdk/test/entity/device_custody_list/DeviceCustodyListTestData.json"
+      let seedPath := "../.sdk/test/entity/device_custody_list_item/DeviceCustodyListItemTestData.json"
       if !(← System.FilePath.pathExists seedPath) then
-        IO.println s!"skip - device_custody_list: no seed at {seedPath}"
+        IO.println s!"skip - device_custody_list_item: no seed at {seedPath}"
       else do
         let seed ← SdkJson.jsonRead (← IO.FS.readFile seedPath)
         let tclient ← Sdk.testSdk0 seed
-        let existing ← SdkRuntime.gp (← SdkRuntime.gp seed "existing") "device_custody_list"
+        let existing ← SdkRuntime.gp (← SdkRuntime.gp seed "existing") "device_custody_list_item"
         let ids ← keysof existing
         -- list returns every seeded entity
-        let items ← Device_custody_list.list tclient (← emptyMap) (← emptyMap)
+        let items ← Device_custody_list_item.list tclient (← emptyMap) (← emptyMap)
         let n ← (match items with | Value.list lid => do pure (← listItems lid).size | _ => pure 0)
-        if n == ids.size then pass s!"device_custody_list.list offline -> {n} seeded"
-        else fail s!"device_custody_list.list offline: got {n}, want {ids.size}"
-)
-    -- device_list: offline (test-mode) entity behaviour
-    (do
-      let seedPath := "../.sdk/test/entity/device_list/DeviceListTestData.json"
-      if !(← System.FilePath.pathExists seedPath) then
-        IO.println s!"skip - device_list: no seed at {seedPath}"
-      else do
-        let seed ← SdkJson.jsonRead (← IO.FS.readFile seedPath)
-        let tclient ← Sdk.testSdk0 seed
-        let existing ← SdkRuntime.gp (← SdkRuntime.gp seed "existing") "device_list"
-        let ids ← keysof existing
-        -- load the first seeded entity by id
-        if ids.size > 0 then do
-          let wid := ids[0]!
-          let m ← newMap #[("id", Value.str wid)]
-          let got ← Device_list.load tclient m (← emptyMap)
-          let gid ← SdkRuntime.gpS got "id"
-          if gid == wid then pass s!"device_list.load offline (id={wid})"
-          else fail s!"device_list.load offline: got {gid}, want {wid}"
+        if n == ids.size then pass s!"device_custody_list_item.list offline -> {n} seeded"
+        else fail s!"device_custody_list_item.list offline: got {n}, want {ids.size}"
 )
     -- device_state: offline (test-mode) entity behaviour
     (do
@@ -424,6 +405,25 @@ def main : IO UInt32 := do
           let gid ← SdkRuntime.gpS got "id"
           if gid == wid then pass s!"user.load offline (id={wid})"
           else fail s!"user.load offline: got {gid}, want {wid}"
+)
+    -- virtual_device: offline (test-mode) entity behaviour
+    (do
+      let seedPath := "../.sdk/test/entity/virtual_device/VirtualDeviceTestData.json"
+      if !(← System.FilePath.pathExists seedPath) then
+        IO.println s!"skip - virtual_device: no seed at {seedPath}"
+      else do
+        let seed ← SdkJson.jsonRead (← IO.FS.readFile seedPath)
+        let tclient ← Sdk.testSdk0 seed
+        let existing ← SdkRuntime.gp (← SdkRuntime.gp seed "existing") "virtual_device"
+        let ids ← keysof existing
+        -- load the first seeded entity by id
+        if ids.size > 0 then do
+          let wid := ids[0]!
+          let m ← newMap #[("id", Value.str wid)]
+          let got ← Virtual_device.load tclient m (← emptyMap)
+          let gid ← SdkRuntime.gpS got "id"
+          if gid == wid then pass s!"virtual_device.load offline (id={wid})"
+          else fail s!"virtual_device.load offline: got {gid}, want {wid}"
 )
   offline.run ctx
   match liveBase with

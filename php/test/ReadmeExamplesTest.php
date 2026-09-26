@@ -47,8 +47,7 @@ class ReadmeExamplesTest extends TestCase
         "Device" => "device",
         "DeviceBuild" => "device_build",
         "DeviceCustodyDetail" => "device_custody_detail",
-        "DeviceCustodyList" => "device_custody_list",
-        "DeviceList" => "device_list",
+        "DeviceCustodyListItem" => "device_custody_list_item",
         "DeviceReceiveResult" => "device_receive_result",
         "DeviceRkiActivateResult" => "device_rki_activate_result",
         "DeviceState" => "device_state",
@@ -62,6 +61,7 @@ class ReadmeExamplesTest extends TestCase
         "Transaction" => "transaction",
         "UpdateResult" => "update_result",
         "User" => "user",
+        "VirtualDevice" => "virtual_device",
     ];
 
     // Documented SDK method names — used only to recognise the NARROW

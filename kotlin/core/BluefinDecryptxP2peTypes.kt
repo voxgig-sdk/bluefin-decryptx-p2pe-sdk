@@ -2,8 +2,8 @@ package voxgig.bluefindecryptxp2pesdk.core
 
 // Typed reference models for the BluefinDecryptxP2pe SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types come from the
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types come from the
 // canonical type sentinels (source of truth: @voxgig/apidef VALID_CANON). Do
 // not edit by hand.
 //
@@ -60,13 +60,9 @@ object BluefinDecryptxP2peTypes {
 
   data class DeviceCustodyDetailLoadMatch(val device_type: String?, val id: String?, val serial_number: String?)
 
-  data class DeviceCustodyList(val completeDate: String?, val created: String?, val createdBy: Map<String, Any?>?, val custodian: Map<String, Any?>?, val device: Map<String, Any?>?, val id: Long?, val location: Map<String, Any?>?, val modified: String?, val modifiedBy: Map<String, Any?>?, val notes: String?, val status: Map<String, Any?>?, val transferMethod: Map<String, Any?>?, val version: Long?)
+  data class DeviceCustodyListItem(val completeDate: String?, val created: String?, val createdBy: Map<String, Any?>?, val custodian: Map<String, Any?>?, val device: Map<String, Any?>?, val id: Long?, val location: Map<String, Any?>?, val modified: String?, val modifiedBy: Map<String, Any?>?, val notes: String?, val status: Map<String, Any?>?, val transferMethod: Map<String, Any?>?, val version: Long?)
 
-  data class DeviceCustodyListListMatch(val device_type: String?, val serial_number: String?, val skip: Long?, val take: Long?)
-
-  data class DeviceList(val data: List<Any?>?, val total: Long?)
-
-  data class DeviceListLoadMatch(val share_partner_to: String?, val skip: Long?, val sorting_direction: String?, val sorting_field: String?, val take: Long?)
+  data class DeviceCustodyListItemListMatch(val device_type: String?, val serial_number: String?, val skip: Long?, val take: Long?)
 
   data class DeviceReceiveResult(val success: Boolean?)
 
@@ -149,5 +145,9 @@ object BluefinDecryptxP2peTypes {
   data class UserLoadMatch(val id: String?)
 
   data class UserRemoveMatch(val id: String?)
+
+  data class VirtualDevice(val data: List<Any?>?, val id: String?, val total: Long?)
+
+  data class VirtualDeviceLoadMatch(val id: String?, val skip: Long?, val sorting_direction: String?, val sorting_field: String?, val take: Long?)
 
 }

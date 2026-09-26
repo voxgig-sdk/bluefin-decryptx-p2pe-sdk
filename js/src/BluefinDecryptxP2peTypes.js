@@ -1,7 +1,7 @@
 // Typed models for the BluefinDecryptxP2pe SDK (JSDoc typedefs).
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types come from the
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types come from the
 // canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 // @voxgig/apidef VALID_CANON). Annotations only — no runtime effect. Do not
 // edit by hand.
@@ -245,7 +245,7 @@
  */
 
 /**
- * @typedef {Object} DeviceCustodyList
+ * @typedef {Object} DeviceCustodyListItem
  * @property {string} [completeDate]
  * @property {string} [created]
  * @property {Object} createdBy
@@ -262,25 +262,10 @@
  */
 
 /**
- * @typedef {Object} DeviceCustodyListListMatch
+ * @typedef {Object} DeviceCustodyListItemListMatch
  * @property {string} device_type
  * @property {string} serial_number
  * @property {number} [skip]
- * @property {number} [take]
- */
-
-/**
- * @typedef {Object} DeviceList
- * @property {Array} [data]
- * @property {number} [total]
- */
-
-/**
- * @typedef {Object} DeviceListLoadMatch
- * @property {string} share_partner_to
- * @property {number} [skip]
- * @property {string} [sorting_direction]
- * @property {string} [sorting_field]
  * @property {number} [take]
  */
 
@@ -739,5 +724,21 @@
 /**
  * @typedef {Object} UserRemoveMatch
  * @property {string} id
+ */
+
+/**
+ * @typedef {Object} VirtualDevice
+ * @property {Array} [data]
+ * @property {string} [id]
+ * @property {number} [total]
+ */
+
+/**
+ * @typedef {Object} VirtualDeviceLoadMatch
+ * @property {string} id
+ * @property {number} [skip]
+ * @property {string} [sorting_direction]
+ * @property {string} [sorting_field]
+ * @property {number} [take]
  */
 

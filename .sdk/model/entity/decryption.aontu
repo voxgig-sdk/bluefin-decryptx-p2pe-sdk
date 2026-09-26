@@ -1,0 +1,46 @@
+# Entity: decryption
+
+main: kit: entity: decryption: {
+
+  alias: field: {}
+
+  fields: {
+    success: {
+      h: "Success"
+      n: "success"
+      r: false
+      sh: "true if the payload decryption was successful."
+      t: "`$BOOLEAN`"
+    }
+  }
+
+  name: "decryption"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /decryption"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/decryption"
+          s: [
+            {
+              lit: "decryption"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

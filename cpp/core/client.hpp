@@ -52,14 +52,9 @@ public:
     return std::make_shared<DeviceCustodyDetailEntity>(this, entopts);
   }
 
-  // DeviceCustodyList entity bound to this client.
-  std::shared_ptr<DeviceCustodyListEntity> device_custody_list(Value entopts = Value::undef()) {
-    return std::make_shared<DeviceCustodyListEntity>(this, entopts);
-  }
-
-  // DeviceList entity bound to this client.
-  std::shared_ptr<DeviceListEntity> device_list(Value entopts = Value::undef()) {
-    return std::make_shared<DeviceListEntity>(this, entopts);
+  // DeviceCustodyListItem entity bound to this client.
+  std::shared_ptr<DeviceCustodyListItemEntity> device_custody_list_item(Value entopts = Value::undef()) {
+    return std::make_shared<DeviceCustodyListItemEntity>(this, entopts);
   }
 
   // DeviceReceiveResult entity bound to this client.
@@ -125,6 +120,11 @@ public:
   // User entity bound to this client.
   std::shared_ptr<UserEntity> user(Value entopts = Value::undef()) {
     return std::make_shared<UserEntity>(this, entopts);
+  }
+
+  // VirtualDevice entity bound to this client.
+  std::shared_ptr<VirtualDeviceEntity> virtual_device(Value entopts = Value::undef()) {
+    return std::make_shared<VirtualDeviceEntity>(this, entopts);
   }
 
 

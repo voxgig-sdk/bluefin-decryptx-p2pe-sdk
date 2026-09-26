@@ -1,0 +1,397 @@
+# Entity: transaction
+
+main: kit: entity: transaction: {
+
+  alias: field: {}
+
+  fields: {
+    alternateKey: {
+      h: "Alternate Key"
+      n: "alternateKey"
+      r: false
+      sh: "The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging."
+      t: "`$STRING`"
+    }
+    client: {
+      h: "Client"
+      n: "client"
+      r: false
+      sh: "Reference to the associated Client resource."
+      t: "`$OBJECT`"
+    }
+    clientRef: {
+      h: "Client Ref"
+      n: "clientRef"
+      r: false
+      sh: "Client Reference property that is included in the decrypt API call."
+      t: "`$STRING`"
+    }
+    created: {
+      fo: "datetime"
+      h: "Created"
+      n: "created"
+      r: false
+      sh: "Creation timestamp in ISO 8601 format."
+      t: "`$STRING`"
+    }
+    decrypted: {
+      fo: "int32"
+      h: "Decrypted"
+      n: "decrypted"
+      r: false
+      sh: "A Transcation can process muliple decryptions."
+      t: "`$INTEGER`"
+    }
+    deviceName: {
+      h: "Device Name"
+      n: "deviceName"
+      r: false
+      sh: "The name of the Device that generated the payload to decrypt."
+      t: "`$STRING`"
+    }
+    directPartner: {
+      h: "Direct Partner"
+      n: "directPartner"
+      r: false
+      sh: "Reference to the associated Partner."
+      t: "`$OBJECT`"
+    }
+    encrypted: {
+      fo: "int32"
+      h: "Encrypted"
+      n: "encrypted"
+      r: false
+      sh: "A Transcation can process muliple encryptions."
+      t: "`$INTEGER`"
+    }
+    endDate: {
+      fo: "datetime"
+      h: "End Date"
+      n: "endDate"
+      r: false
+      sh: "Timestamp from the end of the transaction."
+      t: "`$STRING`"
+    }
+    errCode: {
+      h: "Err Code"
+      n: "errCode"
+      r: false
+      sh: "The error code that is sent in response to a failed decrypt API call."
+      t: "`$STRING`"
+    }
+    errMessage: {
+      h: "Err Message"
+      n: "errMessage"
+      r: false
+      sh: "The error messge that is sent in response to a failed decrypt API call."
+      t: "`$STRING`"
+    }
+    id: {
+      h: "Id"
+      n: "id"
+      r: false
+      sh: "This resource's unique identifier."
+      t: "`$STRING`"
+    }
+    ipAddress: {
+      h: "Ip Address"
+      n: "ipAddress"
+      r: false
+      sh: "The IP address of the http client that makes the decrypt API call."
+      t: "`$STRING`"
+    }
+    isVirtual: {
+      h: "Is Virtual"
+      n: "isVirtual"
+      r: false
+      sh: "Indicates if the Transaction came from a virtual Device."
+      t: "`$BOOLEAN`"
+    }
+    keyType: {
+      h: "Key Type"
+      n: "keyType"
+      r: false
+      sh: "The type of cipher used during decrytion."
+      t: "`$STRING`"
+    }
+    location: {
+      h: "Location"
+      n: "location"
+      r: true
+      sh: "Reference to the associated Location resource."
+      t: "`$OBJECT`"
+    }
+    messageId: {
+      h: "Message Id"
+      n: "messageId"
+      r: false
+      sh: "Message ID."
+      t: "`$STRING`"
+    }
+    method: {
+      h: "Method"
+      n: "method"
+      r: false
+      sh: "The decryption cypher/method."
+      t: "`$STRING`"
+    }
+    partner: {
+      h: "Partner"
+      n: "partner"
+      r: false
+      sh: "Reference to the associated Partner."
+      t: "`$OBJECT`"
+    }
+    reference: {
+      h: "Reference"
+      n: "reference"
+      r: false
+      sh: "The reference property that the Client includes in the decrypt API call."
+      t: "`$STRING`"
+    }
+    serialNumber: {
+      h: "Serial Number"
+      n: "serialNumber"
+      r: false
+      sh: "The serial number of the Device that generated the payload to decrypt."
+      t: "`$STRING`"
+    }
+    startDate: {
+      fo: "datetime"
+      h: "Start Date"
+      n: "startDate"
+      r: false
+      sh: "Timestamp from the beginning of the transaction."
+      t: "`$STRING`"
+    }
+    success: {
+      h: "Success"
+      n: "success"
+      r: false
+      sh: "The success indicator."
+      t: "`$BOOLEAN`"
+    }
+    transactionSource: {
+      h: "Transaction Source"
+      n: "transactionSource"
+      r: false
+      sh: "The source of the Transaction."
+      t: "`$STRING`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "transaction"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /transactions"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/transactions"
+          s: [
+            {
+              lit: "transactions"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /transactions"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                k: "query"
+                n: "client"
+                or: "client"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "client_ref"
+                or: "client_ref"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "date_from"
+                or: "date_from"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "date_to"
+                or: "date_to"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "location"
+                or: "location"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "message_id"
+                or: "message_id"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                ex: "nocount"
+                k: "query"
+                n: "paging_mode"
+                or: "paging_mode"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "partner"
+                or: "partner"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "reference"
+                or: "reference"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "serial_number"
+                or: "serial_number"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                ex: 0
+                k: "query"
+                n: "skip"
+                or: "skip"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                k: "query"
+                n: "success"
+                or: "success"
+                r: false
+                t: "`$BOOLEAN`"
+              }
+              {
+                ex: 10
+                k: "query"
+                n: "take"
+                or: "take"
+                r: false
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/transactions"
+          q: {
+            exist: [
+              "client"
+              "client_ref"
+              "date_from"
+              "date_to"
+              "location"
+              "message_id"
+              "paging_mode"
+              "partner"
+              "reference"
+              "serial_number"
+              "skip"
+              "success"
+              "take"
+            ]
+          }
+          s: [
+            {
+              lit: "transactions"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.data`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /transactions/{id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/transactions/{id}"
+          q: {
+            exist: [
+              "id"
+            ]
+          }
+          s: [
+            {
+              lit: "transactions"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

@@ -1,7 +1,7 @@
 // Typed models for the BluefinDecryptxP2pe SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types are mapped
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types are mapped
 // from the canonical type sentinels. Do not edit by hand.
 //
 // These are DOCUMENTARY: the SDK runtime is dynamic (ops take/return
@@ -253,7 +253,7 @@ typedef struct {
   char*serial_number;
 } DeviceCustodyDetailLoadMatch;
 
-// DeviceCustodyList is the typed data model for the device_custody_list entity.
+// DeviceCustodyListItem is the typed data model for the device_custody_list_item entity.
 typedef struct {
   char*completedate;  // optional
   char*created;  // optional
@@ -268,30 +268,15 @@ typedef struct {
   voxgig_value*status;  // optional
   voxgig_value*transfermethod;  // optional
   int64_t version;  // optional
-} DeviceCustodyList;
+} DeviceCustodyListItem;
 
-// DeviceCustodyListListMatch is the typed request payload for DeviceCustodyList.list.
+// DeviceCustodyListItemListMatch is the typed request payload for DeviceCustodyListItem.list.
 typedef struct {
   char*device_type;
   char*serial_number;
   int64_t skip;  // optional
   int64_t take;  // optional
-} DeviceCustodyListListMatch;
-
-// DeviceList is the typed data model for the device_list entity.
-typedef struct {
-  voxgig_value*data;  // optional
-  int64_t total;  // optional
-} DeviceList;
-
-// DeviceListLoadMatch is the typed request payload for DeviceList.load.
-typedef struct {
-  char*share_partner_to;
-  int64_t skip;  // optional
-  char*sorting_direction;  // optional
-  char*sorting_field;  // optional
-  int64_t take;  // optional
-} DeviceListLoadMatch;
+} DeviceCustodyListItemListMatch;
 
 // DeviceReceiveResult is the typed data model for the device_receive_result entity.
 typedef struct {
@@ -749,5 +734,21 @@ typedef struct {
 typedef struct {
   char*id;
 } UserRemoveMatch;
+
+// VirtualDevice is the typed data model for the virtual_device entity.
+typedef struct {
+  voxgig_value*data;  // optional
+  char*id;  // optional
+  int64_t total;  // optional
+} VirtualDevice;
+
+// VirtualDeviceLoadMatch is the typed request payload for VirtualDevice.load.
+typedef struct {
+  char*id;
+  int64_t skip;  // optional
+  char*sorting_direction;  // optional
+  char*sorting_field;  // optional
+  int64_t take;  // optional
+} VirtualDeviceLoadMatch;
 
 #endif // BLUEFINDECRYPTXP2PE_ENTITY_TYPES_H

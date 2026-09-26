@@ -346,18 +346,11 @@ public final class BluefinDecryptxP2peSDK {
     return DeviceCustodyDetailEntity(self, entopts)
   }
 
-  // DeviceCustodyList returns a DeviceCustodyList entity bound to this client.
-  // Idiomatic usage: try client.DeviceCustodyList().list(nil) or
-  // try client.DeviceCustodyList().load(vm(("id", .string("..."))), nil).
-  public func DeviceCustodyList(_ entopts: VMap? = nil) -> BluefinDecryptxP2peEntityBase {
-    return DeviceCustodyListEntity(self, entopts)
-  }
-
-  // DeviceList returns a DeviceList entity bound to this client.
-  // Idiomatic usage: try client.DeviceList().list(nil) or
-  // try client.DeviceList().load(vm(("id", .string("..."))), nil).
-  public func DeviceList(_ entopts: VMap? = nil) -> BluefinDecryptxP2peEntityBase {
-    return DeviceListEntity(self, entopts)
+  // DeviceCustodyListItem returns a DeviceCustodyListItem entity bound to this client.
+  // Idiomatic usage: try client.DeviceCustodyListItem().list(nil) or
+  // try client.DeviceCustodyListItem().load(vm(("id", .string("..."))), nil).
+  public func DeviceCustodyListItem(_ entopts: VMap? = nil) -> BluefinDecryptxP2peEntityBase {
+    return DeviceCustodyListItemEntity(self, entopts)
   }
 
   // DeviceReceiveResult returns a DeviceReceiveResult entity bound to this client.
@@ -449,6 +442,13 @@ public final class BluefinDecryptxP2peSDK {
   // try client.User().load(vm(("id", .string("..."))), nil).
   public func User(_ entopts: VMap? = nil) -> BluefinDecryptxP2peEntityBase {
     return UserEntity(self, entopts)
+  }
+
+  // VirtualDevice returns a VirtualDevice entity bound to this client.
+  // Idiomatic usage: try client.VirtualDevice().list(nil) or
+  // try client.VirtualDevice().load(vm(("id", .string("..."))), nil).
+  public func VirtualDevice(_ entopts: VMap? = nil) -> BluefinDecryptxP2peEntityBase {
+    return VirtualDeviceEntity(self, entopts)
   }
 
 

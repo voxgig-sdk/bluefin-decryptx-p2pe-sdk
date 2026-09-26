@@ -17,8 +17,7 @@ module SdkClient
   , device
   , device_build
   , device_custody_detail
-  , device_custody_list
-  , device_list
+  , device_custody_list_item
   , device_receive_result
   , device_rki_activate_result
   , device_state
@@ -32,6 +31,7 @@ module SdkClient
   , transaction
   , update_result
   , user
+  , virtual_device
   ) where
 
 import Data.IORef (readIORef)
@@ -93,13 +93,9 @@ device_build client entopts = F.makeEntity client "device_build" entopts
 device_custody_detail :: Client -> Value -> IO Entity
 device_custody_detail client entopts = F.makeEntity client "device_custody_detail" entopts
 
--- | The DeviceCustodyList entity bound to this client.
-device_custody_list :: Client -> Value -> IO Entity
-device_custody_list client entopts = F.makeEntity client "device_custody_list" entopts
-
--- | The DeviceList entity bound to this client.
-device_list :: Client -> Value -> IO Entity
-device_list client entopts = F.makeEntity client "device_list" entopts
+-- | The DeviceCustodyListItem entity bound to this client.
+device_custody_list_item :: Client -> Value -> IO Entity
+device_custody_list_item client entopts = F.makeEntity client "device_custody_list_item" entopts
 
 -- | The DeviceReceiveResult entity bound to this client.
 device_receive_result :: Client -> Value -> IO Entity
@@ -152,4 +148,8 @@ update_result client entopts = F.makeEntity client "update_result" entopts
 -- | The User entity bound to this client.
 user :: Client -> Value -> IO Entity
 user client entopts = F.makeEntity client "user" entopts
+
+-- | The VirtualDevice entity bound to this client.
+virtual_device :: Client -> Value -> IO Entity
+virtual_device client entopts = F.makeEntity client "virtual_device" entopts
 

@@ -20,7 +20,7 @@ import (
 const prompt = "bluefin-decryptx-p2pe"
 
 // entitiesHelp is the space-separated entity list shown by /help.
-const entitiesHelp = "attestation client create_result decryption device device_build device_custody_detail device_custody_list device_list device_receive_result device_rki_activate_result device_state device_type inject_key kif location partner shipment success transaction update_result user"
+const entitiesHelp = "attestation client create_result decryption device device_build device_custody_detail device_custody_list_item device_receive_result device_rki_activate_result device_state device_type inject_key kif location partner shipment success transaction update_result user virtual_device"
 
 func main() {
 	os.Exit(run(os.Args[1:], os.Stdin, os.Stdout, os.Stderr))

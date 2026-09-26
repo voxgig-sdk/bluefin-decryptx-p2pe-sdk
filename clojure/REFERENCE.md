@@ -70,13 +70,9 @@ Create a new `DeviceBuild` entity instance. Pass `nil` for no initial data.
 
 Create a new `DeviceCustodyDetail` entity instance. Pass `nil` for no initial data.
 
-#### `(api/device_custody_list client data)`
+#### `(api/device_custody_list_item client data)`
 
-Create a new `DeviceCustodyList` entity instance. Pass `nil` for no initial data.
-
-#### `(api/device_list client data)`
-
-Create a new `DeviceList` entity instance. Pass `nil` for no initial data.
+Create a new `DeviceCustodyListItem` entity instance. Pass `nil` for no initial data.
 
 #### `(api/device_receive_result client data)`
 
@@ -129,6 +125,10 @@ Create a new `UpdateResult` entity instance. Pass `nil` for no initial data.
 #### `(api/user client data)`
 
 Create a new `User` entity instance. Pass `nil` for no initial data.
+
+#### `(api/virtual_device client data)`
+
+Create a new `VirtualDevice` entity instance. Pass `nil` for no initial data.
 
 #### `(api/options-map client) -> map`
 
@@ -722,12 +722,12 @@ Return the entity name.
 
 ---
 
-## DeviceCustodyList
+## DeviceCustodyListItem
 
 ```clojure
-(require '[sdk.entity.device_custody_list :as e-device_custody_list])
+(require '[sdk.entity.device_custody_list_item :as e-device_custody_list_item])
 
-(def device_custody_list (api/device_custody_list client nil))
+(def device_custody_list_item (api/device_custody_list_item client nil))
 ```
 
 ### Fields
@@ -755,8 +755,8 @@ Return the entity name.
 List entities matching the given criteria. The match is optional — call with `nil` to list all records. Returns a vector and raises on error.
 
 ```clojure
-(doseq [device_custody_list (e-device_custody_list/list (api/device_custody_list client nil) nil nil)]
-  (println device_custody_list))
+(doseq [device_custody_list_item (e-device_custody_list_item/list (api/device_custody_list_item client nil) nil nil)]
+  (println device_custody_list_item))
 ```
 
 ### Common Members
@@ -781,63 +781,7 @@ Set the entity match criteria.
 
 #### `((:make ent)) -> entity`
 
-Create a new `DeviceCustodyList` entity instance with the same options.
-
-#### `((:get-name ent)) -> string`
-
-Return the entity name.
-
-
----
-
-## DeviceList
-
-```clojure
-(require '[sdk.entity.device_list :as e-device_list])
-
-(def device_list (api/device_list client nil))
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `data` | `vector` | No | List of Devices. |
-| `total` | `long` | No | Total number of Devices available (not the number of Users in the response). |
-
-### Operations
-
-#### `(load ent reqmatch ctrl) -> map`
-
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
-
-```clojure
-(def result (e-device_list/load (api/device_list client nil) (vs/jm "share_partner_to" "share_partner_to") nil))
-```
-
-### Common Members
-
-State accessors are stored on the entity map and called via keyword lookup.
-
-#### `((:data-get ent)) -> map`
-
-Get the entity data.
-
-#### `((:data-set ent) data)`
-
-Set the entity data.
-
-#### `((:match-get ent)) -> map`
-
-Get the entity match criteria.
-
-#### `((:match-set ent) match)`
-
-Set the entity match criteria.
-
-#### `((:make ent)) -> entity`
-
-Create a new `DeviceList` entity instance with the same options.
+Create a new `DeviceCustodyListItem` entity instance with the same options.
 
 #### `((:get-name ent)) -> string`
 
@@ -1867,22 +1811,79 @@ Return the entity name.
 
 ---
 
+## VirtualDevice
+
+```clojure
+(require '[sdk.entity.virtual_device :as e-virtual_device])
+
+(def virtual_device (api/virtual_device client nil))
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `data` | `vector` | No | List of Devices. |
+| `id` | `string` | No |  |
+| `total` | `long` | No | Total number of Devices available (not the number of Users in the response). |
+
+### Operations
+
+#### `(load ent reqmatch ctrl) -> map`
+
+Load a single entity matching the given criteria. Returns the entity data and raises on error.
+
+```clojure
+(def result (e-virtual_device/load (api/virtual_device client nil) (vs/jm "id" "virtual_device_id") nil))
+```
+
+### Common Members
+
+State accessors are stored on the entity map and called via keyword lookup.
+
+#### `((:data-get ent)) -> map`
+
+Get the entity data.
+
+#### `((:data-set ent) data)`
+
+Set the entity data.
+
+#### `((:match-get ent)) -> map`
+
+Get the entity match criteria.
+
+#### `((:match-set ent) match)`
+
+Set the entity match criteria.
+
+#### `((:make ent)) -> entity`
+
+Create a new `VirtualDevice` entity instance with the same options.
+
+#### `((:get-name ent)) -> string`
+
+Return the entity name.
+
+
+---
+
 ## Features
 
 | Feature | Version | Description |
 | --- | --- | --- |
-| `audit` | 0.0.1 | Structured audit trail of operations |
-| `clienttrack` | 0.0.1 | Client identity and per-request correlation headers |
-| `debug` | 0.0.1 | Request/response capture ring buffer for debugging |
-| `idempotency` | 0.0.1 | Idempotency keys for safe retries of mutating operations |
-| `log` | 0.0.1 | Structured request and response logging |
-| `metrics` | 0.0.1 | Statistics capture: per-operation counters and latency |
-| `paging` | 0.0.1 | Pagination signals for list operations |
-| `ratelimit` | 0.0.1 | Client-side rate limiting via a token bucket |
-| `retry` | 0.0.1 | Automatic retry of transient failures with exponential backoff |
-| `telemetry` | 0.0.1 | Distributed tracing spans with W3C trace-context propagation |
-| `test` | 0.0.1 | In-memory mock transport for testing without a live server |
-| `timeout` | 0.0.1 | Per-request timeout with transport abort |
+| `audit` | 0.0.1 | Audit trail |
+| `clienttrack` | 0.0.1 | Client tracking |
+| `debug` | 0.0.1 | Debug capture |
+| `idempotency` | 0.0.1 | Idempotency |
+| `log` | 0.0.1 | Logging |
+| `metrics` | 0.0.1 | Metrics |
+| `paging` | 0.0.1 | Paging |
+| `ratelimit` | 0.0.1 | Rate limiting |
+| `retry` | 0.0.1 | Retry |
+| `telemetry` | 0.0.1 | Telemetry |
+| `test` | 0.0.1 | Test transport |
+| `timeout` | 0.0.1 | Timeout |
 
 
 Features are activated via the `feature` option:
@@ -1933,7 +1934,7 @@ rather than the transport, so their order does not affect what they observe.
 
 #### `audit`
 
-Structured audit trail of operations.
+Audit trail.
 
 **Configuration**
 
@@ -1964,7 +1965,7 @@ its default unless you name it.
 
 #### `clienttrack`
 
-Client identity and per-request correlation headers.
+Client tracking.
 
 **Configuration**
 
@@ -1996,7 +1997,7 @@ its default unless you name it.
 
 #### `debug`
 
-Request/response capture ring buffer for debugging.
+Debug capture.
 
 **Configuration**
 
@@ -2027,7 +2028,7 @@ its default unless you name it.
 
 #### `idempotency`
 
-Idempotency keys for safe retries of mutating operations.
+Idempotency.
 
 **Configuration**
 
@@ -2058,7 +2059,7 @@ its default unless you name it.
 
 #### `log`
 
-Structured request and response logging.
+Logging.
 
 **Configuration**
 
@@ -2087,7 +2088,7 @@ its default unless you name it.
 
 #### `metrics`
 
-Statistics capture: per-operation counters and latency.
+Metrics.
 
 **Configuration**
 
@@ -2115,7 +2116,7 @@ its default unless you name it.
 
 #### `paging`
 
-Pagination signals for list operations.
+Paging.
 
 **Configuration**
 
@@ -2150,7 +2151,7 @@ its default unless you name it.
 
 #### `ratelimit`
 
-Client-side rate limiting via a token bucket.
+Rate limiting.
 
 **Configuration**
 
@@ -2181,7 +2182,7 @@ its default unless you name it.
 
 #### `retry`
 
-Automatic retry of transient failures with exponential backoff.
+Retry.
 
 **Configuration**
 
@@ -2215,7 +2216,7 @@ its default unless you name it.
 
 #### `telemetry`
 
-Distributed tracing spans with W3C trace-context propagation.
+Telemetry.
 
 **Configuration**
 
@@ -2246,7 +2247,7 @@ its default unless you name it.
 
 #### `test`
 
-In-memory mock transport for testing without a live server.
+Test transport.
 
 **Configuration**
 
@@ -2277,7 +2278,7 @@ its default unless you name it.
 
 #### `timeout`
 
-Per-request timeout with transport abort.
+Timeout.
 
 **Configuration**
 

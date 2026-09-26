@@ -1,7 +1,7 @@
 // Typed models for the BluefinDecryptxP2pe SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types come from the
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types come from the
 // canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 
@@ -221,7 +221,7 @@ export interface DeviceCustodyDetailLoadMatch {
   serial_number: string
 }
 
-export interface DeviceCustodyList {
+export interface DeviceCustodyListItem {
   completeDate?: string
   created?: string
   createdBy: Record<string, any>
@@ -237,23 +237,10 @@ export interface DeviceCustodyList {
   version?: number
 }
 
-export interface DeviceCustodyListListMatch {
+export interface DeviceCustodyListItemListMatch {
   device_type: string
   serial_number: string
   skip?: number
-  take?: number
-}
-
-export interface DeviceList {
-  data?: any[]
-  total?: number
-}
-
-export interface DeviceListLoadMatch {
-  share_partner_to: string
-  skip?: number
-  sorting_direction?: string
-  sorting_field?: string
   take?: number
 }
 
@@ -671,5 +658,19 @@ export interface UserLoadMatch {
 
 export interface UserRemoveMatch {
   id: string
+}
+
+export interface VirtualDevice {
+  data?: any[]
+  id?: string
+  total?: number
+}
+
+export interface VirtualDeviceLoadMatch {
+  id: string
+  skip?: number
+  sorting_direction?: string
+  sorting_field?: string
+  take?: number
 }
 

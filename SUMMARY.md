@@ -98,7 +98,7 @@ Key fields to recognise:
 - `custodian`: Reference to the associated User resource. When used for POST and PATCH API calls, the reference must contain the User&#39;s id.
 - `device`: Reference to the associated Device resource. When used for POST and PATCH API calls, the reference can contain either the ID or Serial Number. With GET API calls, both properties are included in the response.
 
-### [DeviceCustodyList](docs/api/device_custody_list.html)
+### [DeviceCustodyListItem](docs/api/device_custody_list_item.html)
 
 Results: Device Custody list.
 
@@ -111,17 +111,6 @@ Key fields to recognise:
 - `createdBy`: Reference to the associated User resource. When used for POST and PATCH API calls, the reference must contain the User&#39;s id.
 - `custodian`: Reference to the associated User resource. When used for POST and PATCH API calls, the reference must contain the User&#39;s id.
 - `device`: Reference to the associated Device resource. When used for POST and PATCH API calls, the reference can contain either the ID or Serial Number. With GET API calls, both properties are included in the response.
-
-### [DeviceList](docs/api/device_list.html)
-
-Results: Virtual Device list.
-
-SDK operations: `load`.
-
-Key fields to recognise:
-
-- `data`: List of Devices.
-- `total`: Total number of Devices available (not the number of Users in the response).
 
 ### [DeviceReceiveResult](docs/api/device_receive_result.html)
 
@@ -287,6 +276,18 @@ Key fields to recognise:
 - `firstName`: The User&#39;s name.
 - `id`: This resource&#39;s unique identifier.
 
+### [VirtualDevice](docs/api/virtual_device.html)
+
+Results: Virtual Device list.
+
+SDK operations: `load`.
+
+Key fields to recognise:
+
+- `data`: List of Devices.
+- `id`: This resource&#39;s unique identifier.
+- `total`: Total number of Devices available (not the number of Users in the response).
+
 ### Route map
 
 Use this map to locate a capability. Consult the entity reference before supplying request data; routes for the same operation can require different fields.
@@ -309,8 +310,7 @@ Use this map to locate a capability. Consult the entity reference before supplyi
 | [DeviceBuild](docs/api/device_build.html) | `list` | `GET /deviceBuilds` | Required |
 | [DeviceBuild](docs/api/device_build.html) | `load` | `GET /deviceBuilds/{id}` | Required |
 | [DeviceCustodyDetail](docs/api/device_custody_detail.html) | `load` | `GET /devices/{serialNumber}/{deviceType}/custody/{id}` | Required |
-| [DeviceCustodyList](docs/api/device_custody_list.html) | `list` | `GET /devices/{serialNumber}/{deviceType}/custody` | Required |
-| [DeviceList](docs/api/device_list.html) | `load` | `GET /virtualDevices/{sharePartnerTo}` | Required |
+| [DeviceCustodyListItem](docs/api/device_custody_list_item.html) | `list` | `GET /devices/{serialNumber}/{deviceType}/custody` | Required |
 | [DeviceReceiveResult](docs/api/device_receive_result.html) | `create` | `POST /devices/receive` | Required |
 | [DeviceRkiActivateResult](docs/api/device_rki_activate_result.html) | `create` | `POST /devices/rki/activate` | Required |
 | [DeviceState](docs/api/device_state.html) | `list` | `GET /deviceStates` | Required |
@@ -345,6 +345,7 @@ Use this map to locate a capability. Consult the entity reference before supplyi
 | [UpdateResult](docs/api/update_result.html) | `update` | `PATCH /users/{id}` | Required |
 | [User](docs/api/user.html) | `load` | `GET /users/{id}` | Required |
 | [User](docs/api/user.html) | `remove` | `DELETE /users/{id}` | Required |
+| [VirtualDevice](docs/api/virtual_device.html) | `load` | `GET /virtualDevices/{sharePartnerTo}` | Required |
 
 ## Connect to the API
 
@@ -412,8 +413,8 @@ Use the MCP server to expose supported API operations to an MCP client.
 
 Repository directory: `go-mcp/`. Not published. Build from the go-mcp directory.
 
-- `bluefin-decryptx-p2pe_list`: List records for an entity. Supported entities: `attestation`, `client`, `device`, `device_build`, `device_custody_list`, `device_state`, `device_type`, `inject_key`, `kif`, `location`, `partner`, `shipment`, `transaction`, `update_result`.
-- `bluefin-decryptx-p2pe_load`: Load one record for an entity. Supported entities: `attestation`, `client`, `device`, `device_build`, `device_custody_detail`, `device_list`, `device_type`, `inject_key`, `location`, `partner`, `shipment`, `transaction`, `user`.
+- `bluefin-decryptx-p2pe_list`: List records for an entity. Supported entities: `attestation`, `client`, `device`, `device_build`, `device_custody_list_item`, `device_state`, `device_type`, `inject_key`, `kif`, `location`, `partner`, `shipment`, `transaction`, `update_result`.
+- `bluefin-decryptx-p2pe_load`: Load one record for an entity. Supported entities: `attestation`, `client`, `device`, `device_build`, `device_custody_detail`, `device_type`, `inject_key`, `location`, `partner`, `shipment`, `transaction`, `user`, `virtual_device`.
 
 ## Operational features
 

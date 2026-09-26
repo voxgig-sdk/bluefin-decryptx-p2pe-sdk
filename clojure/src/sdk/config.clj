@@ -10,32 +10,39 @@
           (vs/jm
             "name" "client"
             "short" "Reference to the associated Client resource."
+            "title" "Client"
             "type" "`$OBJECT`")
           (vs/jm
             "format" "datetime"
             "name" "completeDate"
             "short" "The date and time that the Attestation took place."
+            "title" "Complete Date"
             "type" "`$STRING`")
           (vs/jm
             "format" "datetime"
             "name" "created"
             "short" "Creation timestamp in ISO 8601 format."
+            "title" "Created"
             "type" "`$STRING`")
           (vs/jm
             "name" "device"
             "short" "Reference to the associated Device resource."
+            "title" "Device"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "id"
             "short" "This resource's unique identifier."
+            "title" "Id"
             "type" "`$STRING`")
           (vs/jm
             "name" "name"
             "short" "Text describing the attestation."
+            "title" "Name"
             "type" "`$STRING`")
           (vs/jm
             "name" "notes"
             "short" "Free form field that allows the Client associate notes with the Attestation."
+            "title" "Notes"
             "type" "`$STRING`"))
         "id" (vs/jm
           "field" "id"
@@ -53,6 +60,7 @@
                 "orig" "/attestations"
                 "parts" (vs/jt
                   "attestations")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "attestations"))
@@ -90,6 +98,7 @@
                 "orig" "/attestations"
                 "parts" (vs/jt
                   "attestations")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "attestations"))
@@ -120,6 +129,7 @@
                 "parts" (vs/jt
                   "attestations"
                   "{id}")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "attestations")
@@ -142,49 +152,60 @@
                 "req" true
                 "type" "`$OBJECT`"))
             "short" "Reference to the associated User resource."
+            "title" "Contact"
             "type" "`$OBJECT`")
           (vs/jm
             "format" "datetime"
             "name" "created"
             "short" "Creation timestamp in ISO 8601 format."
+            "title" "Created"
             "type" "`$STRING`")
           (vs/jm
             "name" "directPartner"
             "short" "Reference to the associated Partner."
+            "title" "Direct Partner"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "id"
             "short" "This resource's unique identifier."
+            "title" "Id"
             "type" "`$STRING`")
           (vs/jm
             "name" "isActive"
             "short" "This property indicates if the Client account is active or disabled."
+            "title" "Is Active"
             "type" "`$BOOLEAN`")
           (vs/jm
             "name" "location"
             "req" true
             "short" "Reference to the associated Location resource."
+            "title" "Location"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "mid"
             "short" "Some Partners will have an merchant ids on their own software offerings."
+            "title" "Mid"
             "type" "`$STRING`")
           (vs/jm
             "format" "datetime"
             "name" "modified"
             "short" "Last modified timestamp."
+            "title" "Modified"
             "type" "`$STRING`")
           (vs/jm
             "name" "name"
             "short" "The Client's name."
+            "title" "Name"
             "type" "`$STRING`")
           (vs/jm
             "name" "partner"
             "short" "Reference to the Client's root Partner."
+            "title" "Partner"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "version"
             "short" "The number of times that this resource has been updated."
+            "title" "Version"
             "type" "`$INTEGER`"))
         "id" (vs/jm
           "field" "id"
@@ -202,6 +223,7 @@
                 "orig" "/clients"
                 "parts" (vs/jt
                   "clients")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "clients"))
@@ -239,6 +261,7 @@
                 "orig" "/clients"
                 "parts" (vs/jt
                   "clients")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "clients"))
@@ -269,6 +292,7 @@
                 "parts" (vs/jt
                   "clients"
                   "{id}")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "clients")
@@ -299,6 +323,7 @@
                 "parts" (vs/jt
                   "clients"
                   "{id}")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "clients")
@@ -366,12 +391,13 @@
         "relations" (vs/jm
           "ancestors" (vs/jt
             (vs/jt
-              "device"))))
+              "$.main.kit.entity.device"))))
       "decryption" (vs/jm
         "fields" (vs/jt
           (vs/jm
             "name" "success"
             "short" "true if the payload decryption was successful."
+            "title" "Success"
             "type" "`$BOOLEAN`"))
         "name" "decryption"
         "op" (vs/jm
@@ -386,6 +412,7 @@
                 "orig" "/decryption"
                 "parts" (vs/jt
                   "decryption")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "decryption"))
@@ -401,126 +428,154 @@
             "name" "activatedBy"
             "req" true
             "short" "Reference to the associated User resource."
+            "title" "Activated By"
             "type" "`$OBJECT`")
           (vs/jm
             "format" "datetime"
             "name" "activationDate"
             "short" "Timestamp from when the Device was activated."
+            "title" "Activation Date"
             "type" "`$STRING`")
           (vs/jm
             "name" "alternateKey"
             "short" "The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging."
+            "title" "Alternate Key"
             "type" "`$STRING`")
           (vs/jm
             "format" "datetime"
             "name" "auditNextDate"
             "short" "Date and time that the Device is due its next PCI Audit."
+            "title" "Audit Next Date"
             "type" "`$STRING`")
           (vs/jm
             "format" "datetime"
             "name" "auditNotificationDate"
             "short" "Date and time that a notification should be sent that a PCI audit is due."
+            "title" "Audit Notification Date"
             "type" "`$STRING`")
           (vs/jm
             "name" "client"
             "short" "Reference to the associated Client resource."
+            "title" "Client"
             "type" "`$OBJECT`")
           (vs/jm
             "format" "datetime"
             "name" "created"
             "short" "Creation timestamp in ISO 8601 format."
+            "title" "Created"
             "type" "`$STRING`")
           (vs/jm
             "name" "createdBy"
             "req" true
             "short" "Reference to the associated User resource."
+            "title" "Created By"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "deviceBuild"
             "short" "Reference to the associated Device Build resource."
+            "title" "Device Build"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "deviceState"
             "short" "Reference to the associated Device State resource."
+            "title" "Device State"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "deviceType"
             "short" "Reference to the associated Device Type resource."
+            "title" "Device Type"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "errorCounter"
             "short" "The number times the Device has been in error."
+            "title" "Error Counter"
             "type" "`$INTEGER`")
           (vs/jm
             "format" "datetime"
             "name" "errorLastDate"
             "short" "Timestamp from the last time that the Device had an error."
+            "title" "Error Last Date"
             "type" "`$STRING`")
           (vs/jm
             "name" "id"
             "short" "The Device's unique identifier."
+            "title" "Id"
             "type" "`$STRING`")
           (vs/jm
             "name" "initializedBy"
             "req" true
             "short" "Reference to the associated User resource."
+            "title" "Initialized By"
             "type" "`$OBJECT`")
           (vs/jm
             "format" "datetime"
             "name" "initializedDate"
             "short" "Timestamp from when the Device was initialized."
+            "title" "Initialized Date"
             "type" "`$STRING`")
           (vs/jm
             "name" "injectKey"
             "short" "Reference to the associated Device resource."
+            "title" "Inject Key"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "isVirtual"
             "short" "Indicates if a Device is Virtual (represents a Device shared with a partner)."
+            "title" "Is Virtual"
             "type" "`$BOOLEAN`")
           (vs/jm
             "name" "kif"
             "short" "Reference to the associated KIF resource."
+            "title" "Kif"
             "type" "`$OBJECT`")
           (vs/jm
             "format" "datetime"
             "name" "lastActivityDate"
             "short" "Timestamp from the last time that the Device was used."
+            "title" "Last Activity Date"
             "type" "`$STRING`")
           (vs/jm
             "name" "location"
             "req" true
             "short" "Reference to the associated Location resource."
+            "title" "Location"
             "type" "`$OBJECT`")
           (vs/jm
             "format" "datetime"
             "name" "modified"
             "short" "Last modified timestamp."
+            "title" "Modified"
             "type" "`$STRING`")
           (vs/jm
             "name" "modifiedBy"
             "req" true
             "short" "Reference to the associated User resource."
+            "title" "Modified By"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "name"
             "short" "The Device's name."
+            "title" "Name"
             "type" "`$STRING`")
           (vs/jm
             "name" "notes"
             "short" "Arbitary note that can be attached to a Device entry."
+            "title" "Notes"
             "type" "`$STRING`")
           (vs/jm
             "name" "partner"
             "short" "Reference to the associated Partner."
+            "title" "Partner"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "serialNumber"
             "short" "The Device's serial number."
+            "title" "Serial Number"
             "type" "`$STRING`")
           (vs/jm
             "name" "version"
             "short" "The number of times that this resource has been updated."
+            "title" "Version"
             "type" "`$INTEGER`"))
         "id" (vs/jm
           "field" "id"
@@ -538,6 +593,7 @@
                 "orig" "/devices"
                 "parts" (vs/jt
                   "devices")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "devices"))
@@ -606,6 +662,7 @@
                 "orig" "/devices"
                 "parts" (vs/jt
                   "devices")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "devices"))
@@ -682,6 +739,7 @@
                 "parts" (vs/jt
                   "devices"
                   "{id}")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "devices")
@@ -694,73 +752,86 @@
                   "req" "`reqdata`"
                   "res" "`body`")))))
         "relations" (vs/jm
-          "ancestors" (vs/jt
-            (vs/jt
-              "device"))))
+          "ancestors" (vs/jt)))
       "device_build" (vs/jm
         "fields" (vs/jt
           (vs/jm
             "name" "appVersion"
             "short" "If a Device Type has more than one Application Code version the supported version is specified here."
+            "title" "App Version"
             "type" "`$STRING`")
           (vs/jm
             "name" "buildNumber"
             "short" "The Build Number."
+            "title" "Build Number"
             "type" "`$STRING`")
           (vs/jm
             "name" "configFileName"
             "short" "The name of the configuration file that is uploaded to the device."
+            "title" "Config File Name"
             "type" "`$STRING`")
           (vs/jm
             "format" "date-time"
             "name" "created"
             "short" "Creation timestamp in ISO 8601 format."
+            "title" "Created"
             "type" "`$STRING`")
           (vs/jm
             "name" "deviceType"
             "short" "The Device Type Name."
+            "title" "Device Type"
             "type" "`$STRING`")
           (vs/jm
             "name" "firmwareVersion"
             "short" "A list of firmware versions that this Device Build covers."
+            "title" "Firmware Version"
             "type" "`$STRING`")
           (vs/jm
             "name" "hardwareVersion"
             "short" "A list of hardware versions that this Device Build covers."
+            "title" "Hardware Version"
             "type" "`$STRING`")
           (vs/jm
             "format" "int64"
             "name" "id"
             "short" "This resource's unique identifier."
+            "title" "Id"
             "type" "`$INTEGER`")
           (vs/jm
             "name" "isActive"
             "short" "This property indicates if the device build is still active and not succeeded by subsequent build."
+            "title" "Is Active"
             "type" "`$BOOLEAN`")
           (vs/jm
             "format" "date-time"
             "name" "modified"
             "short" "Last modified timestamp."
+            "title" "Modified"
             "type" "`$STRING`")
           (vs/jm
             "name" "name"
             "short" "The Device Builds's name."
+            "title" "Name"
             "type" "`$STRING`")
           (vs/jm
             "name" "notes"
             "short" "Notes attached to the device build by Bluefin CISO."
+            "title" "Notes"
             "type" "`$STRING`")
           (vs/jm
             "name" "version"
             "short" "The number of times that this resource has been updated."
+            "title" "Version"
             "type" "`$INTEGER`")
           (vs/jm
             "name" "whiteListingBinRanges"
             "short" "A comma separated list of BIN ranges that aren't encrypted by the terminal."
+            "title" "White Listing Bin Ranges"
             "type" "`$STRING`")
           (vs/jm
             "name" "whiteListingUsed"
             "short" "This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal."
+            "title" "White Listing Used"
             "type" "`$BOOLEAN`"))
         "id" (vs/jm
           "field" "id"
@@ -796,6 +867,7 @@
                 "orig" "/deviceBuilds"
                 "parts" (vs/jt
                   "deviceBuilds")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "deviceBuilds"))
@@ -826,6 +898,7 @@
                 "parts" (vs/jt
                   "deviceBuilds"
                   "{id}")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "deviceBuilds")
@@ -845,61 +918,74 @@
             "format" "date-time"
             "name" "completeDate"
             "short" "The date and time that the Custody change took place."
+            "title" "Complete Date"
             "type" "`$STRING`")
           (vs/jm
             "format" "date-time"
             "name" "created"
             "short" "Creation timestamp in ISO 8601 format."
+            "title" "Created"
             "type" "`$STRING`")
           (vs/jm
             "name" "createdBy"
             "req" true
             "short" "Reference to the associated User resource."
+            "title" "Created By"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "custodian"
             "req" true
             "short" "Reference to the associated User resource."
+            "title" "Custodian"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "device"
             "short" "Reference to the associated Device resource."
+            "title" "Device"
             "type" "`$OBJECT`")
           (vs/jm
             "format" "int64"
             "name" "id"
             "short" "This resource's unique identifier."
+            "title" "Id"
             "type" "`$INTEGER`")
           (vs/jm
             "name" "location"
             "req" true
             "short" "Reference to the associated Location resource."
+            "title" "Location"
             "type" "`$OBJECT`")
           (vs/jm
             "format" "date-time"
             "name" "modified"
             "short" "Last modified timestamp."
+            "title" "Modified"
             "type" "`$STRING`")
           (vs/jm
             "name" "modifiedBy"
             "req" true
             "short" "Reference to the associated User resource."
+            "title" "Modified By"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "notes"
             "short" "Free form field that allows the Client associate notes with the Custody Change."
+            "title" "Notes"
             "type" "`$STRING`")
           (vs/jm
             "name" "status"
             "short" "Reference to the associated Custody Status."
+            "title" "Status"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "transferMethod"
             "short" "Reference to the associated Transfer Method."
+            "title" "Transfer Method"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "version"
             "short" "The number of times that this resource has been updated."
+            "title" "Version"
             "type" "`$INTEGER`"))
         "id" (vs/jm
           "field" "id"
@@ -966,73 +1052,86 @@
         "relations" (vs/jm
           "ancestors" (vs/jt
             (vs/jt
-              "device"))))
-      "device_custody_list" (vs/jm
+              "$.main.kit.entity.device"))))
+      "device_custody_list_item" (vs/jm
         "fields" (vs/jt
           (vs/jm
             "format" "date-time"
             "name" "completeDate"
             "short" "The date and time that the Custody change took place."
+            "title" "Complete Date"
             "type" "`$STRING`")
           (vs/jm
             "format" "date-time"
             "name" "created"
             "short" "Creation timestamp in ISO 8601 format."
+            "title" "Created"
             "type" "`$STRING`")
           (vs/jm
             "name" "createdBy"
             "req" true
             "short" "Reference to the associated User resource."
+            "title" "Created By"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "custodian"
             "req" true
             "short" "Reference to the associated User resource."
+            "title" "Custodian"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "device"
             "short" "Reference to the associated Device resource."
+            "title" "Device"
             "type" "`$OBJECT`")
           (vs/jm
             "format" "int64"
             "name" "id"
             "short" "This resource's unique identifier."
+            "title" "Id"
             "type" "`$INTEGER`")
           (vs/jm
             "name" "location"
             "req" true
             "short" "Reference to the associated Location resource."
+            "title" "Location"
             "type" "`$OBJECT`")
           (vs/jm
             "format" "date-time"
             "name" "modified"
             "short" "Last modified timestamp."
+            "title" "Modified"
             "type" "`$STRING`")
           (vs/jm
             "name" "modifiedBy"
             "req" true
             "short" "Reference to the associated User resource."
+            "title" "Modified By"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "notes"
             "short" "Free form field that allows the Client associate notes with the Custody Change."
+            "title" "Notes"
             "type" "`$STRING`")
           (vs/jm
             "name" "status"
             "short" "Reference to the associated Custody Status."
+            "title" "Status"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "transferMethod"
             "short" "Reference to the associated Transfer Method."
+            "title" "Transfer Method"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "version"
             "short" "The number of times that this resource has been updated."
+            "title" "Version"
             "type" "`$INTEGER`"))
         "id" (vs/jm
           "field" "id"
           "name" "id")
-        "name" "device_custody_list"
+        "name" "device_custody_list_item"
         "op" (vs/jm
           "list" (vs/jm
             "input" "data"
@@ -1099,91 +1198,14 @@
         "relations" (vs/jm
           "ancestors" (vs/jt
             (vs/jt
-              "device"))))
-      "device_list" (vs/jm
-        "fields" (vs/jt
-          (vs/jm
-            "name" "data"
-            "short" "List of Devices."
-            "type" "`$ARRAY`")
-          (vs/jm
-            "name" "total"
-            "short" "Total number of Devices available (not the number of Users in the response)."
-            "type" "`$INTEGER`"))
-        "name" "device_list"
-        "op" (vs/jm
-          "load" (vs/jm
-            "input" "data"
-            "name" "load"
-            "points" (vs/jt
-              (vs/jm
-                "args" (vs/jm
-                  "params" (vs/jt
-                    (vs/jm
-                      "kind" "param"
-                      "name" "share_partner_to"
-                      "orig" "share_partner_to"
-                      "reqd" true
-                      "type" "`$STRING`"))
-                  "query" (vs/jt
-                    (vs/jm
-                      "example" 0
-                      "kind" "query"
-                      "name" "skip"
-                      "orig" "skip"
-                      "type" "`$INTEGER`")
-                    (vs/jm
-                      "example" "asc"
-                      "kind" "query"
-                      "name" "sorting_direction"
-                      "orig" "sorting_direction"
-                      "type" "`$STRING`")
-                    (vs/jm
-                      "example" "serialnumber"
-                      "kind" "query"
-                      "name" "sorting_field"
-                      "orig" "sorting_field"
-                      "type" "`$STRING`")
-                    (vs/jm
-                      "example" 10
-                      "kind" "query"
-                      "name" "take"
-                      "orig" "take"
-                      "type" "`$INTEGER`")))
-                "kind" "http"
-                "method" "GET"
-                "orig" "/virtualDevices/{sharePartnerTo}"
-                "parts" (vs/jt
-                  "virtualDevices"
-                  "{share_partner_to}")
-                "rename" (vs/jm
-                  "param" (vs/jm
-                    "sharePartnerTo" "share_partner_to"))
-                "segments" (vs/jt
-                  (vs/jm
-                    "lit" "virtualDevices")
-                  (vs/jm
-                    "var" "share_partner_to"))
-                "select" (vs/jm
-                  "exist" (vs/jt
-                    "share_partner_to"
-                    "skip"
-                    "sorting_direction"
-                    "sorting_field"
-                    "take"))
-                "transform" (vs/jm
-                  "req" "`reqdata`"
-                  "res" "`body`")))))
-        "relations" (vs/jm
-          "ancestors" (vs/jt
-            (vs/jt
-              "virtual_device"))))
+              "$.main.kit.entity.device"))))
       "device_receive_result" (vs/jm
         "fields" (vs/jt
           (vs/jm
             "name" "success"
             "req" true
             "short" "Indicates if the action succeeded."
+            "title" "Success"
             "type" "`$BOOLEAN`"))
         "name" "device_receive_result"
         "op" (vs/jm
@@ -1199,6 +1221,7 @@
                 "parts" (vs/jt
                   "devices"
                   "receive")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "devices")
@@ -1216,6 +1239,7 @@
             "name" "success"
             "req" true
             "short" "Indicates if the RKI activation succeeded."
+            "title" "Success"
             "type" "`$BOOLEAN`"))
         "name" "device_rki_activate_result"
         "op" (vs/jm
@@ -1232,6 +1256,7 @@
                   "devices"
                   "rki"
                   "activate")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "devices")
@@ -1251,10 +1276,12 @@
             "format" "int64"
             "name" "id"
             "short" "Unique identifier for this Device state."
+            "title" "Id"
             "type" "`$INTEGER`")
           (vs/jm
             "name" "name"
             "short" "Descriptive name for this Device state."
+            "title" "Name"
             "type" "`$STRING`"))
         "id" (vs/jm
           "field" "id"
@@ -1272,6 +1299,7 @@
                 "orig" "/deviceStates"
                 "parts" (vs/jt
                   "deviceStates")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "deviceStates"))
@@ -1287,50 +1315,62 @@
             "format" "datetime"
             "name" "created"
             "short" "Creation timestamp in ISO 8601 format."
+            "title" "Created"
             "type" "`$STRING`")
           (vs/jm
             "name" "deviceTypeMode"
             "short" "The Device type."
+            "title" "Device Type Mode"
             "type" "`$STRING`")
           (vs/jm
             "name" "hardwareVersion"
             "short" "The Device hardware version."
+            "title" "Hardware Version"
             "type" "`$STRING`")
           (vs/jm
             "name" "id"
             "short" "Unique idenifier."
+            "title" "Id"
             "type" "`$STRING`")
           (vs/jm
             "name" "isActive"
             "short" "This property indicates if the DeviceType is active."
+            "title" "Is Active"
             "type" "`$BOOLEAN`")
           (vs/jm
             "name" "manufacturer"
             "short" "The Device manufacturer."
+            "title" "Manufacturer"
             "type" "`$STRING`")
           (vs/jm
             "name" "model"
             "short" "The Device model."
+            "title" "Model"
             "type" "`$STRING`")
           (vs/jm
             "format" "datetime"
             "name" "modified"
             "short" "Last modified timestamp."
+            "title" "Modified"
             "type" "`$STRING`")
           (vs/jm
             "name" "name"
             "short" "The DeviceType name."
+            "title" "Name"
             "type" "`$STRING`")
           (vs/jm
             "name" "photoUrl"
+            "title" "Photo Url"
             "type" "`$STRING`")
           (vs/jm
             "name" "productName"
             "short" "The Device name."
+            "title" "Product Name"
             "type" "`$STRING`")
           (vs/jm
             "name" "version"
             "short" "The number of times that this resource has been updated."
+            "title" "Version"
             "type" "`$INTEGER`"))
         "id" (vs/jm
           "field" "id"
@@ -1348,6 +1388,7 @@
                 "orig" "/deviceTypes"
                 "parts" (vs/jt
                   "deviceTypes")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "deviceTypes"))
@@ -1374,6 +1415,7 @@
                 "parts" (vs/jt
                   "deviceTypes"
                   "{id}")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "deviceTypes")
@@ -1393,35 +1435,43 @@
             "format" "datetime"
             "name" "created"
             "short" "Creation timestamp in ISO 8601 format."
+            "title" "Created"
             "type" "`$STRING`")
           (vs/jm
             "name" "id"
             "short" "unique idenifier"
+            "title" "Id"
             "type" "`$STRING`")
           (vs/jm
             "name" "isActive"
             "short" "Active flag, inactive keys cannot be assigned to devices."
+            "title" "Is Active"
             "type" "`$BOOLEAN`")
           (vs/jm
             "name" "isP2PE"
             "short" "Flags if a key is for a P2PE compliant cypher."
+            "title" "Is P2 Pe"
             "type" "`$BOOLEAN`")
           (vs/jm
             "name" "keyType"
             "short" "The cipher type that the key works with."
+            "title" "Key Type"
             "type" "`$STRING`")
           (vs/jm
             "format" "datetime"
             "name" "modified"
             "short" "Last modified timestamp in ISO 8601 format."
+            "title" "Modified"
             "type" "`$STRING`")
           (vs/jm
             "name" "name"
             "short" "Key name."
+            "title" "Name"
             "type" "`$STRING`")
           (vs/jm
             "name" "version"
             "short" "The number of times that this resource has been updated."
+            "title" "Version"
             "type" "`$INTEGER`"))
         "id" (vs/jm
           "field" "id"
@@ -1439,6 +1489,7 @@
                 "orig" "/injectKeys"
                 "parts" (vs/jt
                   "injectKeys")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "injectKeys"))
@@ -1465,6 +1516,7 @@
                 "parts" (vs/jt
                   "injectKeys"
                   "{id}")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "injectKeys")
@@ -1484,10 +1536,12 @@
             "format" "int64"
             "name" "id"
             "short" "This resource's unique identifier."
+            "title" "Id"
             "type" "`$INTEGER`")
           (vs/jm
             "name" "name"
             "short" "The KIF's name."
+            "title" "Name"
             "type" "`$STRING`"))
         "id" (vs/jm
           "field" "id"
@@ -1505,6 +1559,7 @@
                 "orig" "/kifs"
                 "parts" (vs/jt
                   "kifs")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "kifs"))
@@ -1519,96 +1574,119 @@
           (vs/jm
             "name" "address1"
             "short" "The Location's street address."
+            "title" "Address1"
             "type" "`$STRING`")
           (vs/jm
             "name" "address2"
             "short" "The Location's street address."
+            "title" "Address2"
             "type" "`$STRING`")
           (vs/jm
             "name" "billingId"
             "short" "\\?"
+            "title" "Billing Id"
             "type" "`$STRING`")
           (vs/jm
             "name" "city"
             "short" "The Location's city."
+            "title" "City"
             "type" "`$STRING`")
           (vs/jm
             "name" "country"
             "short" "The Location's country."
+            "title" "Country"
             "type" "`$STRING`")
           (vs/jm
             "format" "datetime"
             "name" "created"
             "short" "Creation timestamp in ISO 8601 format."
+            "title" "Created"
             "type" "`$STRING`")
           (vs/jm
             "name" "customReference"
             "short" "A Partner specified reference for a location."
+            "title" "Custom Reference"
             "type" "`$STRING`")
           (vs/jm
             "name" "id"
             "short" "This resource's unique identifier."
+            "title" "Id"
             "type" "`$STRING`")
           (vs/jm
             "name" "locationType"
             "short" "The Location's clasification."
+            "title" "Location Type"
             "type" "`$STRING`")
           (vs/jm
             "name" "mailAddress1"
             "short" "The Location's street address."
+            "title" "Mail Address1"
             "type" "`$STRING`")
           (vs/jm
             "name" "mailAddress2"
             "short" "The Location's street address."
+            "title" "Mail Address2"
             "type" "`$STRING`")
           (vs/jm
             "name" "mailCity"
             "short" "The Location's city."
+            "title" "Mail City"
             "type" "`$STRING`")
           (vs/jm
             "name" "mailCountry"
             "short" "The Location's street address."
+            "title" "Mail Country"
             "type" "`$STRING`")
           (vs/jm
             "name" "mailPostalCode"
             "short" "The Location's postal code."
+            "title" "Mail Postal Code"
             "type" "`$STRING`")
           (vs/jm
             "name" "mailStateProvince"
             "short" "The Location's street state or province."
+            "title" "Mail State Province"
             "type" "`$STRING`")
           (vs/jm
             "format" "datetime"
             "name" "modified"
             "short" "Last modified timestamp."
+            "title" "Modified"
             "type" "`$STRING`")
           (vs/jm
             "name" "name"
             "short" "The Location's name."
+            "title" "Name"
             "type" "`$STRING`")
           (vs/jm
             "name" "nameOfBusiness"
             "short" "The name of the business at this location."
+            "title" "Name Of Business"
             "type" "`$STRING`")
           (vs/jm
             "name" "notes"
             "short" "Note for delivery driver."
+            "title" "Notes"
             "type" "`$STRING`")
           (vs/jm
             "name" "postalCode"
             "short" "The Location's postal code."
+            "title" "Postal Code"
             "type" "`$STRING`")
           (vs/jm
             "name" "stateProvince"
             "short" "The Location's street state or province."
+            "title" "State Province"
             "type" "`$STRING`")
           (vs/jm
             "name" "uniqueId"
             "short" "Unique Identifier for the Location."
+            "title" "Unique Id"
             "type" "`$STRING`")
           (vs/jm
             "name" "version"
             "short" "The number of times that this resource has been updated."
+            "title" "Version"
             "type" "`$INTEGER`"))
         "id" (vs/jm
           "field" "id"
@@ -1626,6 +1704,7 @@
                 "orig" "/locations"
                 "parts" (vs/jt
                   "locations")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "locations"))
@@ -1663,6 +1742,7 @@
                 "orig" "/locations"
                 "parts" (vs/jt
                   "locations")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "locations"))
@@ -1693,6 +1773,7 @@
                 "parts" (vs/jt
                   "locations"
                   "{id}")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "locations")
@@ -1723,6 +1804,7 @@
                 "parts" (vs/jt
                   "locations"
                   "{id}")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "locations")
@@ -1741,10 +1823,12 @@
           (vs/jm
             "name" "billingId"
             "short" "The Partner's billing identifier."
+            "title" "Billing Id"
             "type" "`$STRING`")
           (vs/jm
             "name" "clientCanOrderEquipment"
             "short" "This property indicates if the Partner is allowed to order Equipment."
+            "title" "Client Can Order Equipment"
             "type" "`$BOOLEAN`")
           (vs/jm
             "name" "contact"
@@ -1753,53 +1837,65 @@
                 "req" true
                 "type" "`$OBJECT`"))
             "short" "Reference to the associated User resource."
+            "title" "Contact"
             "type" "`$OBJECT`")
           (vs/jm
             "format" "datetime"
             "name" "created"
             "short" "Creation timestamp in ISO 8601 format."
+            "title" "Created"
             "type" "`$STRING`")
           (vs/jm
             "name" "id"
             "short" "This resource's unique identifier."
+            "title" "Id"
             "type" "`$STRING`")
           (vs/jm
             "name" "isActive"
             "short" "This property indicates if the Parter account is active or disabled."
+            "title" "Is Active"
             "type" "`$BOOLEAN`")
           (vs/jm
             "name" "location"
             "req" true
             "short" "Reference to the associated Location resource."
+            "title" "Location"
             "type" "`$OBJECT`")
           (vs/jm
             "format" "datetime"
             "name" "modified"
             "short" "Last modified timestamp."
+            "title" "Modified"
             "type" "`$STRING`")
           (vs/jm
             "name" "name"
             "short" "The Partner's name."
+            "title" "Name"
             "type" "`$STRING`")
           (vs/jm
             "name" "parent"
             "short" "Reference to the associated Partner."
+            "title" "Parent"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "partnerId"
             "short" "The Partner's id."
+            "title" "Partner Id"
             "type" "`$STRING`")
           (vs/jm
             "name" "reference"
             "short" "The Partner's reference string."
+            "title" "Reference"
             "type" "`$STRING`")
           (vs/jm
             "name" "verificationPhrase"
             "short" "The verification phrase is a message that the Partner creates."
+            "title" "Verification Phrase"
             "type" "`$STRING`")
           (vs/jm
             "name" "version"
             "short" "The number of times that this resource has been updated."
+            "title" "Version"
             "type" "`$INTEGER`"))
         "id" (vs/jm
           "field" "id"
@@ -1817,6 +1913,7 @@
                 "orig" "/partners"
                 "parts" (vs/jt
                   "partners")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "partners"))
@@ -1853,6 +1950,7 @@
                 "orig" "/partners"
                 "parts" (vs/jt
                   "partners")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "partners"))
@@ -1883,6 +1981,7 @@
                 "parts" (vs/jt
                   "partners"
                   "{id}")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "partners")
@@ -1901,62 +2000,76 @@
           (vs/jm
             "name" "carrier"
             "short" "The name of the courier."
+            "title" "Carrier"
             "type" "`$STRING`")
           (vs/jm
             "name" "client"
             "short" "Reference to the associated Client resource."
+            "title" "Client"
             "type" "`$OBJECT`")
           (vs/jm
             "format" "datetime"
             "name" "created"
             "short" "Creation timestamp in ISO 8601 format."
+            "title" "Created"
             "type" "`$STRING`")
           (vs/jm
             "format" "datetime"
             "name" "dateReceived"
             "short" "The date and time that a package is recieved."
+            "title" "Date Received"
             "type" "`$STRING`")
           (vs/jm
             "format" "datetime"
             "name" "dateShipped"
             "short" "The date and time that a package is shipped."
+            "title" "Date Shipped"
             "type" "`$STRING`")
           (vs/jm
             "name" "dcKif"
             "short" "Reference to the associated KIF resource."
+            "title" "Dc Kif"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "id"
             "short" "This resource's unique identifier."
+            "title" "Id"
             "type" "`$STRING`")
           (vs/jm
             "name" "items"
+            "title" "Items"
             "type" "`$ARRAY`")
           (vs/jm
             "name" "kif"
             "short" "Reference to the associated KIF resource."
+            "title" "Kif"
             "type" "`$OBJECT`")
           (vs/jm
             "format" "datetime"
             "name" "modified"
             "short" "Last modified timestamp."
+            "title" "Modified"
             "type" "`$STRING`")
           (vs/jm
             "name" "partner"
             "short" "Reference to the associated Partner."
+            "title" "Partner"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "shipmentType"
             "short" "The type of shipment."
+            "title" "Shipment Type"
             "type" "`$STRING`")
           (vs/jm
             "name" "tracking"
             "short" "The courier's tracking number."
+            "title" "Tracking"
             "type" "`$STRING`")
           (vs/jm
             "format" "int32"
             "name" "version"
             "short" "The number of times that this resource has been updated."
+            "title" "Version"
             "type" "`$INTEGER`"))
         "id" (vs/jm
           "field" "id"
@@ -1974,6 +2087,7 @@
                 "orig" "/shipments"
                 "parts" (vs/jt
                   "shipments")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "shipments"))
@@ -2016,6 +2130,7 @@
                 "orig" "/shipments"
                 "parts" (vs/jt
                   "shipments")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "shipments"))
@@ -2047,6 +2162,7 @@
                 "parts" (vs/jt
                   "shipments"
                   "{id}")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "shipments")
@@ -2065,6 +2181,7 @@
           (vs/jm
             "name" "success"
             "short" "Indicates if the action was a success."
+            "title" "Success"
             "type" "`$BOOLEAN`"))
         "name" "success"
         "op" (vs/jm
@@ -2137,110 +2254,134 @@
         "relations" (vs/jm
           "ancestors" (vs/jt
             (vs/jt
-              "virtual_device"))))
+              "$.main.kit.entity.virtual_device"))))
       "transaction" (vs/jm
         "fields" (vs/jt
           (vs/jm
             "name" "alternateKey"
             "short" "The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging."
+            "title" "Alternate Key"
             "type" "`$STRING`")
           (vs/jm
             "name" "client"
             "short" "Reference to the associated Client resource."
+            "title" "Client"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "clientRef"
             "short" "Client Reference property that is included in the decrypt API call."
+            "title" "Client Ref"
             "type" "`$STRING`")
           (vs/jm
             "format" "datetime"
             "name" "created"
             "short" "Creation timestamp in ISO 8601 format."
+            "title" "Created"
             "type" "`$STRING`")
           (vs/jm
             "format" "int32"
             "name" "decrypted"
             "short" "A Transcation can process muliple decryptions."
+            "title" "Decrypted"
             "type" "`$INTEGER`")
           (vs/jm
             "name" "deviceName"
             "short" "The name of the Device that generated the payload to decrypt."
+            "title" "Device Name"
             "type" "`$STRING`")
           (vs/jm
             "name" "directPartner"
             "short" "Reference to the associated Partner."
+            "title" "Direct Partner"
             "type" "`$OBJECT`")
           (vs/jm
             "format" "int32"
             "name" "encrypted"
             "short" "A Transcation can process muliple encryptions."
+            "title" "Encrypted"
             "type" "`$INTEGER`")
           (vs/jm
             "format" "datetime"
             "name" "endDate"
             "short" "Timestamp from the end of the transaction."
+            "title" "End Date"
             "type" "`$STRING`")
           (vs/jm
             "name" "errCode"
             "short" "The error code that is sent in response to a failed decrypt API call."
+            "title" "Err Code"
             "type" "`$STRING`")
           (vs/jm
             "name" "errMessage"
             "short" "The error messge that is sent in response to a failed decrypt API call."
+            "title" "Err Message"
             "type" "`$STRING`")
           (vs/jm
             "name" "id"
             "short" "This resource's unique identifier."
+            "title" "Id"
             "type" "`$STRING`")
           (vs/jm
             "name" "ipAddress"
             "short" "The IP address of the http client that makes the decrypt API call."
+            "title" "Ip Address"
             "type" "`$STRING`")
           (vs/jm
             "name" "isVirtual"
             "short" "Indicates if the Transaction came from a virtual Device."
+            "title" "Is Virtual"
             "type" "`$BOOLEAN`")
           (vs/jm
             "name" "keyType"
             "short" "The type of cipher used during decrytion."
+            "title" "Key Type"
             "type" "`$STRING`")
           (vs/jm
             "name" "location"
             "req" true
             "short" "Reference to the associated Location resource."
+            "title" "Location"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "messageId"
             "short" "Message ID."
+            "title" "Message Id"
             "type" "`$STRING`")
           (vs/jm
             "name" "method"
             "short" "The decryption cypher/method."
+            "title" "Method"
             "type" "`$STRING`")
           (vs/jm
             "name" "partner"
             "short" "Reference to the associated Partner."
+            "title" "Partner"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "reference"
             "short" "The reference property that the Client includes in the decrypt API call."
+            "title" "Reference"
             "type" "`$STRING`")
           (vs/jm
             "name" "serialNumber"
             "short" "The serial number of the Device that generated the payload to decrypt."
+            "title" "Serial Number"
             "type" "`$STRING`")
           (vs/jm
             "format" "datetime"
             "name" "startDate"
             "short" "Timestamp from the beginning of the transaction."
+            "title" "Start Date"
             "type" "`$STRING`")
           (vs/jm
             "name" "success"
             "short" "The success indicator."
+            "title" "Success"
             "type" "`$BOOLEAN`")
           (vs/jm
             "name" "transactionSource"
             "short" "The source of the Transaction."
+            "title" "Transaction Source"
             "type" "`$STRING`"))
         "id" (vs/jm
           "field" "id"
@@ -2258,6 +2399,7 @@
                 "orig" "/transactions"
                 "parts" (vs/jt
                   "transactions")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "transactions"))
@@ -2345,6 +2487,7 @@
                 "orig" "/transactions"
                 "parts" (vs/jt
                   "transactions")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "transactions"))
@@ -2385,6 +2528,7 @@
                 "parts" (vs/jt
                   "transactions"
                   "{id}")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "transactions")
@@ -2403,50 +2547,62 @@
           (vs/jm
             "name" "client"
             "short" "Reference to the associated Client resource."
+            "title" "Client"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "email"
             "short" "The User's email address."
+            "title" "Email"
             "type" "`$STRING`")
           (vs/jm
             "name" "firstName"
             "short" "The User's name."
+            "title" "First Name"
             "type" "`$STRING`")
           (vs/jm
             "name" "id"
             "short" "ID of newly created resource"
+            "title" "Id"
             "type" "`$STRING`")
           (vs/jm
             "name" "isActive"
             "short" "This property indicates if the User account is active or disabled."
+            "title" "Is Active"
             "type" "`$BOOLEAN`")
           (vs/jm
             "name" "kif"
             "short" "Reference to the associated KIF resource."
+            "title" "Kif"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "lastName"
             "short" "The User's Surname."
+            "title" "Last Name"
             "type" "`$STRING`")
           (vs/jm
             "name" "partner"
             "short" "Reference to the associated Partner."
+            "title" "Partner"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "phone"
             "short" "The User's phone number without dashes, spaces, or brackets."
+            "title" "Phone"
             "type" "`$STRING`")
           (vs/jm
             "name" "userName"
             "short" "The User's unique username."
+            "title" "User Name"
             "type" "`$STRING`")
           (vs/jm
             "name" "userRole"
             "short" "Reference to the associated User Role."
+            "title" "User Role"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "version"
             "short" "The number of times that this resource has been updated."
+            "title" "Version"
             "type" "`$INTEGER`"))
         "id" (vs/jm
           "field" "id"
@@ -2464,6 +2620,7 @@
                 "orig" "/users"
                 "parts" (vs/jt
                   "users")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "users"))
@@ -2510,6 +2667,7 @@
                 "orig" "/users"
                 "parts" (vs/jt
                   "users")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "users"))
@@ -2542,6 +2700,7 @@
                 "parts" (vs/jt
                   "clients"
                   "{id}")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "clients")
@@ -2568,6 +2727,7 @@
                 "parts" (vs/jt
                   "devices"
                   "{id}")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "devices")
@@ -2594,6 +2754,7 @@
                 "parts" (vs/jt
                   "locations"
                   "{id}")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "locations")
@@ -2620,6 +2781,7 @@
                 "parts" (vs/jt
                   "partners"
                   "{id}")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "partners")
@@ -2646,6 +2808,7 @@
                 "parts" (vs/jt
                   "shipments"
                   "{id}")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "shipments")
@@ -2672,6 +2835,7 @@
                 "parts" (vs/jt
                   "transactions"
                   "{id}")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "transactions")
@@ -2698,6 +2862,7 @@
                 "parts" (vs/jt
                   "users"
                   "{id}")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "users")
@@ -2716,60 +2881,74 @@
           (vs/jm
             "name" "client"
             "short" "Reference to the associated Client resource."
+            "title" "Client"
             "type" "`$OBJECT`")
           (vs/jm
             "format" "datetime"
             "name" "created"
             "short" "Creation timestamp in ISO 8601 format."
+            "title" "Created"
             "type" "`$STRING`")
           (vs/jm
             "name" "email"
             "short" "The User's email address."
+            "title" "Email"
             "type" "`$STRING`")
           (vs/jm
             "name" "firstName"
             "short" "The User's name."
+            "title" "First Name"
             "type" "`$STRING`")
           (vs/jm
             "name" "id"
             "short" "This resource's unique identifier."
+            "title" "Id"
             "type" "`$STRING`")
           (vs/jm
             "name" "isActive"
             "short" "This property indicates if the User account is active or disabled."
+            "title" "Is Active"
             "type" "`$BOOLEAN`")
           (vs/jm
             "name" "kif"
             "short" "Reference to the associated KIF resource."
+            "title" "Kif"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "lastName"
             "short" "The User's Surname."
+            "title" "Last Name"
             "type" "`$STRING`")
           (vs/jm
             "format" "datetime"
             "name" "modified"
             "short" "Last modified timestamp."
+            "title" "Modified"
             "type" "`$STRING`")
           (vs/jm
             "name" "partner"
             "short" "Reference to the associated Partner."
+            "title" "Partner"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "phone"
             "short" "The User's phone number without dashes, spaces, or brackets."
+            "title" "Phone"
             "type" "`$STRING`")
           (vs/jm
             "name" "userName"
             "short" "The User's unique username."
+            "title" "User Name"
             "type" "`$STRING`")
           (vs/jm
             "name" "userRole"
             "short" "Reference to the associated User Role."
+            "title" "User Role"
             "type" "`$OBJECT`")
           (vs/jm
             "name" "version"
             "short" "The number of times that this resource has been updated."
+            "title" "Version"
             "type" "`$INTEGER`"))
         "id" (vs/jm
           "field" "id"
@@ -2795,6 +2974,7 @@
                 "parts" (vs/jt
                   "users"
                   "{id}")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "users")
@@ -2825,6 +3005,7 @@
                 "parts" (vs/jt
                   "users"
                   "{id}")
+                "rename" (vs/jm)
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "users")
@@ -2833,6 +3014,91 @@
                 "select" (vs/jm
                   "exist" (vs/jt
                     "id"))
+                "transform" (vs/jm
+                  "req" "`reqdata`"
+                  "res" "`body`")))))
+        "relations" (vs/jm
+          "ancestors" (vs/jt)))
+      "virtual_device" (vs/jm
+        "fields" (vs/jt
+          (vs/jm
+            "name" "data"
+            "short" "List of Devices."
+            "title" "Data"
+            "type" "`$ARRAY`")
+          (vs/jm
+            "name" "id"
+            "title" "Id"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "total"
+            "short" "Total number of Devices available (not the number of Users in the response)."
+            "title" "Total"
+            "type" "`$INTEGER`"))
+        "id" (vs/jm
+          "field" "id"
+          "name" "id")
+        "name" "virtual_device"
+        "op" (vs/jm
+          "load" (vs/jm
+            "input" "data"
+            "name" "load"
+            "points" (vs/jt
+              (vs/jm
+                "args" (vs/jm
+                  "params" (vs/jt
+                    (vs/jm
+                      "kind" "param"
+                      "name" "id"
+                      "orig" "share_partner_to"
+                      "reqd" true
+                      "type" "`$STRING`"))
+                  "query" (vs/jt
+                    (vs/jm
+                      "example" 0
+                      "kind" "query"
+                      "name" "skip"
+                      "orig" "skip"
+                      "type" "`$INTEGER`")
+                    (vs/jm
+                      "example" "asc"
+                      "kind" "query"
+                      "name" "sorting_direction"
+                      "orig" "sorting_direction"
+                      "type" "`$STRING`")
+                    (vs/jm
+                      "example" "serialnumber"
+                      "kind" "query"
+                      "name" "sorting_field"
+                      "orig" "sorting_field"
+                      "type" "`$STRING`")
+                    (vs/jm
+                      "example" 10
+                      "kind" "query"
+                      "name" "take"
+                      "orig" "take"
+                      "type" "`$INTEGER`")))
+                "kind" "http"
+                "method" "GET"
+                "orig" "/virtualDevices/{sharePartnerTo}"
+                "parts" (vs/jt
+                  "virtualDevices"
+                  "{id}")
+                "rename" (vs/jm
+                  "param" (vs/jm
+                    "sharePartnerTo" "id"))
+                "segments" (vs/jt
+                  (vs/jm
+                    "lit" "virtualDevices")
+                  (vs/jm
+                    "var" "id"))
+                "select" (vs/jm
+                  "exist" (vs/jt
+                    "id"
+                    "skip"
+                    "sorting_direction"
+                    "sorting_field"
+                    "take"))
                 "transform" (vs/jm
                   "req" "`reqdata`"
                   "res" "`body`")))))
@@ -2999,8 +3265,7 @@
         "device" (vs/jm)
         "device_build" (vs/jm)
         "device_custody_detail" (vs/jm)
-        "device_custody_list" (vs/jm)
-        "device_list" (vs/jm)
+        "device_custody_list_item" (vs/jm)
         "device_receive_result" (vs/jm)
         "device_rki_activate_result" (vs/jm)
         "device_state" (vs/jm)
@@ -3013,7 +3278,8 @@
         "success" (vs/jm)
         "transaction" (vs/jm)
         "update_result" (vs/jm)
-        "user" (vs/jm))
+        "user" (vs/jm)
+        "virtual_device" (vs/jm))
       "headers" (vs/jm
         "content-type" "application/json"))))
 

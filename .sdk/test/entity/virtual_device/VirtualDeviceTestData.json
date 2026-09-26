@@ -1,0 +1,36 @@
+{
+  "existing": {
+    "virtual_device": {
+      "VIRTUAL_DEVICE00": {
+        "data": [],
+        "id": "VIRTUAL_DEVICE00",
+        "total": 32
+      },
+      "VIRTUAL_DEVICE01": {
+        "data": [],
+        "id": "VIRTUAL_DEVICE01",
+        "total": 62
+      },
+      "VIRTUAL_DEVICE02": {
+        "data": [],
+        "id": "VIRTUAL_DEVICE02",
+        "total": 92
+      }
+    }
+  },
+  "new": {
+    "virtual_device": {
+      "virtual_device_ref01": {
+        "data": [],
+        "total": 122
+      }
+    }
+  },
+  "requests": {
+    "GET /virtualDevices/{sharePartnerTo}": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

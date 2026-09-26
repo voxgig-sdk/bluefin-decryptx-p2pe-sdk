@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.KifEntity = void 0;
 const BluefinDecryptxP2peEntityBase_1 = require("../BluefinDecryptxP2peEntityBase");
-// TODO: needs Entity superclass
 class KifEntity extends BluefinDecryptxP2peEntityBase_1.BluefinDecryptxP2peEntityBase {
     constructor(client, entopts) {
         super(client, entopts);

@@ -20,10 +20,8 @@ object SdkEntityTestMain {
     DeviceBuildDirectTest.run(rep)
     DeviceCustodyDetailEntityTest.run(rep)
     DeviceCustodyDetailDirectTest.run(rep)
-    DeviceCustodyListEntityTest.run(rep)
-    DeviceCustodyListDirectTest.run(rep)
-    DeviceListEntityTest.run(rep)
-    DeviceListDirectTest.run(rep)
+    DeviceCustodyListItemEntityTest.run(rep)
+    DeviceCustodyListItemDirectTest.run(rep)
     DeviceReceiveResultEntityTest.run(rep)
     DeviceRkiActivateResultEntityTest.run(rep)
     DeviceStateEntityTest.run(rep)
@@ -47,6 +45,8 @@ object SdkEntityTestMain {
     UpdateResultDirectTest.run(rep)
     UserEntityTest.run(rep)
     UserDirectTest.run(rep)
+    VirtualDeviceEntityTest.run(rep)
+    VirtualDeviceDirectTest.run(rep)
 
     ReadmeExamplesTest.run(rep)
 

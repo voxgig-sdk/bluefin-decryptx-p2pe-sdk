@@ -1,0 +1,35 @@
+# BasicSuccessFlow
+
+main: kit: flow: BasicSuccessFlow:
+{
+  entity: "success",
+  kind: "basic",
+  name: "BasicSuccessFlow",
+  step: [
+    {
+      i: {
+        ref: "success_ref01"
+      }
+
+      m: {
+        share_partner_to: "share_partner_to01"
+      }
+
+      o: "create"
+    }
+
+    {
+      i: {
+        ref: "success_ref01",
+        suffix: "_rm0"
+      }
+
+      m: {
+        id: "success01"
+      }
+
+      o: "remove"
+    }
+  ],
+  "key$": "BasicSuccessFlow"
+}

@@ -73,13 +73,9 @@ Create a new `DeviceBuildEntity` instance bound to this client.
 
 Create a new `DeviceCustodyDetailEntity` instance bound to this client.
 
-#### `device_custody_list(entopts = Value::undef()) -> std::shared_ptr<DeviceCustodyListEntity>`
+#### `device_custody_list_item(entopts = Value::undef()) -> std::shared_ptr<DeviceCustodyListItemEntity>`
 
-Create a new `DeviceCustodyListEntity` instance bound to this client.
-
-#### `device_list(entopts = Value::undef()) -> std::shared_ptr<DeviceListEntity>`
-
-Create a new `DeviceListEntity` instance bound to this client.
+Create a new `DeviceCustodyListItemEntity` instance bound to this client.
 
 #### `device_receive_result(entopts = Value::undef()) -> std::shared_ptr<DeviceReceiveResultEntity>`
 
@@ -132,6 +128,10 @@ Create a new `UpdateResultEntity` instance bound to this client.
 #### `user(entopts = Value::undef()) -> std::shared_ptr<UserEntity>`
 
 Create a new `UserEntity` instance bound to this client.
+
+#### `virtual_device(entopts = Value::undef()) -> std::shared_ptr<VirtualDeviceEntity>`
+
+Create a new `VirtualDeviceEntity` instance bound to this client.
 
 #### `optionsMap() -> Value`
 
@@ -634,10 +634,10 @@ Return the entity name.
 
 ---
 
-## DeviceCustodyListEntity
+## DeviceCustodyListItemEntity
 
 ```cpp
-auto device_custody_list = client->device_custody_list();
+auto device_custody_list_item = client->device_custody_list_item();
 ```
 
 ### Fields
@@ -665,9 +665,9 @@ auto device_custody_list = client->device_custody_list();
 List entities matching the given criteria. The match is optional — pass `Value::undef()` to list all records. Returns a Value list and throws on error.
 
 ```cpp
-Value results = client->device_custody_list()->list(Value::undef(), Value::undef());
-for (const auto& device_custody_list : *results.as_list()) {
-  std::cout << Struct::jsonify(device_custody_list) << std::endl;
+Value results = client->device_custody_list_item()->list(Value::undef(), Value::undef());
+for (const auto& device_custody_list_item : *results.as_list()) {
+  std::cout << Struct::jsonify(device_custody_list_item) << std::endl;
 }
 ```
 
@@ -683,51 +683,7 @@ Get the entity match criteria (no argument) or set it (with a map argument).
 
 #### `make() -> EntityPtr`
 
-Create a new `DeviceCustodyListEntity` instance with the same options.
-
-#### `getName() -> std::string`
-
-Return the entity name.
-
-
----
-
-## DeviceListEntity
-
-```cpp
-auto device_list = client->device_list();
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `data` | `std::vector<Value>` | No | List of Devices. |
-| `total` | `int64_t` | No | Total number of Devices available (not the number of Users in the response). |
-
-### Operations
-
-#### `load(reqmatch, ctrl) -> Value`
-
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
-
-```cpp
-Value result = client->device_list()->load(vmap({{"share_partner_to", Value("share_partner_to")}}), Value::undef());
-```
-
-### Common Methods
-
-#### `data(arg = Value::undef()) -> Value`
-
-Get the entity data (no argument) or set it (with a map argument).
-
-#### `match(arg = Value::undef()) -> Value`
-
-Get the entity match criteria (no argument) or set it (with a map argument).
-
-#### `make() -> EntityPtr`
-
-Create a new `DeviceListEntity` instance with the same options.
+Create a new `DeviceCustodyListItemEntity` instance with the same options.
 
 #### `getName() -> std::string`
 
@@ -1592,22 +1548,67 @@ Return the entity name.
 
 ---
 
+## VirtualDeviceEntity
+
+```cpp
+auto virtual_device = client->virtual_device();
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `data` | `std::vector<Value>` | No | List of Devices. |
+| `id` | `std::string` | No |  |
+| `total` | `int64_t` | No | Total number of Devices available (not the number of Users in the response). |
+
+### Operations
+
+#### `load(reqmatch, ctrl) -> Value`
+
+Load a single entity matching the given criteria. Returns the entity data and throws on error.
+
+```cpp
+Value result = client->virtual_device()->load(vmap({{"id", Value("virtual_device_id")}}), Value::undef());
+```
+
+### Common Methods
+
+#### `data(arg = Value::undef()) -> Value`
+
+Get the entity data (no argument) or set it (with a map argument).
+
+#### `match(arg = Value::undef()) -> Value`
+
+Get the entity match criteria (no argument) or set it (with a map argument).
+
+#### `make() -> EntityPtr`
+
+Create a new `VirtualDeviceEntity` instance with the same options.
+
+#### `getName() -> std::string`
+
+Return the entity name.
+
+
+---
+
 ## Features
 
 | Feature | Version | Description |
 | --- | --- | --- |
-| `audit` | 0.0.1 | Structured audit trail of operations |
-| `clienttrack` | 0.0.1 | Client identity and per-request correlation headers |
-| `debug` | 0.0.1 | Request/response capture ring buffer for debugging |
-| `idempotency` | 0.0.1 | Idempotency keys for safe retries of mutating operations |
-| `log` | 0.0.1 | Structured request and response logging |
-| `metrics` | 0.0.1 | Statistics capture: per-operation counters and latency |
-| `paging` | 0.0.1 | Pagination signals for list operations |
-| `ratelimit` | 0.0.1 | Client-side rate limiting via a token bucket |
-| `retry` | 0.0.1 | Automatic retry of transient failures with exponential backoff |
-| `telemetry` | 0.0.1 | Distributed tracing spans with W3C trace-context propagation |
-| `test` | 0.0.1 | In-memory mock transport for testing without a live server |
-| `timeout` | 0.0.1 | Per-request timeout with transport abort |
+| `audit` | 0.0.1 | Audit trail |
+| `clienttrack` | 0.0.1 | Client tracking |
+| `debug` | 0.0.1 | Debug capture |
+| `idempotency` | 0.0.1 | Idempotency |
+| `log` | 0.0.1 | Logging |
+| `metrics` | 0.0.1 | Metrics |
+| `paging` | 0.0.1 | Paging |
+| `ratelimit` | 0.0.1 | Rate limiting |
+| `retry` | 0.0.1 | Retry |
+| `telemetry` | 0.0.1 | Telemetry |
+| `test` | 0.0.1 | Test transport |
+| `timeout` | 0.0.1 | Timeout |
 
 
 Features are activated via the `feature` option:
@@ -1657,7 +1658,7 @@ rather than the transport, so their order does not affect what they observe.
 
 #### `audit`
 
-Structured audit trail of operations.
+Audit trail.
 
 **Configuration**
 
@@ -1688,7 +1689,7 @@ its default unless you name it.
 
 #### `clienttrack`
 
-Client identity and per-request correlation headers.
+Client tracking.
 
 **Configuration**
 
@@ -1720,7 +1721,7 @@ its default unless you name it.
 
 #### `debug`
 
-Request/response capture ring buffer for debugging.
+Debug capture.
 
 **Configuration**
 
@@ -1751,7 +1752,7 @@ its default unless you name it.
 
 #### `idempotency`
 
-Idempotency keys for safe retries of mutating operations.
+Idempotency.
 
 **Configuration**
 
@@ -1782,7 +1783,7 @@ its default unless you name it.
 
 #### `log`
 
-Structured request and response logging.
+Logging.
 
 **Configuration**
 
@@ -1811,7 +1812,7 @@ its default unless you name it.
 
 #### `metrics`
 
-Statistics capture: per-operation counters and latency.
+Metrics.
 
 **Configuration**
 
@@ -1839,7 +1840,7 @@ its default unless you name it.
 
 #### `paging`
 
-Pagination signals for list operations.
+Paging.
 
 **Configuration**
 
@@ -1874,7 +1875,7 @@ its default unless you name it.
 
 #### `ratelimit`
 
-Client-side rate limiting via a token bucket.
+Rate limiting.
 
 **Configuration**
 
@@ -1905,7 +1906,7 @@ its default unless you name it.
 
 #### `retry`
 
-Automatic retry of transient failures with exponential backoff.
+Retry.
 
 **Configuration**
 
@@ -1939,7 +1940,7 @@ its default unless you name it.
 
 #### `telemetry`
 
-Distributed tracing spans with W3C trace-context propagation.
+Telemetry.
 
 **Configuration**
 
@@ -1970,7 +1971,7 @@ its default unless you name it.
 
 #### `test`
 
-In-memory mock transport for testing without a live server.
+Test transport.
 
 **Configuration**
 
@@ -2001,7 +2002,7 @@ its default unless you name it.
 
 #### `timeout`
 
-Per-request timeout with transport abort.
+Timeout.
 
 **Configuration**
 

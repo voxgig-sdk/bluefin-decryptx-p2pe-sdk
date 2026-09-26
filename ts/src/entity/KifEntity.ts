@@ -19,7 +19,6 @@ import type {
   KifListMatch,
 } from '../BluefinDecryptxP2peTypes'
 
-// TODO: needs Entity superclass
 class KifEntity extends BluefinDecryptxP2peEntityBase<Kif> {
 
   constructor(client: BluefinDecryptxP2peSDK, entopts: any) {

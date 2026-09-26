@@ -1,0 +1,192 @@
+# Entity: device_custody_detail
+
+main: kit: entity: device_custody_detail: {
+
+  alias: field: {}
+
+  fields: {
+    completeDate: {
+      fo: "date-time"
+      h: "Complete Date"
+      n: "completeDate"
+      r: false
+      sh: "The date and time that the Custody change took place."
+      t: "`$STRING`"
+    }
+    created: {
+      fo: "date-time"
+      h: "Created"
+      n: "created"
+      r: false
+      sh: "Creation timestamp in ISO 8601 format."
+      t: "`$STRING`"
+    }
+    createdBy: {
+      h: "Created By"
+      n: "createdBy"
+      r: true
+      sh: "Reference to the associated User resource."
+      t: "`$OBJECT`"
+    }
+    custodian: {
+      h: "Custodian"
+      n: "custodian"
+      r: true
+      sh: "Reference to the associated User resource."
+      t: "`$OBJECT`"
+    }
+    device: {
+      h: "Device"
+      n: "device"
+      r: false
+      sh: "Reference to the associated Device resource."
+      t: "`$OBJECT`"
+    }
+    id: {
+      fo: "int64"
+      h: "Id"
+      n: "id"
+      r: false
+      sh: "This resource's unique identifier."
+      t: "`$INTEGER`"
+    }
+    location: {
+      h: "Location"
+      n: "location"
+      r: true
+      sh: "Reference to the associated Location resource."
+      t: "`$OBJECT`"
+    }
+    modified: {
+      fo: "date-time"
+      h: "Modified"
+      n: "modified"
+      r: false
+      sh: "Last modified timestamp."
+      t: "`$STRING`"
+    }
+    modifiedBy: {
+      h: "Modified By"
+      n: "modifiedBy"
+      r: true
+      sh: "Reference to the associated User resource."
+      t: "`$OBJECT`"
+    }
+    notes: {
+      h: "Notes"
+      n: "notes"
+      r: false
+      sh: "Free form field that allows the Client associate notes with the Custody Change."
+      t: "`$STRING`"
+    }
+    status: {
+      h: "Status"
+      n: "status"
+      r: false
+      sh: "Reference to the associated Custody Status."
+      t: "`$OBJECT`"
+    }
+    transferMethod: {
+      h: "Transfer Method"
+      n: "transferMethod"
+      r: false
+      sh: "Reference to the associated Transfer Method."
+      t: "`$OBJECT`"
+    }
+    version: {
+      h: "Version"
+      n: "version"
+      r: false
+      sh: "The number of times that this resource has been updated."
+      t: "`$INTEGER`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "device_custody_detail"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /devices/{serialNumber}/{deviceType}/custody/{id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "device_type"
+                or: "device_type"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                k: "param"
+                n: "id"
+                or: "id"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                k: "param"
+                n: "serial_number"
+                or: "serial_number"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/devices/{serialNumber}/{deviceType}/custody/{id}"
+          q: {
+            exist: [
+              "device_type"
+              "id"
+              "serial_number"
+            ]
+          }
+          r: {
+            param: {
+              deviceType: "device_type"
+              serialNumber: "serial_number"
+            }
+          }
+          s: [
+            {
+              lit: "devices"
+            }
+            {
+              var: "serial_number"
+            }
+            {
+              var: "device_type"
+            }
+            {
+              lit: "custody"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+  relations: ancestors: [
+    [path("$.main.kit.entity.device")]
+  ]
+
+}

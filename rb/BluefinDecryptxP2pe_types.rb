@@ -2,8 +2,8 @@
 
 # Typed models for the BluefinDecryptxP2pe SDK.
 #
-# GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-# params (op.<name>.points[].args.params[]). Member types come from the
+# GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+# params (op.<name>.points[].g.params[]). Member types come from the
 # canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 # @voxgig/apidef VALID_CANON). Ruby types are unenforced; these YARD
 # annotations document the shapes. Do not edit by hand.
@@ -717,7 +717,7 @@ DeviceCustodyDetailLoadMatch = Struct.new(
   keyword_init: true
 )
 
-# DeviceCustodyList entity data model.
+# DeviceCustodyListItem entity data model.
 #
 # @!attribute [rw] completeDate
 #   @return [String, nil]
@@ -757,7 +757,7 @@ DeviceCustodyDetailLoadMatch = Struct.new(
 #
 # @!attribute [rw] version
 #   @return [Integer, nil]
-DeviceCustodyList = Struct.new(
+DeviceCustodyListItem = Struct.new(
   :completeDate,
   :created,
   :createdBy,
@@ -774,7 +774,7 @@ DeviceCustodyList = Struct.new(
   keyword_init: true
 )
 
-# Request payload for DeviceCustodyList#list.
+# Request payload for DeviceCustodyListItem#list.
 #
 # @!attribute [rw] device_type
 #   @return [String]
@@ -787,48 +787,10 @@ DeviceCustodyList = Struct.new(
 #
 # @!attribute [rw] take
 #   @return [Integer, nil]
-DeviceCustodyListListMatch = Struct.new(
+DeviceCustodyListItemListMatch = Struct.new(
   :device_type,
   :serial_number,
   :skip,
-  :take,
-  keyword_init: true
-)
-
-# DeviceList entity data model.
-#
-# @!attribute [rw] data
-#   @return [Array, nil]
-#
-# @!attribute [rw] total
-#   @return [Integer, nil]
-DeviceList = Struct.new(
-  :data,
-  :total,
-  keyword_init: true
-)
-
-# Request payload for DeviceList#load.
-#
-# @!attribute [rw] share_partner_to
-#   @return [String]
-#
-# @!attribute [rw] skip
-#   @return [Integer, nil]
-#
-# @!attribute [rw] sorting_direction
-#   @return [String, nil]
-#
-# @!attribute [rw] sorting_field
-#   @return [String, nil]
-#
-# @!attribute [rw] take
-#   @return [Integer, nil]
-DeviceListLoadMatch = Struct.new(
-  :share_partner_to,
-  :skip,
-  :sorting_direction,
-  :sorting_field,
   :take,
   keyword_init: true
 )
@@ -2207,6 +2169,48 @@ UserLoadMatch = Struct.new(
 #   @return [String]
 UserRemoveMatch = Struct.new(
   :id,
+  keyword_init: true
+)
+
+# VirtualDevice entity data model.
+#
+# @!attribute [rw] data
+#   @return [Array, nil]
+#
+# @!attribute [rw] id
+#   @return [String, nil]
+#
+# @!attribute [rw] total
+#   @return [Integer, nil]
+VirtualDevice = Struct.new(
+  :data,
+  :id,
+  :total,
+  keyword_init: true
+)
+
+# Request payload for VirtualDevice#load.
+#
+# @!attribute [rw] id
+#   @return [String]
+#
+# @!attribute [rw] skip
+#   @return [Integer, nil]
+#
+# @!attribute [rw] sorting_direction
+#   @return [String, nil]
+#
+# @!attribute [rw] sorting_field
+#   @return [String, nil]
+#
+# @!attribute [rw] take
+#   @return [Integer, nil]
+VirtualDeviceLoadMatch = Struct.new(
+  :id,
+  :skip,
+  :sorting_direction,
+  :sorting_field,
+  :take,
   keyword_init: true
 )
 

@@ -1,0 +1,82 @@
+{
+  "existing": {
+    "device_custody_list_item": {
+      "DEVICE_CUSTODY_LIST_ITEM00": {
+        "completeDate": "s82",
+        "created": "s83",
+        "createdBy": {},
+        "custodian": {},
+        "device": {},
+        "id": "DEVICE_CUSTODY_LIST_ITEM00",
+        "location": {},
+        "modified": "s89",
+        "modifiedBy": {},
+        "notes": "s8b",
+        "status": {},
+        "transferMethod": {},
+        "version": 142,
+        "device_type": "DEVICE_TYPE01",
+        "serial_number": "SERIAL_NUMBER01"
+      },
+      "DEVICE_CUSTODY_LIST_ITEM01": {
+        "completeDate": "s104",
+        "created": "s105",
+        "createdBy": {},
+        "custodian": {},
+        "device": {},
+        "id": "DEVICE_CUSTODY_LIST_ITEM01",
+        "location": {},
+        "modified": "s10b",
+        "modifiedBy": {},
+        "notes": "s10d",
+        "status": {},
+        "transferMethod": {},
+        "version": 272,
+        "device_type": "DEVICE_TYPE01",
+        "serial_number": "SERIAL_NUMBER01"
+      },
+      "DEVICE_CUSTODY_LIST_ITEM02": {
+        "completeDate": "s186",
+        "created": "s187",
+        "createdBy": {},
+        "custodian": {},
+        "device": {},
+        "id": "DEVICE_CUSTODY_LIST_ITEM02",
+        "location": {},
+        "modified": "s18d",
+        "modifiedBy": {},
+        "notes": "s18f",
+        "status": {},
+        "transferMethod": {},
+        "version": 402,
+        "device_type": "DEVICE_TYPE01",
+        "serial_number": "SERIAL_NUMBER01"
+      }
+    }
+  },
+  "new": {
+    "device_custody_list_item": {
+      "device_custody_list_item_ref01": {
+        "completeDate": "s208",
+        "created": "s209",
+        "createdBy": {},
+        "custodian": {},
+        "device": {},
+        "location": {},
+        "modified": "s20f",
+        "modifiedBy": {},
+        "notes": "s211",
+        "status": {},
+        "transferMethod": {},
+        "version": 532
+      }
+    }
+  },
+  "requests": {
+    "GET /devices/{serialNumber}/{deviceType}/custody": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

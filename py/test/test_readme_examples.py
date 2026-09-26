@@ -83,8 +83,7 @@ _ENTITIES = {
     "Device": "device",
     "DeviceBuild": "device_build",
     "DeviceCustodyDetail": "device_custody_detail",
-    "DeviceCustodyList": "device_custody_list",
-    "DeviceList": "device_list",
+    "DeviceCustodyListItem": "device_custody_list_item",
     "DeviceReceiveResult": "device_receive_result",
     "DeviceRkiActivateResult": "device_rki_activate_result",
     "DeviceState": "device_state",
@@ -98,6 +97,7 @@ _ENTITIES = {
     "Transaction": "transaction",
     "UpdateResult": "update_result",
     "User": "user",
+    "VirtualDevice": "virtual_device",
 }
 
 # The three documents held to the gate, tagged by human label.

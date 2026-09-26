@@ -1,0 +1,126 @@
+# Entity: virtual_device
+
+main: kit: entity: virtual_device: {
+
+  alias: field: {}
+
+  fields: {
+    data: {
+      h: "Data"
+      n: "data"
+      r: false
+      sh: "List of Devices."
+      t: "`$ARRAY`"
+    }
+    id: {
+      h: "Id"
+      n: "id"
+      r: false
+      t: "`$STRING`"
+    }
+    total: {
+      h: "Total"
+      n: "total"
+      r: false
+      sh: "Total number of Devices available (not the number of Users in the response)."
+      t: "`$INTEGER`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "virtual_device"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /virtualDevices/{sharePartnerTo}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "share_partner_to"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                ex: 0
+                k: "query"
+                n: "skip"
+                or: "skip"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                ex: "asc"
+                k: "query"
+                n: "sorting_direction"
+                or: "sorting_direction"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                ex: "serialnumber"
+                k: "query"
+                n: "sorting_field"
+                or: "sorting_field"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                ex: 10
+                k: "query"
+                n: "take"
+                or: "take"
+                r: false
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/virtualDevices/{sharePartnerTo}"
+          q: {
+            exist: [
+              "id"
+              "skip"
+              "sorting_direction"
+              "sorting_field"
+              "take"
+            ]
+          }
+          r: {
+            param: {
+              sharePartnerTo: "id"
+            }
+          }
+          s: [
+            {
+              lit: "virtualDevices"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

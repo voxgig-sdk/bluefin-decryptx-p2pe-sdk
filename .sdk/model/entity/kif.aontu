@@ -1,0 +1,59 @@
+# Entity: kif
+
+main: kit: entity: kif: {
+
+  alias: field: {}
+
+  fields: {
+    id: {
+      fo: "int64"
+      h: "Id"
+      n: "id"
+      r: false
+      sh: "This resource's unique identifier."
+      t: "`$INTEGER`"
+    }
+    name: {
+      h: "Name"
+      n: "name"
+      r: false
+      sh: "The KIF's name."
+      t: "`$STRING`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "kif"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /kifs"
+            source: "openapi3"
+            version: 2
+          }
+          m: "GET"
+          o: "/kifs"
+          s: [
+            {
+              lit: "kifs"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.data`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

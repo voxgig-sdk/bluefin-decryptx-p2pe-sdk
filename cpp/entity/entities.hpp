@@ -10,8 +10,7 @@
 #include "device.hpp"
 #include "device_build.hpp"
 #include "device_custody_detail.hpp"
-#include "device_custody_list.hpp"
-#include "device_list.hpp"
+#include "device_custody_list_item.hpp"
 #include "device_receive_result.hpp"
 #include "device_rki_activate_result.hpp"
 #include "device_state.hpp"
@@ -25,5 +24,6 @@
 #include "transaction.hpp"
 #include "update_result.hpp"
 #include "user.hpp"
+#include "virtual_device.hpp"
 
 #endif // SDK_ENTITY_ENTITIES_HPP

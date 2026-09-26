@@ -8,8 +8,7 @@
             [sdk.entity.device :as e-device]
             [sdk.entity.device_build :as e-device_build]
             [sdk.entity.device_custody_detail :as e-device_custody_detail]
-            [sdk.entity.device_custody_list :as e-device_custody_list]
-            [sdk.entity.device_list :as e-device_list]
+            [sdk.entity.device_custody_list_item :as e-device_custody_list_item]
             [sdk.entity.device_receive_result :as e-device_receive_result]
             [sdk.entity.device_rki_activate_result :as e-device_rki_activate_result]
             [sdk.entity.device_state :as e-device_state]
@@ -22,7 +21,8 @@
             [sdk.entity.success :as e-success]
             [sdk.entity.transaction :as e-transaction]
             [sdk.entity.update_result :as e-update_result]
-            [sdk.entity.user :as e-user]))
+            [sdk.entity.user :as e-user]
+            [sdk.entity.virtual_device :as e-virtual_device]))
 
 (def make-sdk client/make-sdk)
 (def test-sdk client/test-sdk)
@@ -52,11 +52,8 @@
 ;; DeviceCustodyDetail accessor: (device_custody_detail client data)
 (defn device_custody_detail [client data] (e-device_custody_detail/make client data))
 
-;; DeviceCustodyList accessor: (device_custody_list client data)
-(defn device_custody_list [client data] (e-device_custody_list/make client data))
-
-;; DeviceList accessor: (device_list client data)
-(defn device_list [client data] (e-device_list/make client data))
+;; DeviceCustodyListItem accessor: (device_custody_list_item client data)
+(defn device_custody_list_item [client data] (e-device_custody_list_item/make client data))
 
 ;; DeviceReceiveResult accessor: (device_receive_result client data)
 (defn device_receive_result [client data] (e-device_receive_result/make client data))
@@ -96,3 +93,6 @@
 
 ;; User accessor: (user client data)
 (defn user [client data] (e-user/make client data))
+
+;; VirtualDevice accessor: (virtual_device client data)
+(defn virtual_device [client data] (e-virtual_device/make client data))

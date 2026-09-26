@@ -1,7 +1,7 @@
 -- Typed models for the BluefinDecryptxP2pe SDK (LuaLS annotations).
 --
--- GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
--- params (op.<name>.points[].args.params[]). Field/param types come from the
+-- GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+-- params (op.<name>.points[].g.params[]). Field/param types come from the
 -- canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 -- @voxgig/apidef VALID_CANON). Annotations only — no runtime effect. Do not
 -- edit by hand.
@@ -200,7 +200,7 @@
 ---@field id string
 ---@field serial_number string
 
----@class DeviceCustodyList
+---@class DeviceCustodyListItem
 ---@field completeDate? string
 ---@field created? string
 ---@field createdBy table
@@ -215,21 +215,10 @@
 ---@field transferMethod? table
 ---@field version? number
 
----@class DeviceCustodyListListMatch
+---@class DeviceCustodyListItemListMatch
 ---@field device_type string
 ---@field serial_number string
 ---@field skip? number
----@field take? number
-
----@class DeviceList
----@field data? table
----@field total? number
-
----@class DeviceListLoadMatch
----@field share_partner_to string
----@field skip? number
----@field sorting_direction? string
----@field sorting_field? string
 ---@field take? number
 
 ---@class DeviceReceiveResult
@@ -606,6 +595,18 @@
 
 ---@class UserRemoveMatch
 ---@field id string
+
+---@class VirtualDevice
+---@field data? table
+---@field id? string
+---@field total? number
+
+---@class VirtualDeviceLoadMatch
+---@field id string
+---@field skip? number
+---@field sorting_direction? string
+---@field sorting_field? string
+---@field take? number
 
 local M = {}
 

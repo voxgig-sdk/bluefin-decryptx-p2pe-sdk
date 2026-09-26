@@ -1,0 +1,81 @@
+# Entity: create_result
+
+main: kit: entity: create_result: {
+
+  alias: field: {}
+
+  name: "create_result"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /devices/{serialNumber}/{deviceType}/custody"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "device_type"
+                or: "device_type"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                k: "param"
+                n: "serial_number"
+                or: "serial_number"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/devices/{serialNumber}/{deviceType}/custody"
+          q: {
+            exist: [
+              "device_type"
+              "serial_number"
+            ]
+          }
+          r: {
+            param: {
+              deviceType: "device_type"
+              serialNumber: "serial_number"
+            }
+          }
+          s: [
+            {
+              lit: "devices"
+            }
+            {
+              var: "serial_number"
+            }
+            {
+              var: "device_type"
+            }
+            {
+              lit: "custody"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  fields: {
+  }
+
+
+  relations: ancestors: [
+    [path("$.main.kit.entity.device")]
+  ]
+
+}

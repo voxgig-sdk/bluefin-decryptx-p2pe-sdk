@@ -81,13 +81,9 @@ Construct a `DeviceBuild` entity bound to the client. Pass `VNoval` for no initi
 
 Construct a `DeviceCustodyDetail` entity bound to the client. Pass `VNoval` for no initial options.
 
-#### `device_custody_list :: Client -> Value -> IO Entity`
+#### `device_custody_list_item :: Client -> Value -> IO Entity`
 
-Construct a `DeviceCustodyList` entity bound to the client. Pass `VNoval` for no initial options.
-
-#### `device_list :: Client -> Value -> IO Entity`
-
-Construct a `DeviceList` entity bound to the client. Pass `VNoval` for no initial options.
+Construct a `DeviceCustodyListItem` entity bound to the client. Pass `VNoval` for no initial options.
 
 #### `device_receive_result :: Client -> Value -> IO Entity`
 
@@ -140,6 +136,10 @@ Construct a `UpdateResult` entity bound to the client. Pass `VNoval` for no init
 #### `user :: Client -> Value -> IO Entity`
 
 Construct a `User` entity bound to the client. Pass `VNoval` for no initial options.
+
+#### `virtual_device :: Client -> Value -> IO Entity`
+
+Construct a `VirtualDevice` entity bound to the client. Pass `VNoval` for no initial options.
 
 ### HTTP escape hatches
 
@@ -706,10 +706,10 @@ The entity name.
 
 ---
 
-## DeviceCustodyList
+## DeviceCustodyListItem
 
 ```haskell
-  ent <- Sdk.device_custody_list sdk VNoval
+  ent <- Sdk.device_custody_list_item sdk VNoval
 ```
 
 ### Fields
@@ -737,7 +737,7 @@ The entity name.
 List entities matching the given criteria. The match is optional — pass an empty map to list all records. Resolves to one ENTITY per record and raises on error.
 
 ```haskell
-  ent <- Sdk.device_custody_list sdk VNoval
+  ent <- Sdk.device_custody_list_item sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
   results <- Sdk.eList ent match ctrl   -- one ENTITY per record
@@ -760,58 +760,7 @@ Run an operation as a lazy stream of result items.
 
 #### `eMake :: IO Entity`
 
-Create a new `DeviceCustodyList` entity with the same options.
-
-#### `eName :: String`
-
-The entity name.
-
-
----
-
-## DeviceList
-
-```haskell
-  ent <- Sdk.device_list sdk VNoval
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `data` | `[Value]` | No | List of Devices. |
-| `total` | `Int` | No | Total number of Devices available (not the number of Users in the response). |
-
-### Operations
-
-#### `eLoad ent match ctrl :: IO Entity`
-
-Load a single entity matching the given criteria. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
-
-```haskell
-  ent <- Sdk.device_list sdk VNoval
-  match <- jo [("share_partner_to", VStr "share_partner_to")]
-  ctrl <- emptyMap
-  result <- Sdk.eLoad ent match ctrl
-```
-
-### Common Fields
-
-#### `eDataGet :: IO Value`
-
-Get the entity data.
-
-#### `eDataSet :: Value -> IO ()`
-
-Set the entity data.
-
-#### `eStream :: String -> Value -> Value -> IO [Value]`
-
-Run an operation as a lazy stream of result items.
-
-#### `eMake :: IO Entity`
-
-Create a new `DeviceList` entity with the same options.
+Create a new `DeviceCustodyListItem` entity with the same options.
 
 #### `eName :: String`
 
@@ -1802,22 +1751,74 @@ The entity name.
 
 ---
 
+## VirtualDevice
+
+```haskell
+  ent <- Sdk.virtual_device sdk VNoval
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `data` | `[Value]` | No | List of Devices. |
+| `id` | `String` | No |  |
+| `total` | `Int` | No | Total number of Devices available (not the number of Users in the response). |
+
+### Operations
+
+#### `eLoad ent match ctrl :: IO Entity`
+
+Load a single entity matching the given criteria. Resolves to the ENTITY (read the record with `eDataGet`) and raises on error.
+
+```haskell
+  ent <- Sdk.virtual_device sdk VNoval
+  match <- jo [("id", VStr "virtual_device_id")]
+  ctrl <- emptyMap
+  result <- Sdk.eLoad ent match ctrl
+```
+
+### Common Fields
+
+#### `eDataGet :: IO Value`
+
+Get the entity data.
+
+#### `eDataSet :: Value -> IO ()`
+
+Set the entity data.
+
+#### `eStream :: String -> Value -> Value -> IO [Value]`
+
+Run an operation as a lazy stream of result items.
+
+#### `eMake :: IO Entity`
+
+Create a new `VirtualDevice` entity with the same options.
+
+#### `eName :: String`
+
+The entity name.
+
+
+---
+
 ## Features
 
 | Feature | Version | Description |
 | --- | --- | --- |
-| `audit` | 0.0.1 | Structured audit trail of operations |
-| `clienttrack` | 0.0.1 | Client identity and per-request correlation headers |
-| `debug` | 0.0.1 | Request/response capture ring buffer for debugging |
-| `idempotency` | 0.0.1 | Idempotency keys for safe retries of mutating operations |
-| `log` | 0.0.1 | Structured request and response logging |
-| `metrics` | 0.0.1 | Statistics capture: per-operation counters and latency |
-| `paging` | 0.0.1 | Pagination signals for list operations |
-| `ratelimit` | 0.0.1 | Client-side rate limiting via a token bucket |
-| `retry` | 0.0.1 | Automatic retry of transient failures with exponential backoff |
-| `telemetry` | 0.0.1 | Distributed tracing spans with W3C trace-context propagation |
-| `test` | 0.0.1 | In-memory mock transport for testing without a live server |
-| `timeout` | 0.0.1 | Per-request timeout with transport abort |
+| `audit` | 0.0.1 | Audit trail |
+| `clienttrack` | 0.0.1 | Client tracking |
+| `debug` | 0.0.1 | Debug capture |
+| `idempotency` | 0.0.1 | Idempotency |
+| `log` | 0.0.1 | Logging |
+| `metrics` | 0.0.1 | Metrics |
+| `paging` | 0.0.1 | Paging |
+| `ratelimit` | 0.0.1 | Rate limiting |
+| `retry` | 0.0.1 | Retry |
+| `telemetry` | 0.0.1 | Telemetry |
+| `test` | 0.0.1 | Test transport |
+| `timeout` | 0.0.1 | Timeout |
 
 
 Features are activated via the `feature` option:

@@ -1,0 +1,27 @@
+# BasicDeviceCustodyListItemFlow
+
+main: kit: flow: BasicDeviceCustodyListItemFlow:
+{
+  entity: "device_custody_list_item",
+  kind: "basic",
+  name: "BasicDeviceCustodyListItemFlow",
+  step: [
+    {
+      m: {
+        device_type: "device_type01",
+        serial_number: "serial_number01"
+      }
+
+      o: "list",
+      v: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "device_custody_list_item_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicDeviceCustodyListItemFlow"
+}

@@ -2,8 +2,8 @@ package voxgig.bluefindecryptxp2pesdk.core
 
 // Typed reference models for the BluefinDecryptxP2pe SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types come from the
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types come from the
 // canonical type sentinels (source of truth: @voxgig/apidef VALID_CANON). Do
 // not edit by hand.
 //
@@ -60,13 +60,9 @@ object BluefinDecryptxP2peTypes {
 
   final case class DeviceCustodyDetailLoadMatch(device_type: String, id: String, serial_number: String)
 
-  final case class DeviceCustodyList(completeDate: String, created: String, createdBy: java.util.Map[String, Object], custodian: java.util.Map[String, Object], device: java.util.Map[String, Object], id: java.lang.Long, location: java.util.Map[String, Object], modified: String, modifiedBy: java.util.Map[String, Object], notes: String, status: java.util.Map[String, Object], transferMethod: java.util.Map[String, Object], version: java.lang.Long)
+  final case class DeviceCustodyListItem(completeDate: String, created: String, createdBy: java.util.Map[String, Object], custodian: java.util.Map[String, Object], device: java.util.Map[String, Object], id: java.lang.Long, location: java.util.Map[String, Object], modified: String, modifiedBy: java.util.Map[String, Object], notes: String, status: java.util.Map[String, Object], transferMethod: java.util.Map[String, Object], version: java.lang.Long)
 
-  final case class DeviceCustodyListListMatch(device_type: String, serial_number: String, skip: java.lang.Long, take: java.lang.Long)
-
-  final case class DeviceList(data: java.util.List[Object], total: java.lang.Long)
-
-  final case class DeviceListLoadMatch(share_partner_to: String, skip: java.lang.Long, sorting_direction: String, sorting_field: String, take: java.lang.Long)
+  final case class DeviceCustodyListItemListMatch(device_type: String, serial_number: String, skip: java.lang.Long, take: java.lang.Long)
 
   final case class DeviceReceiveResult(success: java.lang.Boolean)
 
@@ -149,5 +145,9 @@ object BluefinDecryptxP2peTypes {
   final case class UserLoadMatch(id: String)
 
   final case class UserRemoveMatch(id: String)
+
+  final case class VirtualDevice(data: java.util.List[Object], id: String, total: java.lang.Long)
+
+  final case class VirtualDeviceLoadMatch(id: String, skip: java.lang.Long, sorting_direction: String, sorting_field: String, take: java.lang.Long)
 
 }

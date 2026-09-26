@@ -1,7 +1,7 @@
 // Typed models for the BluefinDecryptxP2pe SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types are mapped
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types are mapped
 // from the canonical type sentinels. Do not edit by hand.
 //
 // These are DOCUMENTARY: the SDK runtime is dynamic (ops take/return the
@@ -248,8 +248,8 @@ public struct DeviceCustodyDetailLoadMatch {
   public var serialNumber: String
 }
 
-/// DeviceCustodyList is the typed data model for the device_custody_list entity.
-public struct DeviceCustodyList {
+/// DeviceCustodyListItem is the typed data model for the device_custody_list_item entity.
+public struct DeviceCustodyListItem {
   public var completeDate: String?
   public var created: String?
   public var createdBy: VMap
@@ -265,26 +265,11 @@ public struct DeviceCustodyList {
   public var version: Int?
 }
 
-/// DeviceCustodyListListMatch is the typed request payload for DeviceCustodyList.list.
-public struct DeviceCustodyListListMatch {
+/// DeviceCustodyListItemListMatch is the typed request payload for DeviceCustodyListItem.list.
+public struct DeviceCustodyListItemListMatch {
   public var deviceType: String
   public var serialNumber: String
   public var skip: Int?
-  public var take: Int?
-}
-
-/// DeviceList is the typed data model for the device_list entity.
-public struct DeviceList {
-  public var data: [Value]?
-  public var total: Int?
-}
-
-/// DeviceListLoadMatch is the typed request payload for DeviceList.load.
-public struct DeviceListLoadMatch {
-  public var sharePartnerTo: String
-  public var skip: Int?
-  public var sortingDirection: String?
-  public var sortingField: String?
   public var take: Int?
 }
 
@@ -743,5 +728,21 @@ public struct UserLoadMatch {
 /// UserRemoveMatch is the typed request payload for User.remove.
 public struct UserRemoveMatch {
   public var id: String
+}
+
+/// VirtualDevice is the typed data model for the virtual_device entity.
+public struct VirtualDevice {
+  public var data: [Value]?
+  public var id: String?
+  public var total: Int?
+}
+
+/// VirtualDeviceLoadMatch is the typed request payload for VirtualDevice.load.
+public struct VirtualDeviceLoadMatch {
+  public var id: String
+  public var skip: Int?
+  public var sortingDirection: String?
+  public var sortingField: String?
+  public var take: Int?
 }
 

@@ -379,19 +379,11 @@ sub DeviceCustodyDetail {
 }
 
 
-# Canonical facade: $client->DeviceCustodyList->list / ->load({ 'id' => ... })
-sub DeviceCustodyList {
+# Canonical facade: $client->DeviceCustodyListItem->list / ->load({ 'id' => ... })
+sub DeviceCustodyListItem {
   my ($self, $data) = @_;
-  require(Cwd::abs_path("$DIR/../entity/device_custody_list_entity.pm"));
-  return DeviceCustodyListEntity->new($self, $data);
-}
-
-
-# Canonical facade: $client->DeviceList->list / ->load({ 'id' => ... })
-sub DeviceList {
-  my ($self, $data) = @_;
-  require(Cwd::abs_path("$DIR/../entity/device_list_entity.pm"));
-  return DeviceListEntity->new($self, $data);
+  require(Cwd::abs_path("$DIR/../entity/device_custody_list_item_entity.pm"));
+  return DeviceCustodyListItemEntity->new($self, $data);
 }
 
 
@@ -496,6 +488,14 @@ sub User {
   my ($self, $data) = @_;
   require(Cwd::abs_path("$DIR/../entity/user_entity.pm"));
   return UserEntity->new($self, $data);
+}
+
+
+# Canonical facade: $client->VirtualDevice->list / ->load({ 'id' => ... })
+sub VirtualDevice {
+  my ($self, $data) = @_;
+  require(Cwd::abs_path("$DIR/../entity/virtual_device_entity.pm"));
+  return VirtualDeviceEntity->new($self, $data);
 }
 
 

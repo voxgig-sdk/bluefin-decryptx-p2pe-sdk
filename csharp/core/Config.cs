@@ -262,8 +262,7 @@ public static class SdkConfig
                     ["device"] = new Dictionary<string, object?>(),
                     ["device_build"] = new Dictionary<string, object?>(),
                     ["device_custody_detail"] = new Dictionary<string, object?>(),
-                    ["device_custody_list"] = new Dictionary<string, object?>(),
-                    ["device_list"] = new Dictionary<string, object?>(),
+                    ["device_custody_list_item"] = new Dictionary<string, object?>(),
                     ["device_receive_result"] = new Dictionary<string, object?>(),
                     ["device_rki_activate_result"] = new Dictionary<string, object?>(),
                     ["device_state"] = new Dictionary<string, object?>(),
@@ -277,6 +276,7 @@ public static class SdkConfig
                     ["transaction"] = new Dictionary<string, object?>(),
                     ["update_result"] = new Dictionary<string, object?>(),
                     ["user"] = new Dictionary<string, object?>(),
+                    ["virtual_device"] = new Dictionary<string, object?>(),
                 },
             },
             ["entity"] = new Dictionary<string, object?>
@@ -288,46 +288,53 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "client",
-                            ["short"] = "Reference to the associated Client resource.",
+                            ["title"] = "Client",
                             ["type"] = "`$OBJECT`",
+                            ["short"] = "Reference to the associated Client resource.",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "datetime",
                             ["name"] = "completeDate",
-                            ["short"] = "The date and time that the Attestation took place.",
+                            ["title"] = "Complete Date",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The date and time that the Attestation took place.",
+                            ["format"] = "datetime",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "datetime",
                             ["name"] = "created",
-                            ["short"] = "Creation timestamp in ISO 8601 format.",
+                            ["title"] = "Created",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Creation timestamp in ISO 8601 format.",
+                            ["format"] = "datetime",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "device",
-                            ["short"] = "Reference to the associated Device resource.",
+                            ["title"] = "Device",
                             ["type"] = "`$OBJECT`",
+                            ["short"] = "Reference to the associated Device resource.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "id",
-                            ["short"] = "This resource's unique identifier.",
+                            ["title"] = "Id",
                             ["type"] = "`$STRING`",
+                            ["short"] = "This resource's unique identifier.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "name",
-                            ["short"] = "Text describing the attestation.",
+                            ["title"] = "Name",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Text describing the attestation.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "notes",
-                            ["short"] = "Free form field that allows the Client associate notes with the Attestation.",
+                            ["title"] = "Notes",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Free form field that allows the Client associate notes with the Attestation.",
                         },
                     },
                     ["id"] = new Dictionary<string, object?>
@@ -346,7 +353,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/attestations",
@@ -357,16 +363,18 @@ public static class SdkConfig
                                             ["lit"] = "attestations",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>(),
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "attestations",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
                                     },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "attestations",
-                                    },
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>(),
                                 },
                             },
                         },
@@ -378,36 +386,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["query"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "query",
-                                                ["name"] = "client",
-                                                ["orig"] = "client",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["example"] = 0,
-                                                ["kind"] = "query",
-                                                ["name"] = "skip",
-                                                ["orig"] = "skip",
-                                                ["type"] = "`$INTEGER`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["example"] = 10,
-                                                ["kind"] = "query",
-                                                ["name"] = "take",
-                                                ["orig"] = "take",
-                                                ["type"] = "`$INTEGER`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/attestations",
@@ -418,6 +396,46 @@ public static class SdkConfig
                                             ["lit"] = "attestations",
                                         },
                                     },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "attestations",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body.data`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["query"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "client",
+                                                ["orig"] = "client",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "query",
+                                                ["reqd"] = true,
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "skip",
+                                                ["orig"] = "skip",
+                                                ["type"] = "`$INTEGER`",
+                                                ["kind"] = "query",
+                                                ["example"] = 0,
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "take",
+                                                ["orig"] = "take",
+                                                ["type"] = "`$INTEGER`",
+                                                ["kind"] = "query",
+                                                ["example"] = 10,
+                                            },
+                                        },
+                                    },
                                     ["select"] = new Dictionary<string, object?>
                                     {
                                         ["exist"] = new List<object?>
@@ -426,15 +444,6 @@ public static class SdkConfig
                                             "skip",
                                             "take",
                                         },
-                                    },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body.data`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "attestations",
                                     },
                                 },
                             },
@@ -447,20 +456,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["params"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "id",
-                                                ["orig"] = "id",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/attestations/{id}",
@@ -475,22 +470,37 @@ public static class SdkConfig
                                             ["var"] = "id",
                                         },
                                     },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "attestations",
+                                        "{id}",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["params"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "id",
+                                                ["orig"] = "id",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                        },
+                                    },
                                     ["select"] = new Dictionary<string, object?>
                                     {
                                         ["exist"] = new List<object?>
                                         {
                                             "id",
                                         },
-                                    },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "attestations",
-                                        "{id}",
                                     },
                                 },
                             },
@@ -508,6 +518,8 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "contact",
+                            ["title"] = "Contact",
+                            ["type"] = "`$OBJECT`",
                             ["op"] = new Dictionary<string, object?>
                             {
                                 ["list"] = new Dictionary<string, object?>
@@ -517,70 +529,79 @@ public static class SdkConfig
                                 },
                             },
                             ["short"] = "Reference to the associated User resource.",
-                            ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "datetime",
                             ["name"] = "created",
-                            ["short"] = "Creation timestamp in ISO 8601 format.",
+                            ["title"] = "Created",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Creation timestamp in ISO 8601 format.",
+                            ["format"] = "datetime",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "directPartner",
-                            ["short"] = "Reference to the associated Partner.",
+                            ["title"] = "Direct Partner",
                             ["type"] = "`$OBJECT`",
+                            ["short"] = "Reference to the associated Partner.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "id",
-                            ["short"] = "This resource's unique identifier.",
+                            ["title"] = "Id",
                             ["type"] = "`$STRING`",
+                            ["short"] = "This resource's unique identifier.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "isActive",
-                            ["short"] = "This property indicates if the Client account is active or disabled.",
+                            ["title"] = "Is Active",
                             ["type"] = "`$BOOLEAN`",
+                            ["short"] = "This property indicates if the Client account is active or disabled.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "location",
+                            ["title"] = "Location",
+                            ["type"] = "`$OBJECT`",
                             ["req"] = true,
                             ["short"] = "Reference to the associated Location resource.",
-                            ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "mid",
-                            ["short"] = "Some Partners will have an merchant ids on their own software offerings.",
+                            ["title"] = "Mid",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Some Partners will have an merchant ids on their own software offerings.",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "datetime",
                             ["name"] = "modified",
-                            ["short"] = "Last modified timestamp.",
+                            ["title"] = "Modified",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Last modified timestamp.",
+                            ["format"] = "datetime",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "name",
-                            ["short"] = "The Client's name.",
+                            ["title"] = "Name",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The Client's name.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "partner",
-                            ["short"] = "Reference to the Client's root Partner.",
+                            ["title"] = "Partner",
                             ["type"] = "`$OBJECT`",
+                            ["short"] = "Reference to the Client's root Partner.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "version",
-                            ["short"] = "The number of times that this resource has been updated.",
+                            ["title"] = "Version",
                             ["type"] = "`$INTEGER`",
+                            ["short"] = "The number of times that this resource has been updated.",
                         },
                     },
                     ["id"] = new Dictionary<string, object?>
@@ -599,7 +620,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/clients",
@@ -610,16 +630,18 @@ public static class SdkConfig
                                             ["lit"] = "clients",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>(),
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "clients",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
                                     },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "clients",
-                                    },
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>(),
                                 },
                             },
                         },
@@ -631,36 +653,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["query"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "query",
-                                                ["name"] = "partner",
-                                                ["orig"] = "partner",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["example"] = 0,
-                                                ["kind"] = "query",
-                                                ["name"] = "skip",
-                                                ["orig"] = "skip",
-                                                ["type"] = "`$INTEGER`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["example"] = 10,
-                                                ["kind"] = "query",
-                                                ["name"] = "take",
-                                                ["orig"] = "take",
-                                                ["type"] = "`$INTEGER`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/clients",
@@ -671,6 +663,46 @@ public static class SdkConfig
                                             ["lit"] = "clients",
                                         },
                                     },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "clients",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body.data`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["query"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "partner",
+                                                ["orig"] = "partner",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "query",
+                                                ["reqd"] = true,
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "skip",
+                                                ["orig"] = "skip",
+                                                ["type"] = "`$INTEGER`",
+                                                ["kind"] = "query",
+                                                ["example"] = 0,
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "take",
+                                                ["orig"] = "take",
+                                                ["type"] = "`$INTEGER`",
+                                                ["kind"] = "query",
+                                                ["example"] = 10,
+                                            },
+                                        },
+                                    },
                                     ["select"] = new Dictionary<string, object?>
                                     {
                                         ["exist"] = new List<object?>
@@ -679,15 +711,6 @@ public static class SdkConfig
                                             "skip",
                                             "take",
                                         },
-                                    },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body.data`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "clients",
                                     },
                                 },
                             },
@@ -700,20 +723,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["params"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "id",
-                                                ["orig"] = "id",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/clients/{id}",
@@ -728,22 +737,37 @@ public static class SdkConfig
                                             ["var"] = "id",
                                         },
                                     },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "clients",
+                                        "{id}",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["params"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "id",
+                                                ["orig"] = "id",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                        },
+                                    },
                                     ["select"] = new Dictionary<string, object?>
                                     {
                                         ["exist"] = new List<object?>
                                         {
                                             "id",
                                         },
-                                    },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "clients",
-                                        "{id}",
                                     },
                                 },
                             },
@@ -756,20 +780,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["params"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "id",
-                                                ["orig"] = "id",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "DELETE",
                                     ["orig"] = "/clients/{id}",
@@ -784,22 +794,37 @@ public static class SdkConfig
                                             ["var"] = "id",
                                         },
                                     },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "clients",
+                                        "{id}",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["params"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "id",
+                                                ["orig"] = "id",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                        },
+                                    },
                                     ["select"] = new Dictionary<string, object?>
                                     {
                                         ["exist"] = new List<object?>
                                         {
                                             "id",
                                         },
-                                    },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "clients",
-                                        "{id}",
                                     },
                                 },
                             },
@@ -824,39 +849,9 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["params"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "device_type",
-                                                ["orig"] = "device_type",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "serial_number",
-                                                ["orig"] = "serial_number",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/devices/{serialNumber}/{deviceType}/custody",
-                                    ["rename"] = new Dictionary<string, object?>
-                                    {
-                                        ["param"] = new Dictionary<string, object?>
-                                        {
-                                            ["deviceType"] = "device_type",
-                                            ["serialNumber"] = "serial_number",
-                                        },
-                                    },
                                     ["segments"] = new List<object?>
                                     {
                                         new Dictionary<string, object?>
@@ -876,12 +871,19 @@ public static class SdkConfig
                                             ["lit"] = "custody",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>
+                                    ["parts"] = new List<object?>
                                     {
-                                        ["exist"] = new List<object?>
+                                        "devices",
+                                        "{serial_number}",
+                                        "{device_type}",
+                                        "custody",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>
+                                    {
+                                        ["param"] = new Dictionary<string, object?>
                                         {
-                                            "device_type",
-                                            "serial_number",
+                                            ["deviceType"] = "device_type",
+                                            ["serialNumber"] = "serial_number",
                                         },
                                     },
                                     ["transform"] = new Dictionary<string, object?>
@@ -889,12 +891,35 @@ public static class SdkConfig
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
                                     },
-                                    ["parts"] = new List<object?>
+                                    ["args"] = new Dictionary<string, object?>
                                     {
-                                        "devices",
-                                        "{serial_number}",
-                                        "{device_type}",
-                                        "custody",
+                                        ["params"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "device_type",
+                                                ["orig"] = "device_type",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "serial_number",
+                                                ["orig"] = "serial_number",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                        },
+                                    },
+                                    ["select"] = new Dictionary<string, object?>
+                                    {
+                                        ["exist"] = new List<object?>
+                                        {
+                                            "device_type",
+                                            "serial_number",
+                                        },
                                     },
                                 },
                             },
@@ -906,7 +931,7 @@ public static class SdkConfig
                         {
                             new List<object?>
                             {
-                                "device",
+                                "$.main.kit.entity.device",
                             },
                         },
                     },
@@ -918,8 +943,9 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "success",
-                            ["short"] = "true if the payload decryption was successful.",
+                            ["title"] = "Success",
                             ["type"] = "`$BOOLEAN`",
+                            ["short"] = "true if the payload decryption was successful.",
                         },
                     },
                     ["name"] = "decryption",
@@ -933,7 +959,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/decryption",
@@ -944,16 +969,18 @@ public static class SdkConfig
                                             ["lit"] = "decryption",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>(),
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "decryption",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
                                     },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "decryption",
-                                    },
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>(),
                                 },
                             },
                         },
@@ -970,183 +997,211 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "activatedBy",
+                            ["title"] = "Activated By",
+                            ["type"] = "`$OBJECT`",
                             ["req"] = true,
                             ["short"] = "Reference to the associated User resource.",
-                            ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "datetime",
                             ["name"] = "activationDate",
-                            ["short"] = "Timestamp from when the Device was activated.",
+                            ["title"] = "Activation Date",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Timestamp from when the Device was activated.",
+                            ["format"] = "datetime",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "alternateKey",
+                            ["title"] = "Alternate Key",
+                            ["type"] = "`$STRING`",
                             ["short"] = "The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging.",
-                            ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "datetime",
                             ["name"] = "auditNextDate",
-                            ["short"] = "Date and time that the Device is due its next PCI Audit.",
+                            ["title"] = "Audit Next Date",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Date and time that the Device is due its next PCI Audit.",
+                            ["format"] = "datetime",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "datetime",
                             ["name"] = "auditNotificationDate",
-                            ["short"] = "Date and time that a notification should be sent that a PCI audit is due.",
+                            ["title"] = "Audit Notification Date",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Date and time that a notification should be sent that a PCI audit is due.",
+                            ["format"] = "datetime",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "client",
-                            ["short"] = "Reference to the associated Client resource.",
+                            ["title"] = "Client",
                             ["type"] = "`$OBJECT`",
+                            ["short"] = "Reference to the associated Client resource.",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "datetime",
                             ["name"] = "created",
-                            ["short"] = "Creation timestamp in ISO 8601 format.",
+                            ["title"] = "Created",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Creation timestamp in ISO 8601 format.",
+                            ["format"] = "datetime",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "createdBy",
+                            ["title"] = "Created By",
+                            ["type"] = "`$OBJECT`",
                             ["req"] = true,
                             ["short"] = "Reference to the associated User resource.",
-                            ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "deviceBuild",
-                            ["short"] = "Reference to the associated Device Build resource.",
+                            ["title"] = "Device Build",
                             ["type"] = "`$OBJECT`",
+                            ["short"] = "Reference to the associated Device Build resource.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "deviceState",
-                            ["short"] = "Reference to the associated Device State resource.",
+                            ["title"] = "Device State",
                             ["type"] = "`$OBJECT`",
+                            ["short"] = "Reference to the associated Device State resource.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "deviceType",
-                            ["short"] = "Reference to the associated Device Type resource.",
+                            ["title"] = "Device Type",
                             ["type"] = "`$OBJECT`",
+                            ["short"] = "Reference to the associated Device Type resource.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "errorCounter",
-                            ["short"] = "The number times the Device has been in error.",
+                            ["title"] = "Error Counter",
                             ["type"] = "`$INTEGER`",
+                            ["short"] = "The number times the Device has been in error.",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "datetime",
                             ["name"] = "errorLastDate",
-                            ["short"] = "Timestamp from the last time that the Device had an error.",
+                            ["title"] = "Error Last Date",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Timestamp from the last time that the Device had an error.",
+                            ["format"] = "datetime",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "id",
-                            ["short"] = "The Device's unique identifier.",
+                            ["title"] = "Id",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The Device's unique identifier.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "initializedBy",
+                            ["title"] = "Initialized By",
+                            ["type"] = "`$OBJECT`",
                             ["req"] = true,
                             ["short"] = "Reference to the associated User resource.",
-                            ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "datetime",
                             ["name"] = "initializedDate",
-                            ["short"] = "Timestamp from when the Device was initialized.",
+                            ["title"] = "Initialized Date",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Timestamp from when the Device was initialized.",
+                            ["format"] = "datetime",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "injectKey",
-                            ["short"] = "Reference to the associated Device resource.",
+                            ["title"] = "Inject Key",
                             ["type"] = "`$OBJECT`",
+                            ["short"] = "Reference to the associated Device resource.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "isVirtual",
-                            ["short"] = "Indicates if a Device is Virtual (represents a Device shared with a partner).",
+                            ["title"] = "Is Virtual",
                             ["type"] = "`$BOOLEAN`",
+                            ["short"] = "Indicates if a Device is Virtual (represents a Device shared with a partner).",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "kif",
-                            ["short"] = "Reference to the associated KIF resource.",
+                            ["title"] = "Kif",
                             ["type"] = "`$OBJECT`",
+                            ["short"] = "Reference to the associated KIF resource.",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "datetime",
                             ["name"] = "lastActivityDate",
-                            ["short"] = "Timestamp from the last time that the Device was used.",
+                            ["title"] = "Last Activity Date",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Timestamp from the last time that the Device was used.",
+                            ["format"] = "datetime",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "location",
+                            ["title"] = "Location",
+                            ["type"] = "`$OBJECT`",
                             ["req"] = true,
                             ["short"] = "Reference to the associated Location resource.",
-                            ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "datetime",
                             ["name"] = "modified",
-                            ["short"] = "Last modified timestamp.",
+                            ["title"] = "Modified",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Last modified timestamp.",
+                            ["format"] = "datetime",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "modifiedBy",
+                            ["title"] = "Modified By",
+                            ["type"] = "`$OBJECT`",
                             ["req"] = true,
                             ["short"] = "Reference to the associated User resource.",
-                            ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "name",
-                            ["short"] = "The Device's name.",
+                            ["title"] = "Name",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The Device's name.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "notes",
-                            ["short"] = "Arbitary note that can be attached to a Device entry.",
+                            ["title"] = "Notes",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Arbitary note that can be attached to a Device entry.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "partner",
-                            ["short"] = "Reference to the associated Partner.",
+                            ["title"] = "Partner",
                             ["type"] = "`$OBJECT`",
+                            ["short"] = "Reference to the associated Partner.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "serialNumber",
-                            ["short"] = "The Device's serial number.",
+                            ["title"] = "Serial Number",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The Device's serial number.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "version",
-                            ["short"] = "The number of times that this resource has been updated.",
+                            ["title"] = "Version",
                             ["type"] = "`$INTEGER`",
+                            ["short"] = "The number of times that this resource has been updated.",
                         },
                     },
                     ["id"] = new Dictionary<string, object?>
@@ -1165,7 +1220,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/devices",
@@ -1176,16 +1230,18 @@ public static class SdkConfig
                                             ["lit"] = "devices",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>(),
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "devices",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
                                     },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "devices",
-                                    },
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>(),
                                 },
                             },
                         },
@@ -1197,79 +1253,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["query"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "query",
-                                                ["name"] = "client",
-                                                ["orig"] = "client",
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "query",
-                                                ["name"] = "device_state",
-                                                ["orig"] = "device_state",
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "query",
-                                                ["name"] = "kif",
-                                                ["orig"] = "kif",
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "query",
-                                                ["name"] = "partner",
-                                                ["orig"] = "partner",
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "query",
-                                                ["name"] = "serial_number",
-                                                ["orig"] = "serial_number",
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["example"] = 0,
-                                                ["kind"] = "query",
-                                                ["name"] = "skip",
-                                                ["orig"] = "skip",
-                                                ["type"] = "`$INTEGER`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["example"] = "asc",
-                                                ["kind"] = "query",
-                                                ["name"] = "sorting_direction",
-                                                ["orig"] = "sorting_direction",
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["example"] = "serialnumber",
-                                                ["kind"] = "query",
-                                                ["name"] = "sorting_field",
-                                                ["orig"] = "sorting_field",
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["example"] = 10,
-                                                ["kind"] = "query",
-                                                ["name"] = "take",
-                                                ["orig"] = "take",
-                                                ["type"] = "`$INTEGER`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/devices",
@@ -1278,6 +1261,89 @@ public static class SdkConfig
                                         new Dictionary<string, object?>
                                         {
                                             ["lit"] = "devices",
+                                        },
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "devices",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body.data`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["query"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "client",
+                                                ["orig"] = "client",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "query",
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "device_state",
+                                                ["orig"] = "device_state",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "query",
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "kif",
+                                                ["orig"] = "kif",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "query",
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "partner",
+                                                ["orig"] = "partner",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "query",
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "serial_number",
+                                                ["orig"] = "serial_number",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "query",
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "skip",
+                                                ["orig"] = "skip",
+                                                ["type"] = "`$INTEGER`",
+                                                ["kind"] = "query",
+                                                ["example"] = 0,
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "sorting_direction",
+                                                ["orig"] = "sorting_direction",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "query",
+                                                ["example"] = "asc",
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "sorting_field",
+                                                ["orig"] = "sorting_field",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "query",
+                                                ["example"] = "serialnumber",
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "take",
+                                                ["orig"] = "take",
+                                                ["type"] = "`$INTEGER`",
+                                                ["kind"] = "query",
+                                                ["example"] = 10,
+                                            },
                                         },
                                     },
                                     ["select"] = new Dictionary<string, object?>
@@ -1295,15 +1361,6 @@ public static class SdkConfig
                                             "take",
                                         },
                                     },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body.data`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "devices",
-                                    },
                                 },
                             },
                         },
@@ -1315,39 +1372,9 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["params"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "device_type",
-                                                ["orig"] = "device_type",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "serial_number",
-                                                ["orig"] = "serial_number",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/devices/{serialNumber}/{deviceType}",
-                                    ["rename"] = new Dictionary<string, object?>
-                                    {
-                                        ["param"] = new Dictionary<string, object?>
-                                        {
-                                            ["deviceType"] = "device_type",
-                                            ["serialNumber"] = "serial_number",
-                                        },
-                                    },
                                     ["segments"] = new List<object?>
                                     {
                                         new Dictionary<string, object?>
@@ -1363,6 +1390,47 @@ public static class SdkConfig
                                             ["var"] = "device_type",
                                         },
                                     },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "devices",
+                                        "{serial_number}",
+                                        "{device_type}",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>
+                                    {
+                                        ["param"] = new Dictionary<string, object?>
+                                        {
+                                            ["deviceType"] = "device_type",
+                                            ["serialNumber"] = "serial_number",
+                                        },
+                                    },
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["params"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "device_type",
+                                                ["orig"] = "device_type",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "serial_number",
+                                                ["orig"] = "serial_number",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                        },
+                                    },
                                     ["select"] = new Dictionary<string, object?>
                                     {
                                         ["exist"] = new List<object?>
@@ -1371,34 +1439,9 @@ public static class SdkConfig
                                             "serial_number",
                                         },
                                     },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "devices",
-                                        "{serial_number}",
-                                        "{device_type}",
-                                    },
                                 },
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["params"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "id",
-                                                ["orig"] = "id",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/devices/{id}",
@@ -1413,6 +1456,31 @@ public static class SdkConfig
                                             ["var"] = "id",
                                         },
                                     },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "devices",
+                                        "{id}",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["params"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "id",
+                                                ["orig"] = "id",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                        },
+                                    },
                                     ["select"] = new Dictionary<string, object?>
                                     {
                                         ["exist"] = new List<object?>
@@ -1420,29 +1488,13 @@ public static class SdkConfig
                                             "id",
                                         },
                                     },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "devices",
-                                        "{id}",
-                                    },
                                 },
                             },
                         },
                     },
                     ["relations"] = new Dictionary<string, object?>
                     {
-                        ["ancestors"] = new List<object?>
-                        {
-                            new List<object?>
-                            {
-                                "device",
-                            },
-                        },
+                        ["ancestors"] = new List<object?>(),
                     },
                 },
                 ["device_build"] = new Dictionary<string, object?>
@@ -1452,95 +1504,110 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "appVersion",
-                            ["short"] = "If a Device Type has more than one Application Code version the supported version is specified here.",
+                            ["title"] = "App Version",
                             ["type"] = "`$STRING`",
+                            ["short"] = "If a Device Type has more than one Application Code version the supported version is specified here.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "buildNumber",
-                            ["short"] = "The Build Number.",
+                            ["title"] = "Build Number",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The Build Number.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "configFileName",
-                            ["short"] = "The name of the configuration file that is uploaded to the device.",
+                            ["title"] = "Config File Name",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The name of the configuration file that is uploaded to the device.",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "date-time",
                             ["name"] = "created",
-                            ["short"] = "Creation timestamp in ISO 8601 format.",
+                            ["title"] = "Created",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Creation timestamp in ISO 8601 format.",
+                            ["format"] = "date-time",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "deviceType",
-                            ["short"] = "The Device Type Name.",
+                            ["title"] = "Device Type",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The Device Type Name.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "firmwareVersion",
-                            ["short"] = "A list of firmware versions that this Device Build covers.",
+                            ["title"] = "Firmware Version",
                             ["type"] = "`$STRING`",
+                            ["short"] = "A list of firmware versions that this Device Build covers.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "hardwareVersion",
-                            ["short"] = "A list of hardware versions that this Device Build covers.",
+                            ["title"] = "Hardware Version",
                             ["type"] = "`$STRING`",
+                            ["short"] = "A list of hardware versions that this Device Build covers.",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "int64",
                             ["name"] = "id",
-                            ["short"] = "This resource's unique identifier.",
+                            ["title"] = "Id",
                             ["type"] = "`$INTEGER`",
+                            ["short"] = "This resource's unique identifier.",
+                            ["format"] = "int64",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "isActive",
-                            ["short"] = "This property indicates if the device build is still active and not succeeded by subsequent build.",
+                            ["title"] = "Is Active",
                             ["type"] = "`$BOOLEAN`",
+                            ["short"] = "This property indicates if the device build is still active and not succeeded by subsequent build.",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "date-time",
                             ["name"] = "modified",
-                            ["short"] = "Last modified timestamp.",
+                            ["title"] = "Modified",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Last modified timestamp.",
+                            ["format"] = "date-time",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "name",
-                            ["short"] = "The Device Builds's name.",
+                            ["title"] = "Name",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The Device Builds's name.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "notes",
-                            ["short"] = "Notes attached to the device build by Bluefin CISO.",
+                            ["title"] = "Notes",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Notes attached to the device build by Bluefin CISO.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "version",
-                            ["short"] = "The number of times that this resource has been updated.",
+                            ["title"] = "Version",
                             ["type"] = "`$INTEGER`",
+                            ["short"] = "The number of times that this resource has been updated.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "whiteListingBinRanges",
-                            ["short"] = "A comma separated list of BIN ranges that aren't encrypted by the terminal.",
+                            ["title"] = "White Listing Bin Ranges",
                             ["type"] = "`$STRING`",
+                            ["short"] = "A comma separated list of BIN ranges that aren't encrypted by the terminal.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "whiteListingUsed",
-                            ["short"] = "This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal.",
+                            ["title"] = "White Listing Used",
                             ["type"] = "`$BOOLEAN`",
+                            ["short"] = "This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal.",
                         },
                     },
                     ["id"] = new Dictionary<string, object?>
@@ -1559,35 +1626,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["query"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "query",
-                                                ["name"] = "device_type",
-                                                ["orig"] = "device_type",
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["example"] = 0,
-                                                ["kind"] = "query",
-                                                ["name"] = "skip",
-                                                ["orig"] = "skip",
-                                                ["type"] = "`$INTEGER`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["example"] = 10,
-                                                ["kind"] = "query",
-                                                ["name"] = "take",
-                                                ["orig"] = "take",
-                                                ["type"] = "`$INTEGER`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/deviceBuilds",
@@ -1598,6 +1636,45 @@ public static class SdkConfig
                                             ["lit"] = "deviceBuilds",
                                         },
                                     },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "deviceBuilds",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body.data`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["query"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "device_type",
+                                                ["orig"] = "device_type",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "query",
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "skip",
+                                                ["orig"] = "skip",
+                                                ["type"] = "`$INTEGER`",
+                                                ["kind"] = "query",
+                                                ["example"] = 0,
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "take",
+                                                ["orig"] = "take",
+                                                ["type"] = "`$INTEGER`",
+                                                ["kind"] = "query",
+                                                ["example"] = 10,
+                                            },
+                                        },
+                                    },
                                     ["select"] = new Dictionary<string, object?>
                                     {
                                         ["exist"] = new List<object?>
@@ -1606,15 +1683,6 @@ public static class SdkConfig
                                             "skip",
                                             "take",
                                         },
-                                    },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body.data`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "deviceBuilds",
                                     },
                                 },
                             },
@@ -1627,20 +1695,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["params"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "id",
-                                                ["orig"] = "id",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/deviceBuilds/{id}",
@@ -1655,22 +1709,37 @@ public static class SdkConfig
                                             ["var"] = "id",
                                         },
                                     },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "deviceBuilds",
+                                        "{id}",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["params"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "id",
+                                                ["orig"] = "id",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                        },
+                                    },
                                     ["select"] = new Dictionary<string, object?>
                                     {
                                         ["exist"] = new List<object?>
                                         {
                                             "id",
                                         },
-                                    },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "deviceBuilds",
-                                        "{id}",
                                     },
                                 },
                             },
@@ -1687,89 +1756,102 @@ public static class SdkConfig
                     {
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "date-time",
                             ["name"] = "completeDate",
-                            ["short"] = "The date and time that the Custody change took place.",
+                            ["title"] = "Complete Date",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The date and time that the Custody change took place.",
+                            ["format"] = "date-time",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "date-time",
                             ["name"] = "created",
-                            ["short"] = "Creation timestamp in ISO 8601 format.",
+                            ["title"] = "Created",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Creation timestamp in ISO 8601 format.",
+                            ["format"] = "date-time",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "createdBy",
+                            ["title"] = "Created By",
+                            ["type"] = "`$OBJECT`",
                             ["req"] = true,
                             ["short"] = "Reference to the associated User resource.",
-                            ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "custodian",
+                            ["title"] = "Custodian",
+                            ["type"] = "`$OBJECT`",
                             ["req"] = true,
                             ["short"] = "Reference to the associated User resource.",
-                            ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "device",
-                            ["short"] = "Reference to the associated Device resource.",
+                            ["title"] = "Device",
                             ["type"] = "`$OBJECT`",
+                            ["short"] = "Reference to the associated Device resource.",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "int64",
                             ["name"] = "id",
-                            ["short"] = "This resource's unique identifier.",
+                            ["title"] = "Id",
                             ["type"] = "`$INTEGER`",
+                            ["short"] = "This resource's unique identifier.",
+                            ["format"] = "int64",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "location",
+                            ["title"] = "Location",
+                            ["type"] = "`$OBJECT`",
                             ["req"] = true,
                             ["short"] = "Reference to the associated Location resource.",
-                            ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "date-time",
                             ["name"] = "modified",
-                            ["short"] = "Last modified timestamp.",
+                            ["title"] = "Modified",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Last modified timestamp.",
+                            ["format"] = "date-time",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "modifiedBy",
+                            ["title"] = "Modified By",
+                            ["type"] = "`$OBJECT`",
                             ["req"] = true,
                             ["short"] = "Reference to the associated User resource.",
-                            ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "notes",
-                            ["short"] = "Free form field that allows the Client associate notes with the Custody Change.",
+                            ["title"] = "Notes",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Free form field that allows the Client associate notes with the Custody Change.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "status",
-                            ["short"] = "Reference to the associated Custody Status.",
+                            ["title"] = "Status",
                             ["type"] = "`$OBJECT`",
+                            ["short"] = "Reference to the associated Custody Status.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "transferMethod",
-                            ["short"] = "Reference to the associated Transfer Method.",
+                            ["title"] = "Transfer Method",
                             ["type"] = "`$OBJECT`",
+                            ["short"] = "Reference to the associated Transfer Method.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "version",
-                            ["short"] = "The number of times that this resource has been updated.",
+                            ["title"] = "Version",
                             ["type"] = "`$INTEGER`",
+                            ["short"] = "The number of times that this resource has been updated.",
                         },
                     },
                     ["id"] = new Dictionary<string, object?>
@@ -1788,47 +1870,9 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["params"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "device_type",
-                                                ["orig"] = "device_type",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "id",
-                                                ["orig"] = "id",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "serial_number",
-                                                ["orig"] = "serial_number",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/devices/{serialNumber}/{deviceType}/custody/{id}",
-                                    ["rename"] = new Dictionary<string, object?>
-                                    {
-                                        ["param"] = new Dictionary<string, object?>
-                                        {
-                                            ["deviceType"] = "device_type",
-                                            ["serialNumber"] = "serial_number",
-                                        },
-                                    },
                                     ["segments"] = new List<object?>
                                     {
                                         new Dictionary<string, object?>
@@ -1852,6 +1896,57 @@ public static class SdkConfig
                                             ["var"] = "id",
                                         },
                                     },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "devices",
+                                        "{serial_number}",
+                                        "{device_type}",
+                                        "custody",
+                                        "{id}",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>
+                                    {
+                                        ["param"] = new Dictionary<string, object?>
+                                        {
+                                            ["deviceType"] = "device_type",
+                                            ["serialNumber"] = "serial_number",
+                                        },
+                                    },
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["params"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "device_type",
+                                                ["orig"] = "device_type",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "id",
+                                                ["orig"] = "id",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "serial_number",
+                                                ["orig"] = "serial_number",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                        },
+                                    },
                                     ["select"] = new Dictionary<string, object?>
                                     {
                                         ["exist"] = new List<object?>
@@ -1860,19 +1955,6 @@ public static class SdkConfig
                                             "id",
                                             "serial_number",
                                         },
-                                    },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "devices",
-                                        "{serial_number}",
-                                        "{device_type}",
-                                        "custody",
-                                        "{id}",
                                     },
                                 },
                             },
@@ -1884,100 +1966,113 @@ public static class SdkConfig
                         {
                             new List<object?>
                             {
-                                "device",
+                                "$.main.kit.entity.device",
                             },
                         },
                     },
                 },
-                ["device_custody_list"] = new Dictionary<string, object?>
+                ["device_custody_list_item"] = new Dictionary<string, object?>
                 {
                     ["fields"] = new List<object?>
                     {
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "date-time",
                             ["name"] = "completeDate",
-                            ["short"] = "The date and time that the Custody change took place.",
+                            ["title"] = "Complete Date",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The date and time that the Custody change took place.",
+                            ["format"] = "date-time",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "date-time",
                             ["name"] = "created",
-                            ["short"] = "Creation timestamp in ISO 8601 format.",
+                            ["title"] = "Created",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Creation timestamp in ISO 8601 format.",
+                            ["format"] = "date-time",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "createdBy",
+                            ["title"] = "Created By",
+                            ["type"] = "`$OBJECT`",
                             ["req"] = true,
                             ["short"] = "Reference to the associated User resource.",
-                            ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "custodian",
+                            ["title"] = "Custodian",
+                            ["type"] = "`$OBJECT`",
                             ["req"] = true,
                             ["short"] = "Reference to the associated User resource.",
-                            ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "device",
-                            ["short"] = "Reference to the associated Device resource.",
+                            ["title"] = "Device",
                             ["type"] = "`$OBJECT`",
+                            ["short"] = "Reference to the associated Device resource.",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "int64",
                             ["name"] = "id",
-                            ["short"] = "This resource's unique identifier.",
+                            ["title"] = "Id",
                             ["type"] = "`$INTEGER`",
+                            ["short"] = "This resource's unique identifier.",
+                            ["format"] = "int64",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "location",
+                            ["title"] = "Location",
+                            ["type"] = "`$OBJECT`",
                             ["req"] = true,
                             ["short"] = "Reference to the associated Location resource.",
-                            ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "date-time",
                             ["name"] = "modified",
-                            ["short"] = "Last modified timestamp.",
+                            ["title"] = "Modified",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Last modified timestamp.",
+                            ["format"] = "date-time",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "modifiedBy",
+                            ["title"] = "Modified By",
+                            ["type"] = "`$OBJECT`",
                             ["req"] = true,
                             ["short"] = "Reference to the associated User resource.",
-                            ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "notes",
-                            ["short"] = "Free form field that allows the Client associate notes with the Custody Change.",
+                            ["title"] = "Notes",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Free form field that allows the Client associate notes with the Custody Change.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "status",
-                            ["short"] = "Reference to the associated Custody Status.",
+                            ["title"] = "Status",
                             ["type"] = "`$OBJECT`",
+                            ["short"] = "Reference to the associated Custody Status.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "transferMethod",
-                            ["short"] = "Reference to the associated Transfer Method.",
+                            ["title"] = "Transfer Method",
                             ["type"] = "`$OBJECT`",
+                            ["short"] = "Reference to the associated Transfer Method.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "version",
-                            ["short"] = "The number of times that this resource has been updated.",
+                            ["title"] = "Version",
                             ["type"] = "`$INTEGER`",
+                            ["short"] = "The number of times that this resource has been updated.",
                         },
                     },
                     ["id"] = new Dictionary<string, object?>
@@ -1985,7 +2080,7 @@ public static class SdkConfig
                         ["field"] = "id",
                         ["name"] = "id",
                     },
-                    ["name"] = "device_custody_list",
+                    ["name"] = "device_custody_list_item",
                     ["op"] = new Dictionary<string, object?>
                     {
                         ["list"] = new Dictionary<string, object?>
@@ -1996,58 +2091,9 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["params"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "device_type",
-                                                ["orig"] = "device_type",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "serial_number",
-                                                ["orig"] = "serial_number",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                        },
-                                        ["query"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["example"] = 0,
-                                                ["kind"] = "query",
-                                                ["name"] = "skip",
-                                                ["orig"] = "skip",
-                                                ["type"] = "`$INTEGER`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["example"] = 10,
-                                                ["kind"] = "query",
-                                                ["name"] = "take",
-                                                ["orig"] = "take",
-                                                ["type"] = "`$INTEGER`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/devices/{serialNumber}/{deviceType}/custody",
-                                    ["rename"] = new Dictionary<string, object?>
-                                    {
-                                        ["param"] = new Dictionary<string, object?>
-                                        {
-                                            ["deviceType"] = "device_type",
-                                            ["serialNumber"] = "serial_number",
-                                        },
-                                    },
                                     ["segments"] = new List<object?>
                                     {
                                         new Dictionary<string, object?>
@@ -2067,6 +2113,67 @@ public static class SdkConfig
                                             ["lit"] = "custody",
                                         },
                                     },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "devices",
+                                        "{serial_number}",
+                                        "{device_type}",
+                                        "custody",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>
+                                    {
+                                        ["param"] = new Dictionary<string, object?>
+                                        {
+                                            ["deviceType"] = "device_type",
+                                            ["serialNumber"] = "serial_number",
+                                        },
+                                    },
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body.data`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["params"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "device_type",
+                                                ["orig"] = "device_type",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "serial_number",
+                                                ["orig"] = "serial_number",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                        },
+                                        ["query"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "skip",
+                                                ["orig"] = "skip",
+                                                ["type"] = "`$INTEGER`",
+                                                ["kind"] = "query",
+                                                ["example"] = 0,
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "take",
+                                                ["orig"] = "take",
+                                                ["type"] = "`$INTEGER`",
+                                                ["kind"] = "query",
+                                                ["example"] = 10,
+                                            },
+                                        },
+                                    },
                                     ["select"] = new Dictionary<string, object?>
                                     {
                                         ["exist"] = new List<object?>
@@ -2077,18 +2184,6 @@ public static class SdkConfig
                                             "take",
                                         },
                                     },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body.data`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "devices",
-                                        "{serial_number}",
-                                        "{device_type}",
-                                        "custody",
-                                    },
                                 },
                             },
                         },
@@ -2099,141 +2194,7 @@ public static class SdkConfig
                         {
                             new List<object?>
                             {
-                                "device",
-                            },
-                        },
-                    },
-                },
-                ["device_list"] = new Dictionary<string, object?>
-                {
-                    ["fields"] = new List<object?>
-                    {
-                        new Dictionary<string, object?>
-                        {
-                            ["name"] = "data",
-                            ["short"] = "List of Devices.",
-                            ["type"] = "`$ARRAY`",
-                        },
-                        new Dictionary<string, object?>
-                        {
-                            ["name"] = "total",
-                            ["short"] = "Total number of Devices available (not the number of Users in the response).",
-                            ["type"] = "`$INTEGER`",
-                        },
-                    },
-                    ["name"] = "device_list",
-                    ["op"] = new Dictionary<string, object?>
-                    {
-                        ["load"] = new Dictionary<string, object?>
-                        {
-                            ["input"] = "data",
-                            ["name"] = "load",
-                            ["points"] = new List<object?>
-                            {
-                                new Dictionary<string, object?>
-                                {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["params"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "share_partner_to",
-                                                ["orig"] = "share_partner_to",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                        },
-                                        ["query"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["example"] = 0,
-                                                ["kind"] = "query",
-                                                ["name"] = "skip",
-                                                ["orig"] = "skip",
-                                                ["type"] = "`$INTEGER`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["example"] = "asc",
-                                                ["kind"] = "query",
-                                                ["name"] = "sorting_direction",
-                                                ["orig"] = "sorting_direction",
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["example"] = "serialnumber",
-                                                ["kind"] = "query",
-                                                ["name"] = "sorting_field",
-                                                ["orig"] = "sorting_field",
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["example"] = 10,
-                                                ["kind"] = "query",
-                                                ["name"] = "take",
-                                                ["orig"] = "take",
-                                                ["type"] = "`$INTEGER`",
-                                            },
-                                        },
-                                    },
-                                    ["kind"] = "http",
-                                    ["method"] = "GET",
-                                    ["orig"] = "/virtualDevices/{sharePartnerTo}",
-                                    ["rename"] = new Dictionary<string, object?>
-                                    {
-                                        ["param"] = new Dictionary<string, object?>
-                                        {
-                                            ["sharePartnerTo"] = "share_partner_to",
-                                        },
-                                    },
-                                    ["segments"] = new List<object?>
-                                    {
-                                        new Dictionary<string, object?>
-                                        {
-                                            ["lit"] = "virtualDevices",
-                                        },
-                                        new Dictionary<string, object?>
-                                        {
-                                            ["var"] = "share_partner_to",
-                                        },
-                                    },
-                                    ["select"] = new Dictionary<string, object?>
-                                    {
-                                        ["exist"] = new List<object?>
-                                        {
-                                            "share_partner_to",
-                                            "skip",
-                                            "sorting_direction",
-                                            "sorting_field",
-                                            "take",
-                                        },
-                                    },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "virtualDevices",
-                                        "{share_partner_to}",
-                                    },
-                                },
-                            },
-                        },
-                    },
-                    ["relations"] = new Dictionary<string, object?>
-                    {
-                        ["ancestors"] = new List<object?>
-                        {
-                            new List<object?>
-                            {
-                                "virtual_device",
+                                "$.main.kit.entity.device",
                             },
                         },
                     },
@@ -2245,9 +2206,10 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "success",
+                            ["title"] = "Success",
+                            ["type"] = "`$BOOLEAN`",
                             ["req"] = true,
                             ["short"] = "Indicates if the action succeeded.",
-                            ["type"] = "`$BOOLEAN`",
                         },
                     },
                     ["name"] = "device_receive_result",
@@ -2261,7 +2223,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/devices/receive",
@@ -2276,17 +2237,19 @@ public static class SdkConfig
                                             ["lit"] = "receive",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>(),
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
                                     ["parts"] = new List<object?>
                                     {
                                         "devices",
                                         "receive",
                                     },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>(),
                                 },
                             },
                         },
@@ -2303,9 +2266,10 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "success",
+                            ["title"] = "Success",
+                            ["type"] = "`$BOOLEAN`",
                             ["req"] = true,
                             ["short"] = "Indicates if the RKI activation succeeded.",
-                            ["type"] = "`$BOOLEAN`",
                         },
                     },
                     ["name"] = "device_rki_activate_result",
@@ -2319,7 +2283,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/devices/rki/activate",
@@ -2338,18 +2301,20 @@ public static class SdkConfig
                                             ["lit"] = "activate",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>(),
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
                                     ["parts"] = new List<object?>
                                     {
                                         "devices",
                                         "rki",
                                         "activate",
                                     },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>(),
                                 },
                             },
                         },
@@ -2365,16 +2330,18 @@ public static class SdkConfig
                     {
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "int64",
                             ["name"] = "id",
-                            ["short"] = "Unique identifier for this Device state.",
+                            ["title"] = "Id",
                             ["type"] = "`$INTEGER`",
+                            ["short"] = "Unique identifier for this Device state.",
+                            ["format"] = "int64",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "name",
-                            ["short"] = "Descriptive name for this Device state.",
+                            ["title"] = "Name",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Descriptive name for this Device state.",
                         },
                     },
                     ["id"] = new Dictionary<string, object?>
@@ -2393,7 +2360,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/deviceStates",
@@ -2404,16 +2370,18 @@ public static class SdkConfig
                                             ["lit"] = "deviceStates",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>(),
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "deviceStates",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body.data`",
                                     },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "deviceStates",
-                                    },
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>(),
                                 },
                             },
                         },
@@ -2429,76 +2397,88 @@ public static class SdkConfig
                     {
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "datetime",
                             ["name"] = "created",
-                            ["short"] = "Creation timestamp in ISO 8601 format.",
+                            ["title"] = "Created",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Creation timestamp in ISO 8601 format.",
+                            ["format"] = "datetime",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "deviceTypeMode",
-                            ["short"] = "The Device type.",
+                            ["title"] = "Device Type Mode",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The Device type.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "hardwareVersion",
-                            ["short"] = "The Device hardware version.",
+                            ["title"] = "Hardware Version",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The Device hardware version.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "id",
-                            ["short"] = "Unique idenifier.",
+                            ["title"] = "Id",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Unique idenifier.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "isActive",
-                            ["short"] = "This property indicates if the DeviceType is active.",
+                            ["title"] = "Is Active",
                             ["type"] = "`$BOOLEAN`",
+                            ["short"] = "This property indicates if the DeviceType is active.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "manufacturer",
-                            ["short"] = "The Device manufacturer.",
+                            ["title"] = "Manufacturer",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The Device manufacturer.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "model",
-                            ["short"] = "The Device model.",
+                            ["title"] = "Model",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The Device model.",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "datetime",
                             ["name"] = "modified",
-                            ["short"] = "Last modified timestamp.",
+                            ["title"] = "Modified",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Last modified timestamp.",
+                            ["format"] = "datetime",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "name",
-                            ["short"] = "The DeviceType name.",
+                            ["title"] = "Name",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The DeviceType name.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "photoUrl",
+                            ["title"] = "Photo Url",
                             ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "productName",
-                            ["short"] = "The Device name.",
+                            ["title"] = "Product Name",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The Device name.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "version",
-                            ["short"] = "The number of times that this resource has been updated.",
+                            ["title"] = "Version",
                             ["type"] = "`$INTEGER`",
+                            ["short"] = "The number of times that this resource has been updated.",
                         },
                     },
                     ["id"] = new Dictionary<string, object?>
@@ -2517,7 +2497,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/deviceTypes",
@@ -2528,16 +2507,18 @@ public static class SdkConfig
                                             ["lit"] = "deviceTypes",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>(),
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "deviceTypes",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body.data`",
                                     },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "deviceTypes",
-                                    },
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>(),
                                 },
                             },
                         },
@@ -2549,20 +2530,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["params"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "id",
-                                                ["orig"] = "id",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/deviceTypes/{id}",
@@ -2577,22 +2544,37 @@ public static class SdkConfig
                                             ["var"] = "id",
                                         },
                                     },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "deviceTypes",
+                                        "{id}",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["params"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "id",
+                                                ["orig"] = "id",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                        },
+                                    },
                                     ["select"] = new Dictionary<string, object?>
                                     {
                                         ["exist"] = new List<object?>
                                         {
                                             "id",
                                         },
-                                    },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "deviceTypes",
-                                        "{id}",
                                     },
                                 },
                             },
@@ -2609,53 +2591,61 @@ public static class SdkConfig
                     {
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "datetime",
                             ["name"] = "created",
-                            ["short"] = "Creation timestamp in ISO 8601 format.",
+                            ["title"] = "Created",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Creation timestamp in ISO 8601 format.",
+                            ["format"] = "datetime",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "id",
-                            ["short"] = "unique idenifier",
+                            ["title"] = "Id",
                             ["type"] = "`$STRING`",
+                            ["short"] = "unique idenifier",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "isActive",
-                            ["short"] = "Active flag, inactive keys cannot be assigned to devices.",
+                            ["title"] = "Is Active",
                             ["type"] = "`$BOOLEAN`",
+                            ["short"] = "Active flag, inactive keys cannot be assigned to devices.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "isP2PE",
-                            ["short"] = "Flags if a key is for a P2PE compliant cypher.",
+                            ["title"] = "Is P2 Pe",
                             ["type"] = "`$BOOLEAN`",
+                            ["short"] = "Flags if a key is for a P2PE compliant cypher.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "keyType",
-                            ["short"] = "The cipher type that the key works with.",
+                            ["title"] = "Key Type",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The cipher type that the key works with.",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "datetime",
                             ["name"] = "modified",
-                            ["short"] = "Last modified timestamp in ISO 8601 format.",
+                            ["title"] = "Modified",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Last modified timestamp in ISO 8601 format.",
+                            ["format"] = "datetime",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "name",
-                            ["short"] = "Key name.",
+                            ["title"] = "Name",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Key name.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "version",
-                            ["short"] = "The number of times that this resource has been updated.",
+                            ["title"] = "Version",
                             ["type"] = "`$INTEGER`",
+                            ["short"] = "The number of times that this resource has been updated.",
                         },
                     },
                     ["id"] = new Dictionary<string, object?>
@@ -2674,7 +2664,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/injectKeys",
@@ -2685,16 +2674,18 @@ public static class SdkConfig
                                             ["lit"] = "injectKeys",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>(),
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "injectKeys",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body.data`",
                                     },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "injectKeys",
-                                    },
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>(),
                                 },
                             },
                         },
@@ -2706,20 +2697,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["params"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "id",
-                                                ["orig"] = "id",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/injectKeys/{id}",
@@ -2734,22 +2711,37 @@ public static class SdkConfig
                                             ["var"] = "id",
                                         },
                                     },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "injectKeys",
+                                        "{id}",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["params"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "id",
+                                                ["orig"] = "id",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                        },
+                                    },
                                     ["select"] = new Dictionary<string, object?>
                                     {
                                         ["exist"] = new List<object?>
                                         {
                                             "id",
                                         },
-                                    },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "injectKeys",
-                                        "{id}",
                                     },
                                 },
                             },
@@ -2766,16 +2758,18 @@ public static class SdkConfig
                     {
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "int64",
                             ["name"] = "id",
-                            ["short"] = "This resource's unique identifier.",
+                            ["title"] = "Id",
                             ["type"] = "`$INTEGER`",
+                            ["short"] = "This resource's unique identifier.",
+                            ["format"] = "int64",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "name",
-                            ["short"] = "The KIF's name.",
+                            ["title"] = "Name",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The KIF's name.",
                         },
                     },
                     ["id"] = new Dictionary<string, object?>
@@ -2794,7 +2788,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/kifs",
@@ -2805,16 +2798,18 @@ public static class SdkConfig
                                             ["lit"] = "kifs",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>(),
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "kifs",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body.data`",
                                     },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "kifs",
-                                    },
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>(),
                                 },
                             },
                         },
@@ -2831,142 +2826,165 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "address1",
-                            ["short"] = "The Location's street address.",
+                            ["title"] = "Address1",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The Location's street address.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "address2",
-                            ["short"] = "The Location's street address.",
+                            ["title"] = "Address2",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The Location's street address.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "billingId",
-                            ["short"] = "\\?",
+                            ["title"] = "Billing Id",
                             ["type"] = "`$STRING`",
+                            ["short"] = "\\?",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "city",
-                            ["short"] = "The Location's city.",
+                            ["title"] = "City",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The Location's city.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "country",
-                            ["short"] = "The Location's country.",
+                            ["title"] = "Country",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The Location's country.",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "datetime",
                             ["name"] = "created",
-                            ["short"] = "Creation timestamp in ISO 8601 format.",
+                            ["title"] = "Created",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Creation timestamp in ISO 8601 format.",
+                            ["format"] = "datetime",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "customReference",
-                            ["short"] = "A Partner specified reference for a location.",
+                            ["title"] = "Custom Reference",
                             ["type"] = "`$STRING`",
+                            ["short"] = "A Partner specified reference for a location.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "id",
-                            ["short"] = "This resource's unique identifier.",
+                            ["title"] = "Id",
                             ["type"] = "`$STRING`",
+                            ["short"] = "This resource's unique identifier.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "locationType",
-                            ["short"] = "The Location's clasification.",
+                            ["title"] = "Location Type",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The Location's clasification.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "mailAddress1",
-                            ["short"] = "The Location's street address.",
+                            ["title"] = "Mail Address1",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The Location's street address.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "mailAddress2",
-                            ["short"] = "The Location's street address.",
+                            ["title"] = "Mail Address2",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The Location's street address.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "mailCity",
-                            ["short"] = "The Location's city.",
+                            ["title"] = "Mail City",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The Location's city.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "mailCountry",
-                            ["short"] = "The Location's street address.",
+                            ["title"] = "Mail Country",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The Location's street address.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "mailPostalCode",
-                            ["short"] = "The Location's postal code.",
+                            ["title"] = "Mail Postal Code",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The Location's postal code.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "mailStateProvince",
-                            ["short"] = "The Location's street state or province.",
+                            ["title"] = "Mail State Province",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The Location's street state or province.",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "datetime",
                             ["name"] = "modified",
-                            ["short"] = "Last modified timestamp.",
+                            ["title"] = "Modified",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Last modified timestamp.",
+                            ["format"] = "datetime",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "name",
-                            ["short"] = "The Location's name.",
+                            ["title"] = "Name",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The Location's name.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "nameOfBusiness",
-                            ["short"] = "The name of the business at this location.",
+                            ["title"] = "Name Of Business",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The name of the business at this location.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "notes",
-                            ["short"] = "Note for delivery driver.",
+                            ["title"] = "Notes",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Note for delivery driver.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "postalCode",
-                            ["short"] = "The Location's postal code.",
+                            ["title"] = "Postal Code",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The Location's postal code.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "stateProvince",
-                            ["short"] = "The Location's street state or province.",
+                            ["title"] = "State Province",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The Location's street state or province.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "uniqueId",
-                            ["short"] = "Unique Identifier for the Location.",
+                            ["title"] = "Unique Id",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Unique Identifier for the Location.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "version",
-                            ["short"] = "The number of times that this resource has been updated.",
+                            ["title"] = "Version",
                             ["type"] = "`$INTEGER`",
+                            ["short"] = "The number of times that this resource has been updated.",
                         },
                     },
                     ["id"] = new Dictionary<string, object?>
@@ -2985,7 +3003,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/locations",
@@ -2996,16 +3013,18 @@ public static class SdkConfig
                                             ["lit"] = "locations",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>(),
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "locations",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
                                     },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "locations",
-                                    },
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>(),
                                 },
                             },
                         },
@@ -3017,36 +3036,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["query"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "query",
-                                                ["name"] = "client",
-                                                ["orig"] = "client",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["example"] = 0,
-                                                ["kind"] = "query",
-                                                ["name"] = "skip",
-                                                ["orig"] = "skip",
-                                                ["type"] = "`$INTEGER`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["example"] = 10,
-                                                ["kind"] = "query",
-                                                ["name"] = "take",
-                                                ["orig"] = "take",
-                                                ["type"] = "`$INTEGER`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/locations",
@@ -3057,6 +3046,46 @@ public static class SdkConfig
                                             ["lit"] = "locations",
                                         },
                                     },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "locations",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body.data`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["query"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "client",
+                                                ["orig"] = "client",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "query",
+                                                ["reqd"] = true,
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "skip",
+                                                ["orig"] = "skip",
+                                                ["type"] = "`$INTEGER`",
+                                                ["kind"] = "query",
+                                                ["example"] = 0,
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "take",
+                                                ["orig"] = "take",
+                                                ["type"] = "`$INTEGER`",
+                                                ["kind"] = "query",
+                                                ["example"] = 10,
+                                            },
+                                        },
+                                    },
                                     ["select"] = new Dictionary<string, object?>
                                     {
                                         ["exist"] = new List<object?>
@@ -3065,15 +3094,6 @@ public static class SdkConfig
                                             "skip",
                                             "take",
                                         },
-                                    },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body.data`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "locations",
                                     },
                                 },
                             },
@@ -3086,20 +3106,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["params"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "id",
-                                                ["orig"] = "id",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/locations/{id}",
@@ -3114,22 +3120,37 @@ public static class SdkConfig
                                             ["var"] = "id",
                                         },
                                     },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "locations",
+                                        "{id}",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["params"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "id",
+                                                ["orig"] = "id",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                        },
+                                    },
                                     ["select"] = new Dictionary<string, object?>
                                     {
                                         ["exist"] = new List<object?>
                                         {
                                             "id",
                                         },
-                                    },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "locations",
-                                        "{id}",
                                     },
                                 },
                             },
@@ -3142,20 +3163,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["params"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "id",
-                                                ["orig"] = "id",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "DELETE",
                                     ["orig"] = "/locations/{id}",
@@ -3170,22 +3177,37 @@ public static class SdkConfig
                                             ["var"] = "id",
                                         },
                                     },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "locations",
+                                        "{id}",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["params"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "id",
+                                                ["orig"] = "id",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                        },
+                                    },
                                     ["select"] = new Dictionary<string, object?>
                                     {
                                         ["exist"] = new List<object?>
                                         {
                                             "id",
                                         },
-                                    },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "locations",
-                                        "{id}",
                                     },
                                 },
                             },
@@ -3203,18 +3225,22 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "billingId",
-                            ["short"] = "The Partner's billing identifier.",
+                            ["title"] = "Billing Id",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The Partner's billing identifier.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "clientCanOrderEquipment",
-                            ["short"] = "This property indicates if the Partner is allowed to order Equipment.",
+                            ["title"] = "Client Can Order Equipment",
                             ["type"] = "`$BOOLEAN`",
+                            ["short"] = "This property indicates if the Partner is allowed to order Equipment.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "contact",
+                            ["title"] = "Contact",
+                            ["type"] = "`$OBJECT`",
                             ["op"] = new Dictionary<string, object?>
                             {
                                 ["list"] = new Dictionary<string, object?>
@@ -3224,76 +3250,86 @@ public static class SdkConfig
                                 },
                             },
                             ["short"] = "Reference to the associated User resource.",
-                            ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "datetime",
                             ["name"] = "created",
-                            ["short"] = "Creation timestamp in ISO 8601 format.",
+                            ["title"] = "Created",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Creation timestamp in ISO 8601 format.",
+                            ["format"] = "datetime",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "id",
-                            ["short"] = "This resource's unique identifier.",
+                            ["title"] = "Id",
                             ["type"] = "`$STRING`",
+                            ["short"] = "This resource's unique identifier.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "isActive",
-                            ["short"] = "This property indicates if the Parter account is active or disabled.",
+                            ["title"] = "Is Active",
                             ["type"] = "`$BOOLEAN`",
+                            ["short"] = "This property indicates if the Parter account is active or disabled.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "location",
+                            ["title"] = "Location",
+                            ["type"] = "`$OBJECT`",
                             ["req"] = true,
                             ["short"] = "Reference to the associated Location resource.",
-                            ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "datetime",
                             ["name"] = "modified",
-                            ["short"] = "Last modified timestamp.",
+                            ["title"] = "Modified",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Last modified timestamp.",
+                            ["format"] = "datetime",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "name",
-                            ["short"] = "The Partner's name.",
+                            ["title"] = "Name",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The Partner's name.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "parent",
-                            ["short"] = "Reference to the associated Partner.",
+                            ["title"] = "Parent",
                             ["type"] = "`$OBJECT`",
+                            ["short"] = "Reference to the associated Partner.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "partnerId",
-                            ["short"] = "The Partner's id.",
+                            ["title"] = "Partner Id",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The Partner's id.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "reference",
-                            ["short"] = "The Partner's reference string.",
+                            ["title"] = "Reference",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The Partner's reference string.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "verificationPhrase",
-                            ["short"] = "The verification phrase is a message that the Partner creates.",
+                            ["title"] = "Verification Phrase",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The verification phrase is a message that the Partner creates.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "version",
-                            ["short"] = "The number of times that this resource has been updated.",
+                            ["title"] = "Version",
                             ["type"] = "`$INTEGER`",
+                            ["short"] = "The number of times that this resource has been updated.",
                         },
                     },
                     ["id"] = new Dictionary<string, object?>
@@ -3312,7 +3348,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/partners",
@@ -3323,16 +3358,18 @@ public static class SdkConfig
                                             ["lit"] = "partners",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>(),
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "partners",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
                                     },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "partners",
-                                    },
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>(),
                                 },
                             },
                         },
@@ -3344,35 +3381,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["query"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "query",
-                                                ["name"] = "partner",
-                                                ["orig"] = "partner",
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["example"] = 0,
-                                                ["kind"] = "query",
-                                                ["name"] = "skip",
-                                                ["orig"] = "skip",
-                                                ["type"] = "`$INTEGER`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["example"] = 10,
-                                                ["kind"] = "query",
-                                                ["name"] = "take",
-                                                ["orig"] = "take",
-                                                ["type"] = "`$INTEGER`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/partners",
@@ -3383,6 +3391,45 @@ public static class SdkConfig
                                             ["lit"] = "partners",
                                         },
                                     },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "partners",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body.data`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["query"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "partner",
+                                                ["orig"] = "partner",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "query",
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "skip",
+                                                ["orig"] = "skip",
+                                                ["type"] = "`$INTEGER`",
+                                                ["kind"] = "query",
+                                                ["example"] = 0,
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "take",
+                                                ["orig"] = "take",
+                                                ["type"] = "`$INTEGER`",
+                                                ["kind"] = "query",
+                                                ["example"] = 10,
+                                            },
+                                        },
+                                    },
                                     ["select"] = new Dictionary<string, object?>
                                     {
                                         ["exist"] = new List<object?>
@@ -3391,15 +3438,6 @@ public static class SdkConfig
                                             "skip",
                                             "take",
                                         },
-                                    },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body.data`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "partners",
                                     },
                                 },
                             },
@@ -3412,20 +3450,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["params"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "id",
-                                                ["orig"] = "id",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/partners/{id}",
@@ -3440,22 +3464,37 @@ public static class SdkConfig
                                             ["var"] = "id",
                                         },
                                     },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "partners",
+                                        "{id}",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["params"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "id",
+                                                ["orig"] = "id",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                        },
+                                    },
                                     ["select"] = new Dictionary<string, object?>
                                     {
                                         ["exist"] = new List<object?>
                                         {
                                             "id",
                                         },
-                                    },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "partners",
-                                        "{id}",
                                     },
                                 },
                             },
@@ -3473,90 +3512,104 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "carrier",
-                            ["short"] = "The name of the courier.",
+                            ["title"] = "Carrier",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The name of the courier.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "client",
-                            ["short"] = "Reference to the associated Client resource.",
+                            ["title"] = "Client",
                             ["type"] = "`$OBJECT`",
+                            ["short"] = "Reference to the associated Client resource.",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "datetime",
                             ["name"] = "created",
+                            ["title"] = "Created",
+                            ["type"] = "`$STRING`",
                             ["short"] = "Creation timestamp in ISO 8601 format.",
-                            ["type"] = "`$STRING`",
+                            ["format"] = "datetime",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "datetime",
                             ["name"] = "dateReceived",
-                            ["short"] = "The date and time that a package is recieved.",
+                            ["title"] = "Date Received",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The date and time that a package is recieved.",
+                            ["format"] = "datetime",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "datetime",
                             ["name"] = "dateShipped",
-                            ["short"] = "The date and time that a package is shipped.",
+                            ["title"] = "Date Shipped",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The date and time that a package is shipped.",
+                            ["format"] = "datetime",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "dcKif",
-                            ["short"] = "Reference to the associated KIF resource.",
+                            ["title"] = "Dc Kif",
                             ["type"] = "`$OBJECT`",
+                            ["short"] = "Reference to the associated KIF resource.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "id",
-                            ["short"] = "This resource's unique identifier.",
+                            ["title"] = "Id",
                             ["type"] = "`$STRING`",
+                            ["short"] = "This resource's unique identifier.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "items",
+                            ["title"] = "Items",
                             ["type"] = "`$ARRAY`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "kif",
-                            ["short"] = "Reference to the associated KIF resource.",
+                            ["title"] = "Kif",
                             ["type"] = "`$OBJECT`",
+                            ["short"] = "Reference to the associated KIF resource.",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "datetime",
                             ["name"] = "modified",
-                            ["short"] = "Last modified timestamp.",
+                            ["title"] = "Modified",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Last modified timestamp.",
+                            ["format"] = "datetime",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "partner",
-                            ["short"] = "Reference to the associated Partner.",
+                            ["title"] = "Partner",
                             ["type"] = "`$OBJECT`",
+                            ["short"] = "Reference to the associated Partner.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "shipmentType",
-                            ["short"] = "The type of shipment.",
+                            ["title"] = "Shipment Type",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The type of shipment.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "tracking",
-                            ["short"] = "The courier's tracking number.",
+                            ["title"] = "Tracking",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The courier's tracking number.",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "int32",
                             ["name"] = "version",
-                            ["short"] = "The number of times that this resource has been updated.",
+                            ["title"] = "Version",
                             ["type"] = "`$INTEGER`",
+                            ["short"] = "The number of times that this resource has been updated.",
+                            ["format"] = "int32",
                         },
                     },
                     ["id"] = new Dictionary<string, object?>
@@ -3575,7 +3628,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/shipments",
@@ -3586,16 +3638,18 @@ public static class SdkConfig
                                             ["lit"] = "shipments",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>(),
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "shipments",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
                                     },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "shipments",
-                                    },
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>(),
                                 },
                             },
                         },
@@ -3607,43 +3661,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["query"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "query",
-                                                ["name"] = "kif",
-                                                ["orig"] = "kif",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "query",
-                                                ["name"] = "mode",
-                                                ["orig"] = "mode",
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["example"] = 0,
-                                                ["kind"] = "query",
-                                                ["name"] = "skip",
-                                                ["orig"] = "skip",
-                                                ["type"] = "`$INTEGER`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["example"] = 10,
-                                                ["kind"] = "query",
-                                                ["name"] = "take",
-                                                ["orig"] = "take",
-                                                ["type"] = "`$INTEGER`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/shipments",
@@ -3652,6 +3669,53 @@ public static class SdkConfig
                                         new Dictionary<string, object?>
                                         {
                                             ["lit"] = "shipments",
+                                        },
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "shipments",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body.data`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["query"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "kif",
+                                                ["orig"] = "kif",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "query",
+                                                ["reqd"] = true,
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "mode",
+                                                ["orig"] = "mode",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "query",
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "skip",
+                                                ["orig"] = "skip",
+                                                ["type"] = "`$INTEGER`",
+                                                ["kind"] = "query",
+                                                ["example"] = 0,
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "take",
+                                                ["orig"] = "take",
+                                                ["type"] = "`$INTEGER`",
+                                                ["kind"] = "query",
+                                                ["example"] = 10,
+                                            },
                                         },
                                     },
                                     ["select"] = new Dictionary<string, object?>
@@ -3664,15 +3728,6 @@ public static class SdkConfig
                                             "take",
                                         },
                                     },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body.data`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "shipments",
-                                    },
                                 },
                             },
                         },
@@ -3684,20 +3739,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["params"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "id",
-                                                ["orig"] = "id",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/shipments/{id}",
@@ -3712,22 +3753,37 @@ public static class SdkConfig
                                             ["var"] = "id",
                                         },
                                     },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "shipments",
+                                        "{id}",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["params"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "id",
+                                                ["orig"] = "id",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                        },
+                                    },
                                     ["select"] = new Dictionary<string, object?>
                                     {
                                         ["exist"] = new List<object?>
                                         {
                                             "id",
                                         },
-                                    },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "shipments",
-                                        "{id}",
                                     },
                                 },
                             },
@@ -3745,8 +3801,9 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "success",
-                            ["short"] = "Indicates if the action was a success.",
+                            ["title"] = "Success",
                             ["type"] = "`$BOOLEAN`",
+                            ["short"] = "Indicates if the action was a success.",
                         },
                     },
                     ["name"] = "success",
@@ -3760,30 +3817,9 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["params"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "share_partner_to",
-                                                ["orig"] = "share_partner_to",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/virtualDevices/{sharePartnerTo}",
-                                    ["rename"] = new Dictionary<string, object?>
-                                    {
-                                        ["param"] = new Dictionary<string, object?>
-                                        {
-                                            ["sharePartnerTo"] = "share_partner_to",
-                                        },
-                                    },
                                     ["segments"] = new List<object?>
                                     {
                                         new Dictionary<string, object?>
@@ -3795,11 +3831,16 @@ public static class SdkConfig
                                             ["var"] = "share_partner_to",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>
+                                    ["parts"] = new List<object?>
                                     {
-                                        ["exist"] = new List<object?>
+                                        "virtualDevices",
+                                        "{share_partner_to}",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>
+                                    {
+                                        ["param"] = new Dictionary<string, object?>
                                         {
-                                            "share_partner_to",
+                                            ["sharePartnerTo"] = "share_partner_to",
                                         },
                                     },
                                     ["transform"] = new Dictionary<string, object?>
@@ -3807,10 +3848,26 @@ public static class SdkConfig
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
                                     },
-                                    ["parts"] = new List<object?>
+                                    ["args"] = new Dictionary<string, object?>
                                     {
-                                        "virtualDevices",
-                                        "{share_partner_to}",
+                                        ["params"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "share_partner_to",
+                                                ["orig"] = "share_partner_to",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                        },
+                                    },
+                                    ["select"] = new Dictionary<string, object?>
+                                    {
+                                        ["exist"] = new List<object?>
+                                        {
+                                            "share_partner_to",
+                                        },
                                     },
                                 },
                             },
@@ -3823,30 +3880,9 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["params"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "share_partner_to",
-                                                ["orig"] = "share_partner_to",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "DELETE",
                                     ["orig"] = "/virtualDevices/{sharePartnerTo}",
-                                    ["rename"] = new Dictionary<string, object?>
-                                    {
-                                        ["param"] = new Dictionary<string, object?>
-                                        {
-                                            ["sharePartnerTo"] = "share_partner_to",
-                                        },
-                                    },
                                     ["segments"] = new List<object?>
                                     {
                                         new Dictionary<string, object?>
@@ -3858,11 +3894,16 @@ public static class SdkConfig
                                             ["var"] = "share_partner_to",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>
+                                    ["parts"] = new List<object?>
                                     {
-                                        ["exist"] = new List<object?>
+                                        "virtualDevices",
+                                        "{share_partner_to}",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>
+                                    {
+                                        ["param"] = new Dictionary<string, object?>
                                         {
-                                            "share_partner_to",
+                                            ["sharePartnerTo"] = "share_partner_to",
                                         },
                                     },
                                     ["transform"] = new Dictionary<string, object?>
@@ -3870,10 +3911,26 @@ public static class SdkConfig
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
                                     },
-                                    ["parts"] = new List<object?>
+                                    ["args"] = new Dictionary<string, object?>
                                     {
-                                        "virtualDevices",
-                                        "{share_partner_to}",
+                                        ["params"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "share_partner_to",
+                                                ["orig"] = "share_partner_to",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                        },
+                                    },
+                                    ["select"] = new Dictionary<string, object?>
+                                    {
+                                        ["exist"] = new List<object?>
+                                        {
+                                            "share_partner_to",
+                                        },
                                     },
                                 },
                             },
@@ -3885,7 +3942,7 @@ public static class SdkConfig
                         {
                             new List<object?>
                             {
-                                "virtual_device",
+                                "$.main.kit.entity.virtual_device",
                             },
                         },
                     },
@@ -3897,152 +3954,176 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "alternateKey",
-                            ["short"] = "The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging.",
+                            ["title"] = "Alternate Key",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "client",
-                            ["short"] = "Reference to the associated Client resource.",
+                            ["title"] = "Client",
                             ["type"] = "`$OBJECT`",
+                            ["short"] = "Reference to the associated Client resource.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "clientRef",
+                            ["title"] = "Client Ref",
+                            ["type"] = "`$STRING`",
                             ["short"] = "Client Reference property that is included in the decrypt API call.",
-                            ["type"] = "`$STRING`",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "datetime",
                             ["name"] = "created",
-                            ["short"] = "Creation timestamp in ISO 8601 format.",
+                            ["title"] = "Created",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Creation timestamp in ISO 8601 format.",
+                            ["format"] = "datetime",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "int32",
                             ["name"] = "decrypted",
-                            ["short"] = "A Transcation can process muliple decryptions.",
+                            ["title"] = "Decrypted",
                             ["type"] = "`$INTEGER`",
+                            ["short"] = "A Transcation can process muliple decryptions.",
+                            ["format"] = "int32",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "deviceName",
-                            ["short"] = "The name of the Device that generated the payload to decrypt.",
+                            ["title"] = "Device Name",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The name of the Device that generated the payload to decrypt.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "directPartner",
-                            ["short"] = "Reference to the associated Partner.",
+                            ["title"] = "Direct Partner",
                             ["type"] = "`$OBJECT`",
+                            ["short"] = "Reference to the associated Partner.",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "int32",
                             ["name"] = "encrypted",
-                            ["short"] = "A Transcation can process muliple encryptions.",
+                            ["title"] = "Encrypted",
                             ["type"] = "`$INTEGER`",
+                            ["short"] = "A Transcation can process muliple encryptions.",
+                            ["format"] = "int32",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "datetime",
                             ["name"] = "endDate",
-                            ["short"] = "Timestamp from the end of the transaction.",
+                            ["title"] = "End Date",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Timestamp from the end of the transaction.",
+                            ["format"] = "datetime",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "errCode",
-                            ["short"] = "The error code that is sent in response to a failed decrypt API call.",
+                            ["title"] = "Err Code",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The error code that is sent in response to a failed decrypt API call.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "errMessage",
-                            ["short"] = "The error messge that is sent in response to a failed decrypt API call.",
+                            ["title"] = "Err Message",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The error messge that is sent in response to a failed decrypt API call.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "id",
-                            ["short"] = "This resource's unique identifier.",
+                            ["title"] = "Id",
                             ["type"] = "`$STRING`",
+                            ["short"] = "This resource's unique identifier.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "ipAddress",
-                            ["short"] = "The IP address of the http client that makes the decrypt API call.",
+                            ["title"] = "Ip Address",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The IP address of the http client that makes the decrypt API call.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "isVirtual",
-                            ["short"] = "Indicates if the Transaction came from a virtual Device.",
+                            ["title"] = "Is Virtual",
                             ["type"] = "`$BOOLEAN`",
+                            ["short"] = "Indicates if the Transaction came from a virtual Device.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "keyType",
-                            ["short"] = "The type of cipher used during decrytion.",
+                            ["title"] = "Key Type",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The type of cipher used during decrytion.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "location",
+                            ["title"] = "Location",
+                            ["type"] = "`$OBJECT`",
                             ["req"] = true,
                             ["short"] = "Reference to the associated Location resource.",
-                            ["type"] = "`$OBJECT`",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "messageId",
-                            ["short"] = "Message ID.",
+                            ["title"] = "Message Id",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Message ID.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "method",
-                            ["short"] = "The decryption cypher/method.",
+                            ["title"] = "Method",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The decryption cypher/method.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "partner",
-                            ["short"] = "Reference to the associated Partner.",
+                            ["title"] = "Partner",
                             ["type"] = "`$OBJECT`",
+                            ["short"] = "Reference to the associated Partner.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "reference",
-                            ["short"] = "The reference property that the Client includes in the decrypt API call.",
+                            ["title"] = "Reference",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The reference property that the Client includes in the decrypt API call.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "serialNumber",
-                            ["short"] = "The serial number of the Device that generated the payload to decrypt.",
+                            ["title"] = "Serial Number",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The serial number of the Device that generated the payload to decrypt.",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "datetime",
                             ["name"] = "startDate",
-                            ["short"] = "Timestamp from the beginning of the transaction.",
+                            ["title"] = "Start Date",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Timestamp from the beginning of the transaction.",
+                            ["format"] = "datetime",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "success",
-                            ["short"] = "The success indicator.",
+                            ["title"] = "Success",
                             ["type"] = "`$BOOLEAN`",
+                            ["short"] = "The success indicator.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "transactionSource",
-                            ["short"] = "The source of the Transaction.",
+                            ["title"] = "Transaction Source",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The source of the Transaction.",
                         },
                     },
                     ["id"] = new Dictionary<string, object?>
@@ -4061,7 +4142,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/transactions",
@@ -4072,16 +4152,18 @@ public static class SdkConfig
                                             ["lit"] = "transactions",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>(),
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "transactions",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
                                     },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "transactions",
-                                    },
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>(),
                                 },
                             },
                         },
@@ -4093,106 +4175,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["query"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "query",
-                                                ["name"] = "client",
-                                                ["orig"] = "client",
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "query",
-                                                ["name"] = "client_ref",
-                                                ["orig"] = "client_ref",
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "query",
-                                                ["name"] = "date_from",
-                                                ["orig"] = "date_from",
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "query",
-                                                ["name"] = "date_to",
-                                                ["orig"] = "date_to",
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "query",
-                                                ["name"] = "location",
-                                                ["orig"] = "location",
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "query",
-                                                ["name"] = "message_id",
-                                                ["orig"] = "message_id",
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["example"] = "nocount",
-                                                ["kind"] = "query",
-                                                ["name"] = "paging_mode",
-                                                ["orig"] = "paging_mode",
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "query",
-                                                ["name"] = "partner",
-                                                ["orig"] = "partner",
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "query",
-                                                ["name"] = "reference",
-                                                ["orig"] = "reference",
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "query",
-                                                ["name"] = "serial_number",
-                                                ["orig"] = "serial_number",
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["example"] = 0,
-                                                ["kind"] = "query",
-                                                ["name"] = "skip",
-                                                ["orig"] = "skip",
-                                                ["type"] = "`$INTEGER`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "query",
-                                                ["name"] = "success",
-                                                ["orig"] = "success",
-                                                ["type"] = "`$BOOLEAN`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["example"] = 10,
-                                                ["kind"] = "query",
-                                                ["name"] = "take",
-                                                ["orig"] = "take",
-                                                ["type"] = "`$INTEGER`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/transactions",
@@ -4201,6 +4183,116 @@ public static class SdkConfig
                                         new Dictionary<string, object?>
                                         {
                                             ["lit"] = "transactions",
+                                        },
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "transactions",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body.data`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["query"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "client",
+                                                ["orig"] = "client",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "query",
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "client_ref",
+                                                ["orig"] = "client_ref",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "query",
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "date_from",
+                                                ["orig"] = "date_from",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "query",
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "date_to",
+                                                ["orig"] = "date_to",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "query",
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "location",
+                                                ["orig"] = "location",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "query",
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "message_id",
+                                                ["orig"] = "message_id",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "query",
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "paging_mode",
+                                                ["orig"] = "paging_mode",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "query",
+                                                ["example"] = "nocount",
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "partner",
+                                                ["orig"] = "partner",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "query",
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "reference",
+                                                ["orig"] = "reference",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "query",
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "serial_number",
+                                                ["orig"] = "serial_number",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "query",
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "skip",
+                                                ["orig"] = "skip",
+                                                ["type"] = "`$INTEGER`",
+                                                ["kind"] = "query",
+                                                ["example"] = 0,
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "success",
+                                                ["orig"] = "success",
+                                                ["type"] = "`$BOOLEAN`",
+                                                ["kind"] = "query",
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "take",
+                                                ["orig"] = "take",
+                                                ["type"] = "`$INTEGER`",
+                                                ["kind"] = "query",
+                                                ["example"] = 10,
+                                            },
                                         },
                                     },
                                     ["select"] = new Dictionary<string, object?>
@@ -4222,15 +4314,6 @@ public static class SdkConfig
                                             "take",
                                         },
                                     },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body.data`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "transactions",
-                                    },
                                 },
                             },
                         },
@@ -4242,20 +4325,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["params"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "id",
-                                                ["orig"] = "id",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/transactions/{id}",
@@ -4270,22 +4339,37 @@ public static class SdkConfig
                                             ["var"] = "id",
                                         },
                                     },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "transactions",
+                                        "{id}",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["params"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "id",
+                                                ["orig"] = "id",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                        },
+                                    },
                                     ["select"] = new Dictionary<string, object?>
                                     {
                                         ["exist"] = new List<object?>
                                         {
                                             "id",
                                         },
-                                    },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "transactions",
-                                        "{id}",
                                     },
                                 },
                             },
@@ -4303,74 +4387,86 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "client",
-                            ["short"] = "Reference to the associated Client resource.",
+                            ["title"] = "Client",
                             ["type"] = "`$OBJECT`",
+                            ["short"] = "Reference to the associated Client resource.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "email",
-                            ["short"] = "The User's email address.",
+                            ["title"] = "Email",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The User's email address.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "firstName",
-                            ["short"] = "The User's name.",
+                            ["title"] = "First Name",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The User's name.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "id",
-                            ["short"] = "ID of newly created resource",
+                            ["title"] = "Id",
                             ["type"] = "`$STRING`",
+                            ["short"] = "ID of newly created resource",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "isActive",
-                            ["short"] = "This property indicates if the User account is active or disabled.",
+                            ["title"] = "Is Active",
                             ["type"] = "`$BOOLEAN`",
+                            ["short"] = "This property indicates if the User account is active or disabled.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "kif",
-                            ["short"] = "Reference to the associated KIF resource.",
+                            ["title"] = "Kif",
                             ["type"] = "`$OBJECT`",
+                            ["short"] = "Reference to the associated KIF resource.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "lastName",
-                            ["short"] = "The User's Surname.",
+                            ["title"] = "Last Name",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The User's Surname.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "partner",
-                            ["short"] = "Reference to the associated Partner.",
+                            ["title"] = "Partner",
                             ["type"] = "`$OBJECT`",
+                            ["short"] = "Reference to the associated Partner.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "phone",
-                            ["short"] = "The User's phone number without dashes, spaces, or brackets.",
+                            ["title"] = "Phone",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The User's phone number without dashes, spaces, or brackets.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "userName",
-                            ["short"] = "The User's unique username.",
+                            ["title"] = "User Name",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The User's unique username.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "userRole",
-                            ["short"] = "Reference to the associated User Role.",
+                            ["title"] = "User Role",
                             ["type"] = "`$OBJECT`",
+                            ["short"] = "Reference to the associated User Role.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "version",
-                            ["short"] = "The number of times that this resource has been updated.",
+                            ["title"] = "Version",
                             ["type"] = "`$INTEGER`",
+                            ["short"] = "The number of times that this resource has been updated.",
                         },
                     },
                     ["id"] = new Dictionary<string, object?>
@@ -4389,7 +4485,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>(),
                                     ["kind"] = "http",
                                     ["method"] = "POST",
                                     ["orig"] = "/users",
@@ -4400,16 +4495,18 @@ public static class SdkConfig
                                             ["lit"] = "users",
                                         },
                                     },
-                                    ["select"] = new Dictionary<string, object?>(),
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "users",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
                                     },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "users",
-                                    },
+                                    ["args"] = new Dictionary<string, object?>(),
+                                    ["select"] = new Dictionary<string, object?>(),
                                 },
                             },
                         },
@@ -4421,49 +4518,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["query"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "query",
-                                                ["name"] = "client",
-                                                ["orig"] = "client",
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "query",
-                                                ["name"] = "kif",
-                                                ["orig"] = "kif",
-                                                ["type"] = "`$STRING`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "query",
-                                                ["name"] = "partner",
-                                                ["orig"] = "partner",
-                                                ["type"] = "`$ANY`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["example"] = 0,
-                                                ["kind"] = "query",
-                                                ["name"] = "skip",
-                                                ["orig"] = "skip",
-                                                ["type"] = "`$INTEGER`",
-                                            },
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["example"] = 10,
-                                                ["kind"] = "query",
-                                                ["name"] = "take",
-                                                ["orig"] = "take",
-                                                ["type"] = "`$INTEGER`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/users",
@@ -4472,6 +4526,59 @@ public static class SdkConfig
                                         new Dictionary<string, object?>
                                         {
                                             ["lit"] = "users",
+                                        },
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "users",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body.data`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["query"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "client",
+                                                ["orig"] = "client",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "query",
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "kif",
+                                                ["orig"] = "kif",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "query",
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "partner",
+                                                ["orig"] = "partner",
+                                                ["type"] = "`$ANY`",
+                                                ["kind"] = "query",
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "skip",
+                                                ["orig"] = "skip",
+                                                ["type"] = "`$INTEGER`",
+                                                ["kind"] = "query",
+                                                ["example"] = 0,
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "take",
+                                                ["orig"] = "take",
+                                                ["type"] = "`$INTEGER`",
+                                                ["kind"] = "query",
+                                                ["example"] = 10,
+                                            },
                                         },
                                     },
                                     ["select"] = new Dictionary<string, object?>
@@ -4485,15 +4592,6 @@ public static class SdkConfig
                                             "take",
                                         },
                                     },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body.data`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "users",
-                                    },
                                 },
                             },
                         },
@@ -4505,20 +4603,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["params"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "id",
-                                                ["orig"] = "id",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "PATCH",
                                     ["orig"] = "/clients/{id}",
@@ -4533,6 +4617,31 @@ public static class SdkConfig
                                             ["var"] = "id",
                                         },
                                     },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "clients",
+                                        "{id}",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["params"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "id",
+                                                ["orig"] = "id",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                        },
+                                    },
                                     ["select"] = new Dictionary<string, object?>
                                     {
                                         ["exist"] = new List<object?>
@@ -4540,33 +4649,9 @@ public static class SdkConfig
                                             "id",
                                         },
                                     },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "clients",
-                                        "{id}",
-                                    },
                                 },
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["params"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "id",
-                                                ["orig"] = "id",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "PATCH",
                                     ["orig"] = "/devices/{id}",
@@ -4581,6 +4666,31 @@ public static class SdkConfig
                                             ["var"] = "id",
                                         },
                                     },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "devices",
+                                        "{id}",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["params"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "id",
+                                                ["orig"] = "id",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                        },
+                                    },
                                     ["select"] = new Dictionary<string, object?>
                                     {
                                         ["exist"] = new List<object?>
@@ -4588,33 +4698,9 @@ public static class SdkConfig
                                             "id",
                                         },
                                     },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "devices",
-                                        "{id}",
-                                    },
                                 },
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["params"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "id",
-                                                ["orig"] = "id",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "PATCH",
                                     ["orig"] = "/locations/{id}",
@@ -4629,6 +4715,31 @@ public static class SdkConfig
                                             ["var"] = "id",
                                         },
                                     },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "locations",
+                                        "{id}",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["params"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "id",
+                                                ["orig"] = "id",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                        },
+                                    },
                                     ["select"] = new Dictionary<string, object?>
                                     {
                                         ["exist"] = new List<object?>
@@ -4636,33 +4747,9 @@ public static class SdkConfig
                                             "id",
                                         },
                                     },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "locations",
-                                        "{id}",
-                                    },
                                 },
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["params"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "id",
-                                                ["orig"] = "id",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "PATCH",
                                     ["orig"] = "/partners/{id}",
@@ -4677,6 +4764,31 @@ public static class SdkConfig
                                             ["var"] = "id",
                                         },
                                     },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "partners",
+                                        "{id}",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["params"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "id",
+                                                ["orig"] = "id",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                        },
+                                    },
                                     ["select"] = new Dictionary<string, object?>
                                     {
                                         ["exist"] = new List<object?>
@@ -4684,33 +4796,9 @@ public static class SdkConfig
                                             "id",
                                         },
                                     },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "partners",
-                                        "{id}",
-                                    },
                                 },
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["params"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "id",
-                                                ["orig"] = "id",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "PATCH",
                                     ["orig"] = "/shipments/{id}",
@@ -4725,6 +4813,31 @@ public static class SdkConfig
                                             ["var"] = "id",
                                         },
                                     },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "shipments",
+                                        "{id}",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["params"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "id",
+                                                ["orig"] = "id",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                        },
+                                    },
                                     ["select"] = new Dictionary<string, object?>
                                     {
                                         ["exist"] = new List<object?>
@@ -4732,33 +4845,9 @@ public static class SdkConfig
                                             "id",
                                         },
                                     },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "shipments",
-                                        "{id}",
-                                    },
                                 },
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["params"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "id",
-                                                ["orig"] = "id",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "PATCH",
                                     ["orig"] = "/transactions/{id}",
@@ -4773,6 +4862,31 @@ public static class SdkConfig
                                             ["var"] = "id",
                                         },
                                     },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "transactions",
+                                        "{id}",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["params"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "id",
+                                                ["orig"] = "id",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                        },
+                                    },
                                     ["select"] = new Dictionary<string, object?>
                                     {
                                         ["exist"] = new List<object?>
@@ -4780,33 +4894,9 @@ public static class SdkConfig
                                             "id",
                                         },
                                     },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "transactions",
-                                        "{id}",
-                                    },
                                 },
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["params"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "id",
-                                                ["orig"] = "id",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "PATCH",
                                     ["orig"] = "/users/{id}",
@@ -4821,22 +4911,37 @@ public static class SdkConfig
                                             ["var"] = "id",
                                         },
                                     },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "users",
+                                        "{id}",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["params"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "id",
+                                                ["orig"] = "id",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                        },
+                                    },
                                     ["select"] = new Dictionary<string, object?>
                                     {
                                         ["exist"] = new List<object?>
                                         {
                                             "id",
                                         },
-                                    },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "users",
-                                        "{id}",
                                     },
                                 },
                             },
@@ -4854,88 +4959,102 @@ public static class SdkConfig
                         new Dictionary<string, object?>
                         {
                             ["name"] = "client",
-                            ["short"] = "Reference to the associated Client resource.",
+                            ["title"] = "Client",
                             ["type"] = "`$OBJECT`",
+                            ["short"] = "Reference to the associated Client resource.",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "datetime",
                             ["name"] = "created",
-                            ["short"] = "Creation timestamp in ISO 8601 format.",
+                            ["title"] = "Created",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Creation timestamp in ISO 8601 format.",
+                            ["format"] = "datetime",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "email",
-                            ["short"] = "The User's email address.",
+                            ["title"] = "Email",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The User's email address.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "firstName",
-                            ["short"] = "The User's name.",
+                            ["title"] = "First Name",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The User's name.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "id",
-                            ["short"] = "This resource's unique identifier.",
+                            ["title"] = "Id",
                             ["type"] = "`$STRING`",
+                            ["short"] = "This resource's unique identifier.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "isActive",
-                            ["short"] = "This property indicates if the User account is active or disabled.",
+                            ["title"] = "Is Active",
                             ["type"] = "`$BOOLEAN`",
+                            ["short"] = "This property indicates if the User account is active or disabled.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "kif",
-                            ["short"] = "Reference to the associated KIF resource.",
+                            ["title"] = "Kif",
                             ["type"] = "`$OBJECT`",
+                            ["short"] = "Reference to the associated KIF resource.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "lastName",
-                            ["short"] = "The User's Surname.",
+                            ["title"] = "Last Name",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The User's Surname.",
                         },
                         new Dictionary<string, object?>
                         {
-                            ["format"] = "datetime",
                             ["name"] = "modified",
-                            ["short"] = "Last modified timestamp.",
+                            ["title"] = "Modified",
                             ["type"] = "`$STRING`",
+                            ["short"] = "Last modified timestamp.",
+                            ["format"] = "datetime",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "partner",
-                            ["short"] = "Reference to the associated Partner.",
+                            ["title"] = "Partner",
                             ["type"] = "`$OBJECT`",
+                            ["short"] = "Reference to the associated Partner.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "phone",
-                            ["short"] = "The User's phone number without dashes, spaces, or brackets.",
+                            ["title"] = "Phone",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The User's phone number without dashes, spaces, or brackets.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "userName",
-                            ["short"] = "The User's unique username.",
+                            ["title"] = "User Name",
                             ["type"] = "`$STRING`",
+                            ["short"] = "The User's unique username.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "userRole",
-                            ["short"] = "Reference to the associated User Role.",
+                            ["title"] = "User Role",
                             ["type"] = "`$OBJECT`",
+                            ["short"] = "Reference to the associated User Role.",
                         },
                         new Dictionary<string, object?>
                         {
                             ["name"] = "version",
-                            ["short"] = "The number of times that this resource has been updated.",
+                            ["title"] = "Version",
                             ["type"] = "`$INTEGER`",
+                            ["short"] = "The number of times that this resource has been updated.",
                         },
                     },
                     ["id"] = new Dictionary<string, object?>
@@ -4954,20 +5073,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["params"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "id",
-                                                ["orig"] = "id",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "GET",
                                     ["orig"] = "/users/{id}",
@@ -4982,22 +5087,37 @@ public static class SdkConfig
                                             ["var"] = "id",
                                         },
                                     },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "users",
+                                        "{id}",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["params"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "id",
+                                                ["orig"] = "id",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                        },
+                                    },
                                     ["select"] = new Dictionary<string, object?>
                                     {
                                         ["exist"] = new List<object?>
                                         {
                                             "id",
                                         },
-                                    },
-                                    ["transform"] = new Dictionary<string, object?>
-                                    {
-                                        ["req"] = "`reqdata`",
-                                        ["res"] = "`body`",
-                                    },
-                                    ["parts"] = new List<object?>
-                                    {
-                                        "users",
-                                        "{id}",
                                     },
                                 },
                             },
@@ -5010,20 +5130,6 @@ public static class SdkConfig
                             {
                                 new Dictionary<string, object?>
                                 {
-                                    ["args"] = new Dictionary<string, object?>
-                                    {
-                                        ["params"] = new List<object?>
-                                        {
-                                            new Dictionary<string, object?>
-                                            {
-                                                ["kind"] = "param",
-                                                ["name"] = "id",
-                                                ["orig"] = "id",
-                                                ["reqd"] = true,
-                                                ["type"] = "`$STRING`",
-                                            },
-                                        },
-                                    },
                                     ["kind"] = "http",
                                     ["method"] = "DELETE",
                                     ["orig"] = "/users/{id}",
@@ -5038,6 +5144,31 @@ public static class SdkConfig
                                             ["var"] = "id",
                                         },
                                     },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "users",
+                                        "{id}",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>(),
+                                    ["transform"] = new Dictionary<string, object?>
+                                    {
+                                        ["req"] = "`reqdata`",
+                                        ["res"] = "`body`",
+                                    },
+                                    ["args"] = new Dictionary<string, object?>
+                                    {
+                                        ["params"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "id",
+                                                ["orig"] = "id",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                        },
+                                    },
                                     ["select"] = new Dictionary<string, object?>
                                     {
                                         ["exist"] = new List<object?>
@@ -5045,15 +5176,146 @@ public static class SdkConfig
                                             "id",
                                         },
                                     },
+                                },
+                            },
+                        },
+                    },
+                    ["relations"] = new Dictionary<string, object?>
+                    {
+                        ["ancestors"] = new List<object?>(),
+                    },
+                },
+                ["virtual_device"] = new Dictionary<string, object?>
+                {
+                    ["fields"] = new List<object?>
+                    {
+                        new Dictionary<string, object?>
+                        {
+                            ["name"] = "data",
+                            ["title"] = "Data",
+                            ["type"] = "`$ARRAY`",
+                            ["short"] = "List of Devices.",
+                        },
+                        new Dictionary<string, object?>
+                        {
+                            ["name"] = "id",
+                            ["title"] = "Id",
+                            ["type"] = "`$STRING`",
+                        },
+                        new Dictionary<string, object?>
+                        {
+                            ["name"] = "total",
+                            ["title"] = "Total",
+                            ["type"] = "`$INTEGER`",
+                            ["short"] = "Total number of Devices available (not the number of Users in the response).",
+                        },
+                    },
+                    ["id"] = new Dictionary<string, object?>
+                    {
+                        ["field"] = "id",
+                        ["name"] = "id",
+                    },
+                    ["name"] = "virtual_device",
+                    ["op"] = new Dictionary<string, object?>
+                    {
+                        ["load"] = new Dictionary<string, object?>
+                        {
+                            ["input"] = "data",
+                            ["name"] = "load",
+                            ["points"] = new List<object?>
+                            {
+                                new Dictionary<string, object?>
+                                {
+                                    ["kind"] = "http",
+                                    ["method"] = "GET",
+                                    ["orig"] = "/virtualDevices/{sharePartnerTo}",
+                                    ["segments"] = new List<object?>
+                                    {
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["lit"] = "virtualDevices",
+                                        },
+                                        new Dictionary<string, object?>
+                                        {
+                                            ["var"] = "id",
+                                        },
+                                    },
+                                    ["parts"] = new List<object?>
+                                    {
+                                        "virtualDevices",
+                                        "{id}",
+                                    },
+                                    ["rename"] = new Dictionary<string, object?>
+                                    {
+                                        ["param"] = new Dictionary<string, object?>
+                                        {
+                                            ["sharePartnerTo"] = "id",
+                                        },
+                                    },
                                     ["transform"] = new Dictionary<string, object?>
                                     {
                                         ["req"] = "`reqdata`",
                                         ["res"] = "`body`",
                                     },
-                                    ["parts"] = new List<object?>
+                                    ["args"] = new Dictionary<string, object?>
                                     {
-                                        "users",
-                                        "{id}",
+                                        ["params"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "id",
+                                                ["orig"] = "share_partner_to",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "param",
+                                                ["reqd"] = true,
+                                            },
+                                        },
+                                        ["query"] = new List<object?>
+                                        {
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "skip",
+                                                ["orig"] = "skip",
+                                                ["type"] = "`$INTEGER`",
+                                                ["kind"] = "query",
+                                                ["example"] = 0,
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "sorting_direction",
+                                                ["orig"] = "sorting_direction",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "query",
+                                                ["example"] = "asc",
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "sorting_field",
+                                                ["orig"] = "sorting_field",
+                                                ["type"] = "`$STRING`",
+                                                ["kind"] = "query",
+                                                ["example"] = "serialnumber",
+                                            },
+                                            new Dictionary<string, object?>
+                                            {
+                                                ["name"] = "take",
+                                                ["orig"] = "take",
+                                                ["type"] = "`$INTEGER`",
+                                                ["kind"] = "query",
+                                                ["example"] = 10,
+                                            },
+                                        },
+                                    },
+                                    ["select"] = new Dictionary<string, object?>
+                                    {
+                                        ["exist"] = new List<object?>
+                                        {
+                                            "id",
+                                            "skip",
+                                            "sorting_direction",
+                                            "sorting_field",
+                                            "take",
+                                        },
                                     },
                                 },
                             },

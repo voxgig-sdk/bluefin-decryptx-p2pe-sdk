@@ -173,8 +173,7 @@ let make_config () : value =
         ("device", (empty_map ()));
         ("device_build", (empty_map ()));
         ("device_custody_detail", (empty_map ()));
-        ("device_custody_list", (empty_map ()));
-        ("device_list", (empty_map ()));
+        ("device_custody_list_item", (empty_map ()));
         ("device_receive_result", (empty_map ()));
         ("device_rki_activate_result", (empty_map ()));
         ("device_state", (empty_map ()));
@@ -187,40 +186,48 @@ let make_config () : value =
         ("success", (empty_map ()));
         ("transaction", (empty_map ()));
         ("update_result", (empty_map ()));
-        ("user", (empty_map ())) ])) ]));
+        ("user", (empty_map ()));
+        ("virtual_device", (empty_map ())) ])) ]));
     ("entity", (jo [
       ("attestation", (jo [
         ("fields", (ja [
           (jo [
             ("name", (Str "client"));
-            ("short", (Str "Reference to the associated Client resource."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("title", (Str "Client"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated Client resource.")) ]);
           (jo [
-            ("format", (Str "datetime"));
             ("name", (Str "completeDate"));
+            ("title", (Str "Complete Date"));
+            ("type", (Str "`$STRING`"));
             ("short", (Str "The date and time that the Attestation took place."));
-            ("type", (Str "`$STRING`")) ]);
+            ("format", (Str "datetime")) ]);
           (jo [
-            ("format", (Str "datetime"));
             ("name", (Str "created"));
+            ("title", (Str "Created"));
+            ("type", (Str "`$STRING`"));
             ("short", (Str "Creation timestamp in ISO 8601 format."));
-            ("type", (Str "`$STRING`")) ]);
+            ("format", (Str "datetime")) ]);
           (jo [
             ("name", (Str "device"));
-            ("short", (Str "Reference to the associated Device resource."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("title", (Str "Device"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated Device resource.")) ]);
           (jo [
             ("name", (Str "id"));
-            ("short", (Str "This resource's unique identifier."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Id"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "This resource's unique identifier.")) ]);
           (jo [
             ("name", (Str "name"));
-            ("short", (Str "Text describing the attestation."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Name"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Text describing the attestation.")) ]);
           (jo [
             ("name", (Str "notes"));
-            ("short", (Str "Free form field that allows the Client associate notes with the Attestation."));
-            ("type", (Str "`$STRING`")) ]) ]));
+            ("title", (Str "Notes"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Free form field that allows the Client associate notes with the Attestation.")) ]) ]));
         ("id", (jo [
           ("field", (Str "id"));
           ("name", (Str "id")) ]));
@@ -231,73 +238,67 @@ let make_config () : value =
             ("name", (Str "create"));
             ("points", (ja [
               (jo [
-                ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/attestations"));
                 ("segments", (ja [
                   (jo [
                     ("lit", (Str "attestations")) ]) ]));
-                ("select", (empty_map ()));
+                ("parts", (ja [
+                  (Str "attestations") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "attestations") ])) ]) ])) ]));
+                ("args", (empty_map ()));
+                ("select", (empty_map ())) ]) ])) ]));
           ("list", (jo [
             ("input", (Str "data"));
             ("name", (Str "list"));
             ("points", (ja [
               (jo [
-                ("args", (jo [
-                  ("query", (ja [
-                    (jo [
-                      ("kind", (Str "query"));
-                      ("name", (Str "client"));
-                      ("orig", (Str "client"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("example", (Num (0.)));
-                      ("kind", (Str "query"));
-                      ("name", (Str "skip"));
-                      ("orig", (Str "skip"));
-                      ("type", (Str "`$INTEGER`")) ]);
-                    (jo [
-                      ("example", (Num (10.)));
-                      ("kind", (Str "query"));
-                      ("name", (Str "take"));
-                      ("orig", (Str "take"));
-                      ("type", (Str "`$INTEGER`")) ]) ])) ]));
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/attestations"));
                 ("segments", (ja [
                   (jo [
                     ("lit", (Str "attestations")) ]) ]));
+                ("parts", (ja [
+                  (Str "attestations") ]));
+                ("rename", (empty_map ()));
+                ("transform", (jo [
+                  ("req", (Str "`reqdata`"));
+                  ("res", (Str "`body.data`")) ]));
+                ("args", (jo [
+                  ("query", (ja [
+                    (jo [
+                      ("name", (Str "client"));
+                      ("orig", (Str "client"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "query"));
+                      ("reqd", (Bool true)) ]);
+                    (jo [
+                      ("name", (Str "skip"));
+                      ("orig", (Str "skip"));
+                      ("type", (Str "`$INTEGER`"));
+                      ("kind", (Str "query"));
+                      ("example", (Num (0.))) ]);
+                    (jo [
+                      ("name", (Str "take"));
+                      ("orig", (Str "take"));
+                      ("type", (Str "`$INTEGER`"));
+                      ("kind", (Str "query"));
+                      ("example", (Num (10.))) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
                     (Str "client");
                     (Str "skip");
-                    (Str "take") ])) ]));
-                ("transform", (jo [
-                  ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body.data`")) ]));
-                ("parts", (ja [
-                  (Str "attestations") ])) ]) ])) ]));
+                    (Str "take") ])) ])) ]) ])) ]));
           ("load", (jo [
             ("input", (Str "data"));
             ("name", (Str "load"));
             ("points", (ja [
               (jo [
-                ("args", (jo [
-                  ("params", (ja [
-                    (jo [
-                      ("kind", (Str "param"));
-                      ("name", (Str "id"));
-                      ("orig", (Str "id"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]) ])) ]));
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/attestations/{id}"));
@@ -306,70 +307,90 @@ let make_config () : value =
                     ("lit", (Str "attestations")) ]);
                   (jo [
                     ("var", (Str "id")) ]) ]));
-                ("select", (jo [
-                  ("exist", (ja [
-                    (Str "id") ])) ]));
+                ("parts", (ja [
+                  (Str "attestations");
+                  (Str "{id}") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "attestations");
-                  (Str "{id}") ])) ]) ])) ])) ]));
+                ("args", (jo [
+                  ("params", (ja [
+                    (jo [
+                      ("name", (Str "id"));
+                      ("orig", (Str "id"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "param"));
+                      ("reqd", (Bool true)) ]) ])) ]));
+                ("select", (jo [
+                  ("exist", (ja [
+                    (Str "id") ])) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("client", (jo [
         ("fields", (ja [
           (jo [
             ("name", (Str "contact"));
+            ("title", (Str "Contact"));
+            ("type", (Str "`$OBJECT`"));
             ("op", (jo [
               ("list", (jo [
                 ("req", (Bool true));
                 ("type", (Str "`$OBJECT`")) ])) ]));
-            ("short", (Str "Reference to the associated User resource."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("short", (Str "Reference to the associated User resource.")) ]);
           (jo [
-            ("format", (Str "datetime"));
             ("name", (Str "created"));
+            ("title", (Str "Created"));
+            ("type", (Str "`$STRING`"));
             ("short", (Str "Creation timestamp in ISO 8601 format."));
-            ("type", (Str "`$STRING`")) ]);
+            ("format", (Str "datetime")) ]);
           (jo [
             ("name", (Str "directPartner"));
-            ("short", (Str "Reference to the associated Partner."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("title", (Str "Direct Partner"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated Partner.")) ]);
           (jo [
             ("name", (Str "id"));
-            ("short", (Str "This resource's unique identifier."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Id"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "This resource's unique identifier.")) ]);
           (jo [
             ("name", (Str "isActive"));
-            ("short", (Str "This property indicates if the Client account is active or disabled."));
-            ("type", (Str "`$BOOLEAN`")) ]);
+            ("title", (Str "Is Active"));
+            ("type", (Str "`$BOOLEAN`"));
+            ("short", (Str "This property indicates if the Client account is active or disabled.")) ]);
           (jo [
             ("name", (Str "location"));
+            ("title", (Str "Location"));
+            ("type", (Str "`$OBJECT`"));
             ("req", (Bool true));
-            ("short", (Str "Reference to the associated Location resource."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("short", (Str "Reference to the associated Location resource.")) ]);
           (jo [
             ("name", (Str "mid"));
-            ("short", (Str "Some Partners will have an merchant ids on their own software offerings."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Mid"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Some Partners will have an merchant ids on their own software offerings.")) ]);
           (jo [
-            ("format", (Str "datetime"));
             ("name", (Str "modified"));
+            ("title", (Str "Modified"));
+            ("type", (Str "`$STRING`"));
             ("short", (Str "Last modified timestamp."));
-            ("type", (Str "`$STRING`")) ]);
+            ("format", (Str "datetime")) ]);
           (jo [
             ("name", (Str "name"));
-            ("short", (Str "The Client's name."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Name"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Client's name.")) ]);
           (jo [
             ("name", (Str "partner"));
-            ("short", (Str "Reference to the Client's root Partner."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("title", (Str "Partner"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the Client's root Partner.")) ]);
           (jo [
             ("name", (Str "version"));
-            ("short", (Str "The number of times that this resource has been updated."));
-            ("type", (Str "`$INTEGER`")) ]) ]));
+            ("title", (Str "Version"));
+            ("type", (Str "`$INTEGER`"));
+            ("short", (Str "The number of times that this resource has been updated.")) ]) ]));
         ("id", (jo [
           ("field", (Str "id"));
           ("name", (Str "id")) ]));
@@ -380,73 +401,67 @@ let make_config () : value =
             ("name", (Str "create"));
             ("points", (ja [
               (jo [
-                ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/clients"));
                 ("segments", (ja [
                   (jo [
                     ("lit", (Str "clients")) ]) ]));
-                ("select", (empty_map ()));
+                ("parts", (ja [
+                  (Str "clients") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "clients") ])) ]) ])) ]));
+                ("args", (empty_map ()));
+                ("select", (empty_map ())) ]) ])) ]));
           ("list", (jo [
             ("input", (Str "data"));
             ("name", (Str "list"));
             ("points", (ja [
               (jo [
-                ("args", (jo [
-                  ("query", (ja [
-                    (jo [
-                      ("kind", (Str "query"));
-                      ("name", (Str "partner"));
-                      ("orig", (Str "partner"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("example", (Num (0.)));
-                      ("kind", (Str "query"));
-                      ("name", (Str "skip"));
-                      ("orig", (Str "skip"));
-                      ("type", (Str "`$INTEGER`")) ]);
-                    (jo [
-                      ("example", (Num (10.)));
-                      ("kind", (Str "query"));
-                      ("name", (Str "take"));
-                      ("orig", (Str "take"));
-                      ("type", (Str "`$INTEGER`")) ]) ])) ]));
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/clients"));
                 ("segments", (ja [
                   (jo [
                     ("lit", (Str "clients")) ]) ]));
+                ("parts", (ja [
+                  (Str "clients") ]));
+                ("rename", (empty_map ()));
+                ("transform", (jo [
+                  ("req", (Str "`reqdata`"));
+                  ("res", (Str "`body.data`")) ]));
+                ("args", (jo [
+                  ("query", (ja [
+                    (jo [
+                      ("name", (Str "partner"));
+                      ("orig", (Str "partner"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "query"));
+                      ("reqd", (Bool true)) ]);
+                    (jo [
+                      ("name", (Str "skip"));
+                      ("orig", (Str "skip"));
+                      ("type", (Str "`$INTEGER`"));
+                      ("kind", (Str "query"));
+                      ("example", (Num (0.))) ]);
+                    (jo [
+                      ("name", (Str "take"));
+                      ("orig", (Str "take"));
+                      ("type", (Str "`$INTEGER`"));
+                      ("kind", (Str "query"));
+                      ("example", (Num (10.))) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
                     (Str "partner");
                     (Str "skip");
-                    (Str "take") ])) ]));
-                ("transform", (jo [
-                  ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body.data`")) ]));
-                ("parts", (ja [
-                  (Str "clients") ])) ]) ])) ]));
+                    (Str "take") ])) ])) ]) ])) ]));
           ("load", (jo [
             ("input", (Str "data"));
             ("name", (Str "load"));
             ("points", (ja [
               (jo [
-                ("args", (jo [
-                  ("params", (ja [
-                    (jo [
-                      ("kind", (Str "param"));
-                      ("name", (Str "id"));
-                      ("orig", (Str "id"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]) ])) ]));
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/clients/{id}"));
@@ -455,28 +470,29 @@ let make_config () : value =
                     ("lit", (Str "clients")) ]);
                   (jo [
                     ("var", (Str "id")) ]) ]));
-                ("select", (jo [
-                  ("exist", (ja [
-                    (Str "id") ])) ]));
+                ("parts", (ja [
+                  (Str "clients");
+                  (Str "{id}") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "clients");
-                  (Str "{id}") ])) ]) ])) ]));
+                ("args", (jo [
+                  ("params", (ja [
+                    (jo [
+                      ("name", (Str "id"));
+                      ("orig", (Str "id"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "param"));
+                      ("reqd", (Bool true)) ]) ])) ]));
+                ("select", (jo [
+                  ("exist", (ja [
+                    (Str "id") ])) ])) ]) ])) ]));
           ("remove", (jo [
             ("input", (Str "data"));
             ("name", (Str "remove"));
             ("points", (ja [
               (jo [
-                ("args", (jo [
-                  ("params", (ja [
-                    (jo [
-                      ("kind", (Str "param"));
-                      ("name", (Str "id"));
-                      ("orig", (Str "id"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]) ])) ]));
                 ("kind", (Str "http"));
                 ("method", (Str "DELETE"));
                 ("orig", (Str "/clients/{id}"));
@@ -485,15 +501,24 @@ let make_config () : value =
                     ("lit", (Str "clients")) ]);
                   (jo [
                     ("var", (Str "id")) ]) ]));
-                ("select", (jo [
-                  ("exist", (ja [
-                    (Str "id") ])) ]));
+                ("parts", (ja [
+                  (Str "clients");
+                  (Str "{id}") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "clients");
-                  (Str "{id}") ])) ]) ])) ])) ]));
+                ("args", (jo [
+                  ("params", (ja [
+                    (jo [
+                      ("name", (Str "id"));
+                      ("orig", (Str "id"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "param"));
+                      ("reqd", (Bool true)) ]) ])) ]));
+                ("select", (jo [
+                  ("exist", (ja [
+                    (Str "id") ])) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("create_result", (jo [
@@ -505,27 +530,9 @@ let make_config () : value =
             ("name", (Str "create"));
             ("points", (ja [
               (jo [
-                ("args", (jo [
-                  ("params", (ja [
-                    (jo [
-                      ("kind", (Str "param"));
-                      ("name", (Str "device_type"));
-                      ("orig", (Str "device_type"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("kind", (Str "param"));
-                      ("name", (Str "serial_number"));
-                      ("orig", (Str "serial_number"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]) ])) ]));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/devices/{serialNumber}/{deviceType}/custody"));
-                ("rename", (jo [
-                  ("param", (jo [
-                    ("deviceType", (Str "device_type"));
-                    ("serialNumber", (Str "serial_number")) ])) ]));
                 ("segments", (ja [
                   (jo [
                     ("lit", (Str "devices")) ]);
@@ -535,28 +542,47 @@ let make_config () : value =
                     ("var", (Str "device_type")) ]);
                   (jo [
                     ("lit", (Str "custody")) ]) ]));
-                ("select", (jo [
-                  ("exist", (ja [
-                    (Str "device_type");
-                    (Str "serial_number") ])) ]));
-                ("transform", (jo [
-                  ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ]));
                 ("parts", (ja [
                   (Str "devices");
                   (Str "{serial_number}");
                   (Str "{device_type}");
-                  (Str "custody") ])) ]) ])) ])) ]));
+                  (Str "custody") ]));
+                ("rename", (jo [
+                  ("param", (jo [
+                    ("deviceType", (Str "device_type"));
+                    ("serialNumber", (Str "serial_number")) ])) ]));
+                ("transform", (jo [
+                  ("req", (Str "`reqdata`"));
+                  ("res", (Str "`body`")) ]));
+                ("args", (jo [
+                  ("params", (ja [
+                    (jo [
+                      ("name", (Str "device_type"));
+                      ("orig", (Str "device_type"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "param"));
+                      ("reqd", (Bool true)) ]);
+                    (jo [
+                      ("name", (Str "serial_number"));
+                      ("orig", (Str "serial_number"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "param"));
+                      ("reqd", (Bool true)) ]) ])) ]));
+                ("select", (jo [
+                  ("exist", (ja [
+                    (Str "device_type");
+                    (Str "serial_number") ])) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (ja [
             (ja [
-              (Str "device") ]) ])) ])) ]));
+              (Str "$.main.kit.entity.device") ]) ])) ])) ]));
       ("decryption", (jo [
         ("fields", (ja [
           (jo [
             ("name", (Str "success"));
-            ("short", (Str "true if the payload decryption was successful."));
-            ("type", (Str "`$BOOLEAN`")) ]) ]));
+            ("title", (Str "Success"));
+            ("type", (Str "`$BOOLEAN`"));
+            ("short", (Str "true if the payload decryption was successful.")) ]) ]));
         ("name", (Str "decryption"));
         ("op", (jo [
           ("create", (jo [
@@ -564,148 +590,177 @@ let make_config () : value =
             ("name", (Str "create"));
             ("points", (ja [
               (jo [
-                ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/decryption"));
                 ("segments", (ja [
                   (jo [
                     ("lit", (Str "decryption")) ]) ]));
-                ("select", (empty_map ()));
+                ("parts", (ja [
+                  (Str "decryption") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "decryption") ])) ]) ])) ])) ]));
+                ("args", (empty_map ()));
+                ("select", (empty_map ())) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("device", (jo [
         ("fields", (ja [
           (jo [
             ("name", (Str "activatedBy"));
+            ("title", (Str "Activated By"));
+            ("type", (Str "`$OBJECT`"));
             ("req", (Bool true));
-            ("short", (Str "Reference to the associated User resource."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("short", (Str "Reference to the associated User resource.")) ]);
           (jo [
-            ("format", (Str "datetime"));
             ("name", (Str "activationDate"));
+            ("title", (Str "Activation Date"));
+            ("type", (Str "`$STRING`"));
             ("short", (Str "Timestamp from when the Device was activated."));
-            ("type", (Str "`$STRING`")) ]);
+            ("format", (Str "datetime")) ]);
           (jo [
             ("name", (Str "alternateKey"));
-            ("short", (Str "The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Alternate Key"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging.")) ]);
           (jo [
-            ("format", (Str "datetime"));
             ("name", (Str "auditNextDate"));
+            ("title", (Str "Audit Next Date"));
+            ("type", (Str "`$STRING`"));
             ("short", (Str "Date and time that the Device is due its next PCI Audit."));
-            ("type", (Str "`$STRING`")) ]);
+            ("format", (Str "datetime")) ]);
           (jo [
-            ("format", (Str "datetime"));
             ("name", (Str "auditNotificationDate"));
+            ("title", (Str "Audit Notification Date"));
+            ("type", (Str "`$STRING`"));
             ("short", (Str "Date and time that a notification should be sent that a PCI audit is due."));
-            ("type", (Str "`$STRING`")) ]);
+            ("format", (Str "datetime")) ]);
           (jo [
             ("name", (Str "client"));
-            ("short", (Str "Reference to the associated Client resource."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("title", (Str "Client"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated Client resource.")) ]);
           (jo [
-            ("format", (Str "datetime"));
             ("name", (Str "created"));
+            ("title", (Str "Created"));
+            ("type", (Str "`$STRING`"));
             ("short", (Str "Creation timestamp in ISO 8601 format."));
-            ("type", (Str "`$STRING`")) ]);
+            ("format", (Str "datetime")) ]);
           (jo [
             ("name", (Str "createdBy"));
+            ("title", (Str "Created By"));
+            ("type", (Str "`$OBJECT`"));
             ("req", (Bool true));
-            ("short", (Str "Reference to the associated User resource."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("short", (Str "Reference to the associated User resource.")) ]);
           (jo [
             ("name", (Str "deviceBuild"));
-            ("short", (Str "Reference to the associated Device Build resource."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("title", (Str "Device Build"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated Device Build resource.")) ]);
           (jo [
             ("name", (Str "deviceState"));
-            ("short", (Str "Reference to the associated Device State resource."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("title", (Str "Device State"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated Device State resource.")) ]);
           (jo [
             ("name", (Str "deviceType"));
-            ("short", (Str "Reference to the associated Device Type resource."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("title", (Str "Device Type"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated Device Type resource.")) ]);
           (jo [
             ("name", (Str "errorCounter"));
-            ("short", (Str "The number times the Device has been in error."));
-            ("type", (Str "`$INTEGER`")) ]);
+            ("title", (Str "Error Counter"));
+            ("type", (Str "`$INTEGER`"));
+            ("short", (Str "The number times the Device has been in error.")) ]);
           (jo [
-            ("format", (Str "datetime"));
             ("name", (Str "errorLastDate"));
+            ("title", (Str "Error Last Date"));
+            ("type", (Str "`$STRING`"));
             ("short", (Str "Timestamp from the last time that the Device had an error."));
-            ("type", (Str "`$STRING`")) ]);
+            ("format", (Str "datetime")) ]);
           (jo [
             ("name", (Str "id"));
-            ("short", (Str "The Device's unique identifier."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Id"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Device's unique identifier.")) ]);
           (jo [
             ("name", (Str "initializedBy"));
+            ("title", (Str "Initialized By"));
+            ("type", (Str "`$OBJECT`"));
             ("req", (Bool true));
-            ("short", (Str "Reference to the associated User resource."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("short", (Str "Reference to the associated User resource.")) ]);
           (jo [
-            ("format", (Str "datetime"));
             ("name", (Str "initializedDate"));
+            ("title", (Str "Initialized Date"));
+            ("type", (Str "`$STRING`"));
             ("short", (Str "Timestamp from when the Device was initialized."));
-            ("type", (Str "`$STRING`")) ]);
+            ("format", (Str "datetime")) ]);
           (jo [
             ("name", (Str "injectKey"));
-            ("short", (Str "Reference to the associated Device resource."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("title", (Str "Inject Key"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated Device resource.")) ]);
           (jo [
             ("name", (Str "isVirtual"));
-            ("short", (Str "Indicates if a Device is Virtual (represents a Device shared with a partner)."));
-            ("type", (Str "`$BOOLEAN`")) ]);
+            ("title", (Str "Is Virtual"));
+            ("type", (Str "`$BOOLEAN`"));
+            ("short", (Str "Indicates if a Device is Virtual (represents a Device shared with a partner).")) ]);
           (jo [
             ("name", (Str "kif"));
-            ("short", (Str "Reference to the associated KIF resource."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("title", (Str "Kif"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated KIF resource.")) ]);
           (jo [
-            ("format", (Str "datetime"));
             ("name", (Str "lastActivityDate"));
+            ("title", (Str "Last Activity Date"));
+            ("type", (Str "`$STRING`"));
             ("short", (Str "Timestamp from the last time that the Device was used."));
-            ("type", (Str "`$STRING`")) ]);
+            ("format", (Str "datetime")) ]);
           (jo [
             ("name", (Str "location"));
+            ("title", (Str "Location"));
+            ("type", (Str "`$OBJECT`"));
             ("req", (Bool true));
-            ("short", (Str "Reference to the associated Location resource."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("short", (Str "Reference to the associated Location resource.")) ]);
           (jo [
-            ("format", (Str "datetime"));
             ("name", (Str "modified"));
+            ("title", (Str "Modified"));
+            ("type", (Str "`$STRING`"));
             ("short", (Str "Last modified timestamp."));
-            ("type", (Str "`$STRING`")) ]);
+            ("format", (Str "datetime")) ]);
           (jo [
             ("name", (Str "modifiedBy"));
+            ("title", (Str "Modified By"));
+            ("type", (Str "`$OBJECT`"));
             ("req", (Bool true));
-            ("short", (Str "Reference to the associated User resource."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("short", (Str "Reference to the associated User resource.")) ]);
           (jo [
             ("name", (Str "name"));
-            ("short", (Str "The Device's name."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Name"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Device's name.")) ]);
           (jo [
             ("name", (Str "notes"));
-            ("short", (Str "Arbitary note that can be attached to a Device entry."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Notes"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Arbitary note that can be attached to a Device entry.")) ]);
           (jo [
             ("name", (Str "partner"));
-            ("short", (Str "Reference to the associated Partner."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("title", (Str "Partner"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated Partner.")) ]);
           (jo [
             ("name", (Str "serialNumber"));
-            ("short", (Str "The Device's serial number."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Serial Number"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Device's serial number.")) ]);
           (jo [
             ("name", (Str "version"));
-            ("short", (Str "The number of times that this resource has been updated."));
-            ("type", (Str "`$INTEGER`")) ]) ]));
+            ("title", (Str "Version"));
+            ("type", (Str "`$INTEGER`"));
+            ("short", (Str "The number of times that this resource has been updated.")) ]) ]));
         ("id", (jo [
           ("field", (Str "id"));
           ("name", (Str "id")) ]));
@@ -716,81 +771,88 @@ let make_config () : value =
             ("name", (Str "create"));
             ("points", (ja [
               (jo [
-                ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/devices"));
                 ("segments", (ja [
                   (jo [
                     ("lit", (Str "devices")) ]) ]));
-                ("select", (empty_map ()));
+                ("parts", (ja [
+                  (Str "devices") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "devices") ])) ]) ])) ]));
+                ("args", (empty_map ()));
+                ("select", (empty_map ())) ]) ])) ]));
           ("list", (jo [
             ("input", (Str "data"));
             ("name", (Str "list"));
             ("points", (ja [
               (jo [
-                ("args", (jo [
-                  ("query", (ja [
-                    (jo [
-                      ("kind", (Str "query"));
-                      ("name", (Str "client"));
-                      ("orig", (Str "client"));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("kind", (Str "query"));
-                      ("name", (Str "device_state"));
-                      ("orig", (Str "device_state"));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("kind", (Str "query"));
-                      ("name", (Str "kif"));
-                      ("orig", (Str "kif"));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("kind", (Str "query"));
-                      ("name", (Str "partner"));
-                      ("orig", (Str "partner"));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("kind", (Str "query"));
-                      ("name", (Str "serial_number"));
-                      ("orig", (Str "serial_number"));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("example", (Num (0.)));
-                      ("kind", (Str "query"));
-                      ("name", (Str "skip"));
-                      ("orig", (Str "skip"));
-                      ("type", (Str "`$INTEGER`")) ]);
-                    (jo [
-                      ("example", (Str "asc"));
-                      ("kind", (Str "query"));
-                      ("name", (Str "sorting_direction"));
-                      ("orig", (Str "sorting_direction"));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("example", (Str "serialnumber"));
-                      ("kind", (Str "query"));
-                      ("name", (Str "sorting_field"));
-                      ("orig", (Str "sorting_field"));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("example", (Num (10.)));
-                      ("kind", (Str "query"));
-                      ("name", (Str "take"));
-                      ("orig", (Str "take"));
-                      ("type", (Str "`$INTEGER`")) ]) ])) ]));
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/devices"));
                 ("segments", (ja [
                   (jo [
                     ("lit", (Str "devices")) ]) ]));
+                ("parts", (ja [
+                  (Str "devices") ]));
+                ("rename", (empty_map ()));
+                ("transform", (jo [
+                  ("req", (Str "`reqdata`"));
+                  ("res", (Str "`body.data`")) ]));
+                ("args", (jo [
+                  ("query", (ja [
+                    (jo [
+                      ("name", (Str "client"));
+                      ("orig", (Str "client"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "query")) ]);
+                    (jo [
+                      ("name", (Str "device_state"));
+                      ("orig", (Str "device_state"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "query")) ]);
+                    (jo [
+                      ("name", (Str "kif"));
+                      ("orig", (Str "kif"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "query")) ]);
+                    (jo [
+                      ("name", (Str "partner"));
+                      ("orig", (Str "partner"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "query")) ]);
+                    (jo [
+                      ("name", (Str "serial_number"));
+                      ("orig", (Str "serial_number"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "query")) ]);
+                    (jo [
+                      ("name", (Str "skip"));
+                      ("orig", (Str "skip"));
+                      ("type", (Str "`$INTEGER`"));
+                      ("kind", (Str "query"));
+                      ("example", (Num (0.))) ]);
+                    (jo [
+                      ("name", (Str "sorting_direction"));
+                      ("orig", (Str "sorting_direction"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "query"));
+                      ("example", (Str "asc")) ]);
+                    (jo [
+                      ("name", (Str "sorting_field"));
+                      ("orig", (Str "sorting_field"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "query"));
+                      ("example", (Str "serialnumber")) ]);
+                    (jo [
+                      ("name", (Str "take"));
+                      ("orig", (Str "take"));
+                      ("type", (Str "`$INTEGER`"));
+                      ("kind", (Str "query"));
+                      ("example", (Num (10.))) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
                     (Str "client");
@@ -801,38 +863,15 @@ let make_config () : value =
                     (Str "skip");
                     (Str "sorting_direction");
                     (Str "sorting_field");
-                    (Str "take") ])) ]));
-                ("transform", (jo [
-                  ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body.data`")) ]));
-                ("parts", (ja [
-                  (Str "devices") ])) ]) ])) ]));
+                    (Str "take") ])) ])) ]) ])) ]));
           ("load", (jo [
             ("input", (Str "data"));
             ("name", (Str "load"));
             ("points", (ja [
               (jo [
-                ("args", (jo [
-                  ("params", (ja [
-                    (jo [
-                      ("kind", (Str "param"));
-                      ("name", (Str "device_type"));
-                      ("orig", (Str "device_type"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("kind", (Str "param"));
-                      ("name", (Str "serial_number"));
-                      ("orig", (Str "serial_number"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]) ])) ]));
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/devices/{serialNumber}/{deviceType}"));
-                ("rename", (jo [
-                  ("param", (jo [
-                    ("deviceType", (Str "device_type"));
-                    ("serialNumber", (Str "serial_number")) ])) ]));
                 ("segments", (ja [
                   (jo [
                     ("lit", (Str "devices")) ]);
@@ -840,26 +879,36 @@ let make_config () : value =
                     ("var", (Str "serial_number")) ]);
                   (jo [
                     ("var", (Str "device_type")) ]) ]));
-                ("select", (jo [
-                  ("exist", (ja [
-                    (Str "device_type");
-                    (Str "serial_number") ])) ]));
-                ("transform", (jo [
-                  ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ]));
                 ("parts", (ja [
                   (Str "devices");
                   (Str "{serial_number}");
-                  (Str "{device_type}") ])) ]);
-              (jo [
+                  (Str "{device_type}") ]));
+                ("rename", (jo [
+                  ("param", (jo [
+                    ("deviceType", (Str "device_type"));
+                    ("serialNumber", (Str "serial_number")) ])) ]));
+                ("transform", (jo [
+                  ("req", (Str "`reqdata`"));
+                  ("res", (Str "`body`")) ]));
                 ("args", (jo [
                   ("params", (ja [
                     (jo [
+                      ("name", (Str "device_type"));
+                      ("orig", (Str "device_type"));
+                      ("type", (Str "`$STRING`"));
                       ("kind", (Str "param"));
-                      ("name", (Str "id"));
-                      ("orig", (Str "id"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]) ])) ]));
+                      ("reqd", (Bool true)) ]);
+                    (jo [
+                      ("name", (Str "serial_number"));
+                      ("orig", (Str "serial_number"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "param"));
+                      ("reqd", (Bool true)) ]) ])) ]));
+                ("select", (jo [
+                  ("exist", (ja [
+                    (Str "device_type");
+                    (Str "serial_number") ])) ])) ]);
+              (jo [
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/devices/{id}"));
@@ -868,84 +917,106 @@ let make_config () : value =
                     ("lit", (Str "devices")) ]);
                   (jo [
                     ("var", (Str "id")) ]) ]));
-                ("select", (jo [
-                  ("exist", (ja [
-                    (Str "id") ])) ]));
+                ("parts", (ja [
+                  (Str "devices");
+                  (Str "{id}") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "devices");
-                  (Str "{id}") ])) ]) ])) ])) ]));
+                ("args", (jo [
+                  ("params", (ja [
+                    (jo [
+                      ("name", (Str "id"));
+                      ("orig", (Str "id"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "param"));
+                      ("reqd", (Bool true)) ]) ])) ]));
+                ("select", (jo [
+                  ("exist", (ja [
+                    (Str "id") ])) ])) ]) ])) ])) ]));
         ("relations", (jo [
-          ("ancestors", (ja [
-            (ja [
-              (Str "device") ]) ])) ])) ]));
+          ("ancestors", (empty_list ())) ])) ]));
       ("device_build", (jo [
         ("fields", (ja [
           (jo [
             ("name", (Str "appVersion"));
-            ("short", (Str "If a Device Type has more than one Application Code version the supported version is specified here."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "App Version"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "If a Device Type has more than one Application Code version the supported version is specified here.")) ]);
           (jo [
             ("name", (Str "buildNumber"));
-            ("short", (Str "The Build Number."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Build Number"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Build Number.")) ]);
           (jo [
             ("name", (Str "configFileName"));
-            ("short", (Str "The name of the configuration file that is uploaded to the device."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Config File Name"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The name of the configuration file that is uploaded to the device.")) ]);
           (jo [
-            ("format", (Str "date-time"));
             ("name", (Str "created"));
+            ("title", (Str "Created"));
+            ("type", (Str "`$STRING`"));
             ("short", (Str "Creation timestamp in ISO 8601 format."));
-            ("type", (Str "`$STRING`")) ]);
+            ("format", (Str "date-time")) ]);
           (jo [
             ("name", (Str "deviceType"));
-            ("short", (Str "The Device Type Name."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Device Type"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Device Type Name.")) ]);
           (jo [
             ("name", (Str "firmwareVersion"));
-            ("short", (Str "A list of firmware versions that this Device Build covers."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Firmware Version"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "A list of firmware versions that this Device Build covers.")) ]);
           (jo [
             ("name", (Str "hardwareVersion"));
-            ("short", (Str "A list of hardware versions that this Device Build covers."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Hardware Version"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "A list of hardware versions that this Device Build covers.")) ]);
           (jo [
-            ("format", (Str "int64"));
             ("name", (Str "id"));
+            ("title", (Str "Id"));
+            ("type", (Str "`$INTEGER`"));
             ("short", (Str "This resource's unique identifier."));
-            ("type", (Str "`$INTEGER`")) ]);
+            ("format", (Str "int64")) ]);
           (jo [
             ("name", (Str "isActive"));
-            ("short", (Str "This property indicates if the device build is still active and not succeeded by subsequent build."));
-            ("type", (Str "`$BOOLEAN`")) ]);
+            ("title", (Str "Is Active"));
+            ("type", (Str "`$BOOLEAN`"));
+            ("short", (Str "This property indicates if the device build is still active and not succeeded by subsequent build.")) ]);
           (jo [
-            ("format", (Str "date-time"));
             ("name", (Str "modified"));
+            ("title", (Str "Modified"));
+            ("type", (Str "`$STRING`"));
             ("short", (Str "Last modified timestamp."));
-            ("type", (Str "`$STRING`")) ]);
+            ("format", (Str "date-time")) ]);
           (jo [
             ("name", (Str "name"));
-            ("short", (Str "The Device Builds's name."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Name"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Device Builds's name.")) ]);
           (jo [
             ("name", (Str "notes"));
-            ("short", (Str "Notes attached to the device build by Bluefin CISO."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Notes"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Notes attached to the device build by Bluefin CISO.")) ]);
           (jo [
             ("name", (Str "version"));
-            ("short", (Str "The number of times that this resource has been updated."));
-            ("type", (Str "`$INTEGER`")) ]);
+            ("title", (Str "Version"));
+            ("type", (Str "`$INTEGER`"));
+            ("short", (Str "The number of times that this resource has been updated.")) ]);
           (jo [
             ("name", (Str "whiteListingBinRanges"));
-            ("short", (Str "A comma separated list of BIN ranges that aren't encrypted by the terminal."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "White Listing Bin Ranges"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "A comma separated list of BIN ranges that aren't encrypted by the terminal.")) ]);
           (jo [
             ("name", (Str "whiteListingUsed"));
-            ("short", (Str "This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal."));
-            ("type", (Str "`$BOOLEAN`")) ]) ]));
+            ("title", (Str "White Listing Used"));
+            ("type", (Str "`$BOOLEAN`"));
+            ("short", (Str "This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal.")) ]) ]));
         ("id", (jo [
           ("field", (Str "id"));
           ("name", (Str "id")) ]));
@@ -956,54 +1027,47 @@ let make_config () : value =
             ("name", (Str "list"));
             ("points", (ja [
               (jo [
-                ("args", (jo [
-                  ("query", (ja [
-                    (jo [
-                      ("kind", (Str "query"));
-                      ("name", (Str "device_type"));
-                      ("orig", (Str "device_type"));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("example", (Num (0.)));
-                      ("kind", (Str "query"));
-                      ("name", (Str "skip"));
-                      ("orig", (Str "skip"));
-                      ("type", (Str "`$INTEGER`")) ]);
-                    (jo [
-                      ("example", (Num (10.)));
-                      ("kind", (Str "query"));
-                      ("name", (Str "take"));
-                      ("orig", (Str "take"));
-                      ("type", (Str "`$INTEGER`")) ]) ])) ]));
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/deviceBuilds"));
                 ("segments", (ja [
                   (jo [
                     ("lit", (Str "deviceBuilds")) ]) ]));
+                ("parts", (ja [
+                  (Str "deviceBuilds") ]));
+                ("rename", (empty_map ()));
+                ("transform", (jo [
+                  ("req", (Str "`reqdata`"));
+                  ("res", (Str "`body.data`")) ]));
+                ("args", (jo [
+                  ("query", (ja [
+                    (jo [
+                      ("name", (Str "device_type"));
+                      ("orig", (Str "device_type"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "query")) ]);
+                    (jo [
+                      ("name", (Str "skip"));
+                      ("orig", (Str "skip"));
+                      ("type", (Str "`$INTEGER`"));
+                      ("kind", (Str "query"));
+                      ("example", (Num (0.))) ]);
+                    (jo [
+                      ("name", (Str "take"));
+                      ("orig", (Str "take"));
+                      ("type", (Str "`$INTEGER`"));
+                      ("kind", (Str "query"));
+                      ("example", (Num (10.))) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
                     (Str "device_type");
                     (Str "skip");
-                    (Str "take") ])) ]));
-                ("transform", (jo [
-                  ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body.data`")) ]));
-                ("parts", (ja [
-                  (Str "deviceBuilds") ])) ]) ])) ]));
+                    (Str "take") ])) ])) ]) ])) ]));
           ("load", (jo [
             ("input", (Str "data"));
             ("name", (Str "load"));
             ("points", (ja [
               (jo [
-                ("args", (jo [
-                  ("params", (ja [
-                    (jo [
-                      ("kind", (Str "param"));
-                      ("name", (Str "id"));
-                      ("orig", (Str "id"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]) ])) ]));
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/deviceBuilds/{id}"));
@@ -1012,79 +1076,101 @@ let make_config () : value =
                     ("lit", (Str "deviceBuilds")) ]);
                   (jo [
                     ("var", (Str "id")) ]) ]));
-                ("select", (jo [
-                  ("exist", (ja [
-                    (Str "id") ])) ]));
+                ("parts", (ja [
+                  (Str "deviceBuilds");
+                  (Str "{id}") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "deviceBuilds");
-                  (Str "{id}") ])) ]) ])) ])) ]));
+                ("args", (jo [
+                  ("params", (ja [
+                    (jo [
+                      ("name", (Str "id"));
+                      ("orig", (Str "id"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "param"));
+                      ("reqd", (Bool true)) ]) ])) ]));
+                ("select", (jo [
+                  ("exist", (ja [
+                    (Str "id") ])) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("device_custody_detail", (jo [
         ("fields", (ja [
           (jo [
-            ("format", (Str "date-time"));
             ("name", (Str "completeDate"));
+            ("title", (Str "Complete Date"));
+            ("type", (Str "`$STRING`"));
             ("short", (Str "The date and time that the Custody change took place."));
-            ("type", (Str "`$STRING`")) ]);
+            ("format", (Str "date-time")) ]);
           (jo [
-            ("format", (Str "date-time"));
             ("name", (Str "created"));
+            ("title", (Str "Created"));
+            ("type", (Str "`$STRING`"));
             ("short", (Str "Creation timestamp in ISO 8601 format."));
-            ("type", (Str "`$STRING`")) ]);
+            ("format", (Str "date-time")) ]);
           (jo [
             ("name", (Str "createdBy"));
+            ("title", (Str "Created By"));
+            ("type", (Str "`$OBJECT`"));
             ("req", (Bool true));
-            ("short", (Str "Reference to the associated User resource."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("short", (Str "Reference to the associated User resource.")) ]);
           (jo [
             ("name", (Str "custodian"));
+            ("title", (Str "Custodian"));
+            ("type", (Str "`$OBJECT`"));
             ("req", (Bool true));
-            ("short", (Str "Reference to the associated User resource."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("short", (Str "Reference to the associated User resource.")) ]);
           (jo [
             ("name", (Str "device"));
-            ("short", (Str "Reference to the associated Device resource."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("title", (Str "Device"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated Device resource.")) ]);
           (jo [
-            ("format", (Str "int64"));
             ("name", (Str "id"));
+            ("title", (Str "Id"));
+            ("type", (Str "`$INTEGER`"));
             ("short", (Str "This resource's unique identifier."));
-            ("type", (Str "`$INTEGER`")) ]);
+            ("format", (Str "int64")) ]);
           (jo [
             ("name", (Str "location"));
+            ("title", (Str "Location"));
+            ("type", (Str "`$OBJECT`"));
             ("req", (Bool true));
-            ("short", (Str "Reference to the associated Location resource."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("short", (Str "Reference to the associated Location resource.")) ]);
           (jo [
-            ("format", (Str "date-time"));
             ("name", (Str "modified"));
+            ("title", (Str "Modified"));
+            ("type", (Str "`$STRING`"));
             ("short", (Str "Last modified timestamp."));
-            ("type", (Str "`$STRING`")) ]);
+            ("format", (Str "date-time")) ]);
           (jo [
             ("name", (Str "modifiedBy"));
+            ("title", (Str "Modified By"));
+            ("type", (Str "`$OBJECT`"));
             ("req", (Bool true));
-            ("short", (Str "Reference to the associated User resource."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("short", (Str "Reference to the associated User resource.")) ]);
           (jo [
             ("name", (Str "notes"));
-            ("short", (Str "Free form field that allows the Client associate notes with the Custody Change."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Notes"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Free form field that allows the Client associate notes with the Custody Change.")) ]);
           (jo [
             ("name", (Str "status"));
-            ("short", (Str "Reference to the associated Custody Status."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("title", (Str "Status"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated Custody Status.")) ]);
           (jo [
             ("name", (Str "transferMethod"));
-            ("short", (Str "Reference to the associated Transfer Method."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("title", (Str "Transfer Method"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated Transfer Method.")) ]);
           (jo [
             ("name", (Str "version"));
-            ("short", (Str "The number of times that this resource has been updated."));
-            ("type", (Str "`$INTEGER`")) ]) ]));
+            ("title", (Str "Version"));
+            ("type", (Str "`$INTEGER`"));
+            ("short", (Str "The number of times that this resource has been updated.")) ]) ]));
         ("id", (jo [
           ("field", (Str "id"));
           ("name", (Str "id")) ]));
@@ -1095,33 +1181,9 @@ let make_config () : value =
             ("name", (Str "load"));
             ("points", (ja [
               (jo [
-                ("args", (jo [
-                  ("params", (ja [
-                    (jo [
-                      ("kind", (Str "param"));
-                      ("name", (Str "device_type"));
-                      ("orig", (Str "device_type"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("kind", (Str "param"));
-                      ("name", (Str "id"));
-                      ("orig", (Str "id"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("kind", (Str "param"));
-                      ("name", (Str "serial_number"));
-                      ("orig", (Str "serial_number"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]) ])) ]));
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/devices/{serialNumber}/{deviceType}/custody/{id}"));
-                ("rename", (jo [
-                  ("param", (jo [
-                    ("deviceType", (Str "device_type"));
-                    ("serialNumber", (Str "serial_number")) ])) ]));
                 ("segments", (ja [
                   (jo [
                     ("lit", (Str "devices")) ]);
@@ -1133,130 +1195,136 @@ let make_config () : value =
                     ("lit", (Str "custody")) ]);
                   (jo [
                     ("var", (Str "id")) ]) ]));
-                ("select", (jo [
-                  ("exist", (ja [
-                    (Str "device_type");
-                    (Str "id");
-                    (Str "serial_number") ])) ]));
-                ("transform", (jo [
-                  ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ]));
                 ("parts", (ja [
                   (Str "devices");
                   (Str "{serial_number}");
                   (Str "{device_type}");
                   (Str "custody");
-                  (Str "{id}") ])) ]) ])) ])) ]));
+                  (Str "{id}") ]));
+                ("rename", (jo [
+                  ("param", (jo [
+                    ("deviceType", (Str "device_type"));
+                    ("serialNumber", (Str "serial_number")) ])) ]));
+                ("transform", (jo [
+                  ("req", (Str "`reqdata`"));
+                  ("res", (Str "`body`")) ]));
+                ("args", (jo [
+                  ("params", (ja [
+                    (jo [
+                      ("name", (Str "device_type"));
+                      ("orig", (Str "device_type"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "param"));
+                      ("reqd", (Bool true)) ]);
+                    (jo [
+                      ("name", (Str "id"));
+                      ("orig", (Str "id"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "param"));
+                      ("reqd", (Bool true)) ]);
+                    (jo [
+                      ("name", (Str "serial_number"));
+                      ("orig", (Str "serial_number"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "param"));
+                      ("reqd", (Bool true)) ]) ])) ]));
+                ("select", (jo [
+                  ("exist", (ja [
+                    (Str "device_type");
+                    (Str "id");
+                    (Str "serial_number") ])) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (ja [
             (ja [
-              (Str "device") ]) ])) ])) ]));
-      ("device_custody_list", (jo [
+              (Str "$.main.kit.entity.device") ]) ])) ])) ]));
+      ("device_custody_list_item", (jo [
         ("fields", (ja [
           (jo [
-            ("format", (Str "date-time"));
             ("name", (Str "completeDate"));
+            ("title", (Str "Complete Date"));
+            ("type", (Str "`$STRING`"));
             ("short", (Str "The date and time that the Custody change took place."));
-            ("type", (Str "`$STRING`")) ]);
+            ("format", (Str "date-time")) ]);
           (jo [
-            ("format", (Str "date-time"));
             ("name", (Str "created"));
+            ("title", (Str "Created"));
+            ("type", (Str "`$STRING`"));
             ("short", (Str "Creation timestamp in ISO 8601 format."));
-            ("type", (Str "`$STRING`")) ]);
+            ("format", (Str "date-time")) ]);
           (jo [
             ("name", (Str "createdBy"));
+            ("title", (Str "Created By"));
+            ("type", (Str "`$OBJECT`"));
             ("req", (Bool true));
-            ("short", (Str "Reference to the associated User resource."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("short", (Str "Reference to the associated User resource.")) ]);
           (jo [
             ("name", (Str "custodian"));
+            ("title", (Str "Custodian"));
+            ("type", (Str "`$OBJECT`"));
             ("req", (Bool true));
-            ("short", (Str "Reference to the associated User resource."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("short", (Str "Reference to the associated User resource.")) ]);
           (jo [
             ("name", (Str "device"));
-            ("short", (Str "Reference to the associated Device resource."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("title", (Str "Device"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated Device resource.")) ]);
           (jo [
-            ("format", (Str "int64"));
             ("name", (Str "id"));
+            ("title", (Str "Id"));
+            ("type", (Str "`$INTEGER`"));
             ("short", (Str "This resource's unique identifier."));
-            ("type", (Str "`$INTEGER`")) ]);
+            ("format", (Str "int64")) ]);
           (jo [
             ("name", (Str "location"));
+            ("title", (Str "Location"));
+            ("type", (Str "`$OBJECT`"));
             ("req", (Bool true));
-            ("short", (Str "Reference to the associated Location resource."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("short", (Str "Reference to the associated Location resource.")) ]);
           (jo [
-            ("format", (Str "date-time"));
             ("name", (Str "modified"));
+            ("title", (Str "Modified"));
+            ("type", (Str "`$STRING`"));
             ("short", (Str "Last modified timestamp."));
-            ("type", (Str "`$STRING`")) ]);
+            ("format", (Str "date-time")) ]);
           (jo [
             ("name", (Str "modifiedBy"));
+            ("title", (Str "Modified By"));
+            ("type", (Str "`$OBJECT`"));
             ("req", (Bool true));
-            ("short", (Str "Reference to the associated User resource."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("short", (Str "Reference to the associated User resource.")) ]);
           (jo [
             ("name", (Str "notes"));
-            ("short", (Str "Free form field that allows the Client associate notes with the Custody Change."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Notes"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Free form field that allows the Client associate notes with the Custody Change.")) ]);
           (jo [
             ("name", (Str "status"));
-            ("short", (Str "Reference to the associated Custody Status."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("title", (Str "Status"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated Custody Status.")) ]);
           (jo [
             ("name", (Str "transferMethod"));
-            ("short", (Str "Reference to the associated Transfer Method."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("title", (Str "Transfer Method"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated Transfer Method.")) ]);
           (jo [
             ("name", (Str "version"));
-            ("short", (Str "The number of times that this resource has been updated."));
-            ("type", (Str "`$INTEGER`")) ]) ]));
+            ("title", (Str "Version"));
+            ("type", (Str "`$INTEGER`"));
+            ("short", (Str "The number of times that this resource has been updated.")) ]) ]));
         ("id", (jo [
           ("field", (Str "id"));
           ("name", (Str "id")) ]));
-        ("name", (Str "device_custody_list"));
+        ("name", (Str "device_custody_list_item"));
         ("op", (jo [
           ("list", (jo [
             ("input", (Str "data"));
             ("name", (Str "list"));
             ("points", (ja [
               (jo [
-                ("args", (jo [
-                  ("params", (ja [
-                    (jo [
-                      ("kind", (Str "param"));
-                      ("name", (Str "device_type"));
-                      ("orig", (Str "device_type"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("kind", (Str "param"));
-                      ("name", (Str "serial_number"));
-                      ("orig", (Str "serial_number"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]) ]));
-                  ("query", (ja [
-                    (jo [
-                      ("example", (Num (0.)));
-                      ("kind", (Str "query"));
-                      ("name", (Str "skip"));
-                      ("orig", (Str "skip"));
-                      ("type", (Str "`$INTEGER`")) ]);
-                    (jo [
-                      ("example", (Num (10.)));
-                      ("kind", (Str "query"));
-                      ("name", (Str "take"));
-                      ("orig", (Str "take"));
-                      ("type", (Str "`$INTEGER`")) ]) ])) ]));
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/devices/{serialNumber}/{deviceType}/custody"));
-                ("rename", (jo [
-                  ("param", (jo [
-                    ("deviceType", (Str "device_type"));
-                    ("serialNumber", (Str "serial_number")) ])) ]));
                 ("segments", (ja [
                   (jo [
                     ("lit", (Str "devices")) ]);
@@ -1266,109 +1334,63 @@ let make_config () : value =
                     ("var", (Str "device_type")) ]);
                   (jo [
                     ("lit", (Str "custody")) ]) ]));
+                ("parts", (ja [
+                  (Str "devices");
+                  (Str "{serial_number}");
+                  (Str "{device_type}");
+                  (Str "custody") ]));
+                ("rename", (jo [
+                  ("param", (jo [
+                    ("deviceType", (Str "device_type"));
+                    ("serialNumber", (Str "serial_number")) ])) ]));
+                ("transform", (jo [
+                  ("req", (Str "`reqdata`"));
+                  ("res", (Str "`body.data`")) ]));
+                ("args", (jo [
+                  ("params", (ja [
+                    (jo [
+                      ("name", (Str "device_type"));
+                      ("orig", (Str "device_type"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "param"));
+                      ("reqd", (Bool true)) ]);
+                    (jo [
+                      ("name", (Str "serial_number"));
+                      ("orig", (Str "serial_number"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "param"));
+                      ("reqd", (Bool true)) ]) ]));
+                  ("query", (ja [
+                    (jo [
+                      ("name", (Str "skip"));
+                      ("orig", (Str "skip"));
+                      ("type", (Str "`$INTEGER`"));
+                      ("kind", (Str "query"));
+                      ("example", (Num (0.))) ]);
+                    (jo [
+                      ("name", (Str "take"));
+                      ("orig", (Str "take"));
+                      ("type", (Str "`$INTEGER`"));
+                      ("kind", (Str "query"));
+                      ("example", (Num (10.))) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
                     (Str "device_type");
                     (Str "serial_number");
                     (Str "skip");
-                    (Str "take") ])) ]));
-                ("transform", (jo [
-                  ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body.data`")) ]));
-                ("parts", (ja [
-                  (Str "devices");
-                  (Str "{serial_number}");
-                  (Str "{device_type}");
-                  (Str "custody") ])) ]) ])) ])) ]));
+                    (Str "take") ])) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (ja [
             (ja [
-              (Str "device") ]) ])) ])) ]));
-      ("device_list", (jo [
-        ("fields", (ja [
-          (jo [
-            ("name", (Str "data"));
-            ("short", (Str "List of Devices."));
-            ("type", (Str "`$ARRAY`")) ]);
-          (jo [
-            ("name", (Str "total"));
-            ("short", (Str "Total number of Devices available (not the number of Users in the response)."));
-            ("type", (Str "`$INTEGER`")) ]) ]));
-        ("name", (Str "device_list"));
-        ("op", (jo [
-          ("load", (jo [
-            ("input", (Str "data"));
-            ("name", (Str "load"));
-            ("points", (ja [
-              (jo [
-                ("args", (jo [
-                  ("params", (ja [
-                    (jo [
-                      ("kind", (Str "param"));
-                      ("name", (Str "share_partner_to"));
-                      ("orig", (Str "share_partner_to"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]) ]));
-                  ("query", (ja [
-                    (jo [
-                      ("example", (Num (0.)));
-                      ("kind", (Str "query"));
-                      ("name", (Str "skip"));
-                      ("orig", (Str "skip"));
-                      ("type", (Str "`$INTEGER`")) ]);
-                    (jo [
-                      ("example", (Str "asc"));
-                      ("kind", (Str "query"));
-                      ("name", (Str "sorting_direction"));
-                      ("orig", (Str "sorting_direction"));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("example", (Str "serialnumber"));
-                      ("kind", (Str "query"));
-                      ("name", (Str "sorting_field"));
-                      ("orig", (Str "sorting_field"));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("example", (Num (10.)));
-                      ("kind", (Str "query"));
-                      ("name", (Str "take"));
-                      ("orig", (Str "take"));
-                      ("type", (Str "`$INTEGER`")) ]) ])) ]));
-                ("kind", (Str "http"));
-                ("method", (Str "GET"));
-                ("orig", (Str "/virtualDevices/{sharePartnerTo}"));
-                ("rename", (jo [
-                  ("param", (jo [
-                    ("sharePartnerTo", (Str "share_partner_to")) ])) ]));
-                ("segments", (ja [
-                  (jo [
-                    ("lit", (Str "virtualDevices")) ]);
-                  (jo [
-                    ("var", (Str "share_partner_to")) ]) ]));
-                ("select", (jo [
-                  ("exist", (ja [
-                    (Str "share_partner_to");
-                    (Str "skip");
-                    (Str "sorting_direction");
-                    (Str "sorting_field");
-                    (Str "take") ])) ]));
-                ("transform", (jo [
-                  ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "virtualDevices");
-                  (Str "{share_partner_to}") ])) ]) ])) ])) ]));
-        ("relations", (jo [
-          ("ancestors", (ja [
-            (ja [
-              (Str "virtual_device") ]) ])) ])) ]));
+              (Str "$.main.kit.entity.device") ]) ])) ])) ]));
       ("device_receive_result", (jo [
         ("fields", (ja [
           (jo [
             ("name", (Str "success"));
+            ("title", (Str "Success"));
+            ("type", (Str "`$BOOLEAN`"));
             ("req", (Bool true));
-            ("short", (Str "Indicates if the action succeeded."));
-            ("type", (Str "`$BOOLEAN`")) ]) ]));
+            ("short", (Str "Indicates if the action succeeded.")) ]) ]));
         ("name", (Str "device_receive_result"));
         ("op", (jo [
           ("create", (jo [
@@ -1376,7 +1398,6 @@ let make_config () : value =
             ("name", (Str "create"));
             ("points", (ja [
               (jo [
-                ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/devices/receive"));
@@ -1385,22 +1406,25 @@ let make_config () : value =
                     ("lit", (Str "devices")) ]);
                   (jo [
                     ("lit", (Str "receive")) ]) ]));
-                ("select", (empty_map ()));
+                ("parts", (ja [
+                  (Str "devices");
+                  (Str "receive") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "devices");
-                  (Str "receive") ])) ]) ])) ])) ]));
+                ("args", (empty_map ()));
+                ("select", (empty_map ())) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("device_rki_activate_result", (jo [
         ("fields", (ja [
           (jo [
             ("name", (Str "success"));
+            ("title", (Str "Success"));
+            ("type", (Str "`$BOOLEAN`"));
             ("req", (Bool true));
-            ("short", (Str "Indicates if the RKI activation succeeded."));
-            ("type", (Str "`$BOOLEAN`")) ]) ]));
+            ("short", (Str "Indicates if the RKI activation succeeded.")) ]) ]));
         ("name", (Str "device_rki_activate_result"));
         ("op", (jo [
           ("create", (jo [
@@ -1408,7 +1432,6 @@ let make_config () : value =
             ("name", (Str "create"));
             ("points", (ja [
               (jo [
-                ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/devices/rki/activate"));
@@ -1419,27 +1442,31 @@ let make_config () : value =
                     ("lit", (Str "rki")) ]);
                   (jo [
                     ("lit", (Str "activate")) ]) ]));
-                ("select", (empty_map ()));
-                ("transform", (jo [
-                  ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body`")) ]));
                 ("parts", (ja [
                   (Str "devices");
                   (Str "rki");
-                  (Str "activate") ])) ]) ])) ])) ]));
+                  (Str "activate") ]));
+                ("rename", (empty_map ()));
+                ("transform", (jo [
+                  ("req", (Str "`reqdata`"));
+                  ("res", (Str "`body`")) ]));
+                ("args", (empty_map ()));
+                ("select", (empty_map ())) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("device_state", (jo [
         ("fields", (ja [
           (jo [
-            ("format", (Str "int64"));
             ("name", (Str "id"));
+            ("title", (Str "Id"));
+            ("type", (Str "`$INTEGER`"));
             ("short", (Str "Unique identifier for this Device state."));
-            ("type", (Str "`$INTEGER`")) ]);
+            ("format", (Str "int64")) ]);
           (jo [
             ("name", (Str "name"));
-            ("short", (Str "Descriptive name for this Device state."));
-            ("type", (Str "`$STRING`")) ]) ]));
+            ("title", (Str "Name"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Descriptive name for this Device state.")) ]) ]));
         ("id", (jo [
           ("field", (Str "id"));
           ("name", (Str "id")) ]));
@@ -1450,72 +1477,85 @@ let make_config () : value =
             ("name", (Str "list"));
             ("points", (ja [
               (jo [
-                ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/deviceStates"));
                 ("segments", (ja [
                   (jo [
                     ("lit", (Str "deviceStates")) ]) ]));
-                ("select", (empty_map ()));
+                ("parts", (ja [
+                  (Str "deviceStates") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body.data`")) ]));
-                ("parts", (ja [
-                  (Str "deviceStates") ])) ]) ])) ])) ]));
+                ("args", (empty_map ()));
+                ("select", (empty_map ())) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("device_type", (jo [
         ("fields", (ja [
           (jo [
-            ("format", (Str "datetime"));
             ("name", (Str "created"));
+            ("title", (Str "Created"));
+            ("type", (Str "`$STRING`"));
             ("short", (Str "Creation timestamp in ISO 8601 format."));
-            ("type", (Str "`$STRING`")) ]);
+            ("format", (Str "datetime")) ]);
           (jo [
             ("name", (Str "deviceTypeMode"));
-            ("short", (Str "The Device type."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Device Type Mode"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Device type.")) ]);
           (jo [
             ("name", (Str "hardwareVersion"));
-            ("short", (Str "The Device hardware version."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Hardware Version"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Device hardware version.")) ]);
           (jo [
             ("name", (Str "id"));
-            ("short", (Str "Unique idenifier."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Id"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Unique idenifier.")) ]);
           (jo [
             ("name", (Str "isActive"));
-            ("short", (Str "This property indicates if the DeviceType is active."));
-            ("type", (Str "`$BOOLEAN`")) ]);
+            ("title", (Str "Is Active"));
+            ("type", (Str "`$BOOLEAN`"));
+            ("short", (Str "This property indicates if the DeviceType is active.")) ]);
           (jo [
             ("name", (Str "manufacturer"));
-            ("short", (Str "The Device manufacturer."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Manufacturer"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Device manufacturer.")) ]);
           (jo [
             ("name", (Str "model"));
-            ("short", (Str "The Device model."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Model"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Device model.")) ]);
           (jo [
-            ("format", (Str "datetime"));
             ("name", (Str "modified"));
+            ("title", (Str "Modified"));
+            ("type", (Str "`$STRING`"));
             ("short", (Str "Last modified timestamp."));
-            ("type", (Str "`$STRING`")) ]);
+            ("format", (Str "datetime")) ]);
           (jo [
             ("name", (Str "name"));
-            ("short", (Str "The DeviceType name."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Name"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The DeviceType name.")) ]);
           (jo [
             ("name", (Str "photoUrl"));
+            ("title", (Str "Photo Url"));
             ("type", (Str "`$STRING`")) ]);
           (jo [
             ("name", (Str "productName"));
-            ("short", (Str "The Device name."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Product Name"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Device name.")) ]);
           (jo [
             ("name", (Str "version"));
-            ("short", (Str "The number of times that this resource has been updated."));
-            ("type", (Str "`$INTEGER`")) ]) ]));
+            ("title", (Str "Version"));
+            ("type", (Str "`$INTEGER`"));
+            ("short", (Str "The number of times that this resource has been updated.")) ]) ]));
         ("id", (jo [
           ("field", (Str "id"));
           ("name", (Str "id")) ]));
@@ -1526,32 +1566,25 @@ let make_config () : value =
             ("name", (Str "list"));
             ("points", (ja [
               (jo [
-                ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/deviceTypes"));
                 ("segments", (ja [
                   (jo [
                     ("lit", (Str "deviceTypes")) ]) ]));
-                ("select", (empty_map ()));
+                ("parts", (ja [
+                  (Str "deviceTypes") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body.data`")) ]));
-                ("parts", (ja [
-                  (Str "deviceTypes") ])) ]) ])) ]));
+                ("args", (empty_map ()));
+                ("select", (empty_map ())) ]) ])) ]));
           ("load", (jo [
             ("input", (Str "data"));
             ("name", (Str "load"));
             ("points", (ja [
               (jo [
-                ("args", (jo [
-                  ("params", (ja [
-                    (jo [
-                      ("kind", (Str "param"));
-                      ("name", (Str "id"));
-                      ("orig", (Str "id"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]) ])) ]));
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/deviceTypes/{id}"));
@@ -1560,53 +1593,70 @@ let make_config () : value =
                     ("lit", (Str "deviceTypes")) ]);
                   (jo [
                     ("var", (Str "id")) ]) ]));
-                ("select", (jo [
-                  ("exist", (ja [
-                    (Str "id") ])) ]));
+                ("parts", (ja [
+                  (Str "deviceTypes");
+                  (Str "{id}") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "deviceTypes");
-                  (Str "{id}") ])) ]) ])) ])) ]));
+                ("args", (jo [
+                  ("params", (ja [
+                    (jo [
+                      ("name", (Str "id"));
+                      ("orig", (Str "id"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "param"));
+                      ("reqd", (Bool true)) ]) ])) ]));
+                ("select", (jo [
+                  ("exist", (ja [
+                    (Str "id") ])) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("inject_key", (jo [
         ("fields", (ja [
           (jo [
-            ("format", (Str "datetime"));
             ("name", (Str "created"));
+            ("title", (Str "Created"));
+            ("type", (Str "`$STRING`"));
             ("short", (Str "Creation timestamp in ISO 8601 format."));
-            ("type", (Str "`$STRING`")) ]);
+            ("format", (Str "datetime")) ]);
           (jo [
             ("name", (Str "id"));
-            ("short", (Str "unique idenifier"));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Id"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "unique idenifier")) ]);
           (jo [
             ("name", (Str "isActive"));
-            ("short", (Str "Active flag, inactive keys cannot be assigned to devices."));
-            ("type", (Str "`$BOOLEAN`")) ]);
+            ("title", (Str "Is Active"));
+            ("type", (Str "`$BOOLEAN`"));
+            ("short", (Str "Active flag, inactive keys cannot be assigned to devices.")) ]);
           (jo [
             ("name", (Str "isP2PE"));
-            ("short", (Str "Flags if a key is for a P2PE compliant cypher."));
-            ("type", (Str "`$BOOLEAN`")) ]);
+            ("title", (Str "Is P2 Pe"));
+            ("type", (Str "`$BOOLEAN`"));
+            ("short", (Str "Flags if a key is for a P2PE compliant cypher.")) ]);
           (jo [
             ("name", (Str "keyType"));
-            ("short", (Str "The cipher type that the key works with."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Key Type"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The cipher type that the key works with.")) ]);
           (jo [
-            ("format", (Str "datetime"));
             ("name", (Str "modified"));
+            ("title", (Str "Modified"));
+            ("type", (Str "`$STRING`"));
             ("short", (Str "Last modified timestamp in ISO 8601 format."));
-            ("type", (Str "`$STRING`")) ]);
+            ("format", (Str "datetime")) ]);
           (jo [
             ("name", (Str "name"));
-            ("short", (Str "Key name."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Name"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Key name.")) ]);
           (jo [
             ("name", (Str "version"));
-            ("short", (Str "The number of times that this resource has been updated."));
-            ("type", (Str "`$INTEGER`")) ]) ]));
+            ("title", (Str "Version"));
+            ("type", (Str "`$INTEGER`"));
+            ("short", (Str "The number of times that this resource has been updated.")) ]) ]));
         ("id", (jo [
           ("field", (Str "id"));
           ("name", (Str "id")) ]));
@@ -1617,32 +1667,25 @@ let make_config () : value =
             ("name", (Str "list"));
             ("points", (ja [
               (jo [
-                ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/injectKeys"));
                 ("segments", (ja [
                   (jo [
                     ("lit", (Str "injectKeys")) ]) ]));
-                ("select", (empty_map ()));
+                ("parts", (ja [
+                  (Str "injectKeys") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body.data`")) ]));
-                ("parts", (ja [
-                  (Str "injectKeys") ])) ]) ])) ]));
+                ("args", (empty_map ()));
+                ("select", (empty_map ())) ]) ])) ]));
           ("load", (jo [
             ("input", (Str "data"));
             ("name", (Str "load"));
             ("points", (ja [
               (jo [
-                ("args", (jo [
-                  ("params", (ja [
-                    (jo [
-                      ("kind", (Str "param"));
-                      ("name", (Str "id"));
-                      ("orig", (Str "id"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]) ])) ]));
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/injectKeys/{id}"));
@@ -1651,28 +1694,39 @@ let make_config () : value =
                     ("lit", (Str "injectKeys")) ]);
                   (jo [
                     ("var", (Str "id")) ]) ]));
-                ("select", (jo [
-                  ("exist", (ja [
-                    (Str "id") ])) ]));
+                ("parts", (ja [
+                  (Str "injectKeys");
+                  (Str "{id}") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "injectKeys");
-                  (Str "{id}") ])) ]) ])) ])) ]));
+                ("args", (jo [
+                  ("params", (ja [
+                    (jo [
+                      ("name", (Str "id"));
+                      ("orig", (Str "id"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "param"));
+                      ("reqd", (Bool true)) ]) ])) ]));
+                ("select", (jo [
+                  ("exist", (ja [
+                    (Str "id") ])) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("kif", (jo [
         ("fields", (ja [
           (jo [
-            ("format", (Str "int64"));
             ("name", (Str "id"));
+            ("title", (Str "Id"));
+            ("type", (Str "`$INTEGER`"));
             ("short", (Str "This resource's unique identifier."));
-            ("type", (Str "`$INTEGER`")) ]);
+            ("format", (Str "int64")) ]);
           (jo [
             ("name", (Str "name"));
-            ("short", (Str "The KIF's name."));
-            ("type", (Str "`$STRING`")) ]) ]));
+            ("title", (Str "Name"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The KIF's name.")) ]) ]));
         ("id", (jo [
           ("field", (Str "id"));
           ("name", (Str "id")) ]));
@@ -1683,117 +1737,141 @@ let make_config () : value =
             ("name", (Str "list"));
             ("points", (ja [
               (jo [
-                ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/kifs"));
                 ("segments", (ja [
                   (jo [
                     ("lit", (Str "kifs")) ]) ]));
-                ("select", (empty_map ()));
+                ("parts", (ja [
+                  (Str "kifs") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body.data`")) ]));
-                ("parts", (ja [
-                  (Str "kifs") ])) ]) ])) ])) ]));
+                ("args", (empty_map ()));
+                ("select", (empty_map ())) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("location", (jo [
         ("fields", (ja [
           (jo [
             ("name", (Str "address1"));
-            ("short", (Str "The Location's street address."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Address1"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Location's street address.")) ]);
           (jo [
             ("name", (Str "address2"));
-            ("short", (Str "The Location's street address."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Address2"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Location's street address.")) ]);
           (jo [
             ("name", (Str "billingId"));
-            ("short", (Str "\\?"));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Billing Id"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "\\?")) ]);
           (jo [
             ("name", (Str "city"));
-            ("short", (Str "The Location's city."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "City"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Location's city.")) ]);
           (jo [
             ("name", (Str "country"));
-            ("short", (Str "The Location's country."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Country"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Location's country.")) ]);
           (jo [
-            ("format", (Str "datetime"));
             ("name", (Str "created"));
+            ("title", (Str "Created"));
+            ("type", (Str "`$STRING`"));
             ("short", (Str "Creation timestamp in ISO 8601 format."));
-            ("type", (Str "`$STRING`")) ]);
+            ("format", (Str "datetime")) ]);
           (jo [
             ("name", (Str "customReference"));
-            ("short", (Str "A Partner specified reference for a location."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Custom Reference"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "A Partner specified reference for a location.")) ]);
           (jo [
             ("name", (Str "id"));
-            ("short", (Str "This resource's unique identifier."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Id"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "This resource's unique identifier.")) ]);
           (jo [
             ("name", (Str "locationType"));
-            ("short", (Str "The Location's clasification."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Location Type"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Location's clasification.")) ]);
           (jo [
             ("name", (Str "mailAddress1"));
-            ("short", (Str "The Location's street address."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Mail Address1"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Location's street address.")) ]);
           (jo [
             ("name", (Str "mailAddress2"));
-            ("short", (Str "The Location's street address."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Mail Address2"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Location's street address.")) ]);
           (jo [
             ("name", (Str "mailCity"));
-            ("short", (Str "The Location's city."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Mail City"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Location's city.")) ]);
           (jo [
             ("name", (Str "mailCountry"));
-            ("short", (Str "The Location's street address."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Mail Country"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Location's street address.")) ]);
           (jo [
             ("name", (Str "mailPostalCode"));
-            ("short", (Str "The Location's postal code."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Mail Postal Code"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Location's postal code.")) ]);
           (jo [
             ("name", (Str "mailStateProvince"));
-            ("short", (Str "The Location's street state or province."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Mail State Province"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Location's street state or province.")) ]);
           (jo [
-            ("format", (Str "datetime"));
             ("name", (Str "modified"));
+            ("title", (Str "Modified"));
+            ("type", (Str "`$STRING`"));
             ("short", (Str "Last modified timestamp."));
-            ("type", (Str "`$STRING`")) ]);
+            ("format", (Str "datetime")) ]);
           (jo [
             ("name", (Str "name"));
-            ("short", (Str "The Location's name."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Name"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Location's name.")) ]);
           (jo [
             ("name", (Str "nameOfBusiness"));
-            ("short", (Str "The name of the business at this location."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Name Of Business"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The name of the business at this location.")) ]);
           (jo [
             ("name", (Str "notes"));
-            ("short", (Str "Note for delivery driver."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Notes"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Note for delivery driver.")) ]);
           (jo [
             ("name", (Str "postalCode"));
-            ("short", (Str "The Location's postal code."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Postal Code"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Location's postal code.")) ]);
           (jo [
             ("name", (Str "stateProvince"));
-            ("short", (Str "The Location's street state or province."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "State Province"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Location's street state or province.")) ]);
           (jo [
             ("name", (Str "uniqueId"));
-            ("short", (Str "Unique Identifier for the Location."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Unique Id"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Unique Identifier for the Location.")) ]);
           (jo [
             ("name", (Str "version"));
-            ("short", (Str "The number of times that this resource has been updated."));
-            ("type", (Str "`$INTEGER`")) ]) ]));
+            ("title", (Str "Version"));
+            ("type", (Str "`$INTEGER`"));
+            ("short", (Str "The number of times that this resource has been updated.")) ]) ]));
         ("id", (jo [
           ("field", (Str "id"));
           ("name", (Str "id")) ]));
@@ -1804,73 +1882,67 @@ let make_config () : value =
             ("name", (Str "create"));
             ("points", (ja [
               (jo [
-                ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/locations"));
                 ("segments", (ja [
                   (jo [
                     ("lit", (Str "locations")) ]) ]));
-                ("select", (empty_map ()));
+                ("parts", (ja [
+                  (Str "locations") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "locations") ])) ]) ])) ]));
+                ("args", (empty_map ()));
+                ("select", (empty_map ())) ]) ])) ]));
           ("list", (jo [
             ("input", (Str "data"));
             ("name", (Str "list"));
             ("points", (ja [
               (jo [
-                ("args", (jo [
-                  ("query", (ja [
-                    (jo [
-                      ("kind", (Str "query"));
-                      ("name", (Str "client"));
-                      ("orig", (Str "client"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("example", (Num (0.)));
-                      ("kind", (Str "query"));
-                      ("name", (Str "skip"));
-                      ("orig", (Str "skip"));
-                      ("type", (Str "`$INTEGER`")) ]);
-                    (jo [
-                      ("example", (Num (10.)));
-                      ("kind", (Str "query"));
-                      ("name", (Str "take"));
-                      ("orig", (Str "take"));
-                      ("type", (Str "`$INTEGER`")) ]) ])) ]));
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/locations"));
                 ("segments", (ja [
                   (jo [
                     ("lit", (Str "locations")) ]) ]));
+                ("parts", (ja [
+                  (Str "locations") ]));
+                ("rename", (empty_map ()));
+                ("transform", (jo [
+                  ("req", (Str "`reqdata`"));
+                  ("res", (Str "`body.data`")) ]));
+                ("args", (jo [
+                  ("query", (ja [
+                    (jo [
+                      ("name", (Str "client"));
+                      ("orig", (Str "client"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "query"));
+                      ("reqd", (Bool true)) ]);
+                    (jo [
+                      ("name", (Str "skip"));
+                      ("orig", (Str "skip"));
+                      ("type", (Str "`$INTEGER`"));
+                      ("kind", (Str "query"));
+                      ("example", (Num (0.))) ]);
+                    (jo [
+                      ("name", (Str "take"));
+                      ("orig", (Str "take"));
+                      ("type", (Str "`$INTEGER`"));
+                      ("kind", (Str "query"));
+                      ("example", (Num (10.))) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
                     (Str "client");
                     (Str "skip");
-                    (Str "take") ])) ]));
-                ("transform", (jo [
-                  ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body.data`")) ]));
-                ("parts", (ja [
-                  (Str "locations") ])) ]) ])) ]));
+                    (Str "take") ])) ])) ]) ])) ]));
           ("load", (jo [
             ("input", (Str "data"));
             ("name", (Str "load"));
             ("points", (ja [
               (jo [
-                ("args", (jo [
-                  ("params", (ja [
-                    (jo [
-                      ("kind", (Str "param"));
-                      ("name", (Str "id"));
-                      ("orig", (Str "id"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]) ])) ]));
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/locations/{id}"));
@@ -1879,28 +1951,29 @@ let make_config () : value =
                     ("lit", (Str "locations")) ]);
                   (jo [
                     ("var", (Str "id")) ]) ]));
-                ("select", (jo [
-                  ("exist", (ja [
-                    (Str "id") ])) ]));
+                ("parts", (ja [
+                  (Str "locations");
+                  (Str "{id}") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "locations");
-                  (Str "{id}") ])) ]) ])) ]));
+                ("args", (jo [
+                  ("params", (ja [
+                    (jo [
+                      ("name", (Str "id"));
+                      ("orig", (Str "id"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "param"));
+                      ("reqd", (Bool true)) ]) ])) ]));
+                ("select", (jo [
+                  ("exist", (ja [
+                    (Str "id") ])) ])) ]) ])) ]));
           ("remove", (jo [
             ("input", (Str "data"));
             ("name", (Str "remove"));
             ("points", (ja [
               (jo [
-                ("args", (jo [
-                  ("params", (ja [
-                    (jo [
-                      ("kind", (Str "param"));
-                      ("name", (Str "id"));
-                      ("orig", (Str "id"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]) ])) ]));
                 ("kind", (Str "http"));
                 ("method", (Str "DELETE"));
                 ("orig", (Str "/locations/{id}"));
@@ -1909,82 +1982,105 @@ let make_config () : value =
                     ("lit", (Str "locations")) ]);
                   (jo [
                     ("var", (Str "id")) ]) ]));
-                ("select", (jo [
-                  ("exist", (ja [
-                    (Str "id") ])) ]));
+                ("parts", (ja [
+                  (Str "locations");
+                  (Str "{id}") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "locations");
-                  (Str "{id}") ])) ]) ])) ])) ]));
+                ("args", (jo [
+                  ("params", (ja [
+                    (jo [
+                      ("name", (Str "id"));
+                      ("orig", (Str "id"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "param"));
+                      ("reqd", (Bool true)) ]) ])) ]));
+                ("select", (jo [
+                  ("exist", (ja [
+                    (Str "id") ])) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("partner", (jo [
         ("fields", (ja [
           (jo [
             ("name", (Str "billingId"));
-            ("short", (Str "The Partner's billing identifier."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Billing Id"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Partner's billing identifier.")) ]);
           (jo [
             ("name", (Str "clientCanOrderEquipment"));
-            ("short", (Str "This property indicates if the Partner is allowed to order Equipment."));
-            ("type", (Str "`$BOOLEAN`")) ]);
+            ("title", (Str "Client Can Order Equipment"));
+            ("type", (Str "`$BOOLEAN`"));
+            ("short", (Str "This property indicates if the Partner is allowed to order Equipment.")) ]);
           (jo [
             ("name", (Str "contact"));
+            ("title", (Str "Contact"));
+            ("type", (Str "`$OBJECT`"));
             ("op", (jo [
               ("list", (jo [
                 ("req", (Bool true));
                 ("type", (Str "`$OBJECT`")) ])) ]));
-            ("short", (Str "Reference to the associated User resource."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("short", (Str "Reference to the associated User resource.")) ]);
           (jo [
-            ("format", (Str "datetime"));
             ("name", (Str "created"));
+            ("title", (Str "Created"));
+            ("type", (Str "`$STRING`"));
             ("short", (Str "Creation timestamp in ISO 8601 format."));
-            ("type", (Str "`$STRING`")) ]);
+            ("format", (Str "datetime")) ]);
           (jo [
             ("name", (Str "id"));
-            ("short", (Str "This resource's unique identifier."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Id"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "This resource's unique identifier.")) ]);
           (jo [
             ("name", (Str "isActive"));
-            ("short", (Str "This property indicates if the Parter account is active or disabled."));
-            ("type", (Str "`$BOOLEAN`")) ]);
+            ("title", (Str "Is Active"));
+            ("type", (Str "`$BOOLEAN`"));
+            ("short", (Str "This property indicates if the Parter account is active or disabled.")) ]);
           (jo [
             ("name", (Str "location"));
+            ("title", (Str "Location"));
+            ("type", (Str "`$OBJECT`"));
             ("req", (Bool true));
-            ("short", (Str "Reference to the associated Location resource."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("short", (Str "Reference to the associated Location resource.")) ]);
           (jo [
-            ("format", (Str "datetime"));
             ("name", (Str "modified"));
+            ("title", (Str "Modified"));
+            ("type", (Str "`$STRING`"));
             ("short", (Str "Last modified timestamp."));
-            ("type", (Str "`$STRING`")) ]);
+            ("format", (Str "datetime")) ]);
           (jo [
             ("name", (Str "name"));
-            ("short", (Str "The Partner's name."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Name"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Partner's name.")) ]);
           (jo [
             ("name", (Str "parent"));
-            ("short", (Str "Reference to the associated Partner."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("title", (Str "Parent"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated Partner.")) ]);
           (jo [
             ("name", (Str "partnerId"));
-            ("short", (Str "The Partner's id."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Partner Id"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Partner's id.")) ]);
           (jo [
             ("name", (Str "reference"));
-            ("short", (Str "The Partner's reference string."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Reference"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Partner's reference string.")) ]);
           (jo [
             ("name", (Str "verificationPhrase"));
-            ("short", (Str "The verification phrase is a message that the Partner creates."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Verification Phrase"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The verification phrase is a message that the Partner creates.")) ]);
           (jo [
             ("name", (Str "version"));
-            ("short", (Str "The number of times that this resource has been updated."));
-            ("type", (Str "`$INTEGER`")) ]) ]));
+            ("title", (Str "Version"));
+            ("type", (Str "`$INTEGER`"));
+            ("short", (Str "The number of times that this resource has been updated.")) ]) ]));
         ("id", (jo [
           ("field", (Str "id"));
           ("name", (Str "id")) ]));
@@ -1995,72 +2091,66 @@ let make_config () : value =
             ("name", (Str "create"));
             ("points", (ja [
               (jo [
-                ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/partners"));
                 ("segments", (ja [
                   (jo [
                     ("lit", (Str "partners")) ]) ]));
-                ("select", (empty_map ()));
+                ("parts", (ja [
+                  (Str "partners") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "partners") ])) ]) ])) ]));
+                ("args", (empty_map ()));
+                ("select", (empty_map ())) ]) ])) ]));
           ("list", (jo [
             ("input", (Str "data"));
             ("name", (Str "list"));
             ("points", (ja [
               (jo [
-                ("args", (jo [
-                  ("query", (ja [
-                    (jo [
-                      ("kind", (Str "query"));
-                      ("name", (Str "partner"));
-                      ("orig", (Str "partner"));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("example", (Num (0.)));
-                      ("kind", (Str "query"));
-                      ("name", (Str "skip"));
-                      ("orig", (Str "skip"));
-                      ("type", (Str "`$INTEGER`")) ]);
-                    (jo [
-                      ("example", (Num (10.)));
-                      ("kind", (Str "query"));
-                      ("name", (Str "take"));
-                      ("orig", (Str "take"));
-                      ("type", (Str "`$INTEGER`")) ]) ])) ]));
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/partners"));
                 ("segments", (ja [
                   (jo [
                     ("lit", (Str "partners")) ]) ]));
+                ("parts", (ja [
+                  (Str "partners") ]));
+                ("rename", (empty_map ()));
+                ("transform", (jo [
+                  ("req", (Str "`reqdata`"));
+                  ("res", (Str "`body.data`")) ]));
+                ("args", (jo [
+                  ("query", (ja [
+                    (jo [
+                      ("name", (Str "partner"));
+                      ("orig", (Str "partner"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "query")) ]);
+                    (jo [
+                      ("name", (Str "skip"));
+                      ("orig", (Str "skip"));
+                      ("type", (Str "`$INTEGER`"));
+                      ("kind", (Str "query"));
+                      ("example", (Num (0.))) ]);
+                    (jo [
+                      ("name", (Str "take"));
+                      ("orig", (Str "take"));
+                      ("type", (Str "`$INTEGER`"));
+                      ("kind", (Str "query"));
+                      ("example", (Num (10.))) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
                     (Str "partner");
                     (Str "skip");
-                    (Str "take") ])) ]));
-                ("transform", (jo [
-                  ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body.data`")) ]));
-                ("parts", (ja [
-                  (Str "partners") ])) ]) ])) ]));
+                    (Str "take") ])) ])) ]) ])) ]));
           ("load", (jo [
             ("input", (Str "data"));
             ("name", (Str "load"));
             ("points", (ja [
               (jo [
-                ("args", (jo [
-                  ("params", (ja [
-                    (jo [
-                      ("kind", (Str "param"));
-                      ("name", (Str "id"));
-                      ("orig", (Str "id"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]) ])) ]));
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/partners/{id}"));
@@ -2069,79 +2159,102 @@ let make_config () : value =
                     ("lit", (Str "partners")) ]);
                   (jo [
                     ("var", (Str "id")) ]) ]));
-                ("select", (jo [
-                  ("exist", (ja [
-                    (Str "id") ])) ]));
+                ("parts", (ja [
+                  (Str "partners");
+                  (Str "{id}") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "partners");
-                  (Str "{id}") ])) ]) ])) ])) ]));
+                ("args", (jo [
+                  ("params", (ja [
+                    (jo [
+                      ("name", (Str "id"));
+                      ("orig", (Str "id"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "param"));
+                      ("reqd", (Bool true)) ]) ])) ]));
+                ("select", (jo [
+                  ("exist", (ja [
+                    (Str "id") ])) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("shipment", (jo [
         ("fields", (ja [
           (jo [
             ("name", (Str "carrier"));
-            ("short", (Str "The name of the courier."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Carrier"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The name of the courier.")) ]);
           (jo [
             ("name", (Str "client"));
-            ("short", (Str "Reference to the associated Client resource."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("title", (Str "Client"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated Client resource.")) ]);
           (jo [
-            ("format", (Str "datetime"));
             ("name", (Str "created"));
+            ("title", (Str "Created"));
+            ("type", (Str "`$STRING`"));
             ("short", (Str "Creation timestamp in ISO 8601 format."));
-            ("type", (Str "`$STRING`")) ]);
+            ("format", (Str "datetime")) ]);
           (jo [
-            ("format", (Str "datetime"));
             ("name", (Str "dateReceived"));
+            ("title", (Str "Date Received"));
+            ("type", (Str "`$STRING`"));
             ("short", (Str "The date and time that a package is recieved."));
-            ("type", (Str "`$STRING`")) ]);
+            ("format", (Str "datetime")) ]);
           (jo [
-            ("format", (Str "datetime"));
             ("name", (Str "dateShipped"));
+            ("title", (Str "Date Shipped"));
+            ("type", (Str "`$STRING`"));
             ("short", (Str "The date and time that a package is shipped."));
-            ("type", (Str "`$STRING`")) ]);
+            ("format", (Str "datetime")) ]);
           (jo [
             ("name", (Str "dcKif"));
-            ("short", (Str "Reference to the associated KIF resource."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("title", (Str "Dc Kif"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated KIF resource.")) ]);
           (jo [
             ("name", (Str "id"));
-            ("short", (Str "This resource's unique identifier."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Id"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "This resource's unique identifier.")) ]);
           (jo [
             ("name", (Str "items"));
+            ("title", (Str "Items"));
             ("type", (Str "`$ARRAY`")) ]);
           (jo [
             ("name", (Str "kif"));
-            ("short", (Str "Reference to the associated KIF resource."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("title", (Str "Kif"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated KIF resource.")) ]);
           (jo [
-            ("format", (Str "datetime"));
             ("name", (Str "modified"));
+            ("title", (Str "Modified"));
+            ("type", (Str "`$STRING`"));
             ("short", (Str "Last modified timestamp."));
-            ("type", (Str "`$STRING`")) ]);
+            ("format", (Str "datetime")) ]);
           (jo [
             ("name", (Str "partner"));
-            ("short", (Str "Reference to the associated Partner."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("title", (Str "Partner"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated Partner.")) ]);
           (jo [
             ("name", (Str "shipmentType"));
-            ("short", (Str "The type of shipment."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Shipment Type"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The type of shipment.")) ]);
           (jo [
             ("name", (Str "tracking"));
-            ("short", (Str "The courier's tracking number."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Tracking"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The courier's tracking number.")) ]);
           (jo [
-            ("format", (Str "int32"));
             ("name", (Str "version"));
+            ("title", (Str "Version"));
+            ("type", (Str "`$INTEGER`"));
             ("short", (Str "The number of times that this resource has been updated."));
-            ("type", (Str "`$INTEGER`")) ]) ]));
+            ("format", (Str "int32")) ]) ]));
         ("id", (jo [
           ("field", (Str "id"));
           ("name", (Str "id")) ]));
@@ -2152,79 +2265,73 @@ let make_config () : value =
             ("name", (Str "create"));
             ("points", (ja [
               (jo [
-                ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/shipments"));
                 ("segments", (ja [
                   (jo [
                     ("lit", (Str "shipments")) ]) ]));
-                ("select", (empty_map ()));
+                ("parts", (ja [
+                  (Str "shipments") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "shipments") ])) ]) ])) ]));
+                ("args", (empty_map ()));
+                ("select", (empty_map ())) ]) ])) ]));
           ("list", (jo [
             ("input", (Str "data"));
             ("name", (Str "list"));
             ("points", (ja [
               (jo [
-                ("args", (jo [
-                  ("query", (ja [
-                    (jo [
-                      ("kind", (Str "query"));
-                      ("name", (Str "kif"));
-                      ("orig", (Str "kif"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("kind", (Str "query"));
-                      ("name", (Str "mode"));
-                      ("orig", (Str "mode"));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("example", (Num (0.)));
-                      ("kind", (Str "query"));
-                      ("name", (Str "skip"));
-                      ("orig", (Str "skip"));
-                      ("type", (Str "`$INTEGER`")) ]);
-                    (jo [
-                      ("example", (Num (10.)));
-                      ("kind", (Str "query"));
-                      ("name", (Str "take"));
-                      ("orig", (Str "take"));
-                      ("type", (Str "`$INTEGER`")) ]) ])) ]));
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/shipments"));
                 ("segments", (ja [
                   (jo [
                     ("lit", (Str "shipments")) ]) ]));
+                ("parts", (ja [
+                  (Str "shipments") ]));
+                ("rename", (empty_map ()));
+                ("transform", (jo [
+                  ("req", (Str "`reqdata`"));
+                  ("res", (Str "`body.data`")) ]));
+                ("args", (jo [
+                  ("query", (ja [
+                    (jo [
+                      ("name", (Str "kif"));
+                      ("orig", (Str "kif"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "query"));
+                      ("reqd", (Bool true)) ]);
+                    (jo [
+                      ("name", (Str "mode"));
+                      ("orig", (Str "mode"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "query")) ]);
+                    (jo [
+                      ("name", (Str "skip"));
+                      ("orig", (Str "skip"));
+                      ("type", (Str "`$INTEGER`"));
+                      ("kind", (Str "query"));
+                      ("example", (Num (0.))) ]);
+                    (jo [
+                      ("name", (Str "take"));
+                      ("orig", (Str "take"));
+                      ("type", (Str "`$INTEGER`"));
+                      ("kind", (Str "query"));
+                      ("example", (Num (10.))) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
                     (Str "kif");
                     (Str "mode");
                     (Str "skip");
-                    (Str "take") ])) ]));
-                ("transform", (jo [
-                  ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body.data`")) ]));
-                ("parts", (ja [
-                  (Str "shipments") ])) ]) ])) ]));
+                    (Str "take") ])) ])) ]) ])) ]));
           ("load", (jo [
             ("input", (Str "data"));
             ("name", (Str "load"));
             ("points", (ja [
               (jo [
-                ("args", (jo [
-                  ("params", (ja [
-                    (jo [
-                      ("kind", (Str "param"));
-                      ("name", (Str "id"));
-                      ("orig", (Str "id"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]) ])) ]));
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/shipments/{id}"));
@@ -2233,23 +2340,33 @@ let make_config () : value =
                     ("lit", (Str "shipments")) ]);
                   (jo [
                     ("var", (Str "id")) ]) ]));
-                ("select", (jo [
-                  ("exist", (ja [
-                    (Str "id") ])) ]));
+                ("parts", (ja [
+                  (Str "shipments");
+                  (Str "{id}") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "shipments");
-                  (Str "{id}") ])) ]) ])) ])) ]));
+                ("args", (jo [
+                  ("params", (ja [
+                    (jo [
+                      ("name", (Str "id"));
+                      ("orig", (Str "id"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "param"));
+                      ("reqd", (Bool true)) ]) ])) ]));
+                ("select", (jo [
+                  ("exist", (ja [
+                    (Str "id") ])) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("success", (jo [
         ("fields", (ja [
           (jo [
             ("name", (Str "success"));
-            ("short", (Str "Indicates if the action was a success."));
-            ("type", (Str "`$BOOLEAN`")) ]) ]));
+            ("title", (Str "Success"));
+            ("type", (Str "`$BOOLEAN`"));
+            ("short", (Str "Indicates if the action was a success.")) ]) ]));
         ("name", (Str "success"));
         ("op", (jo [
           ("create", (jo [
@@ -2257,175 +2374,199 @@ let make_config () : value =
             ("name", (Str "create"));
             ("points", (ja [
               (jo [
-                ("args", (jo [
-                  ("params", (ja [
-                    (jo [
-                      ("kind", (Str "param"));
-                      ("name", (Str "share_partner_to"));
-                      ("orig", (Str "share_partner_to"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]) ])) ]));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/virtualDevices/{sharePartnerTo}"));
-                ("rename", (jo [
-                  ("param", (jo [
-                    ("sharePartnerTo", (Str "share_partner_to")) ])) ]));
                 ("segments", (ja [
                   (jo [
                     ("lit", (Str "virtualDevices")) ]);
                   (jo [
                     ("var", (Str "share_partner_to")) ]) ]));
-                ("select", (jo [
-                  ("exist", (ja [
-                    (Str "share_partner_to") ])) ]));
+                ("parts", (ja [
+                  (Str "virtualDevices");
+                  (Str "{share_partner_to}") ]));
+                ("rename", (jo [
+                  ("param", (jo [
+                    ("sharePartnerTo", (Str "share_partner_to")) ])) ]));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "virtualDevices");
-                  (Str "{share_partner_to}") ])) ]) ])) ]));
+                ("args", (jo [
+                  ("params", (ja [
+                    (jo [
+                      ("name", (Str "share_partner_to"));
+                      ("orig", (Str "share_partner_to"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "param"));
+                      ("reqd", (Bool true)) ]) ])) ]));
+                ("select", (jo [
+                  ("exist", (ja [
+                    (Str "share_partner_to") ])) ])) ]) ])) ]));
           ("remove", (jo [
             ("input", (Str "data"));
             ("name", (Str "remove"));
             ("points", (ja [
               (jo [
-                ("args", (jo [
-                  ("params", (ja [
-                    (jo [
-                      ("kind", (Str "param"));
-                      ("name", (Str "share_partner_to"));
-                      ("orig", (Str "share_partner_to"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]) ])) ]));
                 ("kind", (Str "http"));
                 ("method", (Str "DELETE"));
                 ("orig", (Str "/virtualDevices/{sharePartnerTo}"));
-                ("rename", (jo [
-                  ("param", (jo [
-                    ("sharePartnerTo", (Str "share_partner_to")) ])) ]));
                 ("segments", (ja [
                   (jo [
                     ("lit", (Str "virtualDevices")) ]);
                   (jo [
                     ("var", (Str "share_partner_to")) ]) ]));
-                ("select", (jo [
-                  ("exist", (ja [
-                    (Str "share_partner_to") ])) ]));
+                ("parts", (ja [
+                  (Str "virtualDevices");
+                  (Str "{share_partner_to}") ]));
+                ("rename", (jo [
+                  ("param", (jo [
+                    ("sharePartnerTo", (Str "share_partner_to")) ])) ]));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "virtualDevices");
-                  (Str "{share_partner_to}") ])) ]) ])) ])) ]));
+                ("args", (jo [
+                  ("params", (ja [
+                    (jo [
+                      ("name", (Str "share_partner_to"));
+                      ("orig", (Str "share_partner_to"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "param"));
+                      ("reqd", (Bool true)) ]) ])) ]));
+                ("select", (jo [
+                  ("exist", (ja [
+                    (Str "share_partner_to") ])) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (ja [
             (ja [
-              (Str "virtual_device") ]) ])) ])) ]));
+              (Str "$.main.kit.entity.virtual_device") ]) ])) ])) ]));
       ("transaction", (jo [
         ("fields", (ja [
           (jo [
             ("name", (Str "alternateKey"));
-            ("short", (Str "The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Alternate Key"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging.")) ]);
           (jo [
             ("name", (Str "client"));
-            ("short", (Str "Reference to the associated Client resource."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("title", (Str "Client"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated Client resource.")) ]);
           (jo [
             ("name", (Str "clientRef"));
-            ("short", (Str "Client Reference property that is included in the decrypt API call."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Client Ref"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Client Reference property that is included in the decrypt API call.")) ]);
           (jo [
-            ("format", (Str "datetime"));
             ("name", (Str "created"));
+            ("title", (Str "Created"));
+            ("type", (Str "`$STRING`"));
             ("short", (Str "Creation timestamp in ISO 8601 format."));
-            ("type", (Str "`$STRING`")) ]);
+            ("format", (Str "datetime")) ]);
           (jo [
-            ("format", (Str "int32"));
             ("name", (Str "decrypted"));
+            ("title", (Str "Decrypted"));
+            ("type", (Str "`$INTEGER`"));
             ("short", (Str "A Transcation can process muliple decryptions."));
-            ("type", (Str "`$INTEGER`")) ]);
+            ("format", (Str "int32")) ]);
           (jo [
             ("name", (Str "deviceName"));
-            ("short", (Str "The name of the Device that generated the payload to decrypt."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Device Name"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The name of the Device that generated the payload to decrypt.")) ]);
           (jo [
             ("name", (Str "directPartner"));
-            ("short", (Str "Reference to the associated Partner."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("title", (Str "Direct Partner"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated Partner.")) ]);
           (jo [
-            ("format", (Str "int32"));
             ("name", (Str "encrypted"));
+            ("title", (Str "Encrypted"));
+            ("type", (Str "`$INTEGER`"));
             ("short", (Str "A Transcation can process muliple encryptions."));
-            ("type", (Str "`$INTEGER`")) ]);
+            ("format", (Str "int32")) ]);
           (jo [
-            ("format", (Str "datetime"));
             ("name", (Str "endDate"));
+            ("title", (Str "End Date"));
+            ("type", (Str "`$STRING`"));
             ("short", (Str "Timestamp from the end of the transaction."));
-            ("type", (Str "`$STRING`")) ]);
+            ("format", (Str "datetime")) ]);
           (jo [
             ("name", (Str "errCode"));
-            ("short", (Str "The error code that is sent in response to a failed decrypt API call."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Err Code"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The error code that is sent in response to a failed decrypt API call.")) ]);
           (jo [
             ("name", (Str "errMessage"));
-            ("short", (Str "The error messge that is sent in response to a failed decrypt API call."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Err Message"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The error messge that is sent in response to a failed decrypt API call.")) ]);
           (jo [
             ("name", (Str "id"));
-            ("short", (Str "This resource's unique identifier."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Id"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "This resource's unique identifier.")) ]);
           (jo [
             ("name", (Str "ipAddress"));
-            ("short", (Str "The IP address of the http client that makes the decrypt API call."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Ip Address"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The IP address of the http client that makes the decrypt API call.")) ]);
           (jo [
             ("name", (Str "isVirtual"));
-            ("short", (Str "Indicates if the Transaction came from a virtual Device."));
-            ("type", (Str "`$BOOLEAN`")) ]);
+            ("title", (Str "Is Virtual"));
+            ("type", (Str "`$BOOLEAN`"));
+            ("short", (Str "Indicates if the Transaction came from a virtual Device.")) ]);
           (jo [
             ("name", (Str "keyType"));
-            ("short", (Str "The type of cipher used during decrytion."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Key Type"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The type of cipher used during decrytion.")) ]);
           (jo [
             ("name", (Str "location"));
+            ("title", (Str "Location"));
+            ("type", (Str "`$OBJECT`"));
             ("req", (Bool true));
-            ("short", (Str "Reference to the associated Location resource."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("short", (Str "Reference to the associated Location resource.")) ]);
           (jo [
             ("name", (Str "messageId"));
-            ("short", (Str "Message ID."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Message Id"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Message ID.")) ]);
           (jo [
             ("name", (Str "method"));
-            ("short", (Str "The decryption cypher/method."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Method"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The decryption cypher/method.")) ]);
           (jo [
             ("name", (Str "partner"));
-            ("short", (Str "Reference to the associated Partner."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("title", (Str "Partner"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated Partner.")) ]);
           (jo [
             ("name", (Str "reference"));
-            ("short", (Str "The reference property that the Client includes in the decrypt API call."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Reference"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The reference property that the Client includes in the decrypt API call.")) ]);
           (jo [
             ("name", (Str "serialNumber"));
-            ("short", (Str "The serial number of the Device that generated the payload to decrypt."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Serial Number"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The serial number of the Device that generated the payload to decrypt.")) ]);
           (jo [
-            ("format", (Str "datetime"));
             ("name", (Str "startDate"));
+            ("title", (Str "Start Date"));
+            ("type", (Str "`$STRING`"));
             ("short", (Str "Timestamp from the beginning of the transaction."));
-            ("type", (Str "`$STRING`")) ]);
+            ("format", (Str "datetime")) ]);
           (jo [
             ("name", (Str "success"));
-            ("short", (Str "The success indicator."));
-            ("type", (Str "`$BOOLEAN`")) ]);
+            ("title", (Str "Success"));
+            ("type", (Str "`$BOOLEAN`"));
+            ("short", (Str "The success indicator.")) ]);
           (jo [
             ("name", (Str "transactionSource"));
-            ("short", (Str "The source of the Transaction."));
-            ("type", (Str "`$STRING`")) ]) ]));
+            ("title", (Str "Transaction Source"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The source of the Transaction.")) ]) ]));
         ("id", (jo [
           ("field", (Str "id"));
           ("name", (Str "id")) ]));
@@ -2436,100 +2577,107 @@ let make_config () : value =
             ("name", (Str "create"));
             ("points", (ja [
               (jo [
-                ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/transactions"));
                 ("segments", (ja [
                   (jo [
                     ("lit", (Str "transactions")) ]) ]));
-                ("select", (empty_map ()));
+                ("parts", (ja [
+                  (Str "transactions") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "transactions") ])) ]) ])) ]));
+                ("args", (empty_map ()));
+                ("select", (empty_map ())) ]) ])) ]));
           ("list", (jo [
             ("input", (Str "data"));
             ("name", (Str "list"));
             ("points", (ja [
               (jo [
-                ("args", (jo [
-                  ("query", (ja [
-                    (jo [
-                      ("kind", (Str "query"));
-                      ("name", (Str "client"));
-                      ("orig", (Str "client"));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("kind", (Str "query"));
-                      ("name", (Str "client_ref"));
-                      ("orig", (Str "client_ref"));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("kind", (Str "query"));
-                      ("name", (Str "date_from"));
-                      ("orig", (Str "date_from"));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("kind", (Str "query"));
-                      ("name", (Str "date_to"));
-                      ("orig", (Str "date_to"));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("kind", (Str "query"));
-                      ("name", (Str "location"));
-                      ("orig", (Str "location"));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("kind", (Str "query"));
-                      ("name", (Str "message_id"));
-                      ("orig", (Str "message_id"));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("example", (Str "nocount"));
-                      ("kind", (Str "query"));
-                      ("name", (Str "paging_mode"));
-                      ("orig", (Str "paging_mode"));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("kind", (Str "query"));
-                      ("name", (Str "partner"));
-                      ("orig", (Str "partner"));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("kind", (Str "query"));
-                      ("name", (Str "reference"));
-                      ("orig", (Str "reference"));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("kind", (Str "query"));
-                      ("name", (Str "serial_number"));
-                      ("orig", (Str "serial_number"));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("example", (Num (0.)));
-                      ("kind", (Str "query"));
-                      ("name", (Str "skip"));
-                      ("orig", (Str "skip"));
-                      ("type", (Str "`$INTEGER`")) ]);
-                    (jo [
-                      ("kind", (Str "query"));
-                      ("name", (Str "success"));
-                      ("orig", (Str "success"));
-                      ("type", (Str "`$BOOLEAN`")) ]);
-                    (jo [
-                      ("example", (Num (10.)));
-                      ("kind", (Str "query"));
-                      ("name", (Str "take"));
-                      ("orig", (Str "take"));
-                      ("type", (Str "`$INTEGER`")) ]) ])) ]));
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/transactions"));
                 ("segments", (ja [
                   (jo [
                     ("lit", (Str "transactions")) ]) ]));
+                ("parts", (ja [
+                  (Str "transactions") ]));
+                ("rename", (empty_map ()));
+                ("transform", (jo [
+                  ("req", (Str "`reqdata`"));
+                  ("res", (Str "`body.data`")) ]));
+                ("args", (jo [
+                  ("query", (ja [
+                    (jo [
+                      ("name", (Str "client"));
+                      ("orig", (Str "client"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "query")) ]);
+                    (jo [
+                      ("name", (Str "client_ref"));
+                      ("orig", (Str "client_ref"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "query")) ]);
+                    (jo [
+                      ("name", (Str "date_from"));
+                      ("orig", (Str "date_from"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "query")) ]);
+                    (jo [
+                      ("name", (Str "date_to"));
+                      ("orig", (Str "date_to"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "query")) ]);
+                    (jo [
+                      ("name", (Str "location"));
+                      ("orig", (Str "location"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "query")) ]);
+                    (jo [
+                      ("name", (Str "message_id"));
+                      ("orig", (Str "message_id"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "query")) ]);
+                    (jo [
+                      ("name", (Str "paging_mode"));
+                      ("orig", (Str "paging_mode"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "query"));
+                      ("example", (Str "nocount")) ]);
+                    (jo [
+                      ("name", (Str "partner"));
+                      ("orig", (Str "partner"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "query")) ]);
+                    (jo [
+                      ("name", (Str "reference"));
+                      ("orig", (Str "reference"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "query")) ]);
+                    (jo [
+                      ("name", (Str "serial_number"));
+                      ("orig", (Str "serial_number"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "query")) ]);
+                    (jo [
+                      ("name", (Str "skip"));
+                      ("orig", (Str "skip"));
+                      ("type", (Str "`$INTEGER`"));
+                      ("kind", (Str "query"));
+                      ("example", (Num (0.))) ]);
+                    (jo [
+                      ("name", (Str "success"));
+                      ("orig", (Str "success"));
+                      ("type", (Str "`$BOOLEAN`"));
+                      ("kind", (Str "query")) ]);
+                    (jo [
+                      ("name", (Str "take"));
+                      ("orig", (Str "take"));
+                      ("type", (Str "`$INTEGER`"));
+                      ("kind", (Str "query"));
+                      ("example", (Num (10.))) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
                     (Str "client");
@@ -2544,25 +2692,12 @@ let make_config () : value =
                     (Str "serial_number");
                     (Str "skip");
                     (Str "success");
-                    (Str "take") ])) ]));
-                ("transform", (jo [
-                  ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body.data`")) ]));
-                ("parts", (ja [
-                  (Str "transactions") ])) ]) ])) ]));
+                    (Str "take") ])) ])) ]) ])) ]));
           ("load", (jo [
             ("input", (Str "data"));
             ("name", (Str "load"));
             ("points", (ja [
               (jo [
-                ("args", (jo [
-                  ("params", (ja [
-                    (jo [
-                      ("kind", (Str "param"));
-                      ("name", (Str "id"));
-                      ("orig", (Str "id"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]) ])) ]));
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/transactions/{id}"));
@@ -2571,67 +2706,88 @@ let make_config () : value =
                     ("lit", (Str "transactions")) ]);
                   (jo [
                     ("var", (Str "id")) ]) ]));
-                ("select", (jo [
-                  ("exist", (ja [
-                    (Str "id") ])) ]));
+                ("parts", (ja [
+                  (Str "transactions");
+                  (Str "{id}") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "transactions");
-                  (Str "{id}") ])) ]) ])) ])) ]));
+                ("args", (jo [
+                  ("params", (ja [
+                    (jo [
+                      ("name", (Str "id"));
+                      ("orig", (Str "id"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "param"));
+                      ("reqd", (Bool true)) ]) ])) ]));
+                ("select", (jo [
+                  ("exist", (ja [
+                    (Str "id") ])) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("update_result", (jo [
         ("fields", (ja [
           (jo [
             ("name", (Str "client"));
-            ("short", (Str "Reference to the associated Client resource."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("title", (Str "Client"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated Client resource.")) ]);
           (jo [
             ("name", (Str "email"));
-            ("short", (Str "The User's email address."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Email"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The User's email address.")) ]);
           (jo [
             ("name", (Str "firstName"));
-            ("short", (Str "The User's name."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "First Name"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The User's name.")) ]);
           (jo [
             ("name", (Str "id"));
-            ("short", (Str "ID of newly created resource"));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Id"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "ID of newly created resource")) ]);
           (jo [
             ("name", (Str "isActive"));
-            ("short", (Str "This property indicates if the User account is active or disabled."));
-            ("type", (Str "`$BOOLEAN`")) ]);
+            ("title", (Str "Is Active"));
+            ("type", (Str "`$BOOLEAN`"));
+            ("short", (Str "This property indicates if the User account is active or disabled.")) ]);
           (jo [
             ("name", (Str "kif"));
-            ("short", (Str "Reference to the associated KIF resource."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("title", (Str "Kif"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated KIF resource.")) ]);
           (jo [
             ("name", (Str "lastName"));
-            ("short", (Str "The User's Surname."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Last Name"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The User's Surname.")) ]);
           (jo [
             ("name", (Str "partner"));
-            ("short", (Str "Reference to the associated Partner."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("title", (Str "Partner"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated Partner.")) ]);
           (jo [
             ("name", (Str "phone"));
-            ("short", (Str "The User's phone number without dashes, spaces, or brackets."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Phone"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The User's phone number without dashes, spaces, or brackets.")) ]);
           (jo [
             ("name", (Str "userName"));
-            ("short", (Str "The User's unique username."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "User Name"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The User's unique username.")) ]);
           (jo [
             ("name", (Str "userRole"));
-            ("short", (Str "Reference to the associated User Role."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("title", (Str "User Role"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated User Role.")) ]);
           (jo [
             ("name", (Str "version"));
-            ("short", (Str "The number of times that this resource has been updated."));
-            ("type", (Str "`$INTEGER`")) ]) ]));
+            ("title", (Str "Version"));
+            ("type", (Str "`$INTEGER`"));
+            ("short", (Str "The number of times that this resource has been updated.")) ]) ]));
         ("id", (jo [
           ("field", (Str "id"));
           ("name", (Str "id")) ]));
@@ -2642,84 +2798,78 @@ let make_config () : value =
             ("name", (Str "create"));
             ("points", (ja [
               (jo [
-                ("args", (empty_map ()));
                 ("kind", (Str "http"));
                 ("method", (Str "POST"));
                 ("orig", (Str "/users"));
                 ("segments", (ja [
                   (jo [
                     ("lit", (Str "users")) ]) ]));
-                ("select", (empty_map ()));
+                ("parts", (ja [
+                  (Str "users") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "users") ])) ]) ])) ]));
+                ("args", (empty_map ()));
+                ("select", (empty_map ())) ]) ])) ]));
           ("list", (jo [
             ("input", (Str "data"));
             ("name", (Str "list"));
             ("points", (ja [
               (jo [
-                ("args", (jo [
-                  ("query", (ja [
-                    (jo [
-                      ("kind", (Str "query"));
-                      ("name", (Str "client"));
-                      ("orig", (Str "client"));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("kind", (Str "query"));
-                      ("name", (Str "kif"));
-                      ("orig", (Str "kif"));
-                      ("type", (Str "`$STRING`")) ]);
-                    (jo [
-                      ("kind", (Str "query"));
-                      ("name", (Str "partner"));
-                      ("orig", (Str "partner"));
-                      ("type", (Str "`$ANY`")) ]);
-                    (jo [
-                      ("example", (Num (0.)));
-                      ("kind", (Str "query"));
-                      ("name", (Str "skip"));
-                      ("orig", (Str "skip"));
-                      ("type", (Str "`$INTEGER`")) ]);
-                    (jo [
-                      ("example", (Num (10.)));
-                      ("kind", (Str "query"));
-                      ("name", (Str "take"));
-                      ("orig", (Str "take"));
-                      ("type", (Str "`$INTEGER`")) ]) ])) ]));
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/users"));
                 ("segments", (ja [
                   (jo [
                     ("lit", (Str "users")) ]) ]));
+                ("parts", (ja [
+                  (Str "users") ]));
+                ("rename", (empty_map ()));
+                ("transform", (jo [
+                  ("req", (Str "`reqdata`"));
+                  ("res", (Str "`body.data`")) ]));
+                ("args", (jo [
+                  ("query", (ja [
+                    (jo [
+                      ("name", (Str "client"));
+                      ("orig", (Str "client"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "query")) ]);
+                    (jo [
+                      ("name", (Str "kif"));
+                      ("orig", (Str "kif"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "query")) ]);
+                    (jo [
+                      ("name", (Str "partner"));
+                      ("orig", (Str "partner"));
+                      ("type", (Str "`$ANY`"));
+                      ("kind", (Str "query")) ]);
+                    (jo [
+                      ("name", (Str "skip"));
+                      ("orig", (Str "skip"));
+                      ("type", (Str "`$INTEGER`"));
+                      ("kind", (Str "query"));
+                      ("example", (Num (0.))) ]);
+                    (jo [
+                      ("name", (Str "take"));
+                      ("orig", (Str "take"));
+                      ("type", (Str "`$INTEGER`"));
+                      ("kind", (Str "query"));
+                      ("example", (Num (10.))) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
                     (Str "client");
                     (Str "kif");
                     (Str "partner");
                     (Str "skip");
-                    (Str "take") ])) ]));
-                ("transform", (jo [
-                  ("req", (Str "`reqdata`"));
-                  ("res", (Str "`body.data`")) ]));
-                ("parts", (ja [
-                  (Str "users") ])) ]) ])) ]));
+                    (Str "take") ])) ])) ]) ])) ]));
           ("update", (jo [
             ("input", (Str "data"));
             ("name", (Str "update"));
             ("points", (ja [
               (jo [
-                ("args", (jo [
-                  ("params", (ja [
-                    (jo [
-                      ("kind", (Str "param"));
-                      ("name", (Str "id"));
-                      ("orig", (Str "id"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]) ])) ]));
                 ("kind", (Str "http"));
                 ("method", (Str "PATCH"));
                 ("orig", (Str "/clients/{id}"));
@@ -2728,24 +2878,25 @@ let make_config () : value =
                     ("lit", (Str "clients")) ]);
                   (jo [
                     ("var", (Str "id")) ]) ]));
-                ("select", (jo [
-                  ("exist", (ja [
-                    (Str "id") ])) ]));
+                ("parts", (ja [
+                  (Str "clients");
+                  (Str "{id}") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "clients");
-                  (Str "{id}") ])) ]);
-              (jo [
                 ("args", (jo [
                   ("params", (ja [
                     (jo [
-                      ("kind", (Str "param"));
                       ("name", (Str "id"));
                       ("orig", (Str "id"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]) ])) ]));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "param"));
+                      ("reqd", (Bool true)) ]) ])) ]));
+                ("select", (jo [
+                  ("exist", (ja [
+                    (Str "id") ])) ])) ]);
+              (jo [
                 ("kind", (Str "http"));
                 ("method", (Str "PATCH"));
                 ("orig", (Str "/devices/{id}"));
@@ -2754,24 +2905,25 @@ let make_config () : value =
                     ("lit", (Str "devices")) ]);
                   (jo [
                     ("var", (Str "id")) ]) ]));
-                ("select", (jo [
-                  ("exist", (ja [
-                    (Str "id") ])) ]));
+                ("parts", (ja [
+                  (Str "devices");
+                  (Str "{id}") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "devices");
-                  (Str "{id}") ])) ]);
-              (jo [
                 ("args", (jo [
                   ("params", (ja [
                     (jo [
-                      ("kind", (Str "param"));
                       ("name", (Str "id"));
                       ("orig", (Str "id"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]) ])) ]));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "param"));
+                      ("reqd", (Bool true)) ]) ])) ]));
+                ("select", (jo [
+                  ("exist", (ja [
+                    (Str "id") ])) ])) ]);
+              (jo [
                 ("kind", (Str "http"));
                 ("method", (Str "PATCH"));
                 ("orig", (Str "/locations/{id}"));
@@ -2780,24 +2932,25 @@ let make_config () : value =
                     ("lit", (Str "locations")) ]);
                   (jo [
                     ("var", (Str "id")) ]) ]));
-                ("select", (jo [
-                  ("exist", (ja [
-                    (Str "id") ])) ]));
+                ("parts", (ja [
+                  (Str "locations");
+                  (Str "{id}") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "locations");
-                  (Str "{id}") ])) ]);
-              (jo [
                 ("args", (jo [
                   ("params", (ja [
                     (jo [
-                      ("kind", (Str "param"));
                       ("name", (Str "id"));
                       ("orig", (Str "id"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]) ])) ]));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "param"));
+                      ("reqd", (Bool true)) ]) ])) ]));
+                ("select", (jo [
+                  ("exist", (ja [
+                    (Str "id") ])) ])) ]);
+              (jo [
                 ("kind", (Str "http"));
                 ("method", (Str "PATCH"));
                 ("orig", (Str "/partners/{id}"));
@@ -2806,24 +2959,25 @@ let make_config () : value =
                     ("lit", (Str "partners")) ]);
                   (jo [
                     ("var", (Str "id")) ]) ]));
-                ("select", (jo [
-                  ("exist", (ja [
-                    (Str "id") ])) ]));
+                ("parts", (ja [
+                  (Str "partners");
+                  (Str "{id}") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "partners");
-                  (Str "{id}") ])) ]);
-              (jo [
                 ("args", (jo [
                   ("params", (ja [
                     (jo [
-                      ("kind", (Str "param"));
                       ("name", (Str "id"));
                       ("orig", (Str "id"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]) ])) ]));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "param"));
+                      ("reqd", (Bool true)) ]) ])) ]));
+                ("select", (jo [
+                  ("exist", (ja [
+                    (Str "id") ])) ])) ]);
+              (jo [
                 ("kind", (Str "http"));
                 ("method", (Str "PATCH"));
                 ("orig", (Str "/shipments/{id}"));
@@ -2832,24 +2986,25 @@ let make_config () : value =
                     ("lit", (Str "shipments")) ]);
                   (jo [
                     ("var", (Str "id")) ]) ]));
-                ("select", (jo [
-                  ("exist", (ja [
-                    (Str "id") ])) ]));
+                ("parts", (ja [
+                  (Str "shipments");
+                  (Str "{id}") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "shipments");
-                  (Str "{id}") ])) ]);
-              (jo [
                 ("args", (jo [
                   ("params", (ja [
                     (jo [
-                      ("kind", (Str "param"));
                       ("name", (Str "id"));
                       ("orig", (Str "id"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]) ])) ]));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "param"));
+                      ("reqd", (Bool true)) ]) ])) ]));
+                ("select", (jo [
+                  ("exist", (ja [
+                    (Str "id") ])) ])) ]);
+              (jo [
                 ("kind", (Str "http"));
                 ("method", (Str "PATCH"));
                 ("orig", (Str "/transactions/{id}"));
@@ -2858,24 +3013,25 @@ let make_config () : value =
                     ("lit", (Str "transactions")) ]);
                   (jo [
                     ("var", (Str "id")) ]) ]));
-                ("select", (jo [
-                  ("exist", (ja [
-                    (Str "id") ])) ]));
+                ("parts", (ja [
+                  (Str "transactions");
+                  (Str "{id}") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "transactions");
-                  (Str "{id}") ])) ]);
-              (jo [
                 ("args", (jo [
                   ("params", (ja [
                     (jo [
-                      ("kind", (Str "param"));
                       ("name", (Str "id"));
                       ("orig", (Str "id"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]) ])) ]));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "param"));
+                      ("reqd", (Bool true)) ]) ])) ]));
+                ("select", (jo [
+                  ("exist", (ja [
+                    (Str "id") ])) ])) ]);
+              (jo [
                 ("kind", (Str "http"));
                 ("method", (Str "PATCH"));
                 ("orig", (Str "/users/{id}"));
@@ -2884,77 +3040,100 @@ let make_config () : value =
                     ("lit", (Str "users")) ]);
                   (jo [
                     ("var", (Str "id")) ]) ]));
-                ("select", (jo [
-                  ("exist", (ja [
-                    (Str "id") ])) ]));
+                ("parts", (ja [
+                  (Str "users");
+                  (Str "{id}") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "users");
-                  (Str "{id}") ])) ]) ])) ])) ]));
+                ("args", (jo [
+                  ("params", (ja [
+                    (jo [
+                      ("name", (Str "id"));
+                      ("orig", (Str "id"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "param"));
+                      ("reqd", (Bool true)) ]) ])) ]));
+                ("select", (jo [
+                  ("exist", (ja [
+                    (Str "id") ])) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("user", (jo [
         ("fields", (ja [
           (jo [
             ("name", (Str "client"));
-            ("short", (Str "Reference to the associated Client resource."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("title", (Str "Client"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated Client resource.")) ]);
           (jo [
-            ("format", (Str "datetime"));
             ("name", (Str "created"));
+            ("title", (Str "Created"));
+            ("type", (Str "`$STRING`"));
             ("short", (Str "Creation timestamp in ISO 8601 format."));
-            ("type", (Str "`$STRING`")) ]);
+            ("format", (Str "datetime")) ]);
           (jo [
             ("name", (Str "email"));
-            ("short", (Str "The User's email address."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Email"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The User's email address.")) ]);
           (jo [
             ("name", (Str "firstName"));
-            ("short", (Str "The User's name."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "First Name"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The User's name.")) ]);
           (jo [
             ("name", (Str "id"));
-            ("short", (Str "This resource's unique identifier."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Id"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "This resource's unique identifier.")) ]);
           (jo [
             ("name", (Str "isActive"));
-            ("short", (Str "This property indicates if the User account is active or disabled."));
-            ("type", (Str "`$BOOLEAN`")) ]);
+            ("title", (Str "Is Active"));
+            ("type", (Str "`$BOOLEAN`"));
+            ("short", (Str "This property indicates if the User account is active or disabled.")) ]);
           (jo [
             ("name", (Str "kif"));
-            ("short", (Str "Reference to the associated KIF resource."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("title", (Str "Kif"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated KIF resource.")) ]);
           (jo [
             ("name", (Str "lastName"));
-            ("short", (Str "The User's Surname."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Last Name"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The User's Surname.")) ]);
           (jo [
-            ("format", (Str "datetime"));
             ("name", (Str "modified"));
+            ("title", (Str "Modified"));
+            ("type", (Str "`$STRING`"));
             ("short", (Str "Last modified timestamp."));
-            ("type", (Str "`$STRING`")) ]);
+            ("format", (Str "datetime")) ]);
           (jo [
             ("name", (Str "partner"));
-            ("short", (Str "Reference to the associated Partner."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("title", (Str "Partner"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated Partner.")) ]);
           (jo [
             ("name", (Str "phone"));
-            ("short", (Str "The User's phone number without dashes, spaces, or brackets."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "Phone"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The User's phone number without dashes, spaces, or brackets.")) ]);
           (jo [
             ("name", (Str "userName"));
-            ("short", (Str "The User's unique username."));
-            ("type", (Str "`$STRING`")) ]);
+            ("title", (Str "User Name"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The User's unique username.")) ]);
           (jo [
             ("name", (Str "userRole"));
-            ("short", (Str "Reference to the associated User Role."));
-            ("type", (Str "`$OBJECT`")) ]);
+            ("title", (Str "User Role"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated User Role.")) ]);
           (jo [
             ("name", (Str "version"));
-            ("short", (Str "The number of times that this resource has been updated."));
-            ("type", (Str "`$INTEGER`")) ]) ]));
+            ("title", (Str "Version"));
+            ("type", (Str "`$INTEGER`"));
+            ("short", (Str "The number of times that this resource has been updated.")) ]) ]));
         ("id", (jo [
           ("field", (Str "id"));
           ("name", (Str "id")) ]));
@@ -2965,14 +3144,6 @@ let make_config () : value =
             ("name", (Str "load"));
             ("points", (ja [
               (jo [
-                ("args", (jo [
-                  ("params", (ja [
-                    (jo [
-                      ("kind", (Str "param"));
-                      ("name", (Str "id"));
-                      ("orig", (Str "id"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]) ])) ]));
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
                 ("orig", (Str "/users/{id}"));
@@ -2981,28 +3152,29 @@ let make_config () : value =
                     ("lit", (Str "users")) ]);
                   (jo [
                     ("var", (Str "id")) ]) ]));
-                ("select", (jo [
-                  ("exist", (ja [
-                    (Str "id") ])) ]));
+                ("parts", (ja [
+                  (Str "users");
+                  (Str "{id}") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
-                ("parts", (ja [
-                  (Str "users");
-                  (Str "{id}") ])) ]) ])) ]));
+                ("args", (jo [
+                  ("params", (ja [
+                    (jo [
+                      ("name", (Str "id"));
+                      ("orig", (Str "id"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "param"));
+                      ("reqd", (Bool true)) ]) ])) ]));
+                ("select", (jo [
+                  ("exist", (ja [
+                    (Str "id") ])) ])) ]) ])) ]));
           ("remove", (jo [
             ("input", (Str "data"));
             ("name", (Str "remove"));
             ("points", (ja [
               (jo [
-                ("args", (jo [
-                  ("params", (ja [
-                    (jo [
-                      ("kind", (Str "param"));
-                      ("name", (Str "id"));
-                      ("orig", (Str "id"));
-                      ("reqd", (Bool true));
-                      ("type", (Str "`$STRING`")) ]) ])) ]));
                 ("kind", (Str "http"));
                 ("method", (Str "DELETE"));
                 ("orig", (Str "/users/{id}"));
@@ -3011,15 +3183,109 @@ let make_config () : value =
                     ("lit", (Str "users")) ]);
                   (jo [
                     ("var", (Str "id")) ]) ]));
-                ("select", (jo [
-                  ("exist", (ja [
-                    (Str "id") ])) ]));
+                ("parts", (ja [
+                  (Str "users");
+                  (Str "{id}") ]));
+                ("rename", (empty_map ()));
                 ("transform", (jo [
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
+                ("args", (jo [
+                  ("params", (ja [
+                    (jo [
+                      ("name", (Str "id"));
+                      ("orig", (Str "id"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "param"));
+                      ("reqd", (Bool true)) ]) ])) ]));
+                ("select", (jo [
+                  ("exist", (ja [
+                    (Str "id") ])) ])) ]) ])) ])) ]));
+        ("relations", (jo [
+          ("ancestors", (empty_list ())) ])) ]));
+      ("virtual_device", (jo [
+        ("fields", (ja [
+          (jo [
+            ("name", (Str "data"));
+            ("title", (Str "Data"));
+            ("type", (Str "`$ARRAY`"));
+            ("short", (Str "List of Devices.")) ]);
+          (jo [
+            ("name", (Str "id"));
+            ("title", (Str "Id"));
+            ("type", (Str "`$STRING`")) ]);
+          (jo [
+            ("name", (Str "total"));
+            ("title", (Str "Total"));
+            ("type", (Str "`$INTEGER`"));
+            ("short", (Str "Total number of Devices available (not the number of Users in the response).")) ]) ]));
+        ("id", (jo [
+          ("field", (Str "id"));
+          ("name", (Str "id")) ]));
+        ("name", (Str "virtual_device"));
+        ("op", (jo [
+          ("load", (jo [
+            ("input", (Str "data"));
+            ("name", (Str "load"));
+            ("points", (ja [
+              (jo [
+                ("kind", (Str "http"));
+                ("method", (Str "GET"));
+                ("orig", (Str "/virtualDevices/{sharePartnerTo}"));
+                ("segments", (ja [
+                  (jo [
+                    ("lit", (Str "virtualDevices")) ]);
+                  (jo [
+                    ("var", (Str "id")) ]) ]));
                 ("parts", (ja [
-                  (Str "users");
-                  (Str "{id}") ])) ]) ])) ])) ]));
+                  (Str "virtualDevices");
+                  (Str "{id}") ]));
+                ("rename", (jo [
+                  ("param", (jo [
+                    ("sharePartnerTo", (Str "id")) ])) ]));
+                ("transform", (jo [
+                  ("req", (Str "`reqdata`"));
+                  ("res", (Str "`body`")) ]));
+                ("args", (jo [
+                  ("params", (ja [
+                    (jo [
+                      ("name", (Str "id"));
+                      ("orig", (Str "share_partner_to"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "param"));
+                      ("reqd", (Bool true)) ]) ]));
+                  ("query", (ja [
+                    (jo [
+                      ("name", (Str "skip"));
+                      ("orig", (Str "skip"));
+                      ("type", (Str "`$INTEGER`"));
+                      ("kind", (Str "query"));
+                      ("example", (Num (0.))) ]);
+                    (jo [
+                      ("name", (Str "sorting_direction"));
+                      ("orig", (Str "sorting_direction"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "query"));
+                      ("example", (Str "asc")) ]);
+                    (jo [
+                      ("name", (Str "sorting_field"));
+                      ("orig", (Str "sorting_field"));
+                      ("type", (Str "`$STRING`"));
+                      ("kind", (Str "query"));
+                      ("example", (Str "serialnumber")) ]);
+                    (jo [
+                      ("name", (Str "take"));
+                      ("orig", (Str "take"));
+                      ("type", (Str "`$INTEGER`"));
+                      ("kind", (Str "query"));
+                      ("example", (Num (10.))) ]) ])) ]));
+                ("select", (jo [
+                  ("exist", (ja [
+                    (Str "id");
+                    (Str "skip");
+                    (Str "sorting_direction");
+                    (Str "sorting_field");
+                    (Str "take") ])) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ])) ])) ])
 

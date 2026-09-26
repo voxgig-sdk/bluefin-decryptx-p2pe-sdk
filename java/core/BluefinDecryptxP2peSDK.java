@@ -82,21 +82,12 @@ public class BluefinDecryptxP2peSDK extends SdkClient {
   }
 
   /**
-   * Returns a device_custody_list entity bound to this client.
-   * Idiomatic usage: client.deviceCustodyList(null).list(null, null) or
-   * client.deviceCustodyList(null).load(Map.of("id", ...), null).
+   * Returns a device_custody_list_item entity bound to this client.
+   * Idiomatic usage: client.deviceCustodyListItem(null).list(null, null) or
+   * client.deviceCustodyListItem(null).load(Map.of("id", ...), null).
    */
-  public SdkEntity deviceCustodyList(Map<String, Object> entopts) {
-    return new voxgig.bluefindecryptxp2pesdk.entity.DeviceCustodyListEntity(this, entopts);
-  }
-
-  /**
-   * Returns a device_list entity bound to this client.
-   * Idiomatic usage: client.deviceList(null).list(null, null) or
-   * client.deviceList(null).load(Map.of("id", ...), null).
-   */
-  public SdkEntity deviceList(Map<String, Object> entopts) {
-    return new voxgig.bluefindecryptxp2pesdk.entity.DeviceListEntity(this, entopts);
+  public SdkEntity deviceCustodyListItem(Map<String, Object> entopts) {
+    return new voxgig.bluefindecryptxp2pesdk.entity.DeviceCustodyListItemEntity(this, entopts);
   }
 
   /**
@@ -214,6 +205,15 @@ public class BluefinDecryptxP2peSDK extends SdkClient {
    */
   public SdkEntity user(Map<String, Object> entopts) {
     return new voxgig.bluefindecryptxp2pesdk.entity.UserEntity(this, entopts);
+  }
+
+  /**
+   * Returns a virtual_device entity bound to this client.
+   * Idiomatic usage: client.virtualDevice(null).list(null, null) or
+   * client.virtualDevice(null).load(Map.of("id", ...), null).
+   */
+  public SdkEntity virtualDevice(Map<String, Object> entopts) {
+    return new voxgig.bluefindecryptxp2pesdk.entity.VirtualDeviceEntity(this, entopts);
   }
 
 

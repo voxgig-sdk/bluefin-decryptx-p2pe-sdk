@@ -274,72 +274,72 @@ class Config {
 
     entity: {
       
-      attestation: {
-      },
-
-      client: {
-      },
-
-      create_result: {
-      },
-
-      decryption: {
-      },
-
-      device: {
-      },
-
-      device_build: {
-      },
-
-      device_custody_detail: {
-      },
-
-      device_custody_list: {
-      },
-
-      device_list: {
-      },
-
-      device_receive_result: {
-      },
-
-      device_rki_activate_result: {
-      },
-
-      device_state: {
-      },
-
-      device_type: {
-      },
-
-      inject_key: {
-      },
-
-      kif: {
-      },
-
-      location: {
-      },
-
-      partner: {
-      },
-
-      shipment: {
-      },
-
-      success: {
-      },
-
-      transaction: {
-      },
-
-      update_result: {
-      },
-
-      user: {
-      },
-
+        attestation: {
+        },
+  
+        client: {
+        },
+  
+        create_result: {
+        },
+  
+        decryption: {
+        },
+  
+        device: {
+        },
+  
+        device_build: {
+        },
+  
+        device_custody_detail: {
+        },
+  
+        device_custody_list_item: {
+        },
+  
+        device_receive_result: {
+        },
+  
+        device_rki_activate_result: {
+        },
+  
+        device_state: {
+        },
+  
+        device_type: {
+        },
+  
+        inject_key: {
+        },
+  
+        kif: {
+        },
+  
+        location: {
+        },
+  
+        partner: {
+        },
+  
+        shipment: {
+        },
+  
+        success: {
+        },
+  
+        transaction: {
+        },
+  
+        update_result: {
+        },
+  
+        user: {
+        },
+  
+        virtual_device: {
+        },
+  
     }
   }
 
@@ -349,40 +349,47 @@ class Config {
       "fields": [
         {
           "name": "client",
-          "short": "Reference to the associated Client resource.",
-          "type": "`$OBJECT`"
+          "title": "Client",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated Client resource."
         },
         {
-          "format": "datetime",
           "name": "completeDate",
+          "title": "Complete Date",
+          "type": "`$STRING`",
           "short": "The date and time that the Attestation took place.",
-          "type": "`$STRING`"
+          "format": "datetime"
         },
         {
-          "format": "datetime",
           "name": "created",
+          "title": "Created",
+          "type": "`$STRING`",
           "short": "Creation timestamp in ISO 8601 format.",
-          "type": "`$STRING`"
+          "format": "datetime"
         },
         {
           "name": "device",
-          "short": "Reference to the associated Device resource.",
-          "type": "`$OBJECT`"
+          "title": "Device",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated Device resource."
         },
         {
           "name": "id",
-          "short": "This resource's unique identifier.",
-          "type": "`$STRING`"
+          "title": "Id",
+          "type": "`$STRING`",
+          "short": "This resource's unique identifier."
         },
         {
           "name": "name",
-          "short": "Text describing the attestation.",
-          "type": "`$STRING`"
+          "title": "Name",
+          "type": "`$STRING`",
+          "short": "Text describing the attestation."
         },
         {
           "name": "notes",
-          "short": "Free form field that allows the Client associate notes with the Attestation.",
-          "type": "`$STRING`"
+          "title": "Notes",
+          "type": "`$STRING`",
+          "short": "Free form field that allows the Client associate notes with the Attestation."
         }
       ],
       "id": {
@@ -396,7 +403,6 @@ class Config {
           "name": "create",
           "points": [
             {
-              "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/attestations",
@@ -405,14 +411,16 @@ class Config {
                   "lit": "attestations"
                 }
               ],
-              "select": {},
+              "parts": [
+                "attestations"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "attestations"
-              ]
+              "args": {},
+              "select": {}
             }
           ]
         },
@@ -421,31 +429,6 @@ class Config {
           "name": "list",
           "points": [
             {
-              "args": {
-                "query": [
-                  {
-                    "kind": "query",
-                    "name": "client",
-                    "orig": "client",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "example": 0,
-                    "kind": "query",
-                    "name": "skip",
-                    "orig": "skip",
-                    "type": "`$INTEGER`"
-                  },
-                  {
-                    "example": 10,
-                    "kind": "query",
-                    "name": "take",
-                    "orig": "take",
-                    "type": "`$INTEGER`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/attestations",
@@ -454,20 +437,46 @@ class Config {
                   "lit": "attestations"
                 }
               ],
+              "parts": [
+                "attestations"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body.data`"
+              },
+              "args": {
+                "query": [
+                  {
+                    "name": "client",
+                    "orig": "client",
+                    "type": "`$STRING`",
+                    "kind": "query",
+                    "reqd": true
+                  },
+                  {
+                    "name": "skip",
+                    "orig": "skip",
+                    "type": "`$INTEGER`",
+                    "kind": "query",
+                    "example": 0
+                  },
+                  {
+                    "name": "take",
+                    "orig": "take",
+                    "type": "`$INTEGER`",
+                    "kind": "query",
+                    "example": 10
+                  }
+                ]
+              },
               "select": {
                 "exist": [
                   "client",
                   "skip",
                   "take"
                 ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body.data`"
-              },
-              "parts": [
-                "attestations"
-              ]
+              }
             }
           ]
         },
@@ -476,17 +485,6 @@ class Config {
           "name": "load",
           "points": [
             {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "id",
-                    "orig": "id",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/attestations/{id}",
@@ -498,19 +496,31 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "id"
-                ]
-              },
+              "parts": [
+                "attestations",
+                "{id}"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "attestations",
-                "{id}"
-              ]
+              "args": {
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "id",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "id"
+                ]
+              }
             }
           ]
         }
@@ -523,67 +533,78 @@ class Config {
       "fields": [
         {
           "name": "contact",
+          "title": "Contact",
+          "type": "`$OBJECT`",
           "op": {
             "list": {
               "req": true,
               "type": "`$OBJECT`"
             }
           },
-          "short": "Reference to the associated User resource.",
-          "type": "`$OBJECT`"
+          "short": "Reference to the associated User resource."
         },
         {
-          "format": "datetime",
           "name": "created",
+          "title": "Created",
+          "type": "`$STRING`",
           "short": "Creation timestamp in ISO 8601 format.",
-          "type": "`$STRING`"
+          "format": "datetime"
         },
         {
           "name": "directPartner",
-          "short": "Reference to the associated Partner.",
-          "type": "`$OBJECT`"
+          "title": "Direct Partner",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated Partner."
         },
         {
           "name": "id",
-          "short": "This resource's unique identifier.",
-          "type": "`$STRING`"
+          "title": "Id",
+          "type": "`$STRING`",
+          "short": "This resource's unique identifier."
         },
         {
           "name": "isActive",
-          "short": "This property indicates if the Client account is active or disabled.",
-          "type": "`$BOOLEAN`"
+          "title": "Is Active",
+          "type": "`$BOOLEAN`",
+          "short": "This property indicates if the Client account is active or disabled."
         },
         {
           "name": "location",
+          "title": "Location",
+          "type": "`$OBJECT`",
           "req": true,
-          "short": "Reference to the associated Location resource.",
-          "type": "`$OBJECT`"
+          "short": "Reference to the associated Location resource."
         },
         {
           "name": "mid",
-          "short": "Some Partners will have an merchant ids on their own software offerings.",
-          "type": "`$STRING`"
+          "title": "Mid",
+          "type": "`$STRING`",
+          "short": "Some Partners will have an merchant ids on their own software offerings."
         },
         {
-          "format": "datetime",
           "name": "modified",
+          "title": "Modified",
+          "type": "`$STRING`",
           "short": "Last modified timestamp.",
-          "type": "`$STRING`"
+          "format": "datetime"
         },
         {
           "name": "name",
-          "short": "The Client's name.",
-          "type": "`$STRING`"
+          "title": "Name",
+          "type": "`$STRING`",
+          "short": "The Client's name."
         },
         {
           "name": "partner",
-          "short": "Reference to the Client's root Partner.",
-          "type": "`$OBJECT`"
+          "title": "Partner",
+          "type": "`$OBJECT`",
+          "short": "Reference to the Client's root Partner."
         },
         {
           "name": "version",
-          "short": "The number of times that this resource has been updated.",
-          "type": "`$INTEGER`"
+          "title": "Version",
+          "type": "`$INTEGER`",
+          "short": "The number of times that this resource has been updated."
         }
       ],
       "id": {
@@ -597,7 +618,6 @@ class Config {
           "name": "create",
           "points": [
             {
-              "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/clients",
@@ -606,14 +626,16 @@ class Config {
                   "lit": "clients"
                 }
               ],
-              "select": {},
+              "parts": [
+                "clients"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "clients"
-              ]
+              "args": {},
+              "select": {}
             }
           ]
         },
@@ -622,31 +644,6 @@ class Config {
           "name": "list",
           "points": [
             {
-              "args": {
-                "query": [
-                  {
-                    "kind": "query",
-                    "name": "partner",
-                    "orig": "partner",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "example": 0,
-                    "kind": "query",
-                    "name": "skip",
-                    "orig": "skip",
-                    "type": "`$INTEGER`"
-                  },
-                  {
-                    "example": 10,
-                    "kind": "query",
-                    "name": "take",
-                    "orig": "take",
-                    "type": "`$INTEGER`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/clients",
@@ -655,20 +652,46 @@ class Config {
                   "lit": "clients"
                 }
               ],
+              "parts": [
+                "clients"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body.data`"
+              },
+              "args": {
+                "query": [
+                  {
+                    "name": "partner",
+                    "orig": "partner",
+                    "type": "`$STRING`",
+                    "kind": "query",
+                    "reqd": true
+                  },
+                  {
+                    "name": "skip",
+                    "orig": "skip",
+                    "type": "`$INTEGER`",
+                    "kind": "query",
+                    "example": 0
+                  },
+                  {
+                    "name": "take",
+                    "orig": "take",
+                    "type": "`$INTEGER`",
+                    "kind": "query",
+                    "example": 10
+                  }
+                ]
+              },
               "select": {
                 "exist": [
                   "partner",
                   "skip",
                   "take"
                 ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body.data`"
-              },
-              "parts": [
-                "clients"
-              ]
+              }
             }
           ]
         },
@@ -677,17 +700,6 @@ class Config {
           "name": "load",
           "points": [
             {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "id",
-                    "orig": "id",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/clients/{id}",
@@ -699,19 +711,31 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "id"
-                ]
-              },
+              "parts": [
+                "clients",
+                "{id}"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "clients",
-                "{id}"
-              ]
+              "args": {
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "id",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "id"
+                ]
+              }
             }
           ]
         },
@@ -720,17 +744,6 @@ class Config {
           "name": "remove",
           "points": [
             {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "id",
-                    "orig": "id",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "DELETE",
               "orig": "/clients/{id}",
@@ -742,19 +755,31 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "id"
-                ]
-              },
+              "parts": [
+                "clients",
+                "{id}"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "clients",
-                "{id}"
-              ]
+              "args": {
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "id",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "id"
+                ]
+              }
             }
           ]
         }
@@ -772,33 +797,9 @@ class Config {
           "name": "create",
           "points": [
             {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "device_type",
-                    "orig": "device_type",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "kind": "param",
-                    "name": "serial_number",
-                    "orig": "serial_number",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "POST",
               "orig": "/devices/{serialNumber}/{deviceType}/custody",
-              "rename": {
-                "param": {
-                  "deviceType": "device_type",
-                  "serialNumber": "serial_number"
-                }
-              },
               "segments": [
                 {
                   "lit": "devices"
@@ -813,22 +814,46 @@ class Config {
                   "lit": "custody"
                 }
               ],
-              "select": {
-                "exist": [
-                  "device_type",
-                  "serial_number"
-                ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
               "parts": [
                 "devices",
                 "{serial_number}",
                 "{device_type}",
                 "custody"
-              ]
+              ],
+              "rename": {
+                "param": {
+                  "deviceType": "device_type",
+                  "serialNumber": "serial_number"
+                }
+              },
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "params": [
+                  {
+                    "name": "device_type",
+                    "orig": "device_type",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  },
+                  {
+                    "name": "serial_number",
+                    "orig": "serial_number",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "device_type",
+                  "serial_number"
+                ]
+              }
             }
           ]
         }
@@ -836,7 +861,7 @@ class Config {
       "relations": {
         "ancestors": [
           [
-            "device"
+            "$.main.kit.entity.device"
           ]
         ]
       }
@@ -845,8 +870,9 @@ class Config {
       "fields": [
         {
           "name": "success",
-          "short": "true if the payload decryption was successful.",
-          "type": "`$BOOLEAN`"
+          "title": "Success",
+          "type": "`$BOOLEAN`",
+          "short": "true if the payload decryption was successful."
         }
       ],
       "name": "decryption",
@@ -856,7 +882,6 @@ class Config {
           "name": "create",
           "points": [
             {
-              "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/decryption",
@@ -865,14 +890,16 @@ class Config {
                   "lit": "decryption"
                 }
               ],
-              "select": {},
+              "parts": [
+                "decryption"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "decryption"
-              ]
+              "args": {},
+              "select": {}
             }
           ]
         }
@@ -885,156 +912,184 @@ class Config {
       "fields": [
         {
           "name": "activatedBy",
+          "title": "Activated By",
+          "type": "`$OBJECT`",
           "req": true,
-          "short": "Reference to the associated User resource.",
-          "type": "`$OBJECT`"
+          "short": "Reference to the associated User resource."
         },
         {
-          "format": "datetime",
           "name": "activationDate",
+          "title": "Activation Date",
+          "type": "`$STRING`",
           "short": "Timestamp from when the Device was activated.",
-          "type": "`$STRING`"
+          "format": "datetime"
         },
         {
           "name": "alternateKey",
-          "short": "The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging.",
-          "type": "`$STRING`"
+          "title": "Alternate Key",
+          "type": "`$STRING`",
+          "short": "The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging."
         },
         {
-          "format": "datetime",
           "name": "auditNextDate",
+          "title": "Audit Next Date",
+          "type": "`$STRING`",
           "short": "Date and time that the Device is due its next PCI Audit.",
-          "type": "`$STRING`"
+          "format": "datetime"
         },
         {
-          "format": "datetime",
           "name": "auditNotificationDate",
+          "title": "Audit Notification Date",
+          "type": "`$STRING`",
           "short": "Date and time that a notification should be sent that a PCI audit is due.",
-          "type": "`$STRING`"
+          "format": "datetime"
         },
         {
           "name": "client",
-          "short": "Reference to the associated Client resource.",
-          "type": "`$OBJECT`"
+          "title": "Client",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated Client resource."
         },
         {
-          "format": "datetime",
           "name": "created",
+          "title": "Created",
+          "type": "`$STRING`",
           "short": "Creation timestamp in ISO 8601 format.",
-          "type": "`$STRING`"
+          "format": "datetime"
         },
         {
           "name": "createdBy",
+          "title": "Created By",
+          "type": "`$OBJECT`",
           "req": true,
-          "short": "Reference to the associated User resource.",
-          "type": "`$OBJECT`"
+          "short": "Reference to the associated User resource."
         },
         {
           "name": "deviceBuild",
-          "short": "Reference to the associated Device Build resource.",
-          "type": "`$OBJECT`"
+          "title": "Device Build",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated Device Build resource."
         },
         {
           "name": "deviceState",
-          "short": "Reference to the associated Device State resource.",
-          "type": "`$OBJECT`"
+          "title": "Device State",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated Device State resource."
         },
         {
           "name": "deviceType",
-          "short": "Reference to the associated Device Type resource.",
-          "type": "`$OBJECT`"
+          "title": "Device Type",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated Device Type resource."
         },
         {
           "name": "errorCounter",
-          "short": "The number times the Device has been in error.",
-          "type": "`$INTEGER`"
+          "title": "Error Counter",
+          "type": "`$INTEGER`",
+          "short": "The number times the Device has been in error."
         },
         {
-          "format": "datetime",
           "name": "errorLastDate",
+          "title": "Error Last Date",
+          "type": "`$STRING`",
           "short": "Timestamp from the last time that the Device had an error.",
-          "type": "`$STRING`"
+          "format": "datetime"
         },
         {
           "name": "id",
-          "short": "The Device's unique identifier.",
-          "type": "`$STRING`"
+          "title": "Id",
+          "type": "`$STRING`",
+          "short": "The Device's unique identifier."
         },
         {
           "name": "initializedBy",
+          "title": "Initialized By",
+          "type": "`$OBJECT`",
           "req": true,
-          "short": "Reference to the associated User resource.",
-          "type": "`$OBJECT`"
+          "short": "Reference to the associated User resource."
         },
         {
-          "format": "datetime",
           "name": "initializedDate",
+          "title": "Initialized Date",
+          "type": "`$STRING`",
           "short": "Timestamp from when the Device was initialized.",
-          "type": "`$STRING`"
+          "format": "datetime"
         },
         {
           "name": "injectKey",
-          "short": "Reference to the associated Device resource.",
-          "type": "`$OBJECT`"
+          "title": "Inject Key",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated Device resource."
         },
         {
           "name": "isVirtual",
-          "short": "Indicates if a Device is Virtual (represents a Device shared with a partner).",
-          "type": "`$BOOLEAN`"
+          "title": "Is Virtual",
+          "type": "`$BOOLEAN`",
+          "short": "Indicates if a Device is Virtual (represents a Device shared with a partner)."
         },
         {
           "name": "kif",
-          "short": "Reference to the associated KIF resource.",
-          "type": "`$OBJECT`"
+          "title": "Kif",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated KIF resource."
         },
         {
-          "format": "datetime",
           "name": "lastActivityDate",
+          "title": "Last Activity Date",
+          "type": "`$STRING`",
           "short": "Timestamp from the last time that the Device was used.",
-          "type": "`$STRING`"
+          "format": "datetime"
         },
         {
           "name": "location",
+          "title": "Location",
+          "type": "`$OBJECT`",
           "req": true,
-          "short": "Reference to the associated Location resource.",
-          "type": "`$OBJECT`"
+          "short": "Reference to the associated Location resource."
         },
         {
-          "format": "datetime",
           "name": "modified",
+          "title": "Modified",
+          "type": "`$STRING`",
           "short": "Last modified timestamp.",
-          "type": "`$STRING`"
+          "format": "datetime"
         },
         {
           "name": "modifiedBy",
+          "title": "Modified By",
+          "type": "`$OBJECT`",
           "req": true,
-          "short": "Reference to the associated User resource.",
-          "type": "`$OBJECT`"
+          "short": "Reference to the associated User resource."
         },
         {
           "name": "name",
-          "short": "The Device's name.",
-          "type": "`$STRING`"
+          "title": "Name",
+          "type": "`$STRING`",
+          "short": "The Device's name."
         },
         {
           "name": "notes",
-          "short": "Arbitary note that can be attached to a Device entry.",
-          "type": "`$STRING`"
+          "title": "Notes",
+          "type": "`$STRING`",
+          "short": "Arbitary note that can be attached to a Device entry."
         },
         {
           "name": "partner",
-          "short": "Reference to the associated Partner.",
-          "type": "`$OBJECT`"
+          "title": "Partner",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated Partner."
         },
         {
           "name": "serialNumber",
-          "short": "The Device's serial number.",
-          "type": "`$STRING`"
+          "title": "Serial Number",
+          "type": "`$STRING`",
+          "short": "The Device's serial number."
         },
         {
           "name": "version",
-          "short": "The number of times that this resource has been updated.",
-          "type": "`$INTEGER`"
+          "title": "Version",
+          "type": "`$INTEGER`",
+          "short": "The number of times that this resource has been updated."
         }
       ],
       "id": {
@@ -1048,7 +1103,6 @@ class Config {
           "name": "create",
           "points": [
             {
-              "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/devices",
@@ -1057,14 +1111,16 @@ class Config {
                   "lit": "devices"
                 }
               ],
-              "select": {},
+              "parts": [
+                "devices"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "devices"
-              ]
+              "args": {},
+              "select": {}
             }
           ]
         },
@@ -1073,68 +1129,6 @@ class Config {
           "name": "list",
           "points": [
             {
-              "args": {
-                "query": [
-                  {
-                    "kind": "query",
-                    "name": "client",
-                    "orig": "client",
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "kind": "query",
-                    "name": "device_state",
-                    "orig": "device_state",
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "kind": "query",
-                    "name": "kif",
-                    "orig": "kif",
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "kind": "query",
-                    "name": "partner",
-                    "orig": "partner",
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "kind": "query",
-                    "name": "serial_number",
-                    "orig": "serial_number",
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "example": 0,
-                    "kind": "query",
-                    "name": "skip",
-                    "orig": "skip",
-                    "type": "`$INTEGER`"
-                  },
-                  {
-                    "example": "asc",
-                    "kind": "query",
-                    "name": "sorting_direction",
-                    "orig": "sorting_direction",
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "example": "serialnumber",
-                    "kind": "query",
-                    "name": "sorting_field",
-                    "orig": "sorting_field",
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "example": 10,
-                    "kind": "query",
-                    "name": "take",
-                    "orig": "take",
-                    "type": "`$INTEGER`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/devices",
@@ -1143,6 +1137,76 @@ class Config {
                   "lit": "devices"
                 }
               ],
+              "parts": [
+                "devices"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body.data`"
+              },
+              "args": {
+                "query": [
+                  {
+                    "name": "client",
+                    "orig": "client",
+                    "type": "`$STRING`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "device_state",
+                    "orig": "device_state",
+                    "type": "`$STRING`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "kif",
+                    "orig": "kif",
+                    "type": "`$STRING`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "partner",
+                    "orig": "partner",
+                    "type": "`$STRING`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "serial_number",
+                    "orig": "serial_number",
+                    "type": "`$STRING`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "skip",
+                    "orig": "skip",
+                    "type": "`$INTEGER`",
+                    "kind": "query",
+                    "example": 0
+                  },
+                  {
+                    "name": "sorting_direction",
+                    "orig": "sorting_direction",
+                    "type": "`$STRING`",
+                    "kind": "query",
+                    "example": "asc"
+                  },
+                  {
+                    "name": "sorting_field",
+                    "orig": "sorting_field",
+                    "type": "`$STRING`",
+                    "kind": "query",
+                    "example": "serialnumber"
+                  },
+                  {
+                    "name": "take",
+                    "orig": "take",
+                    "type": "`$INTEGER`",
+                    "kind": "query",
+                    "example": 10
+                  }
+                ]
+              },
               "select": {
                 "exist": [
                   "client",
@@ -1155,14 +1219,7 @@ class Config {
                   "sorting_field",
                   "take"
                 ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body.data`"
-              },
-              "parts": [
-                "devices"
-              ]
+              }
             }
           ]
         },
@@ -1171,33 +1228,9 @@ class Config {
           "name": "load",
           "points": [
             {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "device_type",
-                    "orig": "device_type",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "kind": "param",
-                    "name": "serial_number",
-                    "orig": "serial_number",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/devices/{serialNumber}/{deviceType}",
-              "rename": {
-                "param": {
-                  "deviceType": "device_type",
-                  "serialNumber": "serial_number"
-                }
-              },
               "segments": [
                 {
                   "lit": "devices"
@@ -1209,34 +1242,47 @@ class Config {
                   "var": "device_type"
                 }
               ],
-              "select": {
-                "exist": [
-                  "device_type",
-                  "serial_number"
-                ]
+              "parts": [
+                "devices",
+                "{serial_number}",
+                "{device_type}"
+              ],
+              "rename": {
+                "param": {
+                  "deviceType": "device_type",
+                  "serialNumber": "serial_number"
+                }
               },
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "devices",
-                "{serial_number}",
-                "{device_type}"
-              ]
-            },
-            {
               "args": {
                 "params": [
                   {
+                    "name": "device_type",
+                    "orig": "device_type",
+                    "type": "`$STRING`",
                     "kind": "param",
-                    "name": "id",
-                    "orig": "id",
-                    "reqd": true,
-                    "type": "`$STRING`"
+                    "reqd": true
+                  },
+                  {
+                    "name": "serial_number",
+                    "orig": "serial_number",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
                   }
                 ]
               },
+              "select": {
+                "exist": [
+                  "device_type",
+                  "serial_number"
+                ]
+              }
+            },
+            {
               "kind": "http",
               "method": "GET",
               "orig": "/devices/{id}",
@@ -1248,110 +1294,133 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "id"
-                ]
-              },
+              "parts": [
+                "devices",
+                "{id}"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "devices",
-                "{id}"
-              ]
+              "args": {
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "id",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "id"
+                ]
+              }
             }
           ]
         }
       },
       "relations": {
-        "ancestors": [
-          [
-            "device"
-          ]
-        ]
+        "ancestors": []
       }
     },
     "device_build": {
       "fields": [
         {
           "name": "appVersion",
-          "short": "If a Device Type has more than one Application Code version the supported version is specified here.",
-          "type": "`$STRING`"
+          "title": "App Version",
+          "type": "`$STRING`",
+          "short": "If a Device Type has more than one Application Code version the supported version is specified here."
         },
         {
           "name": "buildNumber",
-          "short": "The Build Number.",
-          "type": "`$STRING`"
+          "title": "Build Number",
+          "type": "`$STRING`",
+          "short": "The Build Number."
         },
         {
           "name": "configFileName",
-          "short": "The name of the configuration file that is uploaded to the device.",
-          "type": "`$STRING`"
+          "title": "Config File Name",
+          "type": "`$STRING`",
+          "short": "The name of the configuration file that is uploaded to the device."
         },
         {
-          "format": "date-time",
           "name": "created",
+          "title": "Created",
+          "type": "`$STRING`",
           "short": "Creation timestamp in ISO 8601 format.",
-          "type": "`$STRING`"
+          "format": "date-time"
         },
         {
           "name": "deviceType",
-          "short": "The Device Type Name.",
-          "type": "`$STRING`"
+          "title": "Device Type",
+          "type": "`$STRING`",
+          "short": "The Device Type Name."
         },
         {
           "name": "firmwareVersion",
-          "short": "A list of firmware versions that this Device Build covers.",
-          "type": "`$STRING`"
+          "title": "Firmware Version",
+          "type": "`$STRING`",
+          "short": "A list of firmware versions that this Device Build covers."
         },
         {
           "name": "hardwareVersion",
-          "short": "A list of hardware versions that this Device Build covers.",
-          "type": "`$STRING`"
+          "title": "Hardware Version",
+          "type": "`$STRING`",
+          "short": "A list of hardware versions that this Device Build covers."
         },
         {
-          "format": "int64",
           "name": "id",
+          "title": "Id",
+          "type": "`$INTEGER`",
           "short": "This resource's unique identifier.",
-          "type": "`$INTEGER`"
+          "format": "int64"
         },
         {
           "name": "isActive",
-          "short": "This property indicates if the device build is still active and not succeeded by subsequent build.",
-          "type": "`$BOOLEAN`"
+          "title": "Is Active",
+          "type": "`$BOOLEAN`",
+          "short": "This property indicates if the device build is still active and not succeeded by subsequent build."
         },
         {
-          "format": "date-time",
           "name": "modified",
+          "title": "Modified",
+          "type": "`$STRING`",
           "short": "Last modified timestamp.",
-          "type": "`$STRING`"
+          "format": "date-time"
         },
         {
           "name": "name",
-          "short": "The Device Builds's name.",
-          "type": "`$STRING`"
+          "title": "Name",
+          "type": "`$STRING`",
+          "short": "The Device Builds's name."
         },
         {
           "name": "notes",
-          "short": "Notes attached to the device build by Bluefin CISO.",
-          "type": "`$STRING`"
+          "title": "Notes",
+          "type": "`$STRING`",
+          "short": "Notes attached to the device build by Bluefin CISO."
         },
         {
           "name": "version",
-          "short": "The number of times that this resource has been updated.",
-          "type": "`$INTEGER`"
+          "title": "Version",
+          "type": "`$INTEGER`",
+          "short": "The number of times that this resource has been updated."
         },
         {
           "name": "whiteListingBinRanges",
-          "short": "A comma separated list of BIN ranges that aren't encrypted by the terminal.",
-          "type": "`$STRING`"
+          "title": "White Listing Bin Ranges",
+          "type": "`$STRING`",
+          "short": "A comma separated list of BIN ranges that aren't encrypted by the terminal."
         },
         {
           "name": "whiteListingUsed",
-          "short": "This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal.",
-          "type": "`$BOOLEAN`"
+          "title": "White Listing Used",
+          "type": "`$BOOLEAN`",
+          "short": "This value is used in conjunction with whiteListingBinRanges to indicate the range card numbers that aren't encrypted by the terminal."
         }
       ],
       "id": {
@@ -1365,30 +1434,6 @@ class Config {
           "name": "list",
           "points": [
             {
-              "args": {
-                "query": [
-                  {
-                    "kind": "query",
-                    "name": "device_type",
-                    "orig": "device_type",
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "example": 0,
-                    "kind": "query",
-                    "name": "skip",
-                    "orig": "skip",
-                    "type": "`$INTEGER`"
-                  },
-                  {
-                    "example": 10,
-                    "kind": "query",
-                    "name": "take",
-                    "orig": "take",
-                    "type": "`$INTEGER`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/deviceBuilds",
@@ -1397,20 +1442,45 @@ class Config {
                   "lit": "deviceBuilds"
                 }
               ],
+              "parts": [
+                "deviceBuilds"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body.data`"
+              },
+              "args": {
+                "query": [
+                  {
+                    "name": "device_type",
+                    "orig": "device_type",
+                    "type": "`$STRING`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "skip",
+                    "orig": "skip",
+                    "type": "`$INTEGER`",
+                    "kind": "query",
+                    "example": 0
+                  },
+                  {
+                    "name": "take",
+                    "orig": "take",
+                    "type": "`$INTEGER`",
+                    "kind": "query",
+                    "example": 10
+                  }
+                ]
+              },
               "select": {
                 "exist": [
                   "device_type",
                   "skip",
                   "take"
                 ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body.data`"
-              },
-              "parts": [
-                "deviceBuilds"
-              ]
+              }
             }
           ]
         },
@@ -1419,17 +1489,6 @@ class Config {
           "name": "load",
           "points": [
             {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "id",
-                    "orig": "id",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/deviceBuilds/{id}",
@@ -1441,19 +1500,31 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "id"
-                ]
-              },
+              "parts": [
+                "deviceBuilds",
+                "{id}"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "deviceBuilds",
-                "{id}"
-              ]
+              "args": {
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "id",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "id"
+                ]
+              }
             }
           ]
         }
@@ -1465,77 +1536,90 @@ class Config {
     "device_custody_detail": {
       "fields": [
         {
-          "format": "date-time",
           "name": "completeDate",
+          "title": "Complete Date",
+          "type": "`$STRING`",
           "short": "The date and time that the Custody change took place.",
-          "type": "`$STRING`"
+          "format": "date-time"
         },
         {
-          "format": "date-time",
           "name": "created",
+          "title": "Created",
+          "type": "`$STRING`",
           "short": "Creation timestamp in ISO 8601 format.",
-          "type": "`$STRING`"
+          "format": "date-time"
         },
         {
           "name": "createdBy",
+          "title": "Created By",
+          "type": "`$OBJECT`",
           "req": true,
-          "short": "Reference to the associated User resource.",
-          "type": "`$OBJECT`"
+          "short": "Reference to the associated User resource."
         },
         {
           "name": "custodian",
+          "title": "Custodian",
+          "type": "`$OBJECT`",
           "req": true,
-          "short": "Reference to the associated User resource.",
-          "type": "`$OBJECT`"
+          "short": "Reference to the associated User resource."
         },
         {
           "name": "device",
-          "short": "Reference to the associated Device resource.",
-          "type": "`$OBJECT`"
+          "title": "Device",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated Device resource."
         },
         {
-          "format": "int64",
           "name": "id",
+          "title": "Id",
+          "type": "`$INTEGER`",
           "short": "This resource's unique identifier.",
-          "type": "`$INTEGER`"
+          "format": "int64"
         },
         {
           "name": "location",
+          "title": "Location",
+          "type": "`$OBJECT`",
           "req": true,
-          "short": "Reference to the associated Location resource.",
-          "type": "`$OBJECT`"
+          "short": "Reference to the associated Location resource."
         },
         {
-          "format": "date-time",
           "name": "modified",
+          "title": "Modified",
+          "type": "`$STRING`",
           "short": "Last modified timestamp.",
-          "type": "`$STRING`"
+          "format": "date-time"
         },
         {
           "name": "modifiedBy",
+          "title": "Modified By",
+          "type": "`$OBJECT`",
           "req": true,
-          "short": "Reference to the associated User resource.",
-          "type": "`$OBJECT`"
+          "short": "Reference to the associated User resource."
         },
         {
           "name": "notes",
-          "short": "Free form field that allows the Client associate notes with the Custody Change.",
-          "type": "`$STRING`"
+          "title": "Notes",
+          "type": "`$STRING`",
+          "short": "Free form field that allows the Client associate notes with the Custody Change."
         },
         {
           "name": "status",
-          "short": "Reference to the associated Custody Status.",
-          "type": "`$OBJECT`"
+          "title": "Status",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated Custody Status."
         },
         {
           "name": "transferMethod",
-          "short": "Reference to the associated Transfer Method.",
-          "type": "`$OBJECT`"
+          "title": "Transfer Method",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated Transfer Method."
         },
         {
           "name": "version",
-          "short": "The number of times that this resource has been updated.",
-          "type": "`$INTEGER`"
+          "title": "Version",
+          "type": "`$INTEGER`",
+          "short": "The number of times that this resource has been updated."
         }
       ],
       "id": {
@@ -1549,40 +1633,9 @@ class Config {
           "name": "load",
           "points": [
             {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "device_type",
-                    "orig": "device_type",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "kind": "param",
-                    "name": "id",
-                    "orig": "id",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "kind": "param",
-                    "name": "serial_number",
-                    "orig": "serial_number",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/devices/{serialNumber}/{deviceType}/custody/{id}",
-              "rename": {
-                "param": {
-                  "deviceType": "device_type",
-                  "serialNumber": "serial_number"
-                }
-              },
               "segments": [
                 {
                   "lit": "devices"
@@ -1600,24 +1653,55 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "device_type",
-                  "id",
-                  "serial_number"
-                ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
               "parts": [
                 "devices",
                 "{serial_number}",
                 "{device_type}",
                 "custody",
                 "{id}"
-              ]
+              ],
+              "rename": {
+                "param": {
+                  "deviceType": "device_type",
+                  "serialNumber": "serial_number"
+                }
+              },
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "params": [
+                  {
+                    "name": "device_type",
+                    "orig": "device_type",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  },
+                  {
+                    "name": "id",
+                    "orig": "id",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  },
+                  {
+                    "name": "serial_number",
+                    "orig": "serial_number",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "device_type",
+                  "id",
+                  "serial_number"
+                ]
+              }
             }
           ]
         }
@@ -1625,141 +1709,114 @@ class Config {
       "relations": {
         "ancestors": [
           [
-            "device"
+            "$.main.kit.entity.device"
           ]
         ]
       }
     },
-    "device_custody_list": {
+    "device_custody_list_item": {
       "fields": [
         {
-          "format": "date-time",
           "name": "completeDate",
+          "title": "Complete Date",
+          "type": "`$STRING`",
           "short": "The date and time that the Custody change took place.",
-          "type": "`$STRING`"
+          "format": "date-time"
         },
         {
-          "format": "date-time",
           "name": "created",
+          "title": "Created",
+          "type": "`$STRING`",
           "short": "Creation timestamp in ISO 8601 format.",
-          "type": "`$STRING`"
+          "format": "date-time"
         },
         {
           "name": "createdBy",
+          "title": "Created By",
+          "type": "`$OBJECT`",
           "req": true,
-          "short": "Reference to the associated User resource.",
-          "type": "`$OBJECT`"
+          "short": "Reference to the associated User resource."
         },
         {
           "name": "custodian",
+          "title": "Custodian",
+          "type": "`$OBJECT`",
           "req": true,
-          "short": "Reference to the associated User resource.",
-          "type": "`$OBJECT`"
+          "short": "Reference to the associated User resource."
         },
         {
           "name": "device",
-          "short": "Reference to the associated Device resource.",
-          "type": "`$OBJECT`"
+          "title": "Device",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated Device resource."
         },
         {
-          "format": "int64",
           "name": "id",
+          "title": "Id",
+          "type": "`$INTEGER`",
           "short": "This resource's unique identifier.",
-          "type": "`$INTEGER`"
+          "format": "int64"
         },
         {
           "name": "location",
+          "title": "Location",
+          "type": "`$OBJECT`",
           "req": true,
-          "short": "Reference to the associated Location resource.",
-          "type": "`$OBJECT`"
+          "short": "Reference to the associated Location resource."
         },
         {
-          "format": "date-time",
           "name": "modified",
+          "title": "Modified",
+          "type": "`$STRING`",
           "short": "Last modified timestamp.",
-          "type": "`$STRING`"
+          "format": "date-time"
         },
         {
           "name": "modifiedBy",
+          "title": "Modified By",
+          "type": "`$OBJECT`",
           "req": true,
-          "short": "Reference to the associated User resource.",
-          "type": "`$OBJECT`"
+          "short": "Reference to the associated User resource."
         },
         {
           "name": "notes",
-          "short": "Free form field that allows the Client associate notes with the Custody Change.",
-          "type": "`$STRING`"
+          "title": "Notes",
+          "type": "`$STRING`",
+          "short": "Free form field that allows the Client associate notes with the Custody Change."
         },
         {
           "name": "status",
-          "short": "Reference to the associated Custody Status.",
-          "type": "`$OBJECT`"
+          "title": "Status",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated Custody Status."
         },
         {
           "name": "transferMethod",
-          "short": "Reference to the associated Transfer Method.",
-          "type": "`$OBJECT`"
+          "title": "Transfer Method",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated Transfer Method."
         },
         {
           "name": "version",
-          "short": "The number of times that this resource has been updated.",
-          "type": "`$INTEGER`"
+          "title": "Version",
+          "type": "`$INTEGER`",
+          "short": "The number of times that this resource has been updated."
         }
       ],
       "id": {
         "field": "id",
         "name": "id"
       },
-      "name": "device_custody_list",
+      "name": "device_custody_list_item",
       "op": {
         "list": {
           "input": "data",
           "name": "list",
           "points": [
             {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "device_type",
-                    "orig": "device_type",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "kind": "param",
-                    "name": "serial_number",
-                    "orig": "serial_number",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ],
-                "query": [
-                  {
-                    "example": 0,
-                    "kind": "query",
-                    "name": "skip",
-                    "orig": "skip",
-                    "type": "`$INTEGER`"
-                  },
-                  {
-                    "example": 10,
-                    "kind": "query",
-                    "name": "take",
-                    "orig": "take",
-                    "type": "`$INTEGER`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/devices/{serialNumber}/{deviceType}/custody",
-              "rename": {
-                "param": {
-                  "deviceType": "device_type",
-                  "serialNumber": "serial_number"
-                }
-              },
               "segments": [
                 {
                   "lit": "devices"
@@ -1774,6 +1831,56 @@ class Config {
                   "lit": "custody"
                 }
               ],
+              "parts": [
+                "devices",
+                "{serial_number}",
+                "{device_type}",
+                "custody"
+              ],
+              "rename": {
+                "param": {
+                  "deviceType": "device_type",
+                  "serialNumber": "serial_number"
+                }
+              },
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body.data`"
+              },
+              "args": {
+                "params": [
+                  {
+                    "name": "device_type",
+                    "orig": "device_type",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  },
+                  {
+                    "name": "serial_number",
+                    "orig": "serial_number",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ],
+                "query": [
+                  {
+                    "name": "skip",
+                    "orig": "skip",
+                    "type": "`$INTEGER`",
+                    "kind": "query",
+                    "example": 0
+                  },
+                  {
+                    "name": "take",
+                    "orig": "take",
+                    "type": "`$INTEGER`",
+                    "kind": "query",
+                    "example": 10
+                  }
+                ]
+              },
               "select": {
                 "exist": [
                   "device_type",
@@ -1781,17 +1888,7 @@ class Config {
                   "skip",
                   "take"
                 ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body.data`"
-              },
-              "parts": [
-                "devices",
-                "{serial_number}",
-                "{device_type}",
-                "custody"
-              ]
+              }
             }
           ]
         }
@@ -1799,113 +1896,7 @@ class Config {
       "relations": {
         "ancestors": [
           [
-            "device"
-          ]
-        ]
-      }
-    },
-    "device_list": {
-      "fields": [
-        {
-          "name": "data",
-          "short": "List of Devices.",
-          "type": "`$ARRAY`"
-        },
-        {
-          "name": "total",
-          "short": "Total number of Devices available (not the number of Users in the response).",
-          "type": "`$INTEGER`"
-        }
-      ],
-      "name": "device_list",
-      "op": {
-        "load": {
-          "input": "data",
-          "name": "load",
-          "points": [
-            {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "share_partner_to",
-                    "orig": "share_partner_to",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ],
-                "query": [
-                  {
-                    "example": 0,
-                    "kind": "query",
-                    "name": "skip",
-                    "orig": "skip",
-                    "type": "`$INTEGER`"
-                  },
-                  {
-                    "example": "asc",
-                    "kind": "query",
-                    "name": "sorting_direction",
-                    "orig": "sorting_direction",
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "example": "serialnumber",
-                    "kind": "query",
-                    "name": "sorting_field",
-                    "orig": "sorting_field",
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "example": 10,
-                    "kind": "query",
-                    "name": "take",
-                    "orig": "take",
-                    "type": "`$INTEGER`"
-                  }
-                ]
-              },
-              "kind": "http",
-              "method": "GET",
-              "orig": "/virtualDevices/{sharePartnerTo}",
-              "rename": {
-                "param": {
-                  "sharePartnerTo": "share_partner_to"
-                }
-              },
-              "segments": [
-                {
-                  "lit": "virtualDevices"
-                },
-                {
-                  "var": "share_partner_to"
-                }
-              ],
-              "select": {
-                "exist": [
-                  "share_partner_to",
-                  "skip",
-                  "sorting_direction",
-                  "sorting_field",
-                  "take"
-                ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
-              "parts": [
-                "virtualDevices",
-                "{share_partner_to}"
-              ]
-            }
-          ]
-        }
-      },
-      "relations": {
-        "ancestors": [
-          [
-            "virtual_device"
+            "$.main.kit.entity.device"
           ]
         ]
       }
@@ -1914,9 +1905,10 @@ class Config {
       "fields": [
         {
           "name": "success",
+          "title": "Success",
+          "type": "`$BOOLEAN`",
           "req": true,
-          "short": "Indicates if the action succeeded.",
-          "type": "`$BOOLEAN`"
+          "short": "Indicates if the action succeeded."
         }
       ],
       "name": "device_receive_result",
@@ -1926,7 +1918,6 @@ class Config {
           "name": "create",
           "points": [
             {
-              "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/devices/receive",
@@ -1938,15 +1929,17 @@ class Config {
                   "lit": "receive"
                 }
               ],
-              "select": {},
+              "parts": [
+                "devices",
+                "receive"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "devices",
-                "receive"
-              ]
+              "args": {},
+              "select": {}
             }
           ]
         }
@@ -1959,9 +1952,10 @@ class Config {
       "fields": [
         {
           "name": "success",
+          "title": "Success",
+          "type": "`$BOOLEAN`",
           "req": true,
-          "short": "Indicates if the RKI activation succeeded.",
-          "type": "`$BOOLEAN`"
+          "short": "Indicates if the RKI activation succeeded."
         }
       ],
       "name": "device_rki_activate_result",
@@ -1971,7 +1965,6 @@ class Config {
           "name": "create",
           "points": [
             {
-              "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/devices/rki/activate",
@@ -1986,16 +1979,18 @@ class Config {
                   "lit": "activate"
                 }
               ],
-              "select": {},
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
               "parts": [
                 "devices",
                 "rki",
                 "activate"
-              ]
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {},
+              "select": {}
             }
           ]
         }
@@ -2007,15 +2002,17 @@ class Config {
     "device_state": {
       "fields": [
         {
-          "format": "int64",
           "name": "id",
+          "title": "Id",
+          "type": "`$INTEGER`",
           "short": "Unique identifier for this Device state.",
-          "type": "`$INTEGER`"
+          "format": "int64"
         },
         {
           "name": "name",
-          "short": "Descriptive name for this Device state.",
-          "type": "`$STRING`"
+          "title": "Name",
+          "type": "`$STRING`",
+          "short": "Descriptive name for this Device state."
         }
       ],
       "id": {
@@ -2029,7 +2026,6 @@ class Config {
           "name": "list",
           "points": [
             {
-              "args": {},
               "kind": "http",
               "method": "GET",
               "orig": "/deviceStates",
@@ -2038,14 +2034,16 @@ class Config {
                   "lit": "deviceStates"
                 }
               ],
-              "select": {},
+              "parts": [
+                "deviceStates"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
               },
-              "parts": [
-                "deviceStates"
-              ]
+              "args": {},
+              "select": {}
             }
           ]
         }
@@ -2057,65 +2055,77 @@ class Config {
     "device_type": {
       "fields": [
         {
-          "format": "datetime",
           "name": "created",
+          "title": "Created",
+          "type": "`$STRING`",
           "short": "Creation timestamp in ISO 8601 format.",
-          "type": "`$STRING`"
+          "format": "datetime"
         },
         {
           "name": "deviceTypeMode",
-          "short": "The Device type.",
-          "type": "`$STRING`"
+          "title": "Device Type Mode",
+          "type": "`$STRING`",
+          "short": "The Device type."
         },
         {
           "name": "hardwareVersion",
-          "short": "The Device hardware version.",
-          "type": "`$STRING`"
+          "title": "Hardware Version",
+          "type": "`$STRING`",
+          "short": "The Device hardware version."
         },
         {
           "name": "id",
-          "short": "Unique idenifier.",
-          "type": "`$STRING`"
+          "title": "Id",
+          "type": "`$STRING`",
+          "short": "Unique idenifier."
         },
         {
           "name": "isActive",
-          "short": "This property indicates if the DeviceType is active.",
-          "type": "`$BOOLEAN`"
+          "title": "Is Active",
+          "type": "`$BOOLEAN`",
+          "short": "This property indicates if the DeviceType is active."
         },
         {
           "name": "manufacturer",
-          "short": "The Device manufacturer.",
-          "type": "`$STRING`"
+          "title": "Manufacturer",
+          "type": "`$STRING`",
+          "short": "The Device manufacturer."
         },
         {
           "name": "model",
-          "short": "The Device model.",
-          "type": "`$STRING`"
+          "title": "Model",
+          "type": "`$STRING`",
+          "short": "The Device model."
         },
         {
-          "format": "datetime",
           "name": "modified",
+          "title": "Modified",
+          "type": "`$STRING`",
           "short": "Last modified timestamp.",
-          "type": "`$STRING`"
+          "format": "datetime"
         },
         {
           "name": "name",
-          "short": "The DeviceType name.",
-          "type": "`$STRING`"
+          "title": "Name",
+          "type": "`$STRING`",
+          "short": "The DeviceType name."
         },
         {
           "name": "photoUrl",
+          "title": "Photo Url",
           "type": "`$STRING`"
         },
         {
           "name": "productName",
-          "short": "The Device name.",
-          "type": "`$STRING`"
+          "title": "Product Name",
+          "type": "`$STRING`",
+          "short": "The Device name."
         },
         {
           "name": "version",
-          "short": "The number of times that this resource has been updated.",
-          "type": "`$INTEGER`"
+          "title": "Version",
+          "type": "`$INTEGER`",
+          "short": "The number of times that this resource has been updated."
         }
       ],
       "id": {
@@ -2129,7 +2139,6 @@ class Config {
           "name": "list",
           "points": [
             {
-              "args": {},
               "kind": "http",
               "method": "GET",
               "orig": "/deviceTypes",
@@ -2138,14 +2147,16 @@ class Config {
                   "lit": "deviceTypes"
                 }
               ],
-              "select": {},
+              "parts": [
+                "deviceTypes"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
               },
-              "parts": [
-                "deviceTypes"
-              ]
+              "args": {},
+              "select": {}
             }
           ]
         },
@@ -2154,17 +2165,6 @@ class Config {
           "name": "load",
           "points": [
             {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "id",
-                    "orig": "id",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/deviceTypes/{id}",
@@ -2176,19 +2176,31 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "id"
-                ]
-              },
+              "parts": [
+                "deviceTypes",
+                "{id}"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "deviceTypes",
-                "{id}"
-              ]
+              "args": {
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "id",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "id"
+                ]
+              }
             }
           ]
         }
@@ -2200,46 +2212,54 @@ class Config {
     "inject_key": {
       "fields": [
         {
-          "format": "datetime",
           "name": "created",
+          "title": "Created",
+          "type": "`$STRING`",
           "short": "Creation timestamp in ISO 8601 format.",
-          "type": "`$STRING`"
+          "format": "datetime"
         },
         {
           "name": "id",
-          "short": "unique idenifier",
-          "type": "`$STRING`"
+          "title": "Id",
+          "type": "`$STRING`",
+          "short": "unique idenifier"
         },
         {
           "name": "isActive",
-          "short": "Active flag, inactive keys cannot be assigned to devices.",
-          "type": "`$BOOLEAN`"
+          "title": "Is Active",
+          "type": "`$BOOLEAN`",
+          "short": "Active flag, inactive keys cannot be assigned to devices."
         },
         {
           "name": "isP2PE",
-          "short": "Flags if a key is for a P2PE compliant cypher.",
-          "type": "`$BOOLEAN`"
+          "title": "Is P2 Pe",
+          "type": "`$BOOLEAN`",
+          "short": "Flags if a key is for a P2PE compliant cypher."
         },
         {
           "name": "keyType",
-          "short": "The cipher type that the key works with.",
-          "type": "`$STRING`"
+          "title": "Key Type",
+          "type": "`$STRING`",
+          "short": "The cipher type that the key works with."
         },
         {
-          "format": "datetime",
           "name": "modified",
+          "title": "Modified",
+          "type": "`$STRING`",
           "short": "Last modified timestamp in ISO 8601 format.",
-          "type": "`$STRING`"
+          "format": "datetime"
         },
         {
           "name": "name",
-          "short": "Key name.",
-          "type": "`$STRING`"
+          "title": "Name",
+          "type": "`$STRING`",
+          "short": "Key name."
         },
         {
           "name": "version",
-          "short": "The number of times that this resource has been updated.",
-          "type": "`$INTEGER`"
+          "title": "Version",
+          "type": "`$INTEGER`",
+          "short": "The number of times that this resource has been updated."
         }
       ],
       "id": {
@@ -2253,7 +2273,6 @@ class Config {
           "name": "list",
           "points": [
             {
-              "args": {},
               "kind": "http",
               "method": "GET",
               "orig": "/injectKeys",
@@ -2262,14 +2281,16 @@ class Config {
                   "lit": "injectKeys"
                 }
               ],
-              "select": {},
+              "parts": [
+                "injectKeys"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
               },
-              "parts": [
-                "injectKeys"
-              ]
+              "args": {},
+              "select": {}
             }
           ]
         },
@@ -2278,17 +2299,6 @@ class Config {
           "name": "load",
           "points": [
             {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "id",
-                    "orig": "id",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/injectKeys/{id}",
@@ -2300,19 +2310,31 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "id"
-                ]
-              },
+              "parts": [
+                "injectKeys",
+                "{id}"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "injectKeys",
-                "{id}"
-              ]
+              "args": {
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "id",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "id"
+                ]
+              }
             }
           ]
         }
@@ -2324,15 +2346,17 @@ class Config {
     "kif": {
       "fields": [
         {
-          "format": "int64",
           "name": "id",
+          "title": "Id",
+          "type": "`$INTEGER`",
           "short": "This resource's unique identifier.",
-          "type": "`$INTEGER`"
+          "format": "int64"
         },
         {
           "name": "name",
-          "short": "The KIF's name.",
-          "type": "`$STRING`"
+          "title": "Name",
+          "type": "`$STRING`",
+          "short": "The KIF's name."
         }
       ],
       "id": {
@@ -2346,7 +2370,6 @@ class Config {
           "name": "list",
           "points": [
             {
-              "args": {},
               "kind": "http",
               "method": "GET",
               "orig": "/kifs",
@@ -2355,14 +2378,16 @@ class Config {
                   "lit": "kifs"
                 }
               ],
-              "select": {},
+              "parts": [
+                "kifs"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.data`"
               },
-              "parts": [
-                "kifs"
-              ]
+              "args": {},
+              "select": {}
             }
           ]
         }
@@ -2375,120 +2400,143 @@ class Config {
       "fields": [
         {
           "name": "address1",
-          "short": "The Location's street address.",
-          "type": "`$STRING`"
+          "title": "Address1",
+          "type": "`$STRING`",
+          "short": "The Location's street address."
         },
         {
           "name": "address2",
-          "short": "The Location's street address.",
-          "type": "`$STRING`"
+          "title": "Address2",
+          "type": "`$STRING`",
+          "short": "The Location's street address."
         },
         {
           "name": "billingId",
-          "short": "\\?",
-          "type": "`$STRING`"
+          "title": "Billing Id",
+          "type": "`$STRING`",
+          "short": "\\?"
         },
         {
           "name": "city",
-          "short": "The Location's city.",
-          "type": "`$STRING`"
+          "title": "City",
+          "type": "`$STRING`",
+          "short": "The Location's city."
         },
         {
           "name": "country",
-          "short": "The Location's country.",
-          "type": "`$STRING`"
+          "title": "Country",
+          "type": "`$STRING`",
+          "short": "The Location's country."
         },
         {
-          "format": "datetime",
           "name": "created",
+          "title": "Created",
+          "type": "`$STRING`",
           "short": "Creation timestamp in ISO 8601 format.",
-          "type": "`$STRING`"
+          "format": "datetime"
         },
         {
           "name": "customReference",
-          "short": "A Partner specified reference for a location.",
-          "type": "`$STRING`"
+          "title": "Custom Reference",
+          "type": "`$STRING`",
+          "short": "A Partner specified reference for a location."
         },
         {
           "name": "id",
-          "short": "This resource's unique identifier.",
-          "type": "`$STRING`"
+          "title": "Id",
+          "type": "`$STRING`",
+          "short": "This resource's unique identifier."
         },
         {
           "name": "locationType",
-          "short": "The Location's clasification.",
-          "type": "`$STRING`"
+          "title": "Location Type",
+          "type": "`$STRING`",
+          "short": "The Location's clasification."
         },
         {
           "name": "mailAddress1",
-          "short": "The Location's street address.",
-          "type": "`$STRING`"
+          "title": "Mail Address1",
+          "type": "`$STRING`",
+          "short": "The Location's street address."
         },
         {
           "name": "mailAddress2",
-          "short": "The Location's street address.",
-          "type": "`$STRING`"
+          "title": "Mail Address2",
+          "type": "`$STRING`",
+          "short": "The Location's street address."
         },
         {
           "name": "mailCity",
-          "short": "The Location's city.",
-          "type": "`$STRING`"
+          "title": "Mail City",
+          "type": "`$STRING`",
+          "short": "The Location's city."
         },
         {
           "name": "mailCountry",
-          "short": "The Location's street address.",
-          "type": "`$STRING`"
+          "title": "Mail Country",
+          "type": "`$STRING`",
+          "short": "The Location's street address."
         },
         {
           "name": "mailPostalCode",
-          "short": "The Location's postal code.",
-          "type": "`$STRING`"
+          "title": "Mail Postal Code",
+          "type": "`$STRING`",
+          "short": "The Location's postal code."
         },
         {
           "name": "mailStateProvince",
-          "short": "The Location's street state or province.",
-          "type": "`$STRING`"
+          "title": "Mail State Province",
+          "type": "`$STRING`",
+          "short": "The Location's street state or province."
         },
         {
-          "format": "datetime",
           "name": "modified",
+          "title": "Modified",
+          "type": "`$STRING`",
           "short": "Last modified timestamp.",
-          "type": "`$STRING`"
+          "format": "datetime"
         },
         {
           "name": "name",
-          "short": "The Location's name.",
-          "type": "`$STRING`"
+          "title": "Name",
+          "type": "`$STRING`",
+          "short": "The Location's name."
         },
         {
           "name": "nameOfBusiness",
-          "short": "The name of the business at this location.",
-          "type": "`$STRING`"
+          "title": "Name Of Business",
+          "type": "`$STRING`",
+          "short": "The name of the business at this location."
         },
         {
           "name": "notes",
-          "short": "Note for delivery driver.",
-          "type": "`$STRING`"
+          "title": "Notes",
+          "type": "`$STRING`",
+          "short": "Note for delivery driver."
         },
         {
           "name": "postalCode",
-          "short": "The Location's postal code.",
-          "type": "`$STRING`"
+          "title": "Postal Code",
+          "type": "`$STRING`",
+          "short": "The Location's postal code."
         },
         {
           "name": "stateProvince",
-          "short": "The Location's street state or province.",
-          "type": "`$STRING`"
+          "title": "State Province",
+          "type": "`$STRING`",
+          "short": "The Location's street state or province."
         },
         {
           "name": "uniqueId",
-          "short": "Unique Identifier for the Location.",
-          "type": "`$STRING`"
+          "title": "Unique Id",
+          "type": "`$STRING`",
+          "short": "Unique Identifier for the Location."
         },
         {
           "name": "version",
-          "short": "The number of times that this resource has been updated.",
-          "type": "`$INTEGER`"
+          "title": "Version",
+          "type": "`$INTEGER`",
+          "short": "The number of times that this resource has been updated."
         }
       ],
       "id": {
@@ -2502,7 +2550,6 @@ class Config {
           "name": "create",
           "points": [
             {
-              "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/locations",
@@ -2511,14 +2558,16 @@ class Config {
                   "lit": "locations"
                 }
               ],
-              "select": {},
+              "parts": [
+                "locations"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "locations"
-              ]
+              "args": {},
+              "select": {}
             }
           ]
         },
@@ -2527,31 +2576,6 @@ class Config {
           "name": "list",
           "points": [
             {
-              "args": {
-                "query": [
-                  {
-                    "kind": "query",
-                    "name": "client",
-                    "orig": "client",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "example": 0,
-                    "kind": "query",
-                    "name": "skip",
-                    "orig": "skip",
-                    "type": "`$INTEGER`"
-                  },
-                  {
-                    "example": 10,
-                    "kind": "query",
-                    "name": "take",
-                    "orig": "take",
-                    "type": "`$INTEGER`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/locations",
@@ -2560,20 +2584,46 @@ class Config {
                   "lit": "locations"
                 }
               ],
+              "parts": [
+                "locations"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body.data`"
+              },
+              "args": {
+                "query": [
+                  {
+                    "name": "client",
+                    "orig": "client",
+                    "type": "`$STRING`",
+                    "kind": "query",
+                    "reqd": true
+                  },
+                  {
+                    "name": "skip",
+                    "orig": "skip",
+                    "type": "`$INTEGER`",
+                    "kind": "query",
+                    "example": 0
+                  },
+                  {
+                    "name": "take",
+                    "orig": "take",
+                    "type": "`$INTEGER`",
+                    "kind": "query",
+                    "example": 10
+                  }
+                ]
+              },
               "select": {
                 "exist": [
                   "client",
                   "skip",
                   "take"
                 ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body.data`"
-              },
-              "parts": [
-                "locations"
-              ]
+              }
             }
           ]
         },
@@ -2582,17 +2632,6 @@ class Config {
           "name": "load",
           "points": [
             {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "id",
-                    "orig": "id",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/locations/{id}",
@@ -2604,19 +2643,31 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "id"
-                ]
-              },
+              "parts": [
+                "locations",
+                "{id}"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "locations",
-                "{id}"
-              ]
+              "args": {
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "id",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "id"
+                ]
+              }
             }
           ]
         },
@@ -2625,17 +2676,6 @@ class Config {
           "name": "remove",
           "points": [
             {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "id",
-                    "orig": "id",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "DELETE",
               "orig": "/locations/{id}",
@@ -2647,19 +2687,31 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "id"
-                ]
-              },
+              "parts": [
+                "locations",
+                "{id}"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "locations",
-                "{id}"
-              ]
+              "args": {
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "id",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "id"
+                ]
+              }
             }
           ]
         }
@@ -2672,82 +2724,96 @@ class Config {
       "fields": [
         {
           "name": "billingId",
-          "short": "The Partner's billing identifier.",
-          "type": "`$STRING`"
+          "title": "Billing Id",
+          "type": "`$STRING`",
+          "short": "The Partner's billing identifier."
         },
         {
           "name": "clientCanOrderEquipment",
-          "short": "This property indicates if the Partner is allowed to order Equipment.",
-          "type": "`$BOOLEAN`"
+          "title": "Client Can Order Equipment",
+          "type": "`$BOOLEAN`",
+          "short": "This property indicates if the Partner is allowed to order Equipment."
         },
         {
           "name": "contact",
+          "title": "Contact",
+          "type": "`$OBJECT`",
           "op": {
             "list": {
               "req": true,
               "type": "`$OBJECT`"
             }
           },
-          "short": "Reference to the associated User resource.",
-          "type": "`$OBJECT`"
+          "short": "Reference to the associated User resource."
         },
         {
-          "format": "datetime",
           "name": "created",
+          "title": "Created",
+          "type": "`$STRING`",
           "short": "Creation timestamp in ISO 8601 format.",
-          "type": "`$STRING`"
+          "format": "datetime"
         },
         {
           "name": "id",
-          "short": "This resource's unique identifier.",
-          "type": "`$STRING`"
+          "title": "Id",
+          "type": "`$STRING`",
+          "short": "This resource's unique identifier."
         },
         {
           "name": "isActive",
-          "short": "This property indicates if the Parter account is active or disabled.",
-          "type": "`$BOOLEAN`"
+          "title": "Is Active",
+          "type": "`$BOOLEAN`",
+          "short": "This property indicates if the Parter account is active or disabled."
         },
         {
           "name": "location",
+          "title": "Location",
+          "type": "`$OBJECT`",
           "req": true,
-          "short": "Reference to the associated Location resource.",
-          "type": "`$OBJECT`"
+          "short": "Reference to the associated Location resource."
         },
         {
-          "format": "datetime",
           "name": "modified",
+          "title": "Modified",
+          "type": "`$STRING`",
           "short": "Last modified timestamp.",
-          "type": "`$STRING`"
+          "format": "datetime"
         },
         {
           "name": "name",
-          "short": "The Partner's name.",
-          "type": "`$STRING`"
+          "title": "Name",
+          "type": "`$STRING`",
+          "short": "The Partner's name."
         },
         {
           "name": "parent",
-          "short": "Reference to the associated Partner.",
-          "type": "`$OBJECT`"
+          "title": "Parent",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated Partner."
         },
         {
           "name": "partnerId",
-          "short": "The Partner's id.",
-          "type": "`$STRING`"
+          "title": "Partner Id",
+          "type": "`$STRING`",
+          "short": "The Partner's id."
         },
         {
           "name": "reference",
-          "short": "The Partner's reference string.",
-          "type": "`$STRING`"
+          "title": "Reference",
+          "type": "`$STRING`",
+          "short": "The Partner's reference string."
         },
         {
           "name": "verificationPhrase",
-          "short": "The verification phrase is a message that the Partner creates.",
-          "type": "`$STRING`"
+          "title": "Verification Phrase",
+          "type": "`$STRING`",
+          "short": "The verification phrase is a message that the Partner creates."
         },
         {
           "name": "version",
-          "short": "The number of times that this resource has been updated.",
-          "type": "`$INTEGER`"
+          "title": "Version",
+          "type": "`$INTEGER`",
+          "short": "The number of times that this resource has been updated."
         }
       ],
       "id": {
@@ -2761,7 +2827,6 @@ class Config {
           "name": "create",
           "points": [
             {
-              "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/partners",
@@ -2770,14 +2835,16 @@ class Config {
                   "lit": "partners"
                 }
               ],
-              "select": {},
+              "parts": [
+                "partners"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "partners"
-              ]
+              "args": {},
+              "select": {}
             }
           ]
         },
@@ -2786,30 +2853,6 @@ class Config {
           "name": "list",
           "points": [
             {
-              "args": {
-                "query": [
-                  {
-                    "kind": "query",
-                    "name": "partner",
-                    "orig": "partner",
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "example": 0,
-                    "kind": "query",
-                    "name": "skip",
-                    "orig": "skip",
-                    "type": "`$INTEGER`"
-                  },
-                  {
-                    "example": 10,
-                    "kind": "query",
-                    "name": "take",
-                    "orig": "take",
-                    "type": "`$INTEGER`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/partners",
@@ -2818,20 +2861,45 @@ class Config {
                   "lit": "partners"
                 }
               ],
+              "parts": [
+                "partners"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body.data`"
+              },
+              "args": {
+                "query": [
+                  {
+                    "name": "partner",
+                    "orig": "partner",
+                    "type": "`$STRING`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "skip",
+                    "orig": "skip",
+                    "type": "`$INTEGER`",
+                    "kind": "query",
+                    "example": 0
+                  },
+                  {
+                    "name": "take",
+                    "orig": "take",
+                    "type": "`$INTEGER`",
+                    "kind": "query",
+                    "example": 10
+                  }
+                ]
+              },
               "select": {
                 "exist": [
                   "partner",
                   "skip",
                   "take"
                 ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body.data`"
-              },
-              "parts": [
-                "partners"
-              ]
+              }
             }
           ]
         },
@@ -2840,17 +2908,6 @@ class Config {
           "name": "load",
           "points": [
             {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "id",
-                    "orig": "id",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/partners/{id}",
@@ -2862,19 +2919,31 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "id"
-                ]
-              },
+              "parts": [
+                "partners",
+                "{id}"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "partners",
-                "{id}"
-              ]
+              "args": {
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "id",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "id"
+                ]
+              }
             }
           ]
         }
@@ -2887,77 +2956,91 @@ class Config {
       "fields": [
         {
           "name": "carrier",
-          "short": "The name of the courier.",
-          "type": "`$STRING`"
+          "title": "Carrier",
+          "type": "`$STRING`",
+          "short": "The name of the courier."
         },
         {
           "name": "client",
-          "short": "Reference to the associated Client resource.",
-          "type": "`$OBJECT`"
+          "title": "Client",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated Client resource."
         },
         {
-          "format": "datetime",
           "name": "created",
+          "title": "Created",
+          "type": "`$STRING`",
           "short": "Creation timestamp in ISO 8601 format.",
-          "type": "`$STRING`"
+          "format": "datetime"
         },
         {
-          "format": "datetime",
           "name": "dateReceived",
+          "title": "Date Received",
+          "type": "`$STRING`",
           "short": "The date and time that a package is recieved.",
-          "type": "`$STRING`"
+          "format": "datetime"
         },
         {
-          "format": "datetime",
           "name": "dateShipped",
+          "title": "Date Shipped",
+          "type": "`$STRING`",
           "short": "The date and time that a package is shipped.",
-          "type": "`$STRING`"
+          "format": "datetime"
         },
         {
           "name": "dcKif",
-          "short": "Reference to the associated KIF resource.",
-          "type": "`$OBJECT`"
+          "title": "Dc Kif",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated KIF resource."
         },
         {
           "name": "id",
-          "short": "This resource's unique identifier.",
-          "type": "`$STRING`"
+          "title": "Id",
+          "type": "`$STRING`",
+          "short": "This resource's unique identifier."
         },
         {
           "name": "items",
+          "title": "Items",
           "type": "`$ARRAY`"
         },
         {
           "name": "kif",
-          "short": "Reference to the associated KIF resource.",
-          "type": "`$OBJECT`"
+          "title": "Kif",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated KIF resource."
         },
         {
-          "format": "datetime",
           "name": "modified",
+          "title": "Modified",
+          "type": "`$STRING`",
           "short": "Last modified timestamp.",
-          "type": "`$STRING`"
+          "format": "datetime"
         },
         {
           "name": "partner",
-          "short": "Reference to the associated Partner.",
-          "type": "`$OBJECT`"
+          "title": "Partner",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated Partner."
         },
         {
           "name": "shipmentType",
-          "short": "The type of shipment.",
-          "type": "`$STRING`"
+          "title": "Shipment Type",
+          "type": "`$STRING`",
+          "short": "The type of shipment."
         },
         {
           "name": "tracking",
-          "short": "The courier's tracking number.",
-          "type": "`$STRING`"
+          "title": "Tracking",
+          "type": "`$STRING`",
+          "short": "The courier's tracking number."
         },
         {
-          "format": "int32",
           "name": "version",
+          "title": "Version",
+          "type": "`$INTEGER`",
           "short": "The number of times that this resource has been updated.",
-          "type": "`$INTEGER`"
+          "format": "int32"
         }
       ],
       "id": {
@@ -2971,7 +3054,6 @@ class Config {
           "name": "create",
           "points": [
             {
-              "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/shipments",
@@ -2980,14 +3062,16 @@ class Config {
                   "lit": "shipments"
                 }
               ],
-              "select": {},
+              "parts": [
+                "shipments"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "shipments"
-              ]
+              "args": {},
+              "select": {}
             }
           ]
         },
@@ -2996,37 +3080,6 @@ class Config {
           "name": "list",
           "points": [
             {
-              "args": {
-                "query": [
-                  {
-                    "kind": "query",
-                    "name": "kif",
-                    "orig": "kif",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "kind": "query",
-                    "name": "mode",
-                    "orig": "mode",
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "example": 0,
-                    "kind": "query",
-                    "name": "skip",
-                    "orig": "skip",
-                    "type": "`$INTEGER`"
-                  },
-                  {
-                    "example": 10,
-                    "kind": "query",
-                    "name": "take",
-                    "orig": "take",
-                    "type": "`$INTEGER`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/shipments",
@@ -3035,6 +3088,45 @@ class Config {
                   "lit": "shipments"
                 }
               ],
+              "parts": [
+                "shipments"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body.data`"
+              },
+              "args": {
+                "query": [
+                  {
+                    "name": "kif",
+                    "orig": "kif",
+                    "type": "`$STRING`",
+                    "kind": "query",
+                    "reqd": true
+                  },
+                  {
+                    "name": "mode",
+                    "orig": "mode",
+                    "type": "`$STRING`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "skip",
+                    "orig": "skip",
+                    "type": "`$INTEGER`",
+                    "kind": "query",
+                    "example": 0
+                  },
+                  {
+                    "name": "take",
+                    "orig": "take",
+                    "type": "`$INTEGER`",
+                    "kind": "query",
+                    "example": 10
+                  }
+                ]
+              },
               "select": {
                 "exist": [
                   "kif",
@@ -3042,14 +3134,7 @@ class Config {
                   "skip",
                   "take"
                 ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body.data`"
-              },
-              "parts": [
-                "shipments"
-              ]
+              }
             }
           ]
         },
@@ -3058,17 +3143,6 @@ class Config {
           "name": "load",
           "points": [
             {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "id",
-                    "orig": "id",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/shipments/{id}",
@@ -3080,19 +3154,31 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "id"
-                ]
-              },
+              "parts": [
+                "shipments",
+                "{id}"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "shipments",
-                "{id}"
-              ]
+              "args": {
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "id",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "id"
+                ]
+              }
             }
           ]
         }
@@ -3105,8 +3191,9 @@ class Config {
       "fields": [
         {
           "name": "success",
-          "short": "Indicates if the action was a success.",
-          "type": "`$BOOLEAN`"
+          "title": "Success",
+          "type": "`$BOOLEAN`",
+          "short": "Indicates if the action was a success."
         }
       ],
       "name": "success",
@@ -3116,25 +3203,9 @@ class Config {
           "name": "create",
           "points": [
             {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "share_partner_to",
-                    "orig": "share_partner_to",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "POST",
               "orig": "/virtualDevices/{sharePartnerTo}",
-              "rename": {
-                "param": {
-                  "sharePartnerTo": "share_partner_to"
-                }
-              },
               "segments": [
                 {
                   "lit": "virtualDevices"
@@ -3143,19 +3214,35 @@ class Config {
                   "var": "share_partner_to"
                 }
               ],
-              "select": {
-                "exist": [
-                  "share_partner_to"
-                ]
+              "parts": [
+                "virtualDevices",
+                "{share_partner_to}"
+              ],
+              "rename": {
+                "param": {
+                  "sharePartnerTo": "share_partner_to"
+                }
               },
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "virtualDevices",
-                "{share_partner_to}"
-              ]
+              "args": {
+                "params": [
+                  {
+                    "name": "share_partner_to",
+                    "orig": "share_partner_to",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "share_partner_to"
+                ]
+              }
             }
           ]
         },
@@ -3164,25 +3251,9 @@ class Config {
           "name": "remove",
           "points": [
             {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "share_partner_to",
-                    "orig": "share_partner_to",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "DELETE",
               "orig": "/virtualDevices/{sharePartnerTo}",
-              "rename": {
-                "param": {
-                  "sharePartnerTo": "share_partner_to"
-                }
-              },
               "segments": [
                 {
                   "lit": "virtualDevices"
@@ -3191,19 +3262,35 @@ class Config {
                   "var": "share_partner_to"
                 }
               ],
-              "select": {
-                "exist": [
-                  "share_partner_to"
-                ]
+              "parts": [
+                "virtualDevices",
+                "{share_partner_to}"
+              ],
+              "rename": {
+                "param": {
+                  "sharePartnerTo": "share_partner_to"
+                }
               },
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "virtualDevices",
-                "{share_partner_to}"
-              ]
+              "args": {
+                "params": [
+                  {
+                    "name": "share_partner_to",
+                    "orig": "share_partner_to",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "share_partner_to"
+                ]
+              }
             }
           ]
         }
@@ -3211,7 +3298,7 @@ class Config {
       "relations": {
         "ancestors": [
           [
-            "virtual_device"
+            "$.main.kit.entity.virtual_device"
           ]
         ]
       }
@@ -3220,129 +3307,153 @@ class Config {
       "fields": [
         {
           "name": "alternateKey",
-          "short": "The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging.",
-          "type": "`$STRING`"
+          "title": "Alternate Key",
+          "type": "`$STRING`",
+          "short": "The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging."
         },
         {
           "name": "client",
-          "short": "Reference to the associated Client resource.",
-          "type": "`$OBJECT`"
+          "title": "Client",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated Client resource."
         },
         {
           "name": "clientRef",
-          "short": "Client Reference property that is included in the decrypt API call.",
-          "type": "`$STRING`"
+          "title": "Client Ref",
+          "type": "`$STRING`",
+          "short": "Client Reference property that is included in the decrypt API call."
         },
         {
-          "format": "datetime",
           "name": "created",
+          "title": "Created",
+          "type": "`$STRING`",
           "short": "Creation timestamp in ISO 8601 format.",
-          "type": "`$STRING`"
+          "format": "datetime"
         },
         {
-          "format": "int32",
           "name": "decrypted",
+          "title": "Decrypted",
+          "type": "`$INTEGER`",
           "short": "A Transcation can process muliple decryptions.",
-          "type": "`$INTEGER`"
+          "format": "int32"
         },
         {
           "name": "deviceName",
-          "short": "The name of the Device that generated the payload to decrypt.",
-          "type": "`$STRING`"
+          "title": "Device Name",
+          "type": "`$STRING`",
+          "short": "The name of the Device that generated the payload to decrypt."
         },
         {
           "name": "directPartner",
-          "short": "Reference to the associated Partner.",
-          "type": "`$OBJECT`"
+          "title": "Direct Partner",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated Partner."
         },
         {
-          "format": "int32",
           "name": "encrypted",
+          "title": "Encrypted",
+          "type": "`$INTEGER`",
           "short": "A Transcation can process muliple encryptions.",
-          "type": "`$INTEGER`"
+          "format": "int32"
         },
         {
-          "format": "datetime",
           "name": "endDate",
+          "title": "End Date",
+          "type": "`$STRING`",
           "short": "Timestamp from the end of the transaction.",
-          "type": "`$STRING`"
+          "format": "datetime"
         },
         {
           "name": "errCode",
-          "short": "The error code that is sent in response to a failed decrypt API call.",
-          "type": "`$STRING`"
+          "title": "Err Code",
+          "type": "`$STRING`",
+          "short": "The error code that is sent in response to a failed decrypt API call."
         },
         {
           "name": "errMessage",
-          "short": "The error messge that is sent in response to a failed decrypt API call.",
-          "type": "`$STRING`"
+          "title": "Err Message",
+          "type": "`$STRING`",
+          "short": "The error messge that is sent in response to a failed decrypt API call."
         },
         {
           "name": "id",
-          "short": "This resource's unique identifier.",
-          "type": "`$STRING`"
+          "title": "Id",
+          "type": "`$STRING`",
+          "short": "This resource's unique identifier."
         },
         {
           "name": "ipAddress",
-          "short": "The IP address of the http client that makes the decrypt API call.",
-          "type": "`$STRING`"
+          "title": "Ip Address",
+          "type": "`$STRING`",
+          "short": "The IP address of the http client that makes the decrypt API call."
         },
         {
           "name": "isVirtual",
-          "short": "Indicates if the Transaction came from a virtual Device.",
-          "type": "`$BOOLEAN`"
+          "title": "Is Virtual",
+          "type": "`$BOOLEAN`",
+          "short": "Indicates if the Transaction came from a virtual Device."
         },
         {
           "name": "keyType",
-          "short": "The type of cipher used during decrytion.",
-          "type": "`$STRING`"
+          "title": "Key Type",
+          "type": "`$STRING`",
+          "short": "The type of cipher used during decrytion."
         },
         {
           "name": "location",
+          "title": "Location",
+          "type": "`$OBJECT`",
           "req": true,
-          "short": "Reference to the associated Location resource.",
-          "type": "`$OBJECT`"
+          "short": "Reference to the associated Location resource."
         },
         {
           "name": "messageId",
-          "short": "Message ID.",
-          "type": "`$STRING`"
+          "title": "Message Id",
+          "type": "`$STRING`",
+          "short": "Message ID."
         },
         {
           "name": "method",
-          "short": "The decryption cypher/method.",
-          "type": "`$STRING`"
+          "title": "Method",
+          "type": "`$STRING`",
+          "short": "The decryption cypher/method."
         },
         {
           "name": "partner",
-          "short": "Reference to the associated Partner.",
-          "type": "`$OBJECT`"
+          "title": "Partner",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated Partner."
         },
         {
           "name": "reference",
-          "short": "The reference property that the Client includes in the decrypt API call.",
-          "type": "`$STRING`"
+          "title": "Reference",
+          "type": "`$STRING`",
+          "short": "The reference property that the Client includes in the decrypt API call."
         },
         {
           "name": "serialNumber",
-          "short": "The serial number of the Device that generated the payload to decrypt.",
-          "type": "`$STRING`"
+          "title": "Serial Number",
+          "type": "`$STRING`",
+          "short": "The serial number of the Device that generated the payload to decrypt."
         },
         {
-          "format": "datetime",
           "name": "startDate",
+          "title": "Start Date",
+          "type": "`$STRING`",
           "short": "Timestamp from the beginning of the transaction.",
-          "type": "`$STRING`"
+          "format": "datetime"
         },
         {
           "name": "success",
-          "short": "The success indicator.",
-          "type": "`$BOOLEAN`"
+          "title": "Success",
+          "type": "`$BOOLEAN`",
+          "short": "The success indicator."
         },
         {
           "name": "transactionSource",
-          "short": "The source of the Transaction.",
-          "type": "`$STRING`"
+          "title": "Transaction Source",
+          "type": "`$STRING`",
+          "short": "The source of the Transaction."
         }
       ],
       "id": {
@@ -3356,7 +3467,6 @@ class Config {
           "name": "create",
           "points": [
             {
-              "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/transactions",
@@ -3365,14 +3475,16 @@ class Config {
                   "lit": "transactions"
                 }
               ],
-              "select": {},
+              "parts": [
+                "transactions"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "transactions"
-              ]
+              "args": {},
+              "select": {}
             }
           ]
         },
@@ -3381,91 +3493,6 @@ class Config {
           "name": "list",
           "points": [
             {
-              "args": {
-                "query": [
-                  {
-                    "kind": "query",
-                    "name": "client",
-                    "orig": "client",
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "kind": "query",
-                    "name": "client_ref",
-                    "orig": "client_ref",
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "kind": "query",
-                    "name": "date_from",
-                    "orig": "date_from",
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "kind": "query",
-                    "name": "date_to",
-                    "orig": "date_to",
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "kind": "query",
-                    "name": "location",
-                    "orig": "location",
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "kind": "query",
-                    "name": "message_id",
-                    "orig": "message_id",
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "example": "nocount",
-                    "kind": "query",
-                    "name": "paging_mode",
-                    "orig": "paging_mode",
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "kind": "query",
-                    "name": "partner",
-                    "orig": "partner",
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "kind": "query",
-                    "name": "reference",
-                    "orig": "reference",
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "kind": "query",
-                    "name": "serial_number",
-                    "orig": "serial_number",
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "example": 0,
-                    "kind": "query",
-                    "name": "skip",
-                    "orig": "skip",
-                    "type": "`$INTEGER`"
-                  },
-                  {
-                    "kind": "query",
-                    "name": "success",
-                    "orig": "success",
-                    "type": "`$BOOLEAN`"
-                  },
-                  {
-                    "example": 10,
-                    "kind": "query",
-                    "name": "take",
-                    "orig": "take",
-                    "type": "`$INTEGER`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/transactions",
@@ -3474,6 +3501,99 @@ class Config {
                   "lit": "transactions"
                 }
               ],
+              "parts": [
+                "transactions"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body.data`"
+              },
+              "args": {
+                "query": [
+                  {
+                    "name": "client",
+                    "orig": "client",
+                    "type": "`$STRING`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "client_ref",
+                    "orig": "client_ref",
+                    "type": "`$STRING`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "date_from",
+                    "orig": "date_from",
+                    "type": "`$STRING`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "date_to",
+                    "orig": "date_to",
+                    "type": "`$STRING`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "location",
+                    "orig": "location",
+                    "type": "`$STRING`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "message_id",
+                    "orig": "message_id",
+                    "type": "`$STRING`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "paging_mode",
+                    "orig": "paging_mode",
+                    "type": "`$STRING`",
+                    "kind": "query",
+                    "example": "nocount"
+                  },
+                  {
+                    "name": "partner",
+                    "orig": "partner",
+                    "type": "`$STRING`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "reference",
+                    "orig": "reference",
+                    "type": "`$STRING`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "serial_number",
+                    "orig": "serial_number",
+                    "type": "`$STRING`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "skip",
+                    "orig": "skip",
+                    "type": "`$INTEGER`",
+                    "kind": "query",
+                    "example": 0
+                  },
+                  {
+                    "name": "success",
+                    "orig": "success",
+                    "type": "`$BOOLEAN`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "take",
+                    "orig": "take",
+                    "type": "`$INTEGER`",
+                    "kind": "query",
+                    "example": 10
+                  }
+                ]
+              },
               "select": {
                 "exist": [
                   "client",
@@ -3490,14 +3610,7 @@ class Config {
                   "success",
                   "take"
                 ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body.data`"
-              },
-              "parts": [
-                "transactions"
-              ]
+              }
             }
           ]
         },
@@ -3506,17 +3619,6 @@ class Config {
           "name": "load",
           "points": [
             {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "id",
-                    "orig": "id",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/transactions/{id}",
@@ -3528,19 +3630,31 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "id"
-                ]
-              },
+              "parts": [
+                "transactions",
+                "{id}"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "transactions",
-                "{id}"
-              ]
+              "args": {
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "id",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "id"
+                ]
+              }
             }
           ]
         }
@@ -3553,63 +3667,75 @@ class Config {
       "fields": [
         {
           "name": "client",
-          "short": "Reference to the associated Client resource.",
-          "type": "`$OBJECT`"
+          "title": "Client",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated Client resource."
         },
         {
           "name": "email",
-          "short": "The User's email address.",
-          "type": "`$STRING`"
+          "title": "Email",
+          "type": "`$STRING`",
+          "short": "The User's email address."
         },
         {
           "name": "firstName",
-          "short": "The User's name.",
-          "type": "`$STRING`"
+          "title": "First Name",
+          "type": "`$STRING`",
+          "short": "The User's name."
         },
         {
           "name": "id",
-          "short": "ID of newly created resource",
-          "type": "`$STRING`"
+          "title": "Id",
+          "type": "`$STRING`",
+          "short": "ID of newly created resource"
         },
         {
           "name": "isActive",
-          "short": "This property indicates if the User account is active or disabled.",
-          "type": "`$BOOLEAN`"
+          "title": "Is Active",
+          "type": "`$BOOLEAN`",
+          "short": "This property indicates if the User account is active or disabled."
         },
         {
           "name": "kif",
-          "short": "Reference to the associated KIF resource.",
-          "type": "`$OBJECT`"
+          "title": "Kif",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated KIF resource."
         },
         {
           "name": "lastName",
-          "short": "The User's Surname.",
-          "type": "`$STRING`"
+          "title": "Last Name",
+          "type": "`$STRING`",
+          "short": "The User's Surname."
         },
         {
           "name": "partner",
-          "short": "Reference to the associated Partner.",
-          "type": "`$OBJECT`"
+          "title": "Partner",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated Partner."
         },
         {
           "name": "phone",
-          "short": "The User's phone number without dashes, spaces, or brackets.",
-          "type": "`$STRING`"
+          "title": "Phone",
+          "type": "`$STRING`",
+          "short": "The User's phone number without dashes, spaces, or brackets."
         },
         {
           "name": "userName",
-          "short": "The User's unique username.",
-          "type": "`$STRING`"
+          "title": "User Name",
+          "type": "`$STRING`",
+          "short": "The User's unique username."
         },
         {
           "name": "userRole",
-          "short": "Reference to the associated User Role.",
-          "type": "`$OBJECT`"
+          "title": "User Role",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated User Role."
         },
         {
           "name": "version",
-          "short": "The number of times that this resource has been updated.",
-          "type": "`$INTEGER`"
+          "title": "Version",
+          "type": "`$INTEGER`",
+          "short": "The number of times that this resource has been updated."
         }
       ],
       "id": {
@@ -3623,7 +3749,6 @@ class Config {
           "name": "create",
           "points": [
             {
-              "args": {},
               "kind": "http",
               "method": "POST",
               "orig": "/users",
@@ -3632,14 +3757,16 @@ class Config {
                   "lit": "users"
                 }
               ],
-              "select": {},
+              "parts": [
+                "users"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "users"
-              ]
+              "args": {},
+              "select": {}
             }
           ]
         },
@@ -3648,42 +3775,6 @@ class Config {
           "name": "list",
           "points": [
             {
-              "args": {
-                "query": [
-                  {
-                    "kind": "query",
-                    "name": "client",
-                    "orig": "client",
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "kind": "query",
-                    "name": "kif",
-                    "orig": "kif",
-                    "type": "`$STRING`"
-                  },
-                  {
-                    "kind": "query",
-                    "name": "partner",
-                    "orig": "partner",
-                    "type": "`$ANY`"
-                  },
-                  {
-                    "example": 0,
-                    "kind": "query",
-                    "name": "skip",
-                    "orig": "skip",
-                    "type": "`$INTEGER`"
-                  },
-                  {
-                    "example": 10,
-                    "kind": "query",
-                    "name": "take",
-                    "orig": "take",
-                    "type": "`$INTEGER`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/users",
@@ -3692,6 +3783,50 @@ class Config {
                   "lit": "users"
                 }
               ],
+              "parts": [
+                "users"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body.data`"
+              },
+              "args": {
+                "query": [
+                  {
+                    "name": "client",
+                    "orig": "client",
+                    "type": "`$STRING`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "kif",
+                    "orig": "kif",
+                    "type": "`$STRING`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "partner",
+                    "orig": "partner",
+                    "type": "`$ANY`",
+                    "kind": "query"
+                  },
+                  {
+                    "name": "skip",
+                    "orig": "skip",
+                    "type": "`$INTEGER`",
+                    "kind": "query",
+                    "example": 0
+                  },
+                  {
+                    "name": "take",
+                    "orig": "take",
+                    "type": "`$INTEGER`",
+                    "kind": "query",
+                    "example": 10
+                  }
+                ]
+              },
               "select": {
                 "exist": [
                   "client",
@@ -3700,14 +3835,7 @@ class Config {
                   "skip",
                   "take"
                 ]
-              },
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body.data`"
-              },
-              "parts": [
-                "users"
-              ]
+              }
             }
           ]
         },
@@ -3716,17 +3844,6 @@ class Config {
           "name": "update",
           "points": [
             {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "id",
-                    "orig": "id",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "PATCH",
               "orig": "/clients/{id}",
@@ -3738,32 +3855,33 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "id"
-                ]
-              },
+              "parts": [
+                "clients",
+                "{id}"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "clients",
-                "{id}"
-              ]
-            },
-            {
               "args": {
                 "params": [
                   {
-                    "kind": "param",
                     "name": "id",
                     "orig": "id",
-                    "reqd": true,
-                    "type": "`$STRING`"
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
                   }
                 ]
               },
+              "select": {
+                "exist": [
+                  "id"
+                ]
+              }
+            },
+            {
               "kind": "http",
               "method": "PATCH",
               "orig": "/devices/{id}",
@@ -3775,32 +3893,33 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "id"
-                ]
-              },
+              "parts": [
+                "devices",
+                "{id}"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "devices",
-                "{id}"
-              ]
-            },
-            {
               "args": {
                 "params": [
                   {
-                    "kind": "param",
                     "name": "id",
                     "orig": "id",
-                    "reqd": true,
-                    "type": "`$STRING`"
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
                   }
                 ]
               },
+              "select": {
+                "exist": [
+                  "id"
+                ]
+              }
+            },
+            {
               "kind": "http",
               "method": "PATCH",
               "orig": "/locations/{id}",
@@ -3812,32 +3931,33 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "id"
-                ]
-              },
+              "parts": [
+                "locations",
+                "{id}"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "locations",
-                "{id}"
-              ]
-            },
-            {
               "args": {
                 "params": [
                   {
-                    "kind": "param",
                     "name": "id",
                     "orig": "id",
-                    "reqd": true,
-                    "type": "`$STRING`"
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
                   }
                 ]
               },
+              "select": {
+                "exist": [
+                  "id"
+                ]
+              }
+            },
+            {
               "kind": "http",
               "method": "PATCH",
               "orig": "/partners/{id}",
@@ -3849,32 +3969,33 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "id"
-                ]
-              },
+              "parts": [
+                "partners",
+                "{id}"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "partners",
-                "{id}"
-              ]
-            },
-            {
               "args": {
                 "params": [
                   {
-                    "kind": "param",
                     "name": "id",
                     "orig": "id",
-                    "reqd": true,
-                    "type": "`$STRING`"
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
                   }
                 ]
               },
+              "select": {
+                "exist": [
+                  "id"
+                ]
+              }
+            },
+            {
               "kind": "http",
               "method": "PATCH",
               "orig": "/shipments/{id}",
@@ -3886,32 +4007,33 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "id"
-                ]
-              },
+              "parts": [
+                "shipments",
+                "{id}"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "shipments",
-                "{id}"
-              ]
-            },
-            {
               "args": {
                 "params": [
                   {
-                    "kind": "param",
                     "name": "id",
                     "orig": "id",
-                    "reqd": true,
-                    "type": "`$STRING`"
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
                   }
                 ]
               },
+              "select": {
+                "exist": [
+                  "id"
+                ]
+              }
+            },
+            {
               "kind": "http",
               "method": "PATCH",
               "orig": "/transactions/{id}",
@@ -3923,32 +4045,33 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "id"
-                ]
-              },
+              "parts": [
+                "transactions",
+                "{id}"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "transactions",
-                "{id}"
-              ]
-            },
-            {
               "args": {
                 "params": [
                   {
-                    "kind": "param",
                     "name": "id",
                     "orig": "id",
-                    "reqd": true,
-                    "type": "`$STRING`"
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
                   }
                 ]
               },
+              "select": {
+                "exist": [
+                  "id"
+                ]
+              }
+            },
+            {
               "kind": "http",
               "method": "PATCH",
               "orig": "/users/{id}",
@@ -3960,19 +4083,31 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "id"
-                ]
-              },
+              "parts": [
+                "users",
+                "{id}"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "users",
-                "{id}"
-              ]
+              "args": {
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "id",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "id"
+                ]
+              }
             }
           ]
         }
@@ -3985,75 +4120,89 @@ class Config {
       "fields": [
         {
           "name": "client",
-          "short": "Reference to the associated Client resource.",
-          "type": "`$OBJECT`"
+          "title": "Client",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated Client resource."
         },
         {
-          "format": "datetime",
           "name": "created",
+          "title": "Created",
+          "type": "`$STRING`",
           "short": "Creation timestamp in ISO 8601 format.",
-          "type": "`$STRING`"
+          "format": "datetime"
         },
         {
           "name": "email",
-          "short": "The User's email address.",
-          "type": "`$STRING`"
+          "title": "Email",
+          "type": "`$STRING`",
+          "short": "The User's email address."
         },
         {
           "name": "firstName",
-          "short": "The User's name.",
-          "type": "`$STRING`"
+          "title": "First Name",
+          "type": "`$STRING`",
+          "short": "The User's name."
         },
         {
           "name": "id",
-          "short": "This resource's unique identifier.",
-          "type": "`$STRING`"
+          "title": "Id",
+          "type": "`$STRING`",
+          "short": "This resource's unique identifier."
         },
         {
           "name": "isActive",
-          "short": "This property indicates if the User account is active or disabled.",
-          "type": "`$BOOLEAN`"
+          "title": "Is Active",
+          "type": "`$BOOLEAN`",
+          "short": "This property indicates if the User account is active or disabled."
         },
         {
           "name": "kif",
-          "short": "Reference to the associated KIF resource.",
-          "type": "`$OBJECT`"
+          "title": "Kif",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated KIF resource."
         },
         {
           "name": "lastName",
-          "short": "The User's Surname.",
-          "type": "`$STRING`"
+          "title": "Last Name",
+          "type": "`$STRING`",
+          "short": "The User's Surname."
         },
         {
-          "format": "datetime",
           "name": "modified",
+          "title": "Modified",
+          "type": "`$STRING`",
           "short": "Last modified timestamp.",
-          "type": "`$STRING`"
+          "format": "datetime"
         },
         {
           "name": "partner",
-          "short": "Reference to the associated Partner.",
-          "type": "`$OBJECT`"
+          "title": "Partner",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated Partner."
         },
         {
           "name": "phone",
-          "short": "The User's phone number without dashes, spaces, or brackets.",
-          "type": "`$STRING`"
+          "title": "Phone",
+          "type": "`$STRING`",
+          "short": "The User's phone number without dashes, spaces, or brackets."
         },
         {
           "name": "userName",
-          "short": "The User's unique username.",
-          "type": "`$STRING`"
+          "title": "User Name",
+          "type": "`$STRING`",
+          "short": "The User's unique username."
         },
         {
           "name": "userRole",
-          "short": "Reference to the associated User Role.",
-          "type": "`$OBJECT`"
+          "title": "User Role",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated User Role."
         },
         {
           "name": "version",
-          "short": "The number of times that this resource has been updated.",
-          "type": "`$INTEGER`"
+          "title": "Version",
+          "type": "`$INTEGER`",
+          "short": "The number of times that this resource has been updated."
         }
       ],
       "id": {
@@ -4067,17 +4216,6 @@ class Config {
           "name": "load",
           "points": [
             {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "id",
-                    "orig": "id",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "GET",
               "orig": "/users/{id}",
@@ -4089,19 +4227,31 @@ class Config {
                   "var": "id"
                 }
               ],
-              "select": {
-                "exist": [
-                  "id"
-                ]
-              },
+              "parts": [
+                "users",
+                "{id}"
+              ],
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "users",
-                "{id}"
-              ]
+              "args": {
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "id",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "id"
+                ]
+              }
             }
           ]
         },
@@ -4110,17 +4260,6 @@ class Config {
           "name": "remove",
           "points": [
             {
-              "args": {
-                "params": [
-                  {
-                    "kind": "param",
-                    "name": "id",
-                    "orig": "id",
-                    "reqd": true,
-                    "type": "`$STRING`"
-                  }
-                ]
-              },
               "kind": "http",
               "method": "DELETE",
               "orig": "/users/{id}",
@@ -4132,19 +4271,144 @@ class Config {
                   "var": "id"
                 }
               ],
+              "parts": [
+                "users",
+                "{id}"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "id",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ]
+              },
               "select": {
                 "exist": [
                   "id"
                 ]
+              }
+            }
+          ]
+        }
+      },
+      "relations": {
+        "ancestors": []
+      }
+    },
+    "virtual_device": {
+      "fields": [
+        {
+          "name": "data",
+          "title": "Data",
+          "type": "`$ARRAY`",
+          "short": "List of Devices."
+        },
+        {
+          "name": "id",
+          "title": "Id",
+          "type": "`$STRING`"
+        },
+        {
+          "name": "total",
+          "title": "Total",
+          "type": "`$INTEGER`",
+          "short": "Total number of Devices available (not the number of Users in the response)."
+        }
+      ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
+      "name": "virtual_device",
+      "op": {
+        "load": {
+          "input": "data",
+          "name": "load",
+          "points": [
+            {
+              "kind": "http",
+              "method": "GET",
+              "orig": "/virtualDevices/{sharePartnerTo}",
+              "segments": [
+                {
+                  "lit": "virtualDevices"
+                },
+                {
+                  "var": "id"
+                }
+              ],
+              "parts": [
+                "virtualDevices",
+                "{id}"
+              ],
+              "rename": {
+                "param": {
+                  "sharePartnerTo": "id"
+                }
               },
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
               },
-              "parts": [
-                "users",
-                "{id}"
-              ]
+              "args": {
+                "params": [
+                  {
+                    "name": "id",
+                    "orig": "share_partner_to",
+                    "type": "`$STRING`",
+                    "kind": "param",
+                    "reqd": true
+                  }
+                ],
+                "query": [
+                  {
+                    "name": "skip",
+                    "orig": "skip",
+                    "type": "`$INTEGER`",
+                    "kind": "query",
+                    "example": 0
+                  },
+                  {
+                    "name": "sorting_direction",
+                    "orig": "sorting_direction",
+                    "type": "`$STRING`",
+                    "kind": "query",
+                    "example": "asc"
+                  },
+                  {
+                    "name": "sorting_field",
+                    "orig": "sorting_field",
+                    "type": "`$STRING`",
+                    "kind": "query",
+                    "example": "serialnumber"
+                  },
+                  {
+                    "name": "take",
+                    "orig": "take",
+                    "type": "`$INTEGER`",
+                    "kind": "query",
+                    "example": 10
+                  }
+                ]
+              },
+              "select": {
+                "exist": [
+                  "id",
+                  "skip",
+                  "sorting_direction",
+                  "sorting_field",
+                  "take"
+                ]
+              }
             }
           ]
         }

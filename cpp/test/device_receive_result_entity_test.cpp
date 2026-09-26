@@ -50,7 +50,7 @@ static DeviceReceiveResultSetup device_receive_result_basic_setup(const Value& e
 
   DeviceReceiveResultSetup s;
   s.client = client;
-  s.data = entity_data;
+  s.d = entity_data;
   s.idmap = idmap_resolved;
   s.env = env;
   s.live = live;

@@ -2,8 +2,8 @@ package voxgig.bluefindecryptxp2pesdk.core;
 
 // Typed reference models for the BluefinDecryptxP2pe SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types come from the
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types come from the
 // canonical type sentinels (source of truth: @voxgig/apidef VALID_CANON). Do
 // not edit by hand.
 //
@@ -64,13 +64,9 @@ public final class BluefinDecryptxP2peTypes {
 
   public record DeviceCustodyDetailLoadMatch(String device_type, String id, String serial_number) {}
 
-  public record DeviceCustodyList(String completeDate, String created, Map<String, Object> createdBy, Map<String, Object> custodian, Map<String, Object> device, Long id, Map<String, Object> location, String modified, Map<String, Object> modifiedBy, String notes, Map<String, Object> status, Map<String, Object> transferMethod, Long version) {}
+  public record DeviceCustodyListItem(String completeDate, String created, Map<String, Object> createdBy, Map<String, Object> custodian, Map<String, Object> device, Long id, Map<String, Object> location, String modified, Map<String, Object> modifiedBy, String notes, Map<String, Object> status, Map<String, Object> transferMethod, Long version) {}
 
-  public record DeviceCustodyListListMatch(String device_type, String serial_number, Long skip, Long take) {}
-
-  public record DeviceList(List<Object> data, Long total) {}
-
-  public record DeviceListLoadMatch(String share_partner_to, Long skip, String sorting_direction, String sorting_field, Long take) {}
+  public record DeviceCustodyListItemListMatch(String device_type, String serial_number, Long skip, Long take) {}
 
   public record DeviceReceiveResult(Boolean success) {}
 
@@ -153,5 +149,9 @@ public final class BluefinDecryptxP2peTypes {
   public record UserLoadMatch(String id) {}
 
   public record UserRemoveMatch(String id) {}
+
+  public record VirtualDevice(List<Object> data, String id, Long total) {}
+
+  public record VirtualDeviceLoadMatch(String id, Long skip, String sorting_direction, String sorting_field, Long take) {}
 
 }

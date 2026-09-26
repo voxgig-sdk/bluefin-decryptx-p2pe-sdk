@@ -419,20 +419,12 @@ public class BluefinDecryptxP2peSDK
         return new global::BluefinDecryptxP2peSdk.Entity.DeviceCustodyDetailEntity(this, entopts);
     }
 
-    // DeviceCustodyList returns a DeviceCustodyList entity bound to this client.
-    // Idiomatic usage: client.DeviceCustodyList().List(null) or
-    // client.DeviceCustodyList().Load(new() { ["id"] = ... }).
-    public BluefinDecryptxP2peEntityBase DeviceCustodyList(Dictionary<string, object?>? entopts = null)
+    // DeviceCustodyListItem returns a DeviceCustodyListItem entity bound to this client.
+    // Idiomatic usage: client.DeviceCustodyListItem().List(null) or
+    // client.DeviceCustodyListItem().Load(new() { ["id"] = ... }).
+    public BluefinDecryptxP2peEntityBase DeviceCustodyListItem(Dictionary<string, object?>? entopts = null)
     {
-        return new global::BluefinDecryptxP2peSdk.Entity.DeviceCustodyListEntity(this, entopts);
-    }
-
-    // DeviceList returns a DeviceList entity bound to this client.
-    // Idiomatic usage: client.DeviceList().List(null) or
-    // client.DeviceList().Load(new() { ["id"] = ... }).
-    public BluefinDecryptxP2peEntityBase DeviceList(Dictionary<string, object?>? entopts = null)
-    {
-        return new global::BluefinDecryptxP2peSdk.Entity.DeviceListEntity(this, entopts);
+        return new global::BluefinDecryptxP2peSdk.Entity.DeviceCustodyListItemEntity(this, entopts);
     }
 
     // DeviceReceiveResult returns a DeviceReceiveResult entity bound to this client.
@@ -537,6 +529,14 @@ public class BluefinDecryptxP2peSDK
     public BluefinDecryptxP2peEntityBase User(Dictionary<string, object?>? entopts = null)
     {
         return new global::BluefinDecryptxP2peSdk.Entity.UserEntity(this, entopts);
+    }
+
+    // VirtualDevice returns a VirtualDevice entity bound to this client.
+    // Idiomatic usage: client.VirtualDevice().List(null) or
+    // client.VirtualDevice().Load(new() { ["id"] = ... }).
+    public BluefinDecryptxP2peEntityBase VirtualDevice(Dictionary<string, object?>? entopts = null)
+    {
+        return new global::BluefinDecryptxP2peSdk.Entity.VirtualDeviceEntity(this, entopts);
     }
 
 

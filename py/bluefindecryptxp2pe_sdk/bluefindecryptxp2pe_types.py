@@ -1,7 +1,7 @@
 # Typed models for the BluefinDecryptxP2pe SDK.
 #
-# GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-# params (op.<name>.points[].args.params[]). Field/param types come from the
+# GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+# params (op.<name>.points[].g.params[]). Field/param types come from the
 # canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 # @voxgig/apidef VALID_CANON). Do not edit by hand.
 #
@@ -254,14 +254,14 @@ class DeviceCustodyDetailLoadMatch(TypedDict):
     serial_number: str
 
 
-class DeviceCustodyListRequired(TypedDict):
+class DeviceCustodyListItemRequired(TypedDict):
     createdBy: dict
     custodian: dict
     location: dict
     modifiedBy: dict
 
 
-class DeviceCustodyList(DeviceCustodyListRequired, total=False):
+class DeviceCustodyListItem(DeviceCustodyListItemRequired, total=False):
     completeDate: str
     created: str
     device: dict
@@ -273,29 +273,13 @@ class DeviceCustodyList(DeviceCustodyListRequired, total=False):
     version: int
 
 
-class DeviceCustodyListListMatchRequired(TypedDict):
+class DeviceCustodyListItemListMatchRequired(TypedDict):
     device_type: str
     serial_number: str
 
 
-class DeviceCustodyListListMatch(DeviceCustodyListListMatchRequired, total=False):
+class DeviceCustodyListItemListMatch(DeviceCustodyListItemListMatchRequired, total=False):
     skip: int
-    take: int
-
-
-class DeviceList(TypedDict, total=False):
-    data: list
-    total: int
-
-
-class DeviceListLoadMatchRequired(TypedDict):
-    share_partner_to: str
-
-
-class DeviceListLoadMatch(DeviceListLoadMatchRequired, total=False):
-    skip: int
-    sorting_direction: str
-    sorting_field: str
     take: int
 
 
@@ -737,3 +721,20 @@ class UserLoadMatch(TypedDict):
 
 class UserRemoveMatch(TypedDict):
     id: str
+
+
+class VirtualDevice(TypedDict, total=False):
+    data: list
+    id: str
+    total: int
+
+
+class VirtualDeviceLoadMatchRequired(TypedDict):
+    id: str
+
+
+class VirtualDeviceLoadMatch(VirtualDeviceLoadMatchRequired, total=False):
+    skip: int
+    sorting_direction: str
+    sorting_field: str
+    take: int

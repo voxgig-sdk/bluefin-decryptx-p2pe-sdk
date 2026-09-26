@@ -1,0 +1,120 @@
+# Entity: success
+
+main: kit: entity: success: {
+
+  alias: field: {}
+
+  fields: {
+    success: {
+      h: "Success"
+      n: "success"
+      r: false
+      sh: "Indicates if the action was a success."
+      t: "`$BOOLEAN`"
+    }
+  }
+
+  name: "success"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /virtualDevices/{sharePartnerTo}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "share_partner_to"
+                or: "share_partner_to"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/virtualDevices/{sharePartnerTo}"
+          q: {
+            exist: [
+              "share_partner_to"
+            ]
+          }
+          r: {
+            param: {
+              sharePartnerTo: "share_partner_to"
+            }
+          }
+          s: [
+            {
+              lit: "virtualDevices"
+            }
+            {
+              var: "share_partner_to"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    remove: {
+      name: "remove"
+      points: [
+        {
+          co: {
+            id: "DELETE /virtualDevices/{sharePartnerTo}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "share_partner_to"
+                or: "share_partner_to"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "DELETE"
+          o: "/virtualDevices/{sharePartnerTo}"
+          q: {
+            exist: [
+              "share_partner_to"
+            ]
+          }
+          r: {
+            param: {
+              sharePartnerTo: "share_partner_to"
+            }
+          }
+          s: [
+            {
+              lit: "virtualDevices"
+            }
+            {
+              var: "share_partner_to"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+  relations: ancestors: [
+    [path("$.main.kit.entity.virtual_device")]
+  ]
+
+}

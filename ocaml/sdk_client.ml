@@ -72,13 +72,9 @@ let device_build (client : sdk_client) (entopts : value) : entity_obj =
 let device_custody_detail (client : sdk_client) (entopts : value) : entity_obj =
   Sdk_entity_device_custody_detail.make client entopts
 
-(* DeviceCustodyList entity bound to a client:  device_custody_list client entopts *)
-let device_custody_list (client : sdk_client) (entopts : value) : entity_obj =
-  Sdk_entity_device_custody_list.make client entopts
-
-(* DeviceList entity bound to a client:  device_list client entopts *)
-let device_list (client : sdk_client) (entopts : value) : entity_obj =
-  Sdk_entity_device_list.make client entopts
+(* DeviceCustodyListItem entity bound to a client:  device_custody_list_item client entopts *)
+let device_custody_list_item (client : sdk_client) (entopts : value) : entity_obj =
+  Sdk_entity_device_custody_list_item.make client entopts
 
 (* DeviceReceiveResult entity bound to a client:  device_receive_result client entopts *)
 let device_receive_result (client : sdk_client) (entopts : value) : entity_obj =
@@ -132,6 +128,10 @@ let update_result (client : sdk_client) (entopts : value) : entity_obj =
 let user (client : sdk_client) (entopts : value) : entity_obj =
   Sdk_entity_user.make client entopts
 
+(* VirtualDevice entity bound to a client:  virtual_device client entopts *)
+let virtual_device (client : sdk_client) (entopts : value) : entity_obj =
+  Sdk_entity_virtual_device.make client entopts
+
 (* Entity by name (None for a name this SDK did not generate). *)
 let entity (client : sdk_client) (name : string) (entopts : value) : entity_obj option =
   match name with
@@ -142,8 +142,7 @@ let entity (client : sdk_client) (name : string) (entopts : value) : entity_obj 
   | "device" -> Some (Sdk_entity_device.make client entopts)
   | "device_build" -> Some (Sdk_entity_device_build.make client entopts)
   | "device_custody_detail" -> Some (Sdk_entity_device_custody_detail.make client entopts)
-  | "device_custody_list" -> Some (Sdk_entity_device_custody_list.make client entopts)
-  | "device_list" -> Some (Sdk_entity_device_list.make client entopts)
+  | "device_custody_list_item" -> Some (Sdk_entity_device_custody_list_item.make client entopts)
   | "device_receive_result" -> Some (Sdk_entity_device_receive_result.make client entopts)
   | "device_rki_activate_result" -> Some (Sdk_entity_device_rki_activate_result.make client entopts)
   | "device_state" -> Some (Sdk_entity_device_state.make client entopts)
@@ -157,4 +156,5 @@ let entity (client : sdk_client) (name : string) (entopts : value) : entity_obj 
   | "transaction" -> Some (Sdk_entity_transaction.make client entopts)
   | "update_result" -> Some (Sdk_entity_update_result.make client entopts)
   | "user" -> Some (Sdk_entity_user.make client entopts)
+  | "virtual_device" -> Some (Sdk_entity_virtual_device.make client entopts)
   | _ -> None

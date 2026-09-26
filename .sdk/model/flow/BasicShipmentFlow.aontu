@@ -1,0 +1,52 @@
+# BasicShipmentFlow
+
+main: kit: flow: BasicShipmentFlow:
+{
+  entity: "shipment",
+  kind: "basic",
+  name: "BasicShipmentFlow",
+  step: [
+    {
+      i: {
+        ref: "shipment_ref01"
+      }
+
+      o: "create"
+    }
+
+    {
+      o: "list",
+      v: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "shipment_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      i: {
+        ref: "shipment_ref01",
+        srcdatavar: "shipment_ref01_data",
+        suffix: "_dt0"
+      }
+
+      m: {
+        id: "shipment01"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-shipment_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicShipmentFlow"
+}

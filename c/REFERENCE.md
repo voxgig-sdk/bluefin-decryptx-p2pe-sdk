@@ -78,14 +78,9 @@ options.
 Create a new `DeviceCustodyDetail` entity instance. Pass `NULL` for no initial
 options.
 
-#### `Entity* bluefindecryptxp2pe_device_custody_list(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
+#### `Entity* bluefindecryptxp2pe_device_custody_list_item(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
 
-Create a new `DeviceCustodyList` entity instance. Pass `NULL` for no initial
-options.
-
-#### `Entity* bluefindecryptxp2pe_device_list(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
-
-Create a new `DeviceList` entity instance. Pass `NULL` for no initial
+Create a new `DeviceCustodyListItem` entity instance. Pass `NULL` for no initial
 options.
 
 #### `Entity* bluefindecryptxp2pe_device_receive_result(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
@@ -151,6 +146,11 @@ options.
 #### `Entity* bluefindecryptxp2pe_user(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
 
 Create a new `User` entity instance. Pass `NULL` for no initial
+options.
+
+#### `Entity* bluefindecryptxp2pe_virtual_device(BluefinDecryptxP2peSDK* client, voxgig_value* entopts)`
+
+Create a new `VirtualDevice` entity instance. Pass `NULL` for no initial
 options.
 
 #### `voxgig_value* sdk_direct(BluefinDecryptxP2peSDK* client, voxgig_value* fetchargs, PNError** err)`
@@ -661,10 +661,10 @@ Return the entity name.
 
 ---
 
-## DeviceCustodyList
+## DeviceCustodyListItem
 
 ```c
-Entity* device_custody_list = bluefindecryptxp2pe_device_custody_list(client, NULL);
+Entity* device_custody_list_item = bluefindecryptxp2pe_device_custody_list_item(client, NULL);
 ```
 
 ### Fields
@@ -692,8 +692,8 @@ Entity* device_custody_list = bluefindecryptxp2pe_device_custody_list(client, NU
 List entities matching the given criteria. The match is optional — pass `NULL` to list all records. Returns a List.
 
 ```c
-Entity* device_custody_list = bluefindecryptxp2pe_device_custody_list(client, NULL);
-voxgig_value* results = device_custody_list->vt->list(device_custody_list, NULL, NULL, &err);
+Entity* device_custody_list_item = bluefindecryptxp2pe_device_custody_list_item(client, NULL);
+voxgig_value* results = device_custody_list_item->vt->list(device_custody_list_item, NULL, NULL, &err);
 for (size_t i = 0; i < (size_t)voxgig_size(results); i++) {
     printf("%s\n", voxgig_to_json(voxgig_getelem(results, v_int(i), NULL)));
 }
@@ -711,52 +711,7 @@ Get the entity match criteria. Pass a map to set it.
 
 #### `Entity* vt->make(Entity* e)`
 
-Create a new `DeviceCustodyList` entity instance with the same options.
-
-#### `const char* vt->get_name(Entity* e)`
-
-Return the entity name.
-
-
----
-
-## DeviceList
-
-```c
-Entity* device_list = bluefindecryptxp2pe_device_list(client, NULL);
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `data` | `voxgig_value* (list)` | No | List of Devices. |
-| `total` | `int64_t` | No | Total number of Devices available (not the number of Users in the response). |
-
-### Operations
-
-#### `vt->load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err)`
-
-Load a single entity matching the given criteria. Returns the entity data and sets `*err` on failure.
-
-```c
-Entity* device_list = bluefindecryptxp2pe_device_list(client, NULL);
-voxgig_value* result = device_list->vt->load(device_list, cmap(1, "share_partner_to", v_str("share_partner_to")), NULL, &err);
-```
-
-### Common Methods
-
-#### `voxgig_value* vt->data(Entity* e, voxgig_value* args)`
-
-Get the entity data. Pass a map to set it.
-
-#### `voxgig_value* vt->matchv(Entity* e, voxgig_value* args)`
-
-Get the entity match criteria. Pass a map to set it.
-
-#### `Entity* vt->make(Entity* e)`
-
-Create a new `DeviceList` entity instance with the same options.
+Create a new `DeviceCustodyListItem` entity instance with the same options.
 
 #### `const char* vt->get_name(Entity* e)`
 
@@ -1643,22 +1598,68 @@ Return the entity name.
 
 ---
 
+## VirtualDevice
+
+```c
+Entity* virtual_device = bluefindecryptxp2pe_virtual_device(client, NULL);
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `data` | `voxgig_value* (list)` | No | List of Devices. |
+| `id` | `char*` | No |  |
+| `total` | `int64_t` | No | Total number of Devices available (not the number of Users in the response). |
+
+### Operations
+
+#### `vt->load(Entity* e, voxgig_value* reqmatch, voxgig_value* ctrl, PNError** err)`
+
+Load a single entity matching the given criteria. Returns the entity data and sets `*err` on failure.
+
+```c
+Entity* virtual_device = bluefindecryptxp2pe_virtual_device(client, NULL);
+voxgig_value* result = virtual_device->vt->load(virtual_device, cmap(1, "id", v_str("virtual_device_id")), NULL, &err);
+```
+
+### Common Methods
+
+#### `voxgig_value* vt->data(Entity* e, voxgig_value* args)`
+
+Get the entity data. Pass a map to set it.
+
+#### `voxgig_value* vt->matchv(Entity* e, voxgig_value* args)`
+
+Get the entity match criteria. Pass a map to set it.
+
+#### `Entity* vt->make(Entity* e)`
+
+Create a new `VirtualDevice` entity instance with the same options.
+
+#### `const char* vt->get_name(Entity* e)`
+
+Return the entity name.
+
+
+---
+
 ## Features
 
 | Feature | Version | Description |
 | --- | --- | --- |
-| `audit` | 0.0.1 | Structured audit trail of operations |
-| `clienttrack` | 0.0.1 | Client identity and per-request correlation headers |
-| `debug` | 0.0.1 | Request/response capture ring buffer for debugging |
-| `idempotency` | 0.0.1 | Idempotency keys for safe retries of mutating operations |
-| `log` | 0.0.1 | Structured request and response logging |
-| `metrics` | 0.0.1 | Statistics capture: per-operation counters and latency |
-| `paging` | 0.0.1 | Pagination signals for list operations |
-| `ratelimit` | 0.0.1 | Client-side rate limiting via a token bucket |
-| `retry` | 0.0.1 | Automatic retry of transient failures with exponential backoff |
-| `telemetry` | 0.0.1 | Distributed tracing spans with W3C trace-context propagation |
-| `test` | 0.0.1 | In-memory mock transport for testing without a live server |
-| `timeout` | 0.0.1 | Per-request timeout with transport abort |
+| `audit` | 0.0.1 | Audit trail |
+| `clienttrack` | 0.0.1 | Client tracking |
+| `debug` | 0.0.1 | Debug capture |
+| `idempotency` | 0.0.1 | Idempotency |
+| `log` | 0.0.1 | Logging |
+| `metrics` | 0.0.1 | Metrics |
+| `paging` | 0.0.1 | Paging |
+| `ratelimit` | 0.0.1 | Rate limiting |
+| `retry` | 0.0.1 | Retry |
+| `telemetry` | 0.0.1 | Telemetry |
+| `test` | 0.0.1 | Test transport |
+| `timeout` | 0.0.1 | Timeout |
 
 
 Features are activated via the `feature` option:
@@ -1707,7 +1708,7 @@ rather than the transport, so their order does not affect what they observe.
 
 #### `audit`
 
-Structured audit trail of operations.
+Audit trail.
 
 **Configuration**
 
@@ -1738,7 +1739,7 @@ its default unless you name it.
 
 #### `clienttrack`
 
-Client identity and per-request correlation headers.
+Client tracking.
 
 **Configuration**
 
@@ -1770,7 +1771,7 @@ its default unless you name it.
 
 #### `debug`
 
-Request/response capture ring buffer for debugging.
+Debug capture.
 
 **Configuration**
 
@@ -1801,7 +1802,7 @@ its default unless you name it.
 
 #### `idempotency`
 
-Idempotency keys for safe retries of mutating operations.
+Idempotency.
 
 **Configuration**
 
@@ -1832,7 +1833,7 @@ its default unless you name it.
 
 #### `log`
 
-Structured request and response logging.
+Logging.
 
 **Configuration**
 
@@ -1861,7 +1862,7 @@ its default unless you name it.
 
 #### `metrics`
 
-Statistics capture: per-operation counters and latency.
+Metrics.
 
 **Configuration**
 
@@ -1889,7 +1890,7 @@ its default unless you name it.
 
 #### `paging`
 
-Pagination signals for list operations.
+Paging.
 
 **Configuration**
 
@@ -1924,7 +1925,7 @@ its default unless you name it.
 
 #### `ratelimit`
 
-Client-side rate limiting via a token bucket.
+Rate limiting.
 
 **Configuration**
 
@@ -1955,7 +1956,7 @@ its default unless you name it.
 
 #### `retry`
 
-Automatic retry of transient failures with exponential backoff.
+Retry.
 
 **Configuration**
 
@@ -1989,7 +1990,7 @@ its default unless you name it.
 
 #### `telemetry`
 
-Distributed tracing spans with W3C trace-context propagation.
+Telemetry.
 
 **Configuration**
 
@@ -2020,7 +2021,7 @@ its default unless you name it.
 
 #### `test`
 
-In-memory mock transport for testing without a live server.
+Test transport.
 
 **Configuration**
 
@@ -2051,7 +2052,7 @@ its default unless you name it.
 
 #### `timeout`
 
-Per-request timeout with transport abort.
+Timeout.
 
 **Configuration**
 

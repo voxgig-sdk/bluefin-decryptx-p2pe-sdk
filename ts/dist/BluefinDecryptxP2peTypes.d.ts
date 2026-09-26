@@ -192,7 +192,7 @@ export interface DeviceCustodyDetailLoadMatch {
     id: string;
     serial_number: string;
 }
-export interface DeviceCustodyList {
+export interface DeviceCustodyListItem {
     completeDate?: string;
     created?: string;
     createdBy: Record<string, any>;
@@ -207,21 +207,10 @@ export interface DeviceCustodyList {
     transferMethod?: Record<string, any>;
     version?: number;
 }
-export interface DeviceCustodyListListMatch {
+export interface DeviceCustodyListItemListMatch {
     device_type: string;
     serial_number: string;
     skip?: number;
-    take?: number;
-}
-export interface DeviceList {
-    data?: any[];
-    total?: number;
-}
-export interface DeviceListLoadMatch {
-    share_partner_to: string;
-    skip?: number;
-    sorting_direction?: string;
-    sorting_field?: string;
     take?: number;
 }
 export interface DeviceReceiveResult {
@@ -598,4 +587,16 @@ export interface UserLoadMatch {
 }
 export interface UserRemoveMatch {
     id: string;
+}
+export interface VirtualDevice {
+    data?: any[];
+    id?: string;
+    total?: number;
+}
+export interface VirtualDeviceLoadMatch {
+    id: string;
+    skip?: number;
+    sorting_direction?: string;
+    sorting_field?: string;
+    take?: number;
 }
