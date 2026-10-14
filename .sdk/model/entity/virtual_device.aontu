@@ -48,7 +48,7 @@ main: kit: entity: virtual_device: {
               {
                 k: "param"
                 n: "id"
-                or: "share_partner_to"
+                or: "sharePartnerTo"
                 r: true
                 t: "`$STRING`"
               }
@@ -66,7 +66,7 @@ main: kit: entity: virtual_device: {
                 ex: "asc"
                 k: "query"
                 n: "sorting_direction"
-                or: "sorting_direction"
+                or: "sorting.direction"
                 r: false
                 t: "`$STRING`"
               }
@@ -74,7 +74,7 @@ main: kit: entity: virtual_device: {
                 ex: "serialnumber"
                 k: "query"
                 n: "sorting_field"
-                or: "sorting_field"
+                or: "sorting.field"
                 r: false
                 t: "`$STRING`"
               }
@@ -93,16 +93,16 @@ main: kit: entity: virtual_device: {
           q: {
             exist: [
               "id"
-              "skip"
-              "sorting_direction"
-              "sorting_field"
-              "take"
             ]
           }
           r: {
             param: {
               sharePartnerTo: "id"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

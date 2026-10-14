@@ -5,16 +5,92 @@
 
 import java.util.{ArrayList, LinkedHashMap, List => JList, Map => JMap}
 
-import voxgig.bluefindecryptxp2pesdk.core.{Helpers, SdkEntity, BluefinDecryptxP2peSDK}
+import voxgig.bluefindecryptxp2pesdk.core.{Config, Context, Helpers, SdkEntity, SdkError, BluefinDecryptxP2peSDK}
+import voxgig.bluefindecryptxp2pesdk.feature.BaseFeature
 import voxgig.bluefindecryptxp2pesdk.utility.struct.Struct
 
 object ClientEntityTest {
+
+  import SdkTestSupport.{B, I, jl, om}
+
+  private def hasFeature(name: String): Boolean = {
+    val fm = Helpers.toMapAny(Config.sharedConfig().get("feature"))
+    fm != null && fm.get(name) != null
+  }
+
+  final class FailHook extends BaseFeature("failhook", "0.0.1", true) {
+    var unexpected = 0
+    override def preSpec(ctx: Context): Unit = throw new RuntimeException("client hook failed")
+    override def preUnexpected(ctx: Context): Unit = unexpected += 1
+  }
 
   def run(rep: SdkTestReport): Unit = {
     rep.scope("client.instance") {
       val testsdk = BluefinDecryptxP2peSDK.testSDK()
       val ent = testsdk.client(null)
       rep.check("client.instance", ent != null, "expected non-null client entity")
+    }
+
+    rep.scope("client.stream.error") {
+      val offline = om("net" -> om("offline" -> B(true)))
+      val err = try {
+        BluefinDecryptxP2peSDK.testSDK(offline, null).client(null).stream("list", null, null).toList
+        null
+      } catch { case e: RuntimeException => e }
+      rep.check("client.stream.error", err != null && String.valueOf(err.getMessage).contains("offline"),
+        "expected the transport failure to raise from the stream, got " + err)
+
+      BluefinDecryptxP2peSDK.testSDK(offline, null).client(null)
+        .stream("list", null, om("ctrl" -> om("throw" -> B(false)))).toList
+
+      if (hasFeature("rbac")) {
+        val denied = BluefinDecryptxP2peSDK.testSDK(null,
+          om("feature" -> om("rbac" -> om("active" -> B(true), "deny" -> B(true)))))
+        val denyerr = try {
+          denied.client(null).stream("list", null, null).toList
+          null
+        } catch { case e: SdkError => e }
+        rep.check("client.stream.denied", denyerr != null && "rbac_denied" == denyerr.code,
+          "expected the rbac denial to raise from the stream, got " + denyerr)
+      }
+    }
+
+    rep.scope("client.stream.ctrl") {
+      val explain = new LinkedHashMap[String, Object]()
+      val ctrl = om("explain" -> explain)
+      BluefinDecryptxP2peSDK.testSDK().client(null).stream("list", null, om("ctrl" -> ctrl)).toList
+      rep.check("client.stream.ctrl", 1 == ctrl.size() && (explain eq ctrl.get("explain")),
+        "the stream changed the caller's ctrl")
+      rep.check("client.stream.explain", !explain.isEmpty(), "the caller's explain record was not filled")
+    }
+
+    rep.scope("client.unexpected") {
+      val hook = new FailHook()
+      val client = new BluefinDecryptxP2peSDK(om("feature" -> om("test" -> om("active" -> B(true))), "extend" -> jl(hook)))
+      val err = try {
+        client.client(null).list(null, null)
+        null
+      } catch { case e: RuntimeException => e }
+      rep.check("client.unexpected.raise", err != null && String.valueOf(err.getMessage).contains("hook failed"),
+        "expected the hook's failure, got " + err)
+      rep.check("client.unexpected.fired", hook.unexpected > 0, "PreUnexpected did not fire")
+
+      val fired = hook.unexpected
+      client.client(null).list(null, om("throw" -> B(false)))
+      rep.check("client.unexpected.nothrow", hook.unexpected > fired,
+        "PreUnexpected did not fire under throw false")
+    }
+
+    rep.scope("client.validate") {
+      if (hasFeature("validate")) {
+        val client = BluefinDecryptxP2peSDK.testSDK(null, om("feature" -> om("validate" -> om("active" -> B(true)))))
+        val err = try {
+          client.client(null).list(om("partner" -> I(1)), null)
+          null
+        } catch { case e: SdkError => e }
+        rep.check("client.validate", err != null && "validate_failed" == err.code,
+          "expected validate_failed, got " + err)
+      }
     }
 
     rep.scope("client.basic") {

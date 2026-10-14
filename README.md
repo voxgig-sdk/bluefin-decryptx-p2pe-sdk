@@ -12,7 +12,7 @@ Learn more about Voxgig SDKs at [voxgig.com/sdk](https://voxgig.com/sdk/).
 
 > TypeScript, Python, PHP, Golang, Ruby, Lua, C, Clojure, C++, C#, Dart, Elixir, Haskell, Java, JavaScript, Kotlin, Lean, OCaml, Perl, Rust, Scala, Swift, Zig SDKs, a CLI with an interactive REPL, and an MCP server for AI agents — all generated from one OpenAPI spec by [@voxgig/sdkgen](https://github.com/voxgig/sdkgen).
 
-> **Features:** `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined`, `undefined` — opt-in,
+> **Features:** `audit`, `clienttrack`, `debug`, `idempotency`, `log`, `metrics`, `paging`, `ratelimit`, `retry`, `telemetry`, `test`, `timeout` — opt-in,
 > inactive until switched on, and configured per client. See the Features
 > section of any SDK README below for what each one does.
 
@@ -50,9 +50,8 @@ const client = BluefinDecryptxP2peSDK.test({
   },
 })
 const devicetypes = await client.DeviceType().list()
-// devicetypes is an array of DeviceType entities, populated with mock data
-// — call devicetypes[0].data() for the record itself
-console.log(devicetypes)
+// devicetypes is an array of DeviceType entities, one per mock record
+console.log(devicetypes.map((devicetype) => devicetype.data()))
 ```
 
 ### Python
@@ -60,7 +59,7 @@ console.log(devicetypes)
 ```python
 client = BluefinDecryptxP2peSDK.test()
 devicetypes = client.DeviceType().list()
-print(devicetypes)
+print([item.data_get() for item in devicetypes])
 ```
 
 ### PHP
@@ -68,7 +67,7 @@ print(devicetypes)
 ```php
 // Seed fixture data so offline calls resolve without a live server.
 $client = BluefinDecryptxP2peSDK::test([
-    "entity" => ["devicetype" => ["test01" => ["id" => "test01"]]],
+    "entity" => ["device_type" => ["test01" => ["id" => "test01"]]],
 ]);
 $devicetypes = $client->DeviceType()->list();
 ```
@@ -87,7 +86,7 @@ result, err := client.DeviceType(nil).List(
 ```ruby
 # Seed fixture data so offline calls resolve without a live server.
 client = BluefinDecryptxP2peSDK.test({
-  "entity" => { "devicetype" => { "test01" => { "id" => "test01" } } },
+  "entity" => { "device_type" => { "test01" => { "id" => "test01" } } },
 })
 devicetypes = client.DeviceType.list()
 ```
@@ -107,8 +106,10 @@ local results, err = client:DeviceType():list()
 BluefinDecryptxP2peSDK* client = test_sdk(NULL, NULL);
 PNError* err = NULL;
 Entity* device_type = bluefindecryptxp2pe_device_type(client, NULL);
-voxgig_value* device_types = device_type->vt->list(device_type, NULL, NULL, &err);
-printf("%s\n", voxgig_to_json(device_types));
+Entity** device_types = device_type->vt->list(device_type, NULL, NULL, &err);
+for (size_t i = 0; device_types && device_types[i]; i++) {
+    printf("%s\n", voxgig_to_json(device_types[i]->vt->data(device_types[i], NULL)));
+}
 ```
 
 ### Clojure
@@ -120,23 +121,28 @@ printf("%s\n", voxgig_to_json(device_types));
 
 (def client (api/test-sdk nil nil))
 (def device_types (e-device_type/list (api/device_type client nil) nil nil))
-(println device_types)
+(doseq [item device_types]
+  (println ((:data-get item))))
 ```
 
 ### C++
 
 ```cpp
 auto client = BluefinDecryptxP2peSDK::testSDK();
-Value device_types = client->device_type()->list(Value::undef(), Value::undef());
-std::cout << Struct::jsonify(device_types) << std::endl;
+for (const auto& device_type : client->device_type()->list(Value::undef(), Value::undef())) {
+  std::cout << Struct::jsonify(device_type->data()) << std::endl;
+}
 ```
 
 ### C#
 
 ```csharp
 var client = BluefinDecryptxP2peSDK.TestSDK(null, null);
-var deviceTypeList = client.DeviceType().List(null);
-Console.WriteLine(deviceTypeList);
+var deviceTypeList = (List<object?>)client.DeviceType().List(null)!;
+foreach (var deviceTypeItem in deviceTypeList)
+{
+    Console.WriteLine(StructUtils.Jsonify(((IEntity)deviceTypeItem!).Data()));
+}
 ```
 
 ### Dart
@@ -147,7 +153,9 @@ import 'package:bluefin_decryptx_p2pe_sdk/BluefinDecryptxP2peSDK.dart';
 Future<void> main() async {
   final client = BluefinDecryptxP2peSDK.test();
   final devicetypes = await client.DeviceType().list();
-  print(devicetypes);
+  for (final item in devicetypes) {
+    print(item.data());
+  }
 }
 ```
 
@@ -158,15 +166,17 @@ alias BluefinDecryptxP2pe.Helpers, as: H
 
 sdk = BluefinDecryptxP2pe.test()
 device_type = BluefinDecryptxP2pe.device_type(sdk)
-records = BluefinDecryptxP2pe.Entity.DeviceType.list(device_type, H.deep(%{}))
-IO.inspect(records)
+device_types = BluefinDecryptxP2pe.Entity.DeviceType.list(device_type, H.deep(%{}))
+for i <- 0..(Voxgig.Struct.size(device_types) - 1)//1 do
+  IO.puts(Voxgig.Struct.jsonify(BluefinDecryptxP2pe.Entity.DeviceType.data_get(Voxgig.Struct.getelem(device_types, i))))
+end
 ```
 
 ### Haskell
 
 ```haskell
 import qualified SdkClient as Sdk
-import VoxgigStruct (Value (..), emptyMap)
+import VoxgigStruct (Value (..), emptyMap, stringify)
 import SdkHelpers (jo)
 
 main :: IO ()
@@ -176,15 +186,17 @@ main = do
   arg <- emptyMap
   ctrl <- emptyMap
   device_types <- Sdk.eList ent arg ctrl
-  print device_types
+  mapM_ (\en -> putStrLn =<< stringify =<< Sdk.eDataGet en) device_types
 ```
 
 ### Java
 
 ```java
 BluefinDecryptxP2peSDK client = BluefinDecryptxP2peSDK.testSDK(null, null);
-Object deviceTypeList = client.deviceType(null).list(null, null);
-System.out.println(deviceTypeList);
+List<?> deviceTypeList = (List<?>) client.deviceType(null).list(null, null);
+for (Object deviceTypeItem : deviceTypeList) {
+    System.out.println(((SdkEntity) deviceTypeItem).data());
+}
 ```
 
 ### JavaScript
@@ -192,17 +204,18 @@ System.out.println(deviceTypeList);
 ```js
 const client = BluefinDecryptxP2peSDK.test()
 const devicetypes = await client.DeviceType().list()
-// devicetypes is an array of entities, populated with mock data
-// — call devicetypes[0].data() for the record itself
-console.log(devicetypes)
+// devicetypes is an array of DeviceType entities, one per mock record
+console.log(devicetypes.map((devicetype) => devicetype.data()))
 ```
 
 ### Kotlin
 
 ```kotlin
 val client = BluefinDecryptxP2peSDK.testSDK(null, null)
-val deviceTypeList = client.deviceType(null).list(null, null)
-println(deviceTypeList)
+val deviceTypeList = client.deviceType(null).list(null, null) as List<*>
+for (deviceTypeItem in deviceTypeList) {
+    println((deviceTypeItem as SdkEntity).data())
+}
 ```
 
 ### Lean
@@ -212,6 +225,7 @@ cd lean
 lake build
 lake exe omnismoke      # the vendored @voxgig/omni corpus engine itself
 lake exe primary        # shared corpus: request-shaping utilities
+lake exe pipeline       # request shaping driven directly: header, cookie and query arguments
 lake exe feature        # the feature catalog (retry, cache, rbac, netsim, …)
 lake exe structcorpus   # shared corpus: the vendored struct model
 lake exe runner         # entity behaviour (offline; add SDK_TEST_BASE for live)
@@ -235,25 +249,26 @@ use BluefinDecryptxP2peSDK;
 
 my $client = BluefinDecryptxP2peSDK->test(undef, undef);
 my $devicetypes = $client->DeviceType->list();
-print scalar(@$devicetypes), " records\n";
+print $_->data_get->{id}, "\n" for @$devicetypes;
 ```
 
 ### Rust
 
 ```rust
-use bluefin_decryptx_p2pe_sdk::{jo, test_sdk, Value};
+use bluefin_decryptx_p2pe_sdk::{jo, test_sdk, BluefinDecryptxP2peEntity, Entity, Value};
 
 let client = test_sdk(Value::Noval, Value::Noval);
-let device_types = client.device_type(Value::Noval).list(Value::Noval, Value::Noval).unwrap();
-println!("{:?}", device_types);
+for device_type in client.device_type(Value::Noval).list(Value::Noval, Value::Noval).unwrap() {
+    println!("{:?}", device_type.data(None));
+}
 ```
 
 ### Scala
 
 ```scala
 val client = BluefinDecryptxP2peSDK.testSDK(null, null)
-val deviceTypeList = client.deviceType(null).list(null, null)
-println(deviceTypeList)
+val deviceTypeList = client.deviceType(null).list(null, null).asInstanceOf[java.util.List[SdkEntity]]
+deviceTypeList.forEach(deviceTypeItem => println(deviceTypeItem.data()))
 ```
 
 ### Swift
@@ -261,7 +276,11 @@ println(deviceTypeList)
 ```swift
 let client = BluefinDecryptxP2peSDK.testSDK(nil, nil)
 let deviceTypeList = try client.DeviceType().list(nil, nil)
-print(deviceTypeList)
+for deviceTypeItem in deviceTypeList.asList?.items ?? [] {
+    if let deviceTypeEntity = deviceTypeItem.asNative as? Entity {
+        print(deviceTypeEntity.data())
+    }
+}
 ```
 
 ### Zig
@@ -273,7 +292,11 @@ const h = sdk.h;
 
 const client = sdk.test_sdk(h.vnull(), h.vnull());
 switch (client.device_type(h.vnull()).list(h.vnull(), h.vnull())) {
-    .ok => |device_types| std.debug.print("{s}\n", .{h.stringify(device_types)}),
+    .ok => |device_types| {
+        for (device_types) |device_type| {
+            std.debug.print("{s}\n", .{h.stringify(device_type.asEntity().data(null))});
+        }
+    },
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
 }
 ```
@@ -282,31 +305,31 @@ switch (client.device_type(h.vnull()).list(h.vnull(), h.vnull())) {
 
 | Language | Package | Install |
 | --- | --- | --- |
-| TypeScript | `@voxgig-sdk/bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
-| Python | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
-| PHP | `voxgig-sdk/bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
+| TypeScript | `@voxgig-sdk/bluefin-decryptx-p2pe-sdk` | publish pending — [install from source](ts/README.md#install) |
+| Python | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from source](py/README.md#install) |
+| PHP | `voxgig-sdk/bluefin-decryptx-p2pe-sdk` | publish pending — [install from source](php/README.md#install) |
 | Golang | `github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/go` | `go get github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/go@latest` |
-| Ruby | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
-| Lua | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
-| C | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
-| Clojure | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
-| C++ | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
-| C# | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
-| Dart | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
-| Elixir | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
-| Haskell | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
-| Java | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
-| JavaScript | `@voxgig-sdk/bluefin-decryptx-p2pe-sdk-js` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
-| Kotlin | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
-| Lean | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
-| OCaml | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
-| Perl | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
-| Rust | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
-| Scala | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
-| Swift | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
-| Zig | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) |
-| Go CLI | `github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/go-cli` | `go install github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/go-cli/cmd/bluefin-decryptx-p2pe@latest` |
-| Go MCP server | `github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/go-mcp` | `go get github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/go-mcp@latest` |
+| Ruby | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from source](rb/README.md#install) |
+| Lua | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from source](lua/README.md#install) |
+| C | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from source](c/README.md#install) |
+| Clojure | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from source](clojure/README.md#install) |
+| C++ | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from source](cpp/README.md#install) |
+| C# | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from source](csharp/README.md#install) |
+| Dart | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from source](dart/README.md#install) |
+| Elixir | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from source](elixir/README.md#install) |
+| Haskell | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from source](haskell/README.md#install) |
+| Java | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from source](java/README.md#install) |
+| JavaScript | `@voxgig-sdk/bluefin-decryptx-p2pe-sdk-js` | publish pending — [install from source](js/README.md#install) |
+| Kotlin | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from source](kotlin/README.md#install) |
+| Lean | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from source](lean/README.md#install) |
+| OCaml | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from source](ocaml/README.md#install) |
+| Perl | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from source](perl/README.md#install) |
+| Rust | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from source](rust/README.md#install) |
+| Scala | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from source](scala/README.md#install) |
+| Swift | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from source](swift/README.md#install) |
+| Zig | `voxgig-sdk-bluefin-decryptx-p2pe-sdk` | publish pending — [install from source](zig/README.md#install) |
+| Go CLI | `github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/go-cli` | build from source — [go-cli/README.md](go-cli/README.md) |
+| Go MCP server | `github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/go-mcp` | build from source — [go-mcp/README.md](go-mcp/README.md) |
 
 ## Quickstart
 
@@ -320,19 +343,19 @@ const client = new BluefinDecryptxP2peSDK({
   secret: process.env.BLUEFIN_DECRYPTX_P2PE_SECRET,
 })
 
-// List all attestations (returns AttestationEntity[] — .data() for the record)
+// List all attestations (returns AttestationEntity[], one entity per record)
 const attestations = await client.Attestation().list({ client: "example" })
 for (const attestation of attestations) {
-  console.log(attestation)
+  console.log(attestation.data())
 }
 
-// Load a specific devicecustodydetail (returns a DeviceCustodyDetail)
+// Load a specific devicecustodydetail (returns the entity, a DeviceCustodyDetailEntity)
 const devicecustodydetail = await client.DeviceCustodyDetail().load({
   device_type: 'example_device_type',
   serial_number: 'example_serial_number',
   id: 'example_id',
 })
-console.log(devicecustodydetail)
+console.log(devicecustodydetail.data())
 ```
 
 See the [TypeScript README](ts/README.md) for the full guide.
@@ -347,9 +370,10 @@ See the [TypeScript README](ts/README.md) for the full guide.
 
 ## Use it from an AI agent (MCP)
 
-The generated MCP server exposes every operation in this SDK as an
-[MCP](https://modelcontextprotocol.io) tool that Claude, Cursor or Cline
-can call directly. Build and register it:
+The generated MCP server exposes this SDK's list and load operations as
+[MCP](https://modelcontextprotocol.io) tools that Claude, Cursor or Cline
+can call directly. It only reads: create, update, patch and remove become tools when the SDK's model sets
+`main: kit: target: 'go-mcp': tool: write: true`. Build and register it:
 
 ```bash
 cd go-mcp && go build -o bluefin-decryptx-p2pe-mcp .
@@ -411,14 +435,14 @@ client = BluefinDecryptxP2peSDK({
     "apikey": os.environ.get("BLUEFIN_DECRYPTX_P2PE_APIKEY"),
 })
 
-# List all attestations (returns a list, raises on error)
+# List all attestations (a list of entities, one per record; raises on error)
 attestations = client.Attestation().list({"client": "example"})
 for attestation in attestations:
-    print(attestation)
+    print(attestation.data_get())
 
-# Load a specific attestation (returns the record, raises on error)
+# Load a specific attestation (returns the entity, raises on error)
 attestation = client.Attestation().load({"id": "example_id"})
-print(attestation)
+print(attestation.data_get())
 ```
 
 ### PHP
@@ -431,11 +455,11 @@ $client = new BluefinDecryptxP2peSDK([
     "apikey" => getenv("BLUEFIN_DECRYPTX_P2PE_APIKEY"),
 ]);
 
-// List all attestations (returns an array; throws on error)
-$attestations = $client->Attestation()->list();
+// List all attestations (an array of entities, one per record; throws on error)
+$attestations = $client->Attestation()->list(["client" => "example"]);
 print_r(array_map(fn($item) => $item->data_get(), $attestations));
 
-// Load a specific attestation (returns the ENTITY; call data_get() for the record; throws on error)
+// Load a specific attestation (returns the entity; data_get() reads its record; throws on error)
 $attestation = $client->Attestation()->load(["id" => "example_id"]);
 print_r($attestation->data_get());
 ```
@@ -449,21 +473,23 @@ client := sdk.NewBluefinDecryptxP2peSDK(map[string]any{
     "apikey": os.Getenv("BLUEFIN_DECRYPTX_P2PE_APIKEY"),
 })
 
-// List all attestations
-attestations, err := client.Attestation(nil).List(nil, nil)
+// List all attestations (one entity per record; err is non-nil on failure)
+attestations, err := client.Attestation(nil).List(map[string]any{"client": "example"}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(attestations)
+for _, attestation := range attestations.([]any) {
+    fmt.Println(attestation.(sdk.Entity).Data())
+}
 
-// Load a specific devicecustodydetail
+// Load a specific devicecustodydetail (returns the entity; err is non-nil on failure)
 deviceCustodyDetail, err := client.DeviceCustodyDetail(nil).Load(
     map[string]any{"device_type": "example_device_type", "serial_number": "example_serial_number", "id": "example_id"}, nil,
 )
 if err != nil {
     panic(err)
 }
-fmt.Println(deviceCustodyDetail)
+fmt.Println(deviceCustodyDetail.(sdk.Entity).Data())
 ```
 
 ### Ruby
@@ -475,31 +501,36 @@ client = BluefinDecryptxP2peSDK.new({
   "apikey" => ENV["BLUEFIN_DECRYPTX_P2PE_APIKEY"],
 })
 
-# List all attestations (returns an Array; raises on error)
-attestations = client.Attestation.list
-puts attestations
+# List all attestations (an Array of entities, one per record; raises on error)
+attestations = client.Attestation.list({ "client" => "example" })
+attestations.each { |item| puts item.data_get }
 
-# Load a specific attestation (returns the ENTITY; call data_get for the record)
+# Load a specific attestation (returns the entity; data_get reads its record; raises on error)
 attestation = client.Attestation.load({ "id" => "example_id" })
-puts attestation
+puts attestation.data_get
 ```
 
 ### Lua
 
 ```lua
 local sdk = require("bluefin-decryptx-p2pe_sdk")
+local json = require("dkjson")
 
 local client = sdk.new({
   apikey = os.getenv("BLUEFIN_DECRYPTX_P2PE_APIKEY"),
 })
 
--- List all attestations
-local attestations, err = client:Attestation():list()
-print(attestations)
+-- List all attestations (an array of entities, one per record; err on failure)
+local attestations, err = client:Attestation():list({ client = "example" })
+if err then error(err) end
+for _, attestation in ipairs(attestations) do
+  print(json.encode(attestation:data_get()))
+end
 
--- Load a specific attestation
+-- Load a specific attestation (returns the entity; err on failure)
 local attestation, err = client:Attestation():load({ id = "example_id" })
-print(attestation)
+if err then error(err) end
+print(json.encode(attestation:data_get()))
 ```
 
 ### C
@@ -513,15 +544,17 @@ PNError* err = NULL;
 
 Entity* attestation = bluefindecryptxp2pe_attestation(client, NULL);
 
-// List all attestations (returns a List, sets *err on failure)
-voxgig_value* attestations = attestation->vt->list(attestation, NULL, NULL, &err);
-for (size_t i = 0; i < (size_t)voxgig_size(attestations); i++) {
-    printf("%s\n", voxgig_to_json(voxgig_getelem(attestations, v_int(i), NULL)));
+// List all attestations (one entity per record, sets *err on failure)
+Entity** attestations = attestation->vt->list(attestation, cmap(1, "client", v_str("example")), NULL, &err);
+for (size_t i = 0; attestations && attestations[i]; i++) {
+    printf("%s\n", voxgig_to_json(attestations[i]->vt->data(attestations[i], NULL)));
 }
 
-// Load a specific attestation (returns the record, sets *err on failure)
-voxgig_value* attestation_rec = attestation->vt->load(attestation, cmap(1, "id", v_str("example_id")), NULL, &err);
-printf("%s\n", voxgig_to_json(attestation_rec));
+// Load a specific attestation (returns the entity, sets *err on failure)
+Entity* loaded = attestation->vt->load(attestation, cmap(1, "id", v_str("example_id")), NULL, &err);
+if (loaded) {
+    printf("%s\n", voxgig_to_json(loaded->vt->data(loaded, NULL)));
+}
 ```
 
 ### Clojure
@@ -533,13 +566,13 @@ printf("%s\n", voxgig_to_json(attestation_rec));
 
 (def client (api/make-sdk (vs/jm "apikey" (System/getenv "BLUEFIN_DECRYPTX_P2PE_APIKEY"))))
 
-;; List all attestations (returns a vector, raises on error)
-(doseq [attestation (e-attestation/list (api/attestation client nil) nil nil)]
-  (println attestation))
+;; List all attestations (a vector of entities, one per record; raises on error)
+(doseq [attestation (e-attestation/list (api/attestation client nil) (vs/jm "client" "example") nil)]
+  (println ((:data-get attestation))))
 
-;; Load a specific attestation (returns the record, raises on error)
+;; Load a specific attestation (returns the entity, raises on error)
 (def attestation (e-attestation/load (api/attestation client nil) (vs/jm "id" "example_id") nil))
-(println attestation)
+(println ((:data-get attestation)))
 ```
 
 ### C++
@@ -555,34 +588,38 @@ auto client = std::make_shared<BluefinDecryptxP2peSDK>(vmap({
     {"apikey", Value(apikey ? apikey : "")},
 }));
 
-// List all attestations (returns a Value list, throws on error)
-Value attestations = client->attestation()->list(Value::undef(), Value::undef());
-for (const auto& attestation : *attestations.as_list()) {
-  std::cout << Struct::jsonify(attestation) << std::endl;
+// List all attestations (one entity per record, throws on error)
+std::vector<SdkEntityPtr> attestations = client->attestation()->list(vmap({{"client", Value("example")}}), Value::undef());
+for (const auto& attestation : attestations) {
+  std::cout << Struct::jsonify(attestation->data()) << std::endl;
 }
 
-// Load a specific attestation (returns the record, throws on error)
-Value attestation = client->attestation()->load(vmap({{"id", Value("example_id")}}), Value::undef());
-std::cout << Struct::jsonify(attestation) << std::endl;
+// Load a specific attestation (returns the entity, throws on error)
+SdkEntityPtr attestation = client->attestation()->load(vmap({{"id", Value("example_id")}}), Value::undef());
+std::cout << Struct::jsonify(attestation->data()) << std::endl;
 ```
 
 ### C#
 
 ```csharp
 using BluefinDecryptxP2peSdk;
+using Voxgig.Struct;
 
 var client = new BluefinDecryptxP2peSDK(new Dictionary<string, object?>
 {
     ["apikey"] = Environment.GetEnvironmentVariable("BLUEFIN_DECRYPTX_P2PE_APIKEY"),
 });
 
-// List all attestations (returns object?, an aggregate list; raises on error)
-var attestationList = client.Attestation().List(null);
-Console.WriteLine(attestationList);
+// List all attestations (a list of entities, one per record, as object?; raises on error)
+var attestationList = (List<object?>)client.Attestation().List(new Dictionary<string, object?> { ["client"] = "example" })!;
+foreach (var attestationItem in attestationList)
+{
+    Console.WriteLine(StructUtils.Jsonify(((IEntity)attestationItem!).Data()));
+}
 
-// Load a specific attestation (returns the record, raises on error)
-var attestation = client.Attestation().Load(new Dictionary<string, object?> { ["id"] = "example_id" });
-Console.WriteLine(attestation);
+// Load a specific attestation (returns the entity, raises on error)
+var attestation = (IEntity)client.Attestation().Load(new Dictionary<string, object?> { ["id"] = "example_id" })!;
+Console.WriteLine(StructUtils.Jsonify(attestation.Data()));
 ```
 
 ### Dart
@@ -596,15 +633,15 @@ Future<void> main() async {
     'apikey': Platform.environment['BLUEFIN_DECRYPTX_P2PE_APIKEY'],
   });
 
-  // List all attestations (returns a list of entities, throws on error)
+  // List all attestations (one entity per record, throws on error)
   final attestations = await client.Attestation().list({ client: "example" });
   for (final item in attestations) {
     print(item.data());
   }
 
-  // Load a specific attestation (returns the record, throws on error)
+  // Load a specific attestation (returns the entity, throws on error)
   final attestation = await client.Attestation().load({'id': 'example_id'});
-  print(attestation);
+  print(attestation.data());
 }
 ```
 
@@ -617,13 +654,15 @@ sdk = BluefinDecryptxP2pe.new(H.deep(%{"apikey" => System.get_env("BLUEFIN_DECRY
 
 attestation = BluefinDecryptxP2pe.attestation(sdk)
 
-# List all attestation records (raises on error)
-records = BluefinDecryptxP2pe.Entity.Attestation.list(attestation)
-IO.inspect(records)
+# List all attestations (a list of entities, one per record; raises on error)
+attestations = BluefinDecryptxP2pe.Entity.Attestation.list(attestation, BluefinDecryptxP2pe.Helpers.deep(%{"client" => "example"}))
+for i <- 0..(Voxgig.Struct.size(attestations) - 1)//1 do
+  IO.puts(Voxgig.Struct.jsonify(BluefinDecryptxP2pe.Entity.Attestation.data_get(Voxgig.Struct.getelem(attestations, i))))
+end
 
-# Load a specific attestation (returns the record, raises on error)
-record = BluefinDecryptxP2pe.Entity.Attestation.load(attestation, H.deep(%{"id" => "example_id"}))
-IO.inspect(record)
+# Load a specific attestation (returns the entity, raises on error)
+attestation = BluefinDecryptxP2pe.Entity.Attestation.load(attestation, H.deep(%{"id" => "example_id"}))
+IO.puts(Voxgig.Struct.jsonify(BluefinDecryptxP2pe.Entity.Attestation.data_get(attestation)))
 ```
 
 ### Haskell
@@ -631,7 +670,7 @@ IO.inspect(record)
 ```haskell
 import System.Environment (lookupEnv)
 import qualified SdkClient as Sdk
-import VoxgigStruct (Value (..), emptyMap)
+import VoxgigStruct (Value (..), emptyMap, stringify)
 import SdkHelpers (jo)
 
 main :: IO ()
@@ -640,37 +679,42 @@ main = do
   opts <- jo [("apikey", maybe VNoval VStr mkey)]
   sdk <- Sdk.newSdk opts
 
-  -- List all attestations (one ENTITY per record, raises on error)
+  -- List all attestations (one entity per record, raises on error)
   ent <- Sdk.attestation sdk VNoval
   match <- emptyMap
   ctrl <- emptyMap
   attestations <- Sdk.eList ent match ctrl
-  mapM_ (\en -> print =<< Sdk.eDataGet en) attestations
+  mapM_ (\en -> putStrLn =<< stringify =<< Sdk.eDataGet en) attestations
 
-  -- Load a specific attestation (returns the ENTITY, raises on error)
+  -- Load a specific attestation (returns the entity, raises on error)
   ent2 <- Sdk.attestation sdk VNoval
   m <- jo [("id", VStr "example_id")]
   ctrl2 <- emptyMap
   attestation <- Sdk.eLoad ent2 m ctrl2
-  print =<< Sdk.eDataGet attestation
+  putStrLn =<< stringify =<< Sdk.eDataGet attestation
 ```
 
 ### Java
 
 ```java
+import java.util.List;
+import java.util.Map;
 import voxgig.bluefindecryptxp2pesdk.core.BluefinDecryptxP2peSDK;
+import voxgig.bluefindecryptxp2pesdk.core.SdkEntity;
 
 Map<String, Object> options = new java.util.LinkedHashMap<>();
 options.put("apikey", System.getenv("BLUEFIN_DECRYPTX_P2PE_APIKEY"));
 BluefinDecryptxP2peSDK client = new BluefinDecryptxP2peSDK(options);
 
-// List all attestations (returns Object, an aggregate list; raises on error)
-Object attestationList = client.attestation(null).list(null, null);
-System.out.println(attestationList);
+// List all attestations (a list of entities, one per record; raises on error)
+List<?> attestationList = (List<?>) client.attestation(null).list(Map.of("client", "example"), null);
+for (Object attestationItem : attestationList) {
+    System.out.println(((SdkEntity) attestationItem).data());
+}
 
-// Load a specific attestation (returns the record, raises on error)
-Object attestation = client.attestation(null).load(Map.of("id", "example_id"), null);
-System.out.println(attestation);
+// Load a specific attestation (returns the entity, raises on error)
+SdkEntity attestation = (SdkEntity) client.attestation(null).load(Map.of("id", "example_id"), null);
+System.out.println(attestation.data());
 ```
 
 ### JavaScript
@@ -682,10 +726,10 @@ const client = new BluefinDecryptxP2peSDK({
   apikey: process.env.BLUEFIN_DECRYPTX_P2PE_APIKEY,
 })
 
-// List all attestations (returns an array)
+// List all attestations (an array of entities, one per record)
 const attestations = await client.Attestation().list({ client: "example" })
 for (const attestation of attestations) {
-  console.log(attestation)
+  console.log(attestation.data())
 }
 
 // Load a specific devicecustodydetail (returns the entity)
@@ -694,25 +738,28 @@ const devicecustodydetail = await client.DeviceCustodyDetail().load({
   serial_number: 'example_serial_number',
   id: 'example_id',
 })
-console.log(devicecustodydetail)
+console.log(devicecustodydetail.data())
 ```
 
 ### Kotlin
 
 ```kotlin
 import voxgig.bluefindecryptxp2pesdk.core.BluefinDecryptxP2peSDK
+import voxgig.bluefindecryptxp2pesdk.core.SdkEntity
 
 val client = BluefinDecryptxP2peSDK(mutableMapOf<String, Any?>(
     "apikey" to System.getenv("BLUEFIN_DECRYPTX_P2PE_APIKEY"),
 ))
 
-// List all attestations (returns Any?, an aggregate list; raises on error)
-val attestationList = client.attestation(null).list(null, null)
-println(attestationList)
+// List all attestations (a list of entities, one per record; raises on error)
+val attestationList = client.attestation(null).list(mutableMapOf<String, Any?>("client" to "example"), null) as List<*>
+for (attestationItem in attestationList) {
+    println((attestationItem as SdkEntity).data())
+}
 
-// Load a specific attestation (returns the record, raises on error)
-val attestation = client.attestation(null).load(mutableMapOf<String, Any?>("id" to "example_id"), null)
-println(attestation)
+// Load a specific attestation (returns the entity, raises on error)
+val attestation = client.attestation(null).load(mutableMapOf<String, Any?>("id" to "example_id"), null) as SdkEntity
+println(attestation.data())
 ```
 
 ### Lean
@@ -737,11 +784,12 @@ Build it with `cd lean && lake build`.
 ```ocaml
 open Voxgig_struct
 open Sdk_helpers
+open Sdk_types
 
 let () =
   let client = Sdk_client.make (jo [("apikey", Str (Sys.getenv "BLUEFIN_DECRYPTX_P2PE_APIKEY"))]) in
   (* List all attestation records (one ENTITY per record; raises on error) *)
-  let attestations = (Sdk_client.attestation client Noval).e_list (empty_map ()) Noval in
+  let attestations = (Sdk_client.attestation client Noval).e_list (jo [("client", (Str "example"))]) Noval in
   List.iter (fun e -> print_endline (stringify (e.e_data_get ()))) attestations;
   (* Load a specific attestation (returns the ENTITY; raises on error) *)
   let attestation = (Sdk_client.attestation client Noval).e_load (jo [("id", (Str "example_id"))]) Noval in
@@ -758,55 +806,54 @@ my $client = BluefinDecryptxP2peSDK->new({
     'apikey' => $ENV{'BLUEFIN_DECRYPTX_P2PE_APIKEY'},
 });
 
-# List all attestations (returns an arrayref; dies on error)
-my $attestations = $client->Attestation->list;
+# List all attestations (an arrayref of entities, one per record; dies on error)
+my $attestations = $client->Attestation->list({ 'client' => 'example' });
 for my $attestation (@$attestations) {
-    print "$attestation->{id}\n";
+    print $attestation->data_get->{id}, "\n";
 }
 
-# Load a specific attestation (returns the ENTITY; call data_get for the record; dies on error)
+# Load a specific attestation (returns the entity; data_get reads its record; dies on error)
 my $attestation = $client->Attestation->load({ 'id' => 'example_id' });
-print "$attestation->{id}\n";
+print $attestation->data_get->{id}, "\n";
 ```
 
 ### Rust
 
 ```rust
-use bluefin_decryptx_p2pe_sdk::{jo, BluefinDecryptxP2peSDK, Value};
+use bluefin_decryptx_p2pe_sdk::{jo, BluefinDecryptxP2peEntity, BluefinDecryptxP2peSDK, Entity, Value};
 
 let client = BluefinDecryptxP2peSDK::new(jo(vec![
     ("apikey", Value::str(std::env::var("BLUEFIN_DECRYPTX_P2PE_APIKEY").unwrap_or_default())),
 ]));
 
-// List all attestations (returns a Value::List, Err on failure)
-let attestations = client.attestation(Value::Noval).list(Value::Noval, Value::Noval).unwrap();
-if let Value::List(items) = &attestations {
-    for attestation in items.borrow().iter() {
-        println!("{:?}", attestation);
-    }
+// List all attestations (one entity per record, Err on failure)
+let attestations = client.attestation(Value::Noval).list(jo(vec![("client", Value::str("example"))]), Value::Noval).unwrap();
+for attestation in &attestations {
+    println!("{:?}", attestation.data(None));
 }
 
-// Load a specific attestation (returns the record, Err on failure)
+// Load a specific attestation (returns the entity, Err on failure)
 let attestation = client.attestation(Value::Noval).load(jo(vec![("id", Value::str("example_id"))]), Value::Noval).unwrap();
-println!("{:?}", attestation);
+println!("{:?}", attestation.data(None));
 ```
 
 ### Scala
 
 ```scala
 import voxgig.bluefindecryptxp2pesdk.core.BluefinDecryptxP2peSDK
+import voxgig.bluefindecryptxp2pesdk.core.SdkEntity
 
 val options = new java.util.LinkedHashMap[String, Object]()
 options.put("apikey", System.getenv("BLUEFIN_DECRYPTX_P2PE_APIKEY"))
 val client = new BluefinDecryptxP2peSDK(options)
 
-// List all attestations (returns Object, an aggregate list; raises on error)
-val attestationList = client.attestation(null).list(null, null)
-println(attestationList)
+// List all attestations (a list of entities, one per record; raises on error)
+val attestationList = client.attestation(null).list(java.util.Map.of("client", "example"), null).asInstanceOf[java.util.List[SdkEntity]]
+attestationList.forEach(attestationItem => println(attestationItem.data()))
 
-// Load a specific attestation (returns the record, raises on error)
-val attestation = client.attestation(null).load(java.util.Map.of("id", "example_id"), null)
-println(attestation)
+// Load a specific attestation (returns the entity, raises on error)
+val attestation = client.attestation(null).load(java.util.Map.of("id", "example_id"), null).asInstanceOf[SdkEntity]
+println(attestation.data())
 ```
 
 ### Swift
@@ -819,15 +866,19 @@ options.entries["apikey"] = .string(
     ProcessInfo.processInfo.environment["BLUEFIN_DECRYPTX_P2PE_APIKEY"] ?? "")
 let client = BluefinDecryptxP2peSDK(options)
 
-// List all attestations (returns a Value list, throws on error)
-let attestationList = try client.Attestation().list(nil, nil)
-for attestation in attestationList.asList?.items ?? [] {
-    print(attestation)
+// List all attestations (a Value list of entities, one per record; throws on error)
+let attestationList = try client.Attestation().list(VMap([("client", .string("example"))]), nil)
+for attestationItem in attestationList.asList?.items ?? [] {
+    if let attestationEntity = attestationItem.asNative as? Entity {
+        print(attestationEntity.data())
+    }
 }
 
-// Load a specific attestation (returns the record, throws on error)
+// Load a specific attestation (returns the entity, throws on error)
 let attestation = try client.Attestation().load(VMap([("id", .string("example_id"))]), nil)
-print(attestation)
+if let attestationEntity = attestation.asNative as? Entity {
+    print(attestationEntity.data())
+}
 ```
 
 ### Zig
@@ -841,15 +892,19 @@ const client = sdk.BluefinDecryptxP2peSDK.new(h.jo(&.{
     .{ "apikey", h.vstr(std.posix.getenv("BLUEFIN_DECRYPTX_P2PE_APIKEY") orelse "") },
 }));
 
-// List all attestations (Ok is a Value array, .err on failure)
-switch (client.attestation(h.vnull()).list(h.vnull(), h.vnull())) {
-    .ok => |attestations| std.debug.print("{s}\n", .{h.stringify(attestations)}),
+// List all attestations (one entity per record, .err on failure)
+switch (client.attestation(h.vnull()).list(h.jo(&.{.{ "client", h.vstr("example") }}), h.vnull())) {
+    .ok => |attestations| {
+        for (attestations) |attestation| {
+            std.debug.print("{s}\n", .{h.stringify(attestation.asEntity().data(null))});
+        }
+    },
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
 }
 
-// Load a specific attestation (Ok is the record, .err on failure)
+// Load a specific attestation (.ok is the entity, .err on failure)
 switch (client.attestation(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("example_id") }}), h.vnull())) {
-    .ok => |attestation| std.debug.print("{s}\n", .{h.stringify(attestation)}),
+    .ok => |attestation| std.debug.print("{s}\n", .{h.stringify(attestation.asEntity().data(null))}),
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
@@ -877,10 +932,9 @@ const result = await client.direct({
   method: 'GET',
   params: { id: 'example' },
 })
-if (result instanceof Error) {
-  throw result
+if (result.ok) {
+  console.log(result.data)
 }
-console.log(result.data)
 ```
 
 **Python:**
@@ -991,7 +1045,7 @@ result = BluefinDecryptxP2pe.direct(sdk, BluefinDecryptxP2pe.Helpers.deep(%{
 ```haskell
 import qualified SdkClient as Sdk
 import qualified SdkFeatures as F
-import VoxgigStruct (Value (..))
+import VoxgigStruct (Value (..), stringify)
 import SdkHelpers (jo)
 
 main :: IO ()
@@ -1000,7 +1054,7 @@ main = do
   params <- jo [("id", VStr "example")]
   args <- jo [("path", VStr "/api/resource/{id}"), ("method", VStr "GET"), ("params", params)]
   result <- F.direct sdk args
-  print result
+  putStrLn =<< stringify result
 ```
 
 **Java:**
@@ -1018,10 +1072,9 @@ const result = await client.direct({
   method: 'GET',
   params: { id: 'example' },
 })
-if (result instanceof Error) {
-  throw result
+if (result.ok) {
+  console.log(result.data)
 }
-console.log(result.data)
 ```
 
 **Kotlin:**
@@ -1143,10 +1196,12 @@ customizable without forking any upstream tool:
 - **Templates** (`.sdk/tm/`) and **components** (`.sdk/src/cmp/`) are
   the two layers of generation, copied into this repo: templates are the
   literal per-language source, components generate the API-shaped parts.
-- **Regeneration merges.** By default, newly generated content is
-  three-way merged into existing files, so generator updates and local
-  edits usually converge without manual conflict handling. A project can
-  opt for plain overwrite instead.
+- **Regeneration overwrites.** Each run rewrites every generated file from
+  the model, the templates and the components, so an edit made to
+  generated output is lost. Say what this project needs in its own model
+  (`.sdk/model/sdk.aontu`), or extend a target with a component of its
+  own in `.sdk/src/cmp/<target>/`, registered with `registerComponent`,
+  which `voxgig-sdkgen doctor` reports as an addition rather than drift.
 - **Custom features and entire custom targets** arrive through sdkgen
   packages (`voxgig-sdkgen package add`), on the same rails as the
   bundled languages, and `voxgig-sdkgen doctor` reports any drift from

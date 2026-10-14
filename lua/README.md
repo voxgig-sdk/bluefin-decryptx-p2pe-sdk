@@ -12,7 +12,7 @@ It exposes the API as capitalised, semantic **Entities** — e.g. `client:Attest
 
 ## Install
 This package is not yet published to LuaRocks. Install it from the
-GitHub release tag (`lua/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases)),
+GitHub release tag (`lua/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags)),
 or add the source directory to your `LUA_PATH`:
 
 ```bash
@@ -37,15 +37,17 @@ local client = sdk.new({
 
 ### 2. List attestation records
 
-Entity operations return `(value, err)`. For `list`, `value` is the
-array of records itself — iterate it directly (there is no wrapper).
+Entity operations return `(value, err)`. For `list`, `value` is an
+array of entities, one per record — iterate it directly (there is no
+wrapper), and read each record with `data_get()`.
 
 ```lua
-local attestations, err = client:Attestation():list()
+local attestations, err = client:Attestation():list({ client = "example" })
 if err then error(err) end
 
 for _, item in ipairs(attestations) do
-  print(item["id"])
+  local rec = item:data_get()
+  print(rec["id"])
 end
 ```
 
@@ -53,17 +55,20 @@ end
 
 DeviceCustodyDetail is nested under device_type, so provide the `device_type`.
 
+`load` returns the entity; `data_get()` reads its record.
+
 ```lua
 local devicecustodydetail, err = client:DeviceCustodyDetail():load({ device_type = "example_device_type", serial_number = "example_serial_number", id = "example_id" })
 if err then error(err) end
-print(devicecustodydetail)
+local rec = devicecustodydetail:data_get()
+print(rec["id"])
 ```
 
 ### 4. Create, update, and remove
 
 ```lua
 -- Create
-local created, err = client:Attestation():create({ client = {}, completeDate = "example_completeDate" })
+local created, err = client:Attestation():create({ devices = {} })
 if err then error(err) end
 
 ```
@@ -134,7 +139,7 @@ Create a mock client for unit testing — no server required:
 local client = sdk.test()
 
 local result, err = client:DeviceType():list()
--- result is the returned data; err is set on failure
+-- result is an array of entities, one per mock record; err is set on failure
 ```
 
 ### Use a custom fetch function
@@ -243,11 +248,11 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `(reqmatch, ctrl) -> any, err` | Load a single entity by match criteria. |
-| `list` | `(reqmatch, ctrl) -> any, err` | List entities matching the criteria. |
-| `create` | `(reqdata, ctrl) -> any, err` | Create a new entity. |
-| `update` | `(reqdata, ctrl) -> any, err` | Update an existing entity. |
-| `remove` | `(reqmatch, ctrl) -> any, err` | Remove an entity. |
+| `load` | `(reqmatch, ctrl) -> any, err` | Load a single entity by match criteria, and return it. |
+| `list` | `(reqmatch, ctrl) -> any, err` | List entities matching the criteria, one per record. |
+| `create` | `(reqdata, ctrl) -> any, err` | Create a new entity, and return it. |
+| `update` | `(reqdata, ctrl) -> any, err` | Update an existing entity, and return it. |
+| `remove` | `(reqmatch, ctrl) -> any, err` | Remove an entity, and return it marked as deleted. |
 | `data_get` | `() -> table` | Get entity data. |
 | `data_set` | `(data)` | Set entity data. |
 | `match_get` | `() -> table` | Get entity match criteria. |
@@ -257,19 +262,19 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return `(value, err)`. The `value` is the operation's
-data **directly** — there is no wrapper:
+Entity operations return `(value, err)`. The `value` is the entity
+itself — there is no wrapper:
 
 | Operation | `value` |
 | --- | --- |
-| `load` / `create` / `update` / `remove` | the entity record (a `table`) |
-| `list` | an array (`table`) of entity records |
+| `load` / `create` / `update` / `remove` | the entity, whose `data_get()` reads its record (a `table`) |
+| `list` | an array (`table`) of entities, one per record |
 
 Check `err` first (it is non-`nil` on failure), then use `value`:
 
     local attestation, err = client:Attestation():load({ id = "example_id" })
     if err then error(err) end
-    -- attestation is the loaded record
+    -- attestation is the loaded entity
 
 Only `direct()` returns a response envelope — a `table` with `ok`,
 `status`, `headers`, and `data` keys.
@@ -284,6 +289,7 @@ Only `direct()` returns a response envelope — a `table` with `ok`,
 | `completeDate` | The date and time that the Attestation took place. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `device` | Reference to the associated Device resource. |
+| `devices` |  |
 | `id` | This resource's unique identifier. |
 | `name` | Text describing the attestation. |
 | `notes` | Free form field that allows the Client associate notes with the Attestation. |
@@ -316,6 +322,10 @@ API path: `/clients`
 
 | Field | Description |
 | --- | --- |
+| `completeDate` | The date and time that the Custody change took place. |
+| `custodian` | Reference to the associated User resource. |
+| `location` | Reference to the associated Location resource. |
+| `notes` | Free form field that allows the Client associate notes with the Custody Change. |
 
 Operations: Create.
 
@@ -325,6 +335,14 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
+| `cbcVector` | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | The device Type. |
+| `encoding` | The payload encoding |
+| `encrypted` |  |
+| `hasCcData` | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | The serial number of the device. |
 | `success` | true if the payload decryption was successful. |
 
 Operations: Create.
@@ -440,7 +458,9 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
+| `serialNumber` | The serial number of the Device that is shipped. |
 | `success` | Indicates if the action succeeded. |
+| `tamperLabel` | The code that is printed the tamper label of the Device that is shipped. |
 
 Operations: Create.
 
@@ -450,7 +470,15 @@ API path: `/devices/receive`
 
 | Field | Description |
 | --- | --- |
+| `appVersion` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | The Device Builds's name. |
+| `buildNumber` | The Build Number. |
+| `configFile` | \? |
+| `firmwareVersion` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | The referenced Device's serial number. |
 | `success` | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | \? |
 
 Operations: Create.
 
@@ -524,6 +552,7 @@ API path: `/kifs`
 | `address2` | The Location's street address. |
 | `billingId` | \? |
 | `city` | The Location's city. |
+| `client` | Reference to the associated Client resource. |
 | `country` | The Location's country. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `customReference` | A Partner specified reference for a location. |
@@ -584,6 +613,7 @@ API path: `/partners`
 | `id` | This resource's unique identifier. |
 | `items` |  |
 | `kif` | Reference to the associated KIF resource. |
+| `location` | Reference to the associated Location resource. |
 | `modified` | Last modified timestamp. |
 | `partner` | Reference to the associated Partner. |
 | `shipmentType` | The type of shipment. |
@@ -598,6 +628,8 @@ API path: `/shipments`
 
 | Field | Description |
 | --- | --- |
+| `devices` | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | Reference to the associated Partner. |
 | `success` | Indicates if the action was a success. |
 
 Operations: Create, Remove.
@@ -613,6 +645,7 @@ API path: `/virtualDevices/{sharePartnerTo}`
 | `clientRef` | Client Reference property that is included in the decrypt API call. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `decrypted` | A Transcation can process muliple decryptions. |
+| `device` | Reference to the associated Device resource. |
 | `deviceName` | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | Reference to the associated Partner. |
 | `encrypted` | A Transcation can process muliple encryptions. |
@@ -641,17 +674,68 @@ API path: `/transactions`
 
 | Field | Description |
 | --- | --- |
+| `address1` | The Location's street address. |
+| `address2` | The Location's street address. |
+| `alternateKey` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | \? |
+| `city` | The Location's city. |
 | `client` | Reference to the associated Client resource. |
+| `clientCanOrderEquipment` | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | Client Reference property that is included in the decrypt API call. |
+| `contact` | Reference to the associated User resource. |
+| `country` | Reference to the associated Country. |
+| `customReference` | A Partner specified reference for a location. |
+| `dateShipped` | The date and time that a package is shipped. |
+| `decrypted` | A Transcation can process muliple decryptions. |
+| `device` | Reference to the associated Device resource. |
+| `deviceBuild` | Reference to the associated Device Build resource. |
+| `deviceType` | Reference to the associated Device Type resource. |
+| `directPartner` | Reference to the associated Partner. |
 | `email` | The User's email address. |
+| `encrypted` | A Transcation can process muliple encryptions. |
+| `endDate` | Timestamp from the end of the transaction. |
+| `errCode` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | The error messge that is sent in response to a failed decrypt API call. |
 | `firstName` | The User's name. |
 | `id` | ID of newly created resource |
+| `injectKey` | Reference to the associated Device resource. |
+| `ipAddress` | The IP address of the http client that makes the decrypt API call. |
 | `isActive` | This property indicates if the User account is active or disabled. |
+| `items` |  |
+| `keyType` | The type of cipher used during decrytion. |
 | `kif` | Reference to the associated KIF resource. |
 | `lastName` | The User's Surname. |
+| `location` | Reference to the associated Location resource. |
+| `locationType` | The Location's clasification. |
+| `mailAddress1` | The Location's street address. |
+| `mailAddress2` | The Location's street address. |
+| `mailCity` | The Location's city. |
+| `mailCountry` | The Location's street address. |
+| `mailPostalCode` | The Location's postal code. |
+| `mailStateProvince` | The Location's street state or province. |
+| `messageId` | Message ID. |
+| `method` | The decryption cypher/method. |
+| `mid` | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | The Client's name. |
+| `nameOfBusiness` | The name of the business at this location. |
+| `notes` | Arbitary note that can be attached to a Device entry. |
+| `parent` | Reference to the associated Partner. |
 | `partner` | Reference to the associated Partner. |
+| `partnerId` | The Partner's id. |
 | `phone` | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | The Location's postal code. |
+| `reference` | The Partner's reference string. |
+| `sendWelcomeEmail` | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | The Device's serial number. |
+| `startDate` | Timestamp from the beginning of the transaction. |
+| `stateProvince` | The Location's street state or province. |
+| `success` | The success indicator. |
+| `tracking` | The courier's tracking number. |
+| `uniqueId` | Unique Identifier for the Location. |
 | `userName` | The User's unique username. |
 | `userRole` | Reference to the associated User Role. |
+| `verificationPhrase` | The verification phrase is a message that the Partner creates. |
 | `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Update.
@@ -718,6 +802,7 @@ Create an instance: `local attestation = client:Attestation(nil)`
 | `completeDate` | `string` | The date and time that the Attestation took place. |
 | `created` | `string` | Creation timestamp in ISO 8601 format. |
 | `device` | `table` | Reference to the associated Device resource. |
+| `devices` | `table` |  |
 | `id` | `string` | This resource's unique identifier. |
 | `name` | `string` | Text describing the attestation. |
 | `notes` | `string` | Free form field that allows the Client associate notes with the Attestation. |
@@ -731,13 +816,14 @@ local attestation, err = client:Attestation():load({ id = "attestation_id" })
 #### Example: List
 
 ```lua
-local attestations, err = client:Attestation():list()
+local attestations, err = client:Attestation():list({ client = "example" })
 ```
 
 #### Example: Create
 
 ```lua
 local attestation, err = client:Attestation():create({
+  devices = {}, -- table
 })
 ```
 
@@ -780,7 +866,7 @@ local client_, err = client:Client():load({ id = "client_id" })
 #### Example: List
 
 ```lua
-local client_s, err = client:Client():list()
+local client_s, err = client:Client():list({ partner = "example" })
 ```
 
 #### Example: Create
@@ -802,12 +888,23 @@ Create an instance: `local create_result = client:CreateResult(nil)`
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `completeDate` | `string` | The date and time that the Custody change took place. |
+| `custodian` | `table` | Reference to the associated User resource. |
+| `location` | `table` | Reference to the associated Location resource. |
+| `notes` | `string` | Free form field that allows the Client associate notes with the Custody Change. |
+
 #### Example: Create
 
 ```lua
 local create_result, err = client:CreateResult():create({
   device_type = "example_device_type", -- string
   serial_number = "example_serial_number", -- string
+  custodian = {}, -- table
+  location = {}, -- table
 })
 ```
 
@@ -826,12 +923,23 @@ Create an instance: `local decryption = client:Decryption(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `cbcVector` | `string` | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | `string` | The device Type. |
+| `encoding` | `string` | The payload encoding |
+| `encrypted` | `table` |  |
+| `hasCcData` | `string` | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | `string` | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | `string` | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | `string` | The serial number of the device. |
 | `success` | `boolean` | true if the payload decryption was successful. |
 
 #### Example: Create
 
 ```lua
 local decryption, err = client:Decryption():create({
+  deviceType = "example_deviceType", -- string
+  encrypted = {}, -- table
+  serialNumber = "example_serialNumber", -- string
 })
 ```
 
@@ -1016,7 +1124,7 @@ Create an instance: `local device_custody_list_item = client:DeviceCustodyListIt
 #### Example: List
 
 ```lua
-local device_custody_list_items, err = client:DeviceCustodyListItem():list()
+local device_custody_list_items, err = client:DeviceCustodyListItem():list({ device_type = "example", serial_number = "example" })
 ```
 
 
@@ -1034,13 +1142,17 @@ Create an instance: `local device_receive_result = client:DeviceReceiveResult(ni
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `serialNumber` | `string` | The serial number of the Device that is shipped. |
 | `success` | `boolean` | Indicates if the action succeeded. |
+| `tamperLabel` | `string` | The code that is printed the tamper label of the Device that is shipped. |
 
 #### Example: Create
 
 ```lua
 local device_receive_result, err = client:DeviceReceiveResult():create({
+  serialNumber = "example_serialNumber", -- string
   success = true, -- boolean
+  tamperLabel = "example_tamperLabel", -- string
 })
 ```
 
@@ -1059,12 +1171,21 @@ Create an instance: `local device_rki_activate_result = client:DeviceRkiActivate
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `appVersion` | `string` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | `string` | The Device Builds's name. |
+| `buildNumber` | `string` | The Build Number. |
+| `configFile` | `string` | \? |
+| `firmwareVersion` | `string` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `string` | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | `string` | The referenced Device's serial number. |
 | `success` | `boolean` | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | `string` | \? |
 
 #### Example: Create
 
 ```lua
 local device_rki_activate_result, err = client:DeviceRkiActivateResult():create({
+  serialNumber = "example_serialNumber", -- string
   success = true, -- boolean
 })
 ```
@@ -1217,6 +1338,7 @@ Create an instance: `local location = client:Location(nil)`
 | `address2` | `string` | The Location's street address. |
 | `billingId` | `string` | \? |
 | `city` | `string` | The Location's city. |
+| `client` | `table` | Reference to the associated Client resource. |
 | `country` | `string` | The Location's country. |
 | `created` | `string` | Creation timestamp in ISO 8601 format. |
 | `customReference` | `string` | A Partner specified reference for a location. |
@@ -1246,7 +1368,7 @@ local location, err = client:Location():load({ id = "location_id" })
 #### Example: List
 
 ```lua
-local locations, err = client:Location():list()
+local locations, err = client:Location():list({ client = "example" })
 ```
 
 #### Example: Create
@@ -1334,6 +1456,7 @@ Create an instance: `local shipment = client:Shipment(nil)`
 | `id` | `string` | This resource's unique identifier. |
 | `items` | `table` |  |
 | `kif` | `table` | Reference to the associated KIF resource. |
+| `location` | `table` | Reference to the associated Location resource. |
 | `modified` | `string` | Last modified timestamp. |
 | `partner` | `table` | Reference to the associated Partner. |
 | `shipmentType` | `string` | The type of shipment. |
@@ -1349,13 +1472,14 @@ local shipment, err = client:Shipment():load({ id = "shipment_id" })
 #### Example: List
 
 ```lua
-local shipments, err = client:Shipment():list()
+local shipments, err = client:Shipment():list({ kif = "example" })
 ```
 
 #### Example: Create
 
 ```lua
 local shipment, err = client:Shipment():create({
+  location = {}, -- table
 })
 ```
 
@@ -1375,6 +1499,8 @@ Create an instance: `local success = client:Success(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `devices` | `table` | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | `table` | Reference to the associated Partner. |
 | `success` | `boolean` | Indicates if the action was a success. |
 
 #### Example: Create
@@ -1382,6 +1508,8 @@ Create an instance: `local success = client:Success(nil)`
 ```lua
 local success, err = client:Success():create({
   share_partner_to = "example_share_partner_to", -- string
+  devices = {}, -- table
+  sharePartnerFrom = {}, -- table
 })
 ```
 
@@ -1407,6 +1535,7 @@ Create an instance: `local transaction = client:Transaction(nil)`
 | `clientRef` | `string` | Client Reference property that is included in the decrypt API call. |
 | `created` | `string` | Creation timestamp in ISO 8601 format. |
 | `decrypted` | `number` | A Transcation can process muliple decryptions. |
+| `device` | `table` | Reference to the associated Device resource. |
 | `deviceName` | `string` | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | `table` | Reference to the associated Partner. |
 | `encrypted` | `number` | A Transcation can process muliple encryptions. |
@@ -1443,6 +1572,7 @@ local transactions, err = client:Transaction():list()
 
 ```lua
 local transaction, err = client:Transaction():create({
+  device = {}, -- table
   location = {}, -- table
 })
 ```
@@ -1464,17 +1594,68 @@ Create an instance: `local update_result = client:UpdateResult(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `address1` | `string` | The Location's street address. |
+| `address2` | `string` | The Location's street address. |
+| `alternateKey` | `string` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `string` | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | `string` | \? |
+| `city` | `string` | The Location's city. |
 | `client` | `table` | Reference to the associated Client resource. |
+| `clientCanOrderEquipment` | `boolean` | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | `string` | Client Reference property that is included in the decrypt API call. |
+| `contact` | `table` | Reference to the associated User resource. |
+| `country` | `table` | Reference to the associated Country. |
+| `customReference` | `string` | A Partner specified reference for a location. |
+| `dateShipped` | `string` | The date and time that a package is shipped. |
+| `decrypted` | `number` | A Transcation can process muliple decryptions. |
+| `device` | `table` | Reference to the associated Device resource. |
+| `deviceBuild` | `table` | Reference to the associated Device Build resource. |
+| `deviceType` | `table` | Reference to the associated Device Type resource. |
+| `directPartner` | `table` | Reference to the associated Partner. |
 | `email` | `string` | The User's email address. |
+| `encrypted` | `number` | A Transcation can process muliple encryptions. |
+| `endDate` | `string` | Timestamp from the end of the transaction. |
+| `errCode` | `string` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `string` | The error messge that is sent in response to a failed decrypt API call. |
 | `firstName` | `string` | The User's name. |
 | `id` | `string` | ID of newly created resource |
+| `injectKey` | `table` | Reference to the associated Device resource. |
+| `ipAddress` | `string` | The IP address of the http client that makes the decrypt API call. |
 | `isActive` | `boolean` | This property indicates if the User account is active or disabled. |
+| `items` | `table` |  |
+| `keyType` | `string` | The type of cipher used during decrytion. |
 | `kif` | `table` | Reference to the associated KIF resource. |
 | `lastName` | `string` | The User's Surname. |
+| `location` | `table` | Reference to the associated Location resource. |
+| `locationType` | `string` | The Location's clasification. |
+| `mailAddress1` | `string` | The Location's street address. |
+| `mailAddress2` | `string` | The Location's street address. |
+| `mailCity` | `string` | The Location's city. |
+| `mailCountry` | `string` | The Location's street address. |
+| `mailPostalCode` | `string` | The Location's postal code. |
+| `mailStateProvince` | `string` | The Location's street state or province. |
+| `messageId` | `string` | Message ID. |
+| `method` | `string` | The decryption cypher/method. |
+| `mid` | `string` | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | `string` | The Client's name. |
+| `nameOfBusiness` | `string` | The name of the business at this location. |
+| `notes` | `string` | Arbitary note that can be attached to a Device entry. |
+| `parent` | `table` | Reference to the associated Partner. |
 | `partner` | `table` | Reference to the associated Partner. |
+| `partnerId` | `string` | The Partner's id. |
 | `phone` | `string` | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | `string` | The Location's postal code. |
+| `reference` | `string` | The Partner's reference string. |
+| `sendWelcomeEmail` | `boolean` | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | `string` | The Device's serial number. |
+| `startDate` | `string` | Timestamp from the beginning of the transaction. |
+| `stateProvince` | `string` | The Location's street state or province. |
+| `success` | `boolean` | The success indicator. |
+| `tracking` | `string` | The courier's tracking number. |
+| `uniqueId` | `string` | Unique Identifier for the Location. |
 | `userName` | `string` | The User's unique username. |
 | `userRole` | `table` | Reference to the associated User Role. |
+| `verificationPhrase` | `string` | The verification phrase is a message that the Partner creates. |
 | `version` | `number` | The number of times that this resource has been updated. |
 
 #### Example: List
@@ -1487,6 +1668,15 @@ local update_results, err = client:UpdateResult():list()
 
 ```lua
 local update_result, err = client:UpdateResult():create({
+  contact = {}, -- table
+  email = "example_email", -- string
+  firstName = "example_firstName", -- string
+  isActive = true, -- boolean
+  lastName = "example_lastName", -- string
+  location = {}, -- table
+  phone = "example_phone", -- string
+  userName = "example_userName", -- string
+  userRole = {}, -- table
 })
 ```
 

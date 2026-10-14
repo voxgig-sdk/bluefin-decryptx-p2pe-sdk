@@ -9,6 +9,12 @@ namespace BluefinDecryptxP2peSdk.Test;
 
 public class UserDirectTest
 {
+    // main.kit.test.live.strict is true (the default is true): a live
+    // request that fails, or a live test missing an input it needs,
+    // fails the test.
+    // An account with no record for a test to read skips it either way.
+    private const bool LIVE_STRICT = true;
+
     [Fact]
     public void DirectLoad()
     {
@@ -23,11 +29,12 @@ public class UserDirectTest
         }
         if (setup.Live)
         {
-            foreach (var _liveKey in new[] { "id01" })
+            foreach (var _liveKey in new[] { "user01" })
             {
                 if (StructUtils.GetProp(setup.Idmap, _liveKey) == null)
                 {
-                    return; // live test needs *_ENTID env var (synthetic IDs only)
+                    TestRunner.LiveMiss(LIVE_STRICT, "Live test blocked: needs " + _liveKey + " via BLUEFIN_DECRYPTX_P2PE_TEST_USER_ENTID");
+                    return;
                 }
             }
         }
@@ -37,6 +44,7 @@ public class UserDirectTest
         var query = new Dictionary<string, object?>();
         if (setup.Live)
         {
+            pathParams["id"] = StructUtils.GetProp(setup.Idmap, "user01");
         }
         else
         {
@@ -52,18 +60,16 @@ public class UserDirectTest
         });
         if (setup.Live)
         {
-            // Live mode is lenient: synthetic IDs frequently 4xx. Bail
-            // rather than fail when the load endpoint isn't reachable.
-            if (!Equals(result["ok"], true))
+            if (!TestRunner.LiveOk(result))
             {
+                TestRunner.LiveMiss(LIVE_STRICT, "Live load failed: " + TestRunner.LiveDescribe(result));
                 return;
             }
-            var status = Helpers.ToInt(result["status"]);
-            if (status < 200 || status >= 300)
+            if (result["data"] == null)
             {
+                TestRunner.LiveMiss(LIVE_STRICT, "Live load returned no data: " + TestRunner.LiveDescribe(result));
                 return;
             }
-            Assert.NotNull(result["data"]);
         }
         else
         {

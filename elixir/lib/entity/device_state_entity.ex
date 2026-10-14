@@ -1,12 +1,11 @@
 # BluefinDecryptxP2pe SDK DeviceState entity
 #
 # Per-entity module. Generic construction/data/match operations delegate to
-# EntityBase; each active op (load/list/create/update/remove) builds a ctx
+# EntityBase; each active op (load/list/create/update/patch/remove) builds a ctx
 # and drives it through BluefinDecryptxP2pe.Pipeline.run_op.
 
 defmodule BluefinDecryptxP2pe.Entity.DeviceState do
   alias Voxgig.Struct, as: S
-  alias BluefinDecryptxP2pe.Helpers, as: H
   alias BluefinDecryptxP2pe.{EntityBase, Context, Pipeline}
 
   def new(client, entopts \\ nil) do
@@ -28,9 +27,10 @@ defmodule BluefinDecryptxP2pe.Entity.DeviceState do
   
 
   
-  # Returns a list of device_state entity maps (BluefinDecryptxP2pe.Types.device_state/0)
-  # on success; pipeline errors surface as the error value built by
-  # Utility.make_error (shape is utility-configurable), hence term().
+  # Returns a list of device_state entities, one per record, whose data_get/1
+  # reads each record (BluefinDecryptxP2pe.Types.device_state/0), on success; pipeline
+  # errors surface as the error value built by Utility.make_error (shape is
+  # utility-configurable), hence term().
   @spec list(map(), BluefinDecryptxP2pe.Types.device_state_list_match() | nil, map() | nil) :: term()
   def list(ent, reqmatch \\ nil, ctrl \\ nil) do
     reqmatch = if reqmatch == nil, do: S.jm([]), else: reqmatch
@@ -61,6 +61,8 @@ defmodule BluefinDecryptxP2pe.Entity.DeviceState do
   end
 
 
+
+  
 
   
 

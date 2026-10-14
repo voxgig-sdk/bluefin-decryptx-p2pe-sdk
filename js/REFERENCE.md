@@ -340,8 +340,10 @@ Make a direct HTTP request to any API endpoint.
 | `fetchargs.headers` | `object` | Request headers (merged with defaults). |
 | `fetchargs.body` | `any` | Request body (objects are JSON-serialized). |
 | `fetchargs.ctrl` | `object` | Control options (e.g. `{ explain: true }`). |
+| `fetchargs.ctrl.signal` | `AbortSignal` | Aborts the request in flight: `ok` is then `false` and `err.code` is `request_aborted`. |
 
-**Returns:** `Promise<{ ok, status, headers, data } | Error>`
+**Returns:** `Promise<{ ok, status, headers, data }>`. On a failure
+`ok` is `false` and `err` holds the error.
 
 #### `prepare(fetchargs?: object)`
 
@@ -355,6 +357,15 @@ same parameters as `direct()`.
 Alias for `BluefinDecryptxP2peSDK.test()`.
 
 **Returns:** `BluefinDecryptxP2peSDK` instance in test mode.
+
+#### Cancelling a call
+
+Every entity operation takes an optional `ctrl` object after its match or
+data, and an `AbortSignal` in `ctrl.signal` cancels the request in flight.
+The operation then rejects with an error whose `code` is
+`request_aborted` and whose `cause` is the signal's reason. A request
+whose signal has already aborted is not sent. `stream()` takes the signal
+as `callopts.signal`, and ends when it aborts.
 
 
 ---
@@ -373,32 +384,47 @@ const attestation = client.Attestation()
 | `completeDate` | `string` | No | The date and time that the Attestation took place. |
 | `created` | `string` | No | Creation timestamp in ISO 8601 format. |
 | `device` | `Object` | No | Reference to the associated Device resource. |
+| `devices` | `Array` | Yes |  |
 | `id` | `string` | No | This resource's unique identifier. |
 | `name` | `string` | No | Text describing the attestation. |
 | `notes` | `string` | No | Free form field that allows the Client associate notes with the Attestation. |
+
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `client` | - | - | Yes |
+| `completeDate` | - | - | Yes |
+| `created` | - | - | - |
+| `device` | - | - | - |
+| `devices` | - | - | - |
+| `id` | - | - | - |
+| `name` | - | - | Yes |
+| `notes` | - | - | - |
 
 ### Operations
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.Attestation().create({
+  devices: [],
 })
 ```
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
-const results = await client.Attestation().list()
+const results = await client.Attestation().list({ client: "example" })
 ```
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Attestation().load({ id: 'attestation_id' })
@@ -458,15 +484,15 @@ const client_ = client.Client()
 
 | Field | load | list | create | remove |
 | --- | --- | --- | --- | --- |
-| `contact` | - | Yes | - | - |
+| `contact` | - | Yes | Yes | - |
 | `created` | - | - | - | - |
-| `directPartner` | - | - | - | - |
+| `directPartner` | - | - | Yes | - |
 | `id` | - | - | - | - |
 | `isActive` | - | - | - | - |
 | `location` | - | - | - | - |
 | `mid` | - | - | - | - |
 | `modified` | - | - | - | - |
-| `name` | - | - | - | - |
+| `name` | - | - | Yes | - |
 | `partner` | - | - | - | - |
 | `version` | - | - | - | - |
 
@@ -474,7 +500,7 @@ const client_ = client.Client()
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.Client().create({
@@ -484,15 +510,15 @@ const result = await client.Client().create({
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
-const results = await client.Client().list()
+const results = await client.Client().list({ partner: "example" })
 ```
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Client().load({ id: 'client_id' })
@@ -500,7 +526,7 @@ const result = await client.Client().load({ id: 'client_id' })
 
 #### `remove(match: object, ctrl?: object)`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Resolves to the entity, marked as deleted.
 
 ```ts
 const result = await client.Client().remove({ id: 'client_id' })
@@ -540,16 +566,27 @@ Return a copy of the entity options.
 const create_result = client.CreateResult()
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `completeDate` | `string` | No | The date and time that the Custody change took place. |
+| `custodian` | `Object` | Yes | Reference to the associated User resource. |
+| `location` | `Object` | Yes | Reference to the associated Location resource. |
+| `notes` | `string` | No | Free form field that allows the Client associate notes with the Custody Change. |
+
 ### Operations
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.CreateResult().create({
   device_type: 'example_device_type',
   serial_number: 'example_serial_number',
+  custodian: {},
+  location: {},
 })
 ```
 
@@ -591,16 +628,27 @@ const decryption = client.Decryption()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `cbcVector` | `string` | No | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | `string` | Yes | The device Type. |
+| `encoding` | `string` | No | The payload encoding |
+| `encrypted` | `Array` | Yes |  |
+| `hasCcData` | `string` | No | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | `string` | No | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | `string` | No | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | `string` | Yes | The serial number of the device. |
 | `success` | `boolean` | No | true if the payload decryption was successful. |
 
 ### Operations
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.Decryption().create({
+  deviceType: 'example_deviceType',
+  encrypted: [],
+  serialNumber: 'example_serialNumber',
 })
 ```
 
@@ -671,11 +719,44 @@ const device = client.Device()
 | `serialNumber` | `string` | No | The Device's serial number. |
 | `version` | `number` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `activatedBy` | - | - | - |
+| `activationDate` | - | - | - |
+| `alternateKey` | - | - | - |
+| `auditNextDate` | - | - | - |
+| `auditNotificationDate` | - | - | - |
+| `client` | - | - | - |
+| `created` | - | - | - |
+| `createdBy` | - | - | - |
+| `deviceBuild` | - | - | - |
+| `deviceState` | - | - | - |
+| `deviceType` | - | - | Yes |
+| `errorCounter` | - | - | - |
+| `errorLastDate` | - | - | - |
+| `id` | - | - | - |
+| `initializedBy` | - | - | - |
+| `initializedDate` | - | - | - |
+| `injectKey` | - | - | - |
+| `isVirtual` | - | - | - |
+| `kif` | - | - | Yes |
+| `lastActivityDate` | - | - | - |
+| `location` | - | - | - |
+| `modified` | - | - | - |
+| `modifiedBy` | - | - | - |
+| `name` | - | - | - |
+| `notes` | - | - | - |
+| `partner` | - | - | - |
+| `serialNumber` | - | - | Yes |
+| `version` | - | - | - |
+
 ### Operations
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.Device().create({
@@ -689,7 +770,7 @@ const result = await client.Device().create({
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.Device().list()
@@ -697,7 +778,7 @@ const results = await client.Device().list()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Device().load({ id: 'device_id' })
@@ -761,7 +842,7 @@ const device_build = client.DeviceBuild()
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.DeviceBuild().list()
@@ -769,7 +850,7 @@ const results = await client.DeviceBuild().list()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.DeviceBuild().load({ id: 'device_build_id' })
@@ -831,7 +912,7 @@ const device_custody_detail = client.DeviceCustodyDetail()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.DeviceCustodyDetail().load({ id: 'device_custody_detail_id', device_type: 'device_type', serial_number: 'serial_number' })
@@ -893,10 +974,10 @@ const device_custody_list_item = client.DeviceCustodyListItem()
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
-const results = await client.DeviceCustodyListItem().list()
+const results = await client.DeviceCustodyListItem().list({ device_type: "example", serial_number: "example" })
 ```
 
 ### Common Methods
@@ -937,17 +1018,21 @@ const device_receive_result = client.DeviceReceiveResult()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `serialNumber` | `string` | Yes | The serial number of the Device that is shipped. |
 | `success` | `boolean` | Yes | Indicates if the action succeeded. |
+| `tamperLabel` | `string` | Yes | The code that is printed the tamper label of the Device that is shipped. |
 
 ### Operations
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.DeviceReceiveResult().create({
+  serialNumber: 'example_serialNumber',
   success: true,
+  tamperLabel: 'example_tamperLabel',
 })
 ```
 
@@ -989,16 +1074,25 @@ const device_rki_activate_result = client.DeviceRkiActivateResult()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `appVersion` | `string` | No | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | `string` | No | The Device Builds's name. |
+| `buildNumber` | `string` | No | The Build Number. |
+| `configFile` | `string` | No | \? |
+| `firmwareVersion` | `string` | No | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `string` | No | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | `string` | Yes | The referenced Device's serial number. |
 | `success` | `boolean` | Yes | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | `string` | No | \? |
 
 ### Operations
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.DeviceRkiActivateResult().create({
+  serialNumber: 'example_serialNumber',
   success: true,
 })
 ```
@@ -1048,7 +1142,7 @@ const device_state = client.DeviceState()
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.DeviceState().list()
@@ -1109,7 +1203,7 @@ const device_type = client.DeviceType()
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.DeviceType().list()
@@ -1117,7 +1211,7 @@ const results = await client.DeviceType().list()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.DeviceType().load({ id: 'device_type_id' })
@@ -1174,7 +1268,7 @@ const inject_key = client.InjectKey()
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.InjectKey().list()
@@ -1182,7 +1276,7 @@ const results = await client.InjectKey().list()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.InjectKey().load({ id: 'inject_key_id' })
@@ -1233,7 +1327,7 @@ const kif = client.Kif()
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.Kif().list()
@@ -1281,6 +1375,7 @@ const location = client.Location()
 | `address2` | `string` | No | The Location's street address. |
 | `billingId` | `string` | No | \? |
 | `city` | `string` | No | The Location's city. |
+| `client` | `Object` | No | Reference to the associated Client resource. |
 | `country` | `string` | No | The Location's country. |
 | `created` | `string` | No | Creation timestamp in ISO 8601 format. |
 | `customReference` | `string` | No | A Partner specified reference for a location. |
@@ -1301,11 +1396,40 @@ const location = client.Location()
 | `uniqueId` | `string` | No | Unique Identifier for the Location. |
 | `version` | `number` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create | remove |
+| --- | --- | --- | --- | --- |
+| `address1` | - | - | Yes | - |
+| `address2` | - | - | - | - |
+| `billingId` | - | - | - | - |
+| `city` | - | - | Yes | - |
+| `client` | - | - | - | - |
+| `country` | - | - | Yes | - |
+| `created` | - | - | - | - |
+| `customReference` | - | - | - | - |
+| `id` | - | - | - | - |
+| `locationType` | - | - | Yes | - |
+| `mailAddress1` | - | - | - | - |
+| `mailAddress2` | - | - | - | - |
+| `mailCity` | - | - | - | - |
+| `mailCountry` | - | - | - | - |
+| `mailPostalCode` | - | - | - | - |
+| `mailStateProvince` | - | - | - | - |
+| `modified` | - | - | - | - |
+| `name` | - | - | Yes | - |
+| `nameOfBusiness` | - | - | - | - |
+| `notes` | - | - | - | - |
+| `postalCode` | - | - | - | - |
+| `stateProvince` | - | - | - | - |
+| `uniqueId` | - | - | - | - |
+| `version` | - | - | - | - |
+
 ### Operations
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.Location().create({
@@ -1314,15 +1438,15 @@ const result = await client.Location().create({
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
-const results = await client.Location().list()
+const results = await client.Location().list({ client: "example" })
 ```
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Location().load({ id: 'location_id' })
@@ -1330,7 +1454,7 @@ const result = await client.Location().load({ id: 'location_id' })
 
 #### `remove(match: object, ctrl?: object)`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Resolves to the entity, marked as deleted.
 
 ```ts
 const result = await client.Location().remove({ id: 'location_id' })
@@ -1395,16 +1519,16 @@ const partner = client.Partner()
 | --- | --- | --- | --- |
 | `billingId` | - | - | - |
 | `clientCanOrderEquipment` | - | - | - |
-| `contact` | - | Yes | - |
+| `contact` | - | Yes | Yes |
 | `created` | - | - | - |
 | `id` | - | - | - |
 | `isActive` | - | - | - |
 | `location` | - | - | - |
 | `modified` | - | - | - |
-| `name` | - | - | - |
-| `parent` | - | - | - |
+| `name` | - | - | Yes |
+| `parent` | - | - | Yes |
 | `partnerId` | - | - | - |
-| `reference` | - | - | - |
+| `reference` | - | - | Yes |
 | `verificationPhrase` | - | - | - |
 | `version` | - | - | - |
 
@@ -1412,7 +1536,7 @@ const partner = client.Partner()
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.Partner().create({
@@ -1422,7 +1546,7 @@ const result = await client.Partner().create({
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.Partner().list()
@@ -1430,7 +1554,7 @@ const results = await client.Partner().list()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Partner().load({ id: 'partner_id' })
@@ -1483,34 +1607,56 @@ const shipment = client.Shipment()
 | `id` | `string` | No | This resource's unique identifier. |
 | `items` | `Array` | No |  |
 | `kif` | `Object` | No | Reference to the associated KIF resource. |
+| `location` | `Object` | Yes | Reference to the associated Location resource. |
 | `modified` | `string` | No | Last modified timestamp. |
 | `partner` | `Object` | No | Reference to the associated Partner. |
 | `shipmentType` | `string` | No | The type of shipment. |
 | `tracking` | `string` | No | The courier's tracking number. |
 | `version` | `number` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `carrier` | - | - | Yes |
+| `client` | - | - | Yes |
+| `created` | - | - | - |
+| `dateReceived` | - | - | - |
+| `dateShipped` | - | - | Yes |
+| `dcKif` | - | - | - |
+| `id` | - | - | - |
+| `items` | - | - | Yes |
+| `kif` | - | - | Yes |
+| `location` | - | - | - |
+| `modified` | - | - | - |
+| `partner` | - | - | Yes |
+| `shipmentType` | - | - | - |
+| `tracking` | - | - | Yes |
+| `version` | - | - | - |
+
 ### Operations
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.Shipment().create({
+  location: {},
 })
 ```
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
-const results = await client.Shipment().list()
+const results = await client.Shipment().list({ kif: "example" })
 ```
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Shipment().load({ id: 'shipment_id' })
@@ -1554,23 +1700,27 @@ const success = client.Success()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `devices` | `Array` | Yes | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | `Object` | Yes | Reference to the associated Partner. |
 | `success` | `boolean` | No | Indicates if the action was a success. |
 
 ### Operations
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.Success().create({
   share_partner_to: 'example_share_partner_to',
+  devices: [],
+  sharePartnerFrom: {},
 })
 ```
 
 #### `remove(match: object, ctrl?: object)`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Resolves to the entity, marked as deleted.
 
 ```ts
 const result = await client.Success().remove({ share_partner_to: 'share_partner_to' })
@@ -1619,6 +1769,7 @@ const transaction = client.Transaction()
 | `clientRef` | `string` | No | Client Reference property that is included in the decrypt API call. |
 | `created` | `string` | No | Creation timestamp in ISO 8601 format. |
 | `decrypted` | `number` | No | A Transcation can process muliple decryptions. |
+| `device` | `Object` | Yes | Reference to the associated Device resource. |
 | `deviceName` | `string` | No | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | `Object` | No | Reference to the associated Partner. |
 | `encrypted` | `number` | No | A Transcation can process muliple encryptions. |
@@ -1639,21 +1790,52 @@ const transaction = client.Transaction()
 | `success` | `boolean` | No | The success indicator. |
 | `transactionSource` | `string` | No | The source of the Transaction. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `alternateKey` | - | - | - |
+| `client` | - | - | Yes |
+| `clientRef` | - | - | - |
+| `created` | - | - | - |
+| `decrypted` | - | - | - |
+| `device` | - | - | - |
+| `deviceName` | - | - | - |
+| `directPartner` | - | - | - |
+| `encrypted` | - | - | - |
+| `endDate` | - | - | - |
+| `errCode` | - | - | - |
+| `errMessage` | - | - | - |
+| `id` | - | - | - |
+| `ipAddress` | - | - | Yes |
+| `isVirtual` | - | - | - |
+| `keyType` | - | - | Yes |
+| `location` | - | - | - |
+| `messageId` | - | - | - |
+| `method` | - | - | Yes |
+| `partner` | - | - | Yes |
+| `reference` | - | - | - |
+| `serialNumber` | - | - | - |
+| `startDate` | - | - | - |
+| `success` | - | - | - |
+| `transactionSource` | - | - | - |
+
 ### Operations
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.Transaction().create({
+  device: {},
   location: {},
 })
 ```
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.Transaction().list()
@@ -1661,7 +1843,7 @@ const results = await client.Transaction().list()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Transaction().load({ id: 'transaction_id' })
@@ -1705,33 +1887,161 @@ const update_result = client.UpdateResult()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `address1` | `string` | No | The Location's street address. |
+| `address2` | `string` | No | The Location's street address. |
+| `alternateKey` | `string` | No | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `string` | No | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | `string` | No | \? |
+| `city` | `string` | No | The Location's city. |
 | `client` | `Object` | No | Reference to the associated Client resource. |
-| `email` | `string` | No | The User's email address. |
-| `firstName` | `string` | No | The User's name. |
+| `clientCanOrderEquipment` | `boolean` | No | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | `string` | No | Client Reference property that is included in the decrypt API call. |
+| `contact` | `Object` | Yes | Reference to the associated User resource. |
+| `country` | `Object` | No | Reference to the associated Country. |
+| `customReference` | `string` | No | A Partner specified reference for a location. |
+| `dateShipped` | `string` | No | The date and time that a package is shipped. |
+| `decrypted` | `number` | No | A Transcation can process muliple decryptions. |
+| `device` | `Object` | No | Reference to the associated Device resource. |
+| `deviceBuild` | `Object` | No | Reference to the associated Device Build resource. |
+| `deviceType` | `Object` | No | Reference to the associated Device Type resource. |
+| `directPartner` | `Object` | No | Reference to the associated Partner. |
+| `email` | `string` | Yes | The User's email address. |
+| `encrypted` | `number` | No | A Transcation can process muliple encryptions. |
+| `endDate` | `string` | No | Timestamp from the end of the transaction. |
+| `errCode` | `string` | No | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `string` | No | The error messge that is sent in response to a failed decrypt API call. |
+| `firstName` | `string` | Yes | The User's name. |
 | `id` | `string` | No | ID of newly created resource |
-| `isActive` | `boolean` | No | This property indicates if the User account is active or disabled. |
+| `injectKey` | `Object` | No | Reference to the associated Device resource. |
+| `ipAddress` | `string` | No | The IP address of the http client that makes the decrypt API call. |
+| `isActive` | `boolean` | Yes | This property indicates if the User account is active or disabled. |
+| `items` | `Array` | No |  |
+| `keyType` | `string` | No | The type of cipher used during decrytion. |
 | `kif` | `Object` | No | Reference to the associated KIF resource. |
-| `lastName` | `string` | No | The User's Surname. |
+| `lastName` | `string` | Yes | The User's Surname. |
+| `location` | `Object` | Yes | Reference to the associated Location resource. |
+| `locationType` | `string` | No | The Location's clasification. |
+| `mailAddress1` | `string` | No | The Location's street address. |
+| `mailAddress2` | `string` | No | The Location's street address. |
+| `mailCity` | `string` | No | The Location's city. |
+| `mailCountry` | `string` | No | The Location's street address. |
+| `mailPostalCode` | `string` | No | The Location's postal code. |
+| `mailStateProvince` | `string` | No | The Location's street state or province. |
+| `messageId` | `string` | No | Message ID. |
+| `method` | `string` | No | The decryption cypher/method. |
+| `mid` | `string` | No | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | `string` | No | The Client's name. |
+| `nameOfBusiness` | `string` | No | The name of the business at this location. |
+| `notes` | `string` | No | Arbitary note that can be attached to a Device entry. |
+| `parent` | `Object` | No | Reference to the associated Partner. |
 | `partner` | `Object` | No | Reference to the associated Partner. |
-| `phone` | `string` | No | The User's phone number without dashes, spaces, or brackets. |
-| `userName` | `string` | No | The User's unique username. |
-| `userRole` | `Object` | No | Reference to the associated User Role. |
+| `partnerId` | `string` | No | The Partner's id. |
+| `phone` | `string` | Yes | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | `string` | No | The Location's postal code. |
+| `reference` | `string` | No | The Partner's reference string. |
+| `sendWelcomeEmail` | `boolean` | No | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | `string` | No | The Device's serial number. |
+| `startDate` | `string` | No | Timestamp from the beginning of the transaction. |
+| `stateProvince` | `string` | No | The Location's street state or province. |
+| `success` | `boolean` | No | The success indicator. |
+| `tracking` | `string` | No | The courier's tracking number. |
+| `uniqueId` | `string` | No | Unique Identifier for the Location. |
+| `userName` | `string` | Yes | The User's unique username. |
+| `userRole` | `Object` | Yes | Reference to the associated User Role. |
+| `verificationPhrase` | `string` | No | The verification phrase is a message that the Partner creates. |
 | `version` | `number` | No | The number of times that this resource has been updated. |
+
+### Field Usage by Operation
+
+| Field | list | create | update |
+| --- | --- | --- | --- |
+| `address1` | - | - | - |
+| `address2` | - | - | - |
+| `alternateKey` | - | - | - |
+| `auditNextDate` | - | - | - |
+| `billingId` | - | - | - |
+| `city` | - | - | - |
+| `client` | - | - | - |
+| `clientCanOrderEquipment` | - | - | - |
+| `clientRef` | - | - | - |
+| `contact` | - | - | - |
+| `country` | - | - | - |
+| `customReference` | - | - | - |
+| `dateShipped` | - | - | - |
+| `decrypted` | - | - | - |
+| `device` | - | - | - |
+| `deviceBuild` | - | - | - |
+| `deviceType` | - | - | - |
+| `directPartner` | - | - | - |
+| `email` | Yes | - | Yes |
+| `encrypted` | - | - | - |
+| `endDate` | - | - | - |
+| `errCode` | - | - | - |
+| `errMessage` | - | - | - |
+| `firstName` | Yes | - | Yes |
+| `id` | - | - | - |
+| `injectKey` | - | - | - |
+| `ipAddress` | - | - | - |
+| `isActive` | Yes | - | Yes |
+| `items` | - | - | - |
+| `keyType` | - | - | - |
+| `kif` | - | - | - |
+| `lastName` | Yes | - | Yes |
+| `location` | - | - | - |
+| `locationType` | - | - | - |
+| `mailAddress1` | - | - | - |
+| `mailAddress2` | - | - | - |
+| `mailCity` | - | - | - |
+| `mailCountry` | - | - | - |
+| `mailPostalCode` | - | - | - |
+| `mailStateProvince` | - | - | - |
+| `messageId` | - | - | - |
+| `method` | - | - | - |
+| `mid` | - | - | - |
+| `name` | - | - | - |
+| `nameOfBusiness` | - | - | - |
+| `notes` | - | - | - |
+| `parent` | - | - | - |
+| `partner` | - | - | - |
+| `partnerId` | - | - | - |
+| `phone` | Yes | - | Yes |
+| `postalCode` | - | - | - |
+| `reference` | - | - | - |
+| `sendWelcomeEmail` | - | - | - |
+| `serialNumber` | - | - | - |
+| `startDate` | - | - | - |
+| `stateProvince` | - | - | - |
+| `success` | - | - | - |
+| `tracking` | - | - | - |
+| `uniqueId` | - | - | - |
+| `userName` | Yes | - | Yes |
+| `userRole` | Yes | - | Yes |
+| `verificationPhrase` | - | - | - |
+| `version` | - | - | - |
 
 ### Operations
 
 #### `create(data: object, ctrl?: object)`
 
-Create a new entity with the given data.
+Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
 const result = await client.UpdateResult().create({
+  contact: {},
+  email: 'example_email',
+  firstName: 'example_firstName',
+  isActive: true,
+  lastName: 'example_lastName',
+  location: {},
+  phone: 'example_phone',
+  userName: 'example_userName',
+  userRole: {},
 })
 ```
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
 const results = await client.UpdateResult().list()
@@ -1739,7 +2049,7 @@ const results = await client.UpdateResult().list()
 
 #### `update(data: object, ctrl?: object)`
 
-Update an existing entity. The data must include the entity `id`.
+Update an existing entity. The data must include the entity `id`. Resolves to the updated entity.
 
 ```ts
 const result = await client.UpdateResult().update({
@@ -1805,7 +2115,7 @@ const user = client.User()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.User().load({ id: 'user_id' })
@@ -1813,7 +2123,7 @@ const result = await client.User().load({ id: 'user_id' })
 
 #### `remove(match: object, ctrl?: object)`
 
-Remove the entity matching the given criteria.
+Remove the entity matching the given criteria. Resolves to the entity, marked as deleted.
 
 ```ts
 const result = await client.User().remove({ id: 'user_id' })
@@ -1865,7 +2175,7 @@ const virtual_device = client.VirtualDevice()
 
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.VirtualDevice().load({ id: 'virtual_device_id' })
@@ -2320,6 +2630,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

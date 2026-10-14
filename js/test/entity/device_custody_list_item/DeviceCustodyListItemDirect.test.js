@@ -12,6 +12,10 @@ const {
   envOverride,
   liveClientOptions,
   liveDelay,
+  skipIfMissingIds,
+  liveMiss,
+  liveEmpty,
+  describeLive,
 } = require('../../utility')
 
 
@@ -37,6 +41,7 @@ describe('DeviceCustodyListItemDirect', async () => {
   test('direct-list-device_custody_list_item', async (t) => {
     if (liveScenariosActive()) { t.skip('Covered by live operation scenarios'); return }
     const setup = directSetup([{ id: 'direct01' }, { id: 'direct02' }])
+    if (skipIfMissingIds(t, setup, ["device_type01","serial_number01"], LIVE_STRICT)) return
     const { client, calls } = setup
 
     const params = {}
@@ -54,11 +59,17 @@ describe('DeviceCustodyListItemDirect', async () => {
       params,
     })
 
-    assert(result.ok === true)
-    assert(setup.live ? result.status >= 200 && result.status < 300 : result.status === 200)
-    assert(Array.isArray(result.data))
-
-    if (!setup.live) {
+    if (setup.live) {
+      if (!result.ok || result.status < 200 || result.status >= 300) {
+        return void liveMiss(t, LIVE_STRICT, 'Live list failed: ' + describeLive(result))
+      }
+      if (!(Array.isArray(result.data))) {
+        return void liveMiss(t, LIVE_STRICT, 'Live list returned no list: ' + describeLive(result))
+      }
+    } else {
+      assert(result.ok === true)
+      assert(result.status === 200)
+      assert(Array.isArray(result.data))
       assert(result.data.length === 2)
       assert(calls.length === 1)
       assert(calls[0].init.method === 'GET')
@@ -70,6 +81,12 @@ describe('DeviceCustodyListItemDirect', async () => {
 })
 
 
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true
 
 function liveScenariosActive() { return false && process.env.BLUEFIN_DECRYPTX_P2PE_TEST_LIVE === 'TRUE' }
 function directSetup(mockres) {

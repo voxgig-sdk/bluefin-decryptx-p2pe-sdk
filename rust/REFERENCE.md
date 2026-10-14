@@ -8,7 +8,7 @@ Complete API reference for the BluefinDecryptxP2pe Rust SDK.
 ### Constructor
 
 ```rust
-use bluefin_decryptx_p2pe_sdk::{BluefinDecryptxP2peSDK, Value};
+use bluefin_decryptx_p2pe_sdk::{jo, BluefinDecryptxP2peEntity, BluefinDecryptxP2peSDK, Entity, Value};
 
 let client = BluefinDecryptxP2peSDK::new(options);
 ```
@@ -202,40 +202,54 @@ let attestation = client.attestation(Value::Noval);
 | `completeDate` | `String` | No | The date and time that the Attestation took place. |
 | `created` | `String` | No | Creation timestamp in ISO 8601 format. |
 | `device` | `std::collections::HashMap<String, Value>` | No | Reference to the associated Device resource. |
+| `devices` | `Vec<Value>` | Yes |  |
 | `id` | `String` | No | This resource's unique identifier. |
 | `name` | `String` | No | Text describing the attestation. |
 | `notes` | `String` | No | Free form field that allows the Client associate notes with the Attestation. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `client` | - | - | Yes |
+| `completeDate` | - | - | Yes |
+| `created` | - | - | - |
+| `device` | - | - | - |
+| `devices` | - | - | - |
+| `id` | - | - | - |
+| `name` | - | - | Yes |
+| `notes` | - | - | - |
+
 ### Operations
 
-#### `create(reqdata: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `create(reqdata: Value, ctrl: Value) -> Result<Rc<Self>, BluefinDecryptxP2peError>`
 
-Create a new entity with the given data. Returns the created entity data on `Ok` and `Err` on failure.
+Create a new entity with the given data. `Ok` is the created entity, and `Err` a failure.
 
 ```rust
 let result = client.attestation(Value::Noval).create(jo(vec![
+    ("devices", Value::empty_list()),  // Vec<Value>
 ]), Value::Noval).unwrap();
 ```
 
-#### `list(reqmatch: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `list(reqmatch: Value, ctrl: Value) -> Result<Vec<Rc<Self>>, BluefinDecryptxP2peError>`
 
-List entities matching the given criteria. The match is optional — pass `Value::Noval` to list all records. `Ok` is a `Value::List`.
+List entities matching the given criteria. The match is optional — pass `Value::Noval` to list all records. `Ok` is a `Vec` of entities, one per record.
 
 ```rust
-let results = client.attestation(Value::Noval).list(Value::Noval, Value::Noval).unwrap();
-if let Value::List(items) = &results {
-    for attestation in items.borrow().iter() {
-        println!("{:?}", attestation);
-    }
+let results = client.attestation(Value::Noval).list(jo(vec![("client", Value::str("example"))]), Value::Noval).unwrap();
+for attestation in &results {
+    println!("{:?}", attestation.data(None));
 }
 ```
 
-#### `load(reqmatch: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `load(reqmatch: Value, ctrl: Value) -> Result<Rc<Self>, BluefinDecryptxP2peError>`
 
-Load a single entity matching the given criteria. Returns the entity data on `Ok` and `Err` on failure.
+Load a single entity matching the given criteria. `Ok` is the entity, whose record `data(None)` reads, and `Err` a failure.
 
 ```rust
 let result = client.attestation(Value::Noval).load(jo(vec![("id", Value::str("attestation_id"))]), Value::Noval).unwrap();
+println!("{:?}", result.data(None));
 ```
 
 ### Common Methods
@@ -285,23 +299,23 @@ let client = client.client(Value::Noval);
 
 | Field | load | list | create | remove |
 | --- | --- | --- | --- | --- |
-| `contact` | - | Yes | - | - |
+| `contact` | - | Yes | Yes | - |
 | `created` | - | - | - | - |
-| `directPartner` | - | - | - | - |
+| `directPartner` | - | - | Yes | - |
 | `id` | - | - | - | - |
 | `isActive` | - | - | - | - |
 | `location` | - | - | - | - |
 | `mid` | - | - | - | - |
 | `modified` | - | - | - | - |
-| `name` | - | - | - | - |
+| `name` | - | - | Yes | - |
 | `partner` | - | - | - | - |
 | `version` | - | - | - | - |
 
 ### Operations
 
-#### `create(reqdata: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `create(reqdata: Value, ctrl: Value) -> Result<Rc<Self>, BluefinDecryptxP2peError>`
 
-Create a new entity with the given data. Returns the created entity data on `Ok` and `Err` on failure.
+Create a new entity with the given data. `Ok` is the created entity, and `Err` a failure.
 
 ```rust
 let result = client.client(Value::Noval).create(jo(vec![
@@ -309,33 +323,33 @@ let result = client.client(Value::Noval).create(jo(vec![
 ]), Value::Noval).unwrap();
 ```
 
-#### `list(reqmatch: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `list(reqmatch: Value, ctrl: Value) -> Result<Vec<Rc<Self>>, BluefinDecryptxP2peError>`
 
-List entities matching the given criteria. The match is optional — pass `Value::Noval` to list all records. `Ok` is a `Value::List`.
+List entities matching the given criteria. The match is optional — pass `Value::Noval` to list all records. `Ok` is a `Vec` of entities, one per record.
 
 ```rust
-let results = client.client(Value::Noval).list(Value::Noval, Value::Noval).unwrap();
-if let Value::List(items) = &results {
-    for client in items.borrow().iter() {
-        println!("{:?}", client);
-    }
+let results = client.client(Value::Noval).list(jo(vec![("partner", Value::str("example"))]), Value::Noval).unwrap();
+for client in &results {
+    println!("{:?}", client.data(None));
 }
 ```
 
-#### `load(reqmatch: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `load(reqmatch: Value, ctrl: Value) -> Result<Rc<Self>, BluefinDecryptxP2peError>`
 
-Load a single entity matching the given criteria. Returns the entity data on `Ok` and `Err` on failure.
+Load a single entity matching the given criteria. `Ok` is the entity, whose record `data(None)` reads, and `Err` a failure.
 
 ```rust
 let result = client.client(Value::Noval).load(jo(vec![("id", Value::str("client_id"))]), Value::Noval).unwrap();
+println!("{:?}", result.data(None));
 ```
 
-#### `remove(reqmatch: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `remove(reqmatch: Value, ctrl: Value) -> Result<Rc<Self>, BluefinDecryptxP2peError>`
 
-Remove the entity matching the given criteria. `Err` on failure.
+Remove the entity matching the given criteria. `Ok` is the entity, marked as deleted, and `Err` a failure.
 
 ```rust
 let result = client.client(Value::Noval).remove(jo(vec![("id", Value::str("client_id"))]), Value::Noval).unwrap();
+println!("{:?}", result.data(None));
 ```
 
 ### Common Methods
@@ -365,16 +379,27 @@ Return the entity name.
 let create_result = client.create_result(Value::Noval);
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `completeDate` | `String` | No | The date and time that the Custody change took place. |
+| `custodian` | `std::collections::HashMap<String, Value>` | Yes | Reference to the associated User resource. |
+| `location` | `std::collections::HashMap<String, Value>` | Yes | Reference to the associated Location resource. |
+| `notes` | `String` | No | Free form field that allows the Client associate notes with the Custody Change. |
+
 ### Operations
 
-#### `create(reqdata: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `create(reqdata: Value, ctrl: Value) -> Result<Rc<Self>, BluefinDecryptxP2peError>`
 
-Create a new entity with the given data. Returns the created entity data on `Ok` and `Err` on failure.
+Create a new entity with the given data. `Ok` is the created entity, and `Err` a failure.
 
 ```rust
 let result = client.create_result(Value::Noval).create(jo(vec![
     ("device_type", Value::str("example_device_type")),  // String
     ("serial_number", Value::str("example_serial_number")),  // String
+    ("custodian", Value::empty_map()),  // std::collections::HashMap<String, Value>
+    ("location", Value::empty_map()),  // std::collections::HashMap<String, Value>
 ]), Value::Noval).unwrap();
 ```
 
@@ -409,16 +434,27 @@ let decryption = client.decryption(Value::Noval);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `cbcVector` | `String` | No | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | `String` | Yes | The device Type. |
+| `encoding` | `String` | No | The payload encoding |
+| `encrypted` | `Vec<Value>` | Yes |  |
+| `hasCcData` | `String` | No | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | `String` | No | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | `String` | No | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | `String` | Yes | The serial number of the device. |
 | `success` | `bool` | No | true if the payload decryption was successful. |
 
 ### Operations
 
-#### `create(reqdata: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `create(reqdata: Value, ctrl: Value) -> Result<Rc<Self>, BluefinDecryptxP2peError>`
 
-Create a new entity with the given data. Returns the created entity data on `Ok` and `Err` on failure.
+Create a new entity with the given data. `Ok` is the created entity, and `Err` a failure.
 
 ```rust
 let result = client.decryption(Value::Noval).create(jo(vec![
+    ("deviceType", Value::str("example_deviceType")),  // String
+    ("encrypted", Value::empty_list()),  // Vec<Value>
+    ("serialNumber", Value::str("example_serialNumber")),  // String
 ]), Value::Noval).unwrap();
 ```
 
@@ -482,11 +518,44 @@ let device = client.device(Value::Noval);
 | `serialNumber` | `String` | No | The Device's serial number. |
 | `version` | `i64` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `activatedBy` | - | - | - |
+| `activationDate` | - | - | - |
+| `alternateKey` | - | - | - |
+| `auditNextDate` | - | - | - |
+| `auditNotificationDate` | - | - | - |
+| `client` | - | - | - |
+| `created` | - | - | - |
+| `createdBy` | - | - | - |
+| `deviceBuild` | - | - | - |
+| `deviceState` | - | - | - |
+| `deviceType` | - | - | Yes |
+| `errorCounter` | - | - | - |
+| `errorLastDate` | - | - | - |
+| `id` | - | - | - |
+| `initializedBy` | - | - | - |
+| `initializedDate` | - | - | - |
+| `injectKey` | - | - | - |
+| `isVirtual` | - | - | - |
+| `kif` | - | - | Yes |
+| `lastActivityDate` | - | - | - |
+| `location` | - | - | - |
+| `modified` | - | - | - |
+| `modifiedBy` | - | - | - |
+| `name` | - | - | - |
+| `notes` | - | - | - |
+| `partner` | - | - | - |
+| `serialNumber` | - | - | Yes |
+| `version` | - | - | - |
+
 ### Operations
 
-#### `create(reqdata: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `create(reqdata: Value, ctrl: Value) -> Result<Rc<Self>, BluefinDecryptxP2peError>`
 
-Create a new entity with the given data. Returns the created entity data on `Ok` and `Err` on failure.
+Create a new entity with the given data. `Ok` is the created entity, and `Err` a failure.
 
 ```rust
 let result = client.device(Value::Noval).create(jo(vec![
@@ -498,25 +567,24 @@ let result = client.device(Value::Noval).create(jo(vec![
 ]), Value::Noval).unwrap();
 ```
 
-#### `list(reqmatch: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `list(reqmatch: Value, ctrl: Value) -> Result<Vec<Rc<Self>>, BluefinDecryptxP2peError>`
 
-List entities matching the given criteria. The match is optional — pass `Value::Noval` to list all records. `Ok` is a `Value::List`.
+List entities matching the given criteria. The match is optional — pass `Value::Noval` to list all records. `Ok` is a `Vec` of entities, one per record.
 
 ```rust
 let results = client.device(Value::Noval).list(Value::Noval, Value::Noval).unwrap();
-if let Value::List(items) = &results {
-    for device in items.borrow().iter() {
-        println!("{:?}", device);
-    }
+for device in &results {
+    println!("{:?}", device.data(None));
 }
 ```
 
-#### `load(reqmatch: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `load(reqmatch: Value, ctrl: Value) -> Result<Rc<Self>, BluefinDecryptxP2peError>`
 
-Load a single entity matching the given criteria. Returns the entity data on `Ok` and `Err` on failure.
+Load a single entity matching the given criteria. `Ok` is the entity, whose record `data(None)` reads, and `Err` a failure.
 
 ```rust
 let result = client.device(Value::Noval).load(jo(vec![("id", Value::str("device_id"))]), Value::Noval).unwrap();
+println!("{:?}", result.data(None));
 ```
 
 ### Common Methods
@@ -568,25 +636,24 @@ let device_build = client.device_build(Value::Noval);
 
 ### Operations
 
-#### `list(reqmatch: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `list(reqmatch: Value, ctrl: Value) -> Result<Vec<Rc<Self>>, BluefinDecryptxP2peError>`
 
-List entities matching the given criteria. The match is optional — pass `Value::Noval` to list all records. `Ok` is a `Value::List`.
+List entities matching the given criteria. The match is optional — pass `Value::Noval` to list all records. `Ok` is a `Vec` of entities, one per record.
 
 ```rust
 let results = client.device_build(Value::Noval).list(Value::Noval, Value::Noval).unwrap();
-if let Value::List(items) = &results {
-    for device_build in items.borrow().iter() {
-        println!("{:?}", device_build);
-    }
+for device_build in &results {
+    println!("{:?}", device_build.data(None));
 }
 ```
 
-#### `load(reqmatch: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `load(reqmatch: Value, ctrl: Value) -> Result<Rc<Self>, BluefinDecryptxP2peError>`
 
-Load a single entity matching the given criteria. Returns the entity data on `Ok` and `Err` on failure.
+Load a single entity matching the given criteria. `Ok` is the entity, whose record `data(None)` reads, and `Err` a failure.
 
 ```rust
 let result = client.device_build(Value::Noval).load(jo(vec![("id", Value::str("device_build_id"))]), Value::Noval).unwrap();
+println!("{:?}", result.data(None));
 ```
 
 ### Common Methods
@@ -636,12 +703,13 @@ let device_custody_detail = client.device_custody_detail(Value::Noval);
 
 ### Operations
 
-#### `load(reqmatch: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `load(reqmatch: Value, ctrl: Value) -> Result<Rc<Self>, BluefinDecryptxP2peError>`
 
-Load a single entity matching the given criteria. Returns the entity data on `Ok` and `Err` on failure.
+Load a single entity matching the given criteria. `Ok` is the entity, whose record `data(None)` reads, and `Err` a failure.
 
 ```rust
 let result = client.device_custody_detail(Value::Noval).load(jo(vec![("id", Value::str("device_custody_detail_id")), ("device_type", Value::str("device_type")), ("serial_number", Value::str("serial_number"))]), Value::Noval).unwrap();
+println!("{:?}", result.data(None));
 ```
 
 ### Common Methods
@@ -691,16 +759,14 @@ let device_custody_list_item = client.device_custody_list_item(Value::Noval);
 
 ### Operations
 
-#### `list(reqmatch: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `list(reqmatch: Value, ctrl: Value) -> Result<Vec<Rc<Self>>, BluefinDecryptxP2peError>`
 
-List entities matching the given criteria. The match is optional — pass `Value::Noval` to list all records. `Ok` is a `Value::List`.
+List entities matching the given criteria. The match is optional — pass `Value::Noval` to list all records. `Ok` is a `Vec` of entities, one per record.
 
 ```rust
-let results = client.device_custody_list_item(Value::Noval).list(Value::Noval, Value::Noval).unwrap();
-if let Value::List(items) = &results {
-    for device_custody_list_item in items.borrow().iter() {
-        println!("{:?}", device_custody_list_item);
-    }
+let results = client.device_custody_list_item(Value::Noval).list(jo(vec![("device_type", Value::str("example")), ("serial_number", Value::str("example"))]), Value::Noval).unwrap();
+for device_custody_list_item in &results {
+    println!("{:?}", device_custody_list_item.data(None));
 }
 ```
 
@@ -735,17 +801,21 @@ let device_receive_result = client.device_receive_result(Value::Noval);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `serialNumber` | `String` | Yes | The serial number of the Device that is shipped. |
 | `success` | `bool` | Yes | Indicates if the action succeeded. |
+| `tamperLabel` | `String` | Yes | The code that is printed the tamper label of the Device that is shipped. |
 
 ### Operations
 
-#### `create(reqdata: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `create(reqdata: Value, ctrl: Value) -> Result<Rc<Self>, BluefinDecryptxP2peError>`
 
-Create a new entity with the given data. Returns the created entity data on `Ok` and `Err` on failure.
+Create a new entity with the given data. `Ok` is the created entity, and `Err` a failure.
 
 ```rust
 let result = client.device_receive_result(Value::Noval).create(jo(vec![
+    ("serialNumber", Value::str("example_serialNumber")),  // String
     ("success", Value::Bool(true)),  // bool
+    ("tamperLabel", Value::str("example_tamperLabel")),  // String
 ]), Value::Noval).unwrap();
 ```
 
@@ -780,16 +850,25 @@ let device_rki_activate_result = client.device_rki_activate_result(Value::Noval)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `appVersion` | `String` | No | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | `String` | No | The Device Builds's name. |
+| `buildNumber` | `String` | No | The Build Number. |
+| `configFile` | `String` | No | \? |
+| `firmwareVersion` | `String` | No | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `String` | No | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | `String` | Yes | The referenced Device's serial number. |
 | `success` | `bool` | Yes | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | `String` | No | \? |
 
 ### Operations
 
-#### `create(reqdata: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `create(reqdata: Value, ctrl: Value) -> Result<Rc<Self>, BluefinDecryptxP2peError>`
 
-Create a new entity with the given data. Returns the created entity data on `Ok` and `Err` on failure.
+Create a new entity with the given data. `Ok` is the created entity, and `Err` a failure.
 
 ```rust
 let result = client.device_rki_activate_result(Value::Noval).create(jo(vec![
+    ("serialNumber", Value::str("example_serialNumber")),  // String
     ("success", Value::Bool(true)),  // bool
 ]), Value::Noval).unwrap();
 ```
@@ -830,16 +909,14 @@ let device_state = client.device_state(Value::Noval);
 
 ### Operations
 
-#### `list(reqmatch: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `list(reqmatch: Value, ctrl: Value) -> Result<Vec<Rc<Self>>, BluefinDecryptxP2peError>`
 
-List entities matching the given criteria. The match is optional — pass `Value::Noval` to list all records. `Ok` is a `Value::List`.
+List entities matching the given criteria. The match is optional — pass `Value::Noval` to list all records. `Ok` is a `Vec` of entities, one per record.
 
 ```rust
 let results = client.device_state(Value::Noval).list(Value::Noval, Value::Noval).unwrap();
-if let Value::List(items) = &results {
-    for device_state in items.borrow().iter() {
-        println!("{:?}", device_state);
-    }
+for device_state in &results {
+    println!("{:?}", device_state.data(None));
 }
 ```
 
@@ -889,25 +966,24 @@ let device_type = client.device_type(Value::Noval);
 
 ### Operations
 
-#### `list(reqmatch: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `list(reqmatch: Value, ctrl: Value) -> Result<Vec<Rc<Self>>, BluefinDecryptxP2peError>`
 
-List entities matching the given criteria. The match is optional — pass `Value::Noval` to list all records. `Ok` is a `Value::List`.
+List entities matching the given criteria. The match is optional — pass `Value::Noval` to list all records. `Ok` is a `Vec` of entities, one per record.
 
 ```rust
 let results = client.device_type(Value::Noval).list(Value::Noval, Value::Noval).unwrap();
-if let Value::List(items) = &results {
-    for device_type in items.borrow().iter() {
-        println!("{:?}", device_type);
-    }
+for device_type in &results {
+    println!("{:?}", device_type.data(None));
 }
 ```
 
-#### `load(reqmatch: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `load(reqmatch: Value, ctrl: Value) -> Result<Rc<Self>, BluefinDecryptxP2peError>`
 
-Load a single entity matching the given criteria. Returns the entity data on `Ok` and `Err` on failure.
+Load a single entity matching the given criteria. `Ok` is the entity, whose record `data(None)` reads, and `Err` a failure.
 
 ```rust
 let result = client.device_type(Value::Noval).load(jo(vec![("id", Value::str("device_type_id"))]), Value::Noval).unwrap();
+println!("{:?}", result.data(None));
 ```
 
 ### Common Methods
@@ -952,25 +1028,24 @@ let inject_key = client.inject_key(Value::Noval);
 
 ### Operations
 
-#### `list(reqmatch: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `list(reqmatch: Value, ctrl: Value) -> Result<Vec<Rc<Self>>, BluefinDecryptxP2peError>`
 
-List entities matching the given criteria. The match is optional — pass `Value::Noval` to list all records. `Ok` is a `Value::List`.
+List entities matching the given criteria. The match is optional — pass `Value::Noval` to list all records. `Ok` is a `Vec` of entities, one per record.
 
 ```rust
 let results = client.inject_key(Value::Noval).list(Value::Noval, Value::Noval).unwrap();
-if let Value::List(items) = &results {
-    for inject_key in items.borrow().iter() {
-        println!("{:?}", inject_key);
-    }
+for inject_key in &results {
+    println!("{:?}", inject_key.data(None));
 }
 ```
 
-#### `load(reqmatch: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `load(reqmatch: Value, ctrl: Value) -> Result<Rc<Self>, BluefinDecryptxP2peError>`
 
-Load a single entity matching the given criteria. Returns the entity data on `Ok` and `Err` on failure.
+Load a single entity matching the given criteria. `Ok` is the entity, whose record `data(None)` reads, and `Err` a failure.
 
 ```rust
 let result = client.inject_key(Value::Noval).load(jo(vec![("id", Value::str("inject_key_id"))]), Value::Noval).unwrap();
+println!("{:?}", result.data(None));
 ```
 
 ### Common Methods
@@ -1009,16 +1084,14 @@ let kif = client.kif(Value::Noval);
 
 ### Operations
 
-#### `list(reqmatch: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `list(reqmatch: Value, ctrl: Value) -> Result<Vec<Rc<Self>>, BluefinDecryptxP2peError>`
 
-List entities matching the given criteria. The match is optional — pass `Value::Noval` to list all records. `Ok` is a `Value::List`.
+List entities matching the given criteria. The match is optional — pass `Value::Noval` to list all records. `Ok` is a `Vec` of entities, one per record.
 
 ```rust
 let results = client.kif(Value::Noval).list(Value::Noval, Value::Noval).unwrap();
-if let Value::List(items) = &results {
-    for kif in items.borrow().iter() {
-        println!("{:?}", kif);
-    }
+for kif in &results {
+    println!("{:?}", kif.data(None));
 }
 ```
 
@@ -1057,6 +1130,7 @@ let location = client.location(Value::Noval);
 | `address2` | `String` | No | The Location's street address. |
 | `billingId` | `String` | No | \? |
 | `city` | `String` | No | The Location's city. |
+| `client` | `std::collections::HashMap<String, Value>` | No | Reference to the associated Client resource. |
 | `country` | `String` | No | The Location's country. |
 | `created` | `String` | No | Creation timestamp in ISO 8601 format. |
 | `customReference` | `String` | No | A Partner specified reference for a location. |
@@ -1077,44 +1151,73 @@ let location = client.location(Value::Noval);
 | `uniqueId` | `String` | No | Unique Identifier for the Location. |
 | `version` | `i64` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create | remove |
+| --- | --- | --- | --- | --- |
+| `address1` | - | - | Yes | - |
+| `address2` | - | - | - | - |
+| `billingId` | - | - | - | - |
+| `city` | - | - | Yes | - |
+| `client` | - | - | - | - |
+| `country` | - | - | Yes | - |
+| `created` | - | - | - | - |
+| `customReference` | - | - | - | - |
+| `id` | - | - | - | - |
+| `locationType` | - | - | Yes | - |
+| `mailAddress1` | - | - | - | - |
+| `mailAddress2` | - | - | - | - |
+| `mailCity` | - | - | - | - |
+| `mailCountry` | - | - | - | - |
+| `mailPostalCode` | - | - | - | - |
+| `mailStateProvince` | - | - | - | - |
+| `modified` | - | - | - | - |
+| `name` | - | - | Yes | - |
+| `nameOfBusiness` | - | - | - | - |
+| `notes` | - | - | - | - |
+| `postalCode` | - | - | - | - |
+| `stateProvince` | - | - | - | - |
+| `uniqueId` | - | - | - | - |
+| `version` | - | - | - | - |
+
 ### Operations
 
-#### `create(reqdata: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `create(reqdata: Value, ctrl: Value) -> Result<Rc<Self>, BluefinDecryptxP2peError>`
 
-Create a new entity with the given data. Returns the created entity data on `Ok` and `Err` on failure.
+Create a new entity with the given data. `Ok` is the created entity, and `Err` a failure.
 
 ```rust
 let result = client.location(Value::Noval).create(jo(vec![
 ]), Value::Noval).unwrap();
 ```
 
-#### `list(reqmatch: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `list(reqmatch: Value, ctrl: Value) -> Result<Vec<Rc<Self>>, BluefinDecryptxP2peError>`
 
-List entities matching the given criteria. The match is optional — pass `Value::Noval` to list all records. `Ok` is a `Value::List`.
+List entities matching the given criteria. The match is optional — pass `Value::Noval` to list all records. `Ok` is a `Vec` of entities, one per record.
 
 ```rust
-let results = client.location(Value::Noval).list(Value::Noval, Value::Noval).unwrap();
-if let Value::List(items) = &results {
-    for location in items.borrow().iter() {
-        println!("{:?}", location);
-    }
+let results = client.location(Value::Noval).list(jo(vec![("client", Value::str("example"))]), Value::Noval).unwrap();
+for location in &results {
+    println!("{:?}", location.data(None));
 }
 ```
 
-#### `load(reqmatch: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `load(reqmatch: Value, ctrl: Value) -> Result<Rc<Self>, BluefinDecryptxP2peError>`
 
-Load a single entity matching the given criteria. Returns the entity data on `Ok` and `Err` on failure.
+Load a single entity matching the given criteria. `Ok` is the entity, whose record `data(None)` reads, and `Err` a failure.
 
 ```rust
 let result = client.location(Value::Noval).load(jo(vec![("id", Value::str("location_id"))]), Value::Noval).unwrap();
+println!("{:?}", result.data(None));
 ```
 
-#### `remove(reqmatch: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `remove(reqmatch: Value, ctrl: Value) -> Result<Rc<Self>, BluefinDecryptxP2peError>`
 
-Remove the entity matching the given criteria. `Err` on failure.
+Remove the entity matching the given criteria. `Ok` is the entity, marked as deleted, and `Err` a failure.
 
 ```rust
 let result = client.location(Value::Noval).remove(jo(vec![("id", Value::str("location_id"))]), Value::Noval).unwrap();
+println!("{:?}", result.data(None));
 ```
 
 ### Common Methods
@@ -1169,24 +1272,24 @@ let partner = client.partner(Value::Noval);
 | --- | --- | --- | --- |
 | `billingId` | - | - | - |
 | `clientCanOrderEquipment` | - | - | - |
-| `contact` | - | Yes | - |
+| `contact` | - | Yes | Yes |
 | `created` | - | - | - |
 | `id` | - | - | - |
 | `isActive` | - | - | - |
 | `location` | - | - | - |
 | `modified` | - | - | - |
-| `name` | - | - | - |
-| `parent` | - | - | - |
+| `name` | - | - | Yes |
+| `parent` | - | - | Yes |
 | `partnerId` | - | - | - |
-| `reference` | - | - | - |
+| `reference` | - | - | Yes |
 | `verificationPhrase` | - | - | - |
 | `version` | - | - | - |
 
 ### Operations
 
-#### `create(reqdata: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `create(reqdata: Value, ctrl: Value) -> Result<Rc<Self>, BluefinDecryptxP2peError>`
 
-Create a new entity with the given data. Returns the created entity data on `Ok` and `Err` on failure.
+Create a new entity with the given data. `Ok` is the created entity, and `Err` a failure.
 
 ```rust
 let result = client.partner(Value::Noval).create(jo(vec![
@@ -1194,25 +1297,24 @@ let result = client.partner(Value::Noval).create(jo(vec![
 ]), Value::Noval).unwrap();
 ```
 
-#### `list(reqmatch: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `list(reqmatch: Value, ctrl: Value) -> Result<Vec<Rc<Self>>, BluefinDecryptxP2peError>`
 
-List entities matching the given criteria. The match is optional — pass `Value::Noval` to list all records. `Ok` is a `Value::List`.
+List entities matching the given criteria. The match is optional — pass `Value::Noval` to list all records. `Ok` is a `Vec` of entities, one per record.
 
 ```rust
 let results = client.partner(Value::Noval).list(Value::Noval, Value::Noval).unwrap();
-if let Value::List(items) = &results {
-    for partner in items.borrow().iter() {
-        println!("{:?}", partner);
-    }
+for partner in &results {
+    println!("{:?}", partner.data(None));
 }
 ```
 
-#### `load(reqmatch: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `load(reqmatch: Value, ctrl: Value) -> Result<Rc<Self>, BluefinDecryptxP2peError>`
 
-Load a single entity matching the given criteria. Returns the entity data on `Ok` and `Err` on failure.
+Load a single entity matching the given criteria. `Ok` is the entity, whose record `data(None)` reads, and `Err` a failure.
 
 ```rust
 let result = client.partner(Value::Noval).load(jo(vec![("id", Value::str("partner_id"))]), Value::Noval).unwrap();
+println!("{:?}", result.data(None));
 ```
 
 ### Common Methods
@@ -1255,42 +1357,63 @@ let shipment = client.shipment(Value::Noval);
 | `id` | `String` | No | This resource's unique identifier. |
 | `items` | `Vec<Value>` | No |  |
 | `kif` | `std::collections::HashMap<String, Value>` | No | Reference to the associated KIF resource. |
+| `location` | `std::collections::HashMap<String, Value>` | Yes | Reference to the associated Location resource. |
 | `modified` | `String` | No | Last modified timestamp. |
 | `partner` | `std::collections::HashMap<String, Value>` | No | Reference to the associated Partner. |
 | `shipmentType` | `String` | No | The type of shipment. |
 | `tracking` | `String` | No | The courier's tracking number. |
 | `version` | `i64` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `carrier` | - | - | Yes |
+| `client` | - | - | Yes |
+| `created` | - | - | - |
+| `dateReceived` | - | - | - |
+| `dateShipped` | - | - | Yes |
+| `dcKif` | - | - | - |
+| `id` | - | - | - |
+| `items` | - | - | Yes |
+| `kif` | - | - | Yes |
+| `location` | - | - | - |
+| `modified` | - | - | - |
+| `partner` | - | - | Yes |
+| `shipmentType` | - | - | - |
+| `tracking` | - | - | Yes |
+| `version` | - | - | - |
+
 ### Operations
 
-#### `create(reqdata: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `create(reqdata: Value, ctrl: Value) -> Result<Rc<Self>, BluefinDecryptxP2peError>`
 
-Create a new entity with the given data. Returns the created entity data on `Ok` and `Err` on failure.
+Create a new entity with the given data. `Ok` is the created entity, and `Err` a failure.
 
 ```rust
 let result = client.shipment(Value::Noval).create(jo(vec![
+    ("location", Value::empty_map()),  // std::collections::HashMap<String, Value>
 ]), Value::Noval).unwrap();
 ```
 
-#### `list(reqmatch: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `list(reqmatch: Value, ctrl: Value) -> Result<Vec<Rc<Self>>, BluefinDecryptxP2peError>`
 
-List entities matching the given criteria. The match is optional — pass `Value::Noval` to list all records. `Ok` is a `Value::List`.
+List entities matching the given criteria. The match is optional — pass `Value::Noval` to list all records. `Ok` is a `Vec` of entities, one per record.
 
 ```rust
-let results = client.shipment(Value::Noval).list(Value::Noval, Value::Noval).unwrap();
-if let Value::List(items) = &results {
-    for shipment in items.borrow().iter() {
-        println!("{:?}", shipment);
-    }
+let results = client.shipment(Value::Noval).list(jo(vec![("kif", Value::str("example"))]), Value::Noval).unwrap();
+for shipment in &results {
+    println!("{:?}", shipment.data(None));
 }
 ```
 
-#### `load(reqmatch: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `load(reqmatch: Value, ctrl: Value) -> Result<Rc<Self>, BluefinDecryptxP2peError>`
 
-Load a single entity matching the given criteria. Returns the entity data on `Ok` and `Err` on failure.
+Load a single entity matching the given criteria. `Ok` is the entity, whose record `data(None)` reads, and `Err` a failure.
 
 ```rust
 let result = client.shipment(Value::Noval).load(jo(vec![("id", Value::str("shipment_id"))]), Value::Noval).unwrap();
+println!("{:?}", result.data(None));
 ```
 
 ### Common Methods
@@ -1324,26 +1447,31 @@ let success = client.success(Value::Noval);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `devices` | `Vec<Value>` | Yes | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | `std::collections::HashMap<String, Value>` | Yes | Reference to the associated Partner. |
 | `success` | `bool` | No | Indicates if the action was a success. |
 
 ### Operations
 
-#### `create(reqdata: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `create(reqdata: Value, ctrl: Value) -> Result<Rc<Self>, BluefinDecryptxP2peError>`
 
-Create a new entity with the given data. Returns the created entity data on `Ok` and `Err` on failure.
+Create a new entity with the given data. `Ok` is the created entity, and `Err` a failure.
 
 ```rust
 let result = client.success(Value::Noval).create(jo(vec![
     ("share_partner_to", Value::str("example_share_partner_to")),  // String
+    ("devices", Value::empty_list()),  // Vec<Value>
+    ("sharePartnerFrom", Value::empty_map()),  // std::collections::HashMap<String, Value>
 ]), Value::Noval).unwrap();
 ```
 
-#### `remove(reqmatch: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `remove(reqmatch: Value, ctrl: Value) -> Result<Rc<Self>, BluefinDecryptxP2peError>`
 
-Remove the entity matching the given criteria. `Err` on failure.
+Remove the entity matching the given criteria. `Ok` is the entity, marked as deleted, and `Err` a failure.
 
 ```rust
 let result = client.success(Value::Noval).remove(jo(vec![("share_partner_to", Value::str("share_partner_to"))]), Value::Noval).unwrap();
+println!("{:?}", result.data(None));
 ```
 
 ### Common Methods
@@ -1382,6 +1510,7 @@ let transaction = client.transaction(Value::Noval);
 | `clientRef` | `String` | No | Client Reference property that is included in the decrypt API call. |
 | `created` | `String` | No | Creation timestamp in ISO 8601 format. |
 | `decrypted` | `i64` | No | A Transcation can process muliple decryptions. |
+| `device` | `std::collections::HashMap<String, Value>` | Yes | Reference to the associated Device resource. |
 | `deviceName` | `String` | No | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | `std::collections::HashMap<String, Value>` | No | Reference to the associated Partner. |
 | `encrypted` | `i64` | No | A Transcation can process muliple encryptions. |
@@ -1402,37 +1531,67 @@ let transaction = client.transaction(Value::Noval);
 | `success` | `bool` | No | The success indicator. |
 | `transactionSource` | `String` | No | The source of the Transaction. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `alternateKey` | - | - | - |
+| `client` | - | - | Yes |
+| `clientRef` | - | - | - |
+| `created` | - | - | - |
+| `decrypted` | - | - | - |
+| `device` | - | - | - |
+| `deviceName` | - | - | - |
+| `directPartner` | - | - | - |
+| `encrypted` | - | - | - |
+| `endDate` | - | - | - |
+| `errCode` | - | - | - |
+| `errMessage` | - | - | - |
+| `id` | - | - | - |
+| `ipAddress` | - | - | Yes |
+| `isVirtual` | - | - | - |
+| `keyType` | - | - | Yes |
+| `location` | - | - | - |
+| `messageId` | - | - | - |
+| `method` | - | - | Yes |
+| `partner` | - | - | Yes |
+| `reference` | - | - | - |
+| `serialNumber` | - | - | - |
+| `startDate` | - | - | - |
+| `success` | - | - | - |
+| `transactionSource` | - | - | - |
+
 ### Operations
 
-#### `create(reqdata: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `create(reqdata: Value, ctrl: Value) -> Result<Rc<Self>, BluefinDecryptxP2peError>`
 
-Create a new entity with the given data. Returns the created entity data on `Ok` and `Err` on failure.
+Create a new entity with the given data. `Ok` is the created entity, and `Err` a failure.
 
 ```rust
 let result = client.transaction(Value::Noval).create(jo(vec![
+    ("device", Value::empty_map()),  // std::collections::HashMap<String, Value>
     ("location", Value::empty_map()),  // std::collections::HashMap<String, Value>
 ]), Value::Noval).unwrap();
 ```
 
-#### `list(reqmatch: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `list(reqmatch: Value, ctrl: Value) -> Result<Vec<Rc<Self>>, BluefinDecryptxP2peError>`
 
-List entities matching the given criteria. The match is optional — pass `Value::Noval` to list all records. `Ok` is a `Value::List`.
+List entities matching the given criteria. The match is optional — pass `Value::Noval` to list all records. `Ok` is a `Vec` of entities, one per record.
 
 ```rust
 let results = client.transaction(Value::Noval).list(Value::Noval, Value::Noval).unwrap();
-if let Value::List(items) = &results {
-    for transaction in items.borrow().iter() {
-        println!("{:?}", transaction);
-    }
+for transaction in &results {
+    println!("{:?}", transaction.data(None));
 }
 ```
 
-#### `load(reqmatch: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `load(reqmatch: Value, ctrl: Value) -> Result<Rc<Self>, BluefinDecryptxP2peError>`
 
-Load a single entity matching the given criteria. Returns the entity data on `Ok` and `Err` on failure.
+Load a single entity matching the given criteria. `Ok` is the entity, whose record `data(None)` reads, and `Err` a failure.
 
 ```rust
 let result = client.transaction(Value::Noval).load(jo(vec![("id", Value::str("transaction_id"))]), Value::Noval).unwrap();
+println!("{:?}", result.data(None));
 ```
 
 ### Common Methods
@@ -1466,46 +1625,172 @@ let update_result = client.update_result(Value::Noval);
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `address1` | `String` | No | The Location's street address. |
+| `address2` | `String` | No | The Location's street address. |
+| `alternateKey` | `String` | No | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `String` | No | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | `String` | No | \? |
+| `city` | `String` | No | The Location's city. |
 | `client` | `std::collections::HashMap<String, Value>` | No | Reference to the associated Client resource. |
-| `email` | `String` | No | The User's email address. |
-| `firstName` | `String` | No | The User's name. |
+| `clientCanOrderEquipment` | `bool` | No | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | `String` | No | Client Reference property that is included in the decrypt API call. |
+| `contact` | `std::collections::HashMap<String, Value>` | Yes | Reference to the associated User resource. |
+| `country` | `std::collections::HashMap<String, Value>` | No | Reference to the associated Country. |
+| `customReference` | `String` | No | A Partner specified reference for a location. |
+| `dateShipped` | `String` | No | The date and time that a package is shipped. |
+| `decrypted` | `i64` | No | A Transcation can process muliple decryptions. |
+| `device` | `std::collections::HashMap<String, Value>` | No | Reference to the associated Device resource. |
+| `deviceBuild` | `std::collections::HashMap<String, Value>` | No | Reference to the associated Device Build resource. |
+| `deviceType` | `std::collections::HashMap<String, Value>` | No | Reference to the associated Device Type resource. |
+| `directPartner` | `std::collections::HashMap<String, Value>` | No | Reference to the associated Partner. |
+| `email` | `String` | Yes | The User's email address. |
+| `encrypted` | `i64` | No | A Transcation can process muliple encryptions. |
+| `endDate` | `String` | No | Timestamp from the end of the transaction. |
+| `errCode` | `String` | No | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `String` | No | The error messge that is sent in response to a failed decrypt API call. |
+| `firstName` | `String` | Yes | The User's name. |
 | `id` | `String` | No | ID of newly created resource |
-| `isActive` | `bool` | No | This property indicates if the User account is active or disabled. |
+| `injectKey` | `std::collections::HashMap<String, Value>` | No | Reference to the associated Device resource. |
+| `ipAddress` | `String` | No | The IP address of the http client that makes the decrypt API call. |
+| `isActive` | `bool` | Yes | This property indicates if the User account is active or disabled. |
+| `items` | `Vec<Value>` | No |  |
+| `keyType` | `String` | No | The type of cipher used during decrytion. |
 | `kif` | `std::collections::HashMap<String, Value>` | No | Reference to the associated KIF resource. |
-| `lastName` | `String` | No | The User's Surname. |
+| `lastName` | `String` | Yes | The User's Surname. |
+| `location` | `std::collections::HashMap<String, Value>` | Yes | Reference to the associated Location resource. |
+| `locationType` | `String` | No | The Location's clasification. |
+| `mailAddress1` | `String` | No | The Location's street address. |
+| `mailAddress2` | `String` | No | The Location's street address. |
+| `mailCity` | `String` | No | The Location's city. |
+| `mailCountry` | `String` | No | The Location's street address. |
+| `mailPostalCode` | `String` | No | The Location's postal code. |
+| `mailStateProvince` | `String` | No | The Location's street state or province. |
+| `messageId` | `String` | No | Message ID. |
+| `method` | `String` | No | The decryption cypher/method. |
+| `mid` | `String` | No | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | `String` | No | The Client's name. |
+| `nameOfBusiness` | `String` | No | The name of the business at this location. |
+| `notes` | `String` | No | Arbitary note that can be attached to a Device entry. |
+| `parent` | `std::collections::HashMap<String, Value>` | No | Reference to the associated Partner. |
 | `partner` | `std::collections::HashMap<String, Value>` | No | Reference to the associated Partner. |
-| `phone` | `String` | No | The User's phone number without dashes, spaces, or brackets. |
-| `userName` | `String` | No | The User's unique username. |
-| `userRole` | `std::collections::HashMap<String, Value>` | No | Reference to the associated User Role. |
+| `partnerId` | `String` | No | The Partner's id. |
+| `phone` | `String` | Yes | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | `String` | No | The Location's postal code. |
+| `reference` | `String` | No | The Partner's reference string. |
+| `sendWelcomeEmail` | `bool` | No | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | `String` | No | The Device's serial number. |
+| `startDate` | `String` | No | Timestamp from the beginning of the transaction. |
+| `stateProvince` | `String` | No | The Location's street state or province. |
+| `success` | `bool` | No | The success indicator. |
+| `tracking` | `String` | No | The courier's tracking number. |
+| `uniqueId` | `String` | No | Unique Identifier for the Location. |
+| `userName` | `String` | Yes | The User's unique username. |
+| `userRole` | `std::collections::HashMap<String, Value>` | Yes | Reference to the associated User Role. |
+| `verificationPhrase` | `String` | No | The verification phrase is a message that the Partner creates. |
 | `version` | `i64` | No | The number of times that this resource has been updated. |
+
+### Field Usage by Operation
+
+| Field | list | create | update |
+| --- | --- | --- | --- |
+| `address1` | - | - | - |
+| `address2` | - | - | - |
+| `alternateKey` | - | - | - |
+| `auditNextDate` | - | - | - |
+| `billingId` | - | - | - |
+| `city` | - | - | - |
+| `client` | - | - | - |
+| `clientCanOrderEquipment` | - | - | - |
+| `clientRef` | - | - | - |
+| `contact` | - | - | - |
+| `country` | - | - | - |
+| `customReference` | - | - | - |
+| `dateShipped` | - | - | - |
+| `decrypted` | - | - | - |
+| `device` | - | - | - |
+| `deviceBuild` | - | - | - |
+| `deviceType` | - | - | - |
+| `directPartner` | - | - | - |
+| `email` | Yes | - | Yes |
+| `encrypted` | - | - | - |
+| `endDate` | - | - | - |
+| `errCode` | - | - | - |
+| `errMessage` | - | - | - |
+| `firstName` | Yes | - | Yes |
+| `id` | - | - | - |
+| `injectKey` | - | - | - |
+| `ipAddress` | - | - | - |
+| `isActive` | Yes | - | Yes |
+| `items` | - | - | - |
+| `keyType` | - | - | - |
+| `kif` | - | - | - |
+| `lastName` | Yes | - | Yes |
+| `location` | - | - | - |
+| `locationType` | - | - | - |
+| `mailAddress1` | - | - | - |
+| `mailAddress2` | - | - | - |
+| `mailCity` | - | - | - |
+| `mailCountry` | - | - | - |
+| `mailPostalCode` | - | - | - |
+| `mailStateProvince` | - | - | - |
+| `messageId` | - | - | - |
+| `method` | - | - | - |
+| `mid` | - | - | - |
+| `name` | - | - | - |
+| `nameOfBusiness` | - | - | - |
+| `notes` | - | - | - |
+| `parent` | - | - | - |
+| `partner` | - | - | - |
+| `partnerId` | - | - | - |
+| `phone` | Yes | - | Yes |
+| `postalCode` | - | - | - |
+| `reference` | - | - | - |
+| `sendWelcomeEmail` | - | - | - |
+| `serialNumber` | - | - | - |
+| `startDate` | - | - | - |
+| `stateProvince` | - | - | - |
+| `success` | - | - | - |
+| `tracking` | - | - | - |
+| `uniqueId` | - | - | - |
+| `userName` | Yes | - | Yes |
+| `userRole` | Yes | - | Yes |
+| `verificationPhrase` | - | - | - |
+| `version` | - | - | - |
 
 ### Operations
 
-#### `create(reqdata: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `create(reqdata: Value, ctrl: Value) -> Result<Rc<Self>, BluefinDecryptxP2peError>`
 
-Create a new entity with the given data. Returns the created entity data on `Ok` and `Err` on failure.
+Create a new entity with the given data. `Ok` is the created entity, and `Err` a failure.
 
 ```rust
 let result = client.update_result(Value::Noval).create(jo(vec![
+    ("contact", Value::empty_map()),  // std::collections::HashMap<String, Value>
+    ("email", Value::str("example_email")),  // String
+    ("firstName", Value::str("example_firstName")),  // String
+    ("isActive", Value::Bool(true)),  // bool
+    ("lastName", Value::str("example_lastName")),  // String
+    ("location", Value::empty_map()),  // std::collections::HashMap<String, Value>
+    ("phone", Value::str("example_phone")),  // String
+    ("userName", Value::str("example_userName")),  // String
+    ("userRole", Value::empty_map()),  // std::collections::HashMap<String, Value>
 ]), Value::Noval).unwrap();
 ```
 
-#### `list(reqmatch: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `list(reqmatch: Value, ctrl: Value) -> Result<Vec<Rc<Self>>, BluefinDecryptxP2peError>`
 
-List entities matching the given criteria. The match is optional — pass `Value::Noval` to list all records. `Ok` is a `Value::List`.
+List entities matching the given criteria. The match is optional — pass `Value::Noval` to list all records. `Ok` is a `Vec` of entities, one per record.
 
 ```rust
 let results = client.update_result(Value::Noval).list(Value::Noval, Value::Noval).unwrap();
-if let Value::List(items) = &results {
-    for update_result in items.borrow().iter() {
-        println!("{:?}", update_result);
-    }
+for update_result in &results {
+    println!("{:?}", update_result.data(None));
 }
 ```
 
-#### `update(reqdata: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `update(reqdata: Value, ctrl: Value) -> Result<Rc<Self>, BluefinDecryptxP2peError>`
 
-Update an existing entity. The data must include the entity id. Returns the updated entity data on `Ok`.
+Update an existing entity. The data must include the entity id. `Ok` is the updated entity.
 
 ```rust
 let result = client.update_result(Value::Noval).update(jo(vec![
@@ -1562,20 +1847,22 @@ let user = client.user(Value::Noval);
 
 ### Operations
 
-#### `load(reqmatch: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `load(reqmatch: Value, ctrl: Value) -> Result<Rc<Self>, BluefinDecryptxP2peError>`
 
-Load a single entity matching the given criteria. Returns the entity data on `Ok` and `Err` on failure.
+Load a single entity matching the given criteria. `Ok` is the entity, whose record `data(None)` reads, and `Err` a failure.
 
 ```rust
 let result = client.user(Value::Noval).load(jo(vec![("id", Value::str("user_id"))]), Value::Noval).unwrap();
+println!("{:?}", result.data(None));
 ```
 
-#### `remove(reqmatch: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `remove(reqmatch: Value, ctrl: Value) -> Result<Rc<Self>, BluefinDecryptxP2peError>`
 
-Remove the entity matching the given criteria. `Err` on failure.
+Remove the entity matching the given criteria. `Ok` is the entity, marked as deleted, and `Err` a failure.
 
 ```rust
 let result = client.user(Value::Noval).remove(jo(vec![("id", Value::str("user_id"))]), Value::Noval).unwrap();
+println!("{:?}", result.data(None));
 ```
 
 ### Common Methods
@@ -1615,12 +1902,13 @@ let virtual_device = client.virtual_device(Value::Noval);
 
 ### Operations
 
-#### `load(reqmatch: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>`
+#### `load(reqmatch: Value, ctrl: Value) -> Result<Rc<Self>, BluefinDecryptxP2peError>`
 
-Load a single entity matching the given criteria. Returns the entity data on `Ok` and `Err` on failure.
+Load a single entity matching the given criteria. `Ok` is the entity, whose record `data(None)` reads, and `Err` a failure.
 
 ```rust
 let result = client.virtual_device(Value::Noval).load(jo(vec![("id", Value::str("virtual_device_id"))]), Value::Noval).unwrap();
+println!("{:?}", result.data(None));
 ```
 
 ### Common Methods
@@ -2065,6 +2353,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

@@ -16,7 +16,7 @@ go get github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/go@latest
 ```
 
 The Go module proxy resolves the version from the `go/vX.Y.Z` GitHub
-release tag — see [Releases](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases) for the available versions.
+release tag — see [Tags](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags) for the available versions.
 
 To vendor from a local checkout instead, clone this repo alongside your
 project and add a `replace` directive pointing at the checked-out
@@ -35,9 +35,10 @@ loading a specific record.
 ### Quickstart
 
 A complete program: create a client, then call the entity operations.
-Each operation returns `(value, error)` — the value is the data itself
-(there is no `{ok, data}` wrapper), so check `err` and use the value
-directly.
+Each operation returns `(value, error)` — the value is the entity, and for
+`List` a `[]any` of entities, one per record (there is no `{ok, data}`
+wrapper), so check `err` and read a record through the entity's
+`Data()`.
 
 ```go
 package main
@@ -53,28 +54,28 @@ func main() {
         "apikey": os.Getenv("BLUEFIN_DECRYPTX_P2PE_APIKEY"),
     })
 
-    // List attestation records — the value is the array of records itself.
-    attestations, err := client.Attestation(nil).List(nil, nil)
+    // List attestation records — the value is a []any of entities, one per record.
+    attestations, err := client.Attestation(nil).List(map[string]any{"client": "example"}, nil)
     if err != nil {
         panic(err)
     }
     for _, item := range attestations.([]any) {
-        fmt.Println(item)
+        fmt.Println(item.(sdk.Entity).Data())
     }
 
-    // Load a single attestation — the value is the loaded record.
+    // Load a single attestation — the value is the entity; Data() reads its record.
     attestation, err := client.Attestation(nil).Load(map[string]any{"id": "example_id"}, nil)
     if err != nil {
         panic(err)
     }
-    fmt.Println(attestation)
+    fmt.Println(attestation.(sdk.Entity).Data())
 
     // Create a attestation.
-    created, err := client.Attestation(nil).Create(map[string]any{"client": map[string]any{}, "completeDate": "example_completeDate"}, nil)
+    created, err := client.Attestation(nil).Create(map[string]any{"devices": []any{}}, nil)
     if err != nil {
         panic(err)
     }
-    fmt.Println(created)
+    fmt.Println(created.(sdk.Entity).Data())
 }
 ```
 
@@ -154,13 +155,16 @@ Create a mock client for unit testing — no server required:
 ```go
 client := sdk.Test()
 
-deviceType, err := client.DeviceType(nil).List(
+deviceTypes, err := client.DeviceType(nil).List(
     nil, nil,
 )
 if err != nil {
     panic(err)
 }
-fmt.Println(deviceType) // the returned mock data
+// A []any of entities, one per mock record.
+for _, item := range deviceTypes.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 ### Use a custom fetch function
@@ -268,11 +272,11 @@ All entities implement the `BluefinDecryptxP2peEntity` interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `Load` | `(reqmatch, ctrl map[string]any) (any, error)` | Load a single entity by match criteria. |
-| `List` | `(reqmatch, ctrl map[string]any) (any, error)` | List entities matching the criteria. |
-| `Create` | `(reqdata, ctrl map[string]any) (any, error)` | Create a new entity. |
-| `Update` | `(reqdata, ctrl map[string]any) (any, error)` | Update an existing entity. |
-| `Remove` | `(reqmatch, ctrl map[string]any) (any, error)` | Remove an entity. |
+| `Load` | `(reqmatch, ctrl map[string]any) (any, error)` | Load a single entity by match criteria, and return it. |
+| `List` | `(reqmatch, ctrl map[string]any) (any, error)` | List entities matching the criteria, one per record. |
+| `Create` | `(reqdata, ctrl map[string]any) (any, error)` | Create a new entity, and return it. |
+| `Update` | `(reqdata, ctrl map[string]any) (any, error)` | Update an existing entity, and return it. |
+| `Remove` | `(reqmatch, ctrl map[string]any) (any, error)` | Remove an entity, and return it marked as deleted. |
 | `Data` | `(args ...any) any` | Get or set entity data. |
 | `Match` | `(args ...any) any` | Get or set entity match criteria. |
 | `Make` | `() Entity` | Create a new instance with the same options. |
@@ -280,21 +284,21 @@ All entities implement the `BluefinDecryptxP2peEntity` interface.
 
 ### Result shape
 
-Entity operations return `(value, error)`. The `value` is the
-operation's data **directly** — there is no wrapper:
+Entity operations return `(value, error)`. The `value` is the entity
+itself — there is no wrapper:
 
 | Operation | `value` |
 | --- | --- |
-| `Load` / `Create` / `Update` / `Remove` | the entity record (`map[string]any`) |
-| `List` | a `[]any` of entity records |
+| `Load` / `Create` / `Update` / `Remove` | the entity, whose `Data()` reads its record (`map[string]any`) |
+| `List` | a `[]any` of entities, one per record |
 
 Check `err` first, then use the value directly (or the typed
 `...Typed` variants, which return the entity's model struct and a typed
 slice):
 
-    attestation, err := client.Attestation(nil).List(map[string]any{/* fields */}, nil)
+    attestation, err := client.Attestation(nil).List(map[string]any{"client": "example"}, nil)
     if err != nil { /* handle */ }
-    // attestation is the returned record
+    // attestation is a []any of entities, one per record
 
 Only `Direct()` returns a response envelope — a `map[string]any` with
 `"ok"`, `"status"`, `"headers"`, and `"data"` keys.
@@ -309,6 +313,7 @@ Only `Direct()` returns a response envelope — a `map[string]any` with
 | `"completeDate"` | The date and time that the Attestation took place. |
 | `"created"` | Creation timestamp in ISO 8601 format. |
 | `"device"` | Reference to the associated Device resource. |
+| `"devices"` |  |
 | `"id"` | This resource's unique identifier. |
 | `"name"` | Text describing the attestation. |
 | `"notes"` | Free form field that allows the Client associate notes with the Attestation. |
@@ -341,6 +346,10 @@ API path: `/clients`
 
 | Field | Description |
 | --- | --- |
+| `"completeDate"` | The date and time that the Custody change took place. |
+| `"custodian"` | Reference to the associated User resource. |
+| `"location"` | Reference to the associated Location resource. |
+| `"notes"` | Free form field that allows the Client associate notes with the Custody Change. |
 
 Operations: Create.
 
@@ -350,6 +359,14 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
+| `"cbcVector"` | Base64 or hex encoded initial vector obtained from device. |
+| `"deviceType"` | The device Type. |
+| `"encoding"` | The payload encoding |
+| `"encrypted"` |  |
+| `"hasCcData"` | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `"reference"` | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `"sequenceNumber"` | Sequence number obtained from device in base 64 or hex encoded format. |
+| `"serialNumber"` | The serial number of the device. |
 | `"success"` | true if the payload decryption was successful. |
 
 Operations: Create.
@@ -465,7 +482,9 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
+| `"serialNumber"` | The serial number of the Device that is shipped. |
 | `"success"` | Indicates if the action succeeded. |
+| `"tamperLabel"` | The code that is printed the tamper label of the Device that is shipped. |
 
 Operations: Create.
 
@@ -475,7 +494,15 @@ API path: `/devices/receive`
 
 | Field | Description |
 | --- | --- |
+| `"appVersion"` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `"buildName"` | The Device Builds's name. |
+| `"buildNumber"` | The Build Number. |
+| `"configFile"` | \? |
+| `"firmwareVersion"` | A list of firmware versions that this Device Build covers. |
+| `"hardwareVersion"` | A list of hardware versions that this Device Build covers. |
+| `"serialNumber"` | The referenced Device's serial number. |
 | `"success"` | Indicates if the RKI activation succeeded. |
+| `"whiteListingBinRanges"` | \? |
 
 Operations: Create.
 
@@ -549,6 +576,7 @@ API path: `/kifs`
 | `"address2"` | The Location's street address. |
 | `"billingId"` | \? |
 | `"city"` | The Location's city. |
+| `"client"` | Reference to the associated Client resource. |
 | `"country"` | The Location's country. |
 | `"created"` | Creation timestamp in ISO 8601 format. |
 | `"customReference"` | A Partner specified reference for a location. |
@@ -609,6 +637,7 @@ API path: `/partners`
 | `"id"` | This resource's unique identifier. |
 | `"items"` |  |
 | `"kif"` | Reference to the associated KIF resource. |
+| `"location"` | Reference to the associated Location resource. |
 | `"modified"` | Last modified timestamp. |
 | `"partner"` | Reference to the associated Partner. |
 | `"shipmentType"` | The type of shipment. |
@@ -623,6 +652,8 @@ API path: `/shipments`
 
 | Field | Description |
 | --- | --- |
+| `"devices"` | An array of Device ids to share with partner. |
+| `"sharePartnerFrom"` | Reference to the associated Partner. |
 | `"success"` | Indicates if the action was a success. |
 
 Operations: Create, Remove.
@@ -638,6 +669,7 @@ API path: `/virtualDevices/{sharePartnerTo}`
 | `"clientRef"` | Client Reference property that is included in the decrypt API call. |
 | `"created"` | Creation timestamp in ISO 8601 format. |
 | `"decrypted"` | A Transcation can process muliple decryptions. |
+| `"device"` | Reference to the associated Device resource. |
 | `"deviceName"` | The name of the Device that generated the payload to decrypt. |
 | `"directPartner"` | Reference to the associated Partner. |
 | `"encrypted"` | A Transcation can process muliple encryptions. |
@@ -666,17 +698,68 @@ API path: `/transactions`
 
 | Field | Description |
 | --- | --- |
+| `"address1"` | The Location's street address. |
+| `"address2"` | The Location's street address. |
+| `"alternateKey"` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `"auditNextDate"` | Date and time that the Device is due its next PCI Audit. |
+| `"billingId"` | \? |
+| `"city"` | The Location's city. |
 | `"client"` | Reference to the associated Client resource. |
+| `"clientCanOrderEquipment"` | This property indicates if the Partner is allowed to order Equipment. |
+| `"clientRef"` | Client Reference property that is included in the decrypt API call. |
+| `"contact"` | Reference to the associated User resource. |
+| `"country"` | Reference to the associated Country. |
+| `"customReference"` | A Partner specified reference for a location. |
+| `"dateShipped"` | The date and time that a package is shipped. |
+| `"decrypted"` | A Transcation can process muliple decryptions. |
+| `"device"` | Reference to the associated Device resource. |
+| `"deviceBuild"` | Reference to the associated Device Build resource. |
+| `"deviceType"` | Reference to the associated Device Type resource. |
+| `"directPartner"` | Reference to the associated Partner. |
 | `"email"` | The User's email address. |
+| `"encrypted"` | A Transcation can process muliple encryptions. |
+| `"endDate"` | Timestamp from the end of the transaction. |
+| `"errCode"` | The error code that is sent in response to a failed decrypt API call. |
+| `"errMessage"` | The error messge that is sent in response to a failed decrypt API call. |
 | `"firstName"` | The User's name. |
 | `"id"` | ID of newly created resource |
+| `"injectKey"` | Reference to the associated Device resource. |
+| `"ipAddress"` | The IP address of the http client that makes the decrypt API call. |
 | `"isActive"` | This property indicates if the User account is active or disabled. |
+| `"items"` |  |
+| `"keyType"` | The type of cipher used during decrytion. |
 | `"kif"` | Reference to the associated KIF resource. |
 | `"lastName"` | The User's Surname. |
+| `"location"` | Reference to the associated Location resource. |
+| `"locationType"` | The Location's clasification. |
+| `"mailAddress1"` | The Location's street address. |
+| `"mailAddress2"` | The Location's street address. |
+| `"mailCity"` | The Location's city. |
+| `"mailCountry"` | The Location's street address. |
+| `"mailPostalCode"` | The Location's postal code. |
+| `"mailStateProvince"` | The Location's street state or province. |
+| `"messageId"` | Message ID. |
+| `"method"` | The decryption cypher/method. |
+| `"mid"` | Some Partners will have an merchant ids on their own software offerings. |
+| `"name"` | The Client's name. |
+| `"nameOfBusiness"` | The name of the business at this location. |
+| `"notes"` | Arbitary note that can be attached to a Device entry. |
+| `"parent"` | Reference to the associated Partner. |
 | `"partner"` | Reference to the associated Partner. |
+| `"partnerId"` | The Partner's id. |
 | `"phone"` | The User's phone number without dashes, spaces, or brackets. |
+| `"postalCode"` | The Location's postal code. |
+| `"reference"` | The Partner's reference string. |
+| `"sendWelcomeEmail"` | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `"serialNumber"` | The Device's serial number. |
+| `"startDate"` | Timestamp from the beginning of the transaction. |
+| `"stateProvince"` | The Location's street state or province. |
+| `"success"` | The success indicator. |
+| `"tracking"` | The courier's tracking number. |
+| `"uniqueId"` | Unique Identifier for the Location. |
 | `"userName"` | The User's unique username. |
 | `"userRole"` | Reference to the associated User Role. |
+| `"verificationPhrase"` | The verification phrase is a message that the Partner creates. |
 | `"version"` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Update.
@@ -743,6 +826,7 @@ Create an instance: `attestation := client.Attestation(nil)`
 | `completeDate` | `string` | The date and time that the Attestation took place. |
 | `created` | `string` | Creation timestamp in ISO 8601 format. |
 | `device` | `map[string]any` | Reference to the associated Device resource. |
+| `devices` | `[]any` |  |
 | `id` | `string` | This resource's unique identifier. |
 | `name` | `string` | Text describing the attestation. |
 | `notes` | `string` | Free form field that allows the Client associate notes with the Attestation. |
@@ -754,28 +838,32 @@ attestation, err := client.Attestation(nil).Load(map[string]any{"id": "attestati
 if err != nil {
     panic(err)
 }
-fmt.Println(attestation) // the loaded record
+fmt.Println(attestation.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 #### Example: List
 
 ```go
-attestations, err := client.Attestation(nil).List(nil, nil)
+attestations, err := client.Attestation(nil).List(map[string]any{"client": "example"}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(attestations) // the array of records
+// A []any of entities, one per record.
+for _, item := range attestations.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 #### Example: Create
 
 ```go
 result, err := client.Attestation(nil).Create(map[string]any{
+    "devices": []any{},
 }, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -815,17 +903,20 @@ client_, err := client.Client(nil).Load(map[string]any{"id": "client_id"}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(client_) // the loaded record
+fmt.Println(client_.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 #### Example: List
 
 ```go
-client_s, err := client.Client(nil).List(nil, nil)
+client_s, err := client.Client(nil).List(map[string]any{"partner": "example"}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(client_s) // the array of records
+// A []any of entities, one per record.
+for _, item := range client_s.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 #### Example: Create
@@ -837,7 +928,7 @@ result, err := client.Client(nil).Create(map[string]any{
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -851,17 +942,28 @@ Create an instance: `createResult := client.CreateResult(nil)`
 | --- | --- |
 | `Create(data, ctrl)` | Create a new entity with the given data. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `completeDate` | `string` | The date and time that the Custody change took place. |
+| `custodian` | `map[string]any` | Reference to the associated User resource. |
+| `location` | `map[string]any` | Reference to the associated Location resource. |
+| `notes` | `string` | Free form field that allows the Client associate notes with the Custody Change. |
+
 #### Example: Create
 
 ```go
 result, err := client.CreateResult(nil).Create(map[string]any{
     "device_type": "example_device_type",
     "serial_number": "example_serial_number",
+    "custodian": map[string]any{},
+    "location": map[string]any{},
 }, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -879,17 +981,28 @@ Create an instance: `decryption := client.Decryption(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `cbcVector` | `string` | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | `string` | The device Type. |
+| `encoding` | `string` | The payload encoding |
+| `encrypted` | `[]any` |  |
+| `hasCcData` | `string` | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | `string` | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | `string` | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | `string` | The serial number of the device. |
 | `success` | `bool` | true if the payload decryption was successful. |
 
 #### Example: Create
 
 ```go
 result, err := client.Decryption(nil).Create(map[string]any{
+    "deviceType": "example_deviceType",
+    "encrypted": []any{},
+    "serialNumber": "example_serialNumber",
 }, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -945,7 +1058,7 @@ device, err := client.Device(nil).Load(map[string]any{"id": "device_id"}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(device) // the loaded record
+fmt.Println(device.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 #### Example: List
@@ -955,7 +1068,10 @@ devices, err := client.Device(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(devices) // the array of records
+// A []any of entities, one per record.
+for _, item := range devices.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 #### Example: Create
@@ -971,7 +1087,7 @@ result, err := client.Device(nil).Create(map[string]any{
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -1013,7 +1129,7 @@ deviceBuild, err := client.DeviceBuild(nil).Load(map[string]any{"id": "device_bu
 if err != nil {
     panic(err)
 }
-fmt.Println(deviceBuild) // the loaded record
+fmt.Println(deviceBuild.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 #### Example: List
@@ -1023,7 +1139,10 @@ deviceBuilds, err := client.DeviceBuild(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(deviceBuilds) // the array of records
+// A []any of entities, one per record.
+for _, item := range deviceBuilds.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 
@@ -1062,7 +1181,7 @@ deviceCustodyDetail, err := client.DeviceCustodyDetail(nil).Load(map[string]any{
 if err != nil {
     panic(err)
 }
-fmt.Println(deviceCustodyDetail) // the loaded record
+fmt.Println(deviceCustodyDetail.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 
@@ -1097,11 +1216,14 @@ Create an instance: `deviceCustodyListItem := client.DeviceCustodyListItem(nil)`
 #### Example: List
 
 ```go
-deviceCustodyListItems, err := client.DeviceCustodyListItem(nil).List(nil, nil)
+deviceCustodyListItems, err := client.DeviceCustodyListItem(nil).List(map[string]any{"device_type": "example", "serial_number": "example"}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(deviceCustodyListItems) // the array of records
+// A []any of entities, one per record.
+for _, item := range deviceCustodyListItems.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 
@@ -1119,18 +1241,22 @@ Create an instance: `deviceReceiveResult := client.DeviceReceiveResult(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `serialNumber` | `string` | The serial number of the Device that is shipped. |
 | `success` | `bool` | Indicates if the action succeeded. |
+| `tamperLabel` | `string` | The code that is printed the tamper label of the Device that is shipped. |
 
 #### Example: Create
 
 ```go
 result, err := client.DeviceReceiveResult(nil).Create(map[string]any{
+    "serialNumber": "example_serialNumber",
     "success": true,
+    "tamperLabel": "example_tamperLabel",
 }, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -1148,18 +1274,27 @@ Create an instance: `deviceRkiActivateResult := client.DeviceRkiActivateResult(n
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `appVersion` | `string` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | `string` | The Device Builds's name. |
+| `buildNumber` | `string` | The Build Number. |
+| `configFile` | `string` | \? |
+| `firmwareVersion` | `string` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `string` | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | `string` | The referenced Device's serial number. |
 | `success` | `bool` | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | `string` | \? |
 
 #### Example: Create
 
 ```go
 result, err := client.DeviceRkiActivateResult(nil).Create(map[string]any{
+    "serialNumber": "example_serialNumber",
     "success": true,
 }, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -1187,7 +1322,10 @@ deviceStates, err := client.DeviceState(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(deviceStates) // the array of records
+// A []any of entities, one per record.
+for _, item := range deviceStates.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 
@@ -1226,7 +1364,7 @@ deviceType, err := client.DeviceType(nil).Load(map[string]any{"id": "device_type
 if err != nil {
     panic(err)
 }
-fmt.Println(deviceType) // the loaded record
+fmt.Println(deviceType.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 #### Example: List
@@ -1236,7 +1374,10 @@ deviceTypes, err := client.DeviceType(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(deviceTypes) // the array of records
+// A []any of entities, one per record.
+for _, item := range deviceTypes.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 
@@ -1271,7 +1412,7 @@ injectKey, err := client.InjectKey(nil).Load(map[string]any{"id": "inject_key_id
 if err != nil {
     panic(err)
 }
-fmt.Println(injectKey) // the loaded record
+fmt.Println(injectKey.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 #### Example: List
@@ -1281,7 +1422,10 @@ injectKeys, err := client.InjectKey(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(injectKeys) // the array of records
+// A []any of entities, one per record.
+for _, item := range injectKeys.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 
@@ -1309,7 +1453,10 @@ kifs, err := client.Kif(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(kifs) // the array of records
+// A []any of entities, one per record.
+for _, item := range kifs.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 
@@ -1334,6 +1481,7 @@ Create an instance: `location := client.Location(nil)`
 | `address2` | `string` | The Location's street address. |
 | `billingId` | `string` | \? |
 | `city` | `string` | The Location's city. |
+| `client` | `map[string]any` | Reference to the associated Client resource. |
 | `country` | `string` | The Location's country. |
 | `created` | `string` | Creation timestamp in ISO 8601 format. |
 | `customReference` | `string` | A Partner specified reference for a location. |
@@ -1361,17 +1509,20 @@ location, err := client.Location(nil).Load(map[string]any{"id": "location_id"}, 
 if err != nil {
     panic(err)
 }
-fmt.Println(location) // the loaded record
+fmt.Println(location.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 #### Example: List
 
 ```go
-locations, err := client.Location(nil).List(nil, nil)
+locations, err := client.Location(nil).List(map[string]any{"client": "example"}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(locations) // the array of records
+// A []any of entities, one per record.
+for _, item := range locations.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 #### Example: Create
@@ -1382,7 +1533,7 @@ result, err := client.Location(nil).Create(map[string]any{
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -1424,7 +1575,7 @@ partner, err := client.Partner(nil).Load(map[string]any{"id": "partner_id"}, nil
 if err != nil {
     panic(err)
 }
-fmt.Println(partner) // the loaded record
+fmt.Println(partner.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 #### Example: List
@@ -1434,7 +1585,10 @@ partners, err := client.Partner(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(partners) // the array of records
+// A []any of entities, one per record.
+for _, item := range partners.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 #### Example: Create
@@ -1446,7 +1600,7 @@ result, err := client.Partner(nil).Create(map[string]any{
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -1475,6 +1629,7 @@ Create an instance: `shipment := client.Shipment(nil)`
 | `id` | `string` | This resource's unique identifier. |
 | `items` | `[]any` |  |
 | `kif` | `map[string]any` | Reference to the associated KIF resource. |
+| `location` | `map[string]any` | Reference to the associated Location resource. |
 | `modified` | `string` | Last modified timestamp. |
 | `partner` | `map[string]any` | Reference to the associated Partner. |
 | `shipmentType` | `string` | The type of shipment. |
@@ -1488,28 +1643,32 @@ shipment, err := client.Shipment(nil).Load(map[string]any{"id": "shipment_id"}, 
 if err != nil {
     panic(err)
 }
-fmt.Println(shipment) // the loaded record
+fmt.Println(shipment.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 #### Example: List
 
 ```go
-shipments, err := client.Shipment(nil).List(nil, nil)
+shipments, err := client.Shipment(nil).List(map[string]any{"kif": "example"}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(shipments) // the array of records
+// A []any of entities, one per record.
+for _, item := range shipments.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 #### Example: Create
 
 ```go
 result, err := client.Shipment(nil).Create(map[string]any{
+    "location": map[string]any{},
 }, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -1528,6 +1687,8 @@ Create an instance: `success := client.Success(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `devices` | `[]any` | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | `map[string]any` | Reference to the associated Partner. |
 | `success` | `bool` | Indicates if the action was a success. |
 
 #### Example: Create
@@ -1535,11 +1696,13 @@ Create an instance: `success := client.Success(nil)`
 ```go
 result, err := client.Success(nil).Create(map[string]any{
     "share_partner_to": "example_share_partner_to",
+    "devices": []any{},
+    "sharePartnerFrom": map[string]any{},
 }, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -1564,6 +1727,7 @@ Create an instance: `transaction := client.Transaction(nil)`
 | `clientRef` | `string` | Client Reference property that is included in the decrypt API call. |
 | `created` | `string` | Creation timestamp in ISO 8601 format. |
 | `decrypted` | `int` | A Transcation can process muliple decryptions. |
+| `device` | `map[string]any` | Reference to the associated Device resource. |
 | `deviceName` | `string` | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | `map[string]any` | Reference to the associated Partner. |
 | `encrypted` | `int` | A Transcation can process muliple encryptions. |
@@ -1591,7 +1755,7 @@ transaction, err := client.Transaction(nil).Load(map[string]any{"id": "transacti
 if err != nil {
     panic(err)
 }
-fmt.Println(transaction) // the loaded record
+fmt.Println(transaction.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 #### Example: List
@@ -1601,19 +1765,23 @@ transactions, err := client.Transaction(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(transactions) // the array of records
+// A []any of entities, one per record.
+for _, item := range transactions.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 #### Example: Create
 
 ```go
 result, err := client.Transaction(nil).Create(map[string]any{
+    "device": map[string]any{},
     "location": map[string]any{},
 }, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -1633,17 +1801,68 @@ Create an instance: `updateResult := client.UpdateResult(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `address1` | `string` | The Location's street address. |
+| `address2` | `string` | The Location's street address. |
+| `alternateKey` | `string` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `string` | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | `string` | \? |
+| `city` | `string` | The Location's city. |
 | `client` | `map[string]any` | Reference to the associated Client resource. |
+| `clientCanOrderEquipment` | `bool` | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | `string` | Client Reference property that is included in the decrypt API call. |
+| `contact` | `map[string]any` | Reference to the associated User resource. |
+| `country` | `map[string]any` | Reference to the associated Country. |
+| `customReference` | `string` | A Partner specified reference for a location. |
+| `dateShipped` | `string` | The date and time that a package is shipped. |
+| `decrypted` | `int` | A Transcation can process muliple decryptions. |
+| `device` | `map[string]any` | Reference to the associated Device resource. |
+| `deviceBuild` | `map[string]any` | Reference to the associated Device Build resource. |
+| `deviceType` | `map[string]any` | Reference to the associated Device Type resource. |
+| `directPartner` | `map[string]any` | Reference to the associated Partner. |
 | `email` | `string` | The User's email address. |
+| `encrypted` | `int` | A Transcation can process muliple encryptions. |
+| `endDate` | `string` | Timestamp from the end of the transaction. |
+| `errCode` | `string` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `string` | The error messge that is sent in response to a failed decrypt API call. |
 | `firstName` | `string` | The User's name. |
 | `id` | `string` | ID of newly created resource |
+| `injectKey` | `map[string]any` | Reference to the associated Device resource. |
+| `ipAddress` | `string` | The IP address of the http client that makes the decrypt API call. |
 | `isActive` | `bool` | This property indicates if the User account is active or disabled. |
+| `items` | `[]any` |  |
+| `keyType` | `string` | The type of cipher used during decrytion. |
 | `kif` | `map[string]any` | Reference to the associated KIF resource. |
 | `lastName` | `string` | The User's Surname. |
+| `location` | `map[string]any` | Reference to the associated Location resource. |
+| `locationType` | `string` | The Location's clasification. |
+| `mailAddress1` | `string` | The Location's street address. |
+| `mailAddress2` | `string` | The Location's street address. |
+| `mailCity` | `string` | The Location's city. |
+| `mailCountry` | `string` | The Location's street address. |
+| `mailPostalCode` | `string` | The Location's postal code. |
+| `mailStateProvince` | `string` | The Location's street state or province. |
+| `messageId` | `string` | Message ID. |
+| `method` | `string` | The decryption cypher/method. |
+| `mid` | `string` | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | `string` | The Client's name. |
+| `nameOfBusiness` | `string` | The name of the business at this location. |
+| `notes` | `string` | Arbitary note that can be attached to a Device entry. |
+| `parent` | `map[string]any` | Reference to the associated Partner. |
 | `partner` | `map[string]any` | Reference to the associated Partner. |
+| `partnerId` | `string` | The Partner's id. |
 | `phone` | `string` | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | `string` | The Location's postal code. |
+| `reference` | `string` | The Partner's reference string. |
+| `sendWelcomeEmail` | `bool` | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | `string` | The Device's serial number. |
+| `startDate` | `string` | Timestamp from the beginning of the transaction. |
+| `stateProvince` | `string` | The Location's street state or province. |
+| `success` | `bool` | The success indicator. |
+| `tracking` | `string` | The courier's tracking number. |
+| `uniqueId` | `string` | Unique Identifier for the Location. |
 | `userName` | `string` | The User's unique username. |
 | `userRole` | `map[string]any` | Reference to the associated User Role. |
+| `verificationPhrase` | `string` | The verification phrase is a message that the Partner creates. |
 | `version` | `int` | The number of times that this resource has been updated. |
 
 #### Example: List
@@ -1653,18 +1872,30 @@ updateResults, err := client.UpdateResult(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(updateResults) // the array of records
+// A []any of entities, one per record.
+for _, item := range updateResults.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 #### Example: Create
 
 ```go
 result, err := client.UpdateResult(nil).Create(map[string]any{
+    "contact": map[string]any{},
+    "email": "example_email",
+    "firstName": "example_firstName",
+    "isActive": true,
+    "lastName": "example_lastName",
+    "location": map[string]any{},
+    "phone": "example_phone",
+    "userName": "example_userName",
+    "userRole": map[string]any{},
 }, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 
@@ -1705,7 +1936,7 @@ user, err := client.User(nil).Load(map[string]any{"id": "user_id"}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(user) // the loaded record
+fmt.Println(user.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 
@@ -1734,7 +1965,7 @@ virtualDevice, err := client.VirtualDevice(nil).Load(map[string]any{"id": "virtu
 if err != nil {
     panic(err)
 }
-fmt.Println(virtualDevice) // the loaded record
+fmt.Println(virtualDevice.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 ## Features
@@ -1981,7 +2212,9 @@ The Go SDK uses `map[string]any` throughout rather than typed structs.
 This mirrors the dynamic nature of the API and keeps the SDK
 flexible — no code generation is needed when the API schema changes.
 
-Use `core.ToMapAny()` to safely cast results and nested data.
+An operation returns the entity, and its `Data()` returns the record. Use
+`core.ToMapAny()` to safely cast that record, or data nested in it, to
+`map[string]any`: it returns `nil` for anything else, an entity included.
 
 ### Package structure
 

@@ -17,7 +17,7 @@ keeps the cognitive load low.
 This package is not yet published to Maven Central. The generated SDK is a
 plain-source scala-cli project (no build tool, no third-party runtime
 dependencies). Install it from the GitHub release tag
-(`scala/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases)) or from a source
+(`scala/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags)) or from a source
 checkout — compile it with scala-cli:
 
 ```bash
@@ -34,6 +34,7 @@ loading a specific record.
 
 ```scala
 import voxgig.bluefindecryptxp2pesdk.core.BluefinDecryptxP2peSDK
+import voxgig.bluefindecryptxp2pesdk.core.SdkEntity
 
 val options = new java.util.LinkedHashMap[String, Object]()
 options.put("apikey", System.getenv("BLUEFIN_DECRYPTX_P2PE_APIKEY"))
@@ -42,13 +43,13 @@ val client = new BluefinDecryptxP2peSDK(options)
 
 ### 2. List attestation records
 
-`list(null, null)` returns an aggregate list of records (as `Object`, an
-aggregate list) and raises on error.
+`list(null, null)` returns a list of entities, one per record (as `Object`),
+and raises on error; an entity's `data()` reads its record.
 
 ```scala
 try {
-    val attestationList = client.attestation(null).list(null, null)
-    println(attestationList)
+    val attestationList = client.attestation(null).list(java.util.Map.of("client", "example"), null).asInstanceOf[java.util.List[SdkEntity]]
+    attestationList.forEach(attestationItem => println(attestationItem.data()))
 }
 catch {
     case err: RuntimeException => println("list failed: " + err.getMessage)
@@ -62,8 +63,8 @@ DeviceCustodyDetail is nested under device_type, so provide the `device_type`.
 
 ```scala
 try {
-    val deviceCustodyDetail = client.deviceCustodyDetail(null).load(java.util.Map.of("device_type", "example_device_type", "serial_number", "example_serial_number", "id", "example_id"), null)
-    println(deviceCustodyDetail)
+    val deviceCustodyDetail = client.deviceCustodyDetail(null).load(java.util.Map.of("device_type", "example_device_type", "serial_number", "example_serial_number", "id", "example_id"), null).asInstanceOf[SdkEntity]
+    println(deviceCustodyDetail.data())
 }
 catch {
     case err: RuntimeException => println("load failed: " + err.getMessage)
@@ -74,7 +75,7 @@ catch {
 
 ```scala
 // Create — returns the ENTITY (call data() for the record)
-val created = client.attestation(null).create(java.util.Map.of("client", java.util.Map.of(), "completeDate", "example_completeDate"), null)
+val created = client.attestation(null).create(java.util.Map.of("devices", java.util.List.of()), null)
 
 ```
 
@@ -86,14 +87,15 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 ```ts
 try {
   const devicetypes = await client.DeviceType().list()
-  console.log(devicetypes)
+  console.log(devicetypes.map((item) => item.data()))
 } catch (err) {
   console.error('list failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -102,8 +104,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -153,11 +155,9 @@ Create a mock client for unit testing — no server required:
 ```scala
 val client = BluefinDecryptxP2peSDK.testSDK(null, null)
 
-// Entity ops return the ENTITY and raises on error;
-// call data() for the record.
-val deviceType = client.deviceType(null).list(null, null)
-// deviceType holds the mock response record
-println(deviceType)
+// list returns a list of entities, one per mock record; it raises on error.
+val deviceTypeList = client.deviceType(null).list(null, null).asInstanceOf[java.util.List[SdkEntity]]
+deviceTypeList.forEach(deviceTypeItem => println(deviceTypeItem.data()))
 ```
 
 ### Use a custom fetch function
@@ -262,11 +262,11 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `(reqmatch, ctrl) -> Object` | Load a single entity by match criteria. Raises on error. |
-| `list` | `(reqmatch, ctrl) -> Object` | List entities matching the criteria (an aggregate list). Raises on error. |
-| `create` | `(reqdata, ctrl) -> Object` | Create a new entity. Raises on error. |
-| `update` | `(reqdata, ctrl) -> Object` | Update an existing entity. Raises on error. |
-| `remove` | `(reqmatch, ctrl) -> Object` | Remove an entity. Raises on error. |
+| `load` | `(reqmatch, ctrl) -> Object` | Load a single entity by match criteria, and return it. Raises on error. |
+| `list` | `(reqmatch, ctrl) -> Object` | List entities matching the criteria, one per record. Raises on error. |
+| `create` | `(reqdata, ctrl) -> Object` | Create a new entity, and return it. Raises on error. |
+| `update` | `(reqdata, ctrl) -> Object` | Update an existing entity, and return it. Raises on error. |
+| `remove` | `(reqmatch, ctrl) -> Object` | Remove an entity, and return it marked as deleted. Raises on error. |
 | `data` | `(newdata*) -> Object` | Get or set entity data. |
 | `matchArgs` | `(newmatch*) -> Object` | Get or set entity match criteria. |
 | `make` | `() -> Entity` | Create a new instance with the same options. |
@@ -274,9 +274,10 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the ENTITY (call data() for the record) (a `Map` for single-entity
-ops, an aggregate `List` for `list`) as `Object` and raise on error. Wrap
-calls in `try`/`catch` to handle failures.
+Entity operations return the entity, and `list` a list of entities, one per
+record, as `Object`; an entity is an `SdkEntity`, whose `data()` reads its
+record. They raise on error, so wrap calls in `try`/`catch` to handle
+failures.
 
 The `direct()` escape hatch never raises — it returns a result
 `java.util.Map[String, Object]` you branch on via `result.get("ok")`:
@@ -300,6 +301,7 @@ On error, `ok` is `false` and `err` contains the error value.
 | `completeDate` | The date and time that the Attestation took place. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `device` | Reference to the associated Device resource. |
+| `devices` |  |
 | `id` | This resource's unique identifier. |
 | `name` | Text describing the attestation. |
 | `notes` | Free form field that allows the Client associate notes with the Attestation. |
@@ -332,6 +334,10 @@ API path: `/clients`
 
 | Field | Description |
 | --- | --- |
+| `completeDate` | The date and time that the Custody change took place. |
+| `custodian` | Reference to the associated User resource. |
+| `location` | Reference to the associated Location resource. |
+| `notes` | Free form field that allows the Client associate notes with the Custody Change. |
 
 Operations: create.
 
@@ -341,6 +347,14 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
+| `cbcVector` | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | The device Type. |
+| `encoding` | The payload encoding |
+| `encrypted` |  |
+| `hasCcData` | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | The serial number of the device. |
 | `success` | true if the payload decryption was successful. |
 
 Operations: create.
@@ -456,7 +470,9 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
+| `serialNumber` | The serial number of the Device that is shipped. |
 | `success` | Indicates if the action succeeded. |
+| `tamperLabel` | The code that is printed the tamper label of the Device that is shipped. |
 
 Operations: create.
 
@@ -466,7 +482,15 @@ API path: `/devices/receive`
 
 | Field | Description |
 | --- | --- |
+| `appVersion` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | The Device Builds's name. |
+| `buildNumber` | The Build Number. |
+| `configFile` | \? |
+| `firmwareVersion` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | The referenced Device's serial number. |
 | `success` | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | \? |
 
 Operations: create.
 
@@ -540,6 +564,7 @@ API path: `/kifs`
 | `address2` | The Location's street address. |
 | `billingId` | \? |
 | `city` | The Location's city. |
+| `client` | Reference to the associated Client resource. |
 | `country` | The Location's country. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `customReference` | A Partner specified reference for a location. |
@@ -600,6 +625,7 @@ API path: `/partners`
 | `id` | This resource's unique identifier. |
 | `items` |  |
 | `kif` | Reference to the associated KIF resource. |
+| `location` | Reference to the associated Location resource. |
 | `modified` | Last modified timestamp. |
 | `partner` | Reference to the associated Partner. |
 | `shipmentType` | The type of shipment. |
@@ -614,6 +640,8 @@ API path: `/shipments`
 
 | Field | Description |
 | --- | --- |
+| `devices` | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | Reference to the associated Partner. |
 | `success` | Indicates if the action was a success. |
 
 Operations: create, remove.
@@ -629,6 +657,7 @@ API path: `/virtualDevices/{sharePartnerTo}`
 | `clientRef` | Client Reference property that is included in the decrypt API call. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `decrypted` | A Transcation can process muliple decryptions. |
+| `device` | Reference to the associated Device resource. |
 | `deviceName` | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | Reference to the associated Partner. |
 | `encrypted` | A Transcation can process muliple encryptions. |
@@ -657,17 +686,68 @@ API path: `/transactions`
 
 | Field | Description |
 | --- | --- |
+| `address1` | The Location's street address. |
+| `address2` | The Location's street address. |
+| `alternateKey` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | \? |
+| `city` | The Location's city. |
 | `client` | Reference to the associated Client resource. |
+| `clientCanOrderEquipment` | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | Client Reference property that is included in the decrypt API call. |
+| `contact` | Reference to the associated User resource. |
+| `country` | Reference to the associated Country. |
+| `customReference` | A Partner specified reference for a location. |
+| `dateShipped` | The date and time that a package is shipped. |
+| `decrypted` | A Transcation can process muliple decryptions. |
+| `device` | Reference to the associated Device resource. |
+| `deviceBuild` | Reference to the associated Device Build resource. |
+| `deviceType` | Reference to the associated Device Type resource. |
+| `directPartner` | Reference to the associated Partner. |
 | `email` | The User's email address. |
+| `encrypted` | A Transcation can process muliple encryptions. |
+| `endDate` | Timestamp from the end of the transaction. |
+| `errCode` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | The error messge that is sent in response to a failed decrypt API call. |
 | `firstName` | The User's name. |
 | `id` | ID of newly created resource |
+| `injectKey` | Reference to the associated Device resource. |
+| `ipAddress` | The IP address of the http client that makes the decrypt API call. |
 | `isActive` | This property indicates if the User account is active or disabled. |
+| `items` |  |
+| `keyType` | The type of cipher used during decrytion. |
 | `kif` | Reference to the associated KIF resource. |
 | `lastName` | The User's Surname. |
+| `location` | Reference to the associated Location resource. |
+| `locationType` | The Location's clasification. |
+| `mailAddress1` | The Location's street address. |
+| `mailAddress2` | The Location's street address. |
+| `mailCity` | The Location's city. |
+| `mailCountry` | The Location's street address. |
+| `mailPostalCode` | The Location's postal code. |
+| `mailStateProvince` | The Location's street state or province. |
+| `messageId` | Message ID. |
+| `method` | The decryption cypher/method. |
+| `mid` | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | The Client's name. |
+| `nameOfBusiness` | The name of the business at this location. |
+| `notes` | Arbitary note that can be attached to a Device entry. |
+| `parent` | Reference to the associated Partner. |
 | `partner` | Reference to the associated Partner. |
+| `partnerId` | The Partner's id. |
 | `phone` | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | The Location's postal code. |
+| `reference` | The Partner's reference string. |
+| `sendWelcomeEmail` | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | The Device's serial number. |
+| `startDate` | Timestamp from the beginning of the transaction. |
+| `stateProvince` | The Location's street state or province. |
+| `success` | The success indicator. |
+| `tracking` | The courier's tracking number. |
+| `uniqueId` | Unique Identifier for the Location. |
 | `userName` | The User's unique username. |
 | `userRole` | Reference to the associated User Role. |
+| `verificationPhrase` | The verification phrase is a message that the Partner creates. |
 | `version` | The number of times that this resource has been updated. |
 
 Operations: create, list, update.
@@ -734,6 +814,7 @@ Create an instance: `val attestation = client.attestation(null)`
 | `completeDate` | `String` | The date and time that the Attestation took place. |
 | `created` | `String` | Creation timestamp in ISO 8601 format. |
 | `device` | `java.util.Map[String, Object]` | Reference to the associated Device resource. |
+| `devices` | `java.util.List[Object]` |  |
 | `id` | `String` | This resource's unique identifier. |
 | `name` | `String` | Text describing the attestation. |
 | `notes` | `String` | Free form field that allows the Client associate notes with the Attestation. |
@@ -747,13 +828,14 @@ val attestation = client.attestation(null).load(java.util.Map.of("id", "attestat
 #### Example: List
 
 ```scala
-val attestationList = client.attestation(null).list(null, null)
+val attestationList = client.attestation(null).list(java.util.Map.of("client", "example"), null)
 ```
 
 #### Example: Create
 
 ```scala
 val attestation = client.attestation(null).create(java.util.Map.of(
+    "devices", java.util.List.of()  // java.util.List[Object]
 ), null)
 ```
 
@@ -796,7 +878,7 @@ val client = client.client(null).load(java.util.Map.of("id", "client_id"), null)
 #### Example: List
 
 ```scala
-val clientList = client.client(null).list(null, null)
+val clientList = client.client(null).list(java.util.Map.of("partner", "example"), null)
 ```
 
 #### Example: Create
@@ -818,12 +900,23 @@ Create an instance: `val createResult = client.createResult(null)`
 | --- | --- |
 | `create(data, null)` | Create a new entity with the given data. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `completeDate` | `String` | The date and time that the Custody change took place. |
+| `custodian` | `java.util.Map[String, Object]` | Reference to the associated User resource. |
+| `location` | `java.util.Map[String, Object]` | Reference to the associated Location resource. |
+| `notes` | `String` | Free form field that allows the Client associate notes with the Custody Change. |
+
 #### Example: Create
 
 ```scala
 val createResult = client.createResult(null).create(java.util.Map.of(
     "device_type", "example_device_type",  // String
-    "serial_number", "example_serial_number"  // String
+    "serial_number", "example_serial_number",  // String
+    "custodian", java.util.Map.of(),  // java.util.Map[String, Object]
+    "location", java.util.Map.of()  // java.util.Map[String, Object]
 ), null)
 ```
 
@@ -842,12 +935,23 @@ Create an instance: `val decryption = client.decryption(null)`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `cbcVector` | `String` | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | `String` | The device Type. |
+| `encoding` | `String` | The payload encoding |
+| `encrypted` | `java.util.List[Object]` |  |
+| `hasCcData` | `String` | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | `String` | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | `String` | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | `String` | The serial number of the device. |
 | `success` | `java.lang.Boolean` | true if the payload decryption was successful. |
 
 #### Example: Create
 
 ```scala
 val decryption = client.decryption(null).create(java.util.Map.of(
+    "deviceType", "example_deviceType",  // String
+    "encrypted", java.util.List.of(),  // java.util.List[Object]
+    "serialNumber", "example_serialNumber"  // String
 ), null)
 ```
 
@@ -1032,7 +1136,7 @@ Create an instance: `val deviceCustodyListItem = client.deviceCustodyListItem(nu
 #### Example: List
 
 ```scala
-val deviceCustodyListItemList = client.deviceCustodyListItem(null).list(null, null)
+val deviceCustodyListItemList = client.deviceCustodyListItem(null).list(java.util.Map.of("device_type", "example", "serial_number", "example"), null)
 ```
 
 
@@ -1050,13 +1154,17 @@ Create an instance: `val deviceReceiveResult = client.deviceReceiveResult(null)`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `serialNumber` | `String` | The serial number of the Device that is shipped. |
 | `success` | `java.lang.Boolean` | Indicates if the action succeeded. |
+| `tamperLabel` | `String` | The code that is printed the tamper label of the Device that is shipped. |
 
 #### Example: Create
 
 ```scala
 val deviceReceiveResult = client.deviceReceiveResult(null).create(java.util.Map.of(
-    "success", true  // java.lang.Boolean
+    "serialNumber", "example_serialNumber",  // String
+    "success", true,  // java.lang.Boolean
+    "tamperLabel", "example_tamperLabel"  // String
 ), null)
 ```
 
@@ -1075,12 +1183,21 @@ Create an instance: `val deviceRkiActivateResult = client.deviceRkiActivateResul
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `appVersion` | `String` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | `String` | The Device Builds's name. |
+| `buildNumber` | `String` | The Build Number. |
+| `configFile` | `String` | \? |
+| `firmwareVersion` | `String` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `String` | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | `String` | The referenced Device's serial number. |
 | `success` | `java.lang.Boolean` | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | `String` | \? |
 
 #### Example: Create
 
 ```scala
 val deviceRkiActivateResult = client.deviceRkiActivateResult(null).create(java.util.Map.of(
+    "serialNumber", "example_serialNumber",  // String
     "success", true  // java.lang.Boolean
 ), null)
 ```
@@ -1233,6 +1350,7 @@ Create an instance: `val location = client.location(null)`
 | `address2` | `String` | The Location's street address. |
 | `billingId` | `String` | \? |
 | `city` | `String` | The Location's city. |
+| `client` | `java.util.Map[String, Object]` | Reference to the associated Client resource. |
 | `country` | `String` | The Location's country. |
 | `created` | `String` | Creation timestamp in ISO 8601 format. |
 | `customReference` | `String` | A Partner specified reference for a location. |
@@ -1262,7 +1380,7 @@ val location = client.location(null).load(java.util.Map.of("id", "location_id"),
 #### Example: List
 
 ```scala
-val locationList = client.location(null).list(null, null)
+val locationList = client.location(null).list(java.util.Map.of("client", "example"), null)
 ```
 
 #### Example: Create
@@ -1350,6 +1468,7 @@ Create an instance: `val shipment = client.shipment(null)`
 | `id` | `String` | This resource's unique identifier. |
 | `items` | `java.util.List[Object]` |  |
 | `kif` | `java.util.Map[String, Object]` | Reference to the associated KIF resource. |
+| `location` | `java.util.Map[String, Object]` | Reference to the associated Location resource. |
 | `modified` | `String` | Last modified timestamp. |
 | `partner` | `java.util.Map[String, Object]` | Reference to the associated Partner. |
 | `shipmentType` | `String` | The type of shipment. |
@@ -1365,13 +1484,14 @@ val shipment = client.shipment(null).load(java.util.Map.of("id", "shipment_id"),
 #### Example: List
 
 ```scala
-val shipmentList = client.shipment(null).list(null, null)
+val shipmentList = client.shipment(null).list(java.util.Map.of("kif", "example"), null)
 ```
 
 #### Example: Create
 
 ```scala
 val shipment = client.shipment(null).create(java.util.Map.of(
+    "location", java.util.Map.of()  // java.util.Map[String, Object]
 ), null)
 ```
 
@@ -1391,13 +1511,17 @@ Create an instance: `val success = client.success(null)`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `devices` | `java.util.List[Object]` | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | `java.util.Map[String, Object]` | Reference to the associated Partner. |
 | `success` | `java.lang.Boolean` | Indicates if the action was a success. |
 
 #### Example: Create
 
 ```scala
 val success = client.success(null).create(java.util.Map.of(
-    "share_partner_to", "example_share_partner_to"  // String
+    "share_partner_to", "example_share_partner_to",  // String
+    "devices", java.util.List.of(),  // java.util.List[Object]
+    "sharePartnerFrom", java.util.Map.of()  // java.util.Map[String, Object]
 ), null)
 ```
 
@@ -1423,6 +1547,7 @@ Create an instance: `val transaction = client.transaction(null)`
 | `clientRef` | `String` | Client Reference property that is included in the decrypt API call. |
 | `created` | `String` | Creation timestamp in ISO 8601 format. |
 | `decrypted` | `java.lang.Long` | A Transcation can process muliple decryptions. |
+| `device` | `java.util.Map[String, Object]` | Reference to the associated Device resource. |
 | `deviceName` | `String` | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | `java.util.Map[String, Object]` | Reference to the associated Partner. |
 | `encrypted` | `java.lang.Long` | A Transcation can process muliple encryptions. |
@@ -1459,6 +1584,7 @@ val transactionList = client.transaction(null).list(null, null)
 
 ```scala
 val transaction = client.transaction(null).create(java.util.Map.of(
+    "device", java.util.Map.of(),  // java.util.Map[String, Object]
     "location", java.util.Map.of()  // java.util.Map[String, Object]
 ), null)
 ```
@@ -1480,17 +1606,68 @@ Create an instance: `val updateResult = client.updateResult(null)`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `address1` | `String` | The Location's street address. |
+| `address2` | `String` | The Location's street address. |
+| `alternateKey` | `String` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `String` | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | `String` | \? |
+| `city` | `String` | The Location's city. |
 | `client` | `java.util.Map[String, Object]` | Reference to the associated Client resource. |
+| `clientCanOrderEquipment` | `java.lang.Boolean` | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | `String` | Client Reference property that is included in the decrypt API call. |
+| `contact` | `java.util.Map[String, Object]` | Reference to the associated User resource. |
+| `country` | `java.util.Map[String, Object]` | Reference to the associated Country. |
+| `customReference` | `String` | A Partner specified reference for a location. |
+| `dateShipped` | `String` | The date and time that a package is shipped. |
+| `decrypted` | `java.lang.Long` | A Transcation can process muliple decryptions. |
+| `device` | `java.util.Map[String, Object]` | Reference to the associated Device resource. |
+| `deviceBuild` | `java.util.Map[String, Object]` | Reference to the associated Device Build resource. |
+| `deviceType` | `java.util.Map[String, Object]` | Reference to the associated Device Type resource. |
+| `directPartner` | `java.util.Map[String, Object]` | Reference to the associated Partner. |
 | `email` | `String` | The User's email address. |
+| `encrypted` | `java.lang.Long` | A Transcation can process muliple encryptions. |
+| `endDate` | `String` | Timestamp from the end of the transaction. |
+| `errCode` | `String` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `String` | The error messge that is sent in response to a failed decrypt API call. |
 | `firstName` | `String` | The User's name. |
 | `id` | `String` | ID of newly created resource |
+| `injectKey` | `java.util.Map[String, Object]` | Reference to the associated Device resource. |
+| `ipAddress` | `String` | The IP address of the http client that makes the decrypt API call. |
 | `isActive` | `java.lang.Boolean` | This property indicates if the User account is active or disabled. |
+| `items` | `java.util.List[Object]` |  |
+| `keyType` | `String` | The type of cipher used during decrytion. |
 | `kif` | `java.util.Map[String, Object]` | Reference to the associated KIF resource. |
 | `lastName` | `String` | The User's Surname. |
+| `location` | `java.util.Map[String, Object]` | Reference to the associated Location resource. |
+| `locationType` | `String` | The Location's clasification. |
+| `mailAddress1` | `String` | The Location's street address. |
+| `mailAddress2` | `String` | The Location's street address. |
+| `mailCity` | `String` | The Location's city. |
+| `mailCountry` | `String` | The Location's street address. |
+| `mailPostalCode` | `String` | The Location's postal code. |
+| `mailStateProvince` | `String` | The Location's street state or province. |
+| `messageId` | `String` | Message ID. |
+| `method` | `String` | The decryption cypher/method. |
+| `mid` | `String` | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | `String` | The Client's name. |
+| `nameOfBusiness` | `String` | The name of the business at this location. |
+| `notes` | `String` | Arbitary note that can be attached to a Device entry. |
+| `parent` | `java.util.Map[String, Object]` | Reference to the associated Partner. |
 | `partner` | `java.util.Map[String, Object]` | Reference to the associated Partner. |
+| `partnerId` | `String` | The Partner's id. |
 | `phone` | `String` | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | `String` | The Location's postal code. |
+| `reference` | `String` | The Partner's reference string. |
+| `sendWelcomeEmail` | `java.lang.Boolean` | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | `String` | The Device's serial number. |
+| `startDate` | `String` | Timestamp from the beginning of the transaction. |
+| `stateProvince` | `String` | The Location's street state or province. |
+| `success` | `java.lang.Boolean` | The success indicator. |
+| `tracking` | `String` | The courier's tracking number. |
+| `uniqueId` | `String` | Unique Identifier for the Location. |
 | `userName` | `String` | The User's unique username. |
 | `userRole` | `java.util.Map[String, Object]` | Reference to the associated User Role. |
+| `verificationPhrase` | `String` | The verification phrase is a message that the Partner creates. |
 | `version` | `java.lang.Long` | The number of times that this resource has been updated. |
 
 #### Example: List
@@ -1503,6 +1680,15 @@ val updateResultList = client.updateResult(null).list(null, null)
 
 ```scala
 val updateResult = client.updateResult(null).create(java.util.Map.of(
+    "contact", java.util.Map.of(),  // java.util.Map[String, Object]
+    "email", "example_email",  // String
+    "firstName", "example_firstName",  // String
+    "isActive", true,  // java.lang.Boolean
+    "lastName", "example_lastName",  // String
+    "location", java.util.Map.of(),  // java.util.Map[String, Object]
+    "phone", "example_phone",  // String
+    "userName", "example_userName",  // String
+    "userRole", java.util.Map.of()  // java.util.Map[String, Object]
 ), null)
 ```
 

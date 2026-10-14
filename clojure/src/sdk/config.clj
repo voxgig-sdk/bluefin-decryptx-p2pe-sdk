@@ -9,12 +9,20 @@
         "fields" (vs/jt
           (vs/jm
             "name" "client"
+            "op" (vs/jm
+              "create" (vs/jm
+                "req" true
+                "type" "`$OBJECT`"))
             "short" "Reference to the associated Client resource."
             "title" "Client"
             "type" "`$OBJECT`")
           (vs/jm
             "format" "datetime"
             "name" "completeDate"
+            "op" (vs/jm
+              "create" (vs/jm
+                "req" true
+                "type" "`$STRING`"))
             "short" "The date and time that the Attestation took place."
             "title" "Complete Date"
             "type" "`$STRING`")
@@ -30,12 +38,21 @@
             "title" "Device"
             "type" "`$OBJECT`")
           (vs/jm
+            "name" "devices"
+            "req" true
+            "title" "Devices"
+            "type" "`$ARRAY`")
+          (vs/jm
             "name" "id"
             "short" "This resource's unique identifier."
             "title" "Id"
             "type" "`$STRING`")
           (vs/jm
             "name" "name"
+            "op" (vs/jm
+              "create" (vs/jm
+                "req" true
+                "type" "`$STRING`"))
             "short" "Text describing the attestation."
             "title" "Name"
             "type" "`$STRING`")
@@ -61,6 +78,9 @@
                 "parts" (vs/jt
                   "attestations")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "attestations"))
@@ -76,6 +96,7 @@
                 "args" (vs/jm
                   "query" (vs/jt
                     (vs/jm
+                      "field" true
                       "kind" "query"
                       "name" "client"
                       "orig" "client"
@@ -99,14 +120,15 @@
                 "parts" (vs/jt
                   "attestations")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "attestations"))
                 "select" (vs/jm
                   "exist" (vs/jt
-                    "client"
-                    "skip"
-                    "take"))
+                    "client"))
                 "transform" (vs/jm
                   "req" "`reqdata`"
                   "res" "`body.data`"))))
@@ -130,6 +152,9 @@
                   "attestations"
                   "{id}")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "attestations")
@@ -148,6 +173,9 @@
           (vs/jm
             "name" "contact"
             "op" (vs/jm
+              "create" (vs/jm
+                "req" true
+                "type" "`$OBJECT`")
               "list" (vs/jm
                 "req" true
                 "type" "`$OBJECT`"))
@@ -162,6 +190,10 @@
             "type" "`$STRING`")
           (vs/jm
             "name" "directPartner"
+            "op" (vs/jm
+              "create" (vs/jm
+                "req" true
+                "type" "`$OBJECT`"))
             "short" "Reference to the associated Partner."
             "title" "Direct Partner"
             "type" "`$OBJECT`")
@@ -194,6 +226,10 @@
             "type" "`$STRING`")
           (vs/jm
             "name" "name"
+            "op" (vs/jm
+              "create" (vs/jm
+                "req" true
+                "type" "`$STRING`"))
             "short" "The Client's name."
             "title" "Name"
             "type" "`$STRING`")
@@ -224,6 +260,9 @@
                 "parts" (vs/jt
                   "clients")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "clients"))
@@ -239,6 +278,7 @@
                 "args" (vs/jm
                   "query" (vs/jt
                     (vs/jm
+                      "field" true
                       "kind" "query"
                       "name" "partner"
                       "orig" "partner"
@@ -262,14 +302,15 @@
                 "parts" (vs/jt
                   "clients")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "clients"))
                 "select" (vs/jm
                   "exist" (vs/jt
-                    "partner"
-                    "skip"
-                    "take"))
+                    "partner"))
                 "transform" (vs/jm
                   "req" "`reqdata`"
                   "res" "`body.data`"))))
@@ -293,6 +334,9 @@
                   "clients"
                   "{id}")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "clients")
@@ -338,7 +382,30 @@
         "relations" (vs/jm
           "ancestors" (vs/jt)))
       "create_result" (vs/jm
-        "fields" (vs/jt)
+        "fields" (vs/jt
+          (vs/jm
+            "format" "date-time"
+            "name" "completeDate"
+            "short" "The date and time that the Custody change took place."
+            "title" "Complete Date"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "custodian"
+            "req" true
+            "short" "Reference to the associated User resource."
+            "title" "Custodian"
+            "type" "`$OBJECT`")
+          (vs/jm
+            "name" "location"
+            "req" true
+            "short" "Reference to the associated Location resource."
+            "title" "Location"
+            "type" "`$OBJECT`")
+          (vs/jm
+            "name" "notes"
+            "short" "Free form field that allows the Client associate notes with the Custody Change."
+            "title" "Notes"
+            "type" "`$STRING`"))
         "name" "create_result"
         "op" (vs/jm
           "create" (vs/jm
@@ -351,13 +418,13 @@
                     (vs/jm
                       "kind" "param"
                       "name" "device_type"
-                      "orig" "device_type"
+                      "orig" "deviceType"
                       "reqd" true
                       "type" "`$STRING`")
                     (vs/jm
                       "kind" "param"
                       "name" "serial_number"
-                      "orig" "serial_number"
+                      "orig" "serialNumber"
                       "reqd" true
                       "type" "`$STRING`")))
                 "kind" "http"
@@ -372,6 +439,9 @@
                   "param" (vs/jm
                     "deviceType" "device_type"
                     "serialNumber" "serial_number"))
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "devices")
@@ -395,6 +465,48 @@
       "decryption" (vs/jm
         "fields" (vs/jt
           (vs/jm
+            "name" "cbcVector"
+            "short" "Base64 or hex encoded initial vector obtained from device."
+            "title" "Cbc Vector"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "deviceType"
+            "req" true
+            "short" "The device Type."
+            "title" "Device Type"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "encoding"
+            "short" "The payload encoding"
+            "title" "Encoding"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "encrypted"
+            "req" true
+            "title" "Encrypted"
+            "type" "`$ARRAY`")
+          (vs/jm
+            "name" "hasCcData"
+            "short" "Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers."
+            "title" "Has Cc Data"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "reference"
+            "short" "A string (of up to 50 characters) that helps partners identify individual API calls."
+            "title" "Reference"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "sequenceNumber"
+            "short" "Sequence number obtained from device in base 64 or hex encoded format."
+            "title" "Sequence Number"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "serialNumber"
+            "req" true
+            "short" "The serial number of the device."
+            "title" "Serial Number"
+            "type" "`$STRING`")
+          (vs/jm
             "name" "success"
             "short" "true if the payload decryption was successful."
             "title" "Success"
@@ -413,6 +525,9 @@
                 "parts" (vs/jt
                   "decryption")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "decryption"))
@@ -482,6 +597,10 @@
             "type" "`$OBJECT`")
           (vs/jm
             "name" "deviceType"
+            "op" (vs/jm
+              "create" (vs/jm
+                "req" true
+                "type" "`$OBJECT`"))
             "short" "Reference to the associated Device Type resource."
             "title" "Device Type"
             "type" "`$OBJECT`")
@@ -525,6 +644,10 @@
             "type" "`$BOOLEAN`")
           (vs/jm
             "name" "kif"
+            "op" (vs/jm
+              "create" (vs/jm
+                "req" true
+                "type" "`$OBJECT`"))
             "short" "Reference to the associated KIF resource."
             "title" "Kif"
             "type" "`$OBJECT`")
@@ -569,6 +692,10 @@
             "type" "`$OBJECT`")
           (vs/jm
             "name" "serialNumber"
+            "op" (vs/jm
+              "create" (vs/jm
+                "req" true
+                "type" "`$STRING`"))
             "short" "The Device's serial number."
             "title" "Serial Number"
             "type" "`$STRING`")
@@ -594,6 +721,9 @@
                 "parts" (vs/jt
                   "devices")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "devices"))
@@ -609,6 +739,7 @@
                 "args" (vs/jm
                   "query" (vs/jt
                     (vs/jm
+                      "field" true
                       "kind" "query"
                       "name" "client"
                       "orig" "client"
@@ -616,14 +747,16 @@
                     (vs/jm
                       "kind" "query"
                       "name" "device_state"
-                      "orig" "device_state"
+                      "orig" "deviceState"
                       "type" "`$STRING`")
                     (vs/jm
+                      "field" true
                       "kind" "query"
                       "name" "kif"
                       "orig" "kif"
                       "type" "`$STRING`")
                     (vs/jm
+                      "field" true
                       "kind" "query"
                       "name" "partner"
                       "orig" "partner"
@@ -631,7 +764,7 @@
                     (vs/jm
                       "kind" "query"
                       "name" "serial_number"
-                      "orig" "serial_number"
+                      "orig" "serialNumber"
                       "type" "`$STRING`")
                     (vs/jm
                       "example" 0
@@ -643,13 +776,13 @@
                       "example" "asc"
                       "kind" "query"
                       "name" "sorting_direction"
-                      "orig" "sorting_direction"
+                      "orig" "sorting.direction"
                       "type" "`$STRING`")
                     (vs/jm
                       "example" "serialnumber"
                       "kind" "query"
                       "name" "sorting_field"
-                      "orig" "sorting_field"
+                      "orig" "sorting.field"
                       "type" "`$STRING`")
                     (vs/jm
                       "example" 10
@@ -663,20 +796,13 @@
                 "parts" (vs/jt
                   "devices")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "devices"))
-                "select" (vs/jm
-                  "exist" (vs/jt
-                    "client"
-                    "device_state"
-                    "kif"
-                    "partner"
-                    "serial_number"
-                    "skip"
-                    "sorting_direction"
-                    "sorting_field"
-                    "take"))
+                "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
                   "res" "`body.data`"))))
@@ -690,13 +816,13 @@
                     (vs/jm
                       "kind" "param"
                       "name" "device_type"
-                      "orig" "device_type"
+                      "orig" "deviceType"
                       "reqd" true
                       "type" "`$STRING`")
                     (vs/jm
                       "kind" "param"
                       "name" "serial_number"
-                      "orig" "serial_number"
+                      "orig" "serialNumber"
                       "reqd" true
                       "type" "`$STRING`")))
                 "kind" "http"
@@ -710,6 +836,9 @@
                   "param" (vs/jm
                     "deviceType" "device_type"
                     "serialNumber" "serial_number"))
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "devices")
@@ -740,6 +869,9 @@
                   "devices"
                   "{id}")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "devices")
@@ -848,7 +980,7 @@
                     (vs/jm
                       "kind" "query"
                       "name" "device_type"
-                      "orig" "device_type"
+                      "orig" "deviceType"
                       "type" "`$STRING`")
                     (vs/jm
                       "example" 0
@@ -868,14 +1000,13 @@
                 "parts" (vs/jt
                   "deviceBuilds")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "deviceBuilds"))
-                "select" (vs/jm
-                  "exist" (vs/jt
-                    "device_type"
-                    "skip"
-                    "take"))
+                "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
                   "res" "`body.data`"))))
@@ -899,6 +1030,9 @@
                   "deviceBuilds"
                   "{id}")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "deviceBuilds")
@@ -1002,7 +1136,7 @@
                     (vs/jm
                       "kind" "param"
                       "name" "device_type"
-                      "orig" "device_type"
+                      "orig" "deviceType"
                       "reqd" true
                       "type" "`$STRING`")
                     (vs/jm
@@ -1014,7 +1148,7 @@
                     (vs/jm
                       "kind" "param"
                       "name" "serial_number"
-                      "orig" "serial_number"
+                      "orig" "serialNumber"
                       "reqd" true
                       "type" "`$STRING`")))
                 "kind" "http"
@@ -1030,6 +1164,9 @@
                   "param" (vs/jm
                     "deviceType" "device_type"
                     "serialNumber" "serial_number"))
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "devices")
@@ -1143,13 +1280,13 @@
                     (vs/jm
                       "kind" "param"
                       "name" "device_type"
-                      "orig" "device_type"
+                      "orig" "deviceType"
                       "reqd" true
                       "type" "`$STRING`")
                     (vs/jm
                       "kind" "param"
                       "name" "serial_number"
-                      "orig" "serial_number"
+                      "orig" "serialNumber"
                       "reqd" true
                       "type" "`$STRING`"))
                   "query" (vs/jt
@@ -1177,6 +1314,9 @@
                   "param" (vs/jm
                     "deviceType" "device_type"
                     "serialNumber" "serial_number"))
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "devices")
@@ -1189,9 +1329,7 @@
                 "select" (vs/jm
                   "exist" (vs/jt
                     "device_type"
-                    "serial_number"
-                    "skip"
-                    "take"))
+                    "serial_number"))
                 "transform" (vs/jm
                   "req" "`reqdata`"
                   "res" "`body.data`")))))
@@ -1202,11 +1340,23 @@
       "device_receive_result" (vs/jm
         "fields" (vs/jt
           (vs/jm
+            "name" "serialNumber"
+            "req" true
+            "short" "The serial number of the Device that is shipped."
+            "title" "Serial Number"
+            "type" "`$STRING`")
+          (vs/jm
             "name" "success"
             "req" true
             "short" "Indicates if the action succeeded."
             "title" "Success"
-            "type" "`$BOOLEAN`"))
+            "type" "`$BOOLEAN`")
+          (vs/jm
+            "name" "tamperLabel"
+            "req" true
+            "short" "The code that is printed the tamper label of the Device that is shipped."
+            "title" "Tamper Label"
+            "type" "`$STRING`"))
         "name" "device_receive_result"
         "op" (vs/jm
           "create" (vs/jm
@@ -1222,6 +1372,9 @@
                   "devices"
                   "receive")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "devices")
@@ -1236,11 +1389,52 @@
       "device_rki_activate_result" (vs/jm
         "fields" (vs/jt
           (vs/jm
+            "name" "appVersion"
+            "short" "If a Device Type has more than one Application Code version the supported version is specified here."
+            "title" "App Version"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "buildName"
+            "short" "The Device Builds's name."
+            "title" "Build Name"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "buildNumber"
+            "short" "The Build Number."
+            "title" "Build Number"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "configFile"
+            "short" "\\?"
+            "title" "Config File"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "firmwareVersion"
+            "short" "A list of firmware versions that this Device Build covers."
+            "title" "Firmware Version"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "hardwareVersion"
+            "short" "A list of hardware versions that this Device Build covers."
+            "title" "Hardware Version"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "serialNumber"
+            "req" true
+            "short" "The referenced Device's serial number."
+            "title" "Serial Number"
+            "type" "`$STRING`")
+          (vs/jm
             "name" "success"
             "req" true
             "short" "Indicates if the RKI activation succeeded."
             "title" "Success"
-            "type" "`$BOOLEAN`"))
+            "type" "`$BOOLEAN`")
+          (vs/jm
+            "name" "whiteListingBinRanges"
+            "short" "\\?"
+            "title" "White Listing Bin Ranges"
+            "type" "`$STRING`"))
         "name" "device_rki_activate_result"
         "op" (vs/jm
           "create" (vs/jm
@@ -1257,6 +1451,9 @@
                   "rki"
                   "activate")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "devices")
@@ -1300,6 +1497,9 @@
                 "parts" (vs/jt
                   "deviceStates")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "deviceStates"))
@@ -1389,6 +1589,9 @@
                 "parts" (vs/jt
                   "deviceTypes")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "deviceTypes"))
@@ -1416,6 +1619,9 @@
                   "deviceTypes"
                   "{id}")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "deviceTypes")
@@ -1490,6 +1696,9 @@
                 "parts" (vs/jt
                   "injectKeys")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "injectKeys"))
@@ -1517,6 +1726,9 @@
                   "injectKeys"
                   "{id}")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "injectKeys")
@@ -1560,6 +1772,9 @@
                 "parts" (vs/jt
                   "kifs")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "kifs"))
@@ -1573,6 +1788,10 @@
         "fields" (vs/jt
           (vs/jm
             "name" "address1"
+            "op" (vs/jm
+              "create" (vs/jm
+                "req" true
+                "type" "`$STRING`"))
             "short" "The Location's street address."
             "title" "Address1"
             "type" "`$STRING`")
@@ -1588,11 +1807,24 @@
             "type" "`$STRING`")
           (vs/jm
             "name" "city"
+            "op" (vs/jm
+              "create" (vs/jm
+                "req" true
+                "type" "`$STRING`"))
             "short" "The Location's city."
             "title" "City"
             "type" "`$STRING`")
           (vs/jm
+            "name" "client"
+            "short" "Reference to the associated Client resource."
+            "title" "Client"
+            "type" "`$OBJECT`")
+          (vs/jm
             "name" "country"
+            "op" (vs/jm
+              "create" (vs/jm
+                "req" true
+                "type" "`$OBJECT`"))
             "short" "The Location's country."
             "title" "Country"
             "type" "`$STRING`")
@@ -1614,6 +1846,10 @@
             "type" "`$STRING`")
           (vs/jm
             "name" "locationType"
+            "op" (vs/jm
+              "create" (vs/jm
+                "req" true
+                "type" "`$STRING`"))
             "short" "The Location's clasification."
             "title" "Location Type"
             "type" "`$STRING`")
@@ -1655,6 +1891,10 @@
             "type" "`$STRING`")
           (vs/jm
             "name" "name"
+            "op" (vs/jm
+              "create" (vs/jm
+                "req" true
+                "type" "`$STRING`"))
             "short" "The Location's name."
             "title" "Name"
             "type" "`$STRING`")
@@ -1705,6 +1945,9 @@
                 "parts" (vs/jt
                   "locations")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "locations"))
@@ -1720,6 +1963,7 @@
                 "args" (vs/jm
                   "query" (vs/jt
                     (vs/jm
+                      "field" true
                       "kind" "query"
                       "name" "client"
                       "orig" "client"
@@ -1743,14 +1987,15 @@
                 "parts" (vs/jt
                   "locations")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "locations"))
                 "select" (vs/jm
                   "exist" (vs/jt
-                    "client"
-                    "skip"
-                    "take"))
+                    "client"))
                 "transform" (vs/jm
                   "req" "`reqdata`"
                   "res" "`body.data`"))))
@@ -1774,6 +2019,9 @@
                   "locations"
                   "{id}")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "locations")
@@ -1833,6 +2081,9 @@
           (vs/jm
             "name" "contact"
             "op" (vs/jm
+              "create" (vs/jm
+                "req" true
+                "type" "`$OBJECT`")
               "list" (vs/jm
                 "req" true
                 "type" "`$OBJECT`"))
@@ -1869,11 +2120,19 @@
             "type" "`$STRING`")
           (vs/jm
             "name" "name"
+            "op" (vs/jm
+              "create" (vs/jm
+                "req" true
+                "type" "`$STRING`"))
             "short" "The Partner's name."
             "title" "Name"
             "type" "`$STRING`")
           (vs/jm
             "name" "parent"
+            "op" (vs/jm
+              "create" (vs/jm
+                "req" true
+                "type" "`$OBJECT`"))
             "short" "Reference to the associated Partner."
             "title" "Parent"
             "type" "`$OBJECT`")
@@ -1884,6 +2143,10 @@
             "type" "`$STRING`")
           (vs/jm
             "name" "reference"
+            "op" (vs/jm
+              "create" (vs/jm
+                "req" true
+                "type" "`$STRING`"))
             "short" "The Partner's reference string."
             "title" "Reference"
             "type" "`$STRING`")
@@ -1914,6 +2177,9 @@
                 "parts" (vs/jt
                   "partners")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "partners"))
@@ -1951,14 +2217,13 @@
                 "parts" (vs/jt
                   "partners")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "partners"))
-                "select" (vs/jm
-                  "exist" (vs/jt
-                    "partner"
-                    "skip"
-                    "take"))
+                "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
                   "res" "`body.data`"))))
@@ -1982,6 +2247,9 @@
                   "partners"
                   "{id}")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "partners")
@@ -1999,11 +2267,19 @@
         "fields" (vs/jt
           (vs/jm
             "name" "carrier"
+            "op" (vs/jm
+              "create" (vs/jm
+                "req" true
+                "type" "`$STRING`"))
             "short" "The name of the courier."
             "title" "Carrier"
             "type" "`$STRING`")
           (vs/jm
             "name" "client"
+            "op" (vs/jm
+              "create" (vs/jm
+                "req" true
+                "type" "`$OBJECT`"))
             "short" "Reference to the associated Client resource."
             "title" "Client"
             "type" "`$OBJECT`")
@@ -2022,6 +2298,10 @@
           (vs/jm
             "format" "datetime"
             "name" "dateShipped"
+            "op" (vs/jm
+              "create" (vs/jm
+                "req" true
+                "type" "`$STRING`"))
             "short" "The date and time that a package is shipped."
             "title" "Date Shipped"
             "type" "`$STRING`")
@@ -2037,12 +2317,26 @@
             "type" "`$STRING`")
           (vs/jm
             "name" "items"
+            "op" (vs/jm
+              "create" (vs/jm
+                "req" true
+                "type" "`$ARRAY`"))
             "title" "Items"
             "type" "`$ARRAY`")
           (vs/jm
             "name" "kif"
+            "op" (vs/jm
+              "create" (vs/jm
+                "req" true
+                "type" "`$OBJECT`"))
             "short" "Reference to the associated KIF resource."
             "title" "Kif"
+            "type" "`$OBJECT`")
+          (vs/jm
+            "name" "location"
+            "req" true
+            "short" "Reference to the associated Location resource."
+            "title" "Location"
             "type" "`$OBJECT`")
           (vs/jm
             "format" "datetime"
@@ -2052,6 +2346,10 @@
             "type" "`$STRING`")
           (vs/jm
             "name" "partner"
+            "op" (vs/jm
+              "create" (vs/jm
+                "req" true
+                "type" "`$OBJECT`"))
             "short" "Reference to the associated Partner."
             "title" "Partner"
             "type" "`$OBJECT`")
@@ -2062,6 +2360,10 @@
             "type" "`$STRING`")
           (vs/jm
             "name" "tracking"
+            "op" (vs/jm
+              "create" (vs/jm
+                "req" true
+                "type" "`$STRING`"))
             "short" "The courier's tracking number."
             "title" "Tracking"
             "type" "`$STRING`")
@@ -2088,6 +2390,9 @@
                 "parts" (vs/jt
                   "shipments")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "shipments"))
@@ -2103,6 +2408,7 @@
                 "args" (vs/jm
                   "query" (vs/jt
                     (vs/jm
+                      "field" true
                       "kind" "query"
                       "name" "kif"
                       "orig" "kif"
@@ -2131,15 +2437,15 @@
                 "parts" (vs/jt
                   "shipments")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "shipments"))
                 "select" (vs/jm
                   "exist" (vs/jt
-                    "kif"
-                    "mode"
-                    "skip"
-                    "take"))
+                    "kif"))
                 "transform" (vs/jm
                   "req" "`reqdata`"
                   "res" "`body.data`"))))
@@ -2163,6 +2469,9 @@
                   "shipments"
                   "{id}")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "shipments")
@@ -2178,6 +2487,18 @@
           "ancestors" (vs/jt)))
       "success" (vs/jm
         "fields" (vs/jt
+          (vs/jm
+            "name" "devices"
+            "req" true
+            "short" "An array of Device ids to share with partner."
+            "title" "Devices"
+            "type" "`$ARRAY`")
+          (vs/jm
+            "name" "sharePartnerFrom"
+            "req" true
+            "short" "Reference to the associated Partner."
+            "title" "Share Partner From"
+            "type" "`$OBJECT`")
           (vs/jm
             "name" "success"
             "short" "Indicates if the action was a success."
@@ -2195,7 +2516,7 @@
                     (vs/jm
                       "kind" "param"
                       "name" "share_partner_to"
-                      "orig" "share_partner_to"
+                      "orig" "sharePartnerTo"
                       "reqd" true
                       "type" "`$STRING`")))
                 "kind" "http"
@@ -2207,6 +2528,9 @@
                 "rename" (vs/jm
                   "param" (vs/jm
                     "sharePartnerTo" "share_partner_to"))
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "virtualDevices")
@@ -2228,7 +2552,7 @@
                     (vs/jm
                       "kind" "param"
                       "name" "share_partner_to"
-                      "orig" "share_partner_to"
+                      "orig" "sharePartnerTo"
                       "reqd" true
                       "type" "`$STRING`")))
                 "kind" "http"
@@ -2240,6 +2564,9 @@
                 "rename" (vs/jm
                   "param" (vs/jm
                     "sharePartnerTo" "share_partner_to"))
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "virtualDevices")
@@ -2264,6 +2591,10 @@
             "type" "`$STRING`")
           (vs/jm
             "name" "client"
+            "op" (vs/jm
+              "create" (vs/jm
+                "req" true
+                "type" "`$OBJECT`"))
             "short" "Reference to the associated Client resource."
             "title" "Client"
             "type" "`$OBJECT`")
@@ -2284,6 +2615,12 @@
             "short" "A Transcation can process muliple decryptions."
             "title" "Decrypted"
             "type" "`$INTEGER`")
+          (vs/jm
+            "name" "device"
+            "req" true
+            "short" "Reference to the associated Device resource."
+            "title" "Device"
+            "type" "`$OBJECT`")
           (vs/jm
             "name" "deviceName"
             "short" "The name of the Device that generated the payload to decrypt."
@@ -2323,6 +2660,10 @@
             "type" "`$STRING`")
           (vs/jm
             "name" "ipAddress"
+            "op" (vs/jm
+              "create" (vs/jm
+                "req" true
+                "type" "`$STRING`"))
             "short" "The IP address of the http client that makes the decrypt API call."
             "title" "Ip Address"
             "type" "`$STRING`")
@@ -2333,6 +2674,10 @@
             "type" "`$BOOLEAN`")
           (vs/jm
             "name" "keyType"
+            "op" (vs/jm
+              "create" (vs/jm
+                "req" true
+                "type" "`$STRING`"))
             "short" "The type of cipher used during decrytion."
             "title" "Key Type"
             "type" "`$STRING`")
@@ -2349,11 +2694,19 @@
             "type" "`$STRING`")
           (vs/jm
             "name" "method"
+            "op" (vs/jm
+              "create" (vs/jm
+                "req" true
+                "type" "`$STRING`"))
             "short" "The decryption cypher/method."
             "title" "Method"
             "type" "`$STRING`")
           (vs/jm
             "name" "partner"
+            "op" (vs/jm
+              "create" (vs/jm
+                "req" true
+                "type" "`$OBJECT`"))
             "short" "Reference to the associated Partner."
             "title" "Partner"
             "type" "`$OBJECT`")
@@ -2400,6 +2753,9 @@
                 "parts" (vs/jt
                   "transactions")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "transactions"))
@@ -2415,6 +2771,7 @@
                 "args" (vs/jm
                   "query" (vs/jt
                     (vs/jm
+                      "field" true
                       "kind" "query"
                       "name" "client"
                       "orig" "client"
@@ -2422,19 +2779,20 @@
                     (vs/jm
                       "kind" "query"
                       "name" "client_ref"
-                      "orig" "client_ref"
+                      "orig" "clientRef"
                       "type" "`$STRING`")
                     (vs/jm
                       "kind" "query"
                       "name" "date_from"
-                      "orig" "date_from"
+                      "orig" "dateFrom"
                       "type" "`$STRING`")
                     (vs/jm
                       "kind" "query"
                       "name" "date_to"
-                      "orig" "date_to"
+                      "orig" "dateTo"
                       "type" "`$STRING`")
                     (vs/jm
+                      "field" true
                       "kind" "query"
                       "name" "location"
                       "orig" "location"
@@ -2442,20 +2800,22 @@
                     (vs/jm
                       "kind" "query"
                       "name" "message_id"
-                      "orig" "message_id"
+                      "orig" "messageId"
                       "type" "`$STRING`")
                     (vs/jm
                       "example" "nocount"
                       "kind" "query"
                       "name" "paging_mode"
-                      "orig" "paging_mode"
+                      "orig" "paging.mode"
                       "type" "`$STRING`")
                     (vs/jm
+                      "field" true
                       "kind" "query"
                       "name" "partner"
                       "orig" "partner"
                       "type" "`$STRING`")
                     (vs/jm
+                      "field" true
                       "kind" "query"
                       "name" "reference"
                       "orig" "reference"
@@ -2463,7 +2823,7 @@
                     (vs/jm
                       "kind" "query"
                       "name" "serial_number"
-                      "orig" "serial_number"
+                      "orig" "serialNumber"
                       "type" "`$STRING`")
                     (vs/jm
                       "example" 0
@@ -2472,6 +2832,7 @@
                       "orig" "skip"
                       "type" "`$INTEGER`")
                     (vs/jm
+                      "field" true
                       "kind" "query"
                       "name" "success"
                       "orig" "success"
@@ -2488,24 +2849,13 @@
                 "parts" (vs/jt
                   "transactions")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "transactions"))
-                "select" (vs/jm
-                  "exist" (vs/jt
-                    "client"
-                    "client_ref"
-                    "date_from"
-                    "date_to"
-                    "location"
-                    "message_id"
-                    "paging_mode"
-                    "partner"
-                    "reference"
-                    "serial_number"
-                    "skip"
-                    "success"
-                    "take"))
+                "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
                   "res" "`body.data`"))))
@@ -2529,6 +2879,9 @@
                   "transactions"
                   "{id}")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "transactions")
@@ -2545,17 +2898,140 @@
       "update_result" (vs/jm
         "fields" (vs/jt
           (vs/jm
+            "name" "address1"
+            "short" "The Location's street address."
+            "title" "Address1"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "address2"
+            "short" "The Location's street address."
+            "title" "Address2"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "alternateKey"
+            "short" "The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging."
+            "title" "Alternate Key"
+            "type" "`$STRING`")
+          (vs/jm
+            "format" "datetime"
+            "name" "auditNextDate"
+            "short" "Date and time that the Device is due its next PCI Audit."
+            "title" "Audit Next Date"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "billingId"
+            "short" "\\?"
+            "title" "Billing Id"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "city"
+            "short" "The Location's city."
+            "title" "City"
+            "type" "`$STRING`")
+          (vs/jm
             "name" "client"
             "short" "Reference to the associated Client resource."
             "title" "Client"
             "type" "`$OBJECT`")
           (vs/jm
+            "name" "clientCanOrderEquipment"
+            "short" "This property indicates if the Partner is allowed to order Equipment."
+            "title" "Client Can Order Equipment"
+            "type" "`$BOOLEAN`")
+          (vs/jm
+            "name" "clientRef"
+            "short" "Client Reference property that is included in the decrypt API call."
+            "title" "Client Ref"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "contact"
+            "req" true
+            "short" "Reference to the associated User resource."
+            "title" "Contact"
+            "type" "`$OBJECT`")
+          (vs/jm
+            "name" "country"
+            "short" "Reference to the associated Country."
+            "title" "Country"
+            "type" "`$OBJECT`")
+          (vs/jm
+            "name" "customReference"
+            "short" "A Partner specified reference for a location."
+            "title" "Custom Reference"
+            "type" "`$STRING`")
+          (vs/jm
+            "format" "datetime"
+            "name" "dateShipped"
+            "short" "The date and time that a package is shipped."
+            "title" "Date Shipped"
+            "type" "`$STRING`")
+          (vs/jm
+            "format" "int32"
+            "name" "decrypted"
+            "short" "A Transcation can process muliple decryptions."
+            "title" "Decrypted"
+            "type" "`$INTEGER`")
+          (vs/jm
+            "name" "device"
+            "short" "Reference to the associated Device resource."
+            "title" "Device"
+            "type" "`$OBJECT`")
+          (vs/jm
+            "name" "deviceBuild"
+            "short" "Reference to the associated Device Build resource."
+            "title" "Device Build"
+            "type" "`$OBJECT`")
+          (vs/jm
+            "name" "deviceType"
+            "short" "Reference to the associated Device Type resource."
+            "title" "Device Type"
+            "type" "`$OBJECT`")
+          (vs/jm
+            "name" "directPartner"
+            "short" "Reference to the associated Partner."
+            "title" "Direct Partner"
+            "type" "`$OBJECT`")
+          (vs/jm
             "name" "email"
+            "op" (vs/jm
+              "list" (vs/jm
+                "type" "`$STRING`")
+              "update" (vs/jm
+                "type" "`$STRING`"))
+            "req" true
             "short" "The User's email address."
             "title" "Email"
             "type" "`$STRING`")
           (vs/jm
+            "format" "int32"
+            "name" "encrypted"
+            "short" "A Transcation can process muliple encryptions."
+            "title" "Encrypted"
+            "type" "`$INTEGER`")
+          (vs/jm
+            "format" "datetime"
+            "name" "endDate"
+            "short" "Timestamp from the end of the transaction."
+            "title" "End Date"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "errCode"
+            "short" "The error code that is sent in response to a failed decrypt API call."
+            "title" "Err Code"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "errMessage"
+            "short" "The error messge that is sent in response to a failed decrypt API call."
+            "title" "Err Message"
+            "type" "`$STRING`")
+          (vs/jm
             "name" "firstName"
+            "op" (vs/jm
+              "list" (vs/jm
+                "type" "`$STRING`")
+              "update" (vs/jm
+                "type" "`$STRING`"))
+            "req" true
             "short" "The User's name."
             "title" "First Name"
             "type" "`$STRING`")
@@ -2565,10 +3041,35 @@
             "title" "Id"
             "type" "`$STRING`")
           (vs/jm
+            "name" "injectKey"
+            "short" "Reference to the associated Device resource."
+            "title" "Inject Key"
+            "type" "`$OBJECT`")
+          (vs/jm
+            "name" "ipAddress"
+            "short" "The IP address of the http client that makes the decrypt API call."
+            "title" "Ip Address"
+            "type" "`$STRING`")
+          (vs/jm
             "name" "isActive"
+            "op" (vs/jm
+              "list" (vs/jm
+                "type" "`$BOOLEAN`")
+              "update" (vs/jm
+                "type" "`$BOOLEAN`"))
+            "req" true
             "short" "This property indicates if the User account is active or disabled."
             "title" "Is Active"
             "type" "`$BOOLEAN`")
+          (vs/jm
+            "name" "items"
+            "title" "Items"
+            "type" "`$ARRAY`")
+          (vs/jm
+            "name" "keyType"
+            "short" "The type of cipher used during decrytion."
+            "title" "Key Type"
+            "type" "`$STRING`")
           (vs/jm
             "name" "kif"
             "short" "Reference to the associated KIF resource."
@@ -2576,29 +3077,185 @@
             "type" "`$OBJECT`")
           (vs/jm
             "name" "lastName"
+            "op" (vs/jm
+              "list" (vs/jm
+                "type" "`$STRING`")
+              "update" (vs/jm
+                "type" "`$STRING`"))
+            "req" true
             "short" "The User's Surname."
             "title" "Last Name"
             "type" "`$STRING`")
+          (vs/jm
+            "name" "location"
+            "req" true
+            "short" "Reference to the associated Location resource."
+            "title" "Location"
+            "type" "`$OBJECT`")
+          (vs/jm
+            "name" "locationType"
+            "short" "The Location's clasification."
+            "title" "Location Type"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "mailAddress1"
+            "short" "The Location's street address."
+            "title" "Mail Address1"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "mailAddress2"
+            "short" "The Location's street address."
+            "title" "Mail Address2"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "mailCity"
+            "short" "The Location's city."
+            "title" "Mail City"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "mailCountry"
+            "short" "The Location's street address."
+            "title" "Mail Country"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "mailPostalCode"
+            "short" "The Location's postal code."
+            "title" "Mail Postal Code"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "mailStateProvince"
+            "short" "The Location's street state or province."
+            "title" "Mail State Province"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "messageId"
+            "short" "Message ID."
+            "title" "Message Id"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "method"
+            "short" "The decryption cypher/method."
+            "title" "Method"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "mid"
+            "short" "Some Partners will have an merchant ids on their own software offerings."
+            "title" "Mid"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "name"
+            "short" "The Client's name."
+            "title" "Name"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "nameOfBusiness"
+            "short" "The name of the business at this location."
+            "title" "Name Of Business"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "notes"
+            "short" "Arbitary note that can be attached to a Device entry."
+            "title" "Notes"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "parent"
+            "short" "Reference to the associated Partner."
+            "title" "Parent"
+            "type" "`$OBJECT`")
           (vs/jm
             "name" "partner"
             "short" "Reference to the associated Partner."
             "title" "Partner"
             "type" "`$OBJECT`")
           (vs/jm
+            "name" "partnerId"
+            "short" "The Partner's id."
+            "title" "Partner Id"
+            "type" "`$STRING`")
+          (vs/jm
             "name" "phone"
+            "op" (vs/jm
+              "list" (vs/jm
+                "type" "`$STRING`")
+              "update" (vs/jm
+                "type" "`$STRING`"))
+            "req" true
             "short" "The User's phone number without dashes, spaces, or brackets."
             "title" "Phone"
             "type" "`$STRING`")
           (vs/jm
+            "name" "postalCode"
+            "short" "The Location's postal code."
+            "title" "Postal Code"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "reference"
+            "short" "The Partner's reference string."
+            "title" "Reference"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "sendWelcomeEmail"
+            "short" "If this property is set to '*true*' the newly created user will be sent a welcome email."
+            "title" "Send Welcome Email"
+            "type" "`$BOOLEAN`")
+          (vs/jm
+            "name" "serialNumber"
+            "short" "The Device's serial number."
+            "title" "Serial Number"
+            "type" "`$STRING`")
+          (vs/jm
+            "format" "datetime"
+            "name" "startDate"
+            "short" "Timestamp from the beginning of the transaction."
+            "title" "Start Date"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "stateProvince"
+            "short" "The Location's street state or province."
+            "title" "State Province"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "success"
+            "short" "The success indicator."
+            "title" "Success"
+            "type" "`$BOOLEAN`")
+          (vs/jm
+            "name" "tracking"
+            "short" "The courier's tracking number."
+            "title" "Tracking"
+            "type" "`$STRING`")
+          (vs/jm
+            "name" "uniqueId"
+            "short" "Unique Identifier for the Location."
+            "title" "Unique Id"
+            "type" "`$STRING`")
+          (vs/jm
             "name" "userName"
+            "op" (vs/jm
+              "list" (vs/jm
+                "type" "`$STRING`")
+              "update" (vs/jm
+                "type" "`$STRING`"))
+            "req" true
             "short" "The User's unique username."
             "title" "User Name"
             "type" "`$STRING`")
           (vs/jm
             "name" "userRole"
+            "op" (vs/jm
+              "list" (vs/jm
+                "type" "`$OBJECT`")
+              "update" (vs/jm
+                "type" "`$OBJECT`"))
+            "req" true
             "short" "Reference to the associated User Role."
             "title" "User Role"
             "type" "`$OBJECT`")
+          (vs/jm
+            "name" "verificationPhrase"
+            "short" "The verification phrase is a message that the Partner creates."
+            "title" "Verification Phrase"
+            "type" "`$STRING`")
           (vs/jm
             "name" "version"
             "short" "The number of times that this resource has been updated."
@@ -2621,6 +3278,9 @@
                 "parts" (vs/jt
                   "users")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "users"))
@@ -2636,16 +3296,19 @@
                 "args" (vs/jm
                   "query" (vs/jt
                     (vs/jm
+                      "field" true
                       "kind" "query"
                       "name" "client"
                       "orig" "client"
                       "type" "`$STRING`")
                     (vs/jm
+                      "field" true
                       "kind" "query"
                       "name" "kif"
                       "orig" "kif"
                       "type" "`$STRING`")
                     (vs/jm
+                      "field" true
                       "kind" "query"
                       "name" "partner"
                       "orig" "partner"
@@ -2668,16 +3331,13 @@
                 "parts" (vs/jt
                   "users")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "users"))
-                "select" (vs/jm
-                  "exist" (vs/jt
-                    "client"
-                    "kif"
-                    "partner"
-                    "skip"
-                    "take"))
+                "select" (vs/jm)
                 "transform" (vs/jm
                   "req" "`reqdata`"
                   "res" "`body.data`"))))
@@ -2701,6 +3361,9 @@
                   "clients"
                   "{id}")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "clients")
@@ -2728,6 +3391,9 @@
                   "devices"
                   "{id}")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "devices")
@@ -2755,6 +3421,9 @@
                   "locations"
                   "{id}")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "locations")
@@ -2782,6 +3451,9 @@
                   "partners"
                   "{id}")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "partners")
@@ -2809,6 +3481,9 @@
                   "shipments"
                   "{id}")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "shipments")
@@ -2836,6 +3511,9 @@
                   "transactions"
                   "{id}")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "transactions")
@@ -2863,6 +3541,9 @@
                   "users"
                   "{id}")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "users")
@@ -2975,6 +3656,9 @@
                   "users"
                   "{id}")
                 "rename" (vs/jm)
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "users")
@@ -3050,7 +3734,7 @@
                     (vs/jm
                       "kind" "param"
                       "name" "id"
-                      "orig" "share_partner_to"
+                      "orig" "sharePartnerTo"
                       "reqd" true
                       "type" "`$STRING`"))
                   "query" (vs/jt
@@ -3064,13 +3748,13 @@
                       "example" "asc"
                       "kind" "query"
                       "name" "sorting_direction"
-                      "orig" "sorting_direction"
+                      "orig" "sorting.direction"
                       "type" "`$STRING`")
                     (vs/jm
                       "example" "serialnumber"
                       "kind" "query"
                       "name" "sorting_field"
-                      "orig" "sorting_field"
+                      "orig" "sorting.field"
                       "type" "`$STRING`")
                     (vs/jm
                       "example" 10
@@ -3087,6 +3771,9 @@
                 "rename" (vs/jm
                   "param" (vs/jm
                     "sharePartnerTo" "id"))
+                "response" (vs/jm
+                  "kind" "json"
+                  "media" "application/json")
                 "segments" (vs/jt
                   (vs/jm
                     "lit" "virtualDevices")
@@ -3094,11 +3781,7 @@
                     "var" "id"))
                 "select" (vs/jm
                   "exist" (vs/jt
-                    "id"
-                    "skip"
-                    "sorting_direction"
-                    "sorting_field"
-                    "take"))
+                    "id"))
                 "transform" (vs/jm
                   "req" "`reqdata`"
                   "res" "`body`")))))
@@ -3244,6 +3927,7 @@
           "ms" 30000)
         "optspec" (vs/jm
           "clearTimer" "`$FUNCTION`"
+          "now" "`$FUNCTION`"
           "setTimer" "`$FUNCTION`")
         "strict" false
         "transport" "wrap"))

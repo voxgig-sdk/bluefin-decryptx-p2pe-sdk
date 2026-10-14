@@ -141,6 +141,10 @@ main: kit: entity: user: {
               "id"
             ]
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "users"

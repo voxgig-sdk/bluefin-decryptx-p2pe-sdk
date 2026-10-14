@@ -16,13 +16,13 @@ package voxgig.bluefindecryptxp2pesdk.core
 @Suppress("unused")
 object BluefinDecryptxP2peTypes {
 
-  data class Attestation(val client: Map<String, Any?>?, val completeDate: String?, val created: String?, val device: Map<String, Any?>?, val id: String?, val name: String?, val notes: String?)
+  data class Attestation(val client: Map<String, Any?>?, val completeDate: String?, val created: String?, val device: Map<String, Any?>?, val devices: List<Any?>?, val id: String?, val name: String?, val notes: String?)
 
   data class AttestationLoadMatch(val id: String?)
 
   data class AttestationListMatch(val client: String?, val skip: Long?, val take: Long?)
 
-  data class AttestationCreateData(val client: Map<String, Any?>?, val completeDate: String?, val created: String?, val device: Map<String, Any?>?, val id: String?, val name: String?, val notes: String?)
+  data class AttestationCreateData(val client: Map<String, Any?>?, val completeDate: String?, val created: String?, val device: Map<String, Any?>?, val devices: List<Any?>?, val id: String?, val name: String?, val notes: String?)
 
   data class Client(val contact: Map<String, Any?>?, val created: String?, val directPartner: Map<String, Any?>?, val id: String?, val isActive: Boolean?, val location: Map<String, Any?>?, val mid: String?, val modified: String?, val name: String?, val partner: Map<String, Any?>?, val version: Long?)
 
@@ -34,13 +34,13 @@ object BluefinDecryptxP2peTypes {
 
   data class ClientRemoveMatch(val id: String?)
 
-  class CreateResult
+  data class CreateResult(val completeDate: String?, val custodian: Map<String, Any?>?, val location: Map<String, Any?>?, val notes: String?)
 
-  data class CreateResultCreateData(val device_type: String?, val serial_number: String?)
+  data class CreateResultCreateData(val device_type: String?, val serial_number: String?, val completeDate: String?, val custodian: Map<String, Any?>?, val location: Map<String, Any?>?, val notes: String?)
 
-  data class Decryption(val success: Boolean?)
+  data class Decryption(val cbcVector: String?, val deviceType: String?, val encoding: String?, val encrypted: List<Any?>?, val hasCcData: String?, val reference: String?, val sequenceNumber: String?, val serialNumber: String?, val success: Boolean?)
 
-  data class DecryptionCreateData(val success: Boolean?)
+  data class DecryptionCreateData(val cbcVector: String?, val deviceType: String?, val encoding: String?, val encrypted: List<Any?>?, val hasCcData: String?, val reference: String?, val sequenceNumber: String?, val serialNumber: String?, val success: Boolean?)
 
   data class Device(val activatedBy: Map<String, Any?>?, val activationDate: String?, val alternateKey: String?, val auditNextDate: String?, val auditNotificationDate: String?, val client: Map<String, Any?>?, val created: String?, val createdBy: Map<String, Any?>?, val deviceBuild: Map<String, Any?>?, val deviceState: Map<String, Any?>?, val deviceType: Map<String, Any?>?, val errorCounter: Long?, val errorLastDate: String?, val id: String?, val initializedBy: Map<String, Any?>?, val initializedDate: String?, val injectKey: Map<String, Any?>?, val isVirtual: Boolean?, val kif: Map<String, Any?>?, val lastActivityDate: String?, val location: Map<String, Any?>?, val modified: String?, val modifiedBy: Map<String, Any?>?, val name: String?, val notes: String?, val partner: Map<String, Any?>?, val serialNumber: String?, val version: Long?)
 
@@ -64,13 +64,13 @@ object BluefinDecryptxP2peTypes {
 
   data class DeviceCustodyListItemListMatch(val device_type: String?, val serial_number: String?, val skip: Long?, val take: Long?)
 
-  data class DeviceReceiveResult(val success: Boolean?)
+  data class DeviceReceiveResult(val serialNumber: String?, val success: Boolean?, val tamperLabel: String?)
 
-  data class DeviceReceiveResultCreateData(val success: Boolean?)
+  data class DeviceReceiveResultCreateData(val serialNumber: String?, val success: Boolean?, val tamperLabel: String?)
 
-  data class DeviceRkiActivateResult(val success: Boolean?)
+  data class DeviceRkiActivateResult(val appVersion: String?, val buildName: String?, val buildNumber: String?, val configFile: String?, val firmwareVersion: String?, val hardwareVersion: String?, val serialNumber: String?, val success: Boolean?, val whiteListingBinRanges: String?)
 
-  data class DeviceRkiActivateResultCreateData(val success: Boolean?)
+  data class DeviceRkiActivateResultCreateData(val appVersion: String?, val buildName: String?, val buildNumber: String?, val configFile: String?, val firmwareVersion: String?, val hardwareVersion: String?, val serialNumber: String?, val success: Boolean?, val whiteListingBinRanges: String?)
 
   data class DeviceState(val id: Long?, val name: String?)
 
@@ -92,13 +92,13 @@ object BluefinDecryptxP2peTypes {
 
   data class KifListMatch(val id: Long?, val name: String?)
 
-  data class Location(val address1: String?, val address2: String?, val billingId: String?, val city: String?, val country: String?, val created: String?, val customReference: String?, val id: String?, val locationType: String?, val mailAddress1: String?, val mailAddress2: String?, val mailCity: String?, val mailCountry: String?, val mailPostalCode: String?, val mailStateProvince: String?, val modified: String?, val name: String?, val nameOfBusiness: String?, val notes: String?, val postalCode: String?, val stateProvince: String?, val uniqueId: String?, val version: Long?)
+  data class Location(val address1: String?, val address2: String?, val billingId: String?, val city: String?, val client: Map<String, Any?>?, val country: String?, val created: String?, val customReference: String?, val id: String?, val locationType: String?, val mailAddress1: String?, val mailAddress2: String?, val mailCity: String?, val mailCountry: String?, val mailPostalCode: String?, val mailStateProvince: String?, val modified: String?, val name: String?, val nameOfBusiness: String?, val notes: String?, val postalCode: String?, val stateProvince: String?, val uniqueId: String?, val version: Long?)
 
   data class LocationLoadMatch(val id: String?)
 
   data class LocationListMatch(val client: String?, val skip: Long?, val take: Long?)
 
-  data class LocationCreateData(val address1: String?, val address2: String?, val billingId: String?, val city: String?, val country: String?, val created: String?, val customReference: String?, val id: String?, val locationType: String?, val mailAddress1: String?, val mailAddress2: String?, val mailCity: String?, val mailCountry: String?, val mailPostalCode: String?, val mailStateProvince: String?, val modified: String?, val name: String?, val nameOfBusiness: String?, val notes: String?, val postalCode: String?, val stateProvince: String?, val uniqueId: String?, val version: Long?)
+  data class LocationCreateData(val address1: String?, val address2: String?, val billingId: String?, val city: String?, val client: Map<String, Any?>?, val country: String?, val created: String?, val customReference: String?, val id: String?, val locationType: String?, val mailAddress1: String?, val mailAddress2: String?, val mailCity: String?, val mailCountry: String?, val mailPostalCode: String?, val mailStateProvince: String?, val modified: String?, val name: String?, val nameOfBusiness: String?, val notes: String?, val postalCode: String?, val stateProvince: String?, val uniqueId: String?, val version: Long?)
 
   data class LocationRemoveMatch(val id: String?)
 
@@ -110,35 +110,35 @@ object BluefinDecryptxP2peTypes {
 
   data class PartnerCreateData(val billingId: String?, val clientCanOrderEquipment: Boolean?, val contact: Map<String, Any?>?, val created: String?, val id: String?, val isActive: Boolean?, val location: Map<String, Any?>?, val modified: String?, val name: String?, val parent: Map<String, Any?>?, val partnerId: String?, val reference: String?, val verificationPhrase: String?, val version: Long?)
 
-  data class Shipment(val carrier: String?, val client: Map<String, Any?>?, val created: String?, val dateReceived: String?, val dateShipped: String?, val dcKif: Map<String, Any?>?, val id: String?, val items: List<Any?>?, val kif: Map<String, Any?>?, val modified: String?, val partner: Map<String, Any?>?, val shipmentType: String?, val tracking: String?, val version: Long?)
+  data class Shipment(val carrier: String?, val client: Map<String, Any?>?, val created: String?, val dateReceived: String?, val dateShipped: String?, val dcKif: Map<String, Any?>?, val id: String?, val items: List<Any?>?, val kif: Map<String, Any?>?, val location: Map<String, Any?>?, val modified: String?, val partner: Map<String, Any?>?, val shipmentType: String?, val tracking: String?, val version: Long?)
 
   data class ShipmentLoadMatch(val id: String?)
 
   data class ShipmentListMatch(val kif: String?, val mode: String?, val skip: Long?, val take: Long?)
 
-  data class ShipmentCreateData(val carrier: String?, val client: Map<String, Any?>?, val created: String?, val dateReceived: String?, val dateShipped: String?, val dcKif: Map<String, Any?>?, val id: String?, val items: List<Any?>?, val kif: Map<String, Any?>?, val modified: String?, val partner: Map<String, Any?>?, val shipmentType: String?, val tracking: String?, val version: Long?)
+  data class ShipmentCreateData(val carrier: String?, val client: Map<String, Any?>?, val created: String?, val dateReceived: String?, val dateShipped: String?, val dcKif: Map<String, Any?>?, val id: String?, val items: List<Any?>?, val kif: Map<String, Any?>?, val location: Map<String, Any?>?, val modified: String?, val partner: Map<String, Any?>?, val shipmentType: String?, val tracking: String?, val version: Long?)
 
-  data class Success(val success: Boolean?)
+  data class Success(val devices: List<Any?>?, val sharePartnerFrom: Map<String, Any?>?, val success: Boolean?)
 
-  data class SuccessCreateData(val share_partner_to: String?, val success: Boolean?)
+  data class SuccessCreateData(val share_partner_to: String?, val devices: List<Any?>?, val sharePartnerFrom: Map<String, Any?>?, val success: Boolean?)
 
   data class SuccessRemoveMatch(val share_partner_to: String?)
 
-  data class Transaction(val alternateKey: String?, val client: Map<String, Any?>?, val clientRef: String?, val created: String?, val decrypted: Long?, val deviceName: String?, val directPartner: Map<String, Any?>?, val encrypted: Long?, val endDate: String?, val errCode: String?, val errMessage: String?, val id: String?, val ipAddress: String?, val isVirtual: Boolean?, val keyType: String?, val location: Map<String, Any?>?, val messageId: String?, val method: String?, val partner: Map<String, Any?>?, val reference: String?, val serialNumber: String?, val startDate: String?, val success: Boolean?, val transactionSource: String?)
+  data class Transaction(val alternateKey: String?, val client: Map<String, Any?>?, val clientRef: String?, val created: String?, val decrypted: Long?, val device: Map<String, Any?>?, val deviceName: String?, val directPartner: Map<String, Any?>?, val encrypted: Long?, val endDate: String?, val errCode: String?, val errMessage: String?, val id: String?, val ipAddress: String?, val isVirtual: Boolean?, val keyType: String?, val location: Map<String, Any?>?, val messageId: String?, val method: String?, val partner: Map<String, Any?>?, val reference: String?, val serialNumber: String?, val startDate: String?, val success: Boolean?, val transactionSource: String?)
 
   data class TransactionLoadMatch(val id: String?)
 
   data class TransactionListMatch(val client: String?, val client_ref: String?, val date_from: String?, val date_to: String?, val location: String?, val message_id: String?, val paging_mode: String?, val partner: String?, val reference: String?, val serial_number: String?, val skip: Long?, val success: Boolean?, val take: Long?)
 
-  data class TransactionCreateData(val alternateKey: String?, val client: Map<String, Any?>?, val clientRef: String?, val created: String?, val decrypted: Long?, val deviceName: String?, val directPartner: Map<String, Any?>?, val encrypted: Long?, val endDate: String?, val errCode: String?, val errMessage: String?, val id: String?, val ipAddress: String?, val isVirtual: Boolean?, val keyType: String?, val location: Map<String, Any?>?, val messageId: String?, val method: String?, val partner: Map<String, Any?>?, val reference: String?, val serialNumber: String?, val startDate: String?, val success: Boolean?, val transactionSource: String?)
+  data class TransactionCreateData(val alternateKey: String?, val client: Map<String, Any?>?, val clientRef: String?, val created: String?, val decrypted: Long?, val device: Map<String, Any?>?, val deviceName: String?, val directPartner: Map<String, Any?>?, val encrypted: Long?, val endDate: String?, val errCode: String?, val errMessage: String?, val id: String?, val ipAddress: String?, val isVirtual: Boolean?, val keyType: String?, val location: Map<String, Any?>?, val messageId: String?, val method: String?, val partner: Map<String, Any?>?, val reference: String?, val serialNumber: String?, val startDate: String?, val success: Boolean?, val transactionSource: String?)
 
-  data class UpdateResult(val client: Map<String, Any?>?, val email: String?, val firstName: String?, val id: String?, val isActive: Boolean?, val kif: Map<String, Any?>?, val lastName: String?, val partner: Map<String, Any?>?, val phone: String?, val userName: String?, val userRole: Map<String, Any?>?, val version: Long?)
+  data class UpdateResult(val address1: String?, val address2: String?, val alternateKey: String?, val auditNextDate: String?, val billingId: String?, val city: String?, val client: Map<String, Any?>?, val clientCanOrderEquipment: Boolean?, val clientRef: String?, val contact: Map<String, Any?>?, val country: Map<String, Any?>?, val customReference: String?, val dateShipped: String?, val decrypted: Long?, val device: Map<String, Any?>?, val deviceBuild: Map<String, Any?>?, val deviceType: Map<String, Any?>?, val directPartner: Map<String, Any?>?, val email: String?, val encrypted: Long?, val endDate: String?, val errCode: String?, val errMessage: String?, val firstName: String?, val id: String?, val injectKey: Map<String, Any?>?, val ipAddress: String?, val isActive: Boolean?, val items: List<Any?>?, val keyType: String?, val kif: Map<String, Any?>?, val lastName: String?, val location: Map<String, Any?>?, val locationType: String?, val mailAddress1: String?, val mailAddress2: String?, val mailCity: String?, val mailCountry: String?, val mailPostalCode: String?, val mailStateProvince: String?, val messageId: String?, val method: String?, val mid: String?, val name: String?, val nameOfBusiness: String?, val notes: String?, val parent: Map<String, Any?>?, val partner: Map<String, Any?>?, val partnerId: String?, val phone: String?, val postalCode: String?, val reference: String?, val sendWelcomeEmail: Boolean?, val serialNumber: String?, val startDate: String?, val stateProvince: String?, val success: Boolean?, val tracking: String?, val uniqueId: String?, val userName: String?, val userRole: Map<String, Any?>?, val verificationPhrase: String?, val version: Long?)
 
   data class UpdateResultListMatch(val client: String?, val kif: String?, val partner: Any?, val skip: Long?, val take: Long?)
 
-  data class UpdateResultCreateData(val client: Map<String, Any?>?, val email: String?, val firstName: String?, val id: String?, val isActive: Boolean?, val kif: Map<String, Any?>?, val lastName: String?, val partner: Map<String, Any?>?, val phone: String?, val userName: String?, val userRole: Map<String, Any?>?, val version: Long?)
+  data class UpdateResultCreateData(val address1: String?, val address2: String?, val alternateKey: String?, val auditNextDate: String?, val billingId: String?, val city: String?, val client: Map<String, Any?>?, val clientCanOrderEquipment: Boolean?, val clientRef: String?, val contact: Map<String, Any?>?, val country: Map<String, Any?>?, val customReference: String?, val dateShipped: String?, val decrypted: Long?, val device: Map<String, Any?>?, val deviceBuild: Map<String, Any?>?, val deviceType: Map<String, Any?>?, val directPartner: Map<String, Any?>?, val email: String?, val encrypted: Long?, val endDate: String?, val errCode: String?, val errMessage: String?, val firstName: String?, val id: String?, val injectKey: Map<String, Any?>?, val ipAddress: String?, val isActive: Boolean?, val items: List<Any?>?, val keyType: String?, val kif: Map<String, Any?>?, val lastName: String?, val location: Map<String, Any?>?, val locationType: String?, val mailAddress1: String?, val mailAddress2: String?, val mailCity: String?, val mailCountry: String?, val mailPostalCode: String?, val mailStateProvince: String?, val messageId: String?, val method: String?, val mid: String?, val name: String?, val nameOfBusiness: String?, val notes: String?, val parent: Map<String, Any?>?, val partner: Map<String, Any?>?, val partnerId: String?, val phone: String?, val postalCode: String?, val reference: String?, val sendWelcomeEmail: Boolean?, val serialNumber: String?, val startDate: String?, val stateProvince: String?, val success: Boolean?, val tracking: String?, val uniqueId: String?, val userName: String?, val userRole: Map<String, Any?>?, val verificationPhrase: String?, val version: Long?)
 
-  data class UpdateResultUpdateData(val id: String?, val client: Map<String, Any?>?, val email: String?, val firstName: String?, val isActive: Boolean?, val kif: Map<String, Any?>?, val lastName: String?, val partner: Map<String, Any?>?, val phone: String?, val userName: String?, val userRole: Map<String, Any?>?, val version: Long?)
+  data class UpdateResultUpdateData(val id: String?, val address1: String?, val address2: String?, val alternateKey: String?, val auditNextDate: String?, val billingId: String?, val city: String?, val client: Map<String, Any?>?, val clientCanOrderEquipment: Boolean?, val clientRef: String?, val contact: Map<String, Any?>?, val country: Map<String, Any?>?, val customReference: String?, val dateShipped: String?, val decrypted: Long?, val device: Map<String, Any?>?, val deviceBuild: Map<String, Any?>?, val deviceType: Map<String, Any?>?, val directPartner: Map<String, Any?>?, val email: String?, val encrypted: Long?, val endDate: String?, val errCode: String?, val errMessage: String?, val firstName: String?, val injectKey: Map<String, Any?>?, val ipAddress: String?, val isActive: Boolean?, val items: List<Any?>?, val keyType: String?, val kif: Map<String, Any?>?, val lastName: String?, val location: Map<String, Any?>?, val locationType: String?, val mailAddress1: String?, val mailAddress2: String?, val mailCity: String?, val mailCountry: String?, val mailPostalCode: String?, val mailStateProvince: String?, val messageId: String?, val method: String?, val mid: String?, val name: String?, val nameOfBusiness: String?, val notes: String?, val parent: Map<String, Any?>?, val partner: Map<String, Any?>?, val partnerId: String?, val phone: String?, val postalCode: String?, val reference: String?, val sendWelcomeEmail: Boolean?, val serialNumber: String?, val startDate: String?, val stateProvince: String?, val success: Boolean?, val tracking: String?, val uniqueId: String?, val userName: String?, val userRole: Map<String, Any?>?, val verificationPhrase: String?, val version: Long?)
 
   data class User(val client: Map<String, Any?>?, val created: String?, val email: String?, val firstName: String?, val id: String?, val isActive: Boolean?, val kif: Map<String, Any?>?, val lastName: String?, val modified: String?, val partner: Map<String, Any?>?, val phone: String?, val userName: String?, val userRole: Map<String, Any?>?, val version: Long?)
 

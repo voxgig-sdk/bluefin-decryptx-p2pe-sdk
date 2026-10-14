@@ -177,35 +177,50 @@ my $attestation = $client->Attestation;
 | `completeDate` | `string` | No | The date and time that the Attestation took place. |
 | `created` | `string` | No | Creation timestamp in ISO 8601 format. |
 | `device` | `hashref` | No | Reference to the associated Device resource. |
+| `devices` | `arrayref` | Yes |  |
 | `id` | `string` | No | This resource's unique identifier. |
 | `name` | `string` | No | Text describing the attestation. |
 | `notes` | `string` | No | Free form field that allows the Client associate notes with the Attestation. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `client` | - | - | Yes |
+| `completeDate` | - | - | Yes |
+| `created` | - | - | - |
+| `device` | - | - | - |
+| `devices` | - | - | - |
+| `id` | - | - | - |
+| `name` | - | - | Yes |
+| `notes` | - | - | - |
+
 ### Operations
 
-#### `create($reqdata, $ctrl) -> hashref`
+#### `create($reqdata, $ctrl) -> AttestationEntity`
 
-Create a new entity with the given data. Returns the created entity data and dies on error.
+Create a new entity with the given data. Returns the created entity and dies on error.
 
 ```perl
 my $result = $client->Attestation->create({
+    'devices' => [],  # arrayref
 });
 ```
 
 #### `list($reqmatch, $ctrl) -> arrayref`
 
-List entities matching the given criteria. The match is optional — call `list` with no argument to list all records. Returns an arrayref and dies on error.
+List entities matching the given criteria. The match is optional — call `list` with no argument to list all records. Returns an arrayref of entities, one per record (`data_get` reads each record), and dies on error.
 
 ```perl
-my $results = $client->Attestation->list;
+my $results = $client->Attestation->list({ 'client' => 'example' });
 for my $attestation (@$results) {
-    print "$attestation->{id}\n";
+    print $attestation->data_get->{id}, "\n";
 }
 ```
 
-#### `load($reqmatch, $ctrl) -> hashref`
+#### `load($reqmatch, $ctrl) -> AttestationEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and dies on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and dies on error.
 
 ```perl
 my $result = $client->Attestation->load({ 'id' => 'attestation_id' });
@@ -266,23 +281,23 @@ my $client = $client->Client;
 
 | Field | load | list | create | remove |
 | --- | --- | --- | --- | --- |
-| `contact` | - | Yes | - | - |
+| `contact` | - | Yes | Yes | - |
 | `created` | - | - | - | - |
-| `directPartner` | - | - | - | - |
+| `directPartner` | - | - | Yes | - |
 | `id` | - | - | - | - |
 | `isActive` | - | - | - | - |
 | `location` | - | - | - | - |
 | `mid` | - | - | - | - |
 | `modified` | - | - | - | - |
-| `name` | - | - | - | - |
+| `name` | - | - | Yes | - |
 | `partner` | - | - | - | - |
 | `version` | - | - | - | - |
 
 ### Operations
 
-#### `create($reqdata, $ctrl) -> hashref`
+#### `create($reqdata, $ctrl) -> ClientEntity`
 
-Create a new entity with the given data. Returns the created entity data and dies on error.
+Create a new entity with the given data. Returns the created entity and dies on error.
 
 ```perl
 my $result = $client->Client->create({
@@ -292,26 +307,26 @@ my $result = $client->Client->create({
 
 #### `list($reqmatch, $ctrl) -> arrayref`
 
-List entities matching the given criteria. The match is optional — call `list` with no argument to list all records. Returns an arrayref and dies on error.
+List entities matching the given criteria. The match is optional — call `list` with no argument to list all records. Returns an arrayref of entities, one per record (`data_get` reads each record), and dies on error.
 
 ```perl
-my $results = $client->Client->list;
+my $results = $client->Client->list({ 'partner' => 'example' });
 for my $client (@$results) {
-    print "$client->{id}\n";
+    print $client->data_get->{id}, "\n";
 }
 ```
 
-#### `load($reqmatch, $ctrl) -> hashref`
+#### `load($reqmatch, $ctrl) -> ClientEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and dies on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and dies on error.
 
 ```perl
 my $result = $client->Client->load({ 'id' => 'client_id' });
 ```
 
-#### `remove($reqmatch, $ctrl) -> hashref`
+#### `remove($reqmatch, $ctrl) -> ClientEntity`
 
-Remove the entity matching the given criteria. Dies on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and dies on error.
 
 ```perl
 my $result = $client->Client->remove({ 'id' => 'client_id' });
@@ -352,16 +367,27 @@ Return the entity name.
 my $create_result = $client->CreateResult;
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `completeDate` | `string` | No | The date and time that the Custody change took place. |
+| `custodian` | `hashref` | Yes | Reference to the associated User resource. |
+| `location` | `hashref` | Yes | Reference to the associated Location resource. |
+| `notes` | `string` | No | Free form field that allows the Client associate notes with the Custody Change. |
+
 ### Operations
 
-#### `create($reqdata, $ctrl) -> hashref`
+#### `create($reqdata, $ctrl) -> CreateResultEntity`
 
-Create a new entity with the given data. Returns the created entity data and dies on error.
+Create a new entity with the given data. Returns the created entity and dies on error.
 
 ```perl
 my $result = $client->CreateResult->create({
     'device_type' => 'example_device_type',  # string
     'serial_number' => 'example_serial_number',  # string
+    'custodian' => {},  # hashref
+    'location' => {},  # hashref
 });
 ```
 
@@ -404,16 +430,27 @@ my $decryption = $client->Decryption;
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `cbcVector` | `string` | No | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | `string` | Yes | The device Type. |
+| `encoding` | `string` | No | The payload encoding |
+| `encrypted` | `arrayref` | Yes |  |
+| `hasCcData` | `string` | No | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | `string` | No | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | `string` | No | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | `string` | Yes | The serial number of the device. |
 | `success` | `boolean` | No | true if the payload decryption was successful. |
 
 ### Operations
 
-#### `create($reqdata, $ctrl) -> hashref`
+#### `create($reqdata, $ctrl) -> DecryptionEntity`
 
-Create a new entity with the given data. Returns the created entity data and dies on error.
+Create a new entity with the given data. Returns the created entity and dies on error.
 
 ```perl
 my $result = $client->Decryption->create({
+    'deviceType' => 'example_deviceType',  # string
+    'encrypted' => [],  # arrayref
+    'serialNumber' => 'example_serialNumber',  # string
 });
 ```
 
@@ -485,11 +522,44 @@ my $device = $client->Device;
 | `serialNumber` | `string` | No | The Device's serial number. |
 | `version` | `integer` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `activatedBy` | - | - | - |
+| `activationDate` | - | - | - |
+| `alternateKey` | - | - | - |
+| `auditNextDate` | - | - | - |
+| `auditNotificationDate` | - | - | - |
+| `client` | - | - | - |
+| `created` | - | - | - |
+| `createdBy` | - | - | - |
+| `deviceBuild` | - | - | - |
+| `deviceState` | - | - | - |
+| `deviceType` | - | - | Yes |
+| `errorCounter` | - | - | - |
+| `errorLastDate` | - | - | - |
+| `id` | - | - | - |
+| `initializedBy` | - | - | - |
+| `initializedDate` | - | - | - |
+| `injectKey` | - | - | - |
+| `isVirtual` | - | - | - |
+| `kif` | - | - | Yes |
+| `lastActivityDate` | - | - | - |
+| `location` | - | - | - |
+| `modified` | - | - | - |
+| `modifiedBy` | - | - | - |
+| `name` | - | - | - |
+| `notes` | - | - | - |
+| `partner` | - | - | - |
+| `serialNumber` | - | - | Yes |
+| `version` | - | - | - |
+
 ### Operations
 
-#### `create($reqdata, $ctrl) -> hashref`
+#### `create($reqdata, $ctrl) -> DeviceEntity`
 
-Create a new entity with the given data. Returns the created entity data and dies on error.
+Create a new entity with the given data. Returns the created entity and dies on error.
 
 ```perl
 my $result = $client->Device->create({
@@ -503,18 +573,18 @@ my $result = $client->Device->create({
 
 #### `list($reqmatch, $ctrl) -> arrayref`
 
-List entities matching the given criteria. The match is optional — call `list` with no argument to list all records. Returns an arrayref and dies on error.
+List entities matching the given criteria. The match is optional — call `list` with no argument to list all records. Returns an arrayref of entities, one per record (`data_get` reads each record), and dies on error.
 
 ```perl
 my $results = $client->Device->list;
 for my $device (@$results) {
-    print "$device->{id}\n";
+    print $device->data_get->{id}, "\n";
 }
 ```
 
-#### `load($reqmatch, $ctrl) -> hashref`
+#### `load($reqmatch, $ctrl) -> DeviceEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and dies on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and dies on error.
 
 ```perl
 my $result = $client->Device->load({ 'id' => 'device_id' });
@@ -579,18 +649,18 @@ my $device_build = $client->DeviceBuild;
 
 #### `list($reqmatch, $ctrl) -> arrayref`
 
-List entities matching the given criteria. The match is optional — call `list` with no argument to list all records. Returns an arrayref and dies on error.
+List entities matching the given criteria. The match is optional — call `list` with no argument to list all records. Returns an arrayref of entities, one per record (`data_get` reads each record), and dies on error.
 
 ```perl
 my $results = $client->DeviceBuild->list;
 for my $device_build (@$results) {
-    print "$device_build->{id}\n";
+    print $device_build->data_get->{id}, "\n";
 }
 ```
 
-#### `load($reqmatch, $ctrl) -> hashref`
+#### `load($reqmatch, $ctrl) -> DeviceBuildEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and dies on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and dies on error.
 
 ```perl
 my $result = $client->DeviceBuild->load({ 'id' => 'device_build_id' });
@@ -651,9 +721,9 @@ my $device_custody_detail = $client->DeviceCustodyDetail;
 
 ### Operations
 
-#### `load($reqmatch, $ctrl) -> hashref`
+#### `load($reqmatch, $ctrl) -> DeviceCustodyDetailEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and dies on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and dies on error.
 
 ```perl
 my $result = $client->DeviceCustodyDetail->load({ 'id' => 'device_custody_detail_id', 'device_type' => 'device_type', 'serial_number' => 'serial_number' });
@@ -716,12 +786,12 @@ my $device_custody_list_item = $client->DeviceCustodyListItem;
 
 #### `list($reqmatch, $ctrl) -> arrayref`
 
-List entities matching the given criteria. The match is optional — call `list` with no argument to list all records. Returns an arrayref and dies on error.
+List entities matching the given criteria. The match is optional — call `list` with no argument to list all records. Returns an arrayref of entities, one per record (`data_get` reads each record), and dies on error.
 
 ```perl
-my $results = $client->DeviceCustodyListItem->list;
+my $results = $client->DeviceCustodyListItem->list({ 'device_type' => 'example', 'serial_number' => 'example' });
 for my $device_custody_list_item (@$results) {
-    print "$device_custody_list_item->{id}\n";
+    print $device_custody_list_item->data_get->{id}, "\n";
 }
 ```
 
@@ -764,17 +834,21 @@ my $device_receive_result = $client->DeviceReceiveResult;
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `serialNumber` | `string` | Yes | The serial number of the Device that is shipped. |
 | `success` | `boolean` | Yes | Indicates if the action succeeded. |
+| `tamperLabel` | `string` | Yes | The code that is printed the tamper label of the Device that is shipped. |
 
 ### Operations
 
-#### `create($reqdata, $ctrl) -> hashref`
+#### `create($reqdata, $ctrl) -> DeviceReceiveResultEntity`
 
-Create a new entity with the given data. Returns the created entity data and dies on error.
+Create a new entity with the given data. Returns the created entity and dies on error.
 
 ```perl
 my $result = $client->DeviceReceiveResult->create({
+    'serialNumber' => 'example_serialNumber',  # string
     'success' => 1,  # boolean
+    'tamperLabel' => 'example_tamperLabel',  # string
 });
 ```
 
@@ -817,16 +891,25 @@ my $device_rki_activate_result = $client->DeviceRkiActivateResult;
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `appVersion` | `string` | No | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | `string` | No | The Device Builds's name. |
+| `buildNumber` | `string` | No | The Build Number. |
+| `configFile` | `string` | No | \? |
+| `firmwareVersion` | `string` | No | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `string` | No | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | `string` | Yes | The referenced Device's serial number. |
 | `success` | `boolean` | Yes | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | `string` | No | \? |
 
 ### Operations
 
-#### `create($reqdata, $ctrl) -> hashref`
+#### `create($reqdata, $ctrl) -> DeviceRkiActivateResultEntity`
 
-Create a new entity with the given data. Returns the created entity data and dies on error.
+Create a new entity with the given data. Returns the created entity and dies on error.
 
 ```perl
 my $result = $client->DeviceRkiActivateResult->create({
+    'serialNumber' => 'example_serialNumber',  # string
     'success' => 1,  # boolean
 });
 ```
@@ -877,12 +960,12 @@ my $device_state = $client->DeviceState;
 
 #### `list($reqmatch, $ctrl) -> arrayref`
 
-List entities matching the given criteria. The match is optional — call `list` with no argument to list all records. Returns an arrayref and dies on error.
+List entities matching the given criteria. The match is optional — call `list` with no argument to list all records. Returns an arrayref of entities, one per record (`data_get` reads each record), and dies on error.
 
 ```perl
 my $results = $client->DeviceState->list;
 for my $device_state (@$results) {
-    print "$device_state->{id}\n";
+    print $device_state->data_get->{id}, "\n";
 }
 ```
 
@@ -942,18 +1025,18 @@ my $device_type = $client->DeviceType;
 
 #### `list($reqmatch, $ctrl) -> arrayref`
 
-List entities matching the given criteria. The match is optional — call `list` with no argument to list all records. Returns an arrayref and dies on error.
+List entities matching the given criteria. The match is optional — call `list` with no argument to list all records. Returns an arrayref of entities, one per record (`data_get` reads each record), and dies on error.
 
 ```perl
 my $results = $client->DeviceType->list;
 for my $device_type (@$results) {
-    print "$device_type->{id}\n";
+    print $device_type->data_get->{id}, "\n";
 }
 ```
 
-#### `load($reqmatch, $ctrl) -> hashref`
+#### `load($reqmatch, $ctrl) -> DeviceTypeEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and dies on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and dies on error.
 
 ```perl
 my $result = $client->DeviceType->load({ 'id' => 'device_type_id' });
@@ -1011,18 +1094,18 @@ my $inject_key = $client->InjectKey;
 
 #### `list($reqmatch, $ctrl) -> arrayref`
 
-List entities matching the given criteria. The match is optional — call `list` with no argument to list all records. Returns an arrayref and dies on error.
+List entities matching the given criteria. The match is optional — call `list` with no argument to list all records. Returns an arrayref of entities, one per record (`data_get` reads each record), and dies on error.
 
 ```perl
 my $results = $client->InjectKey->list;
 for my $inject_key (@$results) {
-    print "$inject_key->{id}\n";
+    print $inject_key->data_get->{id}, "\n";
 }
 ```
 
-#### `load($reqmatch, $ctrl) -> hashref`
+#### `load($reqmatch, $ctrl) -> InjectKeyEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and dies on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and dies on error.
 
 ```perl
 my $result = $client->InjectKey->load({ 'id' => 'inject_key_id' });
@@ -1074,12 +1157,12 @@ my $kif = $client->Kif;
 
 #### `list($reqmatch, $ctrl) -> arrayref`
 
-List entities matching the given criteria. The match is optional — call `list` with no argument to list all records. Returns an arrayref and dies on error.
+List entities matching the given criteria. The match is optional — call `list` with no argument to list all records. Returns an arrayref of entities, one per record (`data_get` reads each record), and dies on error.
 
 ```perl
 my $results = $client->Kif->list;
 for my $kif (@$results) {
-    print "$kif->{id}\n";
+    print $kif->data_get->{id}, "\n";
 }
 ```
 
@@ -1126,6 +1209,7 @@ my $location = $client->Location;
 | `address2` | `string` | No | The Location's street address. |
 | `billingId` | `string` | No | \? |
 | `city` | `string` | No | The Location's city. |
+| `client` | `hashref` | No | Reference to the associated Client resource. |
 | `country` | `string` | No | The Location's country. |
 | `created` | `string` | No | Creation timestamp in ISO 8601 format. |
 | `customReference` | `string` | No | A Partner specified reference for a location. |
@@ -1146,11 +1230,40 @@ my $location = $client->Location;
 | `uniqueId` | `string` | No | Unique Identifier for the Location. |
 | `version` | `integer` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create | remove |
+| --- | --- | --- | --- | --- |
+| `address1` | - | - | Yes | - |
+| `address2` | - | - | - | - |
+| `billingId` | - | - | - | - |
+| `city` | - | - | Yes | - |
+| `client` | - | - | - | - |
+| `country` | - | - | Yes | - |
+| `created` | - | - | - | - |
+| `customReference` | - | - | - | - |
+| `id` | - | - | - | - |
+| `locationType` | - | - | Yes | - |
+| `mailAddress1` | - | - | - | - |
+| `mailAddress2` | - | - | - | - |
+| `mailCity` | - | - | - | - |
+| `mailCountry` | - | - | - | - |
+| `mailPostalCode` | - | - | - | - |
+| `mailStateProvince` | - | - | - | - |
+| `modified` | - | - | - | - |
+| `name` | - | - | Yes | - |
+| `nameOfBusiness` | - | - | - | - |
+| `notes` | - | - | - | - |
+| `postalCode` | - | - | - | - |
+| `stateProvince` | - | - | - | - |
+| `uniqueId` | - | - | - | - |
+| `version` | - | - | - | - |
+
 ### Operations
 
-#### `create($reqdata, $ctrl) -> hashref`
+#### `create($reqdata, $ctrl) -> LocationEntity`
 
-Create a new entity with the given data. Returns the created entity data and dies on error.
+Create a new entity with the given data. Returns the created entity and dies on error.
 
 ```perl
 my $result = $client->Location->create({
@@ -1159,26 +1272,26 @@ my $result = $client->Location->create({
 
 #### `list($reqmatch, $ctrl) -> arrayref`
 
-List entities matching the given criteria. The match is optional — call `list` with no argument to list all records. Returns an arrayref and dies on error.
+List entities matching the given criteria. The match is optional — call `list` with no argument to list all records. Returns an arrayref of entities, one per record (`data_get` reads each record), and dies on error.
 
 ```perl
-my $results = $client->Location->list;
+my $results = $client->Location->list({ 'client' => 'example' });
 for my $location (@$results) {
-    print "$location->{id}\n";
+    print $location->data_get->{id}, "\n";
 }
 ```
 
-#### `load($reqmatch, $ctrl) -> hashref`
+#### `load($reqmatch, $ctrl) -> LocationEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and dies on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and dies on error.
 
 ```perl
 my $result = $client->Location->load({ 'id' => 'location_id' });
 ```
 
-#### `remove($reqmatch, $ctrl) -> hashref`
+#### `remove($reqmatch, $ctrl) -> LocationEntity`
 
-Remove the entity matching the given criteria. Dies on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and dies on error.
 
 ```perl
 my $result = $client->Location->remove({ 'id' => 'location_id' });
@@ -1244,24 +1357,24 @@ my $partner = $client->Partner;
 | --- | --- | --- | --- |
 | `billingId` | - | - | - |
 | `clientCanOrderEquipment` | - | - | - |
-| `contact` | - | Yes | - |
+| `contact` | - | Yes | Yes |
 | `created` | - | - | - |
 | `id` | - | - | - |
 | `isActive` | - | - | - |
 | `location` | - | - | - |
 | `modified` | - | - | - |
-| `name` | - | - | - |
-| `parent` | - | - | - |
+| `name` | - | - | Yes |
+| `parent` | - | - | Yes |
 | `partnerId` | - | - | - |
-| `reference` | - | - | - |
+| `reference` | - | - | Yes |
 | `verificationPhrase` | - | - | - |
 | `version` | - | - | - |
 
 ### Operations
 
-#### `create($reqdata, $ctrl) -> hashref`
+#### `create($reqdata, $ctrl) -> PartnerEntity`
 
-Create a new entity with the given data. Returns the created entity data and dies on error.
+Create a new entity with the given data. Returns the created entity and dies on error.
 
 ```perl
 my $result = $client->Partner->create({
@@ -1271,18 +1384,18 @@ my $result = $client->Partner->create({
 
 #### `list($reqmatch, $ctrl) -> arrayref`
 
-List entities matching the given criteria. The match is optional — call `list` with no argument to list all records. Returns an arrayref and dies on error.
+List entities matching the given criteria. The match is optional — call `list` with no argument to list all records. Returns an arrayref of entities, one per record (`data_get` reads each record), and dies on error.
 
 ```perl
 my $results = $client->Partner->list;
 for my $partner (@$results) {
-    print "$partner->{id}\n";
+    print $partner->data_get->{id}, "\n";
 }
 ```
 
-#### `load($reqmatch, $ctrl) -> hashref`
+#### `load($reqmatch, $ctrl) -> PartnerEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and dies on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and dies on error.
 
 ```perl
 my $result = $client->Partner->load({ 'id' => 'partner_id' });
@@ -1336,37 +1449,59 @@ my $shipment = $client->Shipment;
 | `id` | `string` | No | This resource's unique identifier. |
 | `items` | `arrayref` | No |  |
 | `kif` | `hashref` | No | Reference to the associated KIF resource. |
+| `location` | `hashref` | Yes | Reference to the associated Location resource. |
 | `modified` | `string` | No | Last modified timestamp. |
 | `partner` | `hashref` | No | Reference to the associated Partner. |
 | `shipmentType` | `string` | No | The type of shipment. |
 | `tracking` | `string` | No | The courier's tracking number. |
 | `version` | `integer` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `carrier` | - | - | Yes |
+| `client` | - | - | Yes |
+| `created` | - | - | - |
+| `dateReceived` | - | - | - |
+| `dateShipped` | - | - | Yes |
+| `dcKif` | - | - | - |
+| `id` | - | - | - |
+| `items` | - | - | Yes |
+| `kif` | - | - | Yes |
+| `location` | - | - | - |
+| `modified` | - | - | - |
+| `partner` | - | - | Yes |
+| `shipmentType` | - | - | - |
+| `tracking` | - | - | Yes |
+| `version` | - | - | - |
+
 ### Operations
 
-#### `create($reqdata, $ctrl) -> hashref`
+#### `create($reqdata, $ctrl) -> ShipmentEntity`
 
-Create a new entity with the given data. Returns the created entity data and dies on error.
+Create a new entity with the given data. Returns the created entity and dies on error.
 
 ```perl
 my $result = $client->Shipment->create({
+    'location' => {},  # hashref
 });
 ```
 
 #### `list($reqmatch, $ctrl) -> arrayref`
 
-List entities matching the given criteria. The match is optional — call `list` with no argument to list all records. Returns an arrayref and dies on error.
+List entities matching the given criteria. The match is optional — call `list` with no argument to list all records. Returns an arrayref of entities, one per record (`data_get` reads each record), and dies on error.
 
 ```perl
-my $results = $client->Shipment->list;
+my $results = $client->Shipment->list({ 'kif' => 'example' });
 for my $shipment (@$results) {
-    print "$shipment->{id}\n";
+    print $shipment->data_get->{id}, "\n";
 }
 ```
 
-#### `load($reqmatch, $ctrl) -> hashref`
+#### `load($reqmatch, $ctrl) -> ShipmentEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and dies on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and dies on error.
 
 ```perl
 my $result = $client->Shipment->load({ 'id' => 'shipment_id' });
@@ -1411,23 +1546,27 @@ my $success = $client->Success;
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `devices` | `arrayref` | Yes | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | `hashref` | Yes | Reference to the associated Partner. |
 | `success` | `boolean` | No | Indicates if the action was a success. |
 
 ### Operations
 
-#### `create($reqdata, $ctrl) -> hashref`
+#### `create($reqdata, $ctrl) -> SuccessEntity`
 
-Create a new entity with the given data. Returns the created entity data and dies on error.
+Create a new entity with the given data. Returns the created entity and dies on error.
 
 ```perl
 my $result = $client->Success->create({
     'share_partner_to' => 'example_share_partner_to',  # string
+    'devices' => [],  # arrayref
+    'sharePartnerFrom' => {},  # hashref
 });
 ```
 
-#### `remove($reqmatch, $ctrl) -> hashref`
+#### `remove($reqmatch, $ctrl) -> SuccessEntity`
 
-Remove the entity matching the given criteria. Dies on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and dies on error.
 
 ```perl
 my $result = $client->Success->remove({ 'share_partner_to' => 'share_partner_to' });
@@ -1477,6 +1616,7 @@ my $transaction = $client->Transaction;
 | `clientRef` | `string` | No | Client Reference property that is included in the decrypt API call. |
 | `created` | `string` | No | Creation timestamp in ISO 8601 format. |
 | `decrypted` | `integer` | No | A Transcation can process muliple decryptions. |
+| `device` | `hashref` | Yes | Reference to the associated Device resource. |
 | `deviceName` | `string` | No | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | `hashref` | No | Reference to the associated Partner. |
 | `encrypted` | `integer` | No | A Transcation can process muliple encryptions. |
@@ -1497,32 +1637,63 @@ my $transaction = $client->Transaction;
 | `success` | `boolean` | No | The success indicator. |
 | `transactionSource` | `string` | No | The source of the Transaction. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `alternateKey` | - | - | - |
+| `client` | - | - | Yes |
+| `clientRef` | - | - | - |
+| `created` | - | - | - |
+| `decrypted` | - | - | - |
+| `device` | - | - | - |
+| `deviceName` | - | - | - |
+| `directPartner` | - | - | - |
+| `encrypted` | - | - | - |
+| `endDate` | - | - | - |
+| `errCode` | - | - | - |
+| `errMessage` | - | - | - |
+| `id` | - | - | - |
+| `ipAddress` | - | - | Yes |
+| `isVirtual` | - | - | - |
+| `keyType` | - | - | Yes |
+| `location` | - | - | - |
+| `messageId` | - | - | - |
+| `method` | - | - | Yes |
+| `partner` | - | - | Yes |
+| `reference` | - | - | - |
+| `serialNumber` | - | - | - |
+| `startDate` | - | - | - |
+| `success` | - | - | - |
+| `transactionSource` | - | - | - |
+
 ### Operations
 
-#### `create($reqdata, $ctrl) -> hashref`
+#### `create($reqdata, $ctrl) -> TransactionEntity`
 
-Create a new entity with the given data. Returns the created entity data and dies on error.
+Create a new entity with the given data. Returns the created entity and dies on error.
 
 ```perl
 my $result = $client->Transaction->create({
+    'device' => {},  # hashref
     'location' => {},  # hashref
 });
 ```
 
 #### `list($reqmatch, $ctrl) -> arrayref`
 
-List entities matching the given criteria. The match is optional — call `list` with no argument to list all records. Returns an arrayref and dies on error.
+List entities matching the given criteria. The match is optional — call `list` with no argument to list all records. Returns an arrayref of entities, one per record (`data_get` reads each record), and dies on error.
 
 ```perl
 my $results = $client->Transaction->list;
 for my $transaction (@$results) {
-    print "$transaction->{id}\n";
+    print $transaction->data_get->{id}, "\n";
 }
 ```
 
-#### `load($reqmatch, $ctrl) -> hashref`
+#### `load($reqmatch, $ctrl) -> TransactionEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and dies on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and dies on error.
 
 ```perl
 my $result = $client->Transaction->load({ 'id' => 'transaction_id' });
@@ -1567,44 +1738,172 @@ my $update_result = $client->UpdateResult;
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `address1` | `string` | No | The Location's street address. |
+| `address2` | `string` | No | The Location's street address. |
+| `alternateKey` | `string` | No | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `string` | No | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | `string` | No | \? |
+| `city` | `string` | No | The Location's city. |
 | `client` | `hashref` | No | Reference to the associated Client resource. |
-| `email` | `string` | No | The User's email address. |
-| `firstName` | `string` | No | The User's name. |
+| `clientCanOrderEquipment` | `boolean` | No | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | `string` | No | Client Reference property that is included in the decrypt API call. |
+| `contact` | `hashref` | Yes | Reference to the associated User resource. |
+| `country` | `hashref` | No | Reference to the associated Country. |
+| `customReference` | `string` | No | A Partner specified reference for a location. |
+| `dateShipped` | `string` | No | The date and time that a package is shipped. |
+| `decrypted` | `integer` | No | A Transcation can process muliple decryptions. |
+| `device` | `hashref` | No | Reference to the associated Device resource. |
+| `deviceBuild` | `hashref` | No | Reference to the associated Device Build resource. |
+| `deviceType` | `hashref` | No | Reference to the associated Device Type resource. |
+| `directPartner` | `hashref` | No | Reference to the associated Partner. |
+| `email` | `string` | Yes | The User's email address. |
+| `encrypted` | `integer` | No | A Transcation can process muliple encryptions. |
+| `endDate` | `string` | No | Timestamp from the end of the transaction. |
+| `errCode` | `string` | No | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `string` | No | The error messge that is sent in response to a failed decrypt API call. |
+| `firstName` | `string` | Yes | The User's name. |
 | `id` | `string` | No | ID of newly created resource |
-| `isActive` | `boolean` | No | This property indicates if the User account is active or disabled. |
+| `injectKey` | `hashref` | No | Reference to the associated Device resource. |
+| `ipAddress` | `string` | No | The IP address of the http client that makes the decrypt API call. |
+| `isActive` | `boolean` | Yes | This property indicates if the User account is active or disabled. |
+| `items` | `arrayref` | No |  |
+| `keyType` | `string` | No | The type of cipher used during decrytion. |
 | `kif` | `hashref` | No | Reference to the associated KIF resource. |
-| `lastName` | `string` | No | The User's Surname. |
+| `lastName` | `string` | Yes | The User's Surname. |
+| `location` | `hashref` | Yes | Reference to the associated Location resource. |
+| `locationType` | `string` | No | The Location's clasification. |
+| `mailAddress1` | `string` | No | The Location's street address. |
+| `mailAddress2` | `string` | No | The Location's street address. |
+| `mailCity` | `string` | No | The Location's city. |
+| `mailCountry` | `string` | No | The Location's street address. |
+| `mailPostalCode` | `string` | No | The Location's postal code. |
+| `mailStateProvince` | `string` | No | The Location's street state or province. |
+| `messageId` | `string` | No | Message ID. |
+| `method` | `string` | No | The decryption cypher/method. |
+| `mid` | `string` | No | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | `string` | No | The Client's name. |
+| `nameOfBusiness` | `string` | No | The name of the business at this location. |
+| `notes` | `string` | No | Arbitary note that can be attached to a Device entry. |
+| `parent` | `hashref` | No | Reference to the associated Partner. |
 | `partner` | `hashref` | No | Reference to the associated Partner. |
-| `phone` | `string` | No | The User's phone number without dashes, spaces, or brackets. |
-| `userName` | `string` | No | The User's unique username. |
-| `userRole` | `hashref` | No | Reference to the associated User Role. |
+| `partnerId` | `string` | No | The Partner's id. |
+| `phone` | `string` | Yes | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | `string` | No | The Location's postal code. |
+| `reference` | `string` | No | The Partner's reference string. |
+| `sendWelcomeEmail` | `boolean` | No | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | `string` | No | The Device's serial number. |
+| `startDate` | `string` | No | Timestamp from the beginning of the transaction. |
+| `stateProvince` | `string` | No | The Location's street state or province. |
+| `success` | `boolean` | No | The success indicator. |
+| `tracking` | `string` | No | The courier's tracking number. |
+| `uniqueId` | `string` | No | Unique Identifier for the Location. |
+| `userName` | `string` | Yes | The User's unique username. |
+| `userRole` | `hashref` | Yes | Reference to the associated User Role. |
+| `verificationPhrase` | `string` | No | The verification phrase is a message that the Partner creates. |
 | `version` | `integer` | No | The number of times that this resource has been updated. |
+
+### Field Usage by Operation
+
+| Field | list | create | update |
+| --- | --- | --- | --- |
+| `address1` | - | - | - |
+| `address2` | - | - | - |
+| `alternateKey` | - | - | - |
+| `auditNextDate` | - | - | - |
+| `billingId` | - | - | - |
+| `city` | - | - | - |
+| `client` | - | - | - |
+| `clientCanOrderEquipment` | - | - | - |
+| `clientRef` | - | - | - |
+| `contact` | - | - | - |
+| `country` | - | - | - |
+| `customReference` | - | - | - |
+| `dateShipped` | - | - | - |
+| `decrypted` | - | - | - |
+| `device` | - | - | - |
+| `deviceBuild` | - | - | - |
+| `deviceType` | - | - | - |
+| `directPartner` | - | - | - |
+| `email` | Yes | - | Yes |
+| `encrypted` | - | - | - |
+| `endDate` | - | - | - |
+| `errCode` | - | - | - |
+| `errMessage` | - | - | - |
+| `firstName` | Yes | - | Yes |
+| `id` | - | - | - |
+| `injectKey` | - | - | - |
+| `ipAddress` | - | - | - |
+| `isActive` | Yes | - | Yes |
+| `items` | - | - | - |
+| `keyType` | - | - | - |
+| `kif` | - | - | - |
+| `lastName` | Yes | - | Yes |
+| `location` | - | - | - |
+| `locationType` | - | - | - |
+| `mailAddress1` | - | - | - |
+| `mailAddress2` | - | - | - |
+| `mailCity` | - | - | - |
+| `mailCountry` | - | - | - |
+| `mailPostalCode` | - | - | - |
+| `mailStateProvince` | - | - | - |
+| `messageId` | - | - | - |
+| `method` | - | - | - |
+| `mid` | - | - | - |
+| `name` | - | - | - |
+| `nameOfBusiness` | - | - | - |
+| `notes` | - | - | - |
+| `parent` | - | - | - |
+| `partner` | - | - | - |
+| `partnerId` | - | - | - |
+| `phone` | Yes | - | Yes |
+| `postalCode` | - | - | - |
+| `reference` | - | - | - |
+| `sendWelcomeEmail` | - | - | - |
+| `serialNumber` | - | - | - |
+| `startDate` | - | - | - |
+| `stateProvince` | - | - | - |
+| `success` | - | - | - |
+| `tracking` | - | - | - |
+| `uniqueId` | - | - | - |
+| `userName` | Yes | - | Yes |
+| `userRole` | Yes | - | Yes |
+| `verificationPhrase` | - | - | - |
+| `version` | - | - | - |
 
 ### Operations
 
-#### `create($reqdata, $ctrl) -> hashref`
+#### `create($reqdata, $ctrl) -> UpdateResultEntity`
 
-Create a new entity with the given data. Returns the created entity data and dies on error.
+Create a new entity with the given data. Returns the created entity and dies on error.
 
 ```perl
 my $result = $client->UpdateResult->create({
+    'contact' => {},  # hashref
+    'email' => 'example_email',  # string
+    'firstName' => 'example_firstName',  # string
+    'isActive' => 1,  # boolean
+    'lastName' => 'example_lastName',  # string
+    'location' => {},  # hashref
+    'phone' => 'example_phone',  # string
+    'userName' => 'example_userName',  # string
+    'userRole' => {},  # hashref
 });
 ```
 
 #### `list($reqmatch, $ctrl) -> arrayref`
 
-List entities matching the given criteria. The match is optional — call `list` with no argument to list all records. Returns an arrayref and dies on error.
+List entities matching the given criteria. The match is optional — call `list` with no argument to list all records. Returns an arrayref of entities, one per record (`data_get` reads each record), and dies on error.
 
 ```perl
 my $results = $client->UpdateResult->list;
 for my $update_result (@$results) {
-    print "$update_result->{id}\n";
+    print $update_result->data_get->{id}, "\n";
 }
 ```
 
-#### `update($reqdata, $ctrl) -> hashref`
+#### `update($reqdata, $ctrl) -> UpdateResultEntity`
 
-Update an existing entity. The data must include the entity `id`. Returns the updated entity data and dies on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and dies on error.
 
 ```perl
 my $result = $client->UpdateResult->update({
@@ -1669,17 +1968,17 @@ my $user = $client->User;
 
 ### Operations
 
-#### `load($reqmatch, $ctrl) -> hashref`
+#### `load($reqmatch, $ctrl) -> UserEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and dies on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and dies on error.
 
 ```perl
 my $result = $client->User->load({ 'id' => 'user_id' });
 ```
 
-#### `remove($reqmatch, $ctrl) -> hashref`
+#### `remove($reqmatch, $ctrl) -> UserEntity`
 
-Remove the entity matching the given criteria. Dies on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and dies on error.
 
 ```perl
 my $result = $client->User->remove({ 'id' => 'user_id' });
@@ -1730,9 +2029,9 @@ my $virtual_device = $client->VirtualDevice;
 
 ### Operations
 
-#### `load($reqmatch, $ctrl) -> hashref`
+#### `load($reqmatch, $ctrl) -> VirtualDeviceEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and dies on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and dies on error.
 
 ```perl
 my $result = $client->VirtualDevice->load({ 'id' => 'virtual_device_id' });
@@ -2188,6 +2487,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

@@ -17,7 +17,7 @@ keeps the cognitive load low.
 This package is not yet published to a SwiftPM registry. The generated SDK
 is a dependency-free SwiftPM package (Foundation only, plus the vendored
 Voxgig Struct port). Depend on it from the GitHub release tag
-(`swift/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases)) by adding it to
+(`swift/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags)) by adding it to
 your `Package.swift`:
 
 ```swift
@@ -52,14 +52,17 @@ let client = BluefinDecryptxP2peSDK(options)
 
 ### 2. List attestation records
 
-`list(nil, nil)` returns a `Value` list of records and throws on error —
-iterate its items.
+`list(nil, nil)` returns a `Value` list of entities, one per record, and
+throws on error; `asNative as? Entity` unwraps an item, and its `data()`
+reads the record.
 
 ```swift
 do {
-    let attestationList = try client.Attestation().list(nil, nil)
-    for attestation in attestationList.asList?.items ?? [] {
-        print(attestation)
+    let attestationList = try client.Attestation().list(VMap([("client", .string("example"))]), nil)
+    for attestationItem in attestationList.asList?.items ?? [] {
+        if let attestationEntity = attestationItem.asNative as? Entity {
+            print(attestationEntity.data())
+        }
     }
 }
 catch {
@@ -75,7 +78,9 @@ DeviceCustodyDetail is nested under device_type, so provide the `device_type`.
 ```swift
 do {
     let deviceCustodyDetail = try client.DeviceCustodyDetail().load(VMap([("device_type", .string("example_device_type")), ("serial_number", .string("example_serial_number")), ("id", .string("example_id"))]), nil)
-    print(deviceCustodyDetail)
+    if let deviceCustodyDetailEntity = deviceCustodyDetail.asNative as? Entity {
+        print(deviceCustodyDetailEntity.data())
+    }
 }
 catch {
     print("load failed: \(error)")
@@ -86,7 +91,7 @@ catch {
 
 ```swift
 // Create — returns the ENTITY (call data() for the record)
-let created = try client.Attestation().create(VMap([("client", .map(VMap())), ("completeDate", .string("example_completeDate"))]), nil)
+let created = try client.Attestation().create(VMap([("devices", .list([]))]), nil)
 
 ```
 
@@ -98,14 +103,15 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 ```ts
 try {
   const devicetypes = await client.DeviceType().list()
-  console.log(devicetypes)
+  console.log(devicetypes.map((item) => item.data()))
 } catch (err) {
   console.error('list failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -114,8 +120,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -167,11 +173,13 @@ Create a mock client for unit testing — no server required:
 ```swift
 let client = BluefinDecryptxP2peSDK.testSDK(nil, nil)
 
-// Entity ops return the ENTITY and throws on error;
-// call data() for the record.
-let deviceType = try client.DeviceType().list(nil, nil)
-// deviceType holds the mock response record
-print(deviceType)
+// list returns a Value list of entities, one per mock record; it throws on error.
+let deviceTypeList = try client.DeviceType().list(nil, nil)
+for deviceTypeItem in deviceTypeList.asList?.items ?? [] {
+    if let deviceTypeEntity = deviceTypeItem.asNative as? Entity {
+        print(deviceTypeEntity.data())
+    }
+}
 ```
 
 ### Use a custom fetch function
@@ -277,11 +285,11 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `(reqmatch, ctrl) throws -> Value` | Load a single entity by match criteria. Throws on error. |
-| `list` | `(reqmatch, ctrl) throws -> Value` | List entities matching the criteria (a Value list). Throws on error. |
-| `create` | `(reqdata, ctrl) throws -> Value` | Create a new entity. Throws on error. |
-| `update` | `(reqdata, ctrl) throws -> Value` | Update an existing entity. Throws on error. |
-| `remove` | `(reqmatch, ctrl) throws -> Value` | Remove an entity. Throws on error. |
+| `load` | `(reqmatch, ctrl) throws -> Value` | Load a single entity by match criteria, and return it. Throws on error. |
+| `list` | `(reqmatch, ctrl) throws -> Value` | List entities matching the criteria, one per record. Throws on error. |
+| `create` | `(reqdata, ctrl) throws -> Value` | Create a new entity, and return it. Throws on error. |
+| `update` | `(reqdata, ctrl) throws -> Value` | Update an existing entity, and return it. Throws on error. |
+| `remove` | `(reqmatch, ctrl) throws -> Value` | Remove an entity, and return it marked as deleted. Throws on error. |
 | `data` | `(newdata?) -> Value` | Get or set entity data. |
 | `matchv` | `(newmatch?) -> Value` | Get or set entity match criteria. |
 | `make` | `() -> Entity` | Create a new instance with the same options. |
@@ -289,9 +297,10 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the ENTITY (call data() for the record) (a `Value` map for
-single-entity ops, a `Value` list for `list`) and throw on error. Wrap
-calls in `do`/`catch` to handle failures.
+Entity operations return the entity, and `list` a `Value` list of entities,
+one per record; each entity comes wrapped in a native `Value`, which
+`asNative as? Entity` unwraps, and its `data()` reads the record. They
+throw on error, so wrap calls in `do`/`catch` to handle failures.
 
 The `direct()` escape hatch never throws — it returns a result `VMap` you
 branch on via `result.entries["ok"]`:
@@ -315,6 +324,7 @@ On error, `ok` is `false` and `err` contains the error value.
 | `completeDate` | The date and time that the Attestation took place. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `device` | Reference to the associated Device resource. |
+| `devices` |  |
 | `id` | This resource's unique identifier. |
 | `name` | Text describing the attestation. |
 | `notes` | Free form field that allows the Client associate notes with the Attestation. |
@@ -347,6 +357,10 @@ API path: `/clients`
 
 | Field | Description |
 | --- | --- |
+| `completeDate` | The date and time that the Custody change took place. |
+| `custodian` | Reference to the associated User resource. |
+| `location` | Reference to the associated Location resource. |
+| `notes` | Free form field that allows the Client associate notes with the Custody Change. |
 
 Operations: Create.
 
@@ -356,6 +370,14 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
+| `cbcVector` | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | The device Type. |
+| `encoding` | The payload encoding |
+| `encrypted` |  |
+| `hasCcData` | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | The serial number of the device. |
 | `success` | true if the payload decryption was successful. |
 
 Operations: Create.
@@ -471,7 +493,9 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
+| `serialNumber` | The serial number of the Device that is shipped. |
 | `success` | Indicates if the action succeeded. |
+| `tamperLabel` | The code that is printed the tamper label of the Device that is shipped. |
 
 Operations: Create.
 
@@ -481,7 +505,15 @@ API path: `/devices/receive`
 
 | Field | Description |
 | --- | --- |
+| `appVersion` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | The Device Builds's name. |
+| `buildNumber` | The Build Number. |
+| `configFile` | \? |
+| `firmwareVersion` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | The referenced Device's serial number. |
 | `success` | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | \? |
 
 Operations: Create.
 
@@ -555,6 +587,7 @@ API path: `/kifs`
 | `address2` | The Location's street address. |
 | `billingId` | \? |
 | `city` | The Location's city. |
+| `client` | Reference to the associated Client resource. |
 | `country` | The Location's country. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `customReference` | A Partner specified reference for a location. |
@@ -615,6 +648,7 @@ API path: `/partners`
 | `id` | This resource's unique identifier. |
 | `items` |  |
 | `kif` | Reference to the associated KIF resource. |
+| `location` | Reference to the associated Location resource. |
 | `modified` | Last modified timestamp. |
 | `partner` | Reference to the associated Partner. |
 | `shipmentType` | The type of shipment. |
@@ -629,6 +663,8 @@ API path: `/shipments`
 
 | Field | Description |
 | --- | --- |
+| `devices` | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | Reference to the associated Partner. |
 | `success` | Indicates if the action was a success. |
 
 Operations: Create, Remove.
@@ -644,6 +680,7 @@ API path: `/virtualDevices/{sharePartnerTo}`
 | `clientRef` | Client Reference property that is included in the decrypt API call. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `decrypted` | A Transcation can process muliple decryptions. |
+| `device` | Reference to the associated Device resource. |
 | `deviceName` | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | Reference to the associated Partner. |
 | `encrypted` | A Transcation can process muliple encryptions. |
@@ -672,17 +709,68 @@ API path: `/transactions`
 
 | Field | Description |
 | --- | --- |
+| `address1` | The Location's street address. |
+| `address2` | The Location's street address. |
+| `alternateKey` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | \? |
+| `city` | The Location's city. |
 | `client` | Reference to the associated Client resource. |
+| `clientCanOrderEquipment` | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | Client Reference property that is included in the decrypt API call. |
+| `contact` | Reference to the associated User resource. |
+| `country` | Reference to the associated Country. |
+| `customReference` | A Partner specified reference for a location. |
+| `dateShipped` | The date and time that a package is shipped. |
+| `decrypted` | A Transcation can process muliple decryptions. |
+| `device` | Reference to the associated Device resource. |
+| `deviceBuild` | Reference to the associated Device Build resource. |
+| `deviceType` | Reference to the associated Device Type resource. |
+| `directPartner` | Reference to the associated Partner. |
 | `email` | The User's email address. |
+| `encrypted` | A Transcation can process muliple encryptions. |
+| `endDate` | Timestamp from the end of the transaction. |
+| `errCode` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | The error messge that is sent in response to a failed decrypt API call. |
 | `firstName` | The User's name. |
 | `id` | ID of newly created resource |
+| `injectKey` | Reference to the associated Device resource. |
+| `ipAddress` | The IP address of the http client that makes the decrypt API call. |
 | `isActive` | This property indicates if the User account is active or disabled. |
+| `items` |  |
+| `keyType` | The type of cipher used during decrytion. |
 | `kif` | Reference to the associated KIF resource. |
 | `lastName` | The User's Surname. |
+| `location` | Reference to the associated Location resource. |
+| `locationType` | The Location's clasification. |
+| `mailAddress1` | The Location's street address. |
+| `mailAddress2` | The Location's street address. |
+| `mailCity` | The Location's city. |
+| `mailCountry` | The Location's street address. |
+| `mailPostalCode` | The Location's postal code. |
+| `mailStateProvince` | The Location's street state or province. |
+| `messageId` | Message ID. |
+| `method` | The decryption cypher/method. |
+| `mid` | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | The Client's name. |
+| `nameOfBusiness` | The name of the business at this location. |
+| `notes` | Arbitary note that can be attached to a Device entry. |
+| `parent` | Reference to the associated Partner. |
 | `partner` | Reference to the associated Partner. |
+| `partnerId` | The Partner's id. |
 | `phone` | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | The Location's postal code. |
+| `reference` | The Partner's reference string. |
+| `sendWelcomeEmail` | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | The Device's serial number. |
+| `startDate` | Timestamp from the beginning of the transaction. |
+| `stateProvince` | The Location's street state or province. |
+| `success` | The success indicator. |
+| `tracking` | The courier's tracking number. |
+| `uniqueId` | Unique Identifier for the Location. |
 | `userName` | The User's unique username. |
 | `userRole` | Reference to the associated User Role. |
+| `verificationPhrase` | The verification phrase is a message that the Partner creates. |
 | `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Update.
@@ -749,6 +837,7 @@ Create an instance: `let attestation = client.Attestation()`
 | `completeDate` | `String` | The date and time that the Attestation took place. |
 | `created` | `String` | Creation timestamp in ISO 8601 format. |
 | `device` | `VMap` | Reference to the associated Device resource. |
+| `devices` | `[Value]` |  |
 | `id` | `String` | This resource's unique identifier. |
 | `name` | `String` | Text describing the attestation. |
 | `notes` | `String` | Free form field that allows the Client associate notes with the Attestation. |
@@ -762,13 +851,14 @@ let attestation = try client.Attestation().load(VMap([("id", .string("attestatio
 #### Example: List
 
 ```swift
-let attestationList = try client.Attestation().list(nil, nil)
+let attestationList = try client.Attestation().list(VMap([("client", .string("example"))]), nil)
 ```
 
 #### Example: Create
 
 ```swift
 let attestation = try client.Attestation().create(VMap([
+    ("devices", .list([]))  // [Value]
 ]), nil)
 ```
 
@@ -811,7 +901,7 @@ let client = try client.Client().load(VMap([("id", .string("client_id"))]), nil)
 #### Example: List
 
 ```swift
-let clientList = try client.Client().list(nil, nil)
+let clientList = try client.Client().list(VMap([("partner", .string("example"))]), nil)
 ```
 
 #### Example: Create
@@ -833,12 +923,23 @@ Create an instance: `let createResult = client.CreateResult()`
 | --- | --- |
 | `create(data, nil)` | Create a new entity with the given data. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `completeDate` | `String` | The date and time that the Custody change took place. |
+| `custodian` | `VMap` | Reference to the associated User resource. |
+| `location` | `VMap` | Reference to the associated Location resource. |
+| `notes` | `String` | Free form field that allows the Client associate notes with the Custody Change. |
+
 #### Example: Create
 
 ```swift
 let createResult = try client.CreateResult().create(VMap([
     ("device_type", .string("example_device_type")),  // String
-    ("serial_number", .string("example_serial_number"))  // String
+    ("serial_number", .string("example_serial_number")),  // String
+    ("custodian", .map(VMap())),  // VMap
+    ("location", .map(VMap()))  // VMap
 ]), nil)
 ```
 
@@ -857,12 +958,23 @@ Create an instance: `let decryption = client.Decryption()`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `cbcVector` | `String` | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | `String` | The device Type. |
+| `encoding` | `String` | The payload encoding |
+| `encrypted` | `[Value]` |  |
+| `hasCcData` | `String` | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | `String` | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | `String` | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | `String` | The serial number of the device. |
 | `success` | `Bool` | true if the payload decryption was successful. |
 
 #### Example: Create
 
 ```swift
 let decryption = try client.Decryption().create(VMap([
+    ("deviceType", .string("example_deviceType")),  // String
+    ("encrypted", .list([])),  // [Value]
+    ("serialNumber", .string("example_serialNumber"))  // String
 ]), nil)
 ```
 
@@ -1047,7 +1159,7 @@ Create an instance: `let deviceCustodyListItem = client.DeviceCustodyListItem()`
 #### Example: List
 
 ```swift
-let deviceCustodyListItemList = try client.DeviceCustodyListItem().list(nil, nil)
+let deviceCustodyListItemList = try client.DeviceCustodyListItem().list(VMap([("device_type", .string("example")), ("serial_number", .string("example"))]), nil)
 ```
 
 
@@ -1065,13 +1177,17 @@ Create an instance: `let deviceReceiveResult = client.DeviceReceiveResult()`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `serialNumber` | `String` | The serial number of the Device that is shipped. |
 | `success` | `Bool` | Indicates if the action succeeded. |
+| `tamperLabel` | `String` | The code that is printed the tamper label of the Device that is shipped. |
 
 #### Example: Create
 
 ```swift
 let deviceReceiveResult = try client.DeviceReceiveResult().create(VMap([
-    ("success", .bool(true))  // Bool
+    ("serialNumber", .string("example_serialNumber")),  // String
+    ("success", .bool(true)),  // Bool
+    ("tamperLabel", .string("example_tamperLabel"))  // String
 ]), nil)
 ```
 
@@ -1090,12 +1206,21 @@ Create an instance: `let deviceRkiActivateResult = client.DeviceRkiActivateResul
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `appVersion` | `String` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | `String` | The Device Builds's name. |
+| `buildNumber` | `String` | The Build Number. |
+| `configFile` | `String` | \? |
+| `firmwareVersion` | `String` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `String` | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | `String` | The referenced Device's serial number. |
 | `success` | `Bool` | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | `String` | \? |
 
 #### Example: Create
 
 ```swift
 let deviceRkiActivateResult = try client.DeviceRkiActivateResult().create(VMap([
+    ("serialNumber", .string("example_serialNumber")),  // String
     ("success", .bool(true))  // Bool
 ]), nil)
 ```
@@ -1248,6 +1373,7 @@ Create an instance: `let location = client.Location()`
 | `address2` | `String` | The Location's street address. |
 | `billingId` | `String` | \? |
 | `city` | `String` | The Location's city. |
+| `client` | `VMap` | Reference to the associated Client resource. |
 | `country` | `String` | The Location's country. |
 | `created` | `String` | Creation timestamp in ISO 8601 format. |
 | `customReference` | `String` | A Partner specified reference for a location. |
@@ -1277,7 +1403,7 @@ let location = try client.Location().load(VMap([("id", .string("location_id"))])
 #### Example: List
 
 ```swift
-let locationList = try client.Location().list(nil, nil)
+let locationList = try client.Location().list(VMap([("client", .string("example"))]), nil)
 ```
 
 #### Example: Create
@@ -1365,6 +1491,7 @@ Create an instance: `let shipment = client.Shipment()`
 | `id` | `String` | This resource's unique identifier. |
 | `items` | `[Value]` |  |
 | `kif` | `VMap` | Reference to the associated KIF resource. |
+| `location` | `VMap` | Reference to the associated Location resource. |
 | `modified` | `String` | Last modified timestamp. |
 | `partner` | `VMap` | Reference to the associated Partner. |
 | `shipmentType` | `String` | The type of shipment. |
@@ -1380,13 +1507,14 @@ let shipment = try client.Shipment().load(VMap([("id", .string("shipment_id"))])
 #### Example: List
 
 ```swift
-let shipmentList = try client.Shipment().list(nil, nil)
+let shipmentList = try client.Shipment().list(VMap([("kif", .string("example"))]), nil)
 ```
 
 #### Example: Create
 
 ```swift
 let shipment = try client.Shipment().create(VMap([
+    ("location", .map(VMap()))  // VMap
 ]), nil)
 ```
 
@@ -1406,13 +1534,17 @@ Create an instance: `let success = client.Success()`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `devices` | `[Value]` | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | `VMap` | Reference to the associated Partner. |
 | `success` | `Bool` | Indicates if the action was a success. |
 
 #### Example: Create
 
 ```swift
 let success = try client.Success().create(VMap([
-    ("share_partner_to", .string("example_share_partner_to"))  // String
+    ("share_partner_to", .string("example_share_partner_to")),  // String
+    ("devices", .list([])),  // [Value]
+    ("sharePartnerFrom", .map(VMap()))  // VMap
 ]), nil)
 ```
 
@@ -1438,6 +1570,7 @@ Create an instance: `let transaction = client.Transaction()`
 | `clientRef` | `String` | Client Reference property that is included in the decrypt API call. |
 | `created` | `String` | Creation timestamp in ISO 8601 format. |
 | `decrypted` | `Int` | A Transcation can process muliple decryptions. |
+| `device` | `VMap` | Reference to the associated Device resource. |
 | `deviceName` | `String` | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | `VMap` | Reference to the associated Partner. |
 | `encrypted` | `Int` | A Transcation can process muliple encryptions. |
@@ -1474,6 +1607,7 @@ let transactionList = try client.Transaction().list(nil, nil)
 
 ```swift
 let transaction = try client.Transaction().create(VMap([
+    ("device", .map(VMap())),  // VMap
     ("location", .map(VMap()))  // VMap
 ]), nil)
 ```
@@ -1495,17 +1629,68 @@ Create an instance: `let updateResult = client.UpdateResult()`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `address1` | `String` | The Location's street address. |
+| `address2` | `String` | The Location's street address. |
+| `alternateKey` | `String` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `String` | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | `String` | \? |
+| `city` | `String` | The Location's city. |
 | `client` | `VMap` | Reference to the associated Client resource. |
+| `clientCanOrderEquipment` | `Bool` | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | `String` | Client Reference property that is included in the decrypt API call. |
+| `contact` | `VMap` | Reference to the associated User resource. |
+| `country` | `VMap` | Reference to the associated Country. |
+| `customReference` | `String` | A Partner specified reference for a location. |
+| `dateShipped` | `String` | The date and time that a package is shipped. |
+| `decrypted` | `Int` | A Transcation can process muliple decryptions. |
+| `device` | `VMap` | Reference to the associated Device resource. |
+| `deviceBuild` | `VMap` | Reference to the associated Device Build resource. |
+| `deviceType` | `VMap` | Reference to the associated Device Type resource. |
+| `directPartner` | `VMap` | Reference to the associated Partner. |
 | `email` | `String` | The User's email address. |
+| `encrypted` | `Int` | A Transcation can process muliple encryptions. |
+| `endDate` | `String` | Timestamp from the end of the transaction. |
+| `errCode` | `String` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `String` | The error messge that is sent in response to a failed decrypt API call. |
 | `firstName` | `String` | The User's name. |
 | `id` | `String` | ID of newly created resource |
+| `injectKey` | `VMap` | Reference to the associated Device resource. |
+| `ipAddress` | `String` | The IP address of the http client that makes the decrypt API call. |
 | `isActive` | `Bool` | This property indicates if the User account is active or disabled. |
+| `items` | `[Value]` |  |
+| `keyType` | `String` | The type of cipher used during decrytion. |
 | `kif` | `VMap` | Reference to the associated KIF resource. |
 | `lastName` | `String` | The User's Surname. |
+| `location` | `VMap` | Reference to the associated Location resource. |
+| `locationType` | `String` | The Location's clasification. |
+| `mailAddress1` | `String` | The Location's street address. |
+| `mailAddress2` | `String` | The Location's street address. |
+| `mailCity` | `String` | The Location's city. |
+| `mailCountry` | `String` | The Location's street address. |
+| `mailPostalCode` | `String` | The Location's postal code. |
+| `mailStateProvince` | `String` | The Location's street state or province. |
+| `messageId` | `String` | Message ID. |
+| `method` | `String` | The decryption cypher/method. |
+| `mid` | `String` | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | `String` | The Client's name. |
+| `nameOfBusiness` | `String` | The name of the business at this location. |
+| `notes` | `String` | Arbitary note that can be attached to a Device entry. |
+| `parent` | `VMap` | Reference to the associated Partner. |
 | `partner` | `VMap` | Reference to the associated Partner. |
+| `partnerId` | `String` | The Partner's id. |
 | `phone` | `String` | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | `String` | The Location's postal code. |
+| `reference` | `String` | The Partner's reference string. |
+| `sendWelcomeEmail` | `Bool` | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | `String` | The Device's serial number. |
+| `startDate` | `String` | Timestamp from the beginning of the transaction. |
+| `stateProvince` | `String` | The Location's street state or province. |
+| `success` | `Bool` | The success indicator. |
+| `tracking` | `String` | The courier's tracking number. |
+| `uniqueId` | `String` | Unique Identifier for the Location. |
 | `userName` | `String` | The User's unique username. |
 | `userRole` | `VMap` | Reference to the associated User Role. |
+| `verificationPhrase` | `String` | The verification phrase is a message that the Partner creates. |
 | `version` | `Int` | The number of times that this resource has been updated. |
 
 #### Example: List
@@ -1518,6 +1703,15 @@ let updateResultList = try client.UpdateResult().list(nil, nil)
 
 ```swift
 let updateResult = try client.UpdateResult().create(VMap([
+    ("contact", .map(VMap())),  // VMap
+    ("email", .string("example_email")),  // String
+    ("firstName", .string("example_firstName")),  // String
+    ("isActive", .bool(true)),  // Bool
+    ("lastName", .string("example_lastName")),  // String
+    ("location", .map(VMap())),  // VMap
+    ("phone", .string("example_phone")),  // String
+    ("userName", .string("example_userName")),  // String
+    ("userRole", .map(VMap()))  // VMap
 ]), nil)
 ```
 

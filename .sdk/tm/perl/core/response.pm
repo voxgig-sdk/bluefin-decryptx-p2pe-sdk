@@ -34,6 +34,8 @@ sub new {
     json_func   => $json_func,
     body        => BluefinDecryptxP2peHelpers::gp($resmap, 'body'),
     err         => BluefinDecryptxP2peHelpers::gp($resmap, 'err'),
+    # Set by a transport that could not read a non-blank body as JSON.
+    unreadable  => (BluefinDecryptxP2peHelpers::gp($resmap, 'unreadable') ? 1 : 0),
   }, $class;
 }
 

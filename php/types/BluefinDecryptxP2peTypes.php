@@ -19,6 +19,7 @@ class Attestation
     public ?string $completeDate = null;
     public ?string $created = null;
     public ?array $device = null;
+    public array $devices;
     public ?string $id = null;
     public ?string $name = null;
     public ?string $notes = null;
@@ -45,6 +46,7 @@ class AttestationCreateData
     public ?string $completeDate = null;
     public ?string $created = null;
     public ?array $device = null;
+    public array $devices;
     public ?string $id = null;
     public ?string $name = null;
     public ?string $notes = null;
@@ -105,6 +107,10 @@ class ClientRemoveMatch
 /** CreateResult entity data model. */
 class CreateResult
 {
+    public ?string $completeDate = null;
+    public array $custodian;
+    public array $location;
+    public ?string $notes = null;
 }
 
 /** Request payload for CreateResult#create. */
@@ -112,17 +118,37 @@ class CreateResultCreateData
 {
     public string $device_type;
     public string $serial_number;
+    public ?string $completeDate = null;
+    public array $custodian;
+    public array $location;
+    public ?string $notes = null;
 }
 
 /** Decryption entity data model. */
 class Decryption
 {
+    public ?string $cbcVector = null;
+    public string $deviceType;
+    public ?string $encoding = null;
+    public array $encrypted;
+    public ?string $hasCcData = null;
+    public ?string $reference = null;
+    public ?string $sequenceNumber = null;
+    public string $serialNumber;
     public ?bool $success = null;
 }
 
 /** Request payload for Decryption#create. */
 class DecryptionCreateData
 {
+    public ?string $cbcVector = null;
+    public string $deviceType;
+    public ?string $encoding = null;
+    public array $encrypted;
+    public ?string $hasCcData = null;
+    public ?string $reference = null;
+    public ?string $sequenceNumber = null;
+    public string $serialNumber;
     public ?bool $success = null;
 }
 
@@ -302,25 +328,45 @@ class DeviceCustodyListItemListMatch
 /** DeviceReceiveResult entity data model. */
 class DeviceReceiveResult
 {
+    public string $serialNumber;
     public bool $success;
+    public string $tamperLabel;
 }
 
 /** Request payload for DeviceReceiveResult#create. */
 class DeviceReceiveResultCreateData
 {
+    public string $serialNumber;
     public bool $success;
+    public string $tamperLabel;
 }
 
 /** DeviceRkiActivateResult entity data model. */
 class DeviceRkiActivateResult
 {
+    public ?string $appVersion = null;
+    public ?string $buildName = null;
+    public ?string $buildNumber = null;
+    public ?string $configFile = null;
+    public ?string $firmwareVersion = null;
+    public ?string $hardwareVersion = null;
+    public string $serialNumber;
     public bool $success;
+    public ?string $whiteListingBinRanges = null;
 }
 
 /** Request payload for DeviceRkiActivateResult#create. */
 class DeviceRkiActivateResultCreateData
 {
+    public ?string $appVersion = null;
+    public ?string $buildName = null;
+    public ?string $buildNumber = null;
+    public ?string $configFile = null;
+    public ?string $firmwareVersion = null;
+    public ?string $hardwareVersion = null;
+    public string $serialNumber;
     public bool $success;
+    public ?string $whiteListingBinRanges = null;
 }
 
 /** DeviceState entity data model. */
@@ -430,6 +476,7 @@ class Location
     public ?string $address2 = null;
     public ?string $billingId = null;
     public ?string $city = null;
+    public ?array $client = null;
     public ?string $country = null;
     public ?string $created = null;
     public ?string $customReference = null;
@@ -472,6 +519,7 @@ class LocationCreateData
     public ?string $address2 = null;
     public ?string $billingId = null;
     public ?string $city = null;
+    public ?array $client = null;
     public ?string $country = null;
     public ?string $created = null;
     public ?string $customReference = null;
@@ -563,6 +611,7 @@ class Shipment
     public ?string $id = null;
     public ?array $items = null;
     public ?array $kif = null;
+    public array $location;
     public ?string $modified = null;
     public ?array $partner = null;
     public ?string $shipmentType = null;
@@ -597,6 +646,7 @@ class ShipmentCreateData
     public ?string $id = null;
     public ?array $items = null;
     public ?array $kif = null;
+    public array $location;
     public ?string $modified = null;
     public ?array $partner = null;
     public ?string $shipmentType = null;
@@ -607,6 +657,8 @@ class ShipmentCreateData
 /** Success entity data model. */
 class Success
 {
+    public array $devices;
+    public array $sharePartnerFrom;
     public ?bool $success = null;
 }
 
@@ -614,6 +666,8 @@ class Success
 class SuccessCreateData
 {
     public string $share_partner_to;
+    public array $devices;
+    public array $sharePartnerFrom;
     public ?bool $success = null;
 }
 
@@ -631,6 +685,7 @@ class Transaction
     public ?string $clientRef = null;
     public ?string $created = null;
     public ?int $decrypted = null;
+    public array $device;
     public ?string $deviceName = null;
     public ?array $directPartner = null;
     public ?int $encrypted = null;
@@ -684,6 +739,7 @@ class TransactionCreateData
     public ?string $clientRef = null;
     public ?string $created = null;
     public ?int $decrypted = null;
+    public array $device;
     public ?string $deviceName = null;
     public ?array $directPartner = null;
     public ?int $encrypted = null;
@@ -708,17 +764,68 @@ class TransactionCreateData
 /** UpdateResult entity data model. */
 class UpdateResult
 {
+    public ?string $address1 = null;
+    public ?string $address2 = null;
+    public ?string $alternateKey = null;
+    public ?string $auditNextDate = null;
+    public ?string $billingId = null;
+    public ?string $city = null;
     public ?array $client = null;
-    public ?string $email = null;
-    public ?string $firstName = null;
+    public ?bool $clientCanOrderEquipment = null;
+    public ?string $clientRef = null;
+    public array $contact;
+    public ?array $country = null;
+    public ?string $customReference = null;
+    public ?string $dateShipped = null;
+    public ?int $decrypted = null;
+    public ?array $device = null;
+    public ?array $deviceBuild = null;
+    public ?array $deviceType = null;
+    public ?array $directPartner = null;
+    public string $email;
+    public ?int $encrypted = null;
+    public ?string $endDate = null;
+    public ?string $errCode = null;
+    public ?string $errMessage = null;
+    public string $firstName;
     public ?string $id = null;
-    public ?bool $isActive = null;
+    public ?array $injectKey = null;
+    public ?string $ipAddress = null;
+    public bool $isActive;
+    public ?array $items = null;
+    public ?string $keyType = null;
     public ?array $kif = null;
-    public ?string $lastName = null;
+    public string $lastName;
+    public array $location;
+    public ?string $locationType = null;
+    public ?string $mailAddress1 = null;
+    public ?string $mailAddress2 = null;
+    public ?string $mailCity = null;
+    public ?string $mailCountry = null;
+    public ?string $mailPostalCode = null;
+    public ?string $mailStateProvince = null;
+    public ?string $messageId = null;
+    public ?string $method = null;
+    public ?string $mid = null;
+    public ?string $name = null;
+    public ?string $nameOfBusiness = null;
+    public ?string $notes = null;
+    public ?array $parent = null;
     public ?array $partner = null;
-    public ?string $phone = null;
-    public ?string $userName = null;
-    public ?array $userRole = null;
+    public ?string $partnerId = null;
+    public string $phone;
+    public ?string $postalCode = null;
+    public ?string $reference = null;
+    public ?bool $sendWelcomeEmail = null;
+    public ?string $serialNumber = null;
+    public ?string $startDate = null;
+    public ?string $stateProvince = null;
+    public ?bool $success = null;
+    public ?string $tracking = null;
+    public ?string $uniqueId = null;
+    public string $userName;
+    public array $userRole;
+    public ?string $verificationPhrase = null;
     public ?int $version = null;
 }
 
@@ -735,17 +842,68 @@ class UpdateResultListMatch
 /** Request payload for UpdateResult#create. */
 class UpdateResultCreateData
 {
+    public ?string $address1 = null;
+    public ?string $address2 = null;
+    public ?string $alternateKey = null;
+    public ?string $auditNextDate = null;
+    public ?string $billingId = null;
+    public ?string $city = null;
     public ?array $client = null;
-    public ?string $email = null;
-    public ?string $firstName = null;
+    public ?bool $clientCanOrderEquipment = null;
+    public ?string $clientRef = null;
+    public array $contact;
+    public ?array $country = null;
+    public ?string $customReference = null;
+    public ?string $dateShipped = null;
+    public ?int $decrypted = null;
+    public ?array $device = null;
+    public ?array $deviceBuild = null;
+    public ?array $deviceType = null;
+    public ?array $directPartner = null;
+    public string $email;
+    public ?int $encrypted = null;
+    public ?string $endDate = null;
+    public ?string $errCode = null;
+    public ?string $errMessage = null;
+    public string $firstName;
     public ?string $id = null;
-    public ?bool $isActive = null;
+    public ?array $injectKey = null;
+    public ?string $ipAddress = null;
+    public bool $isActive;
+    public ?array $items = null;
+    public ?string $keyType = null;
     public ?array $kif = null;
-    public ?string $lastName = null;
+    public string $lastName;
+    public array $location;
+    public ?string $locationType = null;
+    public ?string $mailAddress1 = null;
+    public ?string $mailAddress2 = null;
+    public ?string $mailCity = null;
+    public ?string $mailCountry = null;
+    public ?string $mailPostalCode = null;
+    public ?string $mailStateProvince = null;
+    public ?string $messageId = null;
+    public ?string $method = null;
+    public ?string $mid = null;
+    public ?string $name = null;
+    public ?string $nameOfBusiness = null;
+    public ?string $notes = null;
+    public ?array $parent = null;
     public ?array $partner = null;
-    public ?string $phone = null;
-    public ?string $userName = null;
-    public ?array $userRole = null;
+    public ?string $partnerId = null;
+    public string $phone;
+    public ?string $postalCode = null;
+    public ?string $reference = null;
+    public ?bool $sendWelcomeEmail = null;
+    public ?string $serialNumber = null;
+    public ?string $startDate = null;
+    public ?string $stateProvince = null;
+    public ?bool $success = null;
+    public ?string $tracking = null;
+    public ?string $uniqueId = null;
+    public string $userName;
+    public array $userRole;
+    public ?string $verificationPhrase = null;
     public ?int $version = null;
 }
 
@@ -753,16 +911,67 @@ class UpdateResultCreateData
 class UpdateResultUpdateData
 {
     public string $id;
+    public ?string $address1 = null;
+    public ?string $address2 = null;
+    public ?string $alternateKey = null;
+    public ?string $auditNextDate = null;
+    public ?string $billingId = null;
+    public ?string $city = null;
     public ?array $client = null;
+    public ?bool $clientCanOrderEquipment = null;
+    public ?string $clientRef = null;
+    public ?array $contact = null;
+    public ?array $country = null;
+    public ?string $customReference = null;
+    public ?string $dateShipped = null;
+    public ?int $decrypted = null;
+    public ?array $device = null;
+    public ?array $deviceBuild = null;
+    public ?array $deviceType = null;
+    public ?array $directPartner = null;
     public ?string $email = null;
+    public ?int $encrypted = null;
+    public ?string $endDate = null;
+    public ?string $errCode = null;
+    public ?string $errMessage = null;
     public ?string $firstName = null;
+    public ?array $injectKey = null;
+    public ?string $ipAddress = null;
     public ?bool $isActive = null;
+    public ?array $items = null;
+    public ?string $keyType = null;
     public ?array $kif = null;
     public ?string $lastName = null;
+    public ?array $location = null;
+    public ?string $locationType = null;
+    public ?string $mailAddress1 = null;
+    public ?string $mailAddress2 = null;
+    public ?string $mailCity = null;
+    public ?string $mailCountry = null;
+    public ?string $mailPostalCode = null;
+    public ?string $mailStateProvince = null;
+    public ?string $messageId = null;
+    public ?string $method = null;
+    public ?string $mid = null;
+    public ?string $name = null;
+    public ?string $nameOfBusiness = null;
+    public ?string $notes = null;
+    public ?array $parent = null;
     public ?array $partner = null;
+    public ?string $partnerId = null;
     public ?string $phone = null;
+    public ?string $postalCode = null;
+    public ?string $reference = null;
+    public ?bool $sendWelcomeEmail = null;
+    public ?string $serialNumber = null;
+    public ?string $startDate = null;
+    public ?string $stateProvince = null;
+    public ?bool $success = null;
+    public ?string $tracking = null;
+    public ?string $uniqueId = null;
     public ?string $userName = null;
     public ?array $userRole = null;
+    public ?string $verificationPhrase = null;
     public ?int $version = null;
 }
 

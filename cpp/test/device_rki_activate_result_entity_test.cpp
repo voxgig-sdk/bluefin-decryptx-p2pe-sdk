@@ -50,7 +50,7 @@ static DeviceRkiActivateResultSetup device_rki_activate_result_basic_setup(const
 
   DeviceRkiActivateResultSetup s;
   s.client = client;
-  s.d = entity_data;
+  s.data = entity_data;
   s.idmap = idmap_resolved;
   s.env = env;
   s.live = live;
@@ -65,6 +65,27 @@ static void device_rki_activate_result_entity_instance() {
   ASSERT_EQ(ent->getName(), std::string("device_rki_activate_result"), "entity name");
 }
 
+
+static bool device_rki_activate_result_has_feature(const std::string& name) {
+  Value fm = Helpers::toMapAny(getp(sharedConfig(), "feature"));
+  return fm.is_map() && !getp(fm, name).is_undef();
+}
+
+static void device_rki_activate_result_entity_validate() {
+  if (!device_rki_activate_result_has_feature("validate")) {
+    std::cerr << "skip: feature not present in this SDK: validate\n";
+    return;
+  }
+  auto vsdk = BluefinDecryptxP2peSDK::testSDK(Value::undef(), vmap({{"feature",
+      vmap({{"validate", vmap({{"active", Value(true)}})}})}}));
+  std::string code;
+  try {
+    vsdk->device_rki_activate_result()->create(vmap({{"appVersion", Value(1)}, {"serialNumber", Value("x")}, {"success", Value(true)}}), Value::undef());
+  } catch (const SdkErrorPtr& err) {
+    code = err->code;
+  }
+  ASSERT_EQ(code, std::string("validate_failed"), "an invalid request fails with validate_failed");
+}
 
 static void device_rki_activate_result_entity_basic() {
   auto setup = device_rki_activate_result_basic_setup(Value::undef());
@@ -89,6 +110,7 @@ static void device_rki_activate_result_entity_basic() {
 
 int main() {
   T_RUN(device_rki_activate_result_entity_instance);
+  T_RUN(device_rki_activate_result_entity_validate);
   T_RUN(device_rki_activate_result_entity_basic);
   return sdktest::summary("device_rki_activate_result_entity_test");
 }

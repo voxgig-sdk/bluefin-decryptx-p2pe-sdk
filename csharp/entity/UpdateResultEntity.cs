@@ -98,5 +98,7 @@ public class UpdateResultEntity : BluefinDecryptxP2peEntityBase
         });
     }
 
+    // (patch not defined by this API - base class throws UnsupportedOp)
+
     // (remove not defined by this API - base class throws UnsupportedOp)
 }

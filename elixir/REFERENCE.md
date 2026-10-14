@@ -175,35 +175,37 @@ attestation = BluefinDecryptxP2pe.attestation(sdk)
 | `completeDate` | `String.t()` | No | The date and time that the Attestation took place. |
 | `created` | `String.t()` | No | Creation timestamp in ISO 8601 format. |
 | `device` | `map()` | No | Reference to the associated Device resource. |
+| `devices` | `list()` | Yes |  |
 | `id` | `String.t()` | No | This resource's unique identifier. |
 | `name` | `String.t()` | No | Text describing the attestation. |
 | `notes` | `String.t()` | No | Free form field that allows the Client associate notes with the Attestation. |
 
 ### Operations
 
-#### `create(entity, reqdata, ctrl \\ nil) :: map()`
+#### `create(entity, reqdata, ctrl \\ nil) :: entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```elixir
-record = BluefinDecryptxP2pe.Entity.Attestation.create(attestation, BluefinDecryptxP2pe.Helpers.deep(%{
+attestation = BluefinDecryptxP2pe.Entity.Attestation.create(attestation, BluefinDecryptxP2pe.Helpers.deep(%{
+  "devices" => [],  # list()
 }))
 ```
 
 #### `list(entity, reqmatch \\ nil, ctrl \\ nil) :: list()`
 
-List entities matching the given criteria. The match is optional — call `list(entity)` to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list(entity)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```elixir
-records = BluefinDecryptxP2pe.Entity.Attestation.list(attestation)
+attestations = BluefinDecryptxP2pe.Entity.Attestation.list(attestation, BluefinDecryptxP2pe.Helpers.deep(%{"client" => "example"}))
 ```
 
-#### `load(entity, reqmatch, ctrl \\ nil) :: map()`
+#### `load(entity, reqmatch, ctrl \\ nil) :: entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get/1` reads, and raises on error.
 
 ```elixir
-record = BluefinDecryptxP2pe.Entity.Attestation.load(attestation, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "attestation_id"}))
+attestation = BluefinDecryptxP2pe.Entity.Attestation.load(attestation, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "attestation_id"}))
 ```
 
 ### Common Functions
@@ -238,7 +240,7 @@ Return the entity name.
 ## BluefinDecryptxP2pe.Entity.Client
 
 ```elixir
-client = BluefinDecryptxP2pe.client(sdk)
+client_ = BluefinDecryptxP2pe.client(sdk)
 ```
 
 ### Fields
@@ -259,38 +261,38 @@ client = BluefinDecryptxP2pe.client(sdk)
 
 ### Operations
 
-#### `create(entity, reqdata, ctrl \\ nil) :: map()`
+#### `create(entity, reqdata, ctrl \\ nil) :: entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```elixir
-record = BluefinDecryptxP2pe.Entity.Client.create(client, BluefinDecryptxP2pe.Helpers.deep(%{
+client_ = BluefinDecryptxP2pe.Entity.Client.create(client_, BluefinDecryptxP2pe.Helpers.deep(%{
   "location" => %{},  # map()
 }))
 ```
 
 #### `list(entity, reqmatch \\ nil, ctrl \\ nil) :: list()`
 
-List entities matching the given criteria. The match is optional — call `list(entity)` to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list(entity)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```elixir
-records = BluefinDecryptxP2pe.Entity.Client.list(client)
+client_s = BluefinDecryptxP2pe.Entity.Client.list(client_, BluefinDecryptxP2pe.Helpers.deep(%{"partner" => "example"}))
 ```
 
-#### `load(entity, reqmatch, ctrl \\ nil) :: map()`
+#### `load(entity, reqmatch, ctrl \\ nil) :: entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get/1` reads, and raises on error.
 
 ```elixir
-record = BluefinDecryptxP2pe.Entity.Client.load(client, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "client_id"}))
+client_ = BluefinDecryptxP2pe.Entity.Client.load(client_, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "client_id"}))
 ```
 
-#### `remove(entity, reqmatch, ctrl \\ nil) :: map()`
+#### `remove(entity, reqmatch, ctrl \\ nil) :: entity`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```elixir
-record = BluefinDecryptxP2pe.Entity.Client.remove(client, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "client_id"}))
+client_ = BluefinDecryptxP2pe.Entity.Client.remove(client_, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "client_id"}))
 ```
 
 ### Common Functions
@@ -328,16 +330,27 @@ Return the entity name.
 create_result = BluefinDecryptxP2pe.create_result(sdk)
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `completeDate` | `String.t()` | No | The date and time that the Custody change took place. |
+| `custodian` | `map()` | Yes | Reference to the associated User resource. |
+| `location` | `map()` | Yes | Reference to the associated Location resource. |
+| `notes` | `String.t()` | No | Free form field that allows the Client associate notes with the Custody Change. |
+
 ### Operations
 
-#### `create(entity, reqdata, ctrl \\ nil) :: map()`
+#### `create(entity, reqdata, ctrl \\ nil) :: entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```elixir
-record = BluefinDecryptxP2pe.Entity.CreateResult.create(create_result, BluefinDecryptxP2pe.Helpers.deep(%{
+create_result = BluefinDecryptxP2pe.Entity.CreateResult.create(create_result, BluefinDecryptxP2pe.Helpers.deep(%{
   "device_type" => "example_device_type",  # String.t()
   "serial_number" => "example_serial_number",  # String.t()
+  "custodian" => %{},  # map()
+  "location" => %{},  # map()
 }))
 ```
 
@@ -380,16 +393,27 @@ decryption = BluefinDecryptxP2pe.decryption(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `cbcVector` | `String.t()` | No | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | `String.t()` | Yes | The device Type. |
+| `encoding` | `String.t()` | No | The payload encoding |
+| `encrypted` | `list()` | Yes |  |
+| `hasCcData` | `String.t()` | No | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | `String.t()` | No | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | `String.t()` | No | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | `String.t()` | Yes | The serial number of the device. |
 | `success` | `boolean()` | No | true if the payload decryption was successful. |
 
 ### Operations
 
-#### `create(entity, reqdata, ctrl \\ nil) :: map()`
+#### `create(entity, reqdata, ctrl \\ nil) :: entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```elixir
-record = BluefinDecryptxP2pe.Entity.Decryption.create(decryption, BluefinDecryptxP2pe.Helpers.deep(%{
+decryption = BluefinDecryptxP2pe.Entity.Decryption.create(decryption, BluefinDecryptxP2pe.Helpers.deep(%{
+  "deviceType" => "example_deviceType",  # String.t()
+  "encrypted" => [],  # list()
+  "serialNumber" => "example_serialNumber",  # String.t()
 }))
 ```
 
@@ -463,12 +487,12 @@ device = BluefinDecryptxP2pe.device(sdk)
 
 ### Operations
 
-#### `create(entity, reqdata, ctrl \\ nil) :: map()`
+#### `create(entity, reqdata, ctrl \\ nil) :: entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```elixir
-record = BluefinDecryptxP2pe.Entity.Device.create(device, BluefinDecryptxP2pe.Helpers.deep(%{
+device = BluefinDecryptxP2pe.Entity.Device.create(device, BluefinDecryptxP2pe.Helpers.deep(%{
   "activatedBy" => %{},  # map()
   "createdBy" => %{},  # map()
   "initializedBy" => %{},  # map()
@@ -479,18 +503,18 @@ record = BluefinDecryptxP2pe.Entity.Device.create(device, BluefinDecryptxP2pe.He
 
 #### `list(entity, reqmatch \\ nil, ctrl \\ nil) :: list()`
 
-List entities matching the given criteria. The match is optional — call `list(entity)` to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list(entity)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```elixir
-records = BluefinDecryptxP2pe.Entity.Device.list(device)
+devices = BluefinDecryptxP2pe.Entity.Device.list(device)
 ```
 
-#### `load(entity, reqmatch, ctrl \\ nil) :: map()`
+#### `load(entity, reqmatch, ctrl \\ nil) :: entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get/1` reads, and raises on error.
 
 ```elixir
-record = BluefinDecryptxP2pe.Entity.Device.load(device, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "device_id"}))
+device = BluefinDecryptxP2pe.Entity.Device.load(device, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "device_id"}))
 ```
 
 ### Common Functions
@@ -552,18 +576,18 @@ device_build = BluefinDecryptxP2pe.device_build(sdk)
 
 #### `list(entity, reqmatch \\ nil, ctrl \\ nil) :: list()`
 
-List entities matching the given criteria. The match is optional — call `list(entity)` to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list(entity)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```elixir
-records = BluefinDecryptxP2pe.Entity.DeviceBuild.list(device_build)
+device_builds = BluefinDecryptxP2pe.Entity.DeviceBuild.list(device_build)
 ```
 
-#### `load(entity, reqmatch, ctrl \\ nil) :: map()`
+#### `load(entity, reqmatch, ctrl \\ nil) :: entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get/1` reads, and raises on error.
 
 ```elixir
-record = BluefinDecryptxP2pe.Entity.DeviceBuild.load(device_build, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "device_build_id"}))
+device_build = BluefinDecryptxP2pe.Entity.DeviceBuild.load(device_build, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "device_build_id"}))
 ```
 
 ### Common Functions
@@ -621,12 +645,12 @@ device_custody_detail = BluefinDecryptxP2pe.device_custody_detail(sdk)
 
 ### Operations
 
-#### `load(entity, reqmatch, ctrl \\ nil) :: map()`
+#### `load(entity, reqmatch, ctrl \\ nil) :: entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get/1` reads, and raises on error.
 
 ```elixir
-record = BluefinDecryptxP2pe.Entity.DeviceCustodyDetail.load(device_custody_detail, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "device_custody_detail_id", "device_type" => "device_type", "serial_number" => "serial_number"}))
+device_custody_detail = BluefinDecryptxP2pe.Entity.DeviceCustodyDetail.load(device_custody_detail, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "device_custody_detail_id", "device_type" => "device_type", "serial_number" => "serial_number"}))
 ```
 
 ### Common Functions
@@ -686,10 +710,10 @@ device_custody_list_item = BluefinDecryptxP2pe.device_custody_list_item(sdk)
 
 #### `list(entity, reqmatch \\ nil, ctrl \\ nil) :: list()`
 
-List entities matching the given criteria. The match is optional — call `list(entity)` to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list(entity)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```elixir
-records = BluefinDecryptxP2pe.Entity.DeviceCustodyListItem.list(device_custody_list_item)
+device_custody_list_items = BluefinDecryptxP2pe.Entity.DeviceCustodyListItem.list(device_custody_list_item, BluefinDecryptxP2pe.Helpers.deep(%{"device_type" => "example", "serial_number" => "example"}))
 ```
 
 ### Common Functions
@@ -731,17 +755,21 @@ device_receive_result = BluefinDecryptxP2pe.device_receive_result(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `serialNumber` | `String.t()` | Yes | The serial number of the Device that is shipped. |
 | `success` | `boolean()` | Yes | Indicates if the action succeeded. |
+| `tamperLabel` | `String.t()` | Yes | The code that is printed the tamper label of the Device that is shipped. |
 
 ### Operations
 
-#### `create(entity, reqdata, ctrl \\ nil) :: map()`
+#### `create(entity, reqdata, ctrl \\ nil) :: entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```elixir
-record = BluefinDecryptxP2pe.Entity.DeviceReceiveResult.create(device_receive_result, BluefinDecryptxP2pe.Helpers.deep(%{
+device_receive_result = BluefinDecryptxP2pe.Entity.DeviceReceiveResult.create(device_receive_result, BluefinDecryptxP2pe.Helpers.deep(%{
+  "serialNumber" => "example_serialNumber",  # String.t()
   "success" => true,  # boolean()
+  "tamperLabel" => "example_tamperLabel",  # String.t()
 }))
 ```
 
@@ -784,16 +812,25 @@ device_rki_activate_result = BluefinDecryptxP2pe.device_rki_activate_result(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `appVersion` | `String.t()` | No | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | `String.t()` | No | The Device Builds's name. |
+| `buildNumber` | `String.t()` | No | The Build Number. |
+| `configFile` | `String.t()` | No | \? |
+| `firmwareVersion` | `String.t()` | No | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `String.t()` | No | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | `String.t()` | Yes | The referenced Device's serial number. |
 | `success` | `boolean()` | Yes | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | `String.t()` | No | \? |
 
 ### Operations
 
-#### `create(entity, reqdata, ctrl \\ nil) :: map()`
+#### `create(entity, reqdata, ctrl \\ nil) :: entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```elixir
-record = BluefinDecryptxP2pe.Entity.DeviceRkiActivateResult.create(device_rki_activate_result, BluefinDecryptxP2pe.Helpers.deep(%{
+device_rki_activate_result = BluefinDecryptxP2pe.Entity.DeviceRkiActivateResult.create(device_rki_activate_result, BluefinDecryptxP2pe.Helpers.deep(%{
+  "serialNumber" => "example_serialNumber",  # String.t()
   "success" => true,  # boolean()
 }))
 ```
@@ -844,10 +881,10 @@ device_state = BluefinDecryptxP2pe.device_state(sdk)
 
 #### `list(entity, reqmatch \\ nil, ctrl \\ nil) :: list()`
 
-List entities matching the given criteria. The match is optional — call `list(entity)` to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list(entity)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```elixir
-records = BluefinDecryptxP2pe.Entity.DeviceState.list(device_state)
+device_states = BluefinDecryptxP2pe.Entity.DeviceState.list(device_state)
 ```
 
 ### Common Functions
@@ -906,18 +943,18 @@ device_type = BluefinDecryptxP2pe.device_type(sdk)
 
 #### `list(entity, reqmatch \\ nil, ctrl \\ nil) :: list()`
 
-List entities matching the given criteria. The match is optional — call `list(entity)` to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list(entity)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```elixir
-records = BluefinDecryptxP2pe.Entity.DeviceType.list(device_type)
+device_types = BluefinDecryptxP2pe.Entity.DeviceType.list(device_type)
 ```
 
-#### `load(entity, reqmatch, ctrl \\ nil) :: map()`
+#### `load(entity, reqmatch, ctrl \\ nil) :: entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get/1` reads, and raises on error.
 
 ```elixir
-record = BluefinDecryptxP2pe.Entity.DeviceType.load(device_type, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "device_type_id"}))
+device_type = BluefinDecryptxP2pe.Entity.DeviceType.load(device_type, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "device_type_id"}))
 ```
 
 ### Common Functions
@@ -972,18 +1009,18 @@ inject_key = BluefinDecryptxP2pe.inject_key(sdk)
 
 #### `list(entity, reqmatch \\ nil, ctrl \\ nil) :: list()`
 
-List entities matching the given criteria. The match is optional — call `list(entity)` to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list(entity)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```elixir
-records = BluefinDecryptxP2pe.Entity.InjectKey.list(inject_key)
+inject_keys = BluefinDecryptxP2pe.Entity.InjectKey.list(inject_key)
 ```
 
-#### `load(entity, reqmatch, ctrl \\ nil) :: map()`
+#### `load(entity, reqmatch, ctrl \\ nil) :: entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get/1` reads, and raises on error.
 
 ```elixir
-record = BluefinDecryptxP2pe.Entity.InjectKey.load(inject_key, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "inject_key_id"}))
+inject_key = BluefinDecryptxP2pe.Entity.InjectKey.load(inject_key, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "inject_key_id"}))
 ```
 
 ### Common Functions
@@ -1032,10 +1069,10 @@ kif = BluefinDecryptxP2pe.kif(sdk)
 
 #### `list(entity, reqmatch \\ nil, ctrl \\ nil) :: list()`
 
-List entities matching the given criteria. The match is optional — call `list(entity)` to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list(entity)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```elixir
-records = BluefinDecryptxP2pe.Entity.Kif.list(kif)
+kifs = BluefinDecryptxP2pe.Entity.Kif.list(kif)
 ```
 
 ### Common Functions
@@ -1081,6 +1118,7 @@ location = BluefinDecryptxP2pe.location(sdk)
 | `address2` | `String.t()` | No | The Location's street address. |
 | `billingId` | `String.t()` | No | \? |
 | `city` | `String.t()` | No | The Location's city. |
+| `client` | `map()` | No | Reference to the associated Client resource. |
 | `country` | `String.t()` | No | The Location's country. |
 | `created` | `String.t()` | No | Creation timestamp in ISO 8601 format. |
 | `customReference` | `String.t()` | No | A Partner specified reference for a location. |
@@ -1103,37 +1141,37 @@ location = BluefinDecryptxP2pe.location(sdk)
 
 ### Operations
 
-#### `create(entity, reqdata, ctrl \\ nil) :: map()`
+#### `create(entity, reqdata, ctrl \\ nil) :: entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```elixir
-record = BluefinDecryptxP2pe.Entity.Location.create(location, BluefinDecryptxP2pe.Helpers.deep(%{
+location = BluefinDecryptxP2pe.Entity.Location.create(location, BluefinDecryptxP2pe.Helpers.deep(%{
 }))
 ```
 
 #### `list(entity, reqmatch \\ nil, ctrl \\ nil) :: list()`
 
-List entities matching the given criteria. The match is optional — call `list(entity)` to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list(entity)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```elixir
-records = BluefinDecryptxP2pe.Entity.Location.list(location)
+locations = BluefinDecryptxP2pe.Entity.Location.list(location, BluefinDecryptxP2pe.Helpers.deep(%{"client" => "example"}))
 ```
 
-#### `load(entity, reqmatch, ctrl \\ nil) :: map()`
+#### `load(entity, reqmatch, ctrl \\ nil) :: entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get/1` reads, and raises on error.
 
 ```elixir
-record = BluefinDecryptxP2pe.Entity.Location.load(location, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "location_id"}))
+location = BluefinDecryptxP2pe.Entity.Location.load(location, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "location_id"}))
 ```
 
-#### `remove(entity, reqmatch, ctrl \\ nil) :: map()`
+#### `remove(entity, reqmatch, ctrl \\ nil) :: entity`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```elixir
-record = BluefinDecryptxP2pe.Entity.Location.remove(location, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "location_id"}))
+location = BluefinDecryptxP2pe.Entity.Location.remove(location, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "location_id"}))
 ```
 
 ### Common Functions
@@ -1192,30 +1230,30 @@ partner = BluefinDecryptxP2pe.partner(sdk)
 
 ### Operations
 
-#### `create(entity, reqdata, ctrl \\ nil) :: map()`
+#### `create(entity, reqdata, ctrl \\ nil) :: entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```elixir
-record = BluefinDecryptxP2pe.Entity.Partner.create(partner, BluefinDecryptxP2pe.Helpers.deep(%{
+partner = BluefinDecryptxP2pe.Entity.Partner.create(partner, BluefinDecryptxP2pe.Helpers.deep(%{
   "location" => %{},  # map()
 }))
 ```
 
 #### `list(entity, reqmatch \\ nil, ctrl \\ nil) :: list()`
 
-List entities matching the given criteria. The match is optional — call `list(entity)` to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list(entity)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```elixir
-records = BluefinDecryptxP2pe.Entity.Partner.list(partner)
+partners = BluefinDecryptxP2pe.Entity.Partner.list(partner)
 ```
 
-#### `load(entity, reqmatch, ctrl \\ nil) :: map()`
+#### `load(entity, reqmatch, ctrl \\ nil) :: entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get/1` reads, and raises on error.
 
 ```elixir
-record = BluefinDecryptxP2pe.Entity.Partner.load(partner, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "partner_id"}))
+partner = BluefinDecryptxP2pe.Entity.Partner.load(partner, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "partner_id"}))
 ```
 
 ### Common Functions
@@ -1266,6 +1304,7 @@ shipment = BluefinDecryptxP2pe.shipment(sdk)
 | `id` | `String.t()` | No | This resource's unique identifier. |
 | `items` | `list()` | No |  |
 | `kif` | `map()` | No | Reference to the associated KIF resource. |
+| `location` | `map()` | Yes | Reference to the associated Location resource. |
 | `modified` | `String.t()` | No | Last modified timestamp. |
 | `partner` | `map()` | No | Reference to the associated Partner. |
 | `shipmentType` | `String.t()` | No | The type of shipment. |
@@ -1274,29 +1313,30 @@ shipment = BluefinDecryptxP2pe.shipment(sdk)
 
 ### Operations
 
-#### `create(entity, reqdata, ctrl \\ nil) :: map()`
+#### `create(entity, reqdata, ctrl \\ nil) :: entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```elixir
-record = BluefinDecryptxP2pe.Entity.Shipment.create(shipment, BluefinDecryptxP2pe.Helpers.deep(%{
+shipment = BluefinDecryptxP2pe.Entity.Shipment.create(shipment, BluefinDecryptxP2pe.Helpers.deep(%{
+  "location" => %{},  # map()
 }))
 ```
 
 #### `list(entity, reqmatch \\ nil, ctrl \\ nil) :: list()`
 
-List entities matching the given criteria. The match is optional — call `list(entity)` to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list(entity)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```elixir
-records = BluefinDecryptxP2pe.Entity.Shipment.list(shipment)
+shipments = BluefinDecryptxP2pe.Entity.Shipment.list(shipment, BluefinDecryptxP2pe.Helpers.deep(%{"kif" => "example"}))
 ```
 
-#### `load(entity, reqmatch, ctrl \\ nil) :: map()`
+#### `load(entity, reqmatch, ctrl \\ nil) :: entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get/1` reads, and raises on error.
 
 ```elixir
-record = BluefinDecryptxP2pe.Entity.Shipment.load(shipment, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "shipment_id"}))
+shipment = BluefinDecryptxP2pe.Entity.Shipment.load(shipment, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "shipment_id"}))
 ```
 
 ### Common Functions
@@ -1338,26 +1378,30 @@ success = BluefinDecryptxP2pe.success(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `devices` | `list()` | Yes | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | `map()` | Yes | Reference to the associated Partner. |
 | `success` | `boolean()` | No | Indicates if the action was a success. |
 
 ### Operations
 
-#### `create(entity, reqdata, ctrl \\ nil) :: map()`
+#### `create(entity, reqdata, ctrl \\ nil) :: entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```elixir
-record = BluefinDecryptxP2pe.Entity.Success.create(success, BluefinDecryptxP2pe.Helpers.deep(%{
+success = BluefinDecryptxP2pe.Entity.Success.create(success, BluefinDecryptxP2pe.Helpers.deep(%{
   "share_partner_to" => "example_share_partner_to",  # String.t()
+  "devices" => [],  # list()
+  "sharePartnerFrom" => %{},  # map()
 }))
 ```
 
-#### `remove(entity, reqmatch, ctrl \\ nil) :: map()`
+#### `remove(entity, reqmatch, ctrl \\ nil) :: entity`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```elixir
-record = BluefinDecryptxP2pe.Entity.Success.remove(success, BluefinDecryptxP2pe.Helpers.deep(%{"share_partner_to" => "share_partner_to"}))
+success = BluefinDecryptxP2pe.Entity.Success.remove(success, BluefinDecryptxP2pe.Helpers.deep(%{"share_partner_to" => "share_partner_to"}))
 ```
 
 ### Common Functions
@@ -1404,6 +1448,7 @@ transaction = BluefinDecryptxP2pe.transaction(sdk)
 | `clientRef` | `String.t()` | No | Client Reference property that is included in the decrypt API call. |
 | `created` | `String.t()` | No | Creation timestamp in ISO 8601 format. |
 | `decrypted` | `integer()` | No | A Transcation can process muliple decryptions. |
+| `device` | `map()` | Yes | Reference to the associated Device resource. |
 | `deviceName` | `String.t()` | No | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | `map()` | No | Reference to the associated Partner. |
 | `encrypted` | `integer()` | No | A Transcation can process muliple encryptions. |
@@ -1426,30 +1471,31 @@ transaction = BluefinDecryptxP2pe.transaction(sdk)
 
 ### Operations
 
-#### `create(entity, reqdata, ctrl \\ nil) :: map()`
+#### `create(entity, reqdata, ctrl \\ nil) :: entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```elixir
-record = BluefinDecryptxP2pe.Entity.Transaction.create(transaction, BluefinDecryptxP2pe.Helpers.deep(%{
+transaction = BluefinDecryptxP2pe.Entity.Transaction.create(transaction, BluefinDecryptxP2pe.Helpers.deep(%{
+  "device" => %{},  # map()
   "location" => %{},  # map()
 }))
 ```
 
 #### `list(entity, reqmatch \\ nil, ctrl \\ nil) :: list()`
 
-List entities matching the given criteria. The match is optional — call `list(entity)` to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list(entity)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```elixir
-records = BluefinDecryptxP2pe.Entity.Transaction.list(transaction)
+transactions = BluefinDecryptxP2pe.Entity.Transaction.list(transaction)
 ```
 
-#### `load(entity, reqmatch, ctrl \\ nil) :: map()`
+#### `load(entity, reqmatch, ctrl \\ nil) :: entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get/1` reads, and raises on error.
 
 ```elixir
-record = BluefinDecryptxP2pe.Entity.Transaction.load(transaction, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "transaction_id"}))
+transaction = BluefinDecryptxP2pe.Entity.Transaction.load(transaction, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "transaction_id"}))
 ```
 
 ### Common Functions
@@ -1491,44 +1537,104 @@ update_result = BluefinDecryptxP2pe.update_result(sdk)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `address1` | `String.t()` | No | The Location's street address. |
+| `address2` | `String.t()` | No | The Location's street address. |
+| `alternateKey` | `String.t()` | No | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `String.t()` | No | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | `String.t()` | No | \? |
+| `city` | `String.t()` | No | The Location's city. |
 | `client` | `map()` | No | Reference to the associated Client resource. |
-| `email` | `String.t()` | No | The User's email address. |
-| `firstName` | `String.t()` | No | The User's name. |
+| `clientCanOrderEquipment` | `boolean()` | No | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | `String.t()` | No | Client Reference property that is included in the decrypt API call. |
+| `contact` | `map()` | Yes | Reference to the associated User resource. |
+| `country` | `map()` | No | Reference to the associated Country. |
+| `customReference` | `String.t()` | No | A Partner specified reference for a location. |
+| `dateShipped` | `String.t()` | No | The date and time that a package is shipped. |
+| `decrypted` | `integer()` | No | A Transcation can process muliple decryptions. |
+| `device` | `map()` | No | Reference to the associated Device resource. |
+| `deviceBuild` | `map()` | No | Reference to the associated Device Build resource. |
+| `deviceType` | `map()` | No | Reference to the associated Device Type resource. |
+| `directPartner` | `map()` | No | Reference to the associated Partner. |
+| `email` | `String.t()` | Yes | The User's email address. |
+| `encrypted` | `integer()` | No | A Transcation can process muliple encryptions. |
+| `endDate` | `String.t()` | No | Timestamp from the end of the transaction. |
+| `errCode` | `String.t()` | No | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `String.t()` | No | The error messge that is sent in response to a failed decrypt API call. |
+| `firstName` | `String.t()` | Yes | The User's name. |
 | `id` | `String.t()` | No | ID of newly created resource |
-| `isActive` | `boolean()` | No | This property indicates if the User account is active or disabled. |
+| `injectKey` | `map()` | No | Reference to the associated Device resource. |
+| `ipAddress` | `String.t()` | No | The IP address of the http client that makes the decrypt API call. |
+| `isActive` | `boolean()` | Yes | This property indicates if the User account is active or disabled. |
+| `items` | `list()` | No |  |
+| `keyType` | `String.t()` | No | The type of cipher used during decrytion. |
 | `kif` | `map()` | No | Reference to the associated KIF resource. |
-| `lastName` | `String.t()` | No | The User's Surname. |
+| `lastName` | `String.t()` | Yes | The User's Surname. |
+| `location` | `map()` | Yes | Reference to the associated Location resource. |
+| `locationType` | `String.t()` | No | The Location's clasification. |
+| `mailAddress1` | `String.t()` | No | The Location's street address. |
+| `mailAddress2` | `String.t()` | No | The Location's street address. |
+| `mailCity` | `String.t()` | No | The Location's city. |
+| `mailCountry` | `String.t()` | No | The Location's street address. |
+| `mailPostalCode` | `String.t()` | No | The Location's postal code. |
+| `mailStateProvince` | `String.t()` | No | The Location's street state or province. |
+| `messageId` | `String.t()` | No | Message ID. |
+| `method` | `String.t()` | No | The decryption cypher/method. |
+| `mid` | `String.t()` | No | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | `String.t()` | No | The Client's name. |
+| `nameOfBusiness` | `String.t()` | No | The name of the business at this location. |
+| `notes` | `String.t()` | No | Arbitary note that can be attached to a Device entry. |
+| `parent` | `map()` | No | Reference to the associated Partner. |
 | `partner` | `map()` | No | Reference to the associated Partner. |
-| `phone` | `String.t()` | No | The User's phone number without dashes, spaces, or brackets. |
-| `userName` | `String.t()` | No | The User's unique username. |
-| `userRole` | `map()` | No | Reference to the associated User Role. |
+| `partnerId` | `String.t()` | No | The Partner's id. |
+| `phone` | `String.t()` | Yes | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | `String.t()` | No | The Location's postal code. |
+| `reference` | `String.t()` | No | The Partner's reference string. |
+| `sendWelcomeEmail` | `boolean()` | No | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | `String.t()` | No | The Device's serial number. |
+| `startDate` | `String.t()` | No | Timestamp from the beginning of the transaction. |
+| `stateProvince` | `String.t()` | No | The Location's street state or province. |
+| `success` | `boolean()` | No | The success indicator. |
+| `tracking` | `String.t()` | No | The courier's tracking number. |
+| `uniqueId` | `String.t()` | No | Unique Identifier for the Location. |
+| `userName` | `String.t()` | Yes | The User's unique username. |
+| `userRole` | `map()` | Yes | Reference to the associated User Role. |
+| `verificationPhrase` | `String.t()` | No | The verification phrase is a message that the Partner creates. |
 | `version` | `integer()` | No | The number of times that this resource has been updated. |
 
 ### Operations
 
-#### `create(entity, reqdata, ctrl \\ nil) :: map()`
+#### `create(entity, reqdata, ctrl \\ nil) :: entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```elixir
-record = BluefinDecryptxP2pe.Entity.UpdateResult.create(update_result, BluefinDecryptxP2pe.Helpers.deep(%{
+update_result = BluefinDecryptxP2pe.Entity.UpdateResult.create(update_result, BluefinDecryptxP2pe.Helpers.deep(%{
+  "contact" => %{},  # map()
+  "email" => "example_email",  # String.t()
+  "firstName" => "example_firstName",  # String.t()
+  "isActive" => true,  # boolean()
+  "lastName" => "example_lastName",  # String.t()
+  "location" => %{},  # map()
+  "phone" => "example_phone",  # String.t()
+  "userName" => "example_userName",  # String.t()
+  "userRole" => %{},  # map()
 }))
 ```
 
 #### `list(entity, reqmatch \\ nil, ctrl \\ nil) :: list()`
 
-List entities matching the given criteria. The match is optional — call `list(entity)` to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list(entity)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```elixir
-records = BluefinDecryptxP2pe.Entity.UpdateResult.list(update_result)
+update_results = BluefinDecryptxP2pe.Entity.UpdateResult.list(update_result)
 ```
 
-#### `update(entity, reqdata, ctrl \\ nil) :: map()`
+#### `update(entity, reqdata, ctrl \\ nil) :: entity`
 
-Update an existing entity. The data must include the entity `id`. Returns the updated entity data and raises on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
 
 ```elixir
-record = BluefinDecryptxP2pe.Entity.UpdateResult.update(update_result, BluefinDecryptxP2pe.Helpers.deep(%{
+update_result = BluefinDecryptxP2pe.Entity.UpdateResult.update(update_result, BluefinDecryptxP2pe.Helpers.deep(%{
   "id" => "id",
   # Fields to update
 }))
@@ -1590,20 +1696,20 @@ user = BluefinDecryptxP2pe.user(sdk)
 
 ### Operations
 
-#### `load(entity, reqmatch, ctrl \\ nil) :: map()`
+#### `load(entity, reqmatch, ctrl \\ nil) :: entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get/1` reads, and raises on error.
 
 ```elixir
-record = BluefinDecryptxP2pe.Entity.User.load(user, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "user_id"}))
+user = BluefinDecryptxP2pe.Entity.User.load(user, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "user_id"}))
 ```
 
-#### `remove(entity, reqmatch, ctrl \\ nil) :: map()`
+#### `remove(entity, reqmatch, ctrl \\ nil) :: entity`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```elixir
-record = BluefinDecryptxP2pe.Entity.User.remove(user, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "user_id"}))
+user = BluefinDecryptxP2pe.Entity.User.remove(user, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "user_id"}))
 ```
 
 ### Common Functions
@@ -1651,12 +1757,12 @@ virtual_device = BluefinDecryptxP2pe.virtual_device(sdk)
 
 ### Operations
 
-#### `load(entity, reqmatch, ctrl \\ nil) :: map()`
+#### `load(entity, reqmatch, ctrl \\ nil) :: entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get/1` reads, and raises on error.
 
 ```elixir
-record = BluefinDecryptxP2pe.Entity.VirtualDevice.load(virtual_device, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "virtual_device_id"}))
+virtual_device = BluefinDecryptxP2pe.Entity.VirtualDevice.load(virtual_device, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "virtual_device_id"}))
 ```
 
 ### Common Functions
@@ -2109,6 +2215,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

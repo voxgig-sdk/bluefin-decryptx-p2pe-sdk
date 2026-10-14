@@ -14,9 +14,16 @@ predictable and low-friction for both humans and AI agents.
 
 
 ## Install
-```js
-npm install bluefin-decryptx-p2pe
+This package is not yet published to npm. Install it from the GitHub
+release tag (`js/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags)), or from a
+clone:
+
+```bash
+git clone https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk
+npm install ./bluefin-decryptx-p2pe-sdk/js
 ```
+
+
 ## Tutorial: your first API call
 
 This tutorial walks through creating a client, listing entities, and
@@ -37,7 +44,7 @@ const client = new BluefinDecryptxP2peSDK({
 
 ```js
 const attestation = await client.Attestation().load({ id: 'attestation_id' })
-console.log(attestation)
+console.log(attestation.data())
 ```
 
 ### List Attestation Records
@@ -45,7 +52,7 @@ console.log(attestation)
 ```js
 const attestations = await client.Attestation().list({ client: "example" })
 for (const attestation of attestations) {
-  console.log(attestation)
+  console.log(attestation.data())
 }
 ```
 
@@ -53,10 +60,9 @@ for (const attestation of attestations) {
 
 ```js
 const created = await client.Attestation().create({
-  client: {},
-  completeDate: 'example_completeDate',
+  devices: [],
 })
-console.log(created)
+console.log(created.data())
 ```
 
 ### Direct API Access
@@ -83,14 +89,15 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 ```ts
 try {
   const devicetypes = await client.DeviceType().list()
-  console.log(devicetypes)
+  console.log(devicetypes.map((item) => item.data()))
 } catch (err) {
   console.error('list failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -99,8 +106,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -118,9 +125,6 @@ const result = await client.direct({
   params: { id: 'example' },
 })
 
-if (result instanceof Error) {
-  throw result
-}
 if (result.ok) {
   console.log(result.status)  // 200
   console.log(result.data)    // response body
@@ -149,10 +153,9 @@ Create a mock client for unit testing — no server required:
 ```js
 const client = BluefinDecryptxP2peSDK.test()
 
-const devicetype = await client.DeviceType().list()
-// devicetype is the entity, populated with mock response data
-// — call devicetype.data() for the record itself
-console.log(devicetype)
+const devicetypes = await client.DeviceType().list()
+// devicetypes is an array of DeviceType entities, one per mock record
+console.log(devicetypes.map((devicetype) => devicetype.data()))
 ```
 
 You can also use the instance method:
@@ -280,11 +283,11 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `load(reqmatch?, ctrl?): Promise<Entity>` | Load a single entity by match criteria. |
-| `list` | `list(reqmatch?, ctrl?): Promise<Entity[]>` | List entities matching the criteria. |
-| `create` | `create(reqdata?, ctrl?): Promise<Entity>` | Create a new entity. |
-| `update` | `update(reqdata?, ctrl?): Promise<Entity>` | Update an existing entity. |
-| `remove` | `remove(reqmatch?, ctrl?): Promise<void>` | Remove an entity. |
+| `load` | `load(reqmatch?, ctrl?): Promise<Entity>` | Load a single entity by match criteria, and return it. |
+| `list` | `list(reqmatch?, ctrl?): Promise<Entity[]>` | List entities matching the criteria, one per record. |
+| `create` | `create(reqdata?, ctrl?): Promise<Entity>` | Create a new entity, and return it. |
+| `update` | `update(reqdata?, ctrl?): Promise<Entity>` | Update an existing entity, and return it. |
+| `remove` | `remove(reqmatch?, ctrl?): Promise<Entity>` | Remove an entity, and return it marked as deleted. |
 | `data` | `data(data?: Partial<Entity>): Entity` | Get or set entity data. |
 | `match` | `match(match?: Partial<Entity>): Partial<Entity>` | Get or set entity match criteria. |
 | `make` | `make(): Entity` | Create a new instance with the same options. |
@@ -293,13 +296,13 @@ All entities share the same interface.
 
 #### Return values
 
-Entity operations resolve to the entity data directly — there is no
-result envelope:
+Entity operations resolve to the entity itself — there is no result
+envelope, and an entity's `data()` reads its record:
 
 - `load`, `create` and `update` resolve to a single entity object.
 - `list` resolves to an **array** of entity objects (iterate it directly;
   there is no `.data` and no `.ok`).
-- `remove` resolves to `undefined`.
+- `remove` resolves to the entity, marked as deleted.
 
 On a failed request these methods **throw**, so wrap calls in
 `try`/`catch` to handle errors. Only `direct()` returns the result
@@ -343,6 +346,7 @@ The `prepare()` method returns:
 | `completeDate` | The date and time that the Attestation took place. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `device` | Reference to the associated Device resource. |
+| `devices` |  |
 | `id` | This resource's unique identifier. |
 | `name` | Text describing the attestation. |
 | `notes` | Free form field that allows the Client associate notes with the Attestation. |
@@ -375,6 +379,10 @@ API path: `/clients`
 
 | Field | Description |
 | --- | --- |
+| `completeDate` | The date and time that the Custody change took place. |
+| `custodian` | Reference to the associated User resource. |
+| `location` | Reference to the associated Location resource. |
+| `notes` | Free form field that allows the Client associate notes with the Custody Change. |
 
 Operations: create.
 
@@ -384,6 +392,14 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
+| `cbcVector` | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | The device Type. |
+| `encoding` | The payload encoding |
+| `encrypted` |  |
+| `hasCcData` | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | The serial number of the device. |
 | `success` | true if the payload decryption was successful. |
 
 Operations: create.
@@ -499,7 +515,9 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
+| `serialNumber` | The serial number of the Device that is shipped. |
 | `success` | Indicates if the action succeeded. |
+| `tamperLabel` | The code that is printed the tamper label of the Device that is shipped. |
 
 Operations: create.
 
@@ -509,7 +527,15 @@ API path: `/devices/receive`
 
 | Field | Description |
 | --- | --- |
+| `appVersion` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | The Device Builds's name. |
+| `buildNumber` | The Build Number. |
+| `configFile` | \? |
+| `firmwareVersion` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | The referenced Device's serial number. |
 | `success` | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | \? |
 
 Operations: create.
 
@@ -583,6 +609,7 @@ API path: `/kifs`
 | `address2` | The Location's street address. |
 | `billingId` | \? |
 | `city` | The Location's city. |
+| `client` | Reference to the associated Client resource. |
 | `country` | The Location's country. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `customReference` | A Partner specified reference for a location. |
@@ -643,6 +670,7 @@ API path: `/partners`
 | `id` | This resource's unique identifier. |
 | `items` |  |
 | `kif` | Reference to the associated KIF resource. |
+| `location` | Reference to the associated Location resource. |
 | `modified` | Last modified timestamp. |
 | `partner` | Reference to the associated Partner. |
 | `shipmentType` | The type of shipment. |
@@ -657,6 +685,8 @@ API path: `/shipments`
 
 | Field | Description |
 | --- | --- |
+| `devices` | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | Reference to the associated Partner. |
 | `success` | Indicates if the action was a success. |
 
 Operations: create, remove.
@@ -672,6 +702,7 @@ API path: `/virtualDevices/{sharePartnerTo}`
 | `clientRef` | Client Reference property that is included in the decrypt API call. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `decrypted` | A Transcation can process muliple decryptions. |
+| `device` | Reference to the associated Device resource. |
 | `deviceName` | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | Reference to the associated Partner. |
 | `encrypted` | A Transcation can process muliple encryptions. |
@@ -700,17 +731,68 @@ API path: `/transactions`
 
 | Field | Description |
 | --- | --- |
+| `address1` | The Location's street address. |
+| `address2` | The Location's street address. |
+| `alternateKey` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | \? |
+| `city` | The Location's city. |
 | `client` | Reference to the associated Client resource. |
+| `clientCanOrderEquipment` | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | Client Reference property that is included in the decrypt API call. |
+| `contact` | Reference to the associated User resource. |
+| `country` | Reference to the associated Country. |
+| `customReference` | A Partner specified reference for a location. |
+| `dateShipped` | The date and time that a package is shipped. |
+| `decrypted` | A Transcation can process muliple decryptions. |
+| `device` | Reference to the associated Device resource. |
+| `deviceBuild` | Reference to the associated Device Build resource. |
+| `deviceType` | Reference to the associated Device Type resource. |
+| `directPartner` | Reference to the associated Partner. |
 | `email` | The User's email address. |
+| `encrypted` | A Transcation can process muliple encryptions. |
+| `endDate` | Timestamp from the end of the transaction. |
+| `errCode` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | The error messge that is sent in response to a failed decrypt API call. |
 | `firstName` | The User's name. |
 | `id` | ID of newly created resource |
+| `injectKey` | Reference to the associated Device resource. |
+| `ipAddress` | The IP address of the http client that makes the decrypt API call. |
 | `isActive` | This property indicates if the User account is active or disabled. |
+| `items` |  |
+| `keyType` | The type of cipher used during decrytion. |
 | `kif` | Reference to the associated KIF resource. |
 | `lastName` | The User's Surname. |
+| `location` | Reference to the associated Location resource. |
+| `locationType` | The Location's clasification. |
+| `mailAddress1` | The Location's street address. |
+| `mailAddress2` | The Location's street address. |
+| `mailCity` | The Location's city. |
+| `mailCountry` | The Location's street address. |
+| `mailPostalCode` | The Location's postal code. |
+| `mailStateProvince` | The Location's street state or province. |
+| `messageId` | Message ID. |
+| `method` | The decryption cypher/method. |
+| `mid` | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | The Client's name. |
+| `nameOfBusiness` | The name of the business at this location. |
+| `notes` | Arbitary note that can be attached to a Device entry. |
+| `parent` | Reference to the associated Partner. |
 | `partner` | Reference to the associated Partner. |
+| `partnerId` | The Partner's id. |
 | `phone` | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | The Location's postal code. |
+| `reference` | The Partner's reference string. |
+| `sendWelcomeEmail` | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | The Device's serial number. |
+| `startDate` | Timestamp from the beginning of the transaction. |
+| `stateProvince` | The Location's street state or province. |
+| `success` | The success indicator. |
+| `tracking` | The courier's tracking number. |
+| `uniqueId` | Unique Identifier for the Location. |
 | `userName` | The User's unique username. |
 | `userRole` | Reference to the associated User Role. |
+| `verificationPhrase` | The verification phrase is a message that the Partner creates. |
 | `version` | The number of times that this resource has been updated. |
 
 Operations: create, list, update.
@@ -777,6 +859,7 @@ Create an instance: `const attestation = client.Attestation()`
 | `completeDate` | `string` | The date and time that the Attestation took place. |
 | `created` | `string` | Creation timestamp in ISO 8601 format. |
 | `device` | `Object` | Reference to the associated Device resource. |
+| `devices` | `Array` |  |
 | `id` | `string` | This resource's unique identifier. |
 | `name` | `string` | Text describing the attestation. |
 | `notes` | `string` | Free form field that allows the Client associate notes with the Attestation. |
@@ -797,6 +880,7 @@ const attestations = await client.Attestation().list({ client: "example" })
 
 ```ts
 const attestation = await client.Attestation().create({
+  devices: [],
 })
 ```
 
@@ -861,12 +945,23 @@ Create an instance: `const create_result = client.CreateResult()`
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `completeDate` | `string` | The date and time that the Custody change took place. |
+| `custodian` | `Object` | Reference to the associated User resource. |
+| `location` | `Object` | Reference to the associated Location resource. |
+| `notes` | `string` | Free form field that allows the Client associate notes with the Custody Change. |
+
 #### Example: Create
 
 ```ts
 const create_result = await client.CreateResult().create({
   device_type: 'example_device_type',
   serial_number: 'example_serial_number',
+  custodian: {},
+  location: {},
 })
 ```
 
@@ -885,12 +980,23 @@ Create an instance: `const decryption = client.Decryption()`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `cbcVector` | `string` | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | `string` | The device Type. |
+| `encoding` | `string` | The payload encoding |
+| `encrypted` | `Array` |  |
+| `hasCcData` | `string` | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | `string` | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | `string` | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | `string` | The serial number of the device. |
 | `success` | `boolean` | true if the payload decryption was successful. |
 
 #### Example: Create
 
 ```ts
 const decryption = await client.Decryption().create({
+  deviceType: 'example_deviceType',
+  encrypted: [],
+  serialNumber: 'example_serialNumber',
 })
 ```
 
@@ -1093,13 +1199,17 @@ Create an instance: `const device_receive_result = client.DeviceReceiveResult()`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `serialNumber` | `string` | The serial number of the Device that is shipped. |
 | `success` | `boolean` | Indicates if the action succeeded. |
+| `tamperLabel` | `string` | The code that is printed the tamper label of the Device that is shipped. |
 
 #### Example: Create
 
 ```ts
 const device_receive_result = await client.DeviceReceiveResult().create({
+  serialNumber: 'example_serialNumber',
   success: true,
+  tamperLabel: 'example_tamperLabel',
 })
 ```
 
@@ -1118,12 +1228,21 @@ Create an instance: `const device_rki_activate_result = client.DeviceRkiActivate
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `appVersion` | `string` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | `string` | The Device Builds's name. |
+| `buildNumber` | `string` | The Build Number. |
+| `configFile` | `string` | \? |
+| `firmwareVersion` | `string` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `string` | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | `string` | The referenced Device's serial number. |
 | `success` | `boolean` | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | `string` | \? |
 
 #### Example: Create
 
 ```ts
 const device_rki_activate_result = await client.DeviceRkiActivateResult().create({
+  serialNumber: 'example_serialNumber',
   success: true,
 })
 ```
@@ -1276,6 +1395,7 @@ Create an instance: `const location = client.Location()`
 | `address2` | `string` | The Location's street address. |
 | `billingId` | `string` | \? |
 | `city` | `string` | The Location's city. |
+| `client` | `Object` | Reference to the associated Client resource. |
 | `country` | `string` | The Location's country. |
 | `created` | `string` | Creation timestamp in ISO 8601 format. |
 | `customReference` | `string` | A Partner specified reference for a location. |
@@ -1393,6 +1513,7 @@ Create an instance: `const shipment = client.Shipment()`
 | `id` | `string` | This resource's unique identifier. |
 | `items` | `Array` |  |
 | `kif` | `Object` | Reference to the associated KIF resource. |
+| `location` | `Object` | Reference to the associated Location resource. |
 | `modified` | `string` | Last modified timestamp. |
 | `partner` | `Object` | Reference to the associated Partner. |
 | `shipmentType` | `string` | The type of shipment. |
@@ -1415,6 +1536,7 @@ const shipments = await client.Shipment().list({ kif: "example" })
 
 ```ts
 const shipment = await client.Shipment().create({
+  location: {},
 })
 ```
 
@@ -1434,6 +1556,8 @@ Create an instance: `const success = client.Success()`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `devices` | `Array` | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | `Object` | Reference to the associated Partner. |
 | `success` | `boolean` | Indicates if the action was a success. |
 
 #### Example: Create
@@ -1441,6 +1565,8 @@ Create an instance: `const success = client.Success()`
 ```ts
 const success = await client.Success().create({
   share_partner_to: 'example_share_partner_to',
+  devices: [],
+  sharePartnerFrom: {},
 })
 ```
 
@@ -1466,6 +1592,7 @@ Create an instance: `const transaction = client.Transaction()`
 | `clientRef` | `string` | Client Reference property that is included in the decrypt API call. |
 | `created` | `string` | Creation timestamp in ISO 8601 format. |
 | `decrypted` | `number` | A Transcation can process muliple decryptions. |
+| `device` | `Object` | Reference to the associated Device resource. |
 | `deviceName` | `string` | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | `Object` | Reference to the associated Partner. |
 | `encrypted` | `number` | A Transcation can process muliple encryptions. |
@@ -1502,6 +1629,7 @@ const transactions = await client.Transaction().list()
 
 ```ts
 const transaction = await client.Transaction().create({
+  device: {},
   location: {},
 })
 ```
@@ -1523,17 +1651,68 @@ Create an instance: `const update_result = client.UpdateResult()`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `address1` | `string` | The Location's street address. |
+| `address2` | `string` | The Location's street address. |
+| `alternateKey` | `string` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `string` | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | `string` | \? |
+| `city` | `string` | The Location's city. |
 | `client` | `Object` | Reference to the associated Client resource. |
+| `clientCanOrderEquipment` | `boolean` | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | `string` | Client Reference property that is included in the decrypt API call. |
+| `contact` | `Object` | Reference to the associated User resource. |
+| `country` | `Object` | Reference to the associated Country. |
+| `customReference` | `string` | A Partner specified reference for a location. |
+| `dateShipped` | `string` | The date and time that a package is shipped. |
+| `decrypted` | `number` | A Transcation can process muliple decryptions. |
+| `device` | `Object` | Reference to the associated Device resource. |
+| `deviceBuild` | `Object` | Reference to the associated Device Build resource. |
+| `deviceType` | `Object` | Reference to the associated Device Type resource. |
+| `directPartner` | `Object` | Reference to the associated Partner. |
 | `email` | `string` | The User's email address. |
+| `encrypted` | `number` | A Transcation can process muliple encryptions. |
+| `endDate` | `string` | Timestamp from the end of the transaction. |
+| `errCode` | `string` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `string` | The error messge that is sent in response to a failed decrypt API call. |
 | `firstName` | `string` | The User's name. |
 | `id` | `string` | ID of newly created resource |
+| `injectKey` | `Object` | Reference to the associated Device resource. |
+| `ipAddress` | `string` | The IP address of the http client that makes the decrypt API call. |
 | `isActive` | `boolean` | This property indicates if the User account is active or disabled. |
+| `items` | `Array` |  |
+| `keyType` | `string` | The type of cipher used during decrytion. |
 | `kif` | `Object` | Reference to the associated KIF resource. |
 | `lastName` | `string` | The User's Surname. |
+| `location` | `Object` | Reference to the associated Location resource. |
+| `locationType` | `string` | The Location's clasification. |
+| `mailAddress1` | `string` | The Location's street address. |
+| `mailAddress2` | `string` | The Location's street address. |
+| `mailCity` | `string` | The Location's city. |
+| `mailCountry` | `string` | The Location's street address. |
+| `mailPostalCode` | `string` | The Location's postal code. |
+| `mailStateProvince` | `string` | The Location's street state or province. |
+| `messageId` | `string` | Message ID. |
+| `method` | `string` | The decryption cypher/method. |
+| `mid` | `string` | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | `string` | The Client's name. |
+| `nameOfBusiness` | `string` | The name of the business at this location. |
+| `notes` | `string` | Arbitary note that can be attached to a Device entry. |
+| `parent` | `Object` | Reference to the associated Partner. |
 | `partner` | `Object` | Reference to the associated Partner. |
+| `partnerId` | `string` | The Partner's id. |
 | `phone` | `string` | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | `string` | The Location's postal code. |
+| `reference` | `string` | The Partner's reference string. |
+| `sendWelcomeEmail` | `boolean` | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | `string` | The Device's serial number. |
+| `startDate` | `string` | Timestamp from the beginning of the transaction. |
+| `stateProvince` | `string` | The Location's street state or province. |
+| `success` | `boolean` | The success indicator. |
+| `tracking` | `string` | The courier's tracking number. |
+| `uniqueId` | `string` | Unique Identifier for the Location. |
 | `userName` | `string` | The User's unique username. |
 | `userRole` | `Object` | Reference to the associated User Role. |
+| `verificationPhrase` | `string` | The verification phrase is a message that the Partner creates. |
 | `version` | `number` | The number of times that this resource has been updated. |
 
 #### Example: List
@@ -1546,6 +1725,15 @@ const update_results = await client.UpdateResult().list()
 
 ```ts
 const update_result = await client.UpdateResult().create({
+  contact: {},
+  email: 'example_email',
+  firstName: 'example_firstName',
+  isActive: true,
+  lastName: 'example_lastName',
+  location: {},
+  phone: 'example_phone',
+  userName: 'example_userName',
+  userRole: {},
 })
 ```
 

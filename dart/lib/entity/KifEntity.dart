@@ -19,7 +19,7 @@ class KifEntity extends BluefinDecryptxP2peEntityBase {
 
 
   /// List Kif entities by match (see KifListMatch in
-  /// BluefinDecryptxP2peTypes.dart). Returns a list of Kif entity instances.
+  /// BluefinDecryptxP2peTypes.dart). Returns a list of entities, one per record.
   Future<dynamic> list([dynamic reqmatch, dynamic ctrl]) async {
     final utility = this.utility;
 
@@ -113,13 +113,19 @@ class KifEntity extends BluefinDecryptxP2peEntityBase {
 
       return done(ctx);
     } catch (err) {
+      // What a hook throws here must not escape the cleaning below.
+      dynamic failure = err;
+      try {
 
-      fres = featureHook(ctx, 'PreUnexpected');
-      if (fres is Future) {
-        await fres;
+        fres = featureHook(ctx, 'PreUnexpected');
+        if (fres is Future) {
+          await fres;
+        }
+      } catch (hookerr) {
+        failure = hookerr;
       }
 
-      final uerr = unexpected(ctx, err);
+      final uerr = unexpected(ctx, failure);
 
       if (null != uerr) {
         throw uerr;
@@ -129,6 +135,7 @@ class KifEntity extends BluefinDecryptxP2peEntityBase {
       }
     }
   }
+
 
 
 

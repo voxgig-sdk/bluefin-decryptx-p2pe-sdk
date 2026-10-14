@@ -1,7 +1,7 @@
 # BluefinDecryptxP2pe SDK VirtualDevice entity
 #
 # Per-entity module. Generic construction/data/match operations delegate to
-# EntityBase; each active op (load/list/create/update/remove) builds a ctx
+# EntityBase; each active op (load/list/create/update/patch/remove) builds a ctx
 # and drives it through BluefinDecryptxP2pe.Pipeline.run_op.
 
 defmodule BluefinDecryptxP2pe.Entity.VirtualDevice do
@@ -26,9 +26,10 @@ defmodule BluefinDecryptxP2pe.Entity.VirtualDevice do
     do: EntityBase.stream(ent, action, args, callopts)
 
   
-  # Returns the virtual_device entity map (BluefinDecryptxP2pe.Types.virtual_device/0) on
-  # success; pipeline errors surface as the error value built by
-  # Utility.make_error (shape is utility-configurable), hence term().
+  # Returns the virtual_device entity, whose data_get/1 reads its record
+  # (BluefinDecryptxP2pe.Types.virtual_device/0), on success; pipeline errors surface as
+  # the error value built by Utility.make_error (shape is
+  # utility-configurable), hence term().
   @spec load(map(), BluefinDecryptxP2pe.Types.virtual_device_load_match() | nil, map() | nil) :: term()
   def load(ent, reqmatch \\ nil, ctrl \\ nil) do
     reqmatch = if reqmatch == nil, do: S.jm([]), else: reqmatch
@@ -61,6 +62,8 @@ defmodule BluefinDecryptxP2pe.Entity.VirtualDevice do
   end
 
 
+
+  
 
   
 

@@ -10,6 +10,18 @@ use PHPUnit\Framework\TestCase;
 
 class DeviceCustodyListItemDirectTest extends TestCase
 {
+    // main.kit.test.live.strict is true (the default is true): a live
+    // request that fails, or a live test missing an input it needs,
+    // fails the test.
+    // An account with no record for a test to read skips it either way.
+    private const LIVE_STRICT = true;
+
+    private static function liveOk(array $result): bool
+    {
+        $status = Helpers::to_int($result["status"] ?? 0);
+        return empty($result["err"]) && !empty($result["ok"]) && $status >= 200 && $status < 300;
+    }
+
     public function test_direct_list_device_custody_list_item(): void
     {
         $setup = device_custody_list_item_direct_setup([
@@ -23,25 +35,16 @@ class DeviceCustodyListItemDirectTest extends TestCase
         }
         if ($setup["live"]) {
             foreach (["device_type01", "serial_number01"] as $_liveKey) {
-                if (!isset($setup["idmap"][$_liveKey]) || $setup["idmap"][$_liveKey] === null) {
-                    $this->markTestSkipped("live test needs $_liveKey via *_ENTID env var (synthetic IDs only)");
-                    return;
+                if (null === ($setup["idmap"][$_liveKey] ?? null)) {
+                    Runner::live_miss(self::LIVE_STRICT, "Live test blocked: needs " . $_liveKey . " via BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_CUSTODY_LIST_ITEM_ENTID");
                 }
             }
         }
         $client = $setup["client"];
 
         $params = [];
-        if ($setup["live"]) {
-            $params["device_type"] = $setup["idmap"]["device_type01"];
-        } else {
-            $params["device_type"] = "direct01";
-        }
-        if ($setup["live"]) {
-            $params["serial_number"] = $setup["idmap"]["serial_number01"];
-        } else {
-            $params["serial_number"] = "direct01";
-        }
+        $params["device_type"] = $setup["live"] ? ($setup["idmap"]["device_type01"] ?? null) : "direct01";
+        $params["serial_number"] = $setup["live"] ? ($setup["idmap"]["serial_number01"] ?? null) : "direct02";
 
         $result = $client->direct([
             "path" => "devices/{serial_number}/{device_type}/custody",
@@ -49,22 +52,13 @@ class DeviceCustodyListItemDirectTest extends TestCase
             "params" => $params,
         ]);
         if ($setup["live"]) {
-            // Live mode is lenient: synthetic IDs frequently 4xx and the
-            // list-response shape varies wildly across public APIs. Skip
-            // rather than fail when the call doesn't return a usable list.
-            if (!empty($result["err"])) {
-                $this->markTestSkipped("list call failed (likely synthetic IDs against live API): " . (string)$result["err"]);
-                return;
+            if (!self::liveOk($result)) {
+                Runner::live_miss(self::LIVE_STRICT, "Live list failed: " . Runner::live_describe($result));
             }
-            if (empty($result["ok"])) {
-                $this->markTestSkipped("list call not ok (likely synthetic IDs against live API)");
-                return;
+            if (null === Runner::live_list($result["data"] ?? null)) {
+                Runner::live_miss(self::LIVE_STRICT, "Live list returned no list: " . Runner::live_describe($result));
             }
-            $status = Helpers::to_int($result["status"]);
-            if ($status < 200 || $status >= 300) {
-                $this->markTestSkipped("expected 2xx status, got " . $status);
-                return;
-            }
+            $this->assertIsArray(Runner::live_list($result["data"]));
         } else {
             $this->assertArrayNotHasKey("err", $result);
             $this->assertTrue($result["ok"]);
@@ -99,11 +93,12 @@ function device_custody_list_item_direct_setup($mockres)
             "apikey" => $env["BLUEFIN_DECRYPTX_P2PE_APIKEY"],
         ]);
         $client = new BluefinDecryptxP2peSDK($merged_opts);
+        $idmap = $env["BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_CUSTODY_LIST_ITEM_ENTID"] ?? [];
         return [
             "client" => $client,
             "calls" => $calls,
             "live" => true,
-            "idmap" => [],
+            "idmap" => is_array($idmap) ? $idmap : [],
         ];
     }
 

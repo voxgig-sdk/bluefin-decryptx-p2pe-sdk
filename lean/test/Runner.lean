@@ -3,9 +3,12 @@
 -- OFFLINE lane (always): a test-mode client seeded from the generated entity
 -- test data answers operations from an in-memory store — no server needed.
 -- LIVE lane (only when SDK_TEST_BASE is set): the same flow over real HTTP.
+-- CLEAN lane (always): the secret-redaction sweep over a scripted transport.
 
 import VoxgigStruct
 import SdkJson
+import SdkUtility
+import SdkFeature
 import SdkRuntime
 import SdkClient
 
@@ -21,6 +24,370 @@ def pass (msg : String) : SIO Unit := do
 def fail (msg : String) : SIO Unit := do
   nfail.modify (· + 1)
   IO.println s!"FAIL - {msg}"
+
+def check (cond : Bool) (msg : String) : SIO Unit := do
+  if cond then pass msg else fail msg
+
+-- ---------------------------------------------------------------------------
+-- The secret-redaction sweep. Every credential slot holds a canary, every
+-- diagnostic feature this SDK carries is switched on, a real operation runs
+-- through every outcome, and every string that leaves the SDK is searched
+-- for the canaries and their encoded forms. The second half switches clean
+-- off and requires the canary to show, so a sweep that cannot see a leak
+-- fails rather than passing.
+-- ---------------------------------------------------------------------------
+
+-- Generated: the credential's wire placement is fixed when the SDK is built.
+-- The lean runtime carries the credential in the Authorization header
+-- whatever the model's placement says (its prepareAuth is header-only), so
+-- that is the slot asserted. Placement: header (authorization), basic: true.
+def authSuppressed : Bool := false
+
+def canaryApikey : String := "CANARY-APIKEY-k9x2m7q4p1"
+def canarySecret : String := "CANARY-SECRET-w3e8r5t2y6"
+def canaryHeader : String := "CANARY-HEADER-z1x4c7v0b3"
+def canaryValue : String := "CANARY-VALUE-n5m8b2v9c4"
+def mask : String := "[redacted]"
+
+/-- Every form a canary can travel in. -/
+def canaryForms : SIO (Array String) := do
+  let mut out : Array String := #[]
+  for v in #[canaryApikey, canarySecret, canaryHeader, canaryValue] do
+    let pe ← match (← escurl (.str v)) with | .str s => pure s | _ => pure v
+    out := out ++ #[v, SdkUtility.base64Encode v, pe]
+  pure (out.push (SdkUtility.base64Encode (canaryApikey ++ ":" ++ canarySecret)))
+
+def containsStr (text pat : String) : Bool := (text.splitOn pat).length > 1
+
+def leaksIn (fs : Array String) (text : String) : Array String :=
+  fs.filter (containsStr text)
+
+initialize cleanSinks : IO.Ref (Array (String × String)) ← IO.mkRef #[]
+
+def pushSink (name text : String) : SIO Unit := cleanSinks.modify (·.push (name, text))
+
+def pushValue (name : String) (v : Value) : SIO Unit := do
+  pushSink (name ++ ":json") (← jsonify v (← newMap #[("indent", .num 0.0)]))
+  pushSink (name ++ ":string") (← stringify v)
+
+/-- Header maps keep the caller's spelling; the assertion should not care. -/
+def headerOf (m : Value) (name : String) : SIO String := do
+  match m with
+  | .map _ => pure (SdkUtility.vs (← SdkFeature.headerCI m name))
+  | _ => pure ""
+
+def numOf (v : Value) : Float := match v with | .num n => n | _ => -1.0
+
+def responseOf (status : Float) (body : Value) (headers : Array (String × Value)) : SIO Value := do
+  let h ← newMap (#[("content-type", Value.str "application/json")] ++ headers)
+  newMap #[("status", .num status), ("statusText", .str (if status < 400.0 then "OK" else "ERR")),
+           ("headers", h), ("body", body)]
+
+structure Scenario where
+  name : String
+  respond : String → SIO Value
+
+def scenarioOk : Scenario := { name := "ok", respond := fun _ => do
+  responseOf 200.0 (← newMap #[("id", .str "i1"), ("name", .str "n1")])
+    #[("x-session-token", .str "RESP-TOKEN-a1b2c3d4e5")] }
+def scenarioNotfound : Scenario := { name := "notfound", respond := fun _ => do
+  responseOf 404.0 (← newMap #[("error", .str "no such record")]) #[] }
+def scenarioServer : Scenario := { name := "server", respond := fun _ => do
+  responseOf 500.0 (← newMap #[("error", .str "boom")]) #[] }
+-- A transport failure is thrown, quoting the URL as a client library would.
+def scenarioTransport : Scenario := { name := "transport", respond := fun url => do
+  throw (IO.userError s!"socket hang up (URL was: \"{url}\")") }
+def scenarioNotjson : Scenario := { name := "notjson", respond := fun _ => do
+  responseOf 200.0 (.str "<html>") #[] }
+
+def scenarios : Array Scenario :=
+  #[scenarioOk, scenarioNotfound, scenarioServer, scenarioTransport, scenarioNotjson]
+
+/-- A live client over the scenario's transport, every diagnostic feature the
+    config carries switched on, and a capture feature that serialises the
+    context from inside the pipeline (what a hook author would log). -/
+def makeCleanSdk (sc : Scenario) (cleanopts : Option (Array (String × Value)))
+    (extra : Array SdkFeature.Feature := #[]) : SIO Value := do
+  let feature ← emptyMap
+  let config ← SdkJson.jsonRead SdkConfig.configJson
+  let cfeat ← SdkRuntime.gp config "feature"
+  for name in #["log", "debug", "audit", "telemetry", "cost", "metrics", "clienttrack"] do
+    if SdkUtility.isMapV (← SdkRuntime.gp cfeat name) then
+      SdkUtility.sp feature name (← newMap #[("active", .bool true)])
+  let headers ← newMap #[("X-Custom-Token", .str canaryHeader)]
+  let opts ← newMap #[("apikey", .str canaryApikey), ("secret", .str canarySecret),
+                      ("headers", headers), ("feature", feature)]
+  -- none builds the client with no clean block at all, as most callers do.
+  if let some more := cleanopts then
+    SdkUtility.sp opts "clean" (← newMap (#[("values", Value.str canaryValue)] ++ more))
+  let client ← SdkRuntime.mkClientWith opts SdkConfig.configJson
+    (fun _ url _ => do pure ((← sc.respond url), none))
+  let capture : SdkFeature.Feature := { name := "capture", hook := fun stage ctx => do
+    if stage == "PreRequest" || stage == "PreResponse" || stage == "PreUnexpected" then
+      pushValue ("ctx@" ++ stage) (← SdkUtility.contextJson ctx) }
+  for f in (#[capture] ++ extra) do
+    let id ← SdkFeature.registerFeature f
+    match (← SdkRuntime.gp client "features") with
+    | .list lid => setListItems lid ((← listItems lid).push (.num id.toFloat))
+    | _ => SdkUtility.sp client "features" (← newList #[.num id.toFloat])
+    SdkUtility.sp (← SdkUtility.gpMap client "featureopts") f.name (← newMap #[("active", .bool true)])
+  pure client
+
+/-- A feature that throws from inside the pipeline at the named stages,
+    quoting the request it saw: an error makeError never handled. -/
+def throwFeature (stages : Array String) : SdkFeature.Feature := { name := "throwhook", hook := fun stage ctx => do
+  if stages.contains stage then
+    let spec ← jsonify (← SdkRuntime.gp ctx "spec") (← newMap #[("indent", .num 0.0)])
+    throw (IO.userError ("hook saw " ++ spec)) }
+
+structure Candidate where
+  name : String
+  params : Array String
+  run : Value → Value → Value → SIO Value
+
+def candidates : Array Candidate := #[
+  { name := "attestation.list", params := #[],
+    run := fun c m ctrl => do Attestation.list c m ctrl },
+  { name := "attestation.load", params := #["id"],
+    run := fun c m ctrl => do Attestation.load c m ctrl },
+  { name := "attestation.create", params := #[],
+    run := fun c m ctrl => do Attestation.create c m ctrl },
+  { name := "client.list", params := #[],
+    run := fun c m ctrl => do Client.list c m ctrl },
+  { name := "client.load", params := #["id"],
+    run := fun c m ctrl => do Client.load c m ctrl },
+  { name := "client.create", params := #[],
+    run := fun c m ctrl => do Client.create c m ctrl },
+  { name := "client.remove", params := #["id"],
+    run := fun c m ctrl => do Client.remove c m ctrl },
+  { name := "create_result.create", params := #["device_type", "serial_number"],
+    run := fun c m ctrl => do Create_result.create c m ctrl },
+  { name := "decryption.create", params := #[],
+    run := fun c m ctrl => do Decryption.create c m ctrl },
+  { name := "device.list", params := #[],
+    run := fun c m ctrl => do Device.list c m ctrl },
+  { name := "device.load", params := #["device_type", "serial_number", "id"],
+    run := fun c m ctrl => do Device.load c m ctrl },
+  { name := "device.create", params := #[],
+    run := fun c m ctrl => do Device.create c m ctrl },
+  { name := "device_build.list", params := #[],
+    run := fun c m ctrl => do Device_build.list c m ctrl },
+  { name := "device_build.load", params := #["id"],
+    run := fun c m ctrl => do Device_build.load c m ctrl },
+  { name := "device_custody_detail.load", params := #["device_type", "id", "serial_number"],
+    run := fun c m ctrl => do Device_custody_detail.load c m ctrl },
+  { name := "device_custody_list_item.list", params := #["device_type", "serial_number"],
+    run := fun c m ctrl => do Device_custody_list_item.list c m ctrl },
+  { name := "device_receive_result.create", params := #[],
+    run := fun c m ctrl => do Device_receive_result.create c m ctrl },
+  { name := "device_rki_activate_result.create", params := #[],
+    run := fun c m ctrl => do Device_rki_activate_result.create c m ctrl },
+  { name := "device_state.list", params := #[],
+    run := fun c m ctrl => do Device_state.list c m ctrl },
+  { name := "device_type.list", params := #[],
+    run := fun c m ctrl => do Device_type.list c m ctrl },
+  { name := "device_type.load", params := #["id"],
+    run := fun c m ctrl => do Device_type.load c m ctrl },
+  { name := "inject_key.list", params := #[],
+    run := fun c m ctrl => do Inject_key.list c m ctrl },
+  { name := "inject_key.load", params := #["id"],
+    run := fun c m ctrl => do Inject_key.load c m ctrl },
+  { name := "kif.list", params := #[],
+    run := fun c m ctrl => do Kif.list c m ctrl },
+  { name := "location.list", params := #[],
+    run := fun c m ctrl => do Location.list c m ctrl },
+  { name := "location.load", params := #["id"],
+    run := fun c m ctrl => do Location.load c m ctrl },
+  { name := "location.create", params := #[],
+    run := fun c m ctrl => do Location.create c m ctrl },
+  { name := "location.remove", params := #["id"],
+    run := fun c m ctrl => do Location.remove c m ctrl },
+  { name := "partner.list", params := #[],
+    run := fun c m ctrl => do Partner.list c m ctrl },
+  { name := "partner.load", params := #["id"],
+    run := fun c m ctrl => do Partner.load c m ctrl },
+  { name := "partner.create", params := #[],
+    run := fun c m ctrl => do Partner.create c m ctrl },
+  { name := "shipment.list", params := #[],
+    run := fun c m ctrl => do Shipment.list c m ctrl },
+  { name := "shipment.load", params := #["id"],
+    run := fun c m ctrl => do Shipment.load c m ctrl },
+  { name := "shipment.create", params := #[],
+    run := fun c m ctrl => do Shipment.create c m ctrl },
+  { name := "success.create", params := #["share_partner_to"],
+    run := fun c m ctrl => do Success.create c m ctrl },
+  { name := "success.remove", params := #["share_partner_to"],
+    run := fun c m ctrl => do Success.remove c m ctrl },
+  { name := "transaction.list", params := #[],
+    run := fun c m ctrl => do Transaction.list c m ctrl },
+  { name := "transaction.load", params := #["id"],
+    run := fun c m ctrl => do Transaction.load c m ctrl },
+  { name := "transaction.create", params := #[],
+    run := fun c m ctrl => do Transaction.create c m ctrl },
+  { name := "update_result.list", params := #[],
+    run := fun c m ctrl => do Update_result.list c m ctrl },
+  { name := "update_result.create", params := #[],
+    run := fun c m ctrl => do Update_result.create c m ctrl },
+  { name := "update_result.update", params := #["id"],
+    run := fun c m ctrl => do Update_result.update c m (← emptyMap) ctrl },
+  { name := "user.load", params := #["id"],
+    run := fun c m ctrl => do User.load c m ctrl },
+  { name := "user.remove", params := #["id"],
+    run := fun c m ctrl => do User.remove c m ctrl },
+  { name := "virtual_device.load", params := #["id"],
+    run := fun c m ctrl => do Virtual_device.load c m ctrl }
+  ]
+
+/-- An operation and the match it completes with. -/
+abbrev Target := Candidate × Array (String × Value)
+
+/-- The first operation that completes against a plain 200: with no
+    arguments, else with every path parameter its points declare filled in. -/
+def usableOp : SIO (Option Target) := do
+  for c in candidates do
+    for m in #[(#[] : Array (String × Value)), c.params.map (fun p => (p, Value.str "p1"))] do
+      let client ← SdkRuntime.mkClientWith (← newMap #[("apikey", .str canaryApikey)]) SdkConfig.configJson
+        (fun _ _ _ => do pure ((← responseOf 200.0 (← newMap #[("id", .str "i1")]) #[]), none))
+      let ok ← try (do let _ ← c.run client (← newMap m) (← emptyMap); pure true) catch _ => pure false
+      if ok then return some (c, m)
+  pure none
+
+initialize lastThrown : IO.Ref String ← IO.mkRef ""
+
+def sameMap : Value → Value → Bool
+  | .map a, .map b => a == b
+  | _, _ => false
+
+/-- Runs the operation and sweeps what it left; true when it failed. -/
+def drive (client : Value) (target : Target) (ctrl : Value) : SIO Bool := do
+  -- A caller may keep the record it passed rather than read ctrl.explain.
+  let held ← SdkRuntime.gp ctrl "explain"
+  lastThrown.set ""
+  let mut threw := false
+  try
+    let out ← target.1.run client (← newMap target.2) ctrl
+    pushValue "result" out
+  catch e =>
+    pushSink "error:message" (toString e)
+    lastThrown.set (toString e)
+    threw := true
+  let e ← SdkRuntime.gp ctrl "err"
+  if SdkUtility.isMapV e then pushValue "error" e
+  let ex ← SdkRuntime.gp ctrl "explain"
+  if SdkUtility.isMapV ex then pushValue "explain" ex
+  if SdkUtility.isMapV held && !sameMap held ex then pushValue "explain:held" held
+  -- Every feature's records sit in the client's track buckets.
+  pushValue "track" (← SdkRuntime.gp client "track")
+  pure (threw || SdkUtility.isMapV e)
+
+def variants : Array (String × SIO Value) := #[
+  ("throw", emptyMap),
+  ("explain", do newMap #[("explain", ← emptyMap)]),
+  ("nothrow", do newMap #[("throw", .bool false), ("explain", ← emptyMap)]) ]
+
+def skipLine : String :=
+  "SKIP clean: no operation of this SDK completes against a plain 200; nothing to sweep"
+
+def cleanSweep : SIO Unit := do
+  match (← usableOp) with
+  | none => IO.println skipLine
+  | some target =>
+    cleanSinks.set #[]
+    let mut errors : Array (String × Value) := #[]
+    let mut explains : Array (String × Value) := #[]
+    for sc in scenarios do
+      for (vname, mk) in variants do
+        let client ← makeCleanSdk sc (some #[])
+        let ctrl ← mk
+        let _ ← drive client target ctrl
+        let key := sc.name ++ "/" ++ vname
+        let e ← SdkRuntime.gp ctrl "err"
+        if SdkUtility.isMapV e then errors := errors.push (key, e)
+        let ex ← SdkRuntime.gp ctrl "explain"
+        if SdkUtility.isMapV ex then explains := explains.push (key, ex)
+        -- The client is a struct value whose serialisation IS its options
+        -- map (documented as the raw credential), so it is not a surface.
+    -- A credential mistyped as a map, with and without a clean block. Lean's
+    -- makeOptions validates nothing, so nothing rejects it: what an
+    -- operation on that client leaves is swept instead.
+    for withClean in #[true, false] do
+      let mopts ← newMap #[("apikey", ← newMap #[("value", .str canaryApikey)])]
+      if withClean then SdkUtility.sp mopts "clean" (← newMap #[("values", .str canaryValue)])
+      let mclient ← SdkRuntime.mkClientWith mopts SdkConfig.configJson
+        (fun _ url _ => do pure ((← scenarioNotfound.respond url), none))
+      let _ ← drive mclient target (← emptyMap)
+    -- An error a feature hook throws, quoting the request, skips makeError,
+    -- and so does the explain record it leaves behind. This catch path fires
+    -- no PreUnexpected, so the 404 reaches that hook through failOp.
+    for (sc, stages) in #[(scenarioOk, #["PreResponse"]), (scenarioOk, #["PreResponse", "PreUnexpected"]),
+                          (scenarioNotfound, #["PreUnexpected"])] do
+      let hooked ← makeCleanSdk sc (some #[]) #[throwFeature stages]
+      let failed ← drive hooked target (← newMap #[("explain", ← emptyMap)])
+      let label := String.intercalate " " stages.toList
+      check (failed && containsStr (← lastThrown.get) "hook saw")
+        s!"clean: the throwing hook fails the operation ({label})"
+    -- Most callers pass no clean block; the defaults alone must mask.
+    for sc in #[scenarioNotfound, scenarioTransport] do
+      let bare ← makeCleanSdk sc none
+      let _ ← drive bare target (← newMap #[("explain", ← emptyMap)])
+    let fs ← canaryForms
+    let swept ← cleanSinks.get
+    let leaked := swept.filter (fun (_, t) => (leaksIn fs t).size > 0)
+    IO.println s!"clean: swept {swept.size} surface(s), {leaked.size} leak(s)"
+    for (n, t) in leaked do
+      IO.println s!"  leak: {n} [{", ".intercalate (leaksIn fs t).toList}]"
+    check (leaked.size == 0) "clean: no credential leaves the SDK in any form"
+    -- The positive half: the slot the credential travelled in is masked, and
+    -- an unregistered token in a response header is masked by name.
+    match errors.find? (·.1 == "notfound/throw") with
+    | none => fail "clean: the 404 scenario must throw"
+    | some (_, e) =>
+      check (numOf (← SdkRuntime.gp e "status") == 404.0) "clean: the 404 error carries its status"
+      let hdrs ← SdkRuntime.gp (← SdkRuntime.gp e "spec") "headers"
+      let auth ← headerOf hdrs "authorization"
+      check (authSuppressed || auth.endsWith mask) s!"clean: the credential slot is masked ({auth})"
+      check ((← headerOf hdrs "x-custom-token") == mask) "clean: the custom token header is masked"
+    match explains.find? (·.1 == "ok/explain") with
+    | none => fail "clean: the explain variant must fill the record"
+    | some (_, ex) =>
+      let res ← SdkRuntime.gp ex "result"
+      check (SdkUtility.isMapV res) "clean: the explain record carries the result"
+      check ((← headerOf (← SdkRuntime.gp res "headers") "x-session-token") == mask)
+        "clean: a response token is masked by name"
+
+def cleanSensitivity : SIO Unit := do
+  match (← usableOp) with
+  | none => IO.println skipLine
+  | some target =>
+    cleanSinks.set #[]
+    let client ← makeCleanSdk scenarioNotfound (some #[("active", .bool false)])
+    let ctrl ← emptyMap
+    let _ ← drive client target ctrl
+    let fs ← canaryForms
+    let swept ← cleanSinks.get
+    check ((swept.filter (fun (_, t) => (leaksIn fs t).size > 0)).size > 0)
+      "clean: with clean off, the canary shows (the sweep can see a leak)"
+    let e ← SdkRuntime.gp ctrl "err"
+    let text ← jsonify (← SdkRuntime.gp e "spec") (← newMap #[("indent", .num 0.0)])
+    check (authSuppressed || containsStr text canaryApikey ||
+           containsStr text (SdkUtility.base64Encode (canaryApikey ++ ":" ++ canarySecret)))
+      "clean: the raw spec carries the credential when clean is off"
+    -- Explaining a failure must not cost it its error.
+    let ectrl ← newMap #[("explain", ← emptyMap)]
+    let _ ← drive (← makeCleanSdk scenarioNotfound (some #[("active", .bool false)])) target ectrl
+    let plain ← SdkRuntime.gpS e "message"
+    let explained ← SdkRuntime.gpS (← SdkRuntime.gp ectrl "err") "message"
+    check (plain != "" && explained == plain)
+      s!"clean: with clean off, explain keeps the error ({explained})"
+
+/-- The first new record the seed holds for an entity, or an empty map when it
+    holds none, so a check that creates from it still runs. -/
+def newRefData (seed : Value) (entName : String) : SIO Value := do
+  let newEnts ← SdkRuntime.gp (← SdkRuntime.gp seed "new") entName
+  let refs ← keysof newEnts
+  match refs[0]? with
+  | some ref => do clone (← SdkRuntime.gp newEnts ref)
+  | none => emptyMap
 
 def defaultBase : String := "http://localhost:8901"
 
@@ -39,7 +406,8 @@ def main : IO UInt32 := do
         let existing ← SdkRuntime.gp (← SdkRuntime.gp seed "existing") "attestation"
         let ids ← keysof existing
         -- list returns every seeded entity
-        let items ← Attestation.list tclient (← emptyMap) (← emptyMap)
+        let lm ← emptyMap
+        let items ← Attestation.list tclient lm (← emptyMap)
         let n ← (match items with | Value.list lid => do pure (← listItems lid).size | _ => pure 0)
         if n == ids.size then pass s!"attestation.list offline -> {n} seeded"
         else fail s!"attestation.list offline: got {n}, want {ids.size}"
@@ -63,7 +431,8 @@ def main : IO UInt32 := do
         let existing ← SdkRuntime.gp (← SdkRuntime.gp seed "existing") "client"
         let ids ← keysof existing
         -- list returns every seeded entity
-        let items ← Client.list tclient (← emptyMap) (← emptyMap)
+        let lm ← emptyMap
+        let items ← Client.list tclient lm (← emptyMap)
         let n ← (match items with | Value.list lid => do pure (← listItems lid).size | _ => pure 0)
         if n == ids.size then pass s!"client.list offline -> {n} seeded"
         else fail s!"client.list offline: got {n}, want {ids.size}"
@@ -76,23 +445,19 @@ def main : IO UInt32 := do
           if gid == wid then pass s!"client.load offline (id={wid})"
           else fail s!"client.load offline: got {gid}, want {wid}"
         -- create -> load back -> remove, all in the store
-        let newmap ← SdkRuntime.gp (← SdkRuntime.gp seed "new") "client"
-        let nks ← keysof newmap
-        if nks.size > 0 then do
-          let payload ← SdkRuntime.gp newmap nks[0]!
-          let created ← Client.create tclient payload (← emptyMap)
-          let cid ← SdkRuntime.gpS created "id"
-          if cid == "" then fail "client.create offline returned no id" else do
-            let m2 ← newMap #[("id", Value.str cid)]
-            let back ← Client.load tclient m2 (← emptyMap)
-            if (← SdkRuntime.gpS back "id") == cid then
-              pass s!"client.create/load offline (id={cid})"
-            else fail s!"client.create/load offline mismatch"
-            let _ ← Client.remove tclient m2 (← emptyMap)
-            let gone ← Client.load tclient m2 (← emptyMap)
-            match gone with
-            | Value.map _ => fail s!"client.remove offline: still present"
-            | _ => pass s!"client.remove offline (id={cid})"
+        let created ← Client.create tclient (← newRefData seed "client") (← emptyMap)
+        let cid ← SdkRuntime.gpS created "id"
+        if cid == "" then fail "client.create offline returned no id" else do
+          let m2 ← newMap #[("id", Value.str cid)]
+          let back ← Client.load tclient m2 (← emptyMap)
+          if (← SdkRuntime.gpS back "id") == cid then
+            pass s!"client.create/load offline (id={cid})"
+          else fail s!"client.create/load offline mismatch"
+          let _ ← Client.remove tclient m2 (← emptyMap)
+          let gone ← Client.load tclient m2 (← emptyMap)
+          match gone with
+          | Value.map _ => fail s!"client.remove offline: still present"
+          | _ => pass s!"client.remove offline (id={cid})"
 )
     -- device: offline (test-mode) entity behaviour
     (do
@@ -105,7 +470,8 @@ def main : IO UInt32 := do
         let existing ← SdkRuntime.gp (← SdkRuntime.gp seed "existing") "device"
         let ids ← keysof existing
         -- list returns every seeded entity
-        let items ← Device.list tclient (← emptyMap) (← emptyMap)
+        let lm ← emptyMap
+        let items ← Device.list tclient lm (← emptyMap)
         let n ← (match items with | Value.list lid => do pure (← listItems lid).size | _ => pure 0)
         if n == ids.size then pass s!"device.list offline -> {n} seeded"
         else fail s!"device.list offline: got {n}, want {ids.size}"
@@ -113,6 +479,9 @@ def main : IO UInt32 := do
         if ids.size > 0 then do
           let wid := ids[0]!
           let m ← newMap #[("id", Value.str wid)]
+          let rec0 ← SdkUtility.gp existing wid
+          SdkUtility.sp m "device_type" (← SdkUtility.gp rec0 "device_type")
+          SdkUtility.sp m "serial_number" (← SdkUtility.gp rec0 "serial_number")
           let got ← Device.load tclient m (← emptyMap)
           let gid ← SdkRuntime.gpS got "id"
           if gid == wid then pass s!"device.load offline (id={wid})"
@@ -129,7 +498,8 @@ def main : IO UInt32 := do
         let existing ← SdkRuntime.gp (← SdkRuntime.gp seed "existing") "device_build"
         let ids ← keysof existing
         -- list returns every seeded entity
-        let items ← Device_build.list tclient (← emptyMap) (← emptyMap)
+        let lm ← emptyMap
+        let items ← Device_build.list tclient lm (← emptyMap)
         let n ← (match items with | Value.list lid => do pure (← listItems lid).size | _ => pure 0)
         if n == ids.size then pass s!"device_build.list offline -> {n} seeded"
         else fail s!"device_build.list offline: got {n}, want {ids.size}"
@@ -156,6 +526,9 @@ def main : IO UInt32 := do
         if ids.size > 0 then do
           let wid := ids[0]!
           let m ← newMap #[("id", Value.str wid)]
+          let rec0 ← SdkUtility.gp existing wid
+          SdkUtility.sp m "device_type" (← SdkUtility.gp rec0 "device_type")
+          SdkUtility.sp m "serial_number" (← SdkUtility.gp rec0 "serial_number")
           let got ← Device_custody_detail.load tclient m (← emptyMap)
           let gid ← SdkRuntime.gpS got "id"
           if gid == wid then pass s!"device_custody_detail.load offline (id={wid})"
@@ -172,7 +545,12 @@ def main : IO UInt32 := do
         let existing ← SdkRuntime.gp (← SdkRuntime.gp seed "existing") "device_custody_list_item"
         let ids ← keysof existing
         -- list returns every seeded entity
-        let items ← Device_custody_list_item.list tclient (← emptyMap) (← emptyMap)
+        let lm ← emptyMap
+        if ids.size > 0 then do
+          let rec0 ← SdkUtility.gp existing ids[0]!
+          SdkUtility.sp lm "device_type" (← SdkUtility.gp rec0 "device_type")
+          SdkUtility.sp lm "serial_number" (← SdkUtility.gp rec0 "serial_number")
+        let items ← Device_custody_list_item.list tclient lm (← emptyMap)
         let n ← (match items with | Value.list lid => do pure (← listItems lid).size | _ => pure 0)
         if n == ids.size then pass s!"device_custody_list_item.list offline -> {n} seeded"
         else fail s!"device_custody_list_item.list offline: got {n}, want {ids.size}"
@@ -188,7 +566,8 @@ def main : IO UInt32 := do
         let existing ← SdkRuntime.gp (← SdkRuntime.gp seed "existing") "device_state"
         let ids ← keysof existing
         -- list returns every seeded entity
-        let items ← Device_state.list tclient (← emptyMap) (← emptyMap)
+        let lm ← emptyMap
+        let items ← Device_state.list tclient lm (← emptyMap)
         let n ← (match items with | Value.list lid => do pure (← listItems lid).size | _ => pure 0)
         if n == ids.size then pass s!"device_state.list offline -> {n} seeded"
         else fail s!"device_state.list offline: got {n}, want {ids.size}"
@@ -204,7 +583,8 @@ def main : IO UInt32 := do
         let existing ← SdkRuntime.gp (← SdkRuntime.gp seed "existing") "device_type"
         let ids ← keysof existing
         -- list returns every seeded entity
-        let items ← Device_type.list tclient (← emptyMap) (← emptyMap)
+        let lm ← emptyMap
+        let items ← Device_type.list tclient lm (← emptyMap)
         let n ← (match items with | Value.list lid => do pure (← listItems lid).size | _ => pure 0)
         if n == ids.size then pass s!"device_type.list offline -> {n} seeded"
         else fail s!"device_type.list offline: got {n}, want {ids.size}"
@@ -228,7 +608,8 @@ def main : IO UInt32 := do
         let existing ← SdkRuntime.gp (← SdkRuntime.gp seed "existing") "inject_key"
         let ids ← keysof existing
         -- list returns every seeded entity
-        let items ← Inject_key.list tclient (← emptyMap) (← emptyMap)
+        let lm ← emptyMap
+        let items ← Inject_key.list tclient lm (← emptyMap)
         let n ← (match items with | Value.list lid => do pure (← listItems lid).size | _ => pure 0)
         if n == ids.size then pass s!"inject_key.list offline -> {n} seeded"
         else fail s!"inject_key.list offline: got {n}, want {ids.size}"
@@ -252,7 +633,8 @@ def main : IO UInt32 := do
         let existing ← SdkRuntime.gp (← SdkRuntime.gp seed "existing") "kif"
         let ids ← keysof existing
         -- list returns every seeded entity
-        let items ← Kif.list tclient (← emptyMap) (← emptyMap)
+        let lm ← emptyMap
+        let items ← Kif.list tclient lm (← emptyMap)
         let n ← (match items with | Value.list lid => do pure (← listItems lid).size | _ => pure 0)
         if n == ids.size then pass s!"kif.list offline -> {n} seeded"
         else fail s!"kif.list offline: got {n}, want {ids.size}"
@@ -268,7 +650,8 @@ def main : IO UInt32 := do
         let existing ← SdkRuntime.gp (← SdkRuntime.gp seed "existing") "location"
         let ids ← keysof existing
         -- list returns every seeded entity
-        let items ← Location.list tclient (← emptyMap) (← emptyMap)
+        let lm ← emptyMap
+        let items ← Location.list tclient lm (← emptyMap)
         let n ← (match items with | Value.list lid => do pure (← listItems lid).size | _ => pure 0)
         if n == ids.size then pass s!"location.list offline -> {n} seeded"
         else fail s!"location.list offline: got {n}, want {ids.size}"
@@ -281,23 +664,19 @@ def main : IO UInt32 := do
           if gid == wid then pass s!"location.load offline (id={wid})"
           else fail s!"location.load offline: got {gid}, want {wid}"
         -- create -> load back -> remove, all in the store
-        let newmap ← SdkRuntime.gp (← SdkRuntime.gp seed "new") "location"
-        let nks ← keysof newmap
-        if nks.size > 0 then do
-          let payload ← SdkRuntime.gp newmap nks[0]!
-          let created ← Location.create tclient payload (← emptyMap)
-          let cid ← SdkRuntime.gpS created "id"
-          if cid == "" then fail "location.create offline returned no id" else do
-            let m2 ← newMap #[("id", Value.str cid)]
-            let back ← Location.load tclient m2 (← emptyMap)
-            if (← SdkRuntime.gpS back "id") == cid then
-              pass s!"location.create/load offline (id={cid})"
-            else fail s!"location.create/load offline mismatch"
-            let _ ← Location.remove tclient m2 (← emptyMap)
-            let gone ← Location.load tclient m2 (← emptyMap)
-            match gone with
-            | Value.map _ => fail s!"location.remove offline: still present"
-            | _ => pass s!"location.remove offline (id={cid})"
+        let created ← Location.create tclient (← newRefData seed "location") (← emptyMap)
+        let cid ← SdkRuntime.gpS created "id"
+        if cid == "" then fail "location.create offline returned no id" else do
+          let m2 ← newMap #[("id", Value.str cid)]
+          let back ← Location.load tclient m2 (← emptyMap)
+          if (← SdkRuntime.gpS back "id") == cid then
+            pass s!"location.create/load offline (id={cid})"
+          else fail s!"location.create/load offline mismatch"
+          let _ ← Location.remove tclient m2 (← emptyMap)
+          let gone ← Location.load tclient m2 (← emptyMap)
+          match gone with
+          | Value.map _ => fail s!"location.remove offline: still present"
+          | _ => pass s!"location.remove offline (id={cid})"
 )
     -- partner: offline (test-mode) entity behaviour
     (do
@@ -310,7 +689,8 @@ def main : IO UInt32 := do
         let existing ← SdkRuntime.gp (← SdkRuntime.gp seed "existing") "partner"
         let ids ← keysof existing
         -- list returns every seeded entity
-        let items ← Partner.list tclient (← emptyMap) (← emptyMap)
+        let lm ← emptyMap
+        let items ← Partner.list tclient lm (← emptyMap)
         let n ← (match items with | Value.list lid => do pure (← listItems lid).size | _ => pure 0)
         if n == ids.size then pass s!"partner.list offline -> {n} seeded"
         else fail s!"partner.list offline: got {n}, want {ids.size}"
@@ -334,7 +714,8 @@ def main : IO UInt32 := do
         let existing ← SdkRuntime.gp (← SdkRuntime.gp seed "existing") "shipment"
         let ids ← keysof existing
         -- list returns every seeded entity
-        let items ← Shipment.list tclient (← emptyMap) (← emptyMap)
+        let lm ← emptyMap
+        let items ← Shipment.list tclient lm (← emptyMap)
         let n ← (match items with | Value.list lid => do pure (← listItems lid).size | _ => pure 0)
         if n == ids.size then pass s!"shipment.list offline -> {n} seeded"
         else fail s!"shipment.list offline: got {n}, want {ids.size}"
@@ -358,7 +739,8 @@ def main : IO UInt32 := do
         let existing ← SdkRuntime.gp (← SdkRuntime.gp seed "existing") "transaction"
         let ids ← keysof existing
         -- list returns every seeded entity
-        let items ← Transaction.list tclient (← emptyMap) (← emptyMap)
+        let lm ← emptyMap
+        let items ← Transaction.list tclient lm (← emptyMap)
         let n ← (match items with | Value.list lid => do pure (← listItems lid).size | _ => pure 0)
         if n == ids.size then pass s!"transaction.list offline -> {n} seeded"
         else fail s!"transaction.list offline: got {n}, want {ids.size}"
@@ -382,7 +764,8 @@ def main : IO UInt32 := do
         let existing ← SdkRuntime.gp (← SdkRuntime.gp seed "existing") "update_result"
         let ids ← keysof existing
         -- list returns every seeded entity
-        let items ← Update_result.list tclient (← emptyMap) (← emptyMap)
+        let lm ← emptyMap
+        let items ← Update_result.list tclient lm (← emptyMap)
         let n ← (match items with | Value.list lid => do pure (← listItems lid).size | _ => pure 0)
         if n == ids.size then pass s!"update_result.list offline -> {n} seeded"
         else fail s!"update_result.list offline: got {n}, want {ids.size}"
@@ -426,6 +809,10 @@ def main : IO UInt32 := do
           else fail s!"virtual_device.load offline: got {gid}, want {wid}"
 )
   offline.run ctx
+  let sweep : SIO Unit := do
+    cleanSweep
+    cleanSensitivity
+  sweep.run ctx
   match liveBase with
   | none => IO.println "skip - live lane (set SDK_TEST_BASE to enable)"
   | some base => do

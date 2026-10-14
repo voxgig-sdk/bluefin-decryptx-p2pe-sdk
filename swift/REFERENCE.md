@@ -198,33 +198,52 @@ let attestation = client.Attestation()
 | `completeDate` | `String` | No | The date and time that the Attestation took place. |
 | `created` | `String` | No | Creation timestamp in ISO 8601 format. |
 | `device` | `VMap` | No | Reference to the associated Device resource. |
+| `devices` | `[Value]` | Yes |  |
 | `id` | `String` | No | This resource's unique identifier. |
 | `name` | `String` | No | Text describing the attestation. |
 | `notes` | `String` | No | Free form field that allows the Client associate notes with the Attestation. |
+
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `client` | - | - | Yes |
+| `completeDate` | - | - | Yes |
+| `created` | - | - | - |
+| `device` | - | - | - |
+| `devices` | - | - | - |
+| `id` | - | - | - |
+| `name` | - | - | Yes |
+| `notes` | - | - | - |
 
 ### Operations
 
 #### `create(reqdata, ctrl) throws -> Value`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```swift
 let result = try client.Attestation().create(VMap([
+    ("devices", .list([]))  // [Value]
 ]), nil)
 ```
 
 #### `list(reqmatch, ctrl) throws -> Value`
 
-List entities matching the given criteria. The match is optional — call `list(nil, nil)` to list all records. Returns a Value list and throws on error.
+List entities matching the given criteria. The match is optional — call `list(nil, nil)` to list all records. Returns a `Value` list of entities, one per record, and throws on error.
 
 ```swift
-let results = try client.Attestation().list(nil, nil)
-print(results)
+let results = try client.Attestation().list(VMap([("client", .string("example"))]), nil)
+for item in results.asList?.items ?? [] {
+    if let entity = item.asNative as? Entity {
+        print(entity.data())
+    }
+}
 ```
 
 #### `load(reqmatch, ctrl) throws -> Value`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, as a native `Value` that `asNative as? Entity` unwraps, and throws on error.
 
 ```swift
 let result = try client.Attestation().load(VMap([("id", .string("attestation_id"))]), nil)
@@ -277,15 +296,15 @@ let client = client.Client()
 
 | Field | load | list | create | remove |
 | --- | --- | --- | --- | --- |
-| `contact` | - | Yes | - | - |
+| `contact` | - | Yes | Yes | - |
 | `created` | - | - | - | - |
-| `directPartner` | - | - | - | - |
+| `directPartner` | - | - | Yes | - |
 | `id` | - | - | - | - |
 | `isActive` | - | - | - | - |
 | `location` | - | - | - | - |
 | `mid` | - | - | - | - |
 | `modified` | - | - | - | - |
-| `name` | - | - | - | - |
+| `name` | - | - | Yes | - |
 | `partner` | - | - | - | - |
 | `version` | - | - | - | - |
 
@@ -293,7 +312,7 @@ let client = client.Client()
 
 #### `create(reqdata, ctrl) throws -> Value`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```swift
 let result = try client.Client().create(VMap([
@@ -303,16 +322,20 @@ let result = try client.Client().create(VMap([
 
 #### `list(reqmatch, ctrl) throws -> Value`
 
-List entities matching the given criteria. The match is optional — call `list(nil, nil)` to list all records. Returns a Value list and throws on error.
+List entities matching the given criteria. The match is optional — call `list(nil, nil)` to list all records. Returns a `Value` list of entities, one per record, and throws on error.
 
 ```swift
-let results = try client.Client().list(nil, nil)
-print(results)
+let results = try client.Client().list(VMap([("partner", .string("example"))]), nil)
+for item in results.asList?.items ?? [] {
+    if let entity = item.asNative as? Entity {
+        print(entity.data())
+    }
+}
 ```
 
 #### `load(reqmatch, ctrl) throws -> Value`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, as a native `Value` that `asNative as? Entity` unwraps, and throws on error.
 
 ```swift
 let result = try client.Client().load(VMap([("id", .string("client_id"))]), nil)
@@ -320,7 +343,7 @@ let result = try client.Client().load(VMap([("id", .string("client_id"))]), nil)
 
 #### `remove(reqmatch, ctrl) throws -> Value`
 
-Remove the entity matching the given criteria. Throws on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and throws on error.
 
 ```swift
 let result = try client.Client().remove(VMap([("id", .string("client_id"))]), nil)
@@ -353,16 +376,27 @@ Return the entity name.
 let createResult = client.CreateResult()
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `completeDate` | `String` | No | The date and time that the Custody change took place. |
+| `custodian` | `VMap` | Yes | Reference to the associated User resource. |
+| `location` | `VMap` | Yes | Reference to the associated Location resource. |
+| `notes` | `String` | No | Free form field that allows the Client associate notes with the Custody Change. |
+
 ### Operations
 
 #### `create(reqdata, ctrl) throws -> Value`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```swift
 let result = try client.CreateResult().create(VMap([
     ("device_type", .string("example_device_type")),  // String
-    ("serial_number", .string("example_serial_number"))  // String
+    ("serial_number", .string("example_serial_number")),  // String
+    ("custodian", .map(VMap())),  // VMap
+    ("location", .map(VMap()))  // VMap
 ]), nil)
 ```
 
@@ -397,16 +431,27 @@ let decryption = client.Decryption()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `cbcVector` | `String` | No | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | `String` | Yes | The device Type. |
+| `encoding` | `String` | No | The payload encoding |
+| `encrypted` | `[Value]` | Yes |  |
+| `hasCcData` | `String` | No | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | `String` | No | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | `String` | No | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | `String` | Yes | The serial number of the device. |
 | `success` | `Bool` | No | true if the payload decryption was successful. |
 
 ### Operations
 
 #### `create(reqdata, ctrl) throws -> Value`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```swift
 let result = try client.Decryption().create(VMap([
+    ("deviceType", .string("example_deviceType")),  // String
+    ("encrypted", .list([])),  // [Value]
+    ("serialNumber", .string("example_serialNumber"))  // String
 ]), nil)
 ```
 
@@ -470,11 +515,44 @@ let device = client.Device()
 | `serialNumber` | `String` | No | The Device's serial number. |
 | `version` | `Int` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `activatedBy` | - | - | - |
+| `activationDate` | - | - | - |
+| `alternateKey` | - | - | - |
+| `auditNextDate` | - | - | - |
+| `auditNotificationDate` | - | - | - |
+| `client` | - | - | - |
+| `created` | - | - | - |
+| `createdBy` | - | - | - |
+| `deviceBuild` | - | - | - |
+| `deviceState` | - | - | - |
+| `deviceType` | - | - | Yes |
+| `errorCounter` | - | - | - |
+| `errorLastDate` | - | - | - |
+| `id` | - | - | - |
+| `initializedBy` | - | - | - |
+| `initializedDate` | - | - | - |
+| `injectKey` | - | - | - |
+| `isVirtual` | - | - | - |
+| `kif` | - | - | Yes |
+| `lastActivityDate` | - | - | - |
+| `location` | - | - | - |
+| `modified` | - | - | - |
+| `modifiedBy` | - | - | - |
+| `name` | - | - | - |
+| `notes` | - | - | - |
+| `partner` | - | - | - |
+| `serialNumber` | - | - | Yes |
+| `version` | - | - | - |
+
 ### Operations
 
 #### `create(reqdata, ctrl) throws -> Value`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```swift
 let result = try client.Device().create(VMap([
@@ -488,16 +566,20 @@ let result = try client.Device().create(VMap([
 
 #### `list(reqmatch, ctrl) throws -> Value`
 
-List entities matching the given criteria. The match is optional — call `list(nil, nil)` to list all records. Returns a Value list and throws on error.
+List entities matching the given criteria. The match is optional — call `list(nil, nil)` to list all records. Returns a `Value` list of entities, one per record, and throws on error.
 
 ```swift
 let results = try client.Device().list(nil, nil)
-print(results)
+for item in results.asList?.items ?? [] {
+    if let entity = item.asNative as? Entity {
+        print(entity.data())
+    }
+}
 ```
 
 #### `load(reqmatch, ctrl) throws -> Value`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, as a native `Value` that `asNative as? Entity` unwraps, and throws on error.
 
 ```swift
 let result = try client.Device().load(VMap([("id", .string("device_id"))]), nil)
@@ -554,16 +636,20 @@ let deviceBuild = client.DeviceBuild()
 
 #### `list(reqmatch, ctrl) throws -> Value`
 
-List entities matching the given criteria. The match is optional — call `list(nil, nil)` to list all records. Returns a Value list and throws on error.
+List entities matching the given criteria. The match is optional — call `list(nil, nil)` to list all records. Returns a `Value` list of entities, one per record, and throws on error.
 
 ```swift
 let results = try client.DeviceBuild().list(nil, nil)
-print(results)
+for item in results.asList?.items ?? [] {
+    if let entity = item.asNative as? Entity {
+        print(entity.data())
+    }
+}
 ```
 
 #### `load(reqmatch, ctrl) throws -> Value`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, as a native `Value` that `asNative as? Entity` unwraps, and throws on error.
 
 ```swift
 let result = try client.DeviceBuild().load(VMap([("id", .string("device_build_id"))]), nil)
@@ -618,7 +704,7 @@ let deviceCustodyDetail = client.DeviceCustodyDetail()
 
 #### `load(reqmatch, ctrl) throws -> Value`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, as a native `Value` that `asNative as? Entity` unwraps, and throws on error.
 
 ```swift
 let result = try client.DeviceCustodyDetail().load(VMap([("id", .string("device_custody_detail_id")), ("device_type", .string("device_type")), ("serial_number", .string("serial_number"))]), nil)
@@ -673,11 +759,15 @@ let deviceCustodyListItem = client.DeviceCustodyListItem()
 
 #### `list(reqmatch, ctrl) throws -> Value`
 
-List entities matching the given criteria. The match is optional — call `list(nil, nil)` to list all records. Returns a Value list and throws on error.
+List entities matching the given criteria. The match is optional — call `list(nil, nil)` to list all records. Returns a `Value` list of entities, one per record, and throws on error.
 
 ```swift
-let results = try client.DeviceCustodyListItem().list(nil, nil)
-print(results)
+let results = try client.DeviceCustodyListItem().list(VMap([("device_type", .string("example")), ("serial_number", .string("example"))]), nil)
+for item in results.asList?.items ?? [] {
+    if let entity = item.asNative as? Entity {
+        print(entity.data())
+    }
+}
 ```
 
 ### Common Methods
@@ -711,17 +801,21 @@ let deviceReceiveResult = client.DeviceReceiveResult()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `serialNumber` | `String` | Yes | The serial number of the Device that is shipped. |
 | `success` | `Bool` | Yes | Indicates if the action succeeded. |
+| `tamperLabel` | `String` | Yes | The code that is printed the tamper label of the Device that is shipped. |
 
 ### Operations
 
 #### `create(reqdata, ctrl) throws -> Value`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```swift
 let result = try client.DeviceReceiveResult().create(VMap([
-    ("success", .bool(true))  // Bool
+    ("serialNumber", .string("example_serialNumber")),  // String
+    ("success", .bool(true)),  // Bool
+    ("tamperLabel", .string("example_tamperLabel"))  // String
 ]), nil)
 ```
 
@@ -756,16 +850,25 @@ let deviceRkiActivateResult = client.DeviceRkiActivateResult()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `appVersion` | `String` | No | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | `String` | No | The Device Builds's name. |
+| `buildNumber` | `String` | No | The Build Number. |
+| `configFile` | `String` | No | \? |
+| `firmwareVersion` | `String` | No | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `String` | No | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | `String` | Yes | The referenced Device's serial number. |
 | `success` | `Bool` | Yes | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | `String` | No | \? |
 
 ### Operations
 
 #### `create(reqdata, ctrl) throws -> Value`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```swift
 let result = try client.DeviceRkiActivateResult().create(VMap([
+    ("serialNumber", .string("example_serialNumber")),  // String
     ("success", .bool(true))  // Bool
 ]), nil)
 ```
@@ -808,11 +911,15 @@ let deviceState = client.DeviceState()
 
 #### `list(reqmatch, ctrl) throws -> Value`
 
-List entities matching the given criteria. The match is optional — call `list(nil, nil)` to list all records. Returns a Value list and throws on error.
+List entities matching the given criteria. The match is optional — call `list(nil, nil)` to list all records. Returns a `Value` list of entities, one per record, and throws on error.
 
 ```swift
 let results = try client.DeviceState().list(nil, nil)
-print(results)
+for item in results.asList?.items ?? [] {
+    if let entity = item.asNative as? Entity {
+        print(entity.data())
+    }
+}
 ```
 
 ### Common Methods
@@ -863,16 +970,20 @@ let deviceType = client.DeviceType()
 
 #### `list(reqmatch, ctrl) throws -> Value`
 
-List entities matching the given criteria. The match is optional — call `list(nil, nil)` to list all records. Returns a Value list and throws on error.
+List entities matching the given criteria. The match is optional — call `list(nil, nil)` to list all records. Returns a `Value` list of entities, one per record, and throws on error.
 
 ```swift
 let results = try client.DeviceType().list(nil, nil)
-print(results)
+for item in results.asList?.items ?? [] {
+    if let entity = item.asNative as? Entity {
+        print(entity.data())
+    }
+}
 ```
 
 #### `load(reqmatch, ctrl) throws -> Value`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, as a native `Value` that `asNative as? Entity` unwraps, and throws on error.
 
 ```swift
 let result = try client.DeviceType().load(VMap([("id", .string("device_type_id"))]), nil)
@@ -922,16 +1033,20 @@ let injectKey = client.InjectKey()
 
 #### `list(reqmatch, ctrl) throws -> Value`
 
-List entities matching the given criteria. The match is optional — call `list(nil, nil)` to list all records. Returns a Value list and throws on error.
+List entities matching the given criteria. The match is optional — call `list(nil, nil)` to list all records. Returns a `Value` list of entities, one per record, and throws on error.
 
 ```swift
 let results = try client.InjectKey().list(nil, nil)
-print(results)
+for item in results.asList?.items ?? [] {
+    if let entity = item.asNative as? Entity {
+        print(entity.data())
+    }
+}
 ```
 
 #### `load(reqmatch, ctrl) throws -> Value`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, as a native `Value` that `asNative as? Entity` unwraps, and throws on error.
 
 ```swift
 let result = try client.InjectKey().load(VMap([("id", .string("inject_key_id"))]), nil)
@@ -975,11 +1090,15 @@ let kif = client.Kif()
 
 #### `list(reqmatch, ctrl) throws -> Value`
 
-List entities matching the given criteria. The match is optional — call `list(nil, nil)` to list all records. Returns a Value list and throws on error.
+List entities matching the given criteria. The match is optional — call `list(nil, nil)` to list all records. Returns a `Value` list of entities, one per record, and throws on error.
 
 ```swift
 let results = try client.Kif().list(nil, nil)
-print(results)
+for item in results.asList?.items ?? [] {
+    if let entity = item.asNative as? Entity {
+        print(entity.data())
+    }
+}
 ```
 
 ### Common Methods
@@ -1017,6 +1136,7 @@ let location = client.Location()
 | `address2` | `String` | No | The Location's street address. |
 | `billingId` | `String` | No | \? |
 | `city` | `String` | No | The Location's city. |
+| `client` | `VMap` | No | Reference to the associated Client resource. |
 | `country` | `String` | No | The Location's country. |
 | `created` | `String` | No | Creation timestamp in ISO 8601 format. |
 | `customReference` | `String` | No | A Partner specified reference for a location. |
@@ -1037,11 +1157,40 @@ let location = client.Location()
 | `uniqueId` | `String` | No | Unique Identifier for the Location. |
 | `version` | `Int` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create | remove |
+| --- | --- | --- | --- | --- |
+| `address1` | - | - | Yes | - |
+| `address2` | - | - | - | - |
+| `billingId` | - | - | - | - |
+| `city` | - | - | Yes | - |
+| `client` | - | - | - | - |
+| `country` | - | - | Yes | - |
+| `created` | - | - | - | - |
+| `customReference` | - | - | - | - |
+| `id` | - | - | - | - |
+| `locationType` | - | - | Yes | - |
+| `mailAddress1` | - | - | - | - |
+| `mailAddress2` | - | - | - | - |
+| `mailCity` | - | - | - | - |
+| `mailCountry` | - | - | - | - |
+| `mailPostalCode` | - | - | - | - |
+| `mailStateProvince` | - | - | - | - |
+| `modified` | - | - | - | - |
+| `name` | - | - | Yes | - |
+| `nameOfBusiness` | - | - | - | - |
+| `notes` | - | - | - | - |
+| `postalCode` | - | - | - | - |
+| `stateProvince` | - | - | - | - |
+| `uniqueId` | - | - | - | - |
+| `version` | - | - | - | - |
+
 ### Operations
 
 #### `create(reqdata, ctrl) throws -> Value`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```swift
 let result = try client.Location().create(VMap([
@@ -1050,16 +1199,20 @@ let result = try client.Location().create(VMap([
 
 #### `list(reqmatch, ctrl) throws -> Value`
 
-List entities matching the given criteria. The match is optional — call `list(nil, nil)` to list all records. Returns a Value list and throws on error.
+List entities matching the given criteria. The match is optional — call `list(nil, nil)` to list all records. Returns a `Value` list of entities, one per record, and throws on error.
 
 ```swift
-let results = try client.Location().list(nil, nil)
-print(results)
+let results = try client.Location().list(VMap([("client", .string("example"))]), nil)
+for item in results.asList?.items ?? [] {
+    if let entity = item.asNative as? Entity {
+        print(entity.data())
+    }
+}
 ```
 
 #### `load(reqmatch, ctrl) throws -> Value`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, as a native `Value` that `asNative as? Entity` unwraps, and throws on error.
 
 ```swift
 let result = try client.Location().load(VMap([("id", .string("location_id"))]), nil)
@@ -1067,7 +1220,7 @@ let result = try client.Location().load(VMap([("id", .string("location_id"))]), 
 
 #### `remove(reqmatch, ctrl) throws -> Value`
 
-Remove the entity matching the given criteria. Throws on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and throws on error.
 
 ```swift
 let result = try client.Location().remove(VMap([("id", .string("location_id"))]), nil)
@@ -1125,16 +1278,16 @@ let partner = client.Partner()
 | --- | --- | --- | --- |
 | `billingId` | - | - | - |
 | `clientCanOrderEquipment` | - | - | - |
-| `contact` | - | Yes | - |
+| `contact` | - | Yes | Yes |
 | `created` | - | - | - |
 | `id` | - | - | - |
 | `isActive` | - | - | - |
 | `location` | - | - | - |
 | `modified` | - | - | - |
-| `name` | - | - | - |
-| `parent` | - | - | - |
+| `name` | - | - | Yes |
+| `parent` | - | - | Yes |
 | `partnerId` | - | - | - |
-| `reference` | - | - | - |
+| `reference` | - | - | Yes |
 | `verificationPhrase` | - | - | - |
 | `version` | - | - | - |
 
@@ -1142,7 +1295,7 @@ let partner = client.Partner()
 
 #### `create(reqdata, ctrl) throws -> Value`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```swift
 let result = try client.Partner().create(VMap([
@@ -1152,16 +1305,20 @@ let result = try client.Partner().create(VMap([
 
 #### `list(reqmatch, ctrl) throws -> Value`
 
-List entities matching the given criteria. The match is optional — call `list(nil, nil)` to list all records. Returns a Value list and throws on error.
+List entities matching the given criteria. The match is optional — call `list(nil, nil)` to list all records. Returns a `Value` list of entities, one per record, and throws on error.
 
 ```swift
 let results = try client.Partner().list(nil, nil)
-print(results)
+for item in results.asList?.items ?? [] {
+    if let entity = item.asNative as? Entity {
+        print(entity.data())
+    }
+}
 ```
 
 #### `load(reqmatch, ctrl) throws -> Value`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, as a native `Value` that `asNative as? Entity` unwraps, and throws on error.
 
 ```swift
 let result = try client.Partner().load(VMap([("id", .string("partner_id"))]), nil)
@@ -1207,35 +1364,61 @@ let shipment = client.Shipment()
 | `id` | `String` | No | This resource's unique identifier. |
 | `items` | `[Value]` | No |  |
 | `kif` | `VMap` | No | Reference to the associated KIF resource. |
+| `location` | `VMap` | Yes | Reference to the associated Location resource. |
 | `modified` | `String` | No | Last modified timestamp. |
 | `partner` | `VMap` | No | Reference to the associated Partner. |
 | `shipmentType` | `String` | No | The type of shipment. |
 | `tracking` | `String` | No | The courier's tracking number. |
 | `version` | `Int` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `carrier` | - | - | Yes |
+| `client` | - | - | Yes |
+| `created` | - | - | - |
+| `dateReceived` | - | - | - |
+| `dateShipped` | - | - | Yes |
+| `dcKif` | - | - | - |
+| `id` | - | - | - |
+| `items` | - | - | Yes |
+| `kif` | - | - | Yes |
+| `location` | - | - | - |
+| `modified` | - | - | - |
+| `partner` | - | - | Yes |
+| `shipmentType` | - | - | - |
+| `tracking` | - | - | Yes |
+| `version` | - | - | - |
+
 ### Operations
 
 #### `create(reqdata, ctrl) throws -> Value`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```swift
 let result = try client.Shipment().create(VMap([
+    ("location", .map(VMap()))  // VMap
 ]), nil)
 ```
 
 #### `list(reqmatch, ctrl) throws -> Value`
 
-List entities matching the given criteria. The match is optional — call `list(nil, nil)` to list all records. Returns a Value list and throws on error.
+List entities matching the given criteria. The match is optional — call `list(nil, nil)` to list all records. Returns a `Value` list of entities, one per record, and throws on error.
 
 ```swift
-let results = try client.Shipment().list(nil, nil)
-print(results)
+let results = try client.Shipment().list(VMap([("kif", .string("example"))]), nil)
+for item in results.asList?.items ?? [] {
+    if let entity = item.asNative as? Entity {
+        print(entity.data())
+    }
+}
 ```
 
 #### `load(reqmatch, ctrl) throws -> Value`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, as a native `Value` that `asNative as? Entity` unwraps, and throws on error.
 
 ```swift
 let result = try client.Shipment().load(VMap([("id", .string("shipment_id"))]), nil)
@@ -1272,23 +1455,27 @@ let success = client.Success()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `devices` | `[Value]` | Yes | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | `VMap` | Yes | Reference to the associated Partner. |
 | `success` | `Bool` | No | Indicates if the action was a success. |
 
 ### Operations
 
 #### `create(reqdata, ctrl) throws -> Value`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```swift
 let result = try client.Success().create(VMap([
-    ("share_partner_to", .string("example_share_partner_to"))  // String
+    ("share_partner_to", .string("example_share_partner_to")),  // String
+    ("devices", .list([])),  // [Value]
+    ("sharePartnerFrom", .map(VMap()))  // VMap
 ]), nil)
 ```
 
 #### `remove(reqmatch, ctrl) throws -> Value`
 
-Remove the entity matching the given criteria. Throws on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and throws on error.
 
 ```swift
 let result = try client.Success().remove(VMap([("share_partner_to", .string("share_partner_to"))]), nil)
@@ -1330,6 +1517,7 @@ let transaction = client.Transaction()
 | `clientRef` | `String` | No | Client Reference property that is included in the decrypt API call. |
 | `created` | `String` | No | Creation timestamp in ISO 8601 format. |
 | `decrypted` | `Int` | No | A Transcation can process muliple decryptions. |
+| `device` | `VMap` | Yes | Reference to the associated Device resource. |
 | `deviceName` | `String` | No | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | `VMap` | No | Reference to the associated Partner. |
 | `encrypted` | `Int` | No | A Transcation can process muliple encryptions. |
@@ -1350,30 +1538,65 @@ let transaction = client.Transaction()
 | `success` | `Bool` | No | The success indicator. |
 | `transactionSource` | `String` | No | The source of the Transaction. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `alternateKey` | - | - | - |
+| `client` | - | - | Yes |
+| `clientRef` | - | - | - |
+| `created` | - | - | - |
+| `decrypted` | - | - | - |
+| `device` | - | - | - |
+| `deviceName` | - | - | - |
+| `directPartner` | - | - | - |
+| `encrypted` | - | - | - |
+| `endDate` | - | - | - |
+| `errCode` | - | - | - |
+| `errMessage` | - | - | - |
+| `id` | - | - | - |
+| `ipAddress` | - | - | Yes |
+| `isVirtual` | - | - | - |
+| `keyType` | - | - | Yes |
+| `location` | - | - | - |
+| `messageId` | - | - | - |
+| `method` | - | - | Yes |
+| `partner` | - | - | Yes |
+| `reference` | - | - | - |
+| `serialNumber` | - | - | - |
+| `startDate` | - | - | - |
+| `success` | - | - | - |
+| `transactionSource` | - | - | - |
+
 ### Operations
 
 #### `create(reqdata, ctrl) throws -> Value`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```swift
 let result = try client.Transaction().create(VMap([
+    ("device", .map(VMap())),  // VMap
     ("location", .map(VMap()))  // VMap
 ]), nil)
 ```
 
 #### `list(reqmatch, ctrl) throws -> Value`
 
-List entities matching the given criteria. The match is optional — call `list(nil, nil)` to list all records. Returns a Value list and throws on error.
+List entities matching the given criteria. The match is optional — call `list(nil, nil)` to list all records. Returns a `Value` list of entities, one per record, and throws on error.
 
 ```swift
 let results = try client.Transaction().list(nil, nil)
-print(results)
+for item in results.asList?.items ?? [] {
+    if let entity = item.asNative as? Entity {
+        print(entity.data())
+    }
+}
 ```
 
 #### `load(reqmatch, ctrl) throws -> Value`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, as a native `Value` that `asNative as? Entity` unwraps, and throws on error.
 
 ```swift
 let result = try client.Transaction().load(VMap([("id", .string("transaction_id"))]), nil)
@@ -1410,42 +1633,174 @@ let updateResult = client.UpdateResult()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `address1` | `String` | No | The Location's street address. |
+| `address2` | `String` | No | The Location's street address. |
+| `alternateKey` | `String` | No | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `String` | No | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | `String` | No | \? |
+| `city` | `String` | No | The Location's city. |
 | `client` | `VMap` | No | Reference to the associated Client resource. |
-| `email` | `String` | No | The User's email address. |
-| `firstName` | `String` | No | The User's name. |
+| `clientCanOrderEquipment` | `Bool` | No | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | `String` | No | Client Reference property that is included in the decrypt API call. |
+| `contact` | `VMap` | Yes | Reference to the associated User resource. |
+| `country` | `VMap` | No | Reference to the associated Country. |
+| `customReference` | `String` | No | A Partner specified reference for a location. |
+| `dateShipped` | `String` | No | The date and time that a package is shipped. |
+| `decrypted` | `Int` | No | A Transcation can process muliple decryptions. |
+| `device` | `VMap` | No | Reference to the associated Device resource. |
+| `deviceBuild` | `VMap` | No | Reference to the associated Device Build resource. |
+| `deviceType` | `VMap` | No | Reference to the associated Device Type resource. |
+| `directPartner` | `VMap` | No | Reference to the associated Partner. |
+| `email` | `String` | Yes | The User's email address. |
+| `encrypted` | `Int` | No | A Transcation can process muliple encryptions. |
+| `endDate` | `String` | No | Timestamp from the end of the transaction. |
+| `errCode` | `String` | No | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `String` | No | The error messge that is sent in response to a failed decrypt API call. |
+| `firstName` | `String` | Yes | The User's name. |
 | `id` | `String` | No | ID of newly created resource |
-| `isActive` | `Bool` | No | This property indicates if the User account is active or disabled. |
+| `injectKey` | `VMap` | No | Reference to the associated Device resource. |
+| `ipAddress` | `String` | No | The IP address of the http client that makes the decrypt API call. |
+| `isActive` | `Bool` | Yes | This property indicates if the User account is active or disabled. |
+| `items` | `[Value]` | No |  |
+| `keyType` | `String` | No | The type of cipher used during decrytion. |
 | `kif` | `VMap` | No | Reference to the associated KIF resource. |
-| `lastName` | `String` | No | The User's Surname. |
+| `lastName` | `String` | Yes | The User's Surname. |
+| `location` | `VMap` | Yes | Reference to the associated Location resource. |
+| `locationType` | `String` | No | The Location's clasification. |
+| `mailAddress1` | `String` | No | The Location's street address. |
+| `mailAddress2` | `String` | No | The Location's street address. |
+| `mailCity` | `String` | No | The Location's city. |
+| `mailCountry` | `String` | No | The Location's street address. |
+| `mailPostalCode` | `String` | No | The Location's postal code. |
+| `mailStateProvince` | `String` | No | The Location's street state or province. |
+| `messageId` | `String` | No | Message ID. |
+| `method` | `String` | No | The decryption cypher/method. |
+| `mid` | `String` | No | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | `String` | No | The Client's name. |
+| `nameOfBusiness` | `String` | No | The name of the business at this location. |
+| `notes` | `String` | No | Arbitary note that can be attached to a Device entry. |
+| `parent` | `VMap` | No | Reference to the associated Partner. |
 | `partner` | `VMap` | No | Reference to the associated Partner. |
-| `phone` | `String` | No | The User's phone number without dashes, spaces, or brackets. |
-| `userName` | `String` | No | The User's unique username. |
-| `userRole` | `VMap` | No | Reference to the associated User Role. |
+| `partnerId` | `String` | No | The Partner's id. |
+| `phone` | `String` | Yes | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | `String` | No | The Location's postal code. |
+| `reference` | `String` | No | The Partner's reference string. |
+| `sendWelcomeEmail` | `Bool` | No | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | `String` | No | The Device's serial number. |
+| `startDate` | `String` | No | Timestamp from the beginning of the transaction. |
+| `stateProvince` | `String` | No | The Location's street state or province. |
+| `success` | `Bool` | No | The success indicator. |
+| `tracking` | `String` | No | The courier's tracking number. |
+| `uniqueId` | `String` | No | Unique Identifier for the Location. |
+| `userName` | `String` | Yes | The User's unique username. |
+| `userRole` | `VMap` | Yes | Reference to the associated User Role. |
+| `verificationPhrase` | `String` | No | The verification phrase is a message that the Partner creates. |
 | `version` | `Int` | No | The number of times that this resource has been updated. |
+
+### Field Usage by Operation
+
+| Field | list | create | update |
+| --- | --- | --- | --- |
+| `address1` | - | - | - |
+| `address2` | - | - | - |
+| `alternateKey` | - | - | - |
+| `auditNextDate` | - | - | - |
+| `billingId` | - | - | - |
+| `city` | - | - | - |
+| `client` | - | - | - |
+| `clientCanOrderEquipment` | - | - | - |
+| `clientRef` | - | - | - |
+| `contact` | - | - | - |
+| `country` | - | - | - |
+| `customReference` | - | - | - |
+| `dateShipped` | - | - | - |
+| `decrypted` | - | - | - |
+| `device` | - | - | - |
+| `deviceBuild` | - | - | - |
+| `deviceType` | - | - | - |
+| `directPartner` | - | - | - |
+| `email` | Yes | - | Yes |
+| `encrypted` | - | - | - |
+| `endDate` | - | - | - |
+| `errCode` | - | - | - |
+| `errMessage` | - | - | - |
+| `firstName` | Yes | - | Yes |
+| `id` | - | - | - |
+| `injectKey` | - | - | - |
+| `ipAddress` | - | - | - |
+| `isActive` | Yes | - | Yes |
+| `items` | - | - | - |
+| `keyType` | - | - | - |
+| `kif` | - | - | - |
+| `lastName` | Yes | - | Yes |
+| `location` | - | - | - |
+| `locationType` | - | - | - |
+| `mailAddress1` | - | - | - |
+| `mailAddress2` | - | - | - |
+| `mailCity` | - | - | - |
+| `mailCountry` | - | - | - |
+| `mailPostalCode` | - | - | - |
+| `mailStateProvince` | - | - | - |
+| `messageId` | - | - | - |
+| `method` | - | - | - |
+| `mid` | - | - | - |
+| `name` | - | - | - |
+| `nameOfBusiness` | - | - | - |
+| `notes` | - | - | - |
+| `parent` | - | - | - |
+| `partner` | - | - | - |
+| `partnerId` | - | - | - |
+| `phone` | Yes | - | Yes |
+| `postalCode` | - | - | - |
+| `reference` | - | - | - |
+| `sendWelcomeEmail` | - | - | - |
+| `serialNumber` | - | - | - |
+| `startDate` | - | - | - |
+| `stateProvince` | - | - | - |
+| `success` | - | - | - |
+| `tracking` | - | - | - |
+| `uniqueId` | - | - | - |
+| `userName` | Yes | - | Yes |
+| `userRole` | Yes | - | Yes |
+| `verificationPhrase` | - | - | - |
+| `version` | - | - | - |
 
 ### Operations
 
 #### `create(reqdata, ctrl) throws -> Value`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```swift
 let result = try client.UpdateResult().create(VMap([
+    ("contact", .map(VMap())),  // VMap
+    ("email", .string("example_email")),  // String
+    ("firstName", .string("example_firstName")),  // String
+    ("isActive", .bool(true)),  // Bool
+    ("lastName", .string("example_lastName")),  // String
+    ("location", .map(VMap())),  // VMap
+    ("phone", .string("example_phone")),  // String
+    ("userName", .string("example_userName")),  // String
+    ("userRole", .map(VMap()))  // VMap
 ]), nil)
 ```
 
 #### `list(reqmatch, ctrl) throws -> Value`
 
-List entities matching the given criteria. The match is optional — call `list(nil, nil)` to list all records. Returns a Value list and throws on error.
+List entities matching the given criteria. The match is optional — call `list(nil, nil)` to list all records. Returns a `Value` list of entities, one per record, and throws on error.
 
 ```swift
 let results = try client.UpdateResult().list(nil, nil)
-print(results)
+for item in results.asList?.items ?? [] {
+    if let entity = item.asNative as? Entity {
+        print(entity.data())
+    }
+}
 ```
 
 #### `update(reqdata, ctrl) throws -> Value`
 
-Update an existing entity. The data must include the entity `id`. Returns the updated entity data and throws on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and throws on error.
 
 ```swift
 let result = try client.UpdateResult().update(VMap([
@@ -1503,7 +1858,7 @@ let user = client.User()
 
 #### `load(reqmatch, ctrl) throws -> Value`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, as a native `Value` that `asNative as? Entity` unwraps, and throws on error.
 
 ```swift
 let result = try client.User().load(VMap([("id", .string("user_id"))]), nil)
@@ -1511,7 +1866,7 @@ let result = try client.User().load(VMap([("id", .string("user_id"))]), nil)
 
 #### `remove(reqmatch, ctrl) throws -> Value`
 
-Remove the entity matching the given criteria. Throws on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and throws on error.
 
 ```swift
 let result = try client.User().remove(VMap([("id", .string("user_id"))]), nil)
@@ -1556,7 +1911,7 @@ let virtualDevice = client.VirtualDevice()
 
 #### `load(reqmatch, ctrl) throws -> Value`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, as a native `Value` that `asNative as? Entity` unwraps, and throws on error.
 
 ```swift
 let result = try client.VirtualDevice().load(VMap([("id", .string("virtual_device_id"))]), nil)
@@ -2004,6 +2359,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

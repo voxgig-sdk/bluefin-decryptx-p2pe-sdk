@@ -50,7 +50,7 @@ static VirtualDeviceSetup virtual_device_basic_setup(const Value& extra) {
 
   VirtualDeviceSetup s;
   s.client = client;
-  s.d = entity_data;
+  s.data = entity_data;
   s.idmap = idmap_resolved;
   s.env = env;
   s.live = live;
@@ -65,6 +65,27 @@ static void virtual_device_entity_instance() {
   ASSERT_EQ(ent->getName(), std::string("virtual_device"), "entity name");
 }
 
+
+static bool virtual_device_has_feature(const std::string& name) {
+  Value fm = Helpers::toMapAny(getp(sharedConfig(), "feature"));
+  return fm.is_map() && !getp(fm, name).is_undef();
+}
+
+static void virtual_device_entity_validate() {
+  if (!virtual_device_has_feature("validate")) {
+    std::cerr << "skip: feature not present in this SDK: validate\n";
+    return;
+  }
+  auto vsdk = BluefinDecryptxP2peSDK::testSDK(Value::undef(), vmap({{"feature",
+      vmap({{"validate", vmap({{"active", Value(true)}})}})}}));
+  std::string code;
+  try {
+    vsdk->virtual_device()->load(vmap({{"id", Value(1)}}), Value::undef());
+  } catch (const SdkErrorPtr& err) {
+    code = err->code;
+  }
+  ASSERT_EQ(code, std::string("validate_failed"), "an invalid request fails with validate_failed");
+}
 
 static void virtual_device_entity_basic() {
   auto setup = virtual_device_basic_setup(Value::undef());
@@ -98,6 +119,7 @@ static void virtual_device_entity_basic() {
 
 int main() {
   T_RUN(virtual_device_entity_instance);
+  T_RUN(virtual_device_entity_validate);
   T_RUN(virtual_device_entity_basic);
   return sdktest::summary("virtual_device_entity_test");
 }

@@ -20,6 +20,7 @@ typedef struct {
   char*completedate;  // optional
   char*created;  // optional
   voxgig_value*device;  // optional
+  voxgig_value*devices;
   char*id;  // optional
   char*name;  // optional
   char*notes;  // optional
@@ -43,6 +44,7 @@ typedef struct {
   char*completedate;  // optional
   char*created;  // optional
   voxgig_value*device;  // optional
+  voxgig_value*devices;
   char*id;  // optional
   char*name;  // optional
   char*notes;  // optional
@@ -97,22 +99,45 @@ typedef struct {
 
 // CreateResult is the typed data model for the create_result entity.
 typedef struct {
-  char _unused;  // placeholder: no modelled members
+  char*completedate;  // optional
+  voxgig_value*custodian;
+  voxgig_value*location;
+  char*notes;  // optional
 } CreateResult;
 
 // CreateResultCreateData is the typed request payload for CreateResult.create.
 typedef struct {
   char*device_type;
   char*serial_number;
+  char*completedate;  // optional
+  voxgig_value*custodian;
+  voxgig_value*location;
+  char*notes;  // optional
 } CreateResultCreateData;
 
 // Decryption is the typed data model for the decryption entity.
 typedef struct {
+  char*cbcvector;  // optional
+  char*devicetype;
+  char*encoding;  // optional
+  voxgig_value*encrypted;
+  char*hasccdata;  // optional
+  char*reference;  // optional
+  char*sequencenumber;  // optional
+  char*serialnumber;
   bool success;  // optional
 } Decryption;
 
 // DecryptionCreateData is the typed request payload for Decryption.create.
 typedef struct {
+  char*cbcvector;  // optional
+  char*devicetype;
+  char*encoding;  // optional
+  voxgig_value*encrypted;
+  char*hasccdata;  // optional
+  char*reference;  // optional
+  char*sequencenumber;  // optional
+  char*serialnumber;
   bool success;  // optional
 } DecryptionCreateData;
 
@@ -280,22 +305,42 @@ typedef struct {
 
 // DeviceReceiveResult is the typed data model for the device_receive_result entity.
 typedef struct {
+  char*serialnumber;
   bool success;
+  char*tamperlabel;
 } DeviceReceiveResult;
 
 // DeviceReceiveResultCreateData is the typed request payload for DeviceReceiveResult.create.
 typedef struct {
+  char*serialnumber;
   bool success;
+  char*tamperlabel;
 } DeviceReceiveResultCreateData;
 
 // DeviceRkiActivateResult is the typed data model for the device_rki_activate_result entity.
 typedef struct {
+  char*appversion;  // optional
+  char*buildname;  // optional
+  char*buildnumber;  // optional
+  char*configfile;  // optional
+  char*firmwareversion;  // optional
+  char*hardwareversion;  // optional
+  char*serialnumber;
   bool success;
+  char*whitelistingbinranges;  // optional
 } DeviceRkiActivateResult;
 
 // DeviceRkiActivateResultCreateData is the typed request payload for DeviceRkiActivateResult.create.
 typedef struct {
+  char*appversion;  // optional
+  char*buildname;  // optional
+  char*buildnumber;  // optional
+  char*configfile;  // optional
+  char*firmwareversion;  // optional
+  char*hardwareversion;  // optional
+  char*serialnumber;
   bool success;
+  char*whitelistingbinranges;  // optional
 } DeviceRkiActivateResultCreateData;
 
 // DeviceState is the typed data model for the device_state entity.
@@ -394,6 +439,7 @@ typedef struct {
   char*address2;  // optional
   char*billingid;  // optional
   char*city;  // optional
+  voxgig_value*client;  // optional
   char*country;  // optional
   char*created;  // optional
   char*customreference;  // optional
@@ -433,6 +479,7 @@ typedef struct {
   char*address2;  // optional
   char*billingid;  // optional
   char*city;  // optional
+  voxgig_value*client;  // optional
   char*country;  // optional
   char*created;  // optional
   char*customreference;  // optional
@@ -518,6 +565,7 @@ typedef struct {
   char*id;  // optional
   voxgig_value*items;  // optional
   voxgig_value*kif;  // optional
+  voxgig_value*location;
   char*modified;  // optional
   voxgig_value*partner;  // optional
   char*shipmenttype;  // optional
@@ -549,6 +597,7 @@ typedef struct {
   char*id;  // optional
   voxgig_value*items;  // optional
   voxgig_value*kif;  // optional
+  voxgig_value*location;
   char*modified;  // optional
   voxgig_value*partner;  // optional
   char*shipmenttype;  // optional
@@ -558,12 +607,16 @@ typedef struct {
 
 // Success is the typed data model for the success entity.
 typedef struct {
+  voxgig_value*devices;
+  voxgig_value*sharepartnerfrom;
   bool success;  // optional
 } Success;
 
 // SuccessCreateData is the typed request payload for Success.create.
 typedef struct {
   char*share_partner_to;
+  voxgig_value*devices;
+  voxgig_value*sharepartnerfrom;
   bool success;  // optional
 } SuccessCreateData;
 
@@ -579,6 +632,7 @@ typedef struct {
   char*clientref;  // optional
   char*created;  // optional
   int64_t decrypted;  // optional
+  voxgig_value*device;
   char*devicename;  // optional
   voxgig_value*directpartner;  // optional
   int64_t encrypted;  // optional
@@ -629,6 +683,7 @@ typedef struct {
   char*clientref;  // optional
   char*created;  // optional
   int64_t decrypted;  // optional
+  voxgig_value*device;
   char*devicename;  // optional
   voxgig_value*directpartner;  // optional
   int64_t encrypted;  // optional
@@ -652,17 +707,68 @@ typedef struct {
 
 // UpdateResult is the typed data model for the update_result entity.
 typedef struct {
+  char*address1;  // optional
+  char*address2;  // optional
+  char*alternatekey;  // optional
+  char*auditnextdate;  // optional
+  char*billingid;  // optional
+  char*city;  // optional
   voxgig_value*client;  // optional
-  char*email;  // optional
-  char*firstname;  // optional
+  bool clientcanorderequipment;  // optional
+  char*clientref;  // optional
+  voxgig_value*contact;
+  voxgig_value*country;  // optional
+  char*customreference;  // optional
+  char*dateshipped;  // optional
+  int64_t decrypted;  // optional
+  voxgig_value*device;  // optional
+  voxgig_value*devicebuild;  // optional
+  voxgig_value*devicetype;  // optional
+  voxgig_value*directpartner;  // optional
+  char*email;
+  int64_t encrypted;  // optional
+  char*enddate;  // optional
+  char*errcode;  // optional
+  char*errmessage;  // optional
+  char*firstname;
   char*id;  // optional
-  bool isactive;  // optional
+  voxgig_value*injectkey;  // optional
+  char*ipaddress;  // optional
+  bool isactive;
+  voxgig_value*items;  // optional
+  char*keytype;  // optional
   voxgig_value*kif;  // optional
-  char*lastname;  // optional
+  char*lastname;
+  voxgig_value*location;
+  char*locationtype;  // optional
+  char*mailaddress1;  // optional
+  char*mailaddress2;  // optional
+  char*mailcity;  // optional
+  char*mailcountry;  // optional
+  char*mailpostalcode;  // optional
+  char*mailstateprovince;  // optional
+  char*messageid;  // optional
+  char*method;  // optional
+  char*mid;  // optional
+  char*name;  // optional
+  char*nameofbusiness;  // optional
+  char*notes;  // optional
+  voxgig_value*parent;  // optional
   voxgig_value*partner;  // optional
-  char*phone;  // optional
-  char*username;  // optional
-  voxgig_value*userrole;  // optional
+  char*partnerid;  // optional
+  char*phone;
+  char*postalcode;  // optional
+  char*reference;  // optional
+  bool sendwelcomeemail;  // optional
+  char*serialnumber;  // optional
+  char*startdate;  // optional
+  char*stateprovince;  // optional
+  bool success;  // optional
+  char*tracking;  // optional
+  char*uniqueid;  // optional
+  char*username;
+  voxgig_value*userrole;
+  char*verificationphrase;  // optional
   int64_t version;  // optional
 } UpdateResult;
 
@@ -677,33 +783,135 @@ typedef struct {
 
 // UpdateResultCreateData is the typed request payload for UpdateResult.create.
 typedef struct {
+  char*address1;  // optional
+  char*address2;  // optional
+  char*alternatekey;  // optional
+  char*auditnextdate;  // optional
+  char*billingid;  // optional
+  char*city;  // optional
   voxgig_value*client;  // optional
-  char*email;  // optional
-  char*firstname;  // optional
+  bool clientcanorderequipment;  // optional
+  char*clientref;  // optional
+  voxgig_value*contact;
+  voxgig_value*country;  // optional
+  char*customreference;  // optional
+  char*dateshipped;  // optional
+  int64_t decrypted;  // optional
+  voxgig_value*device;  // optional
+  voxgig_value*devicebuild;  // optional
+  voxgig_value*devicetype;  // optional
+  voxgig_value*directpartner;  // optional
+  char*email;
+  int64_t encrypted;  // optional
+  char*enddate;  // optional
+  char*errcode;  // optional
+  char*errmessage;  // optional
+  char*firstname;
   char*id;  // optional
-  bool isactive;  // optional
+  voxgig_value*injectkey;  // optional
+  char*ipaddress;  // optional
+  bool isactive;
+  voxgig_value*items;  // optional
+  char*keytype;  // optional
   voxgig_value*kif;  // optional
-  char*lastname;  // optional
+  char*lastname;
+  voxgig_value*location;
+  char*locationtype;  // optional
+  char*mailaddress1;  // optional
+  char*mailaddress2;  // optional
+  char*mailcity;  // optional
+  char*mailcountry;  // optional
+  char*mailpostalcode;  // optional
+  char*mailstateprovince;  // optional
+  char*messageid;  // optional
+  char*method;  // optional
+  char*mid;  // optional
+  char*name;  // optional
+  char*nameofbusiness;  // optional
+  char*notes;  // optional
+  voxgig_value*parent;  // optional
   voxgig_value*partner;  // optional
-  char*phone;  // optional
-  char*username;  // optional
-  voxgig_value*userrole;  // optional
+  char*partnerid;  // optional
+  char*phone;
+  char*postalcode;  // optional
+  char*reference;  // optional
+  bool sendwelcomeemail;  // optional
+  char*serialnumber;  // optional
+  char*startdate;  // optional
+  char*stateprovince;  // optional
+  bool success;  // optional
+  char*tracking;  // optional
+  char*uniqueid;  // optional
+  char*username;
+  voxgig_value*userrole;
+  char*verificationphrase;  // optional
   int64_t version;  // optional
 } UpdateResultCreateData;
 
 // UpdateResultUpdateData is the typed request payload for UpdateResult.update.
 typedef struct {
   char*id;
+  char*address1;  // optional
+  char*address2;  // optional
+  char*alternatekey;  // optional
+  char*auditnextdate;  // optional
+  char*billingid;  // optional
+  char*city;  // optional
   voxgig_value*client;  // optional
+  bool clientcanorderequipment;  // optional
+  char*clientref;  // optional
+  voxgig_value*contact;  // optional
+  voxgig_value*country;  // optional
+  char*customreference;  // optional
+  char*dateshipped;  // optional
+  int64_t decrypted;  // optional
+  voxgig_value*device;  // optional
+  voxgig_value*devicebuild;  // optional
+  voxgig_value*devicetype;  // optional
+  voxgig_value*directpartner;  // optional
   char*email;  // optional
+  int64_t encrypted;  // optional
+  char*enddate;  // optional
+  char*errcode;  // optional
+  char*errmessage;  // optional
   char*firstname;  // optional
+  voxgig_value*injectkey;  // optional
+  char*ipaddress;  // optional
   bool isactive;  // optional
+  voxgig_value*items;  // optional
+  char*keytype;  // optional
   voxgig_value*kif;  // optional
   char*lastname;  // optional
+  voxgig_value*location;  // optional
+  char*locationtype;  // optional
+  char*mailaddress1;  // optional
+  char*mailaddress2;  // optional
+  char*mailcity;  // optional
+  char*mailcountry;  // optional
+  char*mailpostalcode;  // optional
+  char*mailstateprovince;  // optional
+  char*messageid;  // optional
+  char*method;  // optional
+  char*mid;  // optional
+  char*name;  // optional
+  char*nameofbusiness;  // optional
+  char*notes;  // optional
+  voxgig_value*parent;  // optional
   voxgig_value*partner;  // optional
+  char*partnerid;  // optional
   char*phone;  // optional
+  char*postalcode;  // optional
+  char*reference;  // optional
+  bool sendwelcomeemail;  // optional
+  char*serialnumber;  // optional
+  char*startdate;  // optional
+  char*stateprovince;  // optional
+  bool success;  // optional
+  char*tracking;  // optional
+  char*uniqueid;  // optional
   char*username;  // optional
   voxgig_value*userrole;  // optional
+  char*verificationphrase;  // optional
   int64_t version;  // optional
 } UpdateResultUpdateData;
 

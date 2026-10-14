@@ -181,32 +181,47 @@ $attestation = $client->Attestation();
 | `completeDate` | `string` | No | The date and time that the Attestation took place. |
 | `created` | `string` | No | Creation timestamp in ISO 8601 format. |
 | `device` | `array` | No | Reference to the associated Device resource. |
+| `devices` | `array` | Yes |  |
 | `id` | `string` | No | This resource's unique identifier. |
 | `name` | `string` | No | Text describing the attestation. |
 | `notes` | `string` | No | Free form field that allows the Client associate notes with the Attestation. |
+
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `client` | - | - | Yes |
+| `completeDate` | - | - | Yes |
+| `created` | - | - | - |
+| `device` | - | - | - |
+| `devices` | - | - | - |
+| `id` | - | - | - |
+| `name` | - | - | Yes |
+| `notes` | - | - | - |
 
 ### Operations
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->Attestation()->create([
+  "devices" => null, // array
 ]);
 ```
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
-$results = $client->Attestation()->list();
+$results = $client->Attestation()->list(["client" => "example"]);
 ```
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->Attestation()->load(["id" => "attestation_id"]);
@@ -268,15 +283,15 @@ $client = $client->Client();
 
 | Field | load | list | create | remove |
 | --- | --- | --- | --- | --- |
-| `contact` | - | Yes | - | - |
+| `contact` | - | Yes | Yes | - |
 | `created` | - | - | - | - |
-| `directPartner` | - | - | - | - |
+| `directPartner` | - | - | Yes | - |
 | `id` | - | - | - | - |
 | `isActive` | - | - | - | - |
 | `location` | - | - | - | - |
 | `mid` | - | - | - | - |
 | `modified` | - | - | - | - |
-| `name` | - | - | - | - |
+| `name` | - | - | Yes | - |
 | `partner` | - | - | - | - |
 | `version` | - | - | - | - |
 
@@ -284,7 +299,7 @@ $client = $client->Client();
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->Client()->create([
@@ -294,15 +309,15 @@ $result = $client->Client()->create([
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
-$results = $client->Client()->list();
+$results = $client->Client()->list(["partner" => "example"]);
 ```
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->Client()->load(["id" => "client_id"]);
@@ -310,7 +325,7 @@ $result = $client->Client()->load(["id" => "client_id"]);
 
 #### `remove(array $reqmatch, ?array $ctrl = null): mixed`
 
-Remove the entity matching the given criteria. Throws on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and throws on error.
 
 ```php
 $result = $client->Client()->remove(["id" => "client_id"]);
@@ -352,16 +367,27 @@ Return the entity name.
 $create_result = $client->CreateResult();
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `completeDate` | `string` | No | The date and time that the Custody change took place. |
+| `custodian` | `array` | Yes | Reference to the associated User resource. |
+| `location` | `array` | Yes | Reference to the associated Location resource. |
+| `notes` | `string` | No | Free form field that allows the Client associate notes with the Custody Change. |
+
 ### Operations
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->CreateResult()->create([
   "device_type" => null, // string
   "serial_number" => null, // string
+  "custodian" => null, // array
+  "location" => null, // array
 ]);
 ```
 
@@ -405,16 +431,27 @@ $decryption = $client->Decryption();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `cbcVector` | `string` | No | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | `string` | Yes | The device Type. |
+| `encoding` | `string` | No | The payload encoding |
+| `encrypted` | `array` | Yes |  |
+| `hasCcData` | `string` | No | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | `string` | No | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | `string` | No | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | `string` | Yes | The serial number of the device. |
 | `success` | `bool` | No | true if the payload decryption was successful. |
 
 ### Operations
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->Decryption()->create([
+  "deviceType" => null, // string
+  "encrypted" => null, // array
+  "serialNumber" => null, // string
 ]);
 ```
 
@@ -487,11 +524,44 @@ $device = $client->Device();
 | `serialNumber` | `string` | No | The Device's serial number. |
 | `version` | `int` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `activatedBy` | - | - | - |
+| `activationDate` | - | - | - |
+| `alternateKey` | - | - | - |
+| `auditNextDate` | - | - | - |
+| `auditNotificationDate` | - | - | - |
+| `client` | - | - | - |
+| `created` | - | - | - |
+| `createdBy` | - | - | - |
+| `deviceBuild` | - | - | - |
+| `deviceState` | - | - | - |
+| `deviceType` | - | - | Yes |
+| `errorCounter` | - | - | - |
+| `errorLastDate` | - | - | - |
+| `id` | - | - | - |
+| `initializedBy` | - | - | - |
+| `initializedDate` | - | - | - |
+| `injectKey` | - | - | - |
+| `isVirtual` | - | - | - |
+| `kif` | - | - | Yes |
+| `lastActivityDate` | - | - | - |
+| `location` | - | - | - |
+| `modified` | - | - | - |
+| `modifiedBy` | - | - | - |
+| `name` | - | - | - |
+| `notes` | - | - | - |
+| `partner` | - | - | - |
+| `serialNumber` | - | - | Yes |
+| `version` | - | - | - |
+
 ### Operations
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->Device()->create([
@@ -505,7 +575,7 @@ $result = $client->Device()->create([
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
 $results = $client->Device()->list();
@@ -513,7 +583,7 @@ $results = $client->Device()->list();
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->Device()->load(["id" => "device_id"]);
@@ -579,7 +649,7 @@ $device_build = $client->DeviceBuild();
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
 $results = $client->DeviceBuild()->list();
@@ -587,7 +657,7 @@ $results = $client->DeviceBuild()->list();
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->DeviceBuild()->load(["id" => "device_build_id"]);
@@ -651,7 +721,7 @@ $device_custody_detail = $client->DeviceCustodyDetail();
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->DeviceCustodyDetail()->load(["id" => "device_custody_detail_id", "device_type" => "device_type", "serial_number" => "serial_number"]);
@@ -715,10 +785,10 @@ $device_custody_list_item = $client->DeviceCustodyListItem();
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
-$results = $client->DeviceCustodyListItem()->list();
+$results = $client->DeviceCustodyListItem()->list(["device_type" => "example", "serial_number" => "example"]);
 ```
 
 ### Common Methods
@@ -761,17 +831,21 @@ $device_receive_result = $client->DeviceReceiveResult();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `serialNumber` | `string` | Yes | The serial number of the Device that is shipped. |
 | `success` | `bool` | Yes | Indicates if the action succeeded. |
+| `tamperLabel` | `string` | Yes | The code that is printed the tamper label of the Device that is shipped. |
 
 ### Operations
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->DeviceReceiveResult()->create([
+  "serialNumber" => null, // string
   "success" => null, // bool
+  "tamperLabel" => null, // string
 ]);
 ```
 
@@ -815,16 +889,25 @@ $device_rki_activate_result = $client->DeviceRkiActivateResult();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `appVersion` | `string` | No | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | `string` | No | The Device Builds's name. |
+| `buildNumber` | `string` | No | The Build Number. |
+| `configFile` | `string` | No | \? |
+| `firmwareVersion` | `string` | No | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `string` | No | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | `string` | Yes | The referenced Device's serial number. |
 | `success` | `bool` | Yes | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | `string` | No | \? |
 
 ### Operations
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->DeviceRkiActivateResult()->create([
+  "serialNumber" => null, // string
   "success" => null, // bool
 ]);
 ```
@@ -876,7 +959,7 @@ $device_state = $client->DeviceState();
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
 $results = $client->DeviceState()->list();
@@ -939,7 +1022,7 @@ $device_type = $client->DeviceType();
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
 $results = $client->DeviceType()->list();
@@ -947,7 +1030,7 @@ $results = $client->DeviceType()->list();
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->DeviceType()->load(["id" => "device_type_id"]);
@@ -1006,7 +1089,7 @@ $inject_key = $client->InjectKey();
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
 $results = $client->InjectKey()->list();
@@ -1014,7 +1097,7 @@ $results = $client->InjectKey()->list();
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->InjectKey()->load(["id" => "inject_key_id"]);
@@ -1067,7 +1150,7 @@ $kif = $client->Kif();
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
 $results = $client->Kif()->list();
@@ -1117,6 +1200,7 @@ $location = $client->Location();
 | `address2` | `string` | No | The Location's street address. |
 | `billingId` | `string` | No | \? |
 | `city` | `string` | No | The Location's city. |
+| `client` | `array` | No | Reference to the associated Client resource. |
 | `country` | `string` | No | The Location's country. |
 | `created` | `string` | No | Creation timestamp in ISO 8601 format. |
 | `customReference` | `string` | No | A Partner specified reference for a location. |
@@ -1137,11 +1221,40 @@ $location = $client->Location();
 | `uniqueId` | `string` | No | Unique Identifier for the Location. |
 | `version` | `int` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create | remove |
+| --- | --- | --- | --- | --- |
+| `address1` | - | - | Yes | - |
+| `address2` | - | - | - | - |
+| `billingId` | - | - | - | - |
+| `city` | - | - | Yes | - |
+| `client` | - | - | - | - |
+| `country` | - | - | Yes | - |
+| `created` | - | - | - | - |
+| `customReference` | - | - | - | - |
+| `id` | - | - | - | - |
+| `locationType` | - | - | Yes | - |
+| `mailAddress1` | - | - | - | - |
+| `mailAddress2` | - | - | - | - |
+| `mailCity` | - | - | - | - |
+| `mailCountry` | - | - | - | - |
+| `mailPostalCode` | - | - | - | - |
+| `mailStateProvince` | - | - | - | - |
+| `modified` | - | - | - | - |
+| `name` | - | - | Yes | - |
+| `nameOfBusiness` | - | - | - | - |
+| `notes` | - | - | - | - |
+| `postalCode` | - | - | - | - |
+| `stateProvince` | - | - | - | - |
+| `uniqueId` | - | - | - | - |
+| `version` | - | - | - | - |
+
 ### Operations
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->Location()->create([
@@ -1150,15 +1263,15 @@ $result = $client->Location()->create([
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
-$results = $client->Location()->list();
+$results = $client->Location()->list(["client" => "example"]);
 ```
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->Location()->load(["id" => "location_id"]);
@@ -1166,7 +1279,7 @@ $result = $client->Location()->load(["id" => "location_id"]);
 
 #### `remove(array $reqmatch, ?array $ctrl = null): mixed`
 
-Remove the entity matching the given criteria. Throws on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and throws on error.
 
 ```php
 $result = $client->Location()->remove(["id" => "location_id"]);
@@ -1233,16 +1346,16 @@ $partner = $client->Partner();
 | --- | --- | --- | --- |
 | `billingId` | - | - | - |
 | `clientCanOrderEquipment` | - | - | - |
-| `contact` | - | Yes | - |
+| `contact` | - | Yes | Yes |
 | `created` | - | - | - |
 | `id` | - | - | - |
 | `isActive` | - | - | - |
 | `location` | - | - | - |
 | `modified` | - | - | - |
-| `name` | - | - | - |
-| `parent` | - | - | - |
+| `name` | - | - | Yes |
+| `parent` | - | - | Yes |
 | `partnerId` | - | - | - |
-| `reference` | - | - | - |
+| `reference` | - | - | Yes |
 | `verificationPhrase` | - | - | - |
 | `version` | - | - | - |
 
@@ -1250,7 +1363,7 @@ $partner = $client->Partner();
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->Partner()->create([
@@ -1260,7 +1373,7 @@ $result = $client->Partner()->create([
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
 $results = $client->Partner()->list();
@@ -1268,7 +1381,7 @@ $results = $client->Partner()->list();
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->Partner()->load(["id" => "partner_id"]);
@@ -1323,34 +1436,56 @@ $shipment = $client->Shipment();
 | `id` | `string` | No | This resource's unique identifier. |
 | `items` | `array` | No |  |
 | `kif` | `array` | No | Reference to the associated KIF resource. |
+| `location` | `array` | Yes | Reference to the associated Location resource. |
 | `modified` | `string` | No | Last modified timestamp. |
 | `partner` | `array` | No | Reference to the associated Partner. |
 | `shipmentType` | `string` | No | The type of shipment. |
 | `tracking` | `string` | No | The courier's tracking number. |
 | `version` | `int` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `carrier` | - | - | Yes |
+| `client` | - | - | Yes |
+| `created` | - | - | - |
+| `dateReceived` | - | - | - |
+| `dateShipped` | - | - | Yes |
+| `dcKif` | - | - | - |
+| `id` | - | - | - |
+| `items` | - | - | Yes |
+| `kif` | - | - | Yes |
+| `location` | - | - | - |
+| `modified` | - | - | - |
+| `partner` | - | - | Yes |
+| `shipmentType` | - | - | - |
+| `tracking` | - | - | Yes |
+| `version` | - | - | - |
+
 ### Operations
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->Shipment()->create([
+  "location" => null, // array
 ]);
 ```
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
-$results = $client->Shipment()->list();
+$results = $client->Shipment()->list(["kif" => "example"]);
 ```
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->Shipment()->load(["id" => "shipment_id"]);
@@ -1396,23 +1531,27 @@ $success = $client->Success();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `devices` | `array` | Yes | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | `array` | Yes | Reference to the associated Partner. |
 | `success` | `bool` | No | Indicates if the action was a success. |
 
 ### Operations
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->Success()->create([
   "share_partner_to" => null, // string
+  "devices" => null, // array
+  "sharePartnerFrom" => null, // array
 ]);
 ```
 
 #### `remove(array $reqmatch, ?array $ctrl = null): mixed`
 
-Remove the entity matching the given criteria. Throws on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and throws on error.
 
 ```php
 $result = $client->Success()->remove(["share_partner_to" => "share_partner_to"]);
@@ -1463,6 +1602,7 @@ $transaction = $client->Transaction();
 | `clientRef` | `string` | No | Client Reference property that is included in the decrypt API call. |
 | `created` | `string` | No | Creation timestamp in ISO 8601 format. |
 | `decrypted` | `int` | No | A Transcation can process muliple decryptions. |
+| `device` | `array` | Yes | Reference to the associated Device resource. |
 | `deviceName` | `string` | No | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | `array` | No | Reference to the associated Partner. |
 | `encrypted` | `int` | No | A Transcation can process muliple encryptions. |
@@ -1483,21 +1623,52 @@ $transaction = $client->Transaction();
 | `success` | `bool` | No | The success indicator. |
 | `transactionSource` | `string` | No | The source of the Transaction. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `alternateKey` | - | - | - |
+| `client` | - | - | Yes |
+| `clientRef` | - | - | - |
+| `created` | - | - | - |
+| `decrypted` | - | - | - |
+| `device` | - | - | - |
+| `deviceName` | - | - | - |
+| `directPartner` | - | - | - |
+| `encrypted` | - | - | - |
+| `endDate` | - | - | - |
+| `errCode` | - | - | - |
+| `errMessage` | - | - | - |
+| `id` | - | - | - |
+| `ipAddress` | - | - | Yes |
+| `isVirtual` | - | - | - |
+| `keyType` | - | - | Yes |
+| `location` | - | - | - |
+| `messageId` | - | - | - |
+| `method` | - | - | Yes |
+| `partner` | - | - | Yes |
+| `reference` | - | - | - |
+| `serialNumber` | - | - | - |
+| `startDate` | - | - | - |
+| `success` | - | - | - |
+| `transactionSource` | - | - | - |
+
 ### Operations
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->Transaction()->create([
+  "device" => null, // array
   "location" => null, // array
 ]);
 ```
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
 $results = $client->Transaction()->list();
@@ -1505,7 +1676,7 @@ $results = $client->Transaction()->list();
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->Transaction()->load(["id" => "transaction_id"]);
@@ -1551,33 +1722,161 @@ $update_result = $client->UpdateResult();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `address1` | `string` | No | The Location's street address. |
+| `address2` | `string` | No | The Location's street address. |
+| `alternateKey` | `string` | No | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `string` | No | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | `string` | No | \? |
+| `city` | `string` | No | The Location's city. |
 | `client` | `array` | No | Reference to the associated Client resource. |
-| `email` | `string` | No | The User's email address. |
-| `firstName` | `string` | No | The User's name. |
+| `clientCanOrderEquipment` | `bool` | No | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | `string` | No | Client Reference property that is included in the decrypt API call. |
+| `contact` | `array` | Yes | Reference to the associated User resource. |
+| `country` | `array` | No | Reference to the associated Country. |
+| `customReference` | `string` | No | A Partner specified reference for a location. |
+| `dateShipped` | `string` | No | The date and time that a package is shipped. |
+| `decrypted` | `int` | No | A Transcation can process muliple decryptions. |
+| `device` | `array` | No | Reference to the associated Device resource. |
+| `deviceBuild` | `array` | No | Reference to the associated Device Build resource. |
+| `deviceType` | `array` | No | Reference to the associated Device Type resource. |
+| `directPartner` | `array` | No | Reference to the associated Partner. |
+| `email` | `string` | Yes | The User's email address. |
+| `encrypted` | `int` | No | A Transcation can process muliple encryptions. |
+| `endDate` | `string` | No | Timestamp from the end of the transaction. |
+| `errCode` | `string` | No | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `string` | No | The error messge that is sent in response to a failed decrypt API call. |
+| `firstName` | `string` | Yes | The User's name. |
 | `id` | `string` | No | ID of newly created resource |
-| `isActive` | `bool` | No | This property indicates if the User account is active or disabled. |
+| `injectKey` | `array` | No | Reference to the associated Device resource. |
+| `ipAddress` | `string` | No | The IP address of the http client that makes the decrypt API call. |
+| `isActive` | `bool` | Yes | This property indicates if the User account is active or disabled. |
+| `items` | `array` | No |  |
+| `keyType` | `string` | No | The type of cipher used during decrytion. |
 | `kif` | `array` | No | Reference to the associated KIF resource. |
-| `lastName` | `string` | No | The User's Surname. |
+| `lastName` | `string` | Yes | The User's Surname. |
+| `location` | `array` | Yes | Reference to the associated Location resource. |
+| `locationType` | `string` | No | The Location's clasification. |
+| `mailAddress1` | `string` | No | The Location's street address. |
+| `mailAddress2` | `string` | No | The Location's street address. |
+| `mailCity` | `string` | No | The Location's city. |
+| `mailCountry` | `string` | No | The Location's street address. |
+| `mailPostalCode` | `string` | No | The Location's postal code. |
+| `mailStateProvince` | `string` | No | The Location's street state or province. |
+| `messageId` | `string` | No | Message ID. |
+| `method` | `string` | No | The decryption cypher/method. |
+| `mid` | `string` | No | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | `string` | No | The Client's name. |
+| `nameOfBusiness` | `string` | No | The name of the business at this location. |
+| `notes` | `string` | No | Arbitary note that can be attached to a Device entry. |
+| `parent` | `array` | No | Reference to the associated Partner. |
 | `partner` | `array` | No | Reference to the associated Partner. |
-| `phone` | `string` | No | The User's phone number without dashes, spaces, or brackets. |
-| `userName` | `string` | No | The User's unique username. |
-| `userRole` | `array` | No | Reference to the associated User Role. |
+| `partnerId` | `string` | No | The Partner's id. |
+| `phone` | `string` | Yes | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | `string` | No | The Location's postal code. |
+| `reference` | `string` | No | The Partner's reference string. |
+| `sendWelcomeEmail` | `bool` | No | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | `string` | No | The Device's serial number. |
+| `startDate` | `string` | No | Timestamp from the beginning of the transaction. |
+| `stateProvince` | `string` | No | The Location's street state or province. |
+| `success` | `bool` | No | The success indicator. |
+| `tracking` | `string` | No | The courier's tracking number. |
+| `uniqueId` | `string` | No | Unique Identifier for the Location. |
+| `userName` | `string` | Yes | The User's unique username. |
+| `userRole` | `array` | Yes | Reference to the associated User Role. |
+| `verificationPhrase` | `string` | No | The verification phrase is a message that the Partner creates. |
 | `version` | `int` | No | The number of times that this resource has been updated. |
+
+### Field Usage by Operation
+
+| Field | list | create | update |
+| --- | --- | --- | --- |
+| `address1` | - | - | - |
+| `address2` | - | - | - |
+| `alternateKey` | - | - | - |
+| `auditNextDate` | - | - | - |
+| `billingId` | - | - | - |
+| `city` | - | - | - |
+| `client` | - | - | - |
+| `clientCanOrderEquipment` | - | - | - |
+| `clientRef` | - | - | - |
+| `contact` | - | - | - |
+| `country` | - | - | - |
+| `customReference` | - | - | - |
+| `dateShipped` | - | - | - |
+| `decrypted` | - | - | - |
+| `device` | - | - | - |
+| `deviceBuild` | - | - | - |
+| `deviceType` | - | - | - |
+| `directPartner` | - | - | - |
+| `email` | Yes | - | Yes |
+| `encrypted` | - | - | - |
+| `endDate` | - | - | - |
+| `errCode` | - | - | - |
+| `errMessage` | - | - | - |
+| `firstName` | Yes | - | Yes |
+| `id` | - | - | - |
+| `injectKey` | - | - | - |
+| `ipAddress` | - | - | - |
+| `isActive` | Yes | - | Yes |
+| `items` | - | - | - |
+| `keyType` | - | - | - |
+| `kif` | - | - | - |
+| `lastName` | Yes | - | Yes |
+| `location` | - | - | - |
+| `locationType` | - | - | - |
+| `mailAddress1` | - | - | - |
+| `mailAddress2` | - | - | - |
+| `mailCity` | - | - | - |
+| `mailCountry` | - | - | - |
+| `mailPostalCode` | - | - | - |
+| `mailStateProvince` | - | - | - |
+| `messageId` | - | - | - |
+| `method` | - | - | - |
+| `mid` | - | - | - |
+| `name` | - | - | - |
+| `nameOfBusiness` | - | - | - |
+| `notes` | - | - | - |
+| `parent` | - | - | - |
+| `partner` | - | - | - |
+| `partnerId` | - | - | - |
+| `phone` | Yes | - | Yes |
+| `postalCode` | - | - | - |
+| `reference` | - | - | - |
+| `sendWelcomeEmail` | - | - | - |
+| `serialNumber` | - | - | - |
+| `startDate` | - | - | - |
+| `stateProvince` | - | - | - |
+| `success` | - | - | - |
+| `tracking` | - | - | - |
+| `uniqueId` | - | - | - |
+| `userName` | Yes | - | Yes |
+| `userRole` | Yes | - | Yes |
+| `verificationPhrase` | - | - | - |
+| `version` | - | - | - |
 
 ### Operations
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Create a new entity with the given data. Throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
 $result = $client->UpdateResult()->create([
+  "contact" => null, // array
+  "email" => null, // string
+  "firstName" => null, // string
+  "isActive" => null, // bool
+  "lastName" => null, // string
+  "location" => null, // array
+  "phone" => null, // string
+  "userName" => null, // string
+  "userRole" => null, // array
 ]);
 ```
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
 $results = $client->UpdateResult()->list();
@@ -1585,7 +1884,7 @@ $results = $client->UpdateResult()->list();
 
 #### `update(array $reqdata, ?array $ctrl = null): mixed`
 
-Update an existing entity. The data must include the entity `id`. Throws on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and throws on error.
 
 ```php
 $result = $client->UpdateResult()->update([
@@ -1653,7 +1952,7 @@ $user = $client->User();
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->User()->load(["id" => "user_id"]);
@@ -1661,7 +1960,7 @@ $result = $client->User()->load(["id" => "user_id"]);
 
 #### `remove(array $reqmatch, ?array $ctrl = null): mixed`
 
-Remove the entity matching the given criteria. Throws on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and throws on error.
 
 ```php
 $result = $client->User()->remove(["id" => "user_id"]);
@@ -1715,7 +2014,7 @@ $virtual_device = $client->VirtualDevice();
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->VirtualDevice()->load(["id" => "virtual_device_id"]);
@@ -2172,6 +2471,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

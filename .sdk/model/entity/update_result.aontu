@@ -5,6 +5,49 @@ main: kit: entity: update_result: {
   alias: field: {}
 
   fields: {
+    address1: {
+      h: "Address1"
+      n: "address1"
+      r: false
+      sh: "The Location's street address."
+      t: "`$STRING`"
+    }
+    address2: {
+      h: "Address2"
+      n: "address2"
+      r: false
+      sh: "The Location's street address."
+      t: "`$STRING`"
+    }
+    alternateKey: {
+      h: "Alternate Key"
+      n: "alternateKey"
+      r: false
+      sh: "The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging."
+      t: "`$STRING`"
+    }
+    auditNextDate: {
+      fo: "datetime"
+      h: "Audit Next Date"
+      n: "auditNextDate"
+      r: false
+      sh: "Date and time that the Device is due its next PCI Audit."
+      t: "`$STRING`"
+    }
+    billingId: {
+      h: "Billing Id"
+      n: "billingId"
+      r: false
+      sh: "\\?"
+      t: "`$STRING`"
+    }
+    city: {
+      h: "City"
+      n: "city"
+      r: false
+      sh: "The Location's city."
+      t: "`$STRING`"
+    }
     client: {
       h: "Client"
       n: "client"
@@ -12,17 +55,146 @@ main: kit: entity: update_result: {
       sh: "Reference to the associated Client resource."
       t: "`$OBJECT`"
     }
+    clientCanOrderEquipment: {
+      h: "Client Can Order Equipment"
+      n: "clientCanOrderEquipment"
+      r: false
+      sh: "This property indicates if the Partner is allowed to order Equipment."
+      t: "`$BOOLEAN`"
+    }
+    clientRef: {
+      h: "Client Ref"
+      n: "clientRef"
+      r: false
+      sh: "Client Reference property that is included in the decrypt API call."
+      t: "`$STRING`"
+    }
+    contact: {
+      h: "Contact"
+      n: "contact"
+      r: true
+      sh: "Reference to the associated User resource."
+      t: "`$OBJECT`"
+    }
+    country: {
+      h: "Country"
+      n: "country"
+      r: false
+      sh: "Reference to the associated Country."
+      t: "`$OBJECT`"
+    }
+    customReference: {
+      h: "Custom Reference"
+      n: "customReference"
+      r: false
+      sh: "A Partner specified reference for a location."
+      t: "`$STRING`"
+    }
+    dateShipped: {
+      fo: "datetime"
+      h: "Date Shipped"
+      n: "dateShipped"
+      r: false
+      sh: "The date and time that a package is shipped."
+      t: "`$STRING`"
+    }
+    decrypted: {
+      fo: "int32"
+      h: "Decrypted"
+      n: "decrypted"
+      r: false
+      sh: "A Transcation can process muliple decryptions."
+      t: "`$INTEGER`"
+    }
+    device: {
+      h: "Device"
+      n: "device"
+      r: false
+      sh: "Reference to the associated Device resource."
+      t: "`$OBJECT`"
+    }
+    deviceBuild: {
+      h: "Device Build"
+      n: "deviceBuild"
+      r: false
+      sh: "Reference to the associated Device Build resource."
+      t: "`$OBJECT`"
+    }
+    deviceType: {
+      h: "Device Type"
+      n: "deviceType"
+      r: false
+      sh: "Reference to the associated Device Type resource."
+      t: "`$OBJECT`"
+    }
+    directPartner: {
+      h: "Direct Partner"
+      n: "directPartner"
+      r: false
+      sh: "Reference to the associated Partner."
+      t: "`$OBJECT`"
+    }
     email: {
       h: "Email"
       n: "email"
-      r: false
+      op: {
+        list: {
+          req: false
+          type: "`$STRING`"
+        }
+        update: {
+          req: false
+          type: "`$STRING`"
+        }
+      }
+      r: true
       sh: "The User's email address."
+      t: "`$STRING`"
+    }
+    encrypted: {
+      fo: "int32"
+      h: "Encrypted"
+      n: "encrypted"
+      r: false
+      sh: "A Transcation can process muliple encryptions."
+      t: "`$INTEGER`"
+    }
+    endDate: {
+      fo: "datetime"
+      h: "End Date"
+      n: "endDate"
+      r: false
+      sh: "Timestamp from the end of the transaction."
+      t: "`$STRING`"
+    }
+    errCode: {
+      h: "Err Code"
+      n: "errCode"
+      r: false
+      sh: "The error code that is sent in response to a failed decrypt API call."
+      t: "`$STRING`"
+    }
+    errMessage: {
+      h: "Err Message"
+      n: "errMessage"
+      r: false
+      sh: "The error messge that is sent in response to a failed decrypt API call."
       t: "`$STRING`"
     }
     firstName: {
       h: "First Name"
       n: "firstName"
-      r: false
+      op: {
+        list: {
+          req: false
+          type: "`$STRING`"
+        }
+        update: {
+          req: false
+          type: "`$STRING`"
+        }
+      }
+      r: true
       sh: "The User's name."
       t: "`$STRING`"
     }
@@ -33,12 +205,49 @@ main: kit: entity: update_result: {
       sh: "ID of newly created resource"
       t: "`$STRING`"
     }
+    injectKey: {
+      h: "Inject Key"
+      n: "injectKey"
+      r: false
+      sh: "Reference to the associated Device resource."
+      t: "`$OBJECT`"
+    }
+    ipAddress: {
+      h: "Ip Address"
+      n: "ipAddress"
+      r: false
+      sh: "The IP address of the http client that makes the decrypt API call."
+      t: "`$STRING`"
+    }
     isActive: {
       h: "Is Active"
       n: "isActive"
-      r: false
+      op: {
+        list: {
+          req: false
+          type: "`$BOOLEAN`"
+        }
+        update: {
+          req: false
+          type: "`$BOOLEAN`"
+        }
+      }
+      r: true
       sh: "This property indicates if the User account is active or disabled."
       t: "`$BOOLEAN`"
+    }
+    items: {
+      h: "Items"
+      n: "items"
+      r: false
+      t: "`$ARRAY`"
+    }
+    keyType: {
+      h: "Key Type"
+      n: "keyType"
+      r: false
+      sh: "The type of cipher used during decrytion."
+      t: "`$STRING`"
     }
     kif: {
       h: "Kif"
@@ -50,9 +259,124 @@ main: kit: entity: update_result: {
     lastName: {
       h: "Last Name"
       n: "lastName"
-      r: false
+      op: {
+        list: {
+          req: false
+          type: "`$STRING`"
+        }
+        update: {
+          req: false
+          type: "`$STRING`"
+        }
+      }
+      r: true
       sh: "The User's Surname."
       t: "`$STRING`"
+    }
+    location: {
+      h: "Location"
+      n: "location"
+      r: true
+      sh: "Reference to the associated Location resource."
+      t: "`$OBJECT`"
+    }
+    locationType: {
+      h: "Location Type"
+      n: "locationType"
+      r: false
+      sh: "The Location's clasification."
+      t: "`$STRING`"
+    }
+    mailAddress1: {
+      h: "Mail Address1"
+      n: "mailAddress1"
+      r: false
+      sh: "The Location's street address."
+      t: "`$STRING`"
+    }
+    mailAddress2: {
+      h: "Mail Address2"
+      n: "mailAddress2"
+      r: false
+      sh: "The Location's street address."
+      t: "`$STRING`"
+    }
+    mailCity: {
+      h: "Mail City"
+      n: "mailCity"
+      r: false
+      sh: "The Location's city."
+      t: "`$STRING`"
+    }
+    mailCountry: {
+      h: "Mail Country"
+      n: "mailCountry"
+      r: false
+      sh: "The Location's street address."
+      t: "`$STRING`"
+    }
+    mailPostalCode: {
+      h: "Mail Postal Code"
+      n: "mailPostalCode"
+      r: false
+      sh: "The Location's postal code."
+      t: "`$STRING`"
+    }
+    mailStateProvince: {
+      h: "Mail State Province"
+      n: "mailStateProvince"
+      r: false
+      sh: "The Location's street state or province."
+      t: "`$STRING`"
+    }
+    messageId: {
+      h: "Message Id"
+      n: "messageId"
+      r: false
+      sh: "Message ID."
+      t: "`$STRING`"
+    }
+    method: {
+      h: "Method"
+      n: "method"
+      r: false
+      sh: "The decryption cypher/method."
+      t: "`$STRING`"
+    }
+    mid: {
+      h: "Mid"
+      n: "mid"
+      r: false
+      sh: "Some Partners will have an merchant ids on their own software offerings."
+      t: "`$STRING`"
+    }
+    name: {
+      h: "Name"
+      n: "name"
+      r: false
+      sh: "The Client's name."
+      t: "`$STRING`"
+    }
+    nameOfBusiness: {
+      h: "Name Of Business"
+      n: "nameOfBusiness"
+      r: false
+      sh: "The name of the business at this location."
+      t: "`$STRING`"
+    }
+    notes: {
+      h: "Notes"
+      n: "notes"
+      r: false
+      sh: "Arbitary note that can be attached to a Device entry."
+      t: "`$STRING`"
+    }
+    parent: {
+      h: "Parent"
+      n: "parent"
+      r: false
+      sh: "Reference to the associated Partner."
+      t: "`$OBJECT`"
     }
     partner: {
       h: "Partner"
@@ -61,26 +385,134 @@ main: kit: entity: update_result: {
       sh: "Reference to the associated Partner."
       t: "`$OBJECT`"
     }
+    partnerId: {
+      h: "Partner Id"
+      n: "partnerId"
+      r: false
+      sh: "The Partner's id."
+      t: "`$STRING`"
+    }
     phone: {
       h: "Phone"
       n: "phone"
-      r: false
+      op: {
+        list: {
+          req: false
+          type: "`$STRING`"
+        }
+        update: {
+          req: false
+          type: "`$STRING`"
+        }
+      }
+      r: true
       sh: "The User's phone number without dashes, spaces, or brackets."
+      t: "`$STRING`"
+    }
+    postalCode: {
+      h: "Postal Code"
+      n: "postalCode"
+      r: false
+      sh: "The Location's postal code."
+      t: "`$STRING`"
+    }
+    reference: {
+      h: "Reference"
+      n: "reference"
+      r: false
+      sh: "The Partner's reference string."
+      t: "`$STRING`"
+    }
+    sendWelcomeEmail: {
+      h: "Send Welcome Email"
+      n: "sendWelcomeEmail"
+      r: false
+      sh: "If this property is set to '*true*' the newly created user will be sent a welcome email."
+      t: "`$BOOLEAN`"
+    }
+    serialNumber: {
+      h: "Serial Number"
+      n: "serialNumber"
+      r: false
+      sh: "The Device's serial number."
+      t: "`$STRING`"
+    }
+    startDate: {
+      fo: "datetime"
+      h: "Start Date"
+      n: "startDate"
+      r: false
+      sh: "Timestamp from the beginning of the transaction."
+      t: "`$STRING`"
+    }
+    stateProvince: {
+      h: "State Province"
+      n: "stateProvince"
+      r: false
+      sh: "The Location's street state or province."
+      t: "`$STRING`"
+    }
+    success: {
+      h: "Success"
+      n: "success"
+      r: false
+      sh: "The success indicator."
+      t: "`$BOOLEAN`"
+    }
+    tracking: {
+      h: "Tracking"
+      n: "tracking"
+      r: false
+      sh: "The courier's tracking number."
+      t: "`$STRING`"
+    }
+    uniqueId: {
+      h: "Unique Id"
+      n: "uniqueId"
+      r: false
+      sh: "Unique Identifier for the Location."
       t: "`$STRING`"
     }
     userName: {
       h: "User Name"
       n: "userName"
-      r: false
+      op: {
+        list: {
+          req: false
+          type: "`$STRING`"
+        }
+        update: {
+          req: false
+          type: "`$STRING`"
+        }
+      }
+      r: true
       sh: "The User's unique username."
       t: "`$STRING`"
     }
     userRole: {
       h: "User Role"
       n: "userRole"
-      r: false
+      op: {
+        list: {
+          req: false
+          type: "`$OBJECT`"
+        }
+        update: {
+          req: false
+          type: "`$OBJECT`"
+        }
+      }
+      r: true
       sh: "Reference to the associated User Role."
       t: "`$OBJECT`"
+    }
+    verificationPhrase: {
+      h: "Verification Phrase"
+      n: "verificationPhrase"
+      r: false
+      sh: "The verification phrase is a message that the Partner creates."
+      t: "`$STRING`"
     }
     version: {
       h: "Version"
@@ -102,6 +534,19 @@ main: kit: entity: update_result: {
       name: "create"
       points: [
         {
+          bf: [
+            "client"
+            "email"
+            "firstName"
+            "isActive"
+            "kif"
+            "lastName"
+            "partner"
+            "phone"
+            "sendWelcomeEmail"
+            "userName"
+            "userRole"
+          ]
           co: {
             id: "POST /users"
             source: "openapi3"
@@ -109,6 +554,10 @@ main: kit: entity: update_result: {
           }
           m: "POST"
           o: "/users"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "users"
@@ -173,14 +622,9 @@ main: kit: entity: update_result: {
           }
           m: "GET"
           o: "/users"
-          q: {
-            exist: [
-              "client"
-              "kif"
-              "partner"
-              "skip"
-              "take"
-            ]
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -198,6 +642,15 @@ main: kit: entity: update_result: {
       name: "update"
       points: [
         {
+          bf: [
+            "contact"
+            "directPartner"
+            "isActive"
+            "location"
+            "mid"
+            "name"
+            "version"
+          ]
           co: {
             id: "PATCH /clients/{id}"
             source: "openapi3"
@@ -221,6 +674,10 @@ main: kit: entity: update_result: {
               "id"
             ]
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "clients"
@@ -235,6 +692,19 @@ main: kit: entity: update_result: {
           }
         }
         {
+          bf: [
+            "alternateKey"
+            "auditNextDate"
+            "client"
+            "deviceBuild"
+            "deviceType"
+            "injectKey"
+            "kif"
+            "name"
+            "notes"
+            "partner"
+            "serialNumber"
+          ]
           co: {
             id: "PATCH /devices/{id}"
             source: "openapi3"
@@ -258,6 +728,10 @@ main: kit: entity: update_result: {
               "id"
             ]
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "devices"
@@ -272,6 +746,27 @@ main: kit: entity: update_result: {
           }
         }
         {
+          bf: [
+            "address1"
+            "address2"
+            "billingId"
+            "city"
+            "country"
+            "customReference"
+            "locationType"
+            "mailAddress1"
+            "mailAddress2"
+            "mailCity"
+            "mailCountry"
+            "mailPostalCode"
+            "mailStateProvince"
+            "name"
+            "nameOfBusiness"
+            "notes"
+            "postalCode"
+            "stateProvince"
+            "uniqueId"
+          ]
           co: {
             id: "PATCH /locations/{id}"
             source: "openapi3"
@@ -295,6 +790,10 @@ main: kit: entity: update_result: {
               "id"
             ]
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "locations"
@@ -309,6 +808,19 @@ main: kit: entity: update_result: {
           }
         }
         {
+          bf: [
+            "billingId"
+            "clientCanOrderEquipment"
+            "contact"
+            "isActive"
+            "location"
+            "name"
+            "parent"
+            "partnerId"
+            "reference"
+            "verificationPhrase"
+            "version"
+          ]
           co: {
             id: "PATCH /partners/{id}"
             source: "openapi3"
@@ -332,6 +844,10 @@ main: kit: entity: update_result: {
               "id"
             ]
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "partners"
@@ -346,6 +862,11 @@ main: kit: entity: update_result: {
           }
         }
         {
+          bf: [
+            "dateShipped"
+            "items"
+            "tracking"
+          ]
           co: {
             id: "PATCH /shipments/{id}"
             source: "openapi3"
@@ -369,6 +890,10 @@ main: kit: entity: update_result: {
               "id"
             ]
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "shipments"
@@ -383,6 +908,24 @@ main: kit: entity: update_result: {
           }
         }
         {
+          bf: [
+            "client"
+            "clientRef"
+            "decrypted"
+            "device"
+            "encrypted"
+            "endDate"
+            "errCode"
+            "errMessage"
+            "ipAddress"
+            "keyType"
+            "messageId"
+            "method"
+            "partner"
+            "reference"
+            "startDate"
+            "success"
+          ]
           co: {
             id: "PATCH /transactions/{id}"
             source: "openapi3"
@@ -406,6 +949,10 @@ main: kit: entity: update_result: {
               "id"
             ]
           }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "transactions"
@@ -420,6 +967,19 @@ main: kit: entity: update_result: {
           }
         }
         {
+          bf: [
+            "client"
+            "email"
+            "firstName"
+            "isActive"
+            "kif"
+            "lastName"
+            "partner"
+            "phone"
+            "sendWelcomeEmail"
+            "userName"
+            "userRole"
+          ]
           co: {
             id: "PATCH /users/{id}"
             source: "openapi3"
@@ -442,6 +1002,10 @@ main: kit: entity: update_result: {
             exist: [
               "id"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

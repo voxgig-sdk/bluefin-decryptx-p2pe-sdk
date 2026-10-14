@@ -6,10 +6,28 @@ require_relative "../BluefinDecryptxP2pe_sdk"
 require_relative "runner"
 
 class DeviceCustodyDetailEntityTest < Minitest::Test
+  # main.kit.test.live.strict is true (the default is true): a live
+  # request that fails, or a live test missing an input it needs,
+  # fails the test.
+  # An account with no record for a test to read skips it either way.
+  LIVE_STRICT = true
+
   def test_create_instance
     testsdk = BluefinDecryptxP2peSDK.test(nil, nil)
     ent = testsdk.DeviceCustodyDetail(nil)
     assert !ent.nil?
+  end
+
+  def test_validate
+    cfg = BluefinDecryptxP2peConfig.shared_config
+    unless cfg["feature"].is_a?(Hash) && cfg["feature"].key?("validate")
+      skip("feature not present in this SDK: validate")
+    end
+    client = BluefinDecryptxP2peSDK.test(nil, { "feature" => { "validate" => { "active" => true } } })
+    err = assert_raises(StandardError) do
+      client.DeviceCustodyDetail(nil).load({ "device_type" => 1, "id" => "x", "serial_number" => "x" }, nil)
+    end
+    assert_equal "validate_failed", err.code
   end
 
   def test_basic_flow
@@ -23,11 +41,8 @@ class DeviceCustodyDetailEntityTest < Minitest::Test
         return
       end
     end
-    # The basic flow consumes synthetic IDs from the fixture. In live mode
-    # without an *_ENTID env override, those IDs hit the live API and 4xx.
-    if setup[:synthetic_only]
-      skip "live entity test uses synthetic IDs from fixture — set BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_CUSTODY_DETAIL_ENTID JSON to run live"
-      return
+    if setup[:live]
+      Runner.live_miss(LIVE_STRICT, "Live entity test blocked: " + "the flow loads a device_custody_detail record it has no list to find")
     end
     client = setup[:client]
 
@@ -44,6 +59,8 @@ class DeviceCustodyDetailEntityTest < Minitest::Test
     device_custody_detail_ref01_match_dt0 = {
       "id" => device_custody_detail_ref01_data["id"],
     }
+    device_custody_detail_ref01_match_dt0["device_type"] = setup[:idmap]["device_type"] || setup[:idmap]["device_type01"]
+    device_custody_detail_ref01_match_dt0["serial_number"] = setup[:idmap]["serial_number"] || setup[:idmap]["serial_number01"]
     device_custody_detail_ref01_data_dt0_loaded = device_custody_detail_ref01_ent.load(device_custody_detail_ref01_match_dt0, nil)
     device_custody_detail_ref01_data_dt0_load_result = Helpers.to_map(device_custody_detail_ref01_data_dt0_loaded.respond_to?(:data_get) ? device_custody_detail_ref01_data_dt0_loaded.data_get : device_custody_detail_ref01_data_dt0_loaded)
     assert !device_custody_detail_ref01_data_dt0_load_result.nil?
@@ -56,7 +73,7 @@ def device_custody_detail_basic_setup(extra)
   Runner.load_env_local
 
   entity_data_file = File.join(__dir__, "..", "..", ".sdk", "test", "entity", "device_custody_detail", "DeviceCustodyDetailTestData.json")
-  entity_data_source = File.read(entity_data_file)
+  entity_data_source = File.read(entity_data_file, encoding: "UTF-8")
   entity_data = JSON.parse(entity_data_source)
 
   options = {}
@@ -75,9 +92,8 @@ def device_custody_detail_basic_setup(extra)
     }
   )
 
-  # Detect ENTID env override before envOverride consumes it. When live
-  # mode is on without a real override, the basic test runs against synthetic
-  # IDs from the fixture and 4xx's. Surface this so the test can skip.
+  # Whether *_ENTID supplied the idmap, read before env_override consumes
+  # it: without it, the ids a live flow binds are the fixture's synthetic ones.
   entid_env_raw = ENV["BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_CUSTODY_DETAIL_ENTID"]
   idmap_overridden = !entid_env_raw.nil? && entid_env_raw.strip.start_with?("{")
 

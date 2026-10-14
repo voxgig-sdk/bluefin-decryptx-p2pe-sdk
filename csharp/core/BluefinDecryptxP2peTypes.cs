@@ -19,6 +19,7 @@ public record Attestation
     public string? completeDate { get; init; }
     public string? created { get; init; }
     public Dictionary<string, object?>? device { get; init; }
+    public List<object?> devices { get; init; }
     public string? id { get; init; }
     public string? name { get; init; }
     public string? notes { get; init; }
@@ -42,6 +43,7 @@ public record AttestationCreateData
     public string? completeDate { get; init; }
     public string? created { get; init; }
     public Dictionary<string, object?>? device { get; init; }
+    public List<object?> devices { get; init; }
     public string? id { get; init; }
     public string? name { get; init; }
     public string? notes { get; init; }
@@ -94,21 +96,47 @@ public record ClientRemoveMatch
     public string id { get; init; }
 }
 
-public record CreateResult();
+public record CreateResult
+{
+    public string? completeDate { get; init; }
+    public Dictionary<string, object?> custodian { get; init; }
+    public Dictionary<string, object?> location { get; init; }
+    public string? notes { get; init; }
+}
 
 public record CreateResultCreateData
 {
     public string device_type { get; init; }
     public string serial_number { get; init; }
+    public string? completeDate { get; init; }
+    public Dictionary<string, object?> custodian { get; init; }
+    public Dictionary<string, object?> location { get; init; }
+    public string? notes { get; init; }
 }
 
 public record Decryption
 {
+    public string? cbcVector { get; init; }
+    public string deviceType { get; init; }
+    public string? encoding { get; init; }
+    public List<object?> encrypted { get; init; }
+    public string? hasCcData { get; init; }
+    public string? reference { get; init; }
+    public string? sequenceNumber { get; init; }
+    public string serialNumber { get; init; }
     public bool? success { get; init; }
 }
 
 public record DecryptionCreateData
 {
+    public string? cbcVector { get; init; }
+    public string deviceType { get; init; }
+    public string? encoding { get; init; }
+    public List<object?> encrypted { get; init; }
+    public string? hasCcData { get; init; }
+    public string? reference { get; init; }
+    public string? sequenceNumber { get; init; }
+    public string serialNumber { get; init; }
     public bool? success { get; init; }
 }
 
@@ -276,22 +304,42 @@ public record DeviceCustodyListItemListMatch
 
 public record DeviceReceiveResult
 {
+    public string serialNumber { get; init; }
     public bool success { get; init; }
+    public string tamperLabel { get; init; }
 }
 
 public record DeviceReceiveResultCreateData
 {
+    public string serialNumber { get; init; }
     public bool success { get; init; }
+    public string tamperLabel { get; init; }
 }
 
 public record DeviceRkiActivateResult
 {
+    public string? appVersion { get; init; }
+    public string? buildName { get; init; }
+    public string? buildNumber { get; init; }
+    public string? configFile { get; init; }
+    public string? firmwareVersion { get; init; }
+    public string? hardwareVersion { get; init; }
+    public string serialNumber { get; init; }
     public bool success { get; init; }
+    public string? whiteListingBinRanges { get; init; }
 }
 
 public record DeviceRkiActivateResultCreateData
 {
+    public string? appVersion { get; init; }
+    public string? buildName { get; init; }
+    public string? buildNumber { get; init; }
+    public string? configFile { get; init; }
+    public string? firmwareVersion { get; init; }
+    public string? hardwareVersion { get; init; }
+    public string serialNumber { get; init; }
     public bool success { get; init; }
+    public string? whiteListingBinRanges { get; init; }
 }
 
 public record DeviceState
@@ -390,6 +438,7 @@ public record Location
     public string? address2 { get; init; }
     public string? billingId { get; init; }
     public string? city { get; init; }
+    public Dictionary<string, object?>? client { get; init; }
     public string? country { get; init; }
     public string? created { get; init; }
     public string? customReference { get; init; }
@@ -429,6 +478,7 @@ public record LocationCreateData
     public string? address2 { get; init; }
     public string? billingId { get; init; }
     public string? city { get; init; }
+    public Dictionary<string, object?>? client { get; init; }
     public string? country { get; init; }
     public string? created { get; init; }
     public string? customReference { get; init; }
@@ -514,6 +564,7 @@ public record Shipment
     public string? id { get; init; }
     public List<object?>? items { get; init; }
     public Dictionary<string, object?>? kif { get; init; }
+    public Dictionary<string, object?> location { get; init; }
     public string? modified { get; init; }
     public Dictionary<string, object?>? partner { get; init; }
     public string? shipmentType { get; init; }
@@ -545,6 +596,7 @@ public record ShipmentCreateData
     public string? id { get; init; }
     public List<object?>? items { get; init; }
     public Dictionary<string, object?>? kif { get; init; }
+    public Dictionary<string, object?> location { get; init; }
     public string? modified { get; init; }
     public Dictionary<string, object?>? partner { get; init; }
     public string? shipmentType { get; init; }
@@ -554,12 +606,16 @@ public record ShipmentCreateData
 
 public record Success
 {
+    public List<object?> devices { get; init; }
+    public Dictionary<string, object?> sharePartnerFrom { get; init; }
     public bool? success { get; init; }
 }
 
 public record SuccessCreateData
 {
     public string share_partner_to { get; init; }
+    public List<object?> devices { get; init; }
+    public Dictionary<string, object?> sharePartnerFrom { get; init; }
     public bool? success { get; init; }
 }
 
@@ -575,6 +631,7 @@ public record Transaction
     public string? clientRef { get; init; }
     public string? created { get; init; }
     public long? decrypted { get; init; }
+    public Dictionary<string, object?> device { get; init; }
     public string? deviceName { get; init; }
     public Dictionary<string, object?>? directPartner { get; init; }
     public long? encrypted { get; init; }
@@ -625,6 +682,7 @@ public record TransactionCreateData
     public string? clientRef { get; init; }
     public string? created { get; init; }
     public long? decrypted { get; init; }
+    public Dictionary<string, object?> device { get; init; }
     public string? deviceName { get; init; }
     public Dictionary<string, object?>? directPartner { get; init; }
     public long? encrypted { get; init; }
@@ -648,17 +706,68 @@ public record TransactionCreateData
 
 public record UpdateResult
 {
+    public string? address1 { get; init; }
+    public string? address2 { get; init; }
+    public string? alternateKey { get; init; }
+    public string? auditNextDate { get; init; }
+    public string? billingId { get; init; }
+    public string? city { get; init; }
     public Dictionary<string, object?>? client { get; init; }
-    public string? email { get; init; }
-    public string? firstName { get; init; }
+    public bool? clientCanOrderEquipment { get; init; }
+    public string? clientRef { get; init; }
+    public Dictionary<string, object?> contact { get; init; }
+    public Dictionary<string, object?>? country { get; init; }
+    public string? customReference { get; init; }
+    public string? dateShipped { get; init; }
+    public long? decrypted { get; init; }
+    public Dictionary<string, object?>? device { get; init; }
+    public Dictionary<string, object?>? deviceBuild { get; init; }
+    public Dictionary<string, object?>? deviceType { get; init; }
+    public Dictionary<string, object?>? directPartner { get; init; }
+    public string email { get; init; }
+    public long? encrypted { get; init; }
+    public string? endDate { get; init; }
+    public string? errCode { get; init; }
+    public string? errMessage { get; init; }
+    public string firstName { get; init; }
     public string? id { get; init; }
-    public bool? isActive { get; init; }
+    public Dictionary<string, object?>? injectKey { get; init; }
+    public string? ipAddress { get; init; }
+    public bool isActive { get; init; }
+    public List<object?>? items { get; init; }
+    public string? keyType { get; init; }
     public Dictionary<string, object?>? kif { get; init; }
-    public string? lastName { get; init; }
+    public string lastName { get; init; }
+    public Dictionary<string, object?> location { get; init; }
+    public string? locationType { get; init; }
+    public string? mailAddress1 { get; init; }
+    public string? mailAddress2 { get; init; }
+    public string? mailCity { get; init; }
+    public string? mailCountry { get; init; }
+    public string? mailPostalCode { get; init; }
+    public string? mailStateProvince { get; init; }
+    public string? messageId { get; init; }
+    public string? method { get; init; }
+    public string? mid { get; init; }
+    public string? name { get; init; }
+    public string? nameOfBusiness { get; init; }
+    public string? notes { get; init; }
+    public Dictionary<string, object?>? parent { get; init; }
     public Dictionary<string, object?>? partner { get; init; }
-    public string? phone { get; init; }
-    public string? userName { get; init; }
-    public Dictionary<string, object?>? userRole { get; init; }
+    public string? partnerId { get; init; }
+    public string phone { get; init; }
+    public string? postalCode { get; init; }
+    public string? reference { get; init; }
+    public bool? sendWelcomeEmail { get; init; }
+    public string? serialNumber { get; init; }
+    public string? startDate { get; init; }
+    public string? stateProvince { get; init; }
+    public bool? success { get; init; }
+    public string? tracking { get; init; }
+    public string? uniqueId { get; init; }
+    public string userName { get; init; }
+    public Dictionary<string, object?> userRole { get; init; }
+    public string? verificationPhrase { get; init; }
     public long? version { get; init; }
 }
 
@@ -673,33 +782,135 @@ public record UpdateResultListMatch
 
 public record UpdateResultCreateData
 {
+    public string? address1 { get; init; }
+    public string? address2 { get; init; }
+    public string? alternateKey { get; init; }
+    public string? auditNextDate { get; init; }
+    public string? billingId { get; init; }
+    public string? city { get; init; }
     public Dictionary<string, object?>? client { get; init; }
-    public string? email { get; init; }
-    public string? firstName { get; init; }
+    public bool? clientCanOrderEquipment { get; init; }
+    public string? clientRef { get; init; }
+    public Dictionary<string, object?> contact { get; init; }
+    public Dictionary<string, object?>? country { get; init; }
+    public string? customReference { get; init; }
+    public string? dateShipped { get; init; }
+    public long? decrypted { get; init; }
+    public Dictionary<string, object?>? device { get; init; }
+    public Dictionary<string, object?>? deviceBuild { get; init; }
+    public Dictionary<string, object?>? deviceType { get; init; }
+    public Dictionary<string, object?>? directPartner { get; init; }
+    public string email { get; init; }
+    public long? encrypted { get; init; }
+    public string? endDate { get; init; }
+    public string? errCode { get; init; }
+    public string? errMessage { get; init; }
+    public string firstName { get; init; }
     public string? id { get; init; }
-    public bool? isActive { get; init; }
+    public Dictionary<string, object?>? injectKey { get; init; }
+    public string? ipAddress { get; init; }
+    public bool isActive { get; init; }
+    public List<object?>? items { get; init; }
+    public string? keyType { get; init; }
     public Dictionary<string, object?>? kif { get; init; }
-    public string? lastName { get; init; }
+    public string lastName { get; init; }
+    public Dictionary<string, object?> location { get; init; }
+    public string? locationType { get; init; }
+    public string? mailAddress1 { get; init; }
+    public string? mailAddress2 { get; init; }
+    public string? mailCity { get; init; }
+    public string? mailCountry { get; init; }
+    public string? mailPostalCode { get; init; }
+    public string? mailStateProvince { get; init; }
+    public string? messageId { get; init; }
+    public string? method { get; init; }
+    public string? mid { get; init; }
+    public string? name { get; init; }
+    public string? nameOfBusiness { get; init; }
+    public string? notes { get; init; }
+    public Dictionary<string, object?>? parent { get; init; }
     public Dictionary<string, object?>? partner { get; init; }
-    public string? phone { get; init; }
-    public string? userName { get; init; }
-    public Dictionary<string, object?>? userRole { get; init; }
+    public string? partnerId { get; init; }
+    public string phone { get; init; }
+    public string? postalCode { get; init; }
+    public string? reference { get; init; }
+    public bool? sendWelcomeEmail { get; init; }
+    public string? serialNumber { get; init; }
+    public string? startDate { get; init; }
+    public string? stateProvince { get; init; }
+    public bool? success { get; init; }
+    public string? tracking { get; init; }
+    public string? uniqueId { get; init; }
+    public string userName { get; init; }
+    public Dictionary<string, object?> userRole { get; init; }
+    public string? verificationPhrase { get; init; }
     public long? version { get; init; }
 }
 
 public record UpdateResultUpdateData
 {
     public string id { get; init; }
+    public string? address1 { get; init; }
+    public string? address2 { get; init; }
+    public string? alternateKey { get; init; }
+    public string? auditNextDate { get; init; }
+    public string? billingId { get; init; }
+    public string? city { get; init; }
     public Dictionary<string, object?>? client { get; init; }
+    public bool? clientCanOrderEquipment { get; init; }
+    public string? clientRef { get; init; }
+    public Dictionary<string, object?>? contact { get; init; }
+    public Dictionary<string, object?>? country { get; init; }
+    public string? customReference { get; init; }
+    public string? dateShipped { get; init; }
+    public long? decrypted { get; init; }
+    public Dictionary<string, object?>? device { get; init; }
+    public Dictionary<string, object?>? deviceBuild { get; init; }
+    public Dictionary<string, object?>? deviceType { get; init; }
+    public Dictionary<string, object?>? directPartner { get; init; }
     public string? email { get; init; }
+    public long? encrypted { get; init; }
+    public string? endDate { get; init; }
+    public string? errCode { get; init; }
+    public string? errMessage { get; init; }
     public string? firstName { get; init; }
+    public Dictionary<string, object?>? injectKey { get; init; }
+    public string? ipAddress { get; init; }
     public bool? isActive { get; init; }
+    public List<object?>? items { get; init; }
+    public string? keyType { get; init; }
     public Dictionary<string, object?>? kif { get; init; }
     public string? lastName { get; init; }
+    public Dictionary<string, object?>? location { get; init; }
+    public string? locationType { get; init; }
+    public string? mailAddress1 { get; init; }
+    public string? mailAddress2 { get; init; }
+    public string? mailCity { get; init; }
+    public string? mailCountry { get; init; }
+    public string? mailPostalCode { get; init; }
+    public string? mailStateProvince { get; init; }
+    public string? messageId { get; init; }
+    public string? method { get; init; }
+    public string? mid { get; init; }
+    public string? name { get; init; }
+    public string? nameOfBusiness { get; init; }
+    public string? notes { get; init; }
+    public Dictionary<string, object?>? parent { get; init; }
     public Dictionary<string, object?>? partner { get; init; }
+    public string? partnerId { get; init; }
     public string? phone { get; init; }
+    public string? postalCode { get; init; }
+    public string? reference { get; init; }
+    public bool? sendWelcomeEmail { get; init; }
+    public string? serialNumber { get; init; }
+    public string? startDate { get; init; }
+    public string? stateProvince { get; init; }
+    public bool? success { get; init; }
+    public string? tracking { get; init; }
+    public string? uniqueId { get; init; }
     public string? userName { get; init; }
     public Dictionary<string, object?>? userRole { get; init; }
+    public string? verificationPhrase { get; init; }
     public long? version { get; init; }
 }
 

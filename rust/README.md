@@ -15,7 +15,7 @@ keeps the cognitive load low.
 
 ## Install
 This crate is not yet published to crates.io. Depend on it from the GitHub
-release tag (`rust/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases)) or
+release tag (`rust/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags)) or
 from a source checkout by adding it to your `Cargo.toml`:
 
 ```toml
@@ -36,7 +36,7 @@ loading a specific record.
 ### 1. Create a client
 
 ```rust
-use bluefin_decryptx_p2pe_sdk::{getp, jo, BluefinDecryptxP2peSDK, Value};
+use bluefin_decryptx_p2pe_sdk::{getp, jo, BluefinDecryptxP2peEntity, BluefinDecryptxP2peSDK, Entity, Value};
 
 let client = BluefinDecryptxP2peSDK::new(jo(vec![
     ("apikey", Value::str(std::env::var("BLUEFIN_DECRYPTX_P2PE_APIKEY").unwrap_or_default())),
@@ -45,16 +45,14 @@ let client = BluefinDecryptxP2peSDK::new(jo(vec![
 
 ### 2. List attestation records
 
-`list()` returns a `Value::List` of records and returns `Err` on
-failure — match on the `Result`.
+`list()` returns one entity per record, and `Err` on failure — match on
+the `Result`. `data(None)` reads an entity's record.
 
 ```rust
-match client.attestation(Value::Noval).list(Value::Noval, Value::Noval) {
+match client.attestation(Value::Noval).list(jo(vec![("client", Value::str("example"))]), Value::Noval) {
     Ok(attestations) => {
-        if let Value::List(items) = &attestations {
-            for attestation in items.borrow().iter() {
-                println!("{:?}", attestation);
-            }
+        for attestation in &attestations {
+            println!("{:?}", attestation.data(None));
         }
     }
     Err(err) => eprintln!("list failed: {}", err),
@@ -64,11 +62,12 @@ match client.attestation(Value::Noval).list(Value::Noval, Value::Noval) {
 ### 3. Load a devicecustodydetail
 
 DeviceCustodyDetail is nested under device_type, so provide the `device_type`.
-`load()` returns the bare record and returns `Err` on failure.
+`load()` returns the entity, and `Err` on failure; `data(None)` reads its
+record.
 
 ```rust
 match client.device_custody_detail(Value::Noval).load(jo(vec![("device_type", Value::str("example_device_type")), ("serial_number", Value::str("example_serial_number")), ("id", Value::str("example_id"))]), Value::Noval) {
-    Ok(device_custody_detail) => println!("{:?}", device_custody_detail),
+    Ok(device_custody_detail) => println!("{:?}", device_custody_detail.data(None)),
     Err(err) => eprintln!("load failed: {}", err),
 }
 ```
@@ -76,8 +75,8 @@ match client.device_custody_detail(Value::Noval).load(jo(vec![("device_type", Va
 ### 4. Create, update, and remove
 
 ```rust
-// Create — returns the bare created record
-let created = client.attestation(Value::Noval).create(jo(vec![("client", Value::empty_map()), ("completeDate", Value::str("example_completeDate"))]), Value::Noval).unwrap();
+// Create — returns the created entity
+let created = client.attestation(Value::Noval).create(jo(vec![("devices", Value::empty_list())]), Value::Noval).unwrap();
 
 ```
 
@@ -89,14 +88,15 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 ```ts
 try {
   const devicetypes = await client.DeviceType().list()
-  console.log(devicetypes)
+  console.log(devicetypes.map((item) => item.data()))
 } catch (err) {
   console.error('list failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -105,8 +105,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -154,11 +154,14 @@ println!("{:?}", getp(&fetchdef, "headers"));
 Create a mock client for unit testing — no server required:
 
 ```rust
+use bluefin_decryptx_p2pe_sdk::{jo, test_sdk, BluefinDecryptxP2peEntity, Entity, Value};
+
 let client = test_sdk(Value::Noval, Value::Noval);
 
-// Entity ops return the bare record on Ok and Err on failure.
-let device_type = client.device_type(Value::Noval).list(Value::Noval, Value::Noval).unwrap();
-// device_type contains the mock response record
+// list returns one entity per mock record on Ok, and Err on failure.
+for device_type in client.device_type(Value::Noval).list(Value::Noval, Value::Noval).unwrap() {
+    println!("{:?}", device_type.data(None));
+}
 ```
 
 ### Point at a different server
@@ -257,11 +260,11 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `(reqmatch: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>` | Load a single entity by match criteria. |
-| `list` | `(reqmatch: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>` | List entities matching the criteria (Ok is a `Value::List`). |
-| `create` | `(reqdata: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>` | Create a new entity. |
-| `update` | `(reqdata: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>` | Update an existing entity. |
-| `remove` | `(reqmatch: Value, ctrl: Value) -> Result<Value, BluefinDecryptxP2peError>` | Remove an entity. |
+| `load` | `(reqmatch: Value, ctrl: Value) -> Result<Rc<Self>, BluefinDecryptxP2peError>` | Load a single entity by match criteria. |
+| `list` | `(reqmatch: Value, ctrl: Value) -> Result<Vec<Rc<Self>>, BluefinDecryptxP2peError>` | List entities matching the criteria, one per record. |
+| `create` | `(reqdata: Value, ctrl: Value) -> Result<Rc<Self>, BluefinDecryptxP2peError>` | Create a new entity. |
+| `update` | `(reqdata: Value, ctrl: Value) -> Result<Rc<Self>, BluefinDecryptxP2peError>` | Update an existing entity. |
+| `remove` | `(reqmatch: Value, ctrl: Value) -> Result<Rc<Self>, BluefinDecryptxP2peError>` | Remove an entity, which is returned marked as deleted. |
 | `data` | `(args: Option<&Value>) -> Value` | Get entity data (pass `Some(&map)` to set). |
 | `matchv` | `(args: Option<&Value>) -> Value` | Get entity match criteria (pass `Some(&map)` to set). |
 | `make` | `() -> Rc<dyn Entity>` | Create a new instance with the same options. |
@@ -269,9 +272,11 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return `Result<Value, BluefinDecryptxP2peError>` — the
-bare result data on `Ok` (a `Value::Map` for single-entity ops, a
-`Value::List` for `list`) and the branded error on `Err`.
+Entity operations return the entity on `Ok`, and `list` a `Vec` of
+entities, one per record; `data(None)` reads an entity's record. `Err` is
+the branded error. The operations are methods of the
+`BluefinDecryptxP2peEntity` trait and `data` of the `Entity` trait, so
+import both.
 
 The `direct()` escape hatch resolves to `Ok` even on a non-2xx response —
 it returns a result `Value::Map` you branch on via `getp(&result, "ok")`:
@@ -295,6 +300,7 @@ On error, `ok` is `false` and `err` carries the error value.
 | `completeDate` | The date and time that the Attestation took place. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `device` | Reference to the associated Device resource. |
+| `devices` |  |
 | `id` | This resource's unique identifier. |
 | `name` | Text describing the attestation. |
 | `notes` | Free form field that allows the Client associate notes with the Attestation. |
@@ -327,6 +333,10 @@ API path: `/clients`
 
 | Field | Description |
 | --- | --- |
+| `completeDate` | The date and time that the Custody change took place. |
+| `custodian` | Reference to the associated User resource. |
+| `location` | Reference to the associated Location resource. |
+| `notes` | Free form field that allows the Client associate notes with the Custody Change. |
 
 Operations: Create.
 
@@ -336,6 +346,14 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
+| `cbcVector` | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | The device Type. |
+| `encoding` | The payload encoding |
+| `encrypted` |  |
+| `hasCcData` | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | The serial number of the device. |
 | `success` | true if the payload decryption was successful. |
 
 Operations: Create.
@@ -451,7 +469,9 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
+| `serialNumber` | The serial number of the Device that is shipped. |
 | `success` | Indicates if the action succeeded. |
+| `tamperLabel` | The code that is printed the tamper label of the Device that is shipped. |
 
 Operations: Create.
 
@@ -461,7 +481,15 @@ API path: `/devices/receive`
 
 | Field | Description |
 | --- | --- |
+| `appVersion` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | The Device Builds's name. |
+| `buildNumber` | The Build Number. |
+| `configFile` | \? |
+| `firmwareVersion` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | The referenced Device's serial number. |
 | `success` | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | \? |
 
 Operations: Create.
 
@@ -535,6 +563,7 @@ API path: `/kifs`
 | `address2` | The Location's street address. |
 | `billingId` | \? |
 | `city` | The Location's city. |
+| `client` | Reference to the associated Client resource. |
 | `country` | The Location's country. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `customReference` | A Partner specified reference for a location. |
@@ -595,6 +624,7 @@ API path: `/partners`
 | `id` | This resource's unique identifier. |
 | `items` |  |
 | `kif` | Reference to the associated KIF resource. |
+| `location` | Reference to the associated Location resource. |
 | `modified` | Last modified timestamp. |
 | `partner` | Reference to the associated Partner. |
 | `shipmentType` | The type of shipment. |
@@ -609,6 +639,8 @@ API path: `/shipments`
 
 | Field | Description |
 | --- | --- |
+| `devices` | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | Reference to the associated Partner. |
 | `success` | Indicates if the action was a success. |
 
 Operations: Create, Remove.
@@ -624,6 +656,7 @@ API path: `/virtualDevices/{sharePartnerTo}`
 | `clientRef` | Client Reference property that is included in the decrypt API call. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `decrypted` | A Transcation can process muliple decryptions. |
+| `device` | Reference to the associated Device resource. |
 | `deviceName` | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | Reference to the associated Partner. |
 | `encrypted` | A Transcation can process muliple encryptions. |
@@ -652,17 +685,68 @@ API path: `/transactions`
 
 | Field | Description |
 | --- | --- |
+| `address1` | The Location's street address. |
+| `address2` | The Location's street address. |
+| `alternateKey` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | \? |
+| `city` | The Location's city. |
 | `client` | Reference to the associated Client resource. |
+| `clientCanOrderEquipment` | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | Client Reference property that is included in the decrypt API call. |
+| `contact` | Reference to the associated User resource. |
+| `country` | Reference to the associated Country. |
+| `customReference` | A Partner specified reference for a location. |
+| `dateShipped` | The date and time that a package is shipped. |
+| `decrypted` | A Transcation can process muliple decryptions. |
+| `device` | Reference to the associated Device resource. |
+| `deviceBuild` | Reference to the associated Device Build resource. |
+| `deviceType` | Reference to the associated Device Type resource. |
+| `directPartner` | Reference to the associated Partner. |
 | `email` | The User's email address. |
+| `encrypted` | A Transcation can process muliple encryptions. |
+| `endDate` | Timestamp from the end of the transaction. |
+| `errCode` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | The error messge that is sent in response to a failed decrypt API call. |
 | `firstName` | The User's name. |
 | `id` | ID of newly created resource |
+| `injectKey` | Reference to the associated Device resource. |
+| `ipAddress` | The IP address of the http client that makes the decrypt API call. |
 | `isActive` | This property indicates if the User account is active or disabled. |
+| `items` |  |
+| `keyType` | The type of cipher used during decrytion. |
 | `kif` | Reference to the associated KIF resource. |
 | `lastName` | The User's Surname. |
+| `location` | Reference to the associated Location resource. |
+| `locationType` | The Location's clasification. |
+| `mailAddress1` | The Location's street address. |
+| `mailAddress2` | The Location's street address. |
+| `mailCity` | The Location's city. |
+| `mailCountry` | The Location's street address. |
+| `mailPostalCode` | The Location's postal code. |
+| `mailStateProvince` | The Location's street state or province. |
+| `messageId` | Message ID. |
+| `method` | The decryption cypher/method. |
+| `mid` | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | The Client's name. |
+| `nameOfBusiness` | The name of the business at this location. |
+| `notes` | Arbitary note that can be attached to a Device entry. |
+| `parent` | Reference to the associated Partner. |
 | `partner` | Reference to the associated Partner. |
+| `partnerId` | The Partner's id. |
 | `phone` | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | The Location's postal code. |
+| `reference` | The Partner's reference string. |
+| `sendWelcomeEmail` | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | The Device's serial number. |
+| `startDate` | Timestamp from the beginning of the transaction. |
+| `stateProvince` | The Location's street state or province. |
+| `success` | The success indicator. |
+| `tracking` | The courier's tracking number. |
+| `uniqueId` | Unique Identifier for the Location. |
 | `userName` | The User's unique username. |
 | `userRole` | Reference to the associated User Role. |
+| `verificationPhrase` | The verification phrase is a message that the Partner creates. |
 | `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Update.
@@ -717,9 +801,9 @@ Create an instance: `let attestation = client.attestation(Value::Noval);`
 
 | Method | Description |
 | --- | --- |
-| `create(reqdata, ctrl)` | Create a new entity with the given data. |
-| `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. |
-| `load(reqmatch, ctrl)` | Load a single entity by match criteria. |
+| `create(reqdata, ctrl)` | Create a new entity with the given data. `Ok` is the entity. |
+| `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. `Ok` is a `Vec` of entities, one per record. |
+| `load(reqmatch, ctrl)` | Load a single entity by match criteria. `Ok` is the entity. |
 
 #### Fields
 
@@ -729,6 +813,7 @@ Create an instance: `let attestation = client.attestation(Value::Noval);`
 | `completeDate` | `String` | The date and time that the Attestation took place. |
 | `created` | `String` | Creation timestamp in ISO 8601 format. |
 | `device` | `std::collections::HashMap<String, Value>` | Reference to the associated Device resource. |
+| `devices` | `Vec<Value>` |  |
 | `id` | `String` | This resource's unique identifier. |
 | `name` | `String` | Text describing the attestation. |
 | `notes` | `String` | Free form field that allows the Client associate notes with the Attestation. |
@@ -737,18 +822,23 @@ Create an instance: `let attestation = client.attestation(Value::Noval);`
 
 ```rust
 let attestation = client.attestation(Value::Noval).load(jo(vec![("id", Value::str("attestation_id"))]), Value::Noval).unwrap();
+println!("{:?}", attestation.data(None));
 ```
 
 #### Example: List
 
 ```rust
-let attestations = client.attestation(Value::Noval).list(Value::Noval, Value::Noval).unwrap();
+let attestations = client.attestation(Value::Noval).list(jo(vec![("client", Value::str("example"))]), Value::Noval).unwrap();
+for attestation in &attestations {
+    println!("{:?}", attestation.data(None));
+}
 ```
 
 #### Example: Create
 
 ```rust
 let attestation = client.attestation(Value::Noval).create(jo(vec![
+    ("devices", Value::empty_list()),  // Vec<Value>
 ]), Value::Noval).unwrap();
 ```
 
@@ -761,10 +851,10 @@ Create an instance: `let client = client.client(Value::Noval);`
 
 | Method | Description |
 | --- | --- |
-| `create(reqdata, ctrl)` | Create a new entity with the given data. |
-| `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. |
-| `load(reqmatch, ctrl)` | Load a single entity by match criteria. |
-| `remove(reqmatch, ctrl)` | Remove the matching entity. |
+| `create(reqdata, ctrl)` | Create a new entity with the given data. `Ok` is the entity. |
+| `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. `Ok` is a `Vec` of entities, one per record. |
+| `load(reqmatch, ctrl)` | Load a single entity by match criteria. `Ok` is the entity. |
+| `remove(reqmatch, ctrl)` | Remove the matching entity. `Ok` is the entity, marked as deleted. |
 
 #### Fields
 
@@ -786,12 +876,16 @@ Create an instance: `let client = client.client(Value::Noval);`
 
 ```rust
 let client = client.client(Value::Noval).load(jo(vec![("id", Value::str("client_id"))]), Value::Noval).unwrap();
+println!("{:?}", client.data(None));
 ```
 
 #### Example: List
 
 ```rust
-let clients = client.client(Value::Noval).list(Value::Noval, Value::Noval).unwrap();
+let clients = client.client(Value::Noval).list(jo(vec![("partner", Value::str("example"))]), Value::Noval).unwrap();
+for client in &clients {
+    println!("{:?}", client.data(None));
+}
 ```
 
 #### Example: Create
@@ -811,7 +905,16 @@ Create an instance: `let create_result = client.create_result(Value::Noval);`
 
 | Method | Description |
 | --- | --- |
-| `create(reqdata, ctrl)` | Create a new entity with the given data. |
+| `create(reqdata, ctrl)` | Create a new entity with the given data. `Ok` is the entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `completeDate` | `String` | The date and time that the Custody change took place. |
+| `custodian` | `std::collections::HashMap<String, Value>` | Reference to the associated User resource. |
+| `location` | `std::collections::HashMap<String, Value>` | Reference to the associated Location resource. |
+| `notes` | `String` | Free form field that allows the Client associate notes with the Custody Change. |
 
 #### Example: Create
 
@@ -819,6 +922,8 @@ Create an instance: `let create_result = client.create_result(Value::Noval);`
 let create_result = client.create_result(Value::Noval).create(jo(vec![
     ("device_type", Value::str("example_device_type")),  // String
     ("serial_number", Value::str("example_serial_number")),  // String
+    ("custodian", Value::empty_map()),  // std::collections::HashMap<String, Value>
+    ("location", Value::empty_map()),  // std::collections::HashMap<String, Value>
 ]), Value::Noval).unwrap();
 ```
 
@@ -831,18 +936,29 @@ Create an instance: `let decryption = client.decryption(Value::Noval);`
 
 | Method | Description |
 | --- | --- |
-| `create(reqdata, ctrl)` | Create a new entity with the given data. |
+| `create(reqdata, ctrl)` | Create a new entity with the given data. `Ok` is the entity. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `cbcVector` | `String` | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | `String` | The device Type. |
+| `encoding` | `String` | The payload encoding |
+| `encrypted` | `Vec<Value>` |  |
+| `hasCcData` | `String` | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | `String` | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | `String` | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | `String` | The serial number of the device. |
 | `success` | `bool` | true if the payload decryption was successful. |
 
 #### Example: Create
 
 ```rust
 let decryption = client.decryption(Value::Noval).create(jo(vec![
+    ("deviceType", Value::str("example_deviceType")),  // String
+    ("encrypted", Value::empty_list()),  // Vec<Value>
+    ("serialNumber", Value::str("example_serialNumber")),  // String
 ]), Value::Noval).unwrap();
 ```
 
@@ -855,9 +971,9 @@ Create an instance: `let device = client.device(Value::Noval);`
 
 | Method | Description |
 | --- | --- |
-| `create(reqdata, ctrl)` | Create a new entity with the given data. |
-| `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. |
-| `load(reqmatch, ctrl)` | Load a single entity by match criteria. |
+| `create(reqdata, ctrl)` | Create a new entity with the given data. `Ok` is the entity. |
+| `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. `Ok` is a `Vec` of entities, one per record. |
+| `load(reqmatch, ctrl)` | Load a single entity by match criteria. `Ok` is the entity. |
 
 #### Fields
 
@@ -896,12 +1012,16 @@ Create an instance: `let device = client.device(Value::Noval);`
 
 ```rust
 let device = client.device(Value::Noval).load(jo(vec![("id", Value::str("device_id"))]), Value::Noval).unwrap();
+println!("{:?}", device.data(None));
 ```
 
 #### Example: List
 
 ```rust
 let devices = client.device(Value::Noval).list(Value::Noval, Value::Noval).unwrap();
+for device in &devices {
+    println!("{:?}", device.data(None));
+}
 ```
 
 #### Example: Create
@@ -925,8 +1045,8 @@ Create an instance: `let device_build = client.device_build(Value::Noval);`
 
 | Method | Description |
 | --- | --- |
-| `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. |
-| `load(reqmatch, ctrl)` | Load a single entity by match criteria. |
+| `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. `Ok` is a `Vec` of entities, one per record. |
+| `load(reqmatch, ctrl)` | Load a single entity by match criteria. `Ok` is the entity. |
 
 #### Fields
 
@@ -952,12 +1072,16 @@ Create an instance: `let device_build = client.device_build(Value::Noval);`
 
 ```rust
 let device_build = client.device_build(Value::Noval).load(jo(vec![("id", Value::str("device_build_id"))]), Value::Noval).unwrap();
+println!("{:?}", device_build.data(None));
 ```
 
 #### Example: List
 
 ```rust
 let device_builds = client.device_build(Value::Noval).list(Value::Noval, Value::Noval).unwrap();
+for device_build in &device_builds {
+    println!("{:?}", device_build.data(None));
+}
 ```
 
 
@@ -969,7 +1093,7 @@ Create an instance: `let device_custody_detail = client.device_custody_detail(Va
 
 | Method | Description |
 | --- | --- |
-| `load(reqmatch, ctrl)` | Load a single entity by match criteria. |
+| `load(reqmatch, ctrl)` | Load a single entity by match criteria. `Ok` is the entity. |
 
 #### Fields
 
@@ -993,6 +1117,7 @@ Create an instance: `let device_custody_detail = client.device_custody_detail(Va
 
 ```rust
 let device_custody_detail = client.device_custody_detail(Value::Noval).load(jo(vec![("id", Value::str("device_custody_detail_id")), ("device_type", Value::str("device_type")), ("serial_number", Value::str("serial_number"))]), Value::Noval).unwrap();
+println!("{:?}", device_custody_detail.data(None));
 ```
 
 
@@ -1004,7 +1129,7 @@ Create an instance: `let device_custody_list_item = client.device_custody_list_i
 
 | Method | Description |
 | --- | --- |
-| `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. |
+| `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. `Ok` is a `Vec` of entities, one per record. |
 
 #### Fields
 
@@ -1027,7 +1152,10 @@ Create an instance: `let device_custody_list_item = client.device_custody_list_i
 #### Example: List
 
 ```rust
-let device_custody_list_items = client.device_custody_list_item(Value::Noval).list(Value::Noval, Value::Noval).unwrap();
+let device_custody_list_items = client.device_custody_list_item(Value::Noval).list(jo(vec![("device_type", Value::str("example")), ("serial_number", Value::str("example"))]), Value::Noval).unwrap();
+for device_custody_list_item in &device_custody_list_items {
+    println!("{:?}", device_custody_list_item.data(None));
+}
 ```
 
 
@@ -1039,19 +1167,23 @@ Create an instance: `let device_receive_result = client.device_receive_result(Va
 
 | Method | Description |
 | --- | --- |
-| `create(reqdata, ctrl)` | Create a new entity with the given data. |
+| `create(reqdata, ctrl)` | Create a new entity with the given data. `Ok` is the entity. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `serialNumber` | `String` | The serial number of the Device that is shipped. |
 | `success` | `bool` | Indicates if the action succeeded. |
+| `tamperLabel` | `String` | The code that is printed the tamper label of the Device that is shipped. |
 
 #### Example: Create
 
 ```rust
 let device_receive_result = client.device_receive_result(Value::Noval).create(jo(vec![
+    ("serialNumber", Value::str("example_serialNumber")),  // String
     ("success", Value::Bool(true)),  // bool
+    ("tamperLabel", Value::str("example_tamperLabel")),  // String
 ]), Value::Noval).unwrap();
 ```
 
@@ -1064,18 +1196,27 @@ Create an instance: `let device_rki_activate_result = client.device_rki_activate
 
 | Method | Description |
 | --- | --- |
-| `create(reqdata, ctrl)` | Create a new entity with the given data. |
+| `create(reqdata, ctrl)` | Create a new entity with the given data. `Ok` is the entity. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `appVersion` | `String` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | `String` | The Device Builds's name. |
+| `buildNumber` | `String` | The Build Number. |
+| `configFile` | `String` | \? |
+| `firmwareVersion` | `String` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `String` | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | `String` | The referenced Device's serial number. |
 | `success` | `bool` | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | `String` | \? |
 
 #### Example: Create
 
 ```rust
 let device_rki_activate_result = client.device_rki_activate_result(Value::Noval).create(jo(vec![
+    ("serialNumber", Value::str("example_serialNumber")),  // String
     ("success", Value::Bool(true)),  // bool
 ]), Value::Noval).unwrap();
 ```
@@ -1089,7 +1230,7 @@ Create an instance: `let device_state = client.device_state(Value::Noval);`
 
 | Method | Description |
 | --- | --- |
-| `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. |
+| `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. `Ok` is a `Vec` of entities, one per record. |
 
 #### Fields
 
@@ -1102,6 +1243,9 @@ Create an instance: `let device_state = client.device_state(Value::Noval);`
 
 ```rust
 let device_states = client.device_state(Value::Noval).list(Value::Noval, Value::Noval).unwrap();
+for device_state in &device_states {
+    println!("{:?}", device_state.data(None));
+}
 ```
 
 
@@ -1113,8 +1257,8 @@ Create an instance: `let device_type = client.device_type(Value::Noval);`
 
 | Method | Description |
 | --- | --- |
-| `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. |
-| `load(reqmatch, ctrl)` | Load a single entity by match criteria. |
+| `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. `Ok` is a `Vec` of entities, one per record. |
+| `load(reqmatch, ctrl)` | Load a single entity by match criteria. `Ok` is the entity. |
 
 #### Fields
 
@@ -1137,12 +1281,16 @@ Create an instance: `let device_type = client.device_type(Value::Noval);`
 
 ```rust
 let device_type = client.device_type(Value::Noval).load(jo(vec![("id", Value::str("device_type_id"))]), Value::Noval).unwrap();
+println!("{:?}", device_type.data(None));
 ```
 
 #### Example: List
 
 ```rust
 let device_types = client.device_type(Value::Noval).list(Value::Noval, Value::Noval).unwrap();
+for device_type in &device_types {
+    println!("{:?}", device_type.data(None));
+}
 ```
 
 
@@ -1154,8 +1302,8 @@ Create an instance: `let inject_key = client.inject_key(Value::Noval);`
 
 | Method | Description |
 | --- | --- |
-| `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. |
-| `load(reqmatch, ctrl)` | Load a single entity by match criteria. |
+| `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. `Ok` is a `Vec` of entities, one per record. |
+| `load(reqmatch, ctrl)` | Load a single entity by match criteria. `Ok` is the entity. |
 
 #### Fields
 
@@ -1174,12 +1322,16 @@ Create an instance: `let inject_key = client.inject_key(Value::Noval);`
 
 ```rust
 let inject_key = client.inject_key(Value::Noval).load(jo(vec![("id", Value::str("inject_key_id"))]), Value::Noval).unwrap();
+println!("{:?}", inject_key.data(None));
 ```
 
 #### Example: List
 
 ```rust
 let inject_keys = client.inject_key(Value::Noval).list(Value::Noval, Value::Noval).unwrap();
+for inject_key in &inject_keys {
+    println!("{:?}", inject_key.data(None));
+}
 ```
 
 
@@ -1191,7 +1343,7 @@ Create an instance: `let kif = client.kif(Value::Noval);`
 
 | Method | Description |
 | --- | --- |
-| `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. |
+| `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. `Ok` is a `Vec` of entities, one per record. |
 
 #### Fields
 
@@ -1204,6 +1356,9 @@ Create an instance: `let kif = client.kif(Value::Noval);`
 
 ```rust
 let kifs = client.kif(Value::Noval).list(Value::Noval, Value::Noval).unwrap();
+for kif in &kifs {
+    println!("{:?}", kif.data(None));
+}
 ```
 
 
@@ -1215,10 +1370,10 @@ Create an instance: `let location = client.location(Value::Noval);`
 
 | Method | Description |
 | --- | --- |
-| `create(reqdata, ctrl)` | Create a new entity with the given data. |
-| `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. |
-| `load(reqmatch, ctrl)` | Load a single entity by match criteria. |
-| `remove(reqmatch, ctrl)` | Remove the matching entity. |
+| `create(reqdata, ctrl)` | Create a new entity with the given data. `Ok` is the entity. |
+| `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. `Ok` is a `Vec` of entities, one per record. |
+| `load(reqmatch, ctrl)` | Load a single entity by match criteria. `Ok` is the entity. |
+| `remove(reqmatch, ctrl)` | Remove the matching entity. `Ok` is the entity, marked as deleted. |
 
 #### Fields
 
@@ -1228,6 +1383,7 @@ Create an instance: `let location = client.location(Value::Noval);`
 | `address2` | `String` | The Location's street address. |
 | `billingId` | `String` | \? |
 | `city` | `String` | The Location's city. |
+| `client` | `std::collections::HashMap<String, Value>` | Reference to the associated Client resource. |
 | `country` | `String` | The Location's country. |
 | `created` | `String` | Creation timestamp in ISO 8601 format. |
 | `customReference` | `String` | A Partner specified reference for a location. |
@@ -1252,12 +1408,16 @@ Create an instance: `let location = client.location(Value::Noval);`
 
 ```rust
 let location = client.location(Value::Noval).load(jo(vec![("id", Value::str("location_id"))]), Value::Noval).unwrap();
+println!("{:?}", location.data(None));
 ```
 
 #### Example: List
 
 ```rust
-let locations = client.location(Value::Noval).list(Value::Noval, Value::Noval).unwrap();
+let locations = client.location(Value::Noval).list(jo(vec![("client", Value::str("example"))]), Value::Noval).unwrap();
+for location in &locations {
+    println!("{:?}", location.data(None));
+}
 ```
 
 #### Example: Create
@@ -1276,9 +1436,9 @@ Create an instance: `let partner = client.partner(Value::Noval);`
 
 | Method | Description |
 | --- | --- |
-| `create(reqdata, ctrl)` | Create a new entity with the given data. |
-| `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. |
-| `load(reqmatch, ctrl)` | Load a single entity by match criteria. |
+| `create(reqdata, ctrl)` | Create a new entity with the given data. `Ok` is the entity. |
+| `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. `Ok` is a `Vec` of entities, one per record. |
+| `load(reqmatch, ctrl)` | Load a single entity by match criteria. `Ok` is the entity. |
 
 #### Fields
 
@@ -1303,12 +1463,16 @@ Create an instance: `let partner = client.partner(Value::Noval);`
 
 ```rust
 let partner = client.partner(Value::Noval).load(jo(vec![("id", Value::str("partner_id"))]), Value::Noval).unwrap();
+println!("{:?}", partner.data(None));
 ```
 
 #### Example: List
 
 ```rust
 let partners = client.partner(Value::Noval).list(Value::Noval, Value::Noval).unwrap();
+for partner in &partners {
+    println!("{:?}", partner.data(None));
+}
 ```
 
 #### Example: Create
@@ -1328,9 +1492,9 @@ Create an instance: `let shipment = client.shipment(Value::Noval);`
 
 | Method | Description |
 | --- | --- |
-| `create(reqdata, ctrl)` | Create a new entity with the given data. |
-| `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. |
-| `load(reqmatch, ctrl)` | Load a single entity by match criteria. |
+| `create(reqdata, ctrl)` | Create a new entity with the given data. `Ok` is the entity. |
+| `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. `Ok` is a `Vec` of entities, one per record. |
+| `load(reqmatch, ctrl)` | Load a single entity by match criteria. `Ok` is the entity. |
 
 #### Fields
 
@@ -1345,6 +1509,7 @@ Create an instance: `let shipment = client.shipment(Value::Noval);`
 | `id` | `String` | This resource's unique identifier. |
 | `items` | `Vec<Value>` |  |
 | `kif` | `std::collections::HashMap<String, Value>` | Reference to the associated KIF resource. |
+| `location` | `std::collections::HashMap<String, Value>` | Reference to the associated Location resource. |
 | `modified` | `String` | Last modified timestamp. |
 | `partner` | `std::collections::HashMap<String, Value>` | Reference to the associated Partner. |
 | `shipmentType` | `String` | The type of shipment. |
@@ -1355,18 +1520,23 @@ Create an instance: `let shipment = client.shipment(Value::Noval);`
 
 ```rust
 let shipment = client.shipment(Value::Noval).load(jo(vec![("id", Value::str("shipment_id"))]), Value::Noval).unwrap();
+println!("{:?}", shipment.data(None));
 ```
 
 #### Example: List
 
 ```rust
-let shipments = client.shipment(Value::Noval).list(Value::Noval, Value::Noval).unwrap();
+let shipments = client.shipment(Value::Noval).list(jo(vec![("kif", Value::str("example"))]), Value::Noval).unwrap();
+for shipment in &shipments {
+    println!("{:?}", shipment.data(None));
+}
 ```
 
 #### Example: Create
 
 ```rust
 let shipment = client.shipment(Value::Noval).create(jo(vec![
+    ("location", Value::empty_map()),  // std::collections::HashMap<String, Value>
 ]), Value::Noval).unwrap();
 ```
 
@@ -1379,13 +1549,15 @@ Create an instance: `let success = client.success(Value::Noval);`
 
 | Method | Description |
 | --- | --- |
-| `create(reqdata, ctrl)` | Create a new entity with the given data. |
-| `remove(reqmatch, ctrl)` | Remove the matching entity. |
+| `create(reqdata, ctrl)` | Create a new entity with the given data. `Ok` is the entity. |
+| `remove(reqmatch, ctrl)` | Remove the matching entity. `Ok` is the entity, marked as deleted. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `devices` | `Vec<Value>` | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | `std::collections::HashMap<String, Value>` | Reference to the associated Partner. |
 | `success` | `bool` | Indicates if the action was a success. |
 
 #### Example: Create
@@ -1393,6 +1565,8 @@ Create an instance: `let success = client.success(Value::Noval);`
 ```rust
 let success = client.success(Value::Noval).create(jo(vec![
     ("share_partner_to", Value::str("example_share_partner_to")),  // String
+    ("devices", Value::empty_list()),  // Vec<Value>
+    ("sharePartnerFrom", Value::empty_map()),  // std::collections::HashMap<String, Value>
 ]), Value::Noval).unwrap();
 ```
 
@@ -1405,9 +1579,9 @@ Create an instance: `let transaction = client.transaction(Value::Noval);`
 
 | Method | Description |
 | --- | --- |
-| `create(reqdata, ctrl)` | Create a new entity with the given data. |
-| `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. |
-| `load(reqmatch, ctrl)` | Load a single entity by match criteria. |
+| `create(reqdata, ctrl)` | Create a new entity with the given data. `Ok` is the entity. |
+| `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. `Ok` is a `Vec` of entities, one per record. |
+| `load(reqmatch, ctrl)` | Load a single entity by match criteria. `Ok` is the entity. |
 
 #### Fields
 
@@ -1418,6 +1592,7 @@ Create an instance: `let transaction = client.transaction(Value::Noval);`
 | `clientRef` | `String` | Client Reference property that is included in the decrypt API call. |
 | `created` | `String` | Creation timestamp in ISO 8601 format. |
 | `decrypted` | `i64` | A Transcation can process muliple decryptions. |
+| `device` | `std::collections::HashMap<String, Value>` | Reference to the associated Device resource. |
 | `deviceName` | `String` | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | `std::collections::HashMap<String, Value>` | Reference to the associated Partner. |
 | `encrypted` | `i64` | A Transcation can process muliple encryptions. |
@@ -1442,18 +1617,23 @@ Create an instance: `let transaction = client.transaction(Value::Noval);`
 
 ```rust
 let transaction = client.transaction(Value::Noval).load(jo(vec![("id", Value::str("transaction_id"))]), Value::Noval).unwrap();
+println!("{:?}", transaction.data(None));
 ```
 
 #### Example: List
 
 ```rust
 let transactions = client.transaction(Value::Noval).list(Value::Noval, Value::Noval).unwrap();
+for transaction in &transactions {
+    println!("{:?}", transaction.data(None));
+}
 ```
 
 #### Example: Create
 
 ```rust
 let transaction = client.transaction(Value::Noval).create(jo(vec![
+    ("device", Value::empty_map()),  // std::collections::HashMap<String, Value>
     ("location", Value::empty_map()),  // std::collections::HashMap<String, Value>
 ]), Value::Noval).unwrap();
 ```
@@ -1467,37 +1647,100 @@ Create an instance: `let update_result = client.update_result(Value::Noval);`
 
 | Method | Description |
 | --- | --- |
-| `create(reqdata, ctrl)` | Create a new entity with the given data. |
-| `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. |
-| `update(reqdata, ctrl)` | Update an existing entity. |
+| `create(reqdata, ctrl)` | Create a new entity with the given data. `Ok` is the entity. |
+| `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. `Ok` is a `Vec` of entities, one per record. |
+| `update(reqdata, ctrl)` | Update an existing entity. `Ok` is the entity. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `address1` | `String` | The Location's street address. |
+| `address2` | `String` | The Location's street address. |
+| `alternateKey` | `String` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `String` | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | `String` | \? |
+| `city` | `String` | The Location's city. |
 | `client` | `std::collections::HashMap<String, Value>` | Reference to the associated Client resource. |
+| `clientCanOrderEquipment` | `bool` | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | `String` | Client Reference property that is included in the decrypt API call. |
+| `contact` | `std::collections::HashMap<String, Value>` | Reference to the associated User resource. |
+| `country` | `std::collections::HashMap<String, Value>` | Reference to the associated Country. |
+| `customReference` | `String` | A Partner specified reference for a location. |
+| `dateShipped` | `String` | The date and time that a package is shipped. |
+| `decrypted` | `i64` | A Transcation can process muliple decryptions. |
+| `device` | `std::collections::HashMap<String, Value>` | Reference to the associated Device resource. |
+| `deviceBuild` | `std::collections::HashMap<String, Value>` | Reference to the associated Device Build resource. |
+| `deviceType` | `std::collections::HashMap<String, Value>` | Reference to the associated Device Type resource. |
+| `directPartner` | `std::collections::HashMap<String, Value>` | Reference to the associated Partner. |
 | `email` | `String` | The User's email address. |
+| `encrypted` | `i64` | A Transcation can process muliple encryptions. |
+| `endDate` | `String` | Timestamp from the end of the transaction. |
+| `errCode` | `String` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `String` | The error messge that is sent in response to a failed decrypt API call. |
 | `firstName` | `String` | The User's name. |
 | `id` | `String` | ID of newly created resource |
+| `injectKey` | `std::collections::HashMap<String, Value>` | Reference to the associated Device resource. |
+| `ipAddress` | `String` | The IP address of the http client that makes the decrypt API call. |
 | `isActive` | `bool` | This property indicates if the User account is active or disabled. |
+| `items` | `Vec<Value>` |  |
+| `keyType` | `String` | The type of cipher used during decrytion. |
 | `kif` | `std::collections::HashMap<String, Value>` | Reference to the associated KIF resource. |
 | `lastName` | `String` | The User's Surname. |
+| `location` | `std::collections::HashMap<String, Value>` | Reference to the associated Location resource. |
+| `locationType` | `String` | The Location's clasification. |
+| `mailAddress1` | `String` | The Location's street address. |
+| `mailAddress2` | `String` | The Location's street address. |
+| `mailCity` | `String` | The Location's city. |
+| `mailCountry` | `String` | The Location's street address. |
+| `mailPostalCode` | `String` | The Location's postal code. |
+| `mailStateProvince` | `String` | The Location's street state or province. |
+| `messageId` | `String` | Message ID. |
+| `method` | `String` | The decryption cypher/method. |
+| `mid` | `String` | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | `String` | The Client's name. |
+| `nameOfBusiness` | `String` | The name of the business at this location. |
+| `notes` | `String` | Arbitary note that can be attached to a Device entry. |
+| `parent` | `std::collections::HashMap<String, Value>` | Reference to the associated Partner. |
 | `partner` | `std::collections::HashMap<String, Value>` | Reference to the associated Partner. |
+| `partnerId` | `String` | The Partner's id. |
 | `phone` | `String` | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | `String` | The Location's postal code. |
+| `reference` | `String` | The Partner's reference string. |
+| `sendWelcomeEmail` | `bool` | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | `String` | The Device's serial number. |
+| `startDate` | `String` | Timestamp from the beginning of the transaction. |
+| `stateProvince` | `String` | The Location's street state or province. |
+| `success` | `bool` | The success indicator. |
+| `tracking` | `String` | The courier's tracking number. |
+| `uniqueId` | `String` | Unique Identifier for the Location. |
 | `userName` | `String` | The User's unique username. |
 | `userRole` | `std::collections::HashMap<String, Value>` | Reference to the associated User Role. |
+| `verificationPhrase` | `String` | The verification phrase is a message that the Partner creates. |
 | `version` | `i64` | The number of times that this resource has been updated. |
 
 #### Example: List
 
 ```rust
 let update_results = client.update_result(Value::Noval).list(Value::Noval, Value::Noval).unwrap();
+for update_result in &update_results {
+    println!("{:?}", update_result.data(None));
+}
 ```
 
 #### Example: Create
 
 ```rust
 let update_result = client.update_result(Value::Noval).create(jo(vec![
+    ("contact", Value::empty_map()),  // std::collections::HashMap<String, Value>
+    ("email", Value::str("example_email")),  // String
+    ("firstName", Value::str("example_firstName")),  // String
+    ("isActive", Value::Bool(true)),  // bool
+    ("lastName", Value::str("example_lastName")),  // String
+    ("location", Value::empty_map()),  // std::collections::HashMap<String, Value>
+    ("phone", Value::str("example_phone")),  // String
+    ("userName", Value::str("example_userName")),  // String
+    ("userRole", Value::empty_map()),  // std::collections::HashMap<String, Value>
 ]), Value::Noval).unwrap();
 ```
 
@@ -1510,8 +1753,8 @@ Create an instance: `let user = client.user(Value::Noval);`
 
 | Method | Description |
 | --- | --- |
-| `load(reqmatch, ctrl)` | Load a single entity by match criteria. |
-| `remove(reqmatch, ctrl)` | Remove the matching entity. |
+| `load(reqmatch, ctrl)` | Load a single entity by match criteria. `Ok` is the entity. |
+| `remove(reqmatch, ctrl)` | Remove the matching entity. `Ok` is the entity, marked as deleted. |
 
 #### Fields
 
@@ -1536,6 +1779,7 @@ Create an instance: `let user = client.user(Value::Noval);`
 
 ```rust
 let user = client.user(Value::Noval).load(jo(vec![("id", Value::str("user_id"))]), Value::Noval).unwrap();
+println!("{:?}", user.data(None));
 ```
 
 
@@ -1547,7 +1791,7 @@ Create an instance: `let virtual_device = client.virtual_device(Value::Noval);`
 
 | Method | Description |
 | --- | --- |
-| `load(reqmatch, ctrl)` | Load a single entity by match criteria. |
+| `load(reqmatch, ctrl)` | Load a single entity by match criteria. `Ok` is the entity. |
 
 #### Fields
 
@@ -1561,6 +1805,7 @@ Create an instance: `let virtual_device = client.virtual_device(Value::Noval);`
 
 ```rust
 let virtual_device = client.virtual_device(Value::Noval).load(jo(vec![("id", Value::str("virtual_device_id"))]), Value::Noval).unwrap();
+println!("{:?}", virtual_device.data(None));
 ```
 
 ## Features

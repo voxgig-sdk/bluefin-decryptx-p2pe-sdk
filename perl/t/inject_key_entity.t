@@ -11,10 +11,106 @@ use Cwd ();
 use BluefinDecryptxP2peSDK;
 require(Cwd::abs_path("$FindBin::Bin/runner.pm"));
 
+# main.kit.test.live.strict is true (the default is true): a live
+# request that fails, or a live test missing an input it needs,
+# fails the test.
+# An account with no record for a test to read skips it either way.
+use constant LIVE_STRICT => 1;
+
 {
   my $testsdk = BluefinDecryptxP2peSDK->test(undef, undef);
   my $ent = $testsdk->InjectKey(undef);
   ok(defined $ent, 'inject_key: create instance');
+}
+
+{
+  package BluefinDecryptxP2peEntityTestInjectKeyFailHook;
+  our @ISA = ('BluefinDecryptxP2peBaseFeature');
+
+  sub new {
+    my ($class) = @_;
+    my $self = BluefinDecryptxP2peBaseFeature::new($class);
+    $self->{name} = 'failhook';
+    $self->{unexpected} = 0;
+    return $self;
+  }
+
+  sub init { }
+  sub PreSpec { die "inject_key hook failed\n" }
+  sub PreUnexpected { $_[0]->{unexpected}++; return }
+}
+
+{
+  my $offline = { net => { offline => 1 } };
+  my $died = !eval {
+    my $next = BluefinDecryptxP2peSDK->test($offline, undef)->InjectKey(undef)->stream('list', undef, undef);
+    1 while defined $next->();
+    1;
+  };
+  like($died ? "$@" : '', qr/offline/, 'inject_key: a failed stream raises');
+
+  ok(eval {
+    my $next = BluefinDecryptxP2peSDK->test($offline, undef)->InjectKey(undef)
+      ->stream('list', undef, { ctrl => { throw => 0 } });
+    1 while defined $next->();
+    1;
+  }, 'inject_key: under throw false a failed stream ends');
+
+  if (BluefinDecryptxP2peConfig::shared_config()->{feature}{rbac}) {
+    my $denied = BluefinDecryptxP2peSDK->test(undef, { feature => { rbac => { active => 1, deny => 1 } } });
+    my $denyerr = eval {
+      my $next = $denied->InjectKey(undef)->stream('list', undef, undef);
+      1 while defined $next->();
+      undef;
+    } // $@;
+    is(ref $denyerr ? $denyerr->{code} : undef, 'rbac_denied',
+      'inject_key: a denied stream raises');
+  }
+}
+
+{
+  my $explain = {};
+  my $ctrl = { explain => $explain };
+  my $next = BluefinDecryptxP2peSDK->test(undef, undef)->InjectKey(undef)
+    ->stream('list', undef, { ctrl => $ctrl });
+  1 while defined $next->();
+  is_deeply([sort keys %$ctrl], ['explain'], 'inject_key: the stream leaves the caller ctrl');
+  ok($explain == $ctrl->{explain} && 0 < keys %$explain,
+    'inject_key: the caller explain record is filled');
+}
+
+{
+  my $hook = BluefinDecryptxP2peEntityTestInjectKeyFailHook->new;
+  my $client = BluefinDecryptxP2peSDK->new({ feature => { test => { active => 1 } }, extend => [$hook] });
+
+  my $err = eval { $client->InjectKey(undef)->list(undef, undef); undef } // $@;
+  like("$err", qr/hook failed/, 'inject_key: a dying hook fails the operation');
+  ok(0 < $hook->{unexpected}, 'inject_key: PreUnexpected fired');
+
+  my $fired = $hook->{unexpected};
+  my $out = eval { $client->InjectKey(undef)->list(undef, { throw => 0 }) };
+  ok(!$@ && !defined $out, 'inject_key: under throw false the call returns undef');
+  ok($fired < $hook->{unexpected}, 'inject_key: PreUnexpected fired under throw false');
+}
+
+{
+  my $seed = { entity => { 'inject_key' => { l1 => { id => 'l1' }, l2 => { id => 'l2' } } } };
+  my $items = BluefinDecryptxP2peSDK->test($seed, undef)->InjectKey(undef)->list(undef, undef);
+  # list resolves to one entity per record; data_get reads the record.
+  is(scalar(@$items), 2, 'inject_key: list answers each seeded record');
+  my $entities = grep {
+    Scalar::Util::blessed($_) && $_->can('data_get') && Voxgig::Struct::ismap($_->data_get)
+  } @$items;
+  is($entities, 2, 'inject_key: each listed item is an entity carrying its record');
+}
+
+SKIP: {
+  skip('feature not present in this SDK: validate', 1)
+    unless BluefinDecryptxP2peConfig::shared_config()->{feature}{validate};
+  my $client = BluefinDecryptxP2peSDK->test(undef, { feature => { validate => { active => 1 } } });
+  my $err = eval { $client->InjectKey(undef)->list({ 'created' => 1 }, undef); undef } // $@;
+  is(ref $err ? $err->{code} : undef, 'validate_failed',
+    'inject_key: an invalid request fails with validate_failed');
 }
 
 BASIC_FLOW: {
@@ -30,14 +126,11 @@ BASIC_FLOW: {
       last BASIC_FLOW;
     }
   }
-  # The basic flow consumes synthetic IDs from the fixture. In live mode
-  # without an *_ENTID env override, those IDs hit the live API and 4xx.
-  if ($setup->{synthetic_only}) {
-    note('live entity test uses synthetic IDs from fixture - set BLUEFIN_DECRYPTX_P2PE_TEST_INJECT_KEY_ENTID JSON to run live');
-    pass('inject_key: basic flow skipped (synthetic IDs only)');
-    last BASIC_FLOW;
-  }
   my $client = $setup->{client};
+  if ($setup->{live}) {
+    BluefinDecryptxP2peTestRunner::live_existing($setup, LIVE_STRICT, 'inject_key: basic flow', 'inject_key',
+      sub { $client->InjectKey(undef)->list({}, undef) }) or last BASIC_FLOW;
+  }
   my %V;
 
   # Bootstrap entity data from existing test data.
@@ -94,10 +187,8 @@ sub inject_key_basic_setup {
     }
   );
 
-  # Detect ENTID env override before env_override consumes it. When live
-  # mode is on without a real override, the basic test runs against
-  # synthetic IDs from the fixture and 4xx's. Surface this so the test can
-  # skip.
+  # Whether *_ENTID supplied the idmap, read before env_override consumes
+  # it: without it, the ids a live flow binds are the fixture's synthetic ones.
   my $entid_env_raw = $ENV{'BLUEFIN_DECRYPTX_P2PE_TEST_INJECT_KEY_ENTID'};
   my $idmap_overridden = (defined $entid_env_raw && $entid_env_raw =~ /^\s*\{/) ? 1 : 0;
 

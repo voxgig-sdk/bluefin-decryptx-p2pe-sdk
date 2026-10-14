@@ -5,6 +5,61 @@ main: kit: entity: decryption: {
   alias: field: {}
 
   fields: {
+    cbcVector: {
+      h: "Cbc Vector"
+      n: "cbcVector"
+      r: false
+      sh: "Base64 or hex encoded initial vector obtained from device."
+      t: "`$STRING`"
+    }
+    deviceType: {
+      h: "Device Type"
+      n: "deviceType"
+      r: true
+      sh: "The device Type."
+      t: "`$STRING`"
+    }
+    encoding: {
+      h: "Encoding"
+      n: "encoding"
+      r: false
+      sh: "The payload encoding"
+      t: "`$STRING`"
+    }
+    encrypted: {
+      h: "Encrypted"
+      n: "encrypted"
+      r: true
+      t: "`$ARRAY`"
+    }
+    hasCcData: {
+      h: "Has Cc Data"
+      n: "hasCcData"
+      r: false
+      sh: "Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers."
+      t: "`$STRING`"
+    }
+    reference: {
+      h: "Reference"
+      n: "reference"
+      r: false
+      sh: "A string (of up to 50 characters) that helps partners identify individual API calls."
+      t: "`$STRING`"
+    }
+    sequenceNumber: {
+      h: "Sequence Number"
+      n: "sequenceNumber"
+      r: false
+      sh: "Sequence number obtained from device in base 64 or hex encoded format."
+      t: "`$STRING`"
+    }
+    serialNumber: {
+      h: "Serial Number"
+      n: "serialNumber"
+      r: true
+      sh: "The serial number of the device."
+      t: "`$STRING`"
+    }
     success: {
       h: "Success"
       n: "success"
@@ -20,6 +75,16 @@ main: kit: entity: decryption: {
       name: "create"
       points: [
         {
+          bf: [
+            "cbcVector"
+            "deviceType"
+            "encoding"
+            "encrypted"
+            "hasCcData"
+            "reference"
+            "sequenceNumber"
+            "serialNumber"
+          ]
           co: {
             id: "POST /decryption"
             source: "openapi3"
@@ -27,6 +92,10 @@ main: kit: entity: decryption: {
           }
           m: "POST"
           o: "/decryption"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "decryption"

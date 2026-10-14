@@ -250,6 +250,7 @@ class Config {
       },
       'optspec': <String, dynamic>{
         'clearTimer': '`\$FUNCTION`',
+        'now': '`\$FUNCTION`',
         'setTimer': '`\$FUNCTION`',
       },
       'strict': false,
@@ -305,12 +306,24 @@ class Config {
           'name': 'client',
           'title': 'Client',
           'type': '`\$OBJECT`',
+          'op': <String, dynamic>{
+            'create': <String, dynamic>{
+              'req': true,
+              'type': '`\$OBJECT`',
+            },
+          },
           'short': 'Reference to the associated Client resource.',
         },
         <String, dynamic>{
           'name': 'completeDate',
           'title': 'Complete Date',
           'type': '`\$STRING`',
+          'op': <String, dynamic>{
+            'create': <String, dynamic>{
+              'req': true,
+              'type': '`\$STRING`',
+            },
+          },
           'short': 'The date and time that the Attestation took place.',
           'format': 'datetime',
         },
@@ -328,6 +341,12 @@ class Config {
           'short': 'Reference to the associated Device resource.',
         },
         <String, dynamic>{
+          'name': 'devices',
+          'title': 'Devices',
+          'type': '`\$ARRAY`',
+          'req': true,
+        },
+        <String, dynamic>{
           'name': 'id',
           'title': 'Id',
           'type': '`\$STRING`',
@@ -337,6 +356,12 @@ class Config {
           'name': 'name',
           'title': 'Name',
           'type': '`\$STRING`',
+          'op': <String, dynamic>{
+            'create': <String, dynamic>{
+              'req': true,
+              'type': '`\$STRING`',
+            },
+          },
           'short': 'Text describing the attestation.',
         },
         <String, dynamic>{
@@ -375,6 +400,10 @@ class Config {
               },
               'args': <String, dynamic>{},
               'select': <String, dynamic>{},
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
+              },
             },
           ],
         },
@@ -407,6 +436,7 @@ class Config {
                     'type': '`\$STRING`',
                     'kind': 'query',
                     'reqd': true,
+                    'field': true,
                   },
                   <String, dynamic>{
                     'name': 'skip',
@@ -427,9 +457,11 @@ class Config {
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'client',
-                  'skip',
-                  'take',
                 ],
+              },
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
               },
             },
           ],
@@ -475,6 +507,10 @@ class Config {
                   'id',
                 ],
               },
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
+              },
             },
           ],
         },
@@ -490,6 +526,10 @@ class Config {
           'title': 'Contact',
           'type': '`\$OBJECT`',
           'op': <String, dynamic>{
+            'create': <String, dynamic>{
+              'req': true,
+              'type': '`\$OBJECT`',
+            },
             'list': <String, dynamic>{
               'req': true,
               'type': '`\$OBJECT`',
@@ -508,6 +548,12 @@ class Config {
           'name': 'directPartner',
           'title': 'Direct Partner',
           'type': '`\$OBJECT`',
+          'op': <String, dynamic>{
+            'create': <String, dynamic>{
+              'req': true,
+              'type': '`\$OBJECT`',
+            },
+          },
           'short': 'Reference to the associated Partner.',
         },
         <String, dynamic>{
@@ -546,6 +592,12 @@ class Config {
           'name': 'name',
           'title': 'Name',
           'type': '`\$STRING`',
+          'op': <String, dynamic>{
+            'create': <String, dynamic>{
+              'req': true,
+              'type': '`\$STRING`',
+            },
+          },
           'short': 'The Client\'s name.',
         },
         <String, dynamic>{
@@ -590,6 +642,10 @@ class Config {
               },
               'args': <String, dynamic>{},
               'select': <String, dynamic>{},
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
+              },
             },
           ],
         },
@@ -622,6 +678,7 @@ class Config {
                     'type': '`\$STRING`',
                     'kind': 'query',
                     'reqd': true,
+                    'field': true,
                   },
                   <String, dynamic>{
                     'name': 'skip',
@@ -642,9 +699,11 @@ class Config {
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'partner',
-                  'skip',
-                  'take',
                 ],
+              },
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
               },
             },
           ],
@@ -689,6 +748,10 @@ class Config {
                 'exist': <dynamic>[
                   'id',
                 ],
+              },
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
               },
             },
           ],
@@ -743,7 +806,35 @@ class Config {
       },
     },
     'create_result': <String, dynamic>{
-      'fields': <dynamic>[],
+      'fields': <dynamic>[
+        <String, dynamic>{
+          'name': 'completeDate',
+          'title': 'Complete Date',
+          'type': '`\$STRING`',
+          'short': 'The date and time that the Custody change took place.',
+          'format': 'date-time',
+        },
+        <String, dynamic>{
+          'name': 'custodian',
+          'title': 'Custodian',
+          'type': '`\$OBJECT`',
+          'req': true,
+          'short': 'Reference to the associated User resource.',
+        },
+        <String, dynamic>{
+          'name': 'location',
+          'title': 'Location',
+          'type': '`\$OBJECT`',
+          'req': true,
+          'short': 'Reference to the associated Location resource.',
+        },
+        <String, dynamic>{
+          'name': 'notes',
+          'title': 'Notes',
+          'type': '`\$STRING`',
+          'short': 'Free form field that allows the Client associate notes with the Custody Change.',
+        },
+      ],
       'name': 'create_result',
       'op': <String, dynamic>{
         'create': <String, dynamic>{
@@ -788,14 +879,14 @@ class Config {
                 'params': <dynamic>[
                   <String, dynamic>{
                     'name': 'device_type',
-                    'orig': 'device_type',
+                    'orig': 'deviceType',
                     'type': '`\$STRING`',
                     'kind': 'param',
                     'reqd': true,
                   },
                   <String, dynamic>{
                     'name': 'serial_number',
-                    'orig': 'serial_number',
+                    'orig': 'serialNumber',
                     'type': '`\$STRING`',
                     'kind': 'param',
                     'reqd': true,
@@ -807,6 +898,10 @@ class Config {
                   'device_type',
                   'serial_number',
                 ],
+              },
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
               },
             },
           ],
@@ -822,6 +917,56 @@ class Config {
     },
     'decryption': <String, dynamic>{
       'fields': <dynamic>[
+        <String, dynamic>{
+          'name': 'cbcVector',
+          'title': 'Cbc Vector',
+          'type': '`\$STRING`',
+          'short': 'Base64 or hex encoded initial vector obtained from device.',
+        },
+        <String, dynamic>{
+          'name': 'deviceType',
+          'title': 'Device Type',
+          'type': '`\$STRING`',
+          'req': true,
+          'short': 'The device Type.',
+        },
+        <String, dynamic>{
+          'name': 'encoding',
+          'title': 'Encoding',
+          'type': '`\$STRING`',
+          'short': 'The payload encoding',
+        },
+        <String, dynamic>{
+          'name': 'encrypted',
+          'title': 'Encrypted',
+          'type': '`\$ARRAY`',
+          'req': true,
+        },
+        <String, dynamic>{
+          'name': 'hasCcData',
+          'title': 'Has Cc Data',
+          'type': '`\$STRING`',
+          'short': 'Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers.',
+        },
+        <String, dynamic>{
+          'name': 'reference',
+          'title': 'Reference',
+          'type': '`\$STRING`',
+          'short': 'A string (of up to 50 characters) that helps partners identify individual API calls.',
+        },
+        <String, dynamic>{
+          'name': 'sequenceNumber',
+          'title': 'Sequence Number',
+          'type': '`\$STRING`',
+          'short': 'Sequence number obtained from device in base 64 or hex encoded format.',
+        },
+        <String, dynamic>{
+          'name': 'serialNumber',
+          'title': 'Serial Number',
+          'type': '`\$STRING`',
+          'req': true,
+          'short': 'The serial number of the device.',
+        },
         <String, dynamic>{
           'name': 'success',
           'title': 'Success',
@@ -854,6 +999,10 @@ class Config {
               },
               'args': <String, dynamic>{},
               'select': <String, dynamic>{},
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
+              },
             },
           ],
         },
@@ -934,6 +1083,12 @@ class Config {
           'name': 'deviceType',
           'title': 'Device Type',
           'type': '`\$OBJECT`',
+          'op': <String, dynamic>{
+            'create': <String, dynamic>{
+              'req': true,
+              'type': '`\$OBJECT`',
+            },
+          },
           'short': 'Reference to the associated Device Type resource.',
         },
         <String, dynamic>{
@@ -985,6 +1140,12 @@ class Config {
           'name': 'kif',
           'title': 'Kif',
           'type': '`\$OBJECT`',
+          'op': <String, dynamic>{
+            'create': <String, dynamic>{
+              'req': true,
+              'type': '`\$OBJECT`',
+            },
+          },
           'short': 'Reference to the associated KIF resource.',
         },
         <String, dynamic>{
@@ -1037,6 +1198,12 @@ class Config {
           'name': 'serialNumber',
           'title': 'Serial Number',
           'type': '`\$STRING`',
+          'op': <String, dynamic>{
+            'create': <String, dynamic>{
+              'req': true,
+              'type': '`\$STRING`',
+            },
+          },
           'short': 'The Device\'s serial number.',
         },
         <String, dynamic>{
@@ -1075,6 +1242,10 @@ class Config {
               },
               'args': <String, dynamic>{},
               'select': <String, dynamic>{},
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
+              },
             },
           ],
         },
@@ -1106,10 +1277,11 @@ class Config {
                     'orig': 'client',
                     'type': '`\$STRING`',
                     'kind': 'query',
+                    'field': true,
                   },
                   <String, dynamic>{
                     'name': 'device_state',
-                    'orig': 'device_state',
+                    'orig': 'deviceState',
                     'type': '`\$STRING`',
                     'kind': 'query',
                   },
@@ -1118,16 +1290,18 @@ class Config {
                     'orig': 'kif',
                     'type': '`\$STRING`',
                     'kind': 'query',
+                    'field': true,
                   },
                   <String, dynamic>{
                     'name': 'partner',
                     'orig': 'partner',
                     'type': '`\$STRING`',
                     'kind': 'query',
+                    'field': true,
                   },
                   <String, dynamic>{
                     'name': 'serial_number',
-                    'orig': 'serial_number',
+                    'orig': 'serialNumber',
                     'type': '`\$STRING`',
                     'kind': 'query',
                   },
@@ -1140,14 +1314,14 @@ class Config {
                   },
                   <String, dynamic>{
                     'name': 'sorting_direction',
-                    'orig': 'sorting_direction',
+                    'orig': 'sorting.direction',
                     'type': '`\$STRING`',
                     'kind': 'query',
                     'example': 'asc',
                   },
                   <String, dynamic>{
                     'name': 'sorting_field',
-                    'orig': 'sorting_field',
+                    'orig': 'sorting.field',
                     'type': '`\$STRING`',
                     'kind': 'query',
                     'example': 'serialnumber',
@@ -1161,18 +1335,10 @@ class Config {
                   },
                 ],
               },
-              'select': <String, dynamic>{
-                'exist': <dynamic>[
-                  'client',
-                  'device_state',
-                  'kif',
-                  'partner',
-                  'serial_number',
-                  'skip',
-                  'sorting_direction',
-                  'sorting_field',
-                  'take',
-                ],
+              'select': <String, dynamic>{},
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
               },
             },
           ],
@@ -1215,14 +1381,14 @@ class Config {
                 'params': <dynamic>[
                   <String, dynamic>{
                     'name': 'device_type',
-                    'orig': 'device_type',
+                    'orig': 'deviceType',
                     'type': '`\$STRING`',
                     'kind': 'param',
                     'reqd': true,
                   },
                   <String, dynamic>{
                     'name': 'serial_number',
-                    'orig': 'serial_number',
+                    'orig': 'serialNumber',
                     'type': '`\$STRING`',
                     'kind': 'param',
                     'reqd': true,
@@ -1234,6 +1400,10 @@ class Config {
                   'device_type',
                   'serial_number',
                 ],
+              },
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
               },
             },
             <String, dynamic>{
@@ -1272,6 +1442,10 @@ class Config {
                 'exist': <dynamic>[
                   'id',
                 ],
+              },
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
               },
             },
           ],
@@ -1408,7 +1582,7 @@ class Config {
                 'query': <dynamic>[
                   <String, dynamic>{
                     'name': 'device_type',
-                    'orig': 'device_type',
+                    'orig': 'deviceType',
                     'type': '`\$STRING`',
                     'kind': 'query',
                   },
@@ -1428,12 +1602,10 @@ class Config {
                   },
                 ],
               },
-              'select': <String, dynamic>{
-                'exist': <dynamic>[
-                  'device_type',
-                  'skip',
-                  'take',
-                ],
+              'select': <String, dynamic>{},
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
               },
             },
           ],
@@ -1478,6 +1650,10 @@ class Config {
                 'exist': <dynamic>[
                   'id',
                 ],
+              },
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
               },
             },
           ],
@@ -1628,7 +1804,7 @@ class Config {
                 'params': <dynamic>[
                   <String, dynamic>{
                     'name': 'device_type',
-                    'orig': 'device_type',
+                    'orig': 'deviceType',
                     'type': '`\$STRING`',
                     'kind': 'param',
                     'reqd': true,
@@ -1642,7 +1818,7 @@ class Config {
                   },
                   <String, dynamic>{
                     'name': 'serial_number',
-                    'orig': 'serial_number',
+                    'orig': 'serialNumber',
                     'type': '`\$STRING`',
                     'kind': 'param',
                     'reqd': true,
@@ -1655,6 +1831,10 @@ class Config {
                   'id',
                   'serial_number',
                 ],
+              },
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
               },
             },
           ],
@@ -1805,14 +1985,14 @@ class Config {
                 'params': <dynamic>[
                   <String, dynamic>{
                     'name': 'device_type',
-                    'orig': 'device_type',
+                    'orig': 'deviceType',
                     'type': '`\$STRING`',
                     'kind': 'param',
                     'reqd': true,
                   },
                   <String, dynamic>{
                     'name': 'serial_number',
-                    'orig': 'serial_number',
+                    'orig': 'serialNumber',
                     'type': '`\$STRING`',
                     'kind': 'param',
                     'reqd': true,
@@ -1839,9 +2019,11 @@ class Config {
                 'exist': <dynamic>[
                   'device_type',
                   'serial_number',
-                  'skip',
-                  'take',
                 ],
+              },
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
               },
             },
           ],
@@ -1858,11 +2040,25 @@ class Config {
     'device_receive_result': <String, dynamic>{
       'fields': <dynamic>[
         <String, dynamic>{
+          'name': 'serialNumber',
+          'title': 'Serial Number',
+          'type': '`\$STRING`',
+          'req': true,
+          'short': 'The serial number of the Device that is shipped.',
+        },
+        <String, dynamic>{
           'name': 'success',
           'title': 'Success',
           'type': '`\$BOOLEAN`',
           'req': true,
           'short': 'Indicates if the action succeeded.',
+        },
+        <String, dynamic>{
+          'name': 'tamperLabel',
+          'title': 'Tamper Label',
+          'type': '`\$STRING`',
+          'req': true,
+          'short': 'The code that is printed the tamper label of the Device that is shipped.',
         },
       ],
       'name': 'device_receive_result',
@@ -1894,6 +2090,10 @@ class Config {
               },
               'args': <String, dynamic>{},
               'select': <String, dynamic>{},
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
+              },
             },
           ],
         },
@@ -1905,11 +2105,60 @@ class Config {
     'device_rki_activate_result': <String, dynamic>{
       'fields': <dynamic>[
         <String, dynamic>{
+          'name': 'appVersion',
+          'title': 'App Version',
+          'type': '`\$STRING`',
+          'short': 'If a Device Type has more than one Application Code version the supported version is specified here.',
+        },
+        <String, dynamic>{
+          'name': 'buildName',
+          'title': 'Build Name',
+          'type': '`\$STRING`',
+          'short': 'The Device Builds\'s name.',
+        },
+        <String, dynamic>{
+          'name': 'buildNumber',
+          'title': 'Build Number',
+          'type': '`\$STRING`',
+          'short': 'The Build Number.',
+        },
+        <String, dynamic>{
+          'name': 'configFile',
+          'title': 'Config File',
+          'type': '`\$STRING`',
+          'short': '\\?',
+        },
+        <String, dynamic>{
+          'name': 'firmwareVersion',
+          'title': 'Firmware Version',
+          'type': '`\$STRING`',
+          'short': 'A list of firmware versions that this Device Build covers.',
+        },
+        <String, dynamic>{
+          'name': 'hardwareVersion',
+          'title': 'Hardware Version',
+          'type': '`\$STRING`',
+          'short': 'A list of hardware versions that this Device Build covers.',
+        },
+        <String, dynamic>{
+          'name': 'serialNumber',
+          'title': 'Serial Number',
+          'type': '`\$STRING`',
+          'req': true,
+          'short': 'The referenced Device\'s serial number.',
+        },
+        <String, dynamic>{
           'name': 'success',
           'title': 'Success',
           'type': '`\$BOOLEAN`',
           'req': true,
           'short': 'Indicates if the RKI activation succeeded.',
+        },
+        <String, dynamic>{
+          'name': 'whiteListingBinRanges',
+          'title': 'White Listing Bin Ranges',
+          'type': '`\$STRING`',
+          'short': '\\?',
         },
       ],
       'name': 'device_rki_activate_result',
@@ -1945,6 +2194,10 @@ class Config {
               },
               'args': <String, dynamic>{},
               'select': <String, dynamic>{},
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
+              },
             },
           ],
         },
@@ -1998,6 +2251,10 @@ class Config {
               },
               'args': <String, dynamic>{},
               'select': <String, dynamic>{},
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
+              },
             },
           ],
         },
@@ -2111,6 +2368,10 @@ class Config {
               },
               'args': <String, dynamic>{},
               'select': <String, dynamic>{},
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
+              },
             },
           ],
         },
@@ -2154,6 +2415,10 @@ class Config {
                 'exist': <dynamic>[
                   'id',
                 ],
+              },
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
               },
             },
           ],
@@ -2245,6 +2510,10 @@ class Config {
               },
               'args': <String, dynamic>{},
               'select': <String, dynamic>{},
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
+              },
             },
           ],
         },
@@ -2288,6 +2557,10 @@ class Config {
                 'exist': <dynamic>[
                   'id',
                 ],
+              },
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
               },
             },
           ],
@@ -2342,6 +2615,10 @@ class Config {
               },
               'args': <String, dynamic>{},
               'select': <String, dynamic>{},
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
+              },
             },
           ],
         },
@@ -2356,6 +2633,12 @@ class Config {
           'name': 'address1',
           'title': 'Address1',
           'type': '`\$STRING`',
+          'op': <String, dynamic>{
+            'create': <String, dynamic>{
+              'req': true,
+              'type': '`\$STRING`',
+            },
+          },
           'short': 'The Location\'s street address.',
         },
         <String, dynamic>{
@@ -2374,12 +2657,30 @@ class Config {
           'name': 'city',
           'title': 'City',
           'type': '`\$STRING`',
+          'op': <String, dynamic>{
+            'create': <String, dynamic>{
+              'req': true,
+              'type': '`\$STRING`',
+            },
+          },
           'short': 'The Location\'s city.',
+        },
+        <String, dynamic>{
+          'name': 'client',
+          'title': 'Client',
+          'type': '`\$OBJECT`',
+          'short': 'Reference to the associated Client resource.',
         },
         <String, dynamic>{
           'name': 'country',
           'title': 'Country',
           'type': '`\$STRING`',
+          'op': <String, dynamic>{
+            'create': <String, dynamic>{
+              'req': true,
+              'type': '`\$OBJECT`',
+            },
+          },
           'short': 'The Location\'s country.',
         },
         <String, dynamic>{
@@ -2405,6 +2706,12 @@ class Config {
           'name': 'locationType',
           'title': 'Location Type',
           'type': '`\$STRING`',
+          'op': <String, dynamic>{
+            'create': <String, dynamic>{
+              'req': true,
+              'type': '`\$STRING`',
+            },
+          },
           'short': 'The Location\'s clasification.',
         },
         <String, dynamic>{
@@ -2454,6 +2761,12 @@ class Config {
           'name': 'name',
           'title': 'Name',
           'type': '`\$STRING`',
+          'op': <String, dynamic>{
+            'create': <String, dynamic>{
+              'req': true,
+              'type': '`\$STRING`',
+            },
+          },
           'short': 'The Location\'s name.',
         },
         <String, dynamic>{
@@ -2522,6 +2835,10 @@ class Config {
               },
               'args': <String, dynamic>{},
               'select': <String, dynamic>{},
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
+              },
             },
           ],
         },
@@ -2554,6 +2871,7 @@ class Config {
                     'type': '`\$STRING`',
                     'kind': 'query',
                     'reqd': true,
+                    'field': true,
                   },
                   <String, dynamic>{
                     'name': 'skip',
@@ -2574,9 +2892,11 @@ class Config {
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'client',
-                  'skip',
-                  'take',
                 ],
+              },
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
               },
             },
           ],
@@ -2621,6 +2941,10 @@ class Config {
                 'exist': <dynamic>[
                   'id',
                 ],
+              },
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
               },
             },
           ],
@@ -2693,6 +3017,10 @@ class Config {
           'title': 'Contact',
           'type': '`\$OBJECT`',
           'op': <String, dynamic>{
+            'create': <String, dynamic>{
+              'req': true,
+              'type': '`\$OBJECT`',
+            },
             'list': <String, dynamic>{
               'req': true,
               'type': '`\$OBJECT`',
@@ -2737,12 +3065,24 @@ class Config {
           'name': 'name',
           'title': 'Name',
           'type': '`\$STRING`',
+          'op': <String, dynamic>{
+            'create': <String, dynamic>{
+              'req': true,
+              'type': '`\$STRING`',
+            },
+          },
           'short': 'The Partner\'s name.',
         },
         <String, dynamic>{
           'name': 'parent',
           'title': 'Parent',
           'type': '`\$OBJECT`',
+          'op': <String, dynamic>{
+            'create': <String, dynamic>{
+              'req': true,
+              'type': '`\$OBJECT`',
+            },
+          },
           'short': 'Reference to the associated Partner.',
         },
         <String, dynamic>{
@@ -2755,6 +3095,12 @@ class Config {
           'name': 'reference',
           'title': 'Reference',
           'type': '`\$STRING`',
+          'op': <String, dynamic>{
+            'create': <String, dynamic>{
+              'req': true,
+              'type': '`\$STRING`',
+            },
+          },
           'short': 'The Partner\'s reference string.',
         },
         <String, dynamic>{
@@ -2799,6 +3145,10 @@ class Config {
               },
               'args': <String, dynamic>{},
               'select': <String, dynamic>{},
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
+              },
             },
           ],
         },
@@ -2847,12 +3197,10 @@ class Config {
                   },
                 ],
               },
-              'select': <String, dynamic>{
-                'exist': <dynamic>[
-                  'partner',
-                  'skip',
-                  'take',
-                ],
+              'select': <String, dynamic>{},
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
               },
             },
           ],
@@ -2898,6 +3246,10 @@ class Config {
                   'id',
                 ],
               },
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
+              },
             },
           ],
         },
@@ -2912,12 +3264,24 @@ class Config {
           'name': 'carrier',
           'title': 'Carrier',
           'type': '`\$STRING`',
+          'op': <String, dynamic>{
+            'create': <String, dynamic>{
+              'req': true,
+              'type': '`\$STRING`',
+            },
+          },
           'short': 'The name of the courier.',
         },
         <String, dynamic>{
           'name': 'client',
           'title': 'Client',
           'type': '`\$OBJECT`',
+          'op': <String, dynamic>{
+            'create': <String, dynamic>{
+              'req': true,
+              'type': '`\$OBJECT`',
+            },
+          },
           'short': 'Reference to the associated Client resource.',
         },
         <String, dynamic>{
@@ -2938,6 +3302,12 @@ class Config {
           'name': 'dateShipped',
           'title': 'Date Shipped',
           'type': '`\$STRING`',
+          'op': <String, dynamic>{
+            'create': <String, dynamic>{
+              'req': true,
+              'type': '`\$STRING`',
+            },
+          },
           'short': 'The date and time that a package is shipped.',
           'format': 'datetime',
         },
@@ -2957,12 +3327,31 @@ class Config {
           'name': 'items',
           'title': 'Items',
           'type': '`\$ARRAY`',
+          'op': <String, dynamic>{
+            'create': <String, dynamic>{
+              'req': true,
+              'type': '`\$ARRAY`',
+            },
+          },
         },
         <String, dynamic>{
           'name': 'kif',
           'title': 'Kif',
           'type': '`\$OBJECT`',
+          'op': <String, dynamic>{
+            'create': <String, dynamic>{
+              'req': true,
+              'type': '`\$OBJECT`',
+            },
+          },
           'short': 'Reference to the associated KIF resource.',
+        },
+        <String, dynamic>{
+          'name': 'location',
+          'title': 'Location',
+          'type': '`\$OBJECT`',
+          'req': true,
+          'short': 'Reference to the associated Location resource.',
         },
         <String, dynamic>{
           'name': 'modified',
@@ -2975,6 +3364,12 @@ class Config {
           'name': 'partner',
           'title': 'Partner',
           'type': '`\$OBJECT`',
+          'op': <String, dynamic>{
+            'create': <String, dynamic>{
+              'req': true,
+              'type': '`\$OBJECT`',
+            },
+          },
           'short': 'Reference to the associated Partner.',
         },
         <String, dynamic>{
@@ -2987,6 +3382,12 @@ class Config {
           'name': 'tracking',
           'title': 'Tracking',
           'type': '`\$STRING`',
+          'op': <String, dynamic>{
+            'create': <String, dynamic>{
+              'req': true,
+              'type': '`\$STRING`',
+            },
+          },
           'short': 'The courier\'s tracking number.',
         },
         <String, dynamic>{
@@ -3026,6 +3427,10 @@ class Config {
               },
               'args': <String, dynamic>{},
               'select': <String, dynamic>{},
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
+              },
             },
           ],
         },
@@ -3058,6 +3463,7 @@ class Config {
                     'type': '`\$STRING`',
                     'kind': 'query',
                     'reqd': true,
+                    'field': true,
                   },
                   <String, dynamic>{
                     'name': 'mode',
@@ -3084,10 +3490,11 @@ class Config {
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'kif',
-                  'mode',
-                  'skip',
-                  'take',
                 ],
+              },
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
               },
             },
           ],
@@ -3133,6 +3540,10 @@ class Config {
                   'id',
                 ],
               },
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
+              },
             },
           ],
         },
@@ -3143,6 +3554,20 @@ class Config {
     },
     'success': <String, dynamic>{
       'fields': <dynamic>[
+        <String, dynamic>{
+          'name': 'devices',
+          'title': 'Devices',
+          'type': '`\$ARRAY`',
+          'req': true,
+          'short': 'An array of Device ids to share with partner.',
+        },
+        <String, dynamic>{
+          'name': 'sharePartnerFrom',
+          'title': 'Share Partner From',
+          'type': '`\$OBJECT`',
+          'req': true,
+          'short': 'Reference to the associated Partner.',
+        },
         <String, dynamic>{
           'name': 'success',
           'title': 'Success',
@@ -3185,7 +3610,7 @@ class Config {
                 'params': <dynamic>[
                   <String, dynamic>{
                     'name': 'share_partner_to',
-                    'orig': 'share_partner_to',
+                    'orig': 'sharePartnerTo',
                     'type': '`\$STRING`',
                     'kind': 'param',
                     'reqd': true,
@@ -3196,6 +3621,10 @@ class Config {
                 'exist': <dynamic>[
                   'share_partner_to',
                 ],
+              },
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
               },
             },
           ],
@@ -3233,7 +3662,7 @@ class Config {
                 'params': <dynamic>[
                   <String, dynamic>{
                     'name': 'share_partner_to',
-                    'orig': 'share_partner_to',
+                    'orig': 'sharePartnerTo',
                     'type': '`\$STRING`',
                     'kind': 'param',
                     'reqd': true,
@@ -3244,6 +3673,10 @@ class Config {
                 'exist': <dynamic>[
                   'share_partner_to',
                 ],
+              },
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
               },
             },
           ],
@@ -3269,6 +3702,12 @@ class Config {
           'name': 'client',
           'title': 'Client',
           'type': '`\$OBJECT`',
+          'op': <String, dynamic>{
+            'create': <String, dynamic>{
+              'req': true,
+              'type': '`\$OBJECT`',
+            },
+          },
           'short': 'Reference to the associated Client resource.',
         },
         <String, dynamic>{
@@ -3290,6 +3729,13 @@ class Config {
           'type': '`\$INTEGER`',
           'short': 'A Transcation can process muliple decryptions.',
           'format': 'int32',
+        },
+        <String, dynamic>{
+          'name': 'device',
+          'title': 'Device',
+          'type': '`\$OBJECT`',
+          'req': true,
+          'short': 'Reference to the associated Device resource.',
         },
         <String, dynamic>{
           'name': 'deviceName',
@@ -3339,6 +3785,12 @@ class Config {
           'name': 'ipAddress',
           'title': 'Ip Address',
           'type': '`\$STRING`',
+          'op': <String, dynamic>{
+            'create': <String, dynamic>{
+              'req': true,
+              'type': '`\$STRING`',
+            },
+          },
           'short': 'The IP address of the http client that makes the decrypt API call.',
         },
         <String, dynamic>{
@@ -3351,6 +3803,12 @@ class Config {
           'name': 'keyType',
           'title': 'Key Type',
           'type': '`\$STRING`',
+          'op': <String, dynamic>{
+            'create': <String, dynamic>{
+              'req': true,
+              'type': '`\$STRING`',
+            },
+          },
           'short': 'The type of cipher used during decrytion.',
         },
         <String, dynamic>{
@@ -3370,12 +3828,24 @@ class Config {
           'name': 'method',
           'title': 'Method',
           'type': '`\$STRING`',
+          'op': <String, dynamic>{
+            'create': <String, dynamic>{
+              'req': true,
+              'type': '`\$STRING`',
+            },
+          },
           'short': 'The decryption cypher/method.',
         },
         <String, dynamic>{
           'name': 'partner',
           'title': 'Partner',
           'type': '`\$OBJECT`',
+          'op': <String, dynamic>{
+            'create': <String, dynamic>{
+              'req': true,
+              'type': '`\$OBJECT`',
+            },
+          },
           'short': 'Reference to the associated Partner.',
         },
         <String, dynamic>{
@@ -3439,6 +3909,10 @@ class Config {
               },
               'args': <String, dynamic>{},
               'select': <String, dynamic>{},
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
+              },
             },
           ],
         },
@@ -3470,22 +3944,23 @@ class Config {
                     'orig': 'client',
                     'type': '`\$STRING`',
                     'kind': 'query',
+                    'field': true,
                   },
                   <String, dynamic>{
                     'name': 'client_ref',
-                    'orig': 'client_ref',
+                    'orig': 'clientRef',
                     'type': '`\$STRING`',
                     'kind': 'query',
                   },
                   <String, dynamic>{
                     'name': 'date_from',
-                    'orig': 'date_from',
+                    'orig': 'dateFrom',
                     'type': '`\$STRING`',
                     'kind': 'query',
                   },
                   <String, dynamic>{
                     'name': 'date_to',
-                    'orig': 'date_to',
+                    'orig': 'dateTo',
                     'type': '`\$STRING`',
                     'kind': 'query',
                   },
@@ -3494,16 +3969,17 @@ class Config {
                     'orig': 'location',
                     'type': '`\$STRING`',
                     'kind': 'query',
+                    'field': true,
                   },
                   <String, dynamic>{
                     'name': 'message_id',
-                    'orig': 'message_id',
+                    'orig': 'messageId',
                     'type': '`\$STRING`',
                     'kind': 'query',
                   },
                   <String, dynamic>{
                     'name': 'paging_mode',
-                    'orig': 'paging_mode',
+                    'orig': 'paging.mode',
                     'type': '`\$STRING`',
                     'kind': 'query',
                     'example': 'nocount',
@@ -3513,16 +3989,18 @@ class Config {
                     'orig': 'partner',
                     'type': '`\$STRING`',
                     'kind': 'query',
+                    'field': true,
                   },
                   <String, dynamic>{
                     'name': 'reference',
                     'orig': 'reference',
                     'type': '`\$STRING`',
                     'kind': 'query',
+                    'field': true,
                   },
                   <String, dynamic>{
                     'name': 'serial_number',
-                    'orig': 'serial_number',
+                    'orig': 'serialNumber',
                     'type': '`\$STRING`',
                     'kind': 'query',
                   },
@@ -3538,6 +4016,7 @@ class Config {
                     'orig': 'success',
                     'type': '`\$BOOLEAN`',
                     'kind': 'query',
+                    'field': true,
                   },
                   <String, dynamic>{
                     'name': 'take',
@@ -3548,22 +4027,10 @@ class Config {
                   },
                 ],
               },
-              'select': <String, dynamic>{
-                'exist': <dynamic>[
-                  'client',
-                  'client_ref',
-                  'date_from',
-                  'date_to',
-                  'location',
-                  'message_id',
-                  'paging_mode',
-                  'partner',
-                  'reference',
-                  'serial_number',
-                  'skip',
-                  'success',
-                  'take',
-                ],
+              'select': <String, dynamic>{},
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
               },
             },
           ],
@@ -3609,6 +4076,10 @@ class Config {
                   'id',
                 ],
               },
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
+              },
             },
           ],
         },
@@ -3620,21 +4091,171 @@ class Config {
     'update_result': <String, dynamic>{
       'fields': <dynamic>[
         <String, dynamic>{
+          'name': 'address1',
+          'title': 'Address1',
+          'type': '`\$STRING`',
+          'short': 'The Location\'s street address.',
+        },
+        <String, dynamic>{
+          'name': 'address2',
+          'title': 'Address2',
+          'type': '`\$STRING`',
+          'short': 'The Location\'s street address.',
+        },
+        <String, dynamic>{
+          'name': 'alternateKey',
+          'title': 'Alternate Key',
+          'type': '`\$STRING`',
+          'short': 'The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device\'s casing or its packaging.',
+        },
+        <String, dynamic>{
+          'name': 'auditNextDate',
+          'title': 'Audit Next Date',
+          'type': '`\$STRING`',
+          'short': 'Date and time that the Device is due its next PCI Audit.',
+          'format': 'datetime',
+        },
+        <String, dynamic>{
+          'name': 'billingId',
+          'title': 'Billing Id',
+          'type': '`\$STRING`',
+          'short': '\\?',
+        },
+        <String, dynamic>{
+          'name': 'city',
+          'title': 'City',
+          'type': '`\$STRING`',
+          'short': 'The Location\'s city.',
+        },
+        <String, dynamic>{
           'name': 'client',
           'title': 'Client',
           'type': '`\$OBJECT`',
           'short': 'Reference to the associated Client resource.',
         },
         <String, dynamic>{
+          'name': 'clientCanOrderEquipment',
+          'title': 'Client Can Order Equipment',
+          'type': '`\$BOOLEAN`',
+          'short': 'This property indicates if the Partner is allowed to order Equipment.',
+        },
+        <String, dynamic>{
+          'name': 'clientRef',
+          'title': 'Client Ref',
+          'type': '`\$STRING`',
+          'short': 'Client Reference property that is included in the decrypt API call.',
+        },
+        <String, dynamic>{
+          'name': 'contact',
+          'title': 'Contact',
+          'type': '`\$OBJECT`',
+          'req': true,
+          'short': 'Reference to the associated User resource.',
+        },
+        <String, dynamic>{
+          'name': 'country',
+          'title': 'Country',
+          'type': '`\$OBJECT`',
+          'short': 'Reference to the associated Country.',
+        },
+        <String, dynamic>{
+          'name': 'customReference',
+          'title': 'Custom Reference',
+          'type': '`\$STRING`',
+          'short': 'A Partner specified reference for a location.',
+        },
+        <String, dynamic>{
+          'name': 'dateShipped',
+          'title': 'Date Shipped',
+          'type': '`\$STRING`',
+          'short': 'The date and time that a package is shipped.',
+          'format': 'datetime',
+        },
+        <String, dynamic>{
+          'name': 'decrypted',
+          'title': 'Decrypted',
+          'type': '`\$INTEGER`',
+          'short': 'A Transcation can process muliple decryptions.',
+          'format': 'int32',
+        },
+        <String, dynamic>{
+          'name': 'device',
+          'title': 'Device',
+          'type': '`\$OBJECT`',
+          'short': 'Reference to the associated Device resource.',
+        },
+        <String, dynamic>{
+          'name': 'deviceBuild',
+          'title': 'Device Build',
+          'type': '`\$OBJECT`',
+          'short': 'Reference to the associated Device Build resource.',
+        },
+        <String, dynamic>{
+          'name': 'deviceType',
+          'title': 'Device Type',
+          'type': '`\$OBJECT`',
+          'short': 'Reference to the associated Device Type resource.',
+        },
+        <String, dynamic>{
+          'name': 'directPartner',
+          'title': 'Direct Partner',
+          'type': '`\$OBJECT`',
+          'short': 'Reference to the associated Partner.',
+        },
+        <String, dynamic>{
           'name': 'email',
           'title': 'Email',
           'type': '`\$STRING`',
+          'req': true,
+          'op': <String, dynamic>{
+            'list': <String, dynamic>{
+              'type': '`\$STRING`',
+            },
+            'update': <String, dynamic>{
+              'type': '`\$STRING`',
+            },
+          },
           'short': 'The User\'s email address.',
+        },
+        <String, dynamic>{
+          'name': 'encrypted',
+          'title': 'Encrypted',
+          'type': '`\$INTEGER`',
+          'short': 'A Transcation can process muliple encryptions.',
+          'format': 'int32',
+        },
+        <String, dynamic>{
+          'name': 'endDate',
+          'title': 'End Date',
+          'type': '`\$STRING`',
+          'short': 'Timestamp from the end of the transaction.',
+          'format': 'datetime',
+        },
+        <String, dynamic>{
+          'name': 'errCode',
+          'title': 'Err Code',
+          'type': '`\$STRING`',
+          'short': 'The error code that is sent in response to a failed decrypt API call.',
+        },
+        <String, dynamic>{
+          'name': 'errMessage',
+          'title': 'Err Message',
+          'type': '`\$STRING`',
+          'short': 'The error messge that is sent in response to a failed decrypt API call.',
         },
         <String, dynamic>{
           'name': 'firstName',
           'title': 'First Name',
           'type': '`\$STRING`',
+          'req': true,
+          'op': <String, dynamic>{
+            'list': <String, dynamic>{
+              'type': '`\$STRING`',
+            },
+            'update': <String, dynamic>{
+              'type': '`\$STRING`',
+            },
+          },
           'short': 'The User\'s name.',
         },
         <String, dynamic>{
@@ -3644,10 +4265,42 @@ class Config {
           'short': 'ID of newly created resource',
         },
         <String, dynamic>{
+          'name': 'injectKey',
+          'title': 'Inject Key',
+          'type': '`\$OBJECT`',
+          'short': 'Reference to the associated Device resource.',
+        },
+        <String, dynamic>{
+          'name': 'ipAddress',
+          'title': 'Ip Address',
+          'type': '`\$STRING`',
+          'short': 'The IP address of the http client that makes the decrypt API call.',
+        },
+        <String, dynamic>{
           'name': 'isActive',
           'title': 'Is Active',
           'type': '`\$BOOLEAN`',
+          'req': true,
+          'op': <String, dynamic>{
+            'list': <String, dynamic>{
+              'type': '`\$BOOLEAN`',
+            },
+            'update': <String, dynamic>{
+              'type': '`\$BOOLEAN`',
+            },
+          },
           'short': 'This property indicates if the User account is active or disabled.',
+        },
+        <String, dynamic>{
+          'name': 'items',
+          'title': 'Items',
+          'type': '`\$ARRAY`',
+        },
+        <String, dynamic>{
+          'name': 'keyType',
+          'title': 'Key Type',
+          'type': '`\$STRING`',
+          'short': 'The type of cipher used during decrytion.',
         },
         <String, dynamic>{
           'name': 'kif',
@@ -3659,7 +4312,107 @@ class Config {
           'name': 'lastName',
           'title': 'Last Name',
           'type': '`\$STRING`',
+          'req': true,
+          'op': <String, dynamic>{
+            'list': <String, dynamic>{
+              'type': '`\$STRING`',
+            },
+            'update': <String, dynamic>{
+              'type': '`\$STRING`',
+            },
+          },
           'short': 'The User\'s Surname.',
+        },
+        <String, dynamic>{
+          'name': 'location',
+          'title': 'Location',
+          'type': '`\$OBJECT`',
+          'req': true,
+          'short': 'Reference to the associated Location resource.',
+        },
+        <String, dynamic>{
+          'name': 'locationType',
+          'title': 'Location Type',
+          'type': '`\$STRING`',
+          'short': 'The Location\'s clasification.',
+        },
+        <String, dynamic>{
+          'name': 'mailAddress1',
+          'title': 'Mail Address1',
+          'type': '`\$STRING`',
+          'short': 'The Location\'s street address.',
+        },
+        <String, dynamic>{
+          'name': 'mailAddress2',
+          'title': 'Mail Address2',
+          'type': '`\$STRING`',
+          'short': 'The Location\'s street address.',
+        },
+        <String, dynamic>{
+          'name': 'mailCity',
+          'title': 'Mail City',
+          'type': '`\$STRING`',
+          'short': 'The Location\'s city.',
+        },
+        <String, dynamic>{
+          'name': 'mailCountry',
+          'title': 'Mail Country',
+          'type': '`\$STRING`',
+          'short': 'The Location\'s street address.',
+        },
+        <String, dynamic>{
+          'name': 'mailPostalCode',
+          'title': 'Mail Postal Code',
+          'type': '`\$STRING`',
+          'short': 'The Location\'s postal code.',
+        },
+        <String, dynamic>{
+          'name': 'mailStateProvince',
+          'title': 'Mail State Province',
+          'type': '`\$STRING`',
+          'short': 'The Location\'s street state or province.',
+        },
+        <String, dynamic>{
+          'name': 'messageId',
+          'title': 'Message Id',
+          'type': '`\$STRING`',
+          'short': 'Message ID.',
+        },
+        <String, dynamic>{
+          'name': 'method',
+          'title': 'Method',
+          'type': '`\$STRING`',
+          'short': 'The decryption cypher/method.',
+        },
+        <String, dynamic>{
+          'name': 'mid',
+          'title': 'Mid',
+          'type': '`\$STRING`',
+          'short': 'Some Partners will have an merchant ids on their own software offerings.',
+        },
+        <String, dynamic>{
+          'name': 'name',
+          'title': 'Name',
+          'type': '`\$STRING`',
+          'short': 'The Client\'s name.',
+        },
+        <String, dynamic>{
+          'name': 'nameOfBusiness',
+          'title': 'Name Of Business',
+          'type': '`\$STRING`',
+          'short': 'The name of the business at this location.',
+        },
+        <String, dynamic>{
+          'name': 'notes',
+          'title': 'Notes',
+          'type': '`\$STRING`',
+          'short': 'Arbitary note that can be attached to a Device entry.',
+        },
+        <String, dynamic>{
+          'name': 'parent',
+          'title': 'Parent',
+          'type': '`\$OBJECT`',
+          'short': 'Reference to the associated Partner.',
         },
         <String, dynamic>{
           'name': 'partner',
@@ -3668,22 +4421,116 @@ class Config {
           'short': 'Reference to the associated Partner.',
         },
         <String, dynamic>{
+          'name': 'partnerId',
+          'title': 'Partner Id',
+          'type': '`\$STRING`',
+          'short': 'The Partner\'s id.',
+        },
+        <String, dynamic>{
           'name': 'phone',
           'title': 'Phone',
           'type': '`\$STRING`',
+          'req': true,
+          'op': <String, dynamic>{
+            'list': <String, dynamic>{
+              'type': '`\$STRING`',
+            },
+            'update': <String, dynamic>{
+              'type': '`\$STRING`',
+            },
+          },
           'short': 'The User\'s phone number without dashes, spaces, or brackets.',
+        },
+        <String, dynamic>{
+          'name': 'postalCode',
+          'title': 'Postal Code',
+          'type': '`\$STRING`',
+          'short': 'The Location\'s postal code.',
+        },
+        <String, dynamic>{
+          'name': 'reference',
+          'title': 'Reference',
+          'type': '`\$STRING`',
+          'short': 'The Partner\'s reference string.',
+        },
+        <String, dynamic>{
+          'name': 'sendWelcomeEmail',
+          'title': 'Send Welcome Email',
+          'type': '`\$BOOLEAN`',
+          'short': 'If this property is set to \'*true*\' the newly created user will be sent a welcome email.',
+        },
+        <String, dynamic>{
+          'name': 'serialNumber',
+          'title': 'Serial Number',
+          'type': '`\$STRING`',
+          'short': 'The Device\'s serial number.',
+        },
+        <String, dynamic>{
+          'name': 'startDate',
+          'title': 'Start Date',
+          'type': '`\$STRING`',
+          'short': 'Timestamp from the beginning of the transaction.',
+          'format': 'datetime',
+        },
+        <String, dynamic>{
+          'name': 'stateProvince',
+          'title': 'State Province',
+          'type': '`\$STRING`',
+          'short': 'The Location\'s street state or province.',
+        },
+        <String, dynamic>{
+          'name': 'success',
+          'title': 'Success',
+          'type': '`\$BOOLEAN`',
+          'short': 'The success indicator.',
+        },
+        <String, dynamic>{
+          'name': 'tracking',
+          'title': 'Tracking',
+          'type': '`\$STRING`',
+          'short': 'The courier\'s tracking number.',
+        },
+        <String, dynamic>{
+          'name': 'uniqueId',
+          'title': 'Unique Id',
+          'type': '`\$STRING`',
+          'short': 'Unique Identifier for the Location.',
         },
         <String, dynamic>{
           'name': 'userName',
           'title': 'User Name',
           'type': '`\$STRING`',
+          'req': true,
+          'op': <String, dynamic>{
+            'list': <String, dynamic>{
+              'type': '`\$STRING`',
+            },
+            'update': <String, dynamic>{
+              'type': '`\$STRING`',
+            },
+          },
           'short': 'The User\'s unique username.',
         },
         <String, dynamic>{
           'name': 'userRole',
           'title': 'User Role',
           'type': '`\$OBJECT`',
+          'req': true,
+          'op': <String, dynamic>{
+            'list': <String, dynamic>{
+              'type': '`\$OBJECT`',
+            },
+            'update': <String, dynamic>{
+              'type': '`\$OBJECT`',
+            },
+          },
           'short': 'Reference to the associated User Role.',
+        },
+        <String, dynamic>{
+          'name': 'verificationPhrase',
+          'title': 'Verification Phrase',
+          'type': '`\$STRING`',
+          'short': 'The verification phrase is a message that the Partner creates.',
         },
         <String, dynamic>{
           'name': 'version',
@@ -3721,6 +4568,10 @@ class Config {
               },
               'args': <String, dynamic>{},
               'select': <String, dynamic>{},
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
+              },
             },
           ],
         },
@@ -3752,18 +4603,21 @@ class Config {
                     'orig': 'client',
                     'type': '`\$STRING`',
                     'kind': 'query',
+                    'field': true,
                   },
                   <String, dynamic>{
                     'name': 'kif',
                     'orig': 'kif',
                     'type': '`\$STRING`',
                     'kind': 'query',
+                    'field': true,
                   },
                   <String, dynamic>{
                     'name': 'partner',
                     'orig': 'partner',
                     'type': '`\$ANY`',
                     'kind': 'query',
+                    'field': true,
                   },
                   <String, dynamic>{
                     'name': 'skip',
@@ -3781,14 +4635,10 @@ class Config {
                   },
                 ],
               },
-              'select': <String, dynamic>{
-                'exist': <dynamic>[
-                  'client',
-                  'kif',
-                  'partner',
-                  'skip',
-                  'take',
-                ],
+              'select': <String, dynamic>{},
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
               },
             },
           ],
@@ -3834,6 +4684,10 @@ class Config {
                   'id',
                 ],
               },
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
+              },
             },
             <String, dynamic>{
               'kind': 'http',
@@ -3871,6 +4725,10 @@ class Config {
                 'exist': <dynamic>[
                   'id',
                 ],
+              },
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
               },
             },
             <String, dynamic>{
@@ -3910,6 +4768,10 @@ class Config {
                   'id',
                 ],
               },
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
+              },
             },
             <String, dynamic>{
               'kind': 'http',
@@ -3947,6 +4809,10 @@ class Config {
                 'exist': <dynamic>[
                   'id',
                 ],
+              },
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
               },
             },
             <String, dynamic>{
@@ -3986,6 +4852,10 @@ class Config {
                   'id',
                 ],
               },
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
+              },
             },
             <String, dynamic>{
               'kind': 'http',
@@ -4024,6 +4894,10 @@ class Config {
                   'id',
                 ],
               },
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
+              },
             },
             <String, dynamic>{
               'kind': 'http',
@@ -4061,6 +4935,10 @@ class Config {
                 'exist': <dynamic>[
                   'id',
                 ],
+              },
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
               },
             },
           ],
@@ -4206,6 +5084,10 @@ class Config {
                   'id',
                 ],
               },
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
+              },
             },
           ],
         },
@@ -4317,7 +5199,7 @@ class Config {
                 'params': <dynamic>[
                   <String, dynamic>{
                     'name': 'id',
-                    'orig': 'share_partner_to',
+                    'orig': 'sharePartnerTo',
                     'type': '`\$STRING`',
                     'kind': 'param',
                     'reqd': true,
@@ -4333,14 +5215,14 @@ class Config {
                   },
                   <String, dynamic>{
                     'name': 'sorting_direction',
-                    'orig': 'sorting_direction',
+                    'orig': 'sorting.direction',
                     'type': '`\$STRING`',
                     'kind': 'query',
                     'example': 'asc',
                   },
                   <String, dynamic>{
                     'name': 'sorting_field',
-                    'orig': 'sorting_field',
+                    'orig': 'sorting.field',
                     'type': '`\$STRING`',
                     'kind': 'query',
                     'example': 'serialnumber',
@@ -4357,11 +5239,11 @@ class Config {
               'select': <String, dynamic>{
                 'exist': <dynamic>[
                   'id',
-                  'skip',
-                  'sorting_direction',
-                  'sorting_field',
-                  'take',
                 ],
+              },
+              'response': <String, dynamic>{
+                'kind': 'json',
+                'media': 'application/json',
               },
             },
           ],

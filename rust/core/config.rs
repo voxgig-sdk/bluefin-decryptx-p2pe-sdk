@@ -192,6 +192,7 @@ pub fn make_config() -> Value {
                 ])),
                 ("optspec".to_string(), Value::map_of([
                     ("clearTimer".to_string(), Value::str("`$FUNCTION`")),
+                    ("now".to_string(), Value::str("`$FUNCTION`")),
                     ("setTimer".to_string(), Value::str("`$FUNCTION`")),
                 ])),
                 ("strict".to_string(), Value::Bool(false)),
@@ -239,12 +240,24 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("client")),
                         ("title".to_string(), Value::str("Client")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("op".to_string(), Value::map_of([
+                            ("create".to_string(), Value::map_of([
+                                ("req".to_string(), Value::Bool(true)),
+                                ("type".to_string(), Value::str("`$OBJECT`")),
+                            ])),
+                        ])),
                         ("short".to_string(), Value::str("Reference to the associated Client resource.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("completeDate")),
                         ("title".to_string(), Value::str("Complete Date")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("op".to_string(), Value::map_of([
+                            ("create".to_string(), Value::map_of([
+                                ("req".to_string(), Value::Bool(true)),
+                                ("type".to_string(), Value::str("`$STRING`")),
+                            ])),
+                        ])),
                         ("short".to_string(), Value::str("The date and time that the Attestation took place.")),
                         ("format".to_string(), Value::str("datetime")),
                     ]),
@@ -262,6 +275,12 @@ pub fn make_config() -> Value {
                         ("short".to_string(), Value::str("Reference to the associated Device resource.")),
                     ]),
                     Value::map_of([
+                        ("name".to_string(), Value::str("devices")),
+                        ("title".to_string(), Value::str("Devices")),
+                        ("type".to_string(), Value::str("`$ARRAY`")),
+                        ("req".to_string(), Value::Bool(true)),
+                    ]),
+                    Value::map_of([
                         ("name".to_string(), Value::str("id")),
                         ("title".to_string(), Value::str("Id")),
                         ("type".to_string(), Value::str("`$STRING`")),
@@ -271,6 +290,12 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("name")),
                         ("title".to_string(), Value::str("Name")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("op".to_string(), Value::map_of([
+                            ("create".to_string(), Value::map_of([
+                                ("req".to_string(), Value::Bool(true)),
+                                ("type".to_string(), Value::str("`$STRING`")),
+                            ])),
+                        ])),
                         ("short".to_string(), Value::str("Text describing the attestation.")),
                     ]),
                     Value::map_of([
@@ -309,6 +334,10 @@ pub fn make_config() -> Value {
                                 ])),
                                 ("args".to_string(), Value::empty_map()),
                                 ("select".to_string(), Value::empty_map()),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
+                                ])),
                             ]),
                         ])),
                     ])),
@@ -341,6 +370,7 @@ pub fn make_config() -> Value {
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("query")),
                                             ("reqd".to_string(), Value::Bool(true)),
+                                            ("field".to_string(), Value::Bool(true)),
                                         ]),
                                         Value::map_of([
                                             ("name".to_string(), Value::str("skip")),
@@ -361,9 +391,11 @@ pub fn make_config() -> Value {
                                 ("select".to_string(), Value::map_of([
                                     ("exist".to_string(), Value::list(vec![
                                         Value::str("client"),
-                                        Value::str("skip"),
-                                        Value::str("take"),
                                     ])),
+                                ])),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
                                 ])),
                             ]),
                         ])),
@@ -409,6 +441,10 @@ pub fn make_config() -> Value {
                                         Value::str("id"),
                                     ])),
                                 ])),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
+                                ])),
                             ]),
                         ])),
                     ])),
@@ -424,6 +460,10 @@ pub fn make_config() -> Value {
                         ("title".to_string(), Value::str("Contact")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                         ("op".to_string(), Value::map_of([
+                            ("create".to_string(), Value::map_of([
+                                ("req".to_string(), Value::Bool(true)),
+                                ("type".to_string(), Value::str("`$OBJECT`")),
+                            ])),
                             ("list".to_string(), Value::map_of([
                                 ("req".to_string(), Value::Bool(true)),
                                 ("type".to_string(), Value::str("`$OBJECT`")),
@@ -442,6 +482,12 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("directPartner")),
                         ("title".to_string(), Value::str("Direct Partner")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("op".to_string(), Value::map_of([
+                            ("create".to_string(), Value::map_of([
+                                ("req".to_string(), Value::Bool(true)),
+                                ("type".to_string(), Value::str("`$OBJECT`")),
+                            ])),
+                        ])),
                         ("short".to_string(), Value::str("Reference to the associated Partner.")),
                     ]),
                     Value::map_of([
@@ -480,6 +526,12 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("name")),
                         ("title".to_string(), Value::str("Name")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("op".to_string(), Value::map_of([
+                            ("create".to_string(), Value::map_of([
+                                ("req".to_string(), Value::Bool(true)),
+                                ("type".to_string(), Value::str("`$STRING`")),
+                            ])),
+                        ])),
                         ("short".to_string(), Value::str("The Client's name.")),
                     ]),
                     Value::map_of([
@@ -524,6 +576,10 @@ pub fn make_config() -> Value {
                                 ])),
                                 ("args".to_string(), Value::empty_map()),
                                 ("select".to_string(), Value::empty_map()),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
+                                ])),
                             ]),
                         ])),
                     ])),
@@ -556,6 +612,7 @@ pub fn make_config() -> Value {
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("query")),
                                             ("reqd".to_string(), Value::Bool(true)),
+                                            ("field".to_string(), Value::Bool(true)),
                                         ]),
                                         Value::map_of([
                                             ("name".to_string(), Value::str("skip")),
@@ -576,9 +633,11 @@ pub fn make_config() -> Value {
                                 ("select".to_string(), Value::map_of([
                                     ("exist".to_string(), Value::list(vec![
                                         Value::str("partner"),
-                                        Value::str("skip"),
-                                        Value::str("take"),
                                     ])),
+                                ])),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
                                 ])),
                             ]),
                         ])),
@@ -623,6 +682,10 @@ pub fn make_config() -> Value {
                                     ("exist".to_string(), Value::list(vec![
                                         Value::str("id"),
                                     ])),
+                                ])),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
                                 ])),
                             ]),
                         ])),
@@ -677,7 +740,35 @@ pub fn make_config() -> Value {
                 ])),
             ])),
             ("create_result".to_string(), Value::map_of([
-                ("fields".to_string(), Value::empty_list()),
+                ("fields".to_string(), Value::list(vec![
+                    Value::map_of([
+                        ("name".to_string(), Value::str("completeDate")),
+                        ("title".to_string(), Value::str("Complete Date")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The date and time that the Custody change took place.")),
+                        ("format".to_string(), Value::str("date-time")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("custodian")),
+                        ("title".to_string(), Value::str("Custodian")),
+                        ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("req".to_string(), Value::Bool(true)),
+                        ("short".to_string(), Value::str("Reference to the associated User resource.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("location")),
+                        ("title".to_string(), Value::str("Location")),
+                        ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("req".to_string(), Value::Bool(true)),
+                        ("short".to_string(), Value::str("Reference to the associated Location resource.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("notes")),
+                        ("title".to_string(), Value::str("Notes")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Free form field that allows the Client associate notes with the Custody Change.")),
+                    ]),
+                ])),
                 ("name".to_string(), Value::str("create_result")),
                 ("op".to_string(), Value::map_of([
                     ("create".to_string(), Value::map_of([
@@ -722,14 +813,14 @@ pub fn make_config() -> Value {
                                     ("params".to_string(), Value::list(vec![
                                         Value::map_of([
                                             ("name".to_string(), Value::str("device_type")),
-                                            ("orig".to_string(), Value::str("device_type")),
+                                            ("orig".to_string(), Value::str("deviceType")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("param")),
                                             ("reqd".to_string(), Value::Bool(true)),
                                         ]),
                                         Value::map_of([
                                             ("name".to_string(), Value::str("serial_number")),
-                                            ("orig".to_string(), Value::str("serial_number")),
+                                            ("orig".to_string(), Value::str("serialNumber")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("param")),
                                             ("reqd".to_string(), Value::Bool(true)),
@@ -741,6 +832,10 @@ pub fn make_config() -> Value {
                                         Value::str("device_type"),
                                         Value::str("serial_number"),
                                     ])),
+                                ])),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
                                 ])),
                             ]),
                         ])),
@@ -756,6 +851,56 @@ pub fn make_config() -> Value {
             ])),
             ("decryption".to_string(), Value::map_of([
                 ("fields".to_string(), Value::list(vec![
+                    Value::map_of([
+                        ("name".to_string(), Value::str("cbcVector")),
+                        ("title".to_string(), Value::str("Cbc Vector")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Base64 or hex encoded initial vector obtained from device.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("deviceType")),
+                        ("title".to_string(), Value::str("Device Type")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("req".to_string(), Value::Bool(true)),
+                        ("short".to_string(), Value::str("The device Type.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("encoding")),
+                        ("title".to_string(), Value::str("Encoding")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The payload encoding")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("encrypted")),
+                        ("title".to_string(), Value::str("Encrypted")),
+                        ("type".to_string(), Value::str("`$ARRAY`")),
+                        ("req".to_string(), Value::Bool(true)),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("hasCcData")),
+                        ("title".to_string(), Value::str("Has Cc Data")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("reference")),
+                        ("title".to_string(), Value::str("Reference")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("A string (of up to 50 characters) that helps partners identify individual API calls.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("sequenceNumber")),
+                        ("title".to_string(), Value::str("Sequence Number")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Sequence number obtained from device in base 64 or hex encoded format.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("serialNumber")),
+                        ("title".to_string(), Value::str("Serial Number")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("req".to_string(), Value::Bool(true)),
+                        ("short".to_string(), Value::str("The serial number of the device.")),
+                    ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("success")),
                         ("title".to_string(), Value::str("Success")),
@@ -788,6 +933,10 @@ pub fn make_config() -> Value {
                                 ])),
                                 ("args".to_string(), Value::empty_map()),
                                 ("select".to_string(), Value::empty_map()),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
+                                ])),
                             ]),
                         ])),
                     ])),
@@ -868,6 +1017,12 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("deviceType")),
                         ("title".to_string(), Value::str("Device Type")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("op".to_string(), Value::map_of([
+                            ("create".to_string(), Value::map_of([
+                                ("req".to_string(), Value::Bool(true)),
+                                ("type".to_string(), Value::str("`$OBJECT`")),
+                            ])),
+                        ])),
                         ("short".to_string(), Value::str("Reference to the associated Device Type resource.")),
                     ]),
                     Value::map_of([
@@ -919,6 +1074,12 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("kif")),
                         ("title".to_string(), Value::str("Kif")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("op".to_string(), Value::map_of([
+                            ("create".to_string(), Value::map_of([
+                                ("req".to_string(), Value::Bool(true)),
+                                ("type".to_string(), Value::str("`$OBJECT`")),
+                            ])),
+                        ])),
                         ("short".to_string(), Value::str("Reference to the associated KIF resource.")),
                     ]),
                     Value::map_of([
@@ -971,6 +1132,12 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("serialNumber")),
                         ("title".to_string(), Value::str("Serial Number")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("op".to_string(), Value::map_of([
+                            ("create".to_string(), Value::map_of([
+                                ("req".to_string(), Value::Bool(true)),
+                                ("type".to_string(), Value::str("`$STRING`")),
+                            ])),
+                        ])),
                         ("short".to_string(), Value::str("The Device's serial number.")),
                     ]),
                     Value::map_of([
@@ -1009,6 +1176,10 @@ pub fn make_config() -> Value {
                                 ])),
                                 ("args".to_string(), Value::empty_map()),
                                 ("select".to_string(), Value::empty_map()),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
+                                ])),
                             ]),
                         ])),
                     ])),
@@ -1040,10 +1211,11 @@ pub fn make_config() -> Value {
                                             ("orig".to_string(), Value::str("client")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("query")),
+                                            ("field".to_string(), Value::Bool(true)),
                                         ]),
                                         Value::map_of([
                                             ("name".to_string(), Value::str("device_state")),
-                                            ("orig".to_string(), Value::str("device_state")),
+                                            ("orig".to_string(), Value::str("deviceState")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("query")),
                                         ]),
@@ -1052,16 +1224,18 @@ pub fn make_config() -> Value {
                                             ("orig".to_string(), Value::str("kif")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("query")),
+                                            ("field".to_string(), Value::Bool(true)),
                                         ]),
                                         Value::map_of([
                                             ("name".to_string(), Value::str("partner")),
                                             ("orig".to_string(), Value::str("partner")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("query")),
+                                            ("field".to_string(), Value::Bool(true)),
                                         ]),
                                         Value::map_of([
                                             ("name".to_string(), Value::str("serial_number")),
-                                            ("orig".to_string(), Value::str("serial_number")),
+                                            ("orig".to_string(), Value::str("serialNumber")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("query")),
                                         ]),
@@ -1074,14 +1248,14 @@ pub fn make_config() -> Value {
                                         ]),
                                         Value::map_of([
                                             ("name".to_string(), Value::str("sorting_direction")),
-                                            ("orig".to_string(), Value::str("sorting_direction")),
+                                            ("orig".to_string(), Value::str("sorting.direction")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("query")),
                                             ("example".to_string(), Value::str("asc")),
                                         ]),
                                         Value::map_of([
                                             ("name".to_string(), Value::str("sorting_field")),
-                                            ("orig".to_string(), Value::str("sorting_field")),
+                                            ("orig".to_string(), Value::str("sorting.field")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("query")),
                                             ("example".to_string(), Value::str("serialnumber")),
@@ -1095,18 +1269,10 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
-                                ("select".to_string(), Value::map_of([
-                                    ("exist".to_string(), Value::list(vec![
-                                        Value::str("client"),
-                                        Value::str("device_state"),
-                                        Value::str("kif"),
-                                        Value::str("partner"),
-                                        Value::str("serial_number"),
-                                        Value::str("skip"),
-                                        Value::str("sorting_direction"),
-                                        Value::str("sorting_field"),
-                                        Value::str("take"),
-                                    ])),
+                                ("select".to_string(), Value::empty_map()),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
                                 ])),
                             ]),
                         ])),
@@ -1149,14 +1315,14 @@ pub fn make_config() -> Value {
                                     ("params".to_string(), Value::list(vec![
                                         Value::map_of([
                                             ("name".to_string(), Value::str("device_type")),
-                                            ("orig".to_string(), Value::str("device_type")),
+                                            ("orig".to_string(), Value::str("deviceType")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("param")),
                                             ("reqd".to_string(), Value::Bool(true)),
                                         ]),
                                         Value::map_of([
                                             ("name".to_string(), Value::str("serial_number")),
-                                            ("orig".to_string(), Value::str("serial_number")),
+                                            ("orig".to_string(), Value::str("serialNumber")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("param")),
                                             ("reqd".to_string(), Value::Bool(true)),
@@ -1168,6 +1334,10 @@ pub fn make_config() -> Value {
                                         Value::str("device_type"),
                                         Value::str("serial_number"),
                                     ])),
+                                ])),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
                                 ])),
                             ]),
                             Value::map_of([
@@ -1206,6 +1376,10 @@ pub fn make_config() -> Value {
                                     ("exist".to_string(), Value::list(vec![
                                         Value::str("id"),
                                     ])),
+                                ])),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
                                 ])),
                             ]),
                         ])),
@@ -1342,7 +1516,7 @@ pub fn make_config() -> Value {
                                     ("query".to_string(), Value::list(vec![
                                         Value::map_of([
                                             ("name".to_string(), Value::str("device_type")),
-                                            ("orig".to_string(), Value::str("device_type")),
+                                            ("orig".to_string(), Value::str("deviceType")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("query")),
                                         ]),
@@ -1362,12 +1536,10 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
-                                ("select".to_string(), Value::map_of([
-                                    ("exist".to_string(), Value::list(vec![
-                                        Value::str("device_type"),
-                                        Value::str("skip"),
-                                        Value::str("take"),
-                                    ])),
+                                ("select".to_string(), Value::empty_map()),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
                                 ])),
                             ]),
                         ])),
@@ -1412,6 +1584,10 @@ pub fn make_config() -> Value {
                                     ("exist".to_string(), Value::list(vec![
                                         Value::str("id"),
                                     ])),
+                                ])),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
                                 ])),
                             ]),
                         ])),
@@ -1562,7 +1738,7 @@ pub fn make_config() -> Value {
                                     ("params".to_string(), Value::list(vec![
                                         Value::map_of([
                                             ("name".to_string(), Value::str("device_type")),
-                                            ("orig".to_string(), Value::str("device_type")),
+                                            ("orig".to_string(), Value::str("deviceType")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("param")),
                                             ("reqd".to_string(), Value::Bool(true)),
@@ -1576,7 +1752,7 @@ pub fn make_config() -> Value {
                                         ]),
                                         Value::map_of([
                                             ("name".to_string(), Value::str("serial_number")),
-                                            ("orig".to_string(), Value::str("serial_number")),
+                                            ("orig".to_string(), Value::str("serialNumber")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("param")),
                                             ("reqd".to_string(), Value::Bool(true)),
@@ -1589,6 +1765,10 @@ pub fn make_config() -> Value {
                                         Value::str("id"),
                                         Value::str("serial_number"),
                                     ])),
+                                ])),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
                                 ])),
                             ]),
                         ])),
@@ -1739,14 +1919,14 @@ pub fn make_config() -> Value {
                                     ("params".to_string(), Value::list(vec![
                                         Value::map_of([
                                             ("name".to_string(), Value::str("device_type")),
-                                            ("orig".to_string(), Value::str("device_type")),
+                                            ("orig".to_string(), Value::str("deviceType")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("param")),
                                             ("reqd".to_string(), Value::Bool(true)),
                                         ]),
                                         Value::map_of([
                                             ("name".to_string(), Value::str("serial_number")),
-                                            ("orig".to_string(), Value::str("serial_number")),
+                                            ("orig".to_string(), Value::str("serialNumber")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("param")),
                                             ("reqd".to_string(), Value::Bool(true)),
@@ -1773,9 +1953,11 @@ pub fn make_config() -> Value {
                                     ("exist".to_string(), Value::list(vec![
                                         Value::str("device_type"),
                                         Value::str("serial_number"),
-                                        Value::str("skip"),
-                                        Value::str("take"),
                                     ])),
+                                ])),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
                                 ])),
                             ]),
                         ])),
@@ -1792,11 +1974,25 @@ pub fn make_config() -> Value {
             ("device_receive_result".to_string(), Value::map_of([
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
+                        ("name".to_string(), Value::str("serialNumber")),
+                        ("title".to_string(), Value::str("Serial Number")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("req".to_string(), Value::Bool(true)),
+                        ("short".to_string(), Value::str("The serial number of the Device that is shipped.")),
+                    ]),
+                    Value::map_of([
                         ("name".to_string(), Value::str("success")),
                         ("title".to_string(), Value::str("Success")),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
                         ("req".to_string(), Value::Bool(true)),
                         ("short".to_string(), Value::str("Indicates if the action succeeded.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("tamperLabel")),
+                        ("title".to_string(), Value::str("Tamper Label")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("req".to_string(), Value::Bool(true)),
+                        ("short".to_string(), Value::str("The code that is printed the tamper label of the Device that is shipped.")),
                     ]),
                 ])),
                 ("name".to_string(), Value::str("device_receive_result")),
@@ -1828,6 +2024,10 @@ pub fn make_config() -> Value {
                                 ])),
                                 ("args".to_string(), Value::empty_map()),
                                 ("select".to_string(), Value::empty_map()),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
+                                ])),
                             ]),
                         ])),
                     ])),
@@ -1839,11 +2039,60 @@ pub fn make_config() -> Value {
             ("device_rki_activate_result".to_string(), Value::map_of([
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
+                        ("name".to_string(), Value::str("appVersion")),
+                        ("title".to_string(), Value::str("App Version")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("If a Device Type has more than one Application Code version the supported version is specified here.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("buildName")),
+                        ("title".to_string(), Value::str("Build Name")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Device Builds's name.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("buildNumber")),
+                        ("title".to_string(), Value::str("Build Number")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Build Number.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("configFile")),
+                        ("title".to_string(), Value::str("Config File")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("\\?")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("firmwareVersion")),
+                        ("title".to_string(), Value::str("Firmware Version")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("A list of firmware versions that this Device Build covers.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("hardwareVersion")),
+                        ("title".to_string(), Value::str("Hardware Version")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("A list of hardware versions that this Device Build covers.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("serialNumber")),
+                        ("title".to_string(), Value::str("Serial Number")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("req".to_string(), Value::Bool(true)),
+                        ("short".to_string(), Value::str("The referenced Device's serial number.")),
+                    ]),
+                    Value::map_of([
                         ("name".to_string(), Value::str("success")),
                         ("title".to_string(), Value::str("Success")),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
                         ("req".to_string(), Value::Bool(true)),
                         ("short".to_string(), Value::str("Indicates if the RKI activation succeeded.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("whiteListingBinRanges")),
+                        ("title".to_string(), Value::str("White Listing Bin Ranges")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("\\?")),
                     ]),
                 ])),
                 ("name".to_string(), Value::str("device_rki_activate_result")),
@@ -1879,6 +2128,10 @@ pub fn make_config() -> Value {
                                 ])),
                                 ("args".to_string(), Value::empty_map()),
                                 ("select".to_string(), Value::empty_map()),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
+                                ])),
                             ]),
                         ])),
                     ])),
@@ -1932,6 +2185,10 @@ pub fn make_config() -> Value {
                                 ])),
                                 ("args".to_string(), Value::empty_map()),
                                 ("select".to_string(), Value::empty_map()),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
+                                ])),
                             ]),
                         ])),
                     ])),
@@ -2045,6 +2302,10 @@ pub fn make_config() -> Value {
                                 ])),
                                 ("args".to_string(), Value::empty_map()),
                                 ("select".to_string(), Value::empty_map()),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
+                                ])),
                             ]),
                         ])),
                     ])),
@@ -2088,6 +2349,10 @@ pub fn make_config() -> Value {
                                     ("exist".to_string(), Value::list(vec![
                                         Value::str("id"),
                                     ])),
+                                ])),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
                                 ])),
                             ]),
                         ])),
@@ -2179,6 +2444,10 @@ pub fn make_config() -> Value {
                                 ])),
                                 ("args".to_string(), Value::empty_map()),
                                 ("select".to_string(), Value::empty_map()),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
+                                ])),
                             ]),
                         ])),
                     ])),
@@ -2222,6 +2491,10 @@ pub fn make_config() -> Value {
                                     ("exist".to_string(), Value::list(vec![
                                         Value::str("id"),
                                     ])),
+                                ])),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
                                 ])),
                             ]),
                         ])),
@@ -2276,6 +2549,10 @@ pub fn make_config() -> Value {
                                 ])),
                                 ("args".to_string(), Value::empty_map()),
                                 ("select".to_string(), Value::empty_map()),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
+                                ])),
                             ]),
                         ])),
                     ])),
@@ -2290,6 +2567,12 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("address1")),
                         ("title".to_string(), Value::str("Address1")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("op".to_string(), Value::map_of([
+                            ("create".to_string(), Value::map_of([
+                                ("req".to_string(), Value::Bool(true)),
+                                ("type".to_string(), Value::str("`$STRING`")),
+                            ])),
+                        ])),
                         ("short".to_string(), Value::str("The Location's street address.")),
                     ]),
                     Value::map_of([
@@ -2308,12 +2591,30 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("city")),
                         ("title".to_string(), Value::str("City")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("op".to_string(), Value::map_of([
+                            ("create".to_string(), Value::map_of([
+                                ("req".to_string(), Value::Bool(true)),
+                                ("type".to_string(), Value::str("`$STRING`")),
+                            ])),
+                        ])),
                         ("short".to_string(), Value::str("The Location's city.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("client")),
+                        ("title".to_string(), Value::str("Client")),
+                        ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated Client resource.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("country")),
                         ("title".to_string(), Value::str("Country")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("op".to_string(), Value::map_of([
+                            ("create".to_string(), Value::map_of([
+                                ("req".to_string(), Value::Bool(true)),
+                                ("type".to_string(), Value::str("`$OBJECT`")),
+                            ])),
+                        ])),
                         ("short".to_string(), Value::str("The Location's country.")),
                     ]),
                     Value::map_of([
@@ -2339,6 +2640,12 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("locationType")),
                         ("title".to_string(), Value::str("Location Type")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("op".to_string(), Value::map_of([
+                            ("create".to_string(), Value::map_of([
+                                ("req".to_string(), Value::Bool(true)),
+                                ("type".to_string(), Value::str("`$STRING`")),
+                            ])),
+                        ])),
                         ("short".to_string(), Value::str("The Location's clasification.")),
                     ]),
                     Value::map_of([
@@ -2388,6 +2695,12 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("name")),
                         ("title".to_string(), Value::str("Name")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("op".to_string(), Value::map_of([
+                            ("create".to_string(), Value::map_of([
+                                ("req".to_string(), Value::Bool(true)),
+                                ("type".to_string(), Value::str("`$STRING`")),
+                            ])),
+                        ])),
                         ("short".to_string(), Value::str("The Location's name.")),
                     ]),
                     Value::map_of([
@@ -2456,6 +2769,10 @@ pub fn make_config() -> Value {
                                 ])),
                                 ("args".to_string(), Value::empty_map()),
                                 ("select".to_string(), Value::empty_map()),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
+                                ])),
                             ]),
                         ])),
                     ])),
@@ -2488,6 +2805,7 @@ pub fn make_config() -> Value {
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("query")),
                                             ("reqd".to_string(), Value::Bool(true)),
+                                            ("field".to_string(), Value::Bool(true)),
                                         ]),
                                         Value::map_of([
                                             ("name".to_string(), Value::str("skip")),
@@ -2508,9 +2826,11 @@ pub fn make_config() -> Value {
                                 ("select".to_string(), Value::map_of([
                                     ("exist".to_string(), Value::list(vec![
                                         Value::str("client"),
-                                        Value::str("skip"),
-                                        Value::str("take"),
                                     ])),
+                                ])),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
                                 ])),
                             ]),
                         ])),
@@ -2555,6 +2875,10 @@ pub fn make_config() -> Value {
                                     ("exist".to_string(), Value::list(vec![
                                         Value::str("id"),
                                     ])),
+                                ])),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
                                 ])),
                             ]),
                         ])),
@@ -2627,6 +2951,10 @@ pub fn make_config() -> Value {
                         ("title".to_string(), Value::str("Contact")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                         ("op".to_string(), Value::map_of([
+                            ("create".to_string(), Value::map_of([
+                                ("req".to_string(), Value::Bool(true)),
+                                ("type".to_string(), Value::str("`$OBJECT`")),
+                            ])),
                             ("list".to_string(), Value::map_of([
                                 ("req".to_string(), Value::Bool(true)),
                                 ("type".to_string(), Value::str("`$OBJECT`")),
@@ -2671,12 +2999,24 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("name")),
                         ("title".to_string(), Value::str("Name")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("op".to_string(), Value::map_of([
+                            ("create".to_string(), Value::map_of([
+                                ("req".to_string(), Value::Bool(true)),
+                                ("type".to_string(), Value::str("`$STRING`")),
+                            ])),
+                        ])),
                         ("short".to_string(), Value::str("The Partner's name.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("parent")),
                         ("title".to_string(), Value::str("Parent")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("op".to_string(), Value::map_of([
+                            ("create".to_string(), Value::map_of([
+                                ("req".to_string(), Value::Bool(true)),
+                                ("type".to_string(), Value::str("`$OBJECT`")),
+                            ])),
+                        ])),
                         ("short".to_string(), Value::str("Reference to the associated Partner.")),
                     ]),
                     Value::map_of([
@@ -2689,6 +3029,12 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("reference")),
                         ("title".to_string(), Value::str("Reference")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("op".to_string(), Value::map_of([
+                            ("create".to_string(), Value::map_of([
+                                ("req".to_string(), Value::Bool(true)),
+                                ("type".to_string(), Value::str("`$STRING`")),
+                            ])),
+                        ])),
                         ("short".to_string(), Value::str("The Partner's reference string.")),
                     ]),
                     Value::map_of([
@@ -2733,6 +3079,10 @@ pub fn make_config() -> Value {
                                 ])),
                                 ("args".to_string(), Value::empty_map()),
                                 ("select".to_string(), Value::empty_map()),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
+                                ])),
                             ]),
                         ])),
                     ])),
@@ -2781,12 +3131,10 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
-                                ("select".to_string(), Value::map_of([
-                                    ("exist".to_string(), Value::list(vec![
-                                        Value::str("partner"),
-                                        Value::str("skip"),
-                                        Value::str("take"),
-                                    ])),
+                                ("select".to_string(), Value::empty_map()),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
                                 ])),
                             ]),
                         ])),
@@ -2832,6 +3180,10 @@ pub fn make_config() -> Value {
                                         Value::str("id"),
                                     ])),
                                 ])),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
+                                ])),
                             ]),
                         ])),
                     ])),
@@ -2846,12 +3198,24 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("carrier")),
                         ("title".to_string(), Value::str("Carrier")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("op".to_string(), Value::map_of([
+                            ("create".to_string(), Value::map_of([
+                                ("req".to_string(), Value::Bool(true)),
+                                ("type".to_string(), Value::str("`$STRING`")),
+                            ])),
+                        ])),
                         ("short".to_string(), Value::str("The name of the courier.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("client")),
                         ("title".to_string(), Value::str("Client")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("op".to_string(), Value::map_of([
+                            ("create".to_string(), Value::map_of([
+                                ("req".to_string(), Value::Bool(true)),
+                                ("type".to_string(), Value::str("`$OBJECT`")),
+                            ])),
+                        ])),
                         ("short".to_string(), Value::str("Reference to the associated Client resource.")),
                     ]),
                     Value::map_of([
@@ -2872,6 +3236,12 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("dateShipped")),
                         ("title".to_string(), Value::str("Date Shipped")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("op".to_string(), Value::map_of([
+                            ("create".to_string(), Value::map_of([
+                                ("req".to_string(), Value::Bool(true)),
+                                ("type".to_string(), Value::str("`$STRING`")),
+                            ])),
+                        ])),
                         ("short".to_string(), Value::str("The date and time that a package is shipped.")),
                         ("format".to_string(), Value::str("datetime")),
                     ]),
@@ -2891,12 +3261,31 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("items")),
                         ("title".to_string(), Value::str("Items")),
                         ("type".to_string(), Value::str("`$ARRAY`")),
+                        ("op".to_string(), Value::map_of([
+                            ("create".to_string(), Value::map_of([
+                                ("req".to_string(), Value::Bool(true)),
+                                ("type".to_string(), Value::str("`$ARRAY`")),
+                            ])),
+                        ])),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("kif")),
                         ("title".to_string(), Value::str("Kif")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("op".to_string(), Value::map_of([
+                            ("create".to_string(), Value::map_of([
+                                ("req".to_string(), Value::Bool(true)),
+                                ("type".to_string(), Value::str("`$OBJECT`")),
+                            ])),
+                        ])),
                         ("short".to_string(), Value::str("Reference to the associated KIF resource.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("location")),
+                        ("title".to_string(), Value::str("Location")),
+                        ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("req".to_string(), Value::Bool(true)),
+                        ("short".to_string(), Value::str("Reference to the associated Location resource.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("modified")),
@@ -2909,6 +3298,12 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("partner")),
                         ("title".to_string(), Value::str("Partner")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("op".to_string(), Value::map_of([
+                            ("create".to_string(), Value::map_of([
+                                ("req".to_string(), Value::Bool(true)),
+                                ("type".to_string(), Value::str("`$OBJECT`")),
+                            ])),
+                        ])),
                         ("short".to_string(), Value::str("Reference to the associated Partner.")),
                     ]),
                     Value::map_of([
@@ -2921,6 +3316,12 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("tracking")),
                         ("title".to_string(), Value::str("Tracking")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("op".to_string(), Value::map_of([
+                            ("create".to_string(), Value::map_of([
+                                ("req".to_string(), Value::Bool(true)),
+                                ("type".to_string(), Value::str("`$STRING`")),
+                            ])),
+                        ])),
                         ("short".to_string(), Value::str("The courier's tracking number.")),
                     ]),
                     Value::map_of([
@@ -2960,6 +3361,10 @@ pub fn make_config() -> Value {
                                 ])),
                                 ("args".to_string(), Value::empty_map()),
                                 ("select".to_string(), Value::empty_map()),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
+                                ])),
                             ]),
                         ])),
                     ])),
@@ -2992,6 +3397,7 @@ pub fn make_config() -> Value {
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("query")),
                                             ("reqd".to_string(), Value::Bool(true)),
+                                            ("field".to_string(), Value::Bool(true)),
                                         ]),
                                         Value::map_of([
                                             ("name".to_string(), Value::str("mode")),
@@ -3018,10 +3424,11 @@ pub fn make_config() -> Value {
                                 ("select".to_string(), Value::map_of([
                                     ("exist".to_string(), Value::list(vec![
                                         Value::str("kif"),
-                                        Value::str("mode"),
-                                        Value::str("skip"),
-                                        Value::str("take"),
                                     ])),
+                                ])),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
                                 ])),
                             ]),
                         ])),
@@ -3067,6 +3474,10 @@ pub fn make_config() -> Value {
                                         Value::str("id"),
                                     ])),
                                 ])),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
+                                ])),
                             ]),
                         ])),
                     ])),
@@ -3077,6 +3488,20 @@ pub fn make_config() -> Value {
             ])),
             ("success".to_string(), Value::map_of([
                 ("fields".to_string(), Value::list(vec![
+                    Value::map_of([
+                        ("name".to_string(), Value::str("devices")),
+                        ("title".to_string(), Value::str("Devices")),
+                        ("type".to_string(), Value::str("`$ARRAY`")),
+                        ("req".to_string(), Value::Bool(true)),
+                        ("short".to_string(), Value::str("An array of Device ids to share with partner.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("sharePartnerFrom")),
+                        ("title".to_string(), Value::str("Share Partner From")),
+                        ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("req".to_string(), Value::Bool(true)),
+                        ("short".to_string(), Value::str("Reference to the associated Partner.")),
+                    ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("success")),
                         ("title".to_string(), Value::str("Success")),
@@ -3119,7 +3544,7 @@ pub fn make_config() -> Value {
                                     ("params".to_string(), Value::list(vec![
                                         Value::map_of([
                                             ("name".to_string(), Value::str("share_partner_to")),
-                                            ("orig".to_string(), Value::str("share_partner_to")),
+                                            ("orig".to_string(), Value::str("sharePartnerTo")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("param")),
                                             ("reqd".to_string(), Value::Bool(true)),
@@ -3130,6 +3555,10 @@ pub fn make_config() -> Value {
                                     ("exist".to_string(), Value::list(vec![
                                         Value::str("share_partner_to"),
                                     ])),
+                                ])),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
                                 ])),
                             ]),
                         ])),
@@ -3167,7 +3596,7 @@ pub fn make_config() -> Value {
                                     ("params".to_string(), Value::list(vec![
                                         Value::map_of([
                                             ("name".to_string(), Value::str("share_partner_to")),
-                                            ("orig".to_string(), Value::str("share_partner_to")),
+                                            ("orig".to_string(), Value::str("sharePartnerTo")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("param")),
                                             ("reqd".to_string(), Value::Bool(true)),
@@ -3178,6 +3607,10 @@ pub fn make_config() -> Value {
                                     ("exist".to_string(), Value::list(vec![
                                         Value::str("share_partner_to"),
                                     ])),
+                                ])),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
                                 ])),
                             ]),
                         ])),
@@ -3203,6 +3636,12 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("client")),
                         ("title".to_string(), Value::str("Client")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("op".to_string(), Value::map_of([
+                            ("create".to_string(), Value::map_of([
+                                ("req".to_string(), Value::Bool(true)),
+                                ("type".to_string(), Value::str("`$OBJECT`")),
+                            ])),
+                        ])),
                         ("short".to_string(), Value::str("Reference to the associated Client resource.")),
                     ]),
                     Value::map_of([
@@ -3224,6 +3663,13 @@ pub fn make_config() -> Value {
                         ("type".to_string(), Value::str("`$INTEGER`")),
                         ("short".to_string(), Value::str("A Transcation can process muliple decryptions.")),
                         ("format".to_string(), Value::str("int32")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("device")),
+                        ("title".to_string(), Value::str("Device")),
+                        ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("req".to_string(), Value::Bool(true)),
+                        ("short".to_string(), Value::str("Reference to the associated Device resource.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("deviceName")),
@@ -3273,6 +3719,12 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("ipAddress")),
                         ("title".to_string(), Value::str("Ip Address")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("op".to_string(), Value::map_of([
+                            ("create".to_string(), Value::map_of([
+                                ("req".to_string(), Value::Bool(true)),
+                                ("type".to_string(), Value::str("`$STRING`")),
+                            ])),
+                        ])),
                         ("short".to_string(), Value::str("The IP address of the http client that makes the decrypt API call.")),
                     ]),
                     Value::map_of([
@@ -3285,6 +3737,12 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("keyType")),
                         ("title".to_string(), Value::str("Key Type")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("op".to_string(), Value::map_of([
+                            ("create".to_string(), Value::map_of([
+                                ("req".to_string(), Value::Bool(true)),
+                                ("type".to_string(), Value::str("`$STRING`")),
+                            ])),
+                        ])),
                         ("short".to_string(), Value::str("The type of cipher used during decrytion.")),
                     ]),
                     Value::map_of([
@@ -3304,12 +3762,24 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("method")),
                         ("title".to_string(), Value::str("Method")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("op".to_string(), Value::map_of([
+                            ("create".to_string(), Value::map_of([
+                                ("req".to_string(), Value::Bool(true)),
+                                ("type".to_string(), Value::str("`$STRING`")),
+                            ])),
+                        ])),
                         ("short".to_string(), Value::str("The decryption cypher/method.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("partner")),
                         ("title".to_string(), Value::str("Partner")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("op".to_string(), Value::map_of([
+                            ("create".to_string(), Value::map_of([
+                                ("req".to_string(), Value::Bool(true)),
+                                ("type".to_string(), Value::str("`$OBJECT`")),
+                            ])),
+                        ])),
                         ("short".to_string(), Value::str("Reference to the associated Partner.")),
                     ]),
                     Value::map_of([
@@ -3373,6 +3843,10 @@ pub fn make_config() -> Value {
                                 ])),
                                 ("args".to_string(), Value::empty_map()),
                                 ("select".to_string(), Value::empty_map()),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
+                                ])),
                             ]),
                         ])),
                     ])),
@@ -3404,22 +3878,23 @@ pub fn make_config() -> Value {
                                             ("orig".to_string(), Value::str("client")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("query")),
+                                            ("field".to_string(), Value::Bool(true)),
                                         ]),
                                         Value::map_of([
                                             ("name".to_string(), Value::str("client_ref")),
-                                            ("orig".to_string(), Value::str("client_ref")),
+                                            ("orig".to_string(), Value::str("clientRef")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("query")),
                                         ]),
                                         Value::map_of([
                                             ("name".to_string(), Value::str("date_from")),
-                                            ("orig".to_string(), Value::str("date_from")),
+                                            ("orig".to_string(), Value::str("dateFrom")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("query")),
                                         ]),
                                         Value::map_of([
                                             ("name".to_string(), Value::str("date_to")),
-                                            ("orig".to_string(), Value::str("date_to")),
+                                            ("orig".to_string(), Value::str("dateTo")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("query")),
                                         ]),
@@ -3428,16 +3903,17 @@ pub fn make_config() -> Value {
                                             ("orig".to_string(), Value::str("location")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("query")),
+                                            ("field".to_string(), Value::Bool(true)),
                                         ]),
                                         Value::map_of([
                                             ("name".to_string(), Value::str("message_id")),
-                                            ("orig".to_string(), Value::str("message_id")),
+                                            ("orig".to_string(), Value::str("messageId")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("query")),
                                         ]),
                                         Value::map_of([
                                             ("name".to_string(), Value::str("paging_mode")),
-                                            ("orig".to_string(), Value::str("paging_mode")),
+                                            ("orig".to_string(), Value::str("paging.mode")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("query")),
                                             ("example".to_string(), Value::str("nocount")),
@@ -3447,16 +3923,18 @@ pub fn make_config() -> Value {
                                             ("orig".to_string(), Value::str("partner")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("query")),
+                                            ("field".to_string(), Value::Bool(true)),
                                         ]),
                                         Value::map_of([
                                             ("name".to_string(), Value::str("reference")),
                                             ("orig".to_string(), Value::str("reference")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("query")),
+                                            ("field".to_string(), Value::Bool(true)),
                                         ]),
                                         Value::map_of([
                                             ("name".to_string(), Value::str("serial_number")),
-                                            ("orig".to_string(), Value::str("serial_number")),
+                                            ("orig".to_string(), Value::str("serialNumber")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("query")),
                                         ]),
@@ -3472,6 +3950,7 @@ pub fn make_config() -> Value {
                                             ("orig".to_string(), Value::str("success")),
                                             ("type".to_string(), Value::str("`$BOOLEAN`")),
                                             ("kind".to_string(), Value::str("query")),
+                                            ("field".to_string(), Value::Bool(true)),
                                         ]),
                                         Value::map_of([
                                             ("name".to_string(), Value::str("take")),
@@ -3482,22 +3961,10 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
-                                ("select".to_string(), Value::map_of([
-                                    ("exist".to_string(), Value::list(vec![
-                                        Value::str("client"),
-                                        Value::str("client_ref"),
-                                        Value::str("date_from"),
-                                        Value::str("date_to"),
-                                        Value::str("location"),
-                                        Value::str("message_id"),
-                                        Value::str("paging_mode"),
-                                        Value::str("partner"),
-                                        Value::str("reference"),
-                                        Value::str("serial_number"),
-                                        Value::str("skip"),
-                                        Value::str("success"),
-                                        Value::str("take"),
-                                    ])),
+                                ("select".to_string(), Value::empty_map()),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
                                 ])),
                             ]),
                         ])),
@@ -3543,6 +4010,10 @@ pub fn make_config() -> Value {
                                         Value::str("id"),
                                     ])),
                                 ])),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
+                                ])),
                             ]),
                         ])),
                     ])),
@@ -3554,21 +4025,171 @@ pub fn make_config() -> Value {
             ("update_result".to_string(), Value::map_of([
                 ("fields".to_string(), Value::list(vec![
                     Value::map_of([
+                        ("name".to_string(), Value::str("address1")),
+                        ("title".to_string(), Value::str("Address1")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Location's street address.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("address2")),
+                        ("title".to_string(), Value::str("Address2")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Location's street address.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("alternateKey")),
+                        ("title".to_string(), Value::str("Alternate Key")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("auditNextDate")),
+                        ("title".to_string(), Value::str("Audit Next Date")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Date and time that the Device is due its next PCI Audit.")),
+                        ("format".to_string(), Value::str("datetime")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("billingId")),
+                        ("title".to_string(), Value::str("Billing Id")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("\\?")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("city")),
+                        ("title".to_string(), Value::str("City")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Location's city.")),
+                    ]),
+                    Value::map_of([
                         ("name".to_string(), Value::str("client")),
                         ("title".to_string(), Value::str("Client")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
                         ("short".to_string(), Value::str("Reference to the associated Client resource.")),
                     ]),
                     Value::map_of([
+                        ("name".to_string(), Value::str("clientCanOrderEquipment")),
+                        ("title".to_string(), Value::str("Client Can Order Equipment")),
+                        ("type".to_string(), Value::str("`$BOOLEAN`")),
+                        ("short".to_string(), Value::str("This property indicates if the Partner is allowed to order Equipment.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("clientRef")),
+                        ("title".to_string(), Value::str("Client Ref")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Client Reference property that is included in the decrypt API call.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("contact")),
+                        ("title".to_string(), Value::str("Contact")),
+                        ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("req".to_string(), Value::Bool(true)),
+                        ("short".to_string(), Value::str("Reference to the associated User resource.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("country")),
+                        ("title".to_string(), Value::str("Country")),
+                        ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated Country.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("customReference")),
+                        ("title".to_string(), Value::str("Custom Reference")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("A Partner specified reference for a location.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("dateShipped")),
+                        ("title".to_string(), Value::str("Date Shipped")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The date and time that a package is shipped.")),
+                        ("format".to_string(), Value::str("datetime")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("decrypted")),
+                        ("title".to_string(), Value::str("Decrypted")),
+                        ("type".to_string(), Value::str("`$INTEGER`")),
+                        ("short".to_string(), Value::str("A Transcation can process muliple decryptions.")),
+                        ("format".to_string(), Value::str("int32")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("device")),
+                        ("title".to_string(), Value::str("Device")),
+                        ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated Device resource.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("deviceBuild")),
+                        ("title".to_string(), Value::str("Device Build")),
+                        ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated Device Build resource.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("deviceType")),
+                        ("title".to_string(), Value::str("Device Type")),
+                        ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated Device Type resource.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("directPartner")),
+                        ("title".to_string(), Value::str("Direct Partner")),
+                        ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated Partner.")),
+                    ]),
+                    Value::map_of([
                         ("name".to_string(), Value::str("email")),
                         ("title".to_string(), Value::str("Email")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("req".to_string(), Value::Bool(true)),
+                        ("op".to_string(), Value::map_of([
+                            ("list".to_string(), Value::map_of([
+                                ("type".to_string(), Value::str("`$STRING`")),
+                            ])),
+                            ("update".to_string(), Value::map_of([
+                                ("type".to_string(), Value::str("`$STRING`")),
+                            ])),
+                        ])),
                         ("short".to_string(), Value::str("The User's email address.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("encrypted")),
+                        ("title".to_string(), Value::str("Encrypted")),
+                        ("type".to_string(), Value::str("`$INTEGER`")),
+                        ("short".to_string(), Value::str("A Transcation can process muliple encryptions.")),
+                        ("format".to_string(), Value::str("int32")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("endDate")),
+                        ("title".to_string(), Value::str("End Date")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Timestamp from the end of the transaction.")),
+                        ("format".to_string(), Value::str("datetime")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("errCode")),
+                        ("title".to_string(), Value::str("Err Code")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The error code that is sent in response to a failed decrypt API call.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("errMessage")),
+                        ("title".to_string(), Value::str("Err Message")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The error messge that is sent in response to a failed decrypt API call.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("firstName")),
                         ("title".to_string(), Value::str("First Name")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("req".to_string(), Value::Bool(true)),
+                        ("op".to_string(), Value::map_of([
+                            ("list".to_string(), Value::map_of([
+                                ("type".to_string(), Value::str("`$STRING`")),
+                            ])),
+                            ("update".to_string(), Value::map_of([
+                                ("type".to_string(), Value::str("`$STRING`")),
+                            ])),
+                        ])),
                         ("short".to_string(), Value::str("The User's name.")),
                     ]),
                     Value::map_of([
@@ -3578,10 +4199,42 @@ pub fn make_config() -> Value {
                         ("short".to_string(), Value::str("ID of newly created resource")),
                     ]),
                     Value::map_of([
+                        ("name".to_string(), Value::str("injectKey")),
+                        ("title".to_string(), Value::str("Inject Key")),
+                        ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated Device resource.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("ipAddress")),
+                        ("title".to_string(), Value::str("Ip Address")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The IP address of the http client that makes the decrypt API call.")),
+                    ]),
+                    Value::map_of([
                         ("name".to_string(), Value::str("isActive")),
                         ("title".to_string(), Value::str("Is Active")),
                         ("type".to_string(), Value::str("`$BOOLEAN`")),
+                        ("req".to_string(), Value::Bool(true)),
+                        ("op".to_string(), Value::map_of([
+                            ("list".to_string(), Value::map_of([
+                                ("type".to_string(), Value::str("`$BOOLEAN`")),
+                            ])),
+                            ("update".to_string(), Value::map_of([
+                                ("type".to_string(), Value::str("`$BOOLEAN`")),
+                            ])),
+                        ])),
                         ("short".to_string(), Value::str("This property indicates if the User account is active or disabled.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("items")),
+                        ("title".to_string(), Value::str("Items")),
+                        ("type".to_string(), Value::str("`$ARRAY`")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("keyType")),
+                        ("title".to_string(), Value::str("Key Type")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The type of cipher used during decrytion.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("kif")),
@@ -3593,7 +4246,107 @@ pub fn make_config() -> Value {
                         ("name".to_string(), Value::str("lastName")),
                         ("title".to_string(), Value::str("Last Name")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("req".to_string(), Value::Bool(true)),
+                        ("op".to_string(), Value::map_of([
+                            ("list".to_string(), Value::map_of([
+                                ("type".to_string(), Value::str("`$STRING`")),
+                            ])),
+                            ("update".to_string(), Value::map_of([
+                                ("type".to_string(), Value::str("`$STRING`")),
+                            ])),
+                        ])),
                         ("short".to_string(), Value::str("The User's Surname.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("location")),
+                        ("title".to_string(), Value::str("Location")),
+                        ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("req".to_string(), Value::Bool(true)),
+                        ("short".to_string(), Value::str("Reference to the associated Location resource.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("locationType")),
+                        ("title".to_string(), Value::str("Location Type")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Location's clasification.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("mailAddress1")),
+                        ("title".to_string(), Value::str("Mail Address1")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Location's street address.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("mailAddress2")),
+                        ("title".to_string(), Value::str("Mail Address2")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Location's street address.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("mailCity")),
+                        ("title".to_string(), Value::str("Mail City")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Location's city.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("mailCountry")),
+                        ("title".to_string(), Value::str("Mail Country")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Location's street address.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("mailPostalCode")),
+                        ("title".to_string(), Value::str("Mail Postal Code")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Location's postal code.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("mailStateProvince")),
+                        ("title".to_string(), Value::str("Mail State Province")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Location's street state or province.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("messageId")),
+                        ("title".to_string(), Value::str("Message Id")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Message ID.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("method")),
+                        ("title".to_string(), Value::str("Method")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The decryption cypher/method.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("mid")),
+                        ("title".to_string(), Value::str("Mid")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Some Partners will have an merchant ids on their own software offerings.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("name")),
+                        ("title".to_string(), Value::str("Name")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Client's name.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("nameOfBusiness")),
+                        ("title".to_string(), Value::str("Name Of Business")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The name of the business at this location.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("notes")),
+                        ("title".to_string(), Value::str("Notes")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Arbitary note that can be attached to a Device entry.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("parent")),
+                        ("title".to_string(), Value::str("Parent")),
+                        ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("short".to_string(), Value::str("Reference to the associated Partner.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("partner")),
@@ -3602,22 +4355,116 @@ pub fn make_config() -> Value {
                         ("short".to_string(), Value::str("Reference to the associated Partner.")),
                     ]),
                     Value::map_of([
+                        ("name".to_string(), Value::str("partnerId")),
+                        ("title".to_string(), Value::str("Partner Id")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Partner's id.")),
+                    ]),
+                    Value::map_of([
                         ("name".to_string(), Value::str("phone")),
                         ("title".to_string(), Value::str("Phone")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("req".to_string(), Value::Bool(true)),
+                        ("op".to_string(), Value::map_of([
+                            ("list".to_string(), Value::map_of([
+                                ("type".to_string(), Value::str("`$STRING`")),
+                            ])),
+                            ("update".to_string(), Value::map_of([
+                                ("type".to_string(), Value::str("`$STRING`")),
+                            ])),
+                        ])),
                         ("short".to_string(), Value::str("The User's phone number without dashes, spaces, or brackets.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("postalCode")),
+                        ("title".to_string(), Value::str("Postal Code")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Location's postal code.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("reference")),
+                        ("title".to_string(), Value::str("Reference")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Partner's reference string.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("sendWelcomeEmail")),
+                        ("title".to_string(), Value::str("Send Welcome Email")),
+                        ("type".to_string(), Value::str("`$BOOLEAN`")),
+                        ("short".to_string(), Value::str("If this property is set to '*true*' the newly created user will be sent a welcome email.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("serialNumber")),
+                        ("title".to_string(), Value::str("Serial Number")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Device's serial number.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("startDate")),
+                        ("title".to_string(), Value::str("Start Date")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Timestamp from the beginning of the transaction.")),
+                        ("format".to_string(), Value::str("datetime")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("stateProvince")),
+                        ("title".to_string(), Value::str("State Province")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The Location's street state or province.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("success")),
+                        ("title".to_string(), Value::str("Success")),
+                        ("type".to_string(), Value::str("`$BOOLEAN`")),
+                        ("short".to_string(), Value::str("The success indicator.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("tracking")),
+                        ("title".to_string(), Value::str("Tracking")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The courier's tracking number.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("uniqueId")),
+                        ("title".to_string(), Value::str("Unique Id")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("Unique Identifier for the Location.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("userName")),
                         ("title".to_string(), Value::str("User Name")),
                         ("type".to_string(), Value::str("`$STRING`")),
+                        ("req".to_string(), Value::Bool(true)),
+                        ("op".to_string(), Value::map_of([
+                            ("list".to_string(), Value::map_of([
+                                ("type".to_string(), Value::str("`$STRING`")),
+                            ])),
+                            ("update".to_string(), Value::map_of([
+                                ("type".to_string(), Value::str("`$STRING`")),
+                            ])),
+                        ])),
                         ("short".to_string(), Value::str("The User's unique username.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("userRole")),
                         ("title".to_string(), Value::str("User Role")),
                         ("type".to_string(), Value::str("`$OBJECT`")),
+                        ("req".to_string(), Value::Bool(true)),
+                        ("op".to_string(), Value::map_of([
+                            ("list".to_string(), Value::map_of([
+                                ("type".to_string(), Value::str("`$OBJECT`")),
+                            ])),
+                            ("update".to_string(), Value::map_of([
+                                ("type".to_string(), Value::str("`$OBJECT`")),
+                            ])),
+                        ])),
                         ("short".to_string(), Value::str("Reference to the associated User Role.")),
+                    ]),
+                    Value::map_of([
+                        ("name".to_string(), Value::str("verificationPhrase")),
+                        ("title".to_string(), Value::str("Verification Phrase")),
+                        ("type".to_string(), Value::str("`$STRING`")),
+                        ("short".to_string(), Value::str("The verification phrase is a message that the Partner creates.")),
                     ]),
                     Value::map_of([
                         ("name".to_string(), Value::str("version")),
@@ -3655,6 +4502,10 @@ pub fn make_config() -> Value {
                                 ])),
                                 ("args".to_string(), Value::empty_map()),
                                 ("select".to_string(), Value::empty_map()),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
+                                ])),
                             ]),
                         ])),
                     ])),
@@ -3686,18 +4537,21 @@ pub fn make_config() -> Value {
                                             ("orig".to_string(), Value::str("client")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("query")),
+                                            ("field".to_string(), Value::Bool(true)),
                                         ]),
                                         Value::map_of([
                                             ("name".to_string(), Value::str("kif")),
                                             ("orig".to_string(), Value::str("kif")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("query")),
+                                            ("field".to_string(), Value::Bool(true)),
                                         ]),
                                         Value::map_of([
                                             ("name".to_string(), Value::str("partner")),
                                             ("orig".to_string(), Value::str("partner")),
                                             ("type".to_string(), Value::str("`$ANY`")),
                                             ("kind".to_string(), Value::str("query")),
+                                            ("field".to_string(), Value::Bool(true)),
                                         ]),
                                         Value::map_of([
                                             ("name".to_string(), Value::str("skip")),
@@ -3715,14 +4569,10 @@ pub fn make_config() -> Value {
                                         ]),
                                     ])),
                                 ])),
-                                ("select".to_string(), Value::map_of([
-                                    ("exist".to_string(), Value::list(vec![
-                                        Value::str("client"),
-                                        Value::str("kif"),
-                                        Value::str("partner"),
-                                        Value::str("skip"),
-                                        Value::str("take"),
-                                    ])),
+                                ("select".to_string(), Value::empty_map()),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
                                 ])),
                             ]),
                         ])),
@@ -3768,6 +4618,10 @@ pub fn make_config() -> Value {
                                         Value::str("id"),
                                     ])),
                                 ])),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
+                                ])),
                             ]),
                             Value::map_of([
                                 ("kind".to_string(), Value::str("http")),
@@ -3805,6 +4659,10 @@ pub fn make_config() -> Value {
                                     ("exist".to_string(), Value::list(vec![
                                         Value::str("id"),
                                     ])),
+                                ])),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
                                 ])),
                             ]),
                             Value::map_of([
@@ -3844,6 +4702,10 @@ pub fn make_config() -> Value {
                                         Value::str("id"),
                                     ])),
                                 ])),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
+                                ])),
                             ]),
                             Value::map_of([
                                 ("kind".to_string(), Value::str("http")),
@@ -3881,6 +4743,10 @@ pub fn make_config() -> Value {
                                     ("exist".to_string(), Value::list(vec![
                                         Value::str("id"),
                                     ])),
+                                ])),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
                                 ])),
                             ]),
                             Value::map_of([
@@ -3920,6 +4786,10 @@ pub fn make_config() -> Value {
                                         Value::str("id"),
                                     ])),
                                 ])),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
+                                ])),
                             ]),
                             Value::map_of([
                                 ("kind".to_string(), Value::str("http")),
@@ -3958,6 +4828,10 @@ pub fn make_config() -> Value {
                                         Value::str("id"),
                                     ])),
                                 ])),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
+                                ])),
                             ]),
                             Value::map_of([
                                 ("kind".to_string(), Value::str("http")),
@@ -3995,6 +4869,10 @@ pub fn make_config() -> Value {
                                     ("exist".to_string(), Value::list(vec![
                                         Value::str("id"),
                                     ])),
+                                ])),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
                                 ])),
                             ]),
                         ])),
@@ -4140,6 +5018,10 @@ pub fn make_config() -> Value {
                                         Value::str("id"),
                                     ])),
                                 ])),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
+                                ])),
                             ]),
                         ])),
                     ])),
@@ -4251,7 +5133,7 @@ pub fn make_config() -> Value {
                                     ("params".to_string(), Value::list(vec![
                                         Value::map_of([
                                             ("name".to_string(), Value::str("id")),
-                                            ("orig".to_string(), Value::str("share_partner_to")),
+                                            ("orig".to_string(), Value::str("sharePartnerTo")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("param")),
                                             ("reqd".to_string(), Value::Bool(true)),
@@ -4267,14 +5149,14 @@ pub fn make_config() -> Value {
                                         ]),
                                         Value::map_of([
                                             ("name".to_string(), Value::str("sorting_direction")),
-                                            ("orig".to_string(), Value::str("sorting_direction")),
+                                            ("orig".to_string(), Value::str("sorting.direction")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("query")),
                                             ("example".to_string(), Value::str("asc")),
                                         ]),
                                         Value::map_of([
                                             ("name".to_string(), Value::str("sorting_field")),
-                                            ("orig".to_string(), Value::str("sorting_field")),
+                                            ("orig".to_string(), Value::str("sorting.field")),
                                             ("type".to_string(), Value::str("`$STRING`")),
                                             ("kind".to_string(), Value::str("query")),
                                             ("example".to_string(), Value::str("serialnumber")),
@@ -4291,11 +5173,11 @@ pub fn make_config() -> Value {
                                 ("select".to_string(), Value::map_of([
                                     ("exist".to_string(), Value::list(vec![
                                         Value::str("id"),
-                                        Value::str("skip"),
-                                        Value::str("sorting_direction"),
-                                        Value::str("sorting_field"),
-                                        Value::str("take"),
                                     ])),
+                                ])),
+                                ("response".to_string(), Value::map_of([
+                                    ("kind".to_string(), Value::str("json")),
+                                    ("media".to_string(), Value::str("application/json")),
                                 ])),
                             ]),
                         ])),

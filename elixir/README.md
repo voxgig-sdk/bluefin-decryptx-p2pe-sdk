@@ -16,7 +16,7 @@ keeps the cognitive load low.
 
 ## Install
 This package is not yet published to [Hex](https://hex.pm). Install it from
-the GitHub release tag (`elixir/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases))
+the GitHub release tag (`elixir/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags))
 by adding a git dependency to your `mix.exs`:
 
 ```elixir
@@ -55,13 +55,17 @@ sdk = BluefinDecryptxP2pe.new(H.deep(%{"apikey" => System.get_env("BLUEFIN_DECRY
 
 ### 2. List attestation records
 
-`list/2` returns a list value node and raises on error.
+`list/2` returns a `Voxgig.Struct` list of entities, one per record, and
+raises on error; `Voxgig.Struct.getelem/2` reads an item, and `data_get/1`
+an entity's record.
 
 ```elixir
 try do
   attestation = BluefinDecryptxP2pe.attestation(sdk)
-  records = BluefinDecryptxP2pe.Entity.Attestation.list(attestation)
-  IO.inspect(records)
+  attestations = BluefinDecryptxP2pe.Entity.Attestation.list(attestation, BluefinDecryptxP2pe.Helpers.deep(%{"client" => "example"}))
+  for i <- 0..(Voxgig.Struct.size(attestations) - 1)//1 do
+    IO.puts(Voxgig.Struct.jsonify(BluefinDecryptxP2pe.Entity.Attestation.data_get(Voxgig.Struct.getelem(attestations, i))))
+  end
 rescue
   err -> IO.puts("list failed: " <> inspect(err))
 end
@@ -70,13 +74,14 @@ end
 ### 3. Load a devicecustodydetail
 
 DeviceCustodyDetail is nested under device_type, so provide the `device_type`.
-`load/2` returns the bare record and raises on error.
+`load/2` returns the entity and raises on error; `data_get/1` reads its
+record.
 
 ```elixir
 try do
   device_custody_detail = BluefinDecryptxP2pe.device_custody_detail(sdk)
-  record = BluefinDecryptxP2pe.Entity.DeviceCustodyDetail.load(device_custody_detail, H.deep(%{"device_type" => "example_device_type", "serial_number" => "example_serial_number", "id" => "example_id"}))
-  IO.inspect(record)
+  device_custody_detail = BluefinDecryptxP2pe.Entity.DeviceCustodyDetail.load(device_custody_detail, H.deep(%{"device_type" => "example_device_type", "serial_number" => "example_serial_number", "id" => "example_id"}))
+  IO.puts(Voxgig.Struct.jsonify(BluefinDecryptxP2pe.Entity.DeviceCustodyDetail.data_get(device_custody_detail)))
 rescue
   err -> IO.puts("load failed: " <> inspect(err))
 end
@@ -87,8 +92,8 @@ end
 ```elixir
 attestation = BluefinDecryptxP2pe.attestation(sdk)
 
-# Create — returns the bare created record
-created = BluefinDecryptxP2pe.Entity.Attestation.create(attestation, H.deep(%{"client" => %{}, "completeDate" => "example_completeDate"}))
+# Create — returns the created entity
+created = BluefinDecryptxP2pe.Entity.Attestation.create(attestation, H.deep(%{"devices" => []}))
 
 ```
 
@@ -100,14 +105,15 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 ```ts
 try {
   const devicetypes = await client.DeviceType().list()
-  console.log(devicetypes)
+  console.log(devicetypes.map((item) => item.data()))
 } catch (err) {
   console.error('list failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -116,8 +122,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -174,10 +180,12 @@ alias BluefinDecryptxP2pe.Helpers, as: H
 
 sdk = BluefinDecryptxP2pe.test()
 
-# Entity ops return the bare record (raise on error).
+# Entity ops return the entity, and list one per record (raise on error).
 device_type = BluefinDecryptxP2pe.device_type(sdk)
-records = BluefinDecryptxP2pe.Entity.DeviceType.list(device_type, H.deep(%{}))
-IO.inspect(records)
+device_types = BluefinDecryptxP2pe.Entity.DeviceType.list(device_type, H.deep(%{}))
+for i <- 0..(Voxgig.Struct.size(device_types) - 1)//1 do
+  IO.puts(Voxgig.Struct.jsonify(BluefinDecryptxP2pe.Entity.DeviceType.data_get(Voxgig.Struct.getelem(device_types, i))))
+end
 ```
 
 ### Use a custom fetch function
@@ -287,11 +295,11 @@ Every entity's `BluefinDecryptxP2pe.Entity.<Name>` module shares the same interf
 
 | Function | Signature | Description |
 | --- | --- | --- |
-| `load` | `(entity, reqmatch, ctrl \\ nil) :: map()` | Load a single entity by match criteria. Raises on error. |
-| `list` | `(entity, reqmatch \\ nil, ctrl \\ nil) :: list()` | List entities matching the criteria. Raises on error. |
-| `create` | `(entity, reqdata, ctrl \\ nil) :: map()` | Create a new entity. Raises on error. |
-| `update` | `(entity, reqdata, ctrl \\ nil) :: map()` | Update an existing entity. Raises on error. |
-| `remove` | `(entity, reqmatch \\ nil, ctrl \\ nil) :: map()` | Remove an entity. Raises on error. |
+| `load` | `(entity, reqmatch, ctrl \\ nil) :: entity` | Load a single entity by match criteria, and return it. Raises on error. |
+| `list` | `(entity, reqmatch \\ nil, ctrl \\ nil) :: list()` | List entities matching the criteria, one per record. Raises on error. |
+| `create` | `(entity, reqdata, ctrl \\ nil) :: entity` | Create a new entity, and return it. Raises on error. |
+| `update` | `(entity, reqdata, ctrl \\ nil) :: entity` | Update an existing entity, and return it. Raises on error. |
+| `remove` | `(entity, reqmatch \\ nil, ctrl \\ nil) :: entity` | Remove an entity, and return it marked as deleted. Raises on error. |
 | `data_get` | `(entity) :: map()` | Get entity data. |
 | `data_set` | `(entity, data)` | Set entity data. |
 | `match_get` | `(entity) :: map()` | Get entity match criteria. |
@@ -301,9 +309,10 @@ Every entity's `BluefinDecryptxP2pe.Entity.<Name>` module shares the same interf
 
 ### Result shape
 
-Entity operations return the bare result data (a value node — a map for
-single-entity ops, a list for `list`) and raise a `BluefinDecryptxP2pe.Error` on
-failure. Wrap calls in `try`/`rescue` to handle errors.
+Entity operations return the entity, and `list` a list of entities, one per
+record; an entity module's `data_get/1` reads an entity's record. They raise
+a `BluefinDecryptxP2pe.Error` on failure, so wrap calls in `try`/`rescue` to handle
+errors.
 
 The `direct/2` escape hatch never raises — it returns a result node you
 branch on via `Voxgig.Struct.getprop(result, "ok")`:
@@ -327,6 +336,7 @@ On error, `ok` is `false` and `err` carries the error value.
 | `completeDate` | The date and time that the Attestation took place. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `device` | Reference to the associated Device resource. |
+| `devices` |  |
 | `id` | This resource's unique identifier. |
 | `name` | Text describing the attestation. |
 | `notes` | Free form field that allows the Client associate notes with the Attestation. |
@@ -359,6 +369,10 @@ API path: `/clients`
 
 | Field | Description |
 | --- | --- |
+| `completeDate` | The date and time that the Custody change took place. |
+| `custodian` | Reference to the associated User resource. |
+| `location` | Reference to the associated Location resource. |
+| `notes` | Free form field that allows the Client associate notes with the Custody Change. |
 
 Operations: Create.
 
@@ -368,6 +382,14 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
+| `cbcVector` | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | The device Type. |
+| `encoding` | The payload encoding |
+| `encrypted` |  |
+| `hasCcData` | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | The serial number of the device. |
 | `success` | true if the payload decryption was successful. |
 
 Operations: Create.
@@ -483,7 +505,9 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
+| `serialNumber` | The serial number of the Device that is shipped. |
 | `success` | Indicates if the action succeeded. |
+| `tamperLabel` | The code that is printed the tamper label of the Device that is shipped. |
 
 Operations: Create.
 
@@ -493,7 +517,15 @@ API path: `/devices/receive`
 
 | Field | Description |
 | --- | --- |
+| `appVersion` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | The Device Builds's name. |
+| `buildNumber` | The Build Number. |
+| `configFile` | \? |
+| `firmwareVersion` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | The referenced Device's serial number. |
 | `success` | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | \? |
 
 Operations: Create.
 
@@ -567,6 +599,7 @@ API path: `/kifs`
 | `address2` | The Location's street address. |
 | `billingId` | \? |
 | `city` | The Location's city. |
+| `client` | Reference to the associated Client resource. |
 | `country` | The Location's country. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `customReference` | A Partner specified reference for a location. |
@@ -627,6 +660,7 @@ API path: `/partners`
 | `id` | This resource's unique identifier. |
 | `items` |  |
 | `kif` | Reference to the associated KIF resource. |
+| `location` | Reference to the associated Location resource. |
 | `modified` | Last modified timestamp. |
 | `partner` | Reference to the associated Partner. |
 | `shipmentType` | The type of shipment. |
@@ -641,6 +675,8 @@ API path: `/shipments`
 
 | Field | Description |
 | --- | --- |
+| `devices` | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | Reference to the associated Partner. |
 | `success` | Indicates if the action was a success. |
 
 Operations: Create, Remove.
@@ -656,6 +692,7 @@ API path: `/virtualDevices/{sharePartnerTo}`
 | `clientRef` | Client Reference property that is included in the decrypt API call. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `decrypted` | A Transcation can process muliple decryptions. |
+| `device` | Reference to the associated Device resource. |
 | `deviceName` | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | Reference to the associated Partner. |
 | `encrypted` | A Transcation can process muliple encryptions. |
@@ -684,17 +721,68 @@ API path: `/transactions`
 
 | Field | Description |
 | --- | --- |
+| `address1` | The Location's street address. |
+| `address2` | The Location's street address. |
+| `alternateKey` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | \? |
+| `city` | The Location's city. |
 | `client` | Reference to the associated Client resource. |
+| `clientCanOrderEquipment` | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | Client Reference property that is included in the decrypt API call. |
+| `contact` | Reference to the associated User resource. |
+| `country` | Reference to the associated Country. |
+| `customReference` | A Partner specified reference for a location. |
+| `dateShipped` | The date and time that a package is shipped. |
+| `decrypted` | A Transcation can process muliple decryptions. |
+| `device` | Reference to the associated Device resource. |
+| `deviceBuild` | Reference to the associated Device Build resource. |
+| `deviceType` | Reference to the associated Device Type resource. |
+| `directPartner` | Reference to the associated Partner. |
 | `email` | The User's email address. |
+| `encrypted` | A Transcation can process muliple encryptions. |
+| `endDate` | Timestamp from the end of the transaction. |
+| `errCode` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | The error messge that is sent in response to a failed decrypt API call. |
 | `firstName` | The User's name. |
 | `id` | ID of newly created resource |
+| `injectKey` | Reference to the associated Device resource. |
+| `ipAddress` | The IP address of the http client that makes the decrypt API call. |
 | `isActive` | This property indicates if the User account is active or disabled. |
+| `items` |  |
+| `keyType` | The type of cipher used during decrytion. |
 | `kif` | Reference to the associated KIF resource. |
 | `lastName` | The User's Surname. |
+| `location` | Reference to the associated Location resource. |
+| `locationType` | The Location's clasification. |
+| `mailAddress1` | The Location's street address. |
+| `mailAddress2` | The Location's street address. |
+| `mailCity` | The Location's city. |
+| `mailCountry` | The Location's street address. |
+| `mailPostalCode` | The Location's postal code. |
+| `mailStateProvince` | The Location's street state or province. |
+| `messageId` | Message ID. |
+| `method` | The decryption cypher/method. |
+| `mid` | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | The Client's name. |
+| `nameOfBusiness` | The name of the business at this location. |
+| `notes` | Arbitary note that can be attached to a Device entry. |
+| `parent` | Reference to the associated Partner. |
 | `partner` | Reference to the associated Partner. |
+| `partnerId` | The Partner's id. |
 | `phone` | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | The Location's postal code. |
+| `reference` | The Partner's reference string. |
+| `sendWelcomeEmail` | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | The Device's serial number. |
+| `startDate` | Timestamp from the beginning of the transaction. |
+| `stateProvince` | The Location's street state or province. |
+| `success` | The success indicator. |
+| `tracking` | The courier's tracking number. |
+| `uniqueId` | Unique Identifier for the Location. |
 | `userName` | The User's unique username. |
 | `userRole` | Reference to the associated User Role. |
+| `verificationPhrase` | The verification phrase is a message that the Partner creates. |
 | `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Update.
@@ -764,6 +852,7 @@ Create a handle: `attestation = BluefinDecryptxP2pe.attestation(sdk)`
 | `completeDate` | `String.t()` | The date and time that the Attestation took place. |
 | `created` | `String.t()` | Creation timestamp in ISO 8601 format. |
 | `device` | `map()` | Reference to the associated Device resource. |
+| `devices` | `list()` |  |
 | `id` | `String.t()` | This resource's unique identifier. |
 | `name` | `String.t()` | Text describing the attestation. |
 | `notes` | `String.t()` | Free form field that allows the Client associate notes with the Attestation. |
@@ -772,28 +861,29 @@ Create a handle: `attestation = BluefinDecryptxP2pe.attestation(sdk)`
 
 ```elixir
 attestation = BluefinDecryptxP2pe.attestation(sdk)
-record = BluefinDecryptxP2pe.Entity.Attestation.load(attestation, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "attestation_id"}))
+attestation = BluefinDecryptxP2pe.Entity.Attestation.load(attestation, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "attestation_id"}))
 ```
 
 #### Example: List
 
 ```elixir
 attestation = BluefinDecryptxP2pe.attestation(sdk)
-records = BluefinDecryptxP2pe.Entity.Attestation.list(attestation)
+attestations = BluefinDecryptxP2pe.Entity.Attestation.list(attestation, BluefinDecryptxP2pe.Helpers.deep(%{"client" => "example"}))
 ```
 
 #### Example: Create
 
 ```elixir
 attestation = BluefinDecryptxP2pe.attestation(sdk)
-record = BluefinDecryptxP2pe.Entity.Attestation.create(attestation, BluefinDecryptxP2pe.Helpers.deep(%{
+attestation = BluefinDecryptxP2pe.Entity.Attestation.create(attestation, BluefinDecryptxP2pe.Helpers.deep(%{
+  "devices" => [],  # list()
 }))
 ```
 
 
 ### Client
 
-Create a handle: `client = BluefinDecryptxP2pe.client(sdk)`
+Create a handle: `client_ = BluefinDecryptxP2pe.client(sdk)`
 
 #### Operations
 
@@ -823,22 +913,22 @@ Create a handle: `client = BluefinDecryptxP2pe.client(sdk)`
 #### Example: Load
 
 ```elixir
-client = BluefinDecryptxP2pe.client(sdk)
-record = BluefinDecryptxP2pe.Entity.Client.load(client, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "client_id"}))
+client_ = BluefinDecryptxP2pe.client(sdk)
+client_ = BluefinDecryptxP2pe.Entity.Client.load(client_, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "client_id"}))
 ```
 
 #### Example: List
 
 ```elixir
-client = BluefinDecryptxP2pe.client(sdk)
-records = BluefinDecryptxP2pe.Entity.Client.list(client)
+client_ = BluefinDecryptxP2pe.client(sdk)
+client_s = BluefinDecryptxP2pe.Entity.Client.list(client_, BluefinDecryptxP2pe.Helpers.deep(%{"partner" => "example"}))
 ```
 
 #### Example: Create
 
 ```elixir
-client = BluefinDecryptxP2pe.client(sdk)
-record = BluefinDecryptxP2pe.Entity.Client.create(client, BluefinDecryptxP2pe.Helpers.deep(%{
+client_ = BluefinDecryptxP2pe.client(sdk)
+client_ = BluefinDecryptxP2pe.Entity.Client.create(client_, BluefinDecryptxP2pe.Helpers.deep(%{
   "location" => %{},  # map()
 }))
 ```
@@ -854,13 +944,24 @@ Create a handle: `create_result = BluefinDecryptxP2pe.create_result(sdk)`
 | --- | --- |
 | `create(entity, data)` | Create a new entity with the given data. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `completeDate` | `String.t()` | The date and time that the Custody change took place. |
+| `custodian` | `map()` | Reference to the associated User resource. |
+| `location` | `map()` | Reference to the associated Location resource. |
+| `notes` | `String.t()` | Free form field that allows the Client associate notes with the Custody Change. |
+
 #### Example: Create
 
 ```elixir
 create_result = BluefinDecryptxP2pe.create_result(sdk)
-record = BluefinDecryptxP2pe.Entity.CreateResult.create(create_result, BluefinDecryptxP2pe.Helpers.deep(%{
+create_result = BluefinDecryptxP2pe.Entity.CreateResult.create(create_result, BluefinDecryptxP2pe.Helpers.deep(%{
   "device_type" => "example_device_type",  # String.t()
   "serial_number" => "example_serial_number",  # String.t()
+  "custodian" => %{},  # map()
+  "location" => %{},  # map()
 }))
 ```
 
@@ -879,13 +980,24 @@ Create a handle: `decryption = BluefinDecryptxP2pe.decryption(sdk)`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `cbcVector` | `String.t()` | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | `String.t()` | The device Type. |
+| `encoding` | `String.t()` | The payload encoding |
+| `encrypted` | `list()` |  |
+| `hasCcData` | `String.t()` | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | `String.t()` | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | `String.t()` | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | `String.t()` | The serial number of the device. |
 | `success` | `boolean()` | true if the payload decryption was successful. |
 
 #### Example: Create
 
 ```elixir
 decryption = BluefinDecryptxP2pe.decryption(sdk)
-record = BluefinDecryptxP2pe.Entity.Decryption.create(decryption, BluefinDecryptxP2pe.Helpers.deep(%{
+decryption = BluefinDecryptxP2pe.Entity.Decryption.create(decryption, BluefinDecryptxP2pe.Helpers.deep(%{
+  "deviceType" => "example_deviceType",  # String.t()
+  "encrypted" => [],  # list()
+  "serialNumber" => "example_serialNumber",  # String.t()
 }))
 ```
 
@@ -939,21 +1051,21 @@ Create a handle: `device = BluefinDecryptxP2pe.device(sdk)`
 
 ```elixir
 device = BluefinDecryptxP2pe.device(sdk)
-record = BluefinDecryptxP2pe.Entity.Device.load(device, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "device_id"}))
+device = BluefinDecryptxP2pe.Entity.Device.load(device, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "device_id"}))
 ```
 
 #### Example: List
 
 ```elixir
 device = BluefinDecryptxP2pe.device(sdk)
-records = BluefinDecryptxP2pe.Entity.Device.list(device)
+devices = BluefinDecryptxP2pe.Entity.Device.list(device)
 ```
 
 #### Example: Create
 
 ```elixir
 device = BluefinDecryptxP2pe.device(sdk)
-record = BluefinDecryptxP2pe.Entity.Device.create(device, BluefinDecryptxP2pe.Helpers.deep(%{
+device = BluefinDecryptxP2pe.Entity.Device.create(device, BluefinDecryptxP2pe.Helpers.deep(%{
   "activatedBy" => %{},  # map()
   "createdBy" => %{},  # map()
   "initializedBy" => %{},  # map()
@@ -998,14 +1110,14 @@ Create a handle: `device_build = BluefinDecryptxP2pe.device_build(sdk)`
 
 ```elixir
 device_build = BluefinDecryptxP2pe.device_build(sdk)
-record = BluefinDecryptxP2pe.Entity.DeviceBuild.load(device_build, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "device_build_id"}))
+device_build = BluefinDecryptxP2pe.Entity.DeviceBuild.load(device_build, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "device_build_id"}))
 ```
 
 #### Example: List
 
 ```elixir
 device_build = BluefinDecryptxP2pe.device_build(sdk)
-records = BluefinDecryptxP2pe.Entity.DeviceBuild.list(device_build)
+device_builds = BluefinDecryptxP2pe.Entity.DeviceBuild.list(device_build)
 ```
 
 
@@ -1041,7 +1153,7 @@ Create a handle: `device_custody_detail = BluefinDecryptxP2pe.device_custody_det
 
 ```elixir
 device_custody_detail = BluefinDecryptxP2pe.device_custody_detail(sdk)
-record = BluefinDecryptxP2pe.Entity.DeviceCustodyDetail.load(device_custody_detail, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "device_custody_detail_id", "device_type" => "device_type", "serial_number" => "serial_number"}))
+device_custody_detail = BluefinDecryptxP2pe.Entity.DeviceCustodyDetail.load(device_custody_detail, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "device_custody_detail_id", "device_type" => "device_type", "serial_number" => "serial_number"}))
 ```
 
 
@@ -1077,7 +1189,7 @@ Create a handle: `device_custody_list_item = BluefinDecryptxP2pe.device_custody_
 
 ```elixir
 device_custody_list_item = BluefinDecryptxP2pe.device_custody_list_item(sdk)
-records = BluefinDecryptxP2pe.Entity.DeviceCustodyListItem.list(device_custody_list_item)
+device_custody_list_items = BluefinDecryptxP2pe.Entity.DeviceCustodyListItem.list(device_custody_list_item, BluefinDecryptxP2pe.Helpers.deep(%{"device_type" => "example", "serial_number" => "example"}))
 ```
 
 
@@ -1095,14 +1207,18 @@ Create a handle: `device_receive_result = BluefinDecryptxP2pe.device_receive_res
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `serialNumber` | `String.t()` | The serial number of the Device that is shipped. |
 | `success` | `boolean()` | Indicates if the action succeeded. |
+| `tamperLabel` | `String.t()` | The code that is printed the tamper label of the Device that is shipped. |
 
 #### Example: Create
 
 ```elixir
 device_receive_result = BluefinDecryptxP2pe.device_receive_result(sdk)
-record = BluefinDecryptxP2pe.Entity.DeviceReceiveResult.create(device_receive_result, BluefinDecryptxP2pe.Helpers.deep(%{
+device_receive_result = BluefinDecryptxP2pe.Entity.DeviceReceiveResult.create(device_receive_result, BluefinDecryptxP2pe.Helpers.deep(%{
+  "serialNumber" => "example_serialNumber",  # String.t()
   "success" => true,  # boolean()
+  "tamperLabel" => "example_tamperLabel",  # String.t()
 }))
 ```
 
@@ -1121,13 +1237,22 @@ Create a handle: `device_rki_activate_result = BluefinDecryptxP2pe.device_rki_ac
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `appVersion` | `String.t()` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | `String.t()` | The Device Builds's name. |
+| `buildNumber` | `String.t()` | The Build Number. |
+| `configFile` | `String.t()` | \? |
+| `firmwareVersion` | `String.t()` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `String.t()` | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | `String.t()` | The referenced Device's serial number. |
 | `success` | `boolean()` | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | `String.t()` | \? |
 
 #### Example: Create
 
 ```elixir
 device_rki_activate_result = BluefinDecryptxP2pe.device_rki_activate_result(sdk)
-record = BluefinDecryptxP2pe.Entity.DeviceRkiActivateResult.create(device_rki_activate_result, BluefinDecryptxP2pe.Helpers.deep(%{
+device_rki_activate_result = BluefinDecryptxP2pe.Entity.DeviceRkiActivateResult.create(device_rki_activate_result, BluefinDecryptxP2pe.Helpers.deep(%{
+  "serialNumber" => "example_serialNumber",  # String.t()
   "success" => true,  # boolean()
 }))
 ```
@@ -1154,7 +1279,7 @@ Create a handle: `device_state = BluefinDecryptxP2pe.device_state(sdk)`
 
 ```elixir
 device_state = BluefinDecryptxP2pe.device_state(sdk)
-records = BluefinDecryptxP2pe.Entity.DeviceState.list(device_state)
+device_states = BluefinDecryptxP2pe.Entity.DeviceState.list(device_state)
 ```
 
 
@@ -1190,14 +1315,14 @@ Create a handle: `device_type = BluefinDecryptxP2pe.device_type(sdk)`
 
 ```elixir
 device_type = BluefinDecryptxP2pe.device_type(sdk)
-record = BluefinDecryptxP2pe.Entity.DeviceType.load(device_type, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "device_type_id"}))
+device_type = BluefinDecryptxP2pe.Entity.DeviceType.load(device_type, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "device_type_id"}))
 ```
 
 #### Example: List
 
 ```elixir
 device_type = BluefinDecryptxP2pe.device_type(sdk)
-records = BluefinDecryptxP2pe.Entity.DeviceType.list(device_type)
+device_types = BluefinDecryptxP2pe.Entity.DeviceType.list(device_type)
 ```
 
 
@@ -1229,14 +1354,14 @@ Create a handle: `inject_key = BluefinDecryptxP2pe.inject_key(sdk)`
 
 ```elixir
 inject_key = BluefinDecryptxP2pe.inject_key(sdk)
-record = BluefinDecryptxP2pe.Entity.InjectKey.load(inject_key, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "inject_key_id"}))
+inject_key = BluefinDecryptxP2pe.Entity.InjectKey.load(inject_key, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "inject_key_id"}))
 ```
 
 #### Example: List
 
 ```elixir
 inject_key = BluefinDecryptxP2pe.inject_key(sdk)
-records = BluefinDecryptxP2pe.Entity.InjectKey.list(inject_key)
+inject_keys = BluefinDecryptxP2pe.Entity.InjectKey.list(inject_key)
 ```
 
 
@@ -1261,7 +1386,7 @@ Create a handle: `kif = BluefinDecryptxP2pe.kif(sdk)`
 
 ```elixir
 kif = BluefinDecryptxP2pe.kif(sdk)
-records = BluefinDecryptxP2pe.Entity.Kif.list(kif)
+kifs = BluefinDecryptxP2pe.Entity.Kif.list(kif)
 ```
 
 
@@ -1286,6 +1411,7 @@ Create a handle: `location = BluefinDecryptxP2pe.location(sdk)`
 | `address2` | `String.t()` | The Location's street address. |
 | `billingId` | `String.t()` | \? |
 | `city` | `String.t()` | The Location's city. |
+| `client` | `map()` | Reference to the associated Client resource. |
 | `country` | `String.t()` | The Location's country. |
 | `created` | `String.t()` | Creation timestamp in ISO 8601 format. |
 | `customReference` | `String.t()` | A Partner specified reference for a location. |
@@ -1310,21 +1436,21 @@ Create a handle: `location = BluefinDecryptxP2pe.location(sdk)`
 
 ```elixir
 location = BluefinDecryptxP2pe.location(sdk)
-record = BluefinDecryptxP2pe.Entity.Location.load(location, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "location_id"}))
+location = BluefinDecryptxP2pe.Entity.Location.load(location, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "location_id"}))
 ```
 
 #### Example: List
 
 ```elixir
 location = BluefinDecryptxP2pe.location(sdk)
-records = BluefinDecryptxP2pe.Entity.Location.list(location)
+locations = BluefinDecryptxP2pe.Entity.Location.list(location, BluefinDecryptxP2pe.Helpers.deep(%{"client" => "example"}))
 ```
 
 #### Example: Create
 
 ```elixir
 location = BluefinDecryptxP2pe.location(sdk)
-record = BluefinDecryptxP2pe.Entity.Location.create(location, BluefinDecryptxP2pe.Helpers.deep(%{
+location = BluefinDecryptxP2pe.Entity.Location.create(location, BluefinDecryptxP2pe.Helpers.deep(%{
 }))
 ```
 
@@ -1364,21 +1490,21 @@ Create a handle: `partner = BluefinDecryptxP2pe.partner(sdk)`
 
 ```elixir
 partner = BluefinDecryptxP2pe.partner(sdk)
-record = BluefinDecryptxP2pe.Entity.Partner.load(partner, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "partner_id"}))
+partner = BluefinDecryptxP2pe.Entity.Partner.load(partner, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "partner_id"}))
 ```
 
 #### Example: List
 
 ```elixir
 partner = BluefinDecryptxP2pe.partner(sdk)
-records = BluefinDecryptxP2pe.Entity.Partner.list(partner)
+partners = BluefinDecryptxP2pe.Entity.Partner.list(partner)
 ```
 
 #### Example: Create
 
 ```elixir
 partner = BluefinDecryptxP2pe.partner(sdk)
-record = BluefinDecryptxP2pe.Entity.Partner.create(partner, BluefinDecryptxP2pe.Helpers.deep(%{
+partner = BluefinDecryptxP2pe.Entity.Partner.create(partner, BluefinDecryptxP2pe.Helpers.deep(%{
   "location" => %{},  # map()
 }))
 ```
@@ -1409,6 +1535,7 @@ Create a handle: `shipment = BluefinDecryptxP2pe.shipment(sdk)`
 | `id` | `String.t()` | This resource's unique identifier. |
 | `items` | `list()` |  |
 | `kif` | `map()` | Reference to the associated KIF resource. |
+| `location` | `map()` | Reference to the associated Location resource. |
 | `modified` | `String.t()` | Last modified timestamp. |
 | `partner` | `map()` | Reference to the associated Partner. |
 | `shipmentType` | `String.t()` | The type of shipment. |
@@ -1419,21 +1546,22 @@ Create a handle: `shipment = BluefinDecryptxP2pe.shipment(sdk)`
 
 ```elixir
 shipment = BluefinDecryptxP2pe.shipment(sdk)
-record = BluefinDecryptxP2pe.Entity.Shipment.load(shipment, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "shipment_id"}))
+shipment = BluefinDecryptxP2pe.Entity.Shipment.load(shipment, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "shipment_id"}))
 ```
 
 #### Example: List
 
 ```elixir
 shipment = BluefinDecryptxP2pe.shipment(sdk)
-records = BluefinDecryptxP2pe.Entity.Shipment.list(shipment)
+shipments = BluefinDecryptxP2pe.Entity.Shipment.list(shipment, BluefinDecryptxP2pe.Helpers.deep(%{"kif" => "example"}))
 ```
 
 #### Example: Create
 
 ```elixir
 shipment = BluefinDecryptxP2pe.shipment(sdk)
-record = BluefinDecryptxP2pe.Entity.Shipment.create(shipment, BluefinDecryptxP2pe.Helpers.deep(%{
+shipment = BluefinDecryptxP2pe.Entity.Shipment.create(shipment, BluefinDecryptxP2pe.Helpers.deep(%{
+  "location" => %{},  # map()
 }))
 ```
 
@@ -1453,14 +1581,18 @@ Create a handle: `success = BluefinDecryptxP2pe.success(sdk)`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `devices` | `list()` | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | `map()` | Reference to the associated Partner. |
 | `success` | `boolean()` | Indicates if the action was a success. |
 
 #### Example: Create
 
 ```elixir
 success = BluefinDecryptxP2pe.success(sdk)
-record = BluefinDecryptxP2pe.Entity.Success.create(success, BluefinDecryptxP2pe.Helpers.deep(%{
+success = BluefinDecryptxP2pe.Entity.Success.create(success, BluefinDecryptxP2pe.Helpers.deep(%{
   "share_partner_to" => "example_share_partner_to",  # String.t()
+  "devices" => [],  # list()
+  "sharePartnerFrom" => %{},  # map()
 }))
 ```
 
@@ -1486,6 +1618,7 @@ Create a handle: `transaction = BluefinDecryptxP2pe.transaction(sdk)`
 | `clientRef` | `String.t()` | Client Reference property that is included in the decrypt API call. |
 | `created` | `String.t()` | Creation timestamp in ISO 8601 format. |
 | `decrypted` | `integer()` | A Transcation can process muliple decryptions. |
+| `device` | `map()` | Reference to the associated Device resource. |
 | `deviceName` | `String.t()` | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | `map()` | Reference to the associated Partner. |
 | `encrypted` | `integer()` | A Transcation can process muliple encryptions. |
@@ -1510,21 +1643,22 @@ Create a handle: `transaction = BluefinDecryptxP2pe.transaction(sdk)`
 
 ```elixir
 transaction = BluefinDecryptxP2pe.transaction(sdk)
-record = BluefinDecryptxP2pe.Entity.Transaction.load(transaction, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "transaction_id"}))
+transaction = BluefinDecryptxP2pe.Entity.Transaction.load(transaction, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "transaction_id"}))
 ```
 
 #### Example: List
 
 ```elixir
 transaction = BluefinDecryptxP2pe.transaction(sdk)
-records = BluefinDecryptxP2pe.Entity.Transaction.list(transaction)
+transactions = BluefinDecryptxP2pe.Entity.Transaction.list(transaction)
 ```
 
 #### Example: Create
 
 ```elixir
 transaction = BluefinDecryptxP2pe.transaction(sdk)
-record = BluefinDecryptxP2pe.Entity.Transaction.create(transaction, BluefinDecryptxP2pe.Helpers.deep(%{
+transaction = BluefinDecryptxP2pe.Entity.Transaction.create(transaction, BluefinDecryptxP2pe.Helpers.deep(%{
+  "device" => %{},  # map()
   "location" => %{},  # map()
 }))
 ```
@@ -1546,31 +1680,91 @@ Create a handle: `update_result = BluefinDecryptxP2pe.update_result(sdk)`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `address1` | `String.t()` | The Location's street address. |
+| `address2` | `String.t()` | The Location's street address. |
+| `alternateKey` | `String.t()` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `String.t()` | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | `String.t()` | \? |
+| `city` | `String.t()` | The Location's city. |
 | `client` | `map()` | Reference to the associated Client resource. |
+| `clientCanOrderEquipment` | `boolean()` | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | `String.t()` | Client Reference property that is included in the decrypt API call. |
+| `contact` | `map()` | Reference to the associated User resource. |
+| `country` | `map()` | Reference to the associated Country. |
+| `customReference` | `String.t()` | A Partner specified reference for a location. |
+| `dateShipped` | `String.t()` | The date and time that a package is shipped. |
+| `decrypted` | `integer()` | A Transcation can process muliple decryptions. |
+| `device` | `map()` | Reference to the associated Device resource. |
+| `deviceBuild` | `map()` | Reference to the associated Device Build resource. |
+| `deviceType` | `map()` | Reference to the associated Device Type resource. |
+| `directPartner` | `map()` | Reference to the associated Partner. |
 | `email` | `String.t()` | The User's email address. |
+| `encrypted` | `integer()` | A Transcation can process muliple encryptions. |
+| `endDate` | `String.t()` | Timestamp from the end of the transaction. |
+| `errCode` | `String.t()` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `String.t()` | The error messge that is sent in response to a failed decrypt API call. |
 | `firstName` | `String.t()` | The User's name. |
 | `id` | `String.t()` | ID of newly created resource |
+| `injectKey` | `map()` | Reference to the associated Device resource. |
+| `ipAddress` | `String.t()` | The IP address of the http client that makes the decrypt API call. |
 | `isActive` | `boolean()` | This property indicates if the User account is active or disabled. |
+| `items` | `list()` |  |
+| `keyType` | `String.t()` | The type of cipher used during decrytion. |
 | `kif` | `map()` | Reference to the associated KIF resource. |
 | `lastName` | `String.t()` | The User's Surname. |
+| `location` | `map()` | Reference to the associated Location resource. |
+| `locationType` | `String.t()` | The Location's clasification. |
+| `mailAddress1` | `String.t()` | The Location's street address. |
+| `mailAddress2` | `String.t()` | The Location's street address. |
+| `mailCity` | `String.t()` | The Location's city. |
+| `mailCountry` | `String.t()` | The Location's street address. |
+| `mailPostalCode` | `String.t()` | The Location's postal code. |
+| `mailStateProvince` | `String.t()` | The Location's street state or province. |
+| `messageId` | `String.t()` | Message ID. |
+| `method` | `String.t()` | The decryption cypher/method. |
+| `mid` | `String.t()` | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | `String.t()` | The Client's name. |
+| `nameOfBusiness` | `String.t()` | The name of the business at this location. |
+| `notes` | `String.t()` | Arbitary note that can be attached to a Device entry. |
+| `parent` | `map()` | Reference to the associated Partner. |
 | `partner` | `map()` | Reference to the associated Partner. |
+| `partnerId` | `String.t()` | The Partner's id. |
 | `phone` | `String.t()` | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | `String.t()` | The Location's postal code. |
+| `reference` | `String.t()` | The Partner's reference string. |
+| `sendWelcomeEmail` | `boolean()` | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | `String.t()` | The Device's serial number. |
+| `startDate` | `String.t()` | Timestamp from the beginning of the transaction. |
+| `stateProvince` | `String.t()` | The Location's street state or province. |
+| `success` | `boolean()` | The success indicator. |
+| `tracking` | `String.t()` | The courier's tracking number. |
+| `uniqueId` | `String.t()` | Unique Identifier for the Location. |
 | `userName` | `String.t()` | The User's unique username. |
 | `userRole` | `map()` | Reference to the associated User Role. |
+| `verificationPhrase` | `String.t()` | The verification phrase is a message that the Partner creates. |
 | `version` | `integer()` | The number of times that this resource has been updated. |
 
 #### Example: List
 
 ```elixir
 update_result = BluefinDecryptxP2pe.update_result(sdk)
-records = BluefinDecryptxP2pe.Entity.UpdateResult.list(update_result)
+update_results = BluefinDecryptxP2pe.Entity.UpdateResult.list(update_result)
 ```
 
 #### Example: Create
 
 ```elixir
 update_result = BluefinDecryptxP2pe.update_result(sdk)
-record = BluefinDecryptxP2pe.Entity.UpdateResult.create(update_result, BluefinDecryptxP2pe.Helpers.deep(%{
+update_result = BluefinDecryptxP2pe.Entity.UpdateResult.create(update_result, BluefinDecryptxP2pe.Helpers.deep(%{
+  "contact" => %{},  # map()
+  "email" => "example_email",  # String.t()
+  "firstName" => "example_firstName",  # String.t()
+  "isActive" => true,  # boolean()
+  "lastName" => "example_lastName",  # String.t()
+  "location" => %{},  # map()
+  "phone" => "example_phone",  # String.t()
+  "userName" => "example_userName",  # String.t()
+  "userRole" => %{},  # map()
 }))
 ```
 
@@ -1609,7 +1803,7 @@ Create a handle: `user = BluefinDecryptxP2pe.user(sdk)`
 
 ```elixir
 user = BluefinDecryptxP2pe.user(sdk)
-record = BluefinDecryptxP2pe.Entity.User.load(user, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "user_id"}))
+user = BluefinDecryptxP2pe.Entity.User.load(user, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "user_id"}))
 ```
 
 
@@ -1635,7 +1829,7 @@ Create a handle: `virtual_device = BluefinDecryptxP2pe.virtual_device(sdk)`
 
 ```elixir
 virtual_device = BluefinDecryptxP2pe.virtual_device(sdk)
-record = BluefinDecryptxP2pe.Entity.VirtualDevice.load(virtual_device, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "virtual_device_id"}))
+virtual_device = BluefinDecryptxP2pe.Entity.VirtualDevice.load(virtual_device, BluefinDecryptxP2pe.Helpers.deep(%{"id" => "virtual_device_id"}))
 ```
 
 ## Features
@@ -1886,7 +2080,8 @@ that every later pipeline stage observes — the immutable-Elixir way to honour
 the shared-mutable hook contract.
 
 Build inputs from native Elixir maps with `BluefinDecryptxP2pe.Helpers.deep/1`,
-and read fields off results with `Voxgig.Struct.getprop/2`.
+and read fields off a record, which an entity's `data_get/1` returns, with
+`Voxgig.Struct.getprop/2`.
 
 ### Module structure
 

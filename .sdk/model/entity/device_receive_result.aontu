@@ -5,12 +5,26 @@ main: kit: entity: device_receive_result: {
   alias: field: {}
 
   fields: {
+    serialNumber: {
+      h: "Serial Number"
+      n: "serialNumber"
+      r: true
+      sh: "The serial number of the Device that is shipped."
+      t: "`$STRING`"
+    }
     success: {
       h: "Success"
       n: "success"
       r: true
       sh: "Indicates if the action succeeded."
       t: "`$BOOLEAN`"
+    }
+    tamperLabel: {
+      h: "Tamper Label"
+      n: "tamperLabel"
+      r: true
+      sh: "The code that is printed the tamper label of the Device that is shipped."
+      t: "`$STRING`"
     }
   }
 
@@ -20,6 +34,10 @@ main: kit: entity: device_receive_result: {
       name: "create"
       points: [
         {
+          bf: [
+            "serialNumber"
+            "tamperLabel"
+          ]
           co: {
             id: "POST /devices/receive"
             source: "openapi3"
@@ -27,6 +45,10 @@ main: kit: entity: device_receive_result: {
           }
           m: "POST"
           o: "/devices/receive"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "devices"

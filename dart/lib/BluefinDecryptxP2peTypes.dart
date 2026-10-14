@@ -17,6 +17,8 @@ class Attestation {
   String? created;
   /// OBJECT
   Map<String, dynamic>? device;
+  /// ARRAY (required at the API)
+  List<dynamic>? devices;
   /// STRING
   String? id;
   /// STRING
@@ -29,6 +31,7 @@ class Attestation {
     this.completeDate,
     this.created,
     this.device,
+    this.devices,
     this.id,
     this.name,
     this.notes,
@@ -39,6 +42,7 @@ class Attestation {
         completeDate: m['completeDate'] is String ? m['completeDate'] : null,
         created: m['created'] is String ? m['created'] : null,
         device: m['device'] is Map<String, dynamic> ? m['device'] : null,
+        devices: m['devices'] is List<dynamic> ? m['devices'] : null,
         id: m['id'] is String ? m['id'] : null,
         name: m['name'] is String ? m['name'] : null,
         notes: m['notes'] is String ? m['notes'] : null,
@@ -57,6 +61,9 @@ class Attestation {
     }
     if (null != device) {
       m['device'] = device;
+    }
+    if (null != devices) {
+      m['devices'] = devices;
     }
     if (null != id) {
       m['id'] = id;
@@ -136,6 +143,8 @@ class AttestationCreateData {
   String? created;
   /// OBJECT
   Map<String, dynamic>? device;
+  /// ARRAY (required at the API)
+  List<dynamic>? devices;
   /// STRING
   String? id;
   /// STRING
@@ -148,6 +157,7 @@ class AttestationCreateData {
     this.completeDate,
     this.created,
     this.device,
+    this.devices,
     this.id,
     this.name,
     this.notes,
@@ -158,6 +168,7 @@ class AttestationCreateData {
         completeDate: m['completeDate'] is String ? m['completeDate'] : null,
         created: m['created'] is String ? m['created'] : null,
         device: m['device'] is Map<String, dynamic> ? m['device'] : null,
+        devices: m['devices'] is List<dynamic> ? m['devices'] : null,
         id: m['id'] is String ? m['id'] : null,
         name: m['name'] is String ? m['name'] : null,
         notes: m['notes'] is String ? m['notes'] : null,
@@ -176,6 +187,9 @@ class AttestationCreateData {
     }
     if (null != device) {
       m['device'] = device;
+    }
+    if (null != devices) {
+      m['devices'] = devices;
     }
     if (null != id) {
       m['id'] = id;
@@ -450,11 +464,45 @@ class ClientRemoveMatch {
 }
 
 class CreateResult {
-  CreateResult();
+  /// STRING
+  String? completeDate;
+  /// OBJECT (required at the API)
+  Map<String, dynamic>? custodian;
+  /// OBJECT (required at the API)
+  Map<String, dynamic>? location;
+  /// STRING
+  String? notes;
 
-  factory CreateResult.fromMap(Map<String, dynamic> m) => CreateResult();
+  CreateResult({
+    this.completeDate,
+    this.custodian,
+    this.location,
+    this.notes,
+  });
 
-  Map<String, dynamic> toMap() => <String, dynamic>{};
+  factory CreateResult.fromMap(Map<String, dynamic> m) => CreateResult(
+        completeDate: m['completeDate'] is String ? m['completeDate'] : null,
+        custodian: m['custodian'] is Map<String, dynamic> ? m['custodian'] : null,
+        location: m['location'] is Map<String, dynamic> ? m['location'] : null,
+        notes: m['notes'] is String ? m['notes'] : null,
+      );
+
+  Map<String, dynamic> toMap() {
+    final m = <String, dynamic>{};
+    if (null != completeDate) {
+      m['completeDate'] = completeDate;
+    }
+    if (null != custodian) {
+      m['custodian'] = custodian;
+    }
+    if (null != location) {
+      m['location'] = location;
+    }
+    if (null != notes) {
+      m['notes'] = notes;
+    }
+    return m;
+  }
 }
 
 class CreateResultCreateData {
@@ -462,15 +510,31 @@ class CreateResultCreateData {
   String? device_type;
   /// STRING (required at the API)
   String? serial_number;
+  /// STRING
+  String? completeDate;
+  /// OBJECT (required at the API)
+  Map<String, dynamic>? custodian;
+  /// OBJECT (required at the API)
+  Map<String, dynamic>? location;
+  /// STRING
+  String? notes;
 
   CreateResultCreateData({
     this.device_type,
     this.serial_number,
+    this.completeDate,
+    this.custodian,
+    this.location,
+    this.notes,
   });
 
   factory CreateResultCreateData.fromMap(Map<String, dynamic> m) => CreateResultCreateData(
         device_type: m['device_type'] is String ? m['device_type'] : null,
         serial_number: m['serial_number'] is String ? m['serial_number'] : null,
+        completeDate: m['completeDate'] is String ? m['completeDate'] : null,
+        custodian: m['custodian'] is Map<String, dynamic> ? m['custodian'] : null,
+        location: m['location'] is Map<String, dynamic> ? m['location'] : null,
+        notes: m['notes'] is String ? m['notes'] : null,
       );
 
   Map<String, dynamic> toMap() {
@@ -481,24 +545,92 @@ class CreateResultCreateData {
     if (null != serial_number) {
       m['serial_number'] = serial_number;
     }
+    if (null != completeDate) {
+      m['completeDate'] = completeDate;
+    }
+    if (null != custodian) {
+      m['custodian'] = custodian;
+    }
+    if (null != location) {
+      m['location'] = location;
+    }
+    if (null != notes) {
+      m['notes'] = notes;
+    }
     return m;
   }
 }
 
 class Decryption {
+  /// STRING
+  String? cbcVector;
+  /// STRING (required at the API)
+  String? deviceType;
+  /// STRING
+  String? encoding;
+  /// ARRAY (required at the API)
+  List<dynamic>? encrypted;
+  /// STRING
+  String? hasCcData;
+  /// STRING
+  String? reference;
+  /// STRING
+  String? sequenceNumber;
+  /// STRING (required at the API)
+  String? serialNumber;
   /// BOOLEAN
   bool? success;
 
   Decryption({
+    this.cbcVector,
+    this.deviceType,
+    this.encoding,
+    this.encrypted,
+    this.hasCcData,
+    this.reference,
+    this.sequenceNumber,
+    this.serialNumber,
     this.success,
   });
 
   factory Decryption.fromMap(Map<String, dynamic> m) => Decryption(
+        cbcVector: m['cbcVector'] is String ? m['cbcVector'] : null,
+        deviceType: m['deviceType'] is String ? m['deviceType'] : null,
+        encoding: m['encoding'] is String ? m['encoding'] : null,
+        encrypted: m['encrypted'] is List<dynamic> ? m['encrypted'] : null,
+        hasCcData: m['hasCcData'] is String ? m['hasCcData'] : null,
+        reference: m['reference'] is String ? m['reference'] : null,
+        sequenceNumber: m['sequenceNumber'] is String ? m['sequenceNumber'] : null,
+        serialNumber: m['serialNumber'] is String ? m['serialNumber'] : null,
         success: m['success'] is bool ? m['success'] : null,
       );
 
   Map<String, dynamic> toMap() {
     final m = <String, dynamic>{};
+    if (null != cbcVector) {
+      m['cbcVector'] = cbcVector;
+    }
+    if (null != deviceType) {
+      m['deviceType'] = deviceType;
+    }
+    if (null != encoding) {
+      m['encoding'] = encoding;
+    }
+    if (null != encrypted) {
+      m['encrypted'] = encrypted;
+    }
+    if (null != hasCcData) {
+      m['hasCcData'] = hasCcData;
+    }
+    if (null != reference) {
+      m['reference'] = reference;
+    }
+    if (null != sequenceNumber) {
+      m['sequenceNumber'] = sequenceNumber;
+    }
+    if (null != serialNumber) {
+      m['serialNumber'] = serialNumber;
+    }
     if (null != success) {
       m['success'] = success;
     }
@@ -507,19 +639,75 @@ class Decryption {
 }
 
 class DecryptionCreateData {
+  /// STRING
+  String? cbcVector;
+  /// STRING (required at the API)
+  String? deviceType;
+  /// STRING
+  String? encoding;
+  /// ARRAY (required at the API)
+  List<dynamic>? encrypted;
+  /// STRING
+  String? hasCcData;
+  /// STRING
+  String? reference;
+  /// STRING
+  String? sequenceNumber;
+  /// STRING (required at the API)
+  String? serialNumber;
   /// BOOLEAN
   bool? success;
 
   DecryptionCreateData({
+    this.cbcVector,
+    this.deviceType,
+    this.encoding,
+    this.encrypted,
+    this.hasCcData,
+    this.reference,
+    this.sequenceNumber,
+    this.serialNumber,
     this.success,
   });
 
   factory DecryptionCreateData.fromMap(Map<String, dynamic> m) => DecryptionCreateData(
+        cbcVector: m['cbcVector'] is String ? m['cbcVector'] : null,
+        deviceType: m['deviceType'] is String ? m['deviceType'] : null,
+        encoding: m['encoding'] is String ? m['encoding'] : null,
+        encrypted: m['encrypted'] is List<dynamic> ? m['encrypted'] : null,
+        hasCcData: m['hasCcData'] is String ? m['hasCcData'] : null,
+        reference: m['reference'] is String ? m['reference'] : null,
+        sequenceNumber: m['sequenceNumber'] is String ? m['sequenceNumber'] : null,
+        serialNumber: m['serialNumber'] is String ? m['serialNumber'] : null,
         success: m['success'] is bool ? m['success'] : null,
       );
 
   Map<String, dynamic> toMap() {
     final m = <String, dynamic>{};
+    if (null != cbcVector) {
+      m['cbcVector'] = cbcVector;
+    }
+    if (null != deviceType) {
+      m['deviceType'] = deviceType;
+    }
+    if (null != encoding) {
+      m['encoding'] = encoding;
+    }
+    if (null != encrypted) {
+      m['encrypted'] = encrypted;
+    }
+    if (null != hasCcData) {
+      m['hasCcData'] = hasCcData;
+    }
+    if (null != reference) {
+      m['reference'] = reference;
+    }
+    if (null != sequenceNumber) {
+      m['sequenceNumber'] = sequenceNumber;
+    }
+    if (null != serialNumber) {
+      m['serialNumber'] = serialNumber;
+    }
     if (null != success) {
       m['success'] = success;
     }
@@ -1508,84 +1696,224 @@ class DeviceCustodyListItemListMatch {
 }
 
 class DeviceReceiveResult {
+  /// STRING (required at the API)
+  String? serialNumber;
   /// BOOLEAN (required at the API)
   bool? success;
+  /// STRING (required at the API)
+  String? tamperLabel;
 
   DeviceReceiveResult({
+    this.serialNumber,
     this.success,
+    this.tamperLabel,
   });
 
   factory DeviceReceiveResult.fromMap(Map<String, dynamic> m) => DeviceReceiveResult(
+        serialNumber: m['serialNumber'] is String ? m['serialNumber'] : null,
         success: m['success'] is bool ? m['success'] : null,
+        tamperLabel: m['tamperLabel'] is String ? m['tamperLabel'] : null,
       );
 
   Map<String, dynamic> toMap() {
     final m = <String, dynamic>{};
+    if (null != serialNumber) {
+      m['serialNumber'] = serialNumber;
+    }
     if (null != success) {
       m['success'] = success;
+    }
+    if (null != tamperLabel) {
+      m['tamperLabel'] = tamperLabel;
     }
     return m;
   }
 }
 
 class DeviceReceiveResultCreateData {
+  /// STRING (required at the API)
+  String? serialNumber;
   /// BOOLEAN (required at the API)
   bool? success;
+  /// STRING (required at the API)
+  String? tamperLabel;
 
   DeviceReceiveResultCreateData({
+    this.serialNumber,
     this.success,
+    this.tamperLabel,
   });
 
   factory DeviceReceiveResultCreateData.fromMap(Map<String, dynamic> m) => DeviceReceiveResultCreateData(
+        serialNumber: m['serialNumber'] is String ? m['serialNumber'] : null,
         success: m['success'] is bool ? m['success'] : null,
+        tamperLabel: m['tamperLabel'] is String ? m['tamperLabel'] : null,
       );
 
   Map<String, dynamic> toMap() {
     final m = <String, dynamic>{};
+    if (null != serialNumber) {
+      m['serialNumber'] = serialNumber;
+    }
     if (null != success) {
       m['success'] = success;
+    }
+    if (null != tamperLabel) {
+      m['tamperLabel'] = tamperLabel;
     }
     return m;
   }
 }
 
 class DeviceRkiActivateResult {
+  /// STRING
+  String? appVersion;
+  /// STRING
+  String? buildName;
+  /// STRING
+  String? buildNumber;
+  /// STRING
+  String? configFile;
+  /// STRING
+  String? firmwareVersion;
+  /// STRING
+  String? hardwareVersion;
+  /// STRING (required at the API)
+  String? serialNumber;
   /// BOOLEAN (required at the API)
   bool? success;
+  /// STRING
+  String? whiteListingBinRanges;
 
   DeviceRkiActivateResult({
+    this.appVersion,
+    this.buildName,
+    this.buildNumber,
+    this.configFile,
+    this.firmwareVersion,
+    this.hardwareVersion,
+    this.serialNumber,
     this.success,
+    this.whiteListingBinRanges,
   });
 
   factory DeviceRkiActivateResult.fromMap(Map<String, dynamic> m) => DeviceRkiActivateResult(
+        appVersion: m['appVersion'] is String ? m['appVersion'] : null,
+        buildName: m['buildName'] is String ? m['buildName'] : null,
+        buildNumber: m['buildNumber'] is String ? m['buildNumber'] : null,
+        configFile: m['configFile'] is String ? m['configFile'] : null,
+        firmwareVersion: m['firmwareVersion'] is String ? m['firmwareVersion'] : null,
+        hardwareVersion: m['hardwareVersion'] is String ? m['hardwareVersion'] : null,
+        serialNumber: m['serialNumber'] is String ? m['serialNumber'] : null,
         success: m['success'] is bool ? m['success'] : null,
+        whiteListingBinRanges: m['whiteListingBinRanges'] is String ? m['whiteListingBinRanges'] : null,
       );
 
   Map<String, dynamic> toMap() {
     final m = <String, dynamic>{};
+    if (null != appVersion) {
+      m['appVersion'] = appVersion;
+    }
+    if (null != buildName) {
+      m['buildName'] = buildName;
+    }
+    if (null != buildNumber) {
+      m['buildNumber'] = buildNumber;
+    }
+    if (null != configFile) {
+      m['configFile'] = configFile;
+    }
+    if (null != firmwareVersion) {
+      m['firmwareVersion'] = firmwareVersion;
+    }
+    if (null != hardwareVersion) {
+      m['hardwareVersion'] = hardwareVersion;
+    }
+    if (null != serialNumber) {
+      m['serialNumber'] = serialNumber;
+    }
     if (null != success) {
       m['success'] = success;
+    }
+    if (null != whiteListingBinRanges) {
+      m['whiteListingBinRanges'] = whiteListingBinRanges;
     }
     return m;
   }
 }
 
 class DeviceRkiActivateResultCreateData {
+  /// STRING
+  String? appVersion;
+  /// STRING
+  String? buildName;
+  /// STRING
+  String? buildNumber;
+  /// STRING
+  String? configFile;
+  /// STRING
+  String? firmwareVersion;
+  /// STRING
+  String? hardwareVersion;
+  /// STRING (required at the API)
+  String? serialNumber;
   /// BOOLEAN (required at the API)
   bool? success;
+  /// STRING
+  String? whiteListingBinRanges;
 
   DeviceRkiActivateResultCreateData({
+    this.appVersion,
+    this.buildName,
+    this.buildNumber,
+    this.configFile,
+    this.firmwareVersion,
+    this.hardwareVersion,
+    this.serialNumber,
     this.success,
+    this.whiteListingBinRanges,
   });
 
   factory DeviceRkiActivateResultCreateData.fromMap(Map<String, dynamic> m) => DeviceRkiActivateResultCreateData(
+        appVersion: m['appVersion'] is String ? m['appVersion'] : null,
+        buildName: m['buildName'] is String ? m['buildName'] : null,
+        buildNumber: m['buildNumber'] is String ? m['buildNumber'] : null,
+        configFile: m['configFile'] is String ? m['configFile'] : null,
+        firmwareVersion: m['firmwareVersion'] is String ? m['firmwareVersion'] : null,
+        hardwareVersion: m['hardwareVersion'] is String ? m['hardwareVersion'] : null,
+        serialNumber: m['serialNumber'] is String ? m['serialNumber'] : null,
         success: m['success'] is bool ? m['success'] : null,
+        whiteListingBinRanges: m['whiteListingBinRanges'] is String ? m['whiteListingBinRanges'] : null,
       );
 
   Map<String, dynamic> toMap() {
     final m = <String, dynamic>{};
+    if (null != appVersion) {
+      m['appVersion'] = appVersion;
+    }
+    if (null != buildName) {
+      m['buildName'] = buildName;
+    }
+    if (null != buildNumber) {
+      m['buildNumber'] = buildNumber;
+    }
+    if (null != configFile) {
+      m['configFile'] = configFile;
+    }
+    if (null != firmwareVersion) {
+      m['firmwareVersion'] = firmwareVersion;
+    }
+    if (null != hardwareVersion) {
+      m['hardwareVersion'] = hardwareVersion;
+    }
+    if (null != serialNumber) {
+      m['serialNumber'] = serialNumber;
+    }
     if (null != success) {
       m['success'] = success;
+    }
+    if (null != whiteListingBinRanges) {
+      m['whiteListingBinRanges'] = whiteListingBinRanges;
     }
     return m;
   }
@@ -2090,6 +2418,8 @@ class Location {
   String? billingId;
   /// STRING
   String? city;
+  /// OBJECT
+  Map<String, dynamic>? client;
   /// STRING
   String? country;
   /// STRING
@@ -2134,6 +2464,7 @@ class Location {
     this.address2,
     this.billingId,
     this.city,
+    this.client,
     this.country,
     this.created,
     this.customReference,
@@ -2160,6 +2491,7 @@ class Location {
         address2: m['address2'] is String ? m['address2'] : null,
         billingId: m['billingId'] is String ? m['billingId'] : null,
         city: m['city'] is String ? m['city'] : null,
+        client: m['client'] is Map<String, dynamic> ? m['client'] : null,
         country: m['country'] is String ? m['country'] : null,
         created: m['created'] is String ? m['created'] : null,
         customReference: m['customReference'] is String ? m['customReference'] : null,
@@ -2194,6 +2526,9 @@ class Location {
     }
     if (null != city) {
       m['city'] = city;
+    }
+    if (null != client) {
+      m['client'] = client;
     }
     if (null != country) {
       m['country'] = country;
@@ -2321,6 +2656,8 @@ class LocationCreateData {
   String? billingId;
   /// STRING
   String? city;
+  /// OBJECT
+  Map<String, dynamic>? client;
   /// STRING
   String? country;
   /// STRING
@@ -2365,6 +2702,7 @@ class LocationCreateData {
     this.address2,
     this.billingId,
     this.city,
+    this.client,
     this.country,
     this.created,
     this.customReference,
@@ -2391,6 +2729,7 @@ class LocationCreateData {
         address2: m['address2'] is String ? m['address2'] : null,
         billingId: m['billingId'] is String ? m['billingId'] : null,
         city: m['city'] is String ? m['city'] : null,
+        client: m['client'] is Map<String, dynamic> ? m['client'] : null,
         country: m['country'] is String ? m['country'] : null,
         created: m['created'] is String ? m['created'] : null,
         customReference: m['customReference'] is String ? m['customReference'] : null,
@@ -2425,6 +2764,9 @@ class LocationCreateData {
     }
     if (null != city) {
       m['city'] = city;
+    }
+    if (null != client) {
+      m['client'] = client;
     }
     if (null != country) {
       m['country'] = country;
@@ -2807,6 +3149,8 @@ class Shipment {
   List<dynamic>? items;
   /// OBJECT
   Map<String, dynamic>? kif;
+  /// OBJECT (required at the API)
+  Map<String, dynamic>? location;
   /// STRING
   String? modified;
   /// OBJECT
@@ -2828,6 +3172,7 @@ class Shipment {
     this.id,
     this.items,
     this.kif,
+    this.location,
     this.modified,
     this.partner,
     this.shipmentType,
@@ -2845,6 +3190,7 @@ class Shipment {
         id: m['id'] is String ? m['id'] : null,
         items: m['items'] is List<dynamic> ? m['items'] : null,
         kif: m['kif'] is Map<String, dynamic> ? m['kif'] : null,
+        location: m['location'] is Map<String, dynamic> ? m['location'] : null,
         modified: m['modified'] is String ? m['modified'] : null,
         partner: m['partner'] is Map<String, dynamic> ? m['partner'] : null,
         shipmentType: m['shipmentType'] is String ? m['shipmentType'] : null,
@@ -2880,6 +3226,9 @@ class Shipment {
     }
     if (null != kif) {
       m['kif'] = kif;
+    }
+    if (null != location) {
+      m['location'] = location;
     }
     if (null != modified) {
       m['modified'] = modified;
@@ -2982,6 +3331,8 @@ class ShipmentCreateData {
   List<dynamic>? items;
   /// OBJECT
   Map<String, dynamic>? kif;
+  /// OBJECT (required at the API)
+  Map<String, dynamic>? location;
   /// STRING
   String? modified;
   /// OBJECT
@@ -3003,6 +3354,7 @@ class ShipmentCreateData {
     this.id,
     this.items,
     this.kif,
+    this.location,
     this.modified,
     this.partner,
     this.shipmentType,
@@ -3020,6 +3372,7 @@ class ShipmentCreateData {
         id: m['id'] is String ? m['id'] : null,
         items: m['items'] is List<dynamic> ? m['items'] : null,
         kif: m['kif'] is Map<String, dynamic> ? m['kif'] : null,
+        location: m['location'] is Map<String, dynamic> ? m['location'] : null,
         modified: m['modified'] is String ? m['modified'] : null,
         partner: m['partner'] is Map<String, dynamic> ? m['partner'] : null,
         shipmentType: m['shipmentType'] is String ? m['shipmentType'] : null,
@@ -3056,6 +3409,9 @@ class ShipmentCreateData {
     if (null != kif) {
       m['kif'] = kif;
     }
+    if (null != location) {
+      m['location'] = location;
+    }
     if (null != modified) {
       m['modified'] = modified;
     }
@@ -3076,19 +3432,33 @@ class ShipmentCreateData {
 }
 
 class Success {
+  /// ARRAY (required at the API)
+  List<dynamic>? devices;
+  /// OBJECT (required at the API)
+  Map<String, dynamic>? sharePartnerFrom;
   /// BOOLEAN
   bool? success;
 
   Success({
+    this.devices,
+    this.sharePartnerFrom,
     this.success,
   });
 
   factory Success.fromMap(Map<String, dynamic> m) => Success(
+        devices: m['devices'] is List<dynamic> ? m['devices'] : null,
+        sharePartnerFrom: m['sharePartnerFrom'] is Map<String, dynamic> ? m['sharePartnerFrom'] : null,
         success: m['success'] is bool ? m['success'] : null,
       );
 
   Map<String, dynamic> toMap() {
     final m = <String, dynamic>{};
+    if (null != devices) {
+      m['devices'] = devices;
+    }
+    if (null != sharePartnerFrom) {
+      m['sharePartnerFrom'] = sharePartnerFrom;
+    }
     if (null != success) {
       m['success'] = success;
     }
@@ -3099,16 +3469,24 @@ class Success {
 class SuccessCreateData {
   /// STRING (required at the API)
   String? share_partner_to;
+  /// ARRAY (required at the API)
+  List<dynamic>? devices;
+  /// OBJECT (required at the API)
+  Map<String, dynamic>? sharePartnerFrom;
   /// BOOLEAN
   bool? success;
 
   SuccessCreateData({
     this.share_partner_to,
+    this.devices,
+    this.sharePartnerFrom,
     this.success,
   });
 
   factory SuccessCreateData.fromMap(Map<String, dynamic> m) => SuccessCreateData(
         share_partner_to: m['share_partner_to'] is String ? m['share_partner_to'] : null,
+        devices: m['devices'] is List<dynamic> ? m['devices'] : null,
+        sharePartnerFrom: m['sharePartnerFrom'] is Map<String, dynamic> ? m['sharePartnerFrom'] : null,
         success: m['success'] is bool ? m['success'] : null,
       );
 
@@ -3116,6 +3494,12 @@ class SuccessCreateData {
     final m = <String, dynamic>{};
     if (null != share_partner_to) {
       m['share_partner_to'] = share_partner_to;
+    }
+    if (null != devices) {
+      m['devices'] = devices;
+    }
+    if (null != sharePartnerFrom) {
+      m['sharePartnerFrom'] = sharePartnerFrom;
     }
     if (null != success) {
       m['success'] = success;
@@ -3156,6 +3540,8 @@ class Transaction {
   String? created;
   /// INTEGER
   int? decrypted;
+  /// OBJECT (required at the API)
+  Map<String, dynamic>? device;
   /// STRING
   String? deviceName;
   /// OBJECT
@@ -3201,6 +3587,7 @@ class Transaction {
     this.clientRef,
     this.created,
     this.decrypted,
+    this.device,
     this.deviceName,
     this.directPartner,
     this.encrypted,
@@ -3228,6 +3615,7 @@ class Transaction {
         clientRef: m['clientRef'] is String ? m['clientRef'] : null,
         created: m['created'] is String ? m['created'] : null,
         decrypted: m['decrypted'] is int ? m['decrypted'] : null,
+        device: m['device'] is Map<String, dynamic> ? m['device'] : null,
         deviceName: m['deviceName'] is String ? m['deviceName'] : null,
         directPartner: m['directPartner'] is Map<String, dynamic> ? m['directPartner'] : null,
         encrypted: m['encrypted'] is int ? m['encrypted'] : null,
@@ -3265,6 +3653,9 @@ class Transaction {
     }
     if (null != decrypted) {
       m['decrypted'] = decrypted;
+    }
+    if (null != device) {
+      m['device'] = device;
     }
     if (null != deviceName) {
       m['deviceName'] = deviceName;
@@ -3464,6 +3855,8 @@ class TransactionCreateData {
   String? created;
   /// INTEGER
   int? decrypted;
+  /// OBJECT (required at the API)
+  Map<String, dynamic>? device;
   /// STRING
   String? deviceName;
   /// OBJECT
@@ -3509,6 +3902,7 @@ class TransactionCreateData {
     this.clientRef,
     this.created,
     this.decrypted,
+    this.device,
     this.deviceName,
     this.directPartner,
     this.encrypted,
@@ -3536,6 +3930,7 @@ class TransactionCreateData {
         clientRef: m['clientRef'] is String ? m['clientRef'] : null,
         created: m['created'] is String ? m['created'] : null,
         decrypted: m['decrypted'] is int ? m['decrypted'] : null,
+        device: m['device'] is Map<String, dynamic> ? m['device'] : null,
         deviceName: m['deviceName'] is String ? m['deviceName'] : null,
         directPartner: m['directPartner'] is Map<String, dynamic> ? m['directPartner'] : null,
         encrypted: m['encrypted'] is int ? m['encrypted'] : null,
@@ -3573,6 +3968,9 @@ class TransactionCreateData {
     }
     if (null != decrypted) {
       m['decrypted'] = decrypted;
+    }
+    if (null != device) {
+      m['device'] = device;
     }
     if (null != deviceName) {
       m['deviceName'] = deviceName;
@@ -3636,68 +4034,335 @@ class TransactionCreateData {
 }
 
 class UpdateResult {
+  /// STRING
+  String? address1;
+  /// STRING
+  String? address2;
+  /// STRING
+  String? alternateKey;
+  /// STRING
+  String? auditNextDate;
+  /// STRING
+  String? billingId;
+  /// STRING
+  String? city;
   /// OBJECT
   Map<String, dynamic>? client;
+  /// BOOLEAN
+  bool? clientCanOrderEquipment;
   /// STRING
+  String? clientRef;
+  /// OBJECT (required at the API)
+  Map<String, dynamic>? contact;
+  /// OBJECT
+  Map<String, dynamic>? country;
+  /// STRING
+  String? customReference;
+  /// STRING
+  String? dateShipped;
+  /// INTEGER
+  int? decrypted;
+  /// OBJECT
+  Map<String, dynamic>? device;
+  /// OBJECT
+  Map<String, dynamic>? deviceBuild;
+  /// OBJECT
+  Map<String, dynamic>? deviceType;
+  /// OBJECT
+  Map<String, dynamic>? directPartner;
+  /// STRING (required at the API)
   String? email;
+  /// INTEGER
+  int? encrypted;
   /// STRING
+  String? endDate;
+  /// STRING
+  String? errCode;
+  /// STRING
+  String? errMessage;
+  /// STRING (required at the API)
   String? firstName;
   /// STRING
   String? id;
-  /// BOOLEAN
+  /// OBJECT
+  Map<String, dynamic>? injectKey;
+  /// STRING
+  String? ipAddress;
+  /// BOOLEAN (required at the API)
   bool? isActive;
+  /// ARRAY
+  List<dynamic>? items;
+  /// STRING
+  String? keyType;
   /// OBJECT
   Map<String, dynamic>? kif;
-  /// STRING
+  /// STRING (required at the API)
   String? lastName;
+  /// OBJECT (required at the API)
+  Map<String, dynamic>? location;
+  /// STRING
+  String? locationType;
+  /// STRING
+  String? mailAddress1;
+  /// STRING
+  String? mailAddress2;
+  /// STRING
+  String? mailCity;
+  /// STRING
+  String? mailCountry;
+  /// STRING
+  String? mailPostalCode;
+  /// STRING
+  String? mailStateProvince;
+  /// STRING
+  String? messageId;
+  /// STRING
+  String? method;
+  /// STRING
+  String? mid;
+  /// STRING
+  String? name;
+  /// STRING
+  String? nameOfBusiness;
+  /// STRING
+  String? notes;
+  /// OBJECT
+  Map<String, dynamic>? parent;
   /// OBJECT
   Map<String, dynamic>? partner;
   /// STRING
+  String? partnerId;
+  /// STRING (required at the API)
   String? phone;
   /// STRING
+  String? postalCode;
+  /// STRING
+  String? reference;
+  /// BOOLEAN
+  bool? sendWelcomeEmail;
+  /// STRING
+  String? serialNumber;
+  /// STRING
+  String? startDate;
+  /// STRING
+  String? stateProvince;
+  /// BOOLEAN
+  bool? success;
+  /// STRING
+  String? tracking;
+  /// STRING
+  String? uniqueId;
+  /// STRING (required at the API)
   String? userName;
-  /// OBJECT
+  /// OBJECT (required at the API)
   Map<String, dynamic>? userRole;
+  /// STRING
+  String? verificationPhrase;
   /// INTEGER
   int? version;
 
   UpdateResult({
+    this.address1,
+    this.address2,
+    this.alternateKey,
+    this.auditNextDate,
+    this.billingId,
+    this.city,
     this.client,
+    this.clientCanOrderEquipment,
+    this.clientRef,
+    this.contact,
+    this.country,
+    this.customReference,
+    this.dateShipped,
+    this.decrypted,
+    this.device,
+    this.deviceBuild,
+    this.deviceType,
+    this.directPartner,
     this.email,
+    this.encrypted,
+    this.endDate,
+    this.errCode,
+    this.errMessage,
     this.firstName,
     this.id,
+    this.injectKey,
+    this.ipAddress,
     this.isActive,
+    this.items,
+    this.keyType,
     this.kif,
     this.lastName,
+    this.location,
+    this.locationType,
+    this.mailAddress1,
+    this.mailAddress2,
+    this.mailCity,
+    this.mailCountry,
+    this.mailPostalCode,
+    this.mailStateProvince,
+    this.messageId,
+    this.method,
+    this.mid,
+    this.name,
+    this.nameOfBusiness,
+    this.notes,
+    this.parent,
     this.partner,
+    this.partnerId,
     this.phone,
+    this.postalCode,
+    this.reference,
+    this.sendWelcomeEmail,
+    this.serialNumber,
+    this.startDate,
+    this.stateProvince,
+    this.success,
+    this.tracking,
+    this.uniqueId,
     this.userName,
     this.userRole,
+    this.verificationPhrase,
     this.version,
   });
 
   factory UpdateResult.fromMap(Map<String, dynamic> m) => UpdateResult(
+        address1: m['address1'] is String ? m['address1'] : null,
+        address2: m['address2'] is String ? m['address2'] : null,
+        alternateKey: m['alternateKey'] is String ? m['alternateKey'] : null,
+        auditNextDate: m['auditNextDate'] is String ? m['auditNextDate'] : null,
+        billingId: m['billingId'] is String ? m['billingId'] : null,
+        city: m['city'] is String ? m['city'] : null,
         client: m['client'] is Map<String, dynamic> ? m['client'] : null,
+        clientCanOrderEquipment: m['clientCanOrderEquipment'] is bool ? m['clientCanOrderEquipment'] : null,
+        clientRef: m['clientRef'] is String ? m['clientRef'] : null,
+        contact: m['contact'] is Map<String, dynamic> ? m['contact'] : null,
+        country: m['country'] is Map<String, dynamic> ? m['country'] : null,
+        customReference: m['customReference'] is String ? m['customReference'] : null,
+        dateShipped: m['dateShipped'] is String ? m['dateShipped'] : null,
+        decrypted: m['decrypted'] is int ? m['decrypted'] : null,
+        device: m['device'] is Map<String, dynamic> ? m['device'] : null,
+        deviceBuild: m['deviceBuild'] is Map<String, dynamic> ? m['deviceBuild'] : null,
+        deviceType: m['deviceType'] is Map<String, dynamic> ? m['deviceType'] : null,
+        directPartner: m['directPartner'] is Map<String, dynamic> ? m['directPartner'] : null,
         email: m['email'] is String ? m['email'] : null,
+        encrypted: m['encrypted'] is int ? m['encrypted'] : null,
+        endDate: m['endDate'] is String ? m['endDate'] : null,
+        errCode: m['errCode'] is String ? m['errCode'] : null,
+        errMessage: m['errMessage'] is String ? m['errMessage'] : null,
         firstName: m['firstName'] is String ? m['firstName'] : null,
         id: m['id'] is String ? m['id'] : null,
+        injectKey: m['injectKey'] is Map<String, dynamic> ? m['injectKey'] : null,
+        ipAddress: m['ipAddress'] is String ? m['ipAddress'] : null,
         isActive: m['isActive'] is bool ? m['isActive'] : null,
+        items: m['items'] is List<dynamic> ? m['items'] : null,
+        keyType: m['keyType'] is String ? m['keyType'] : null,
         kif: m['kif'] is Map<String, dynamic> ? m['kif'] : null,
         lastName: m['lastName'] is String ? m['lastName'] : null,
+        location: m['location'] is Map<String, dynamic> ? m['location'] : null,
+        locationType: m['locationType'] is String ? m['locationType'] : null,
+        mailAddress1: m['mailAddress1'] is String ? m['mailAddress1'] : null,
+        mailAddress2: m['mailAddress2'] is String ? m['mailAddress2'] : null,
+        mailCity: m['mailCity'] is String ? m['mailCity'] : null,
+        mailCountry: m['mailCountry'] is String ? m['mailCountry'] : null,
+        mailPostalCode: m['mailPostalCode'] is String ? m['mailPostalCode'] : null,
+        mailStateProvince: m['mailStateProvince'] is String ? m['mailStateProvince'] : null,
+        messageId: m['messageId'] is String ? m['messageId'] : null,
+        method: m['method'] is String ? m['method'] : null,
+        mid: m['mid'] is String ? m['mid'] : null,
+        name: m['name'] is String ? m['name'] : null,
+        nameOfBusiness: m['nameOfBusiness'] is String ? m['nameOfBusiness'] : null,
+        notes: m['notes'] is String ? m['notes'] : null,
+        parent: m['parent'] is Map<String, dynamic> ? m['parent'] : null,
         partner: m['partner'] is Map<String, dynamic> ? m['partner'] : null,
+        partnerId: m['partnerId'] is String ? m['partnerId'] : null,
         phone: m['phone'] is String ? m['phone'] : null,
+        postalCode: m['postalCode'] is String ? m['postalCode'] : null,
+        reference: m['reference'] is String ? m['reference'] : null,
+        sendWelcomeEmail: m['sendWelcomeEmail'] is bool ? m['sendWelcomeEmail'] : null,
+        serialNumber: m['serialNumber'] is String ? m['serialNumber'] : null,
+        startDate: m['startDate'] is String ? m['startDate'] : null,
+        stateProvince: m['stateProvince'] is String ? m['stateProvince'] : null,
+        success: m['success'] is bool ? m['success'] : null,
+        tracking: m['tracking'] is String ? m['tracking'] : null,
+        uniqueId: m['uniqueId'] is String ? m['uniqueId'] : null,
         userName: m['userName'] is String ? m['userName'] : null,
         userRole: m['userRole'] is Map<String, dynamic> ? m['userRole'] : null,
+        verificationPhrase: m['verificationPhrase'] is String ? m['verificationPhrase'] : null,
         version: m['version'] is int ? m['version'] : null,
       );
 
   Map<String, dynamic> toMap() {
     final m = <String, dynamic>{};
+    if (null != address1) {
+      m['address1'] = address1;
+    }
+    if (null != address2) {
+      m['address2'] = address2;
+    }
+    if (null != alternateKey) {
+      m['alternateKey'] = alternateKey;
+    }
+    if (null != auditNextDate) {
+      m['auditNextDate'] = auditNextDate;
+    }
+    if (null != billingId) {
+      m['billingId'] = billingId;
+    }
+    if (null != city) {
+      m['city'] = city;
+    }
     if (null != client) {
       m['client'] = client;
     }
+    if (null != clientCanOrderEquipment) {
+      m['clientCanOrderEquipment'] = clientCanOrderEquipment;
+    }
+    if (null != clientRef) {
+      m['clientRef'] = clientRef;
+    }
+    if (null != contact) {
+      m['contact'] = contact;
+    }
+    if (null != country) {
+      m['country'] = country;
+    }
+    if (null != customReference) {
+      m['customReference'] = customReference;
+    }
+    if (null != dateShipped) {
+      m['dateShipped'] = dateShipped;
+    }
+    if (null != decrypted) {
+      m['decrypted'] = decrypted;
+    }
+    if (null != device) {
+      m['device'] = device;
+    }
+    if (null != deviceBuild) {
+      m['deviceBuild'] = deviceBuild;
+    }
+    if (null != deviceType) {
+      m['deviceType'] = deviceType;
+    }
+    if (null != directPartner) {
+      m['directPartner'] = directPartner;
+    }
     if (null != email) {
       m['email'] = email;
+    }
+    if (null != encrypted) {
+      m['encrypted'] = encrypted;
+    }
+    if (null != endDate) {
+      m['endDate'] = endDate;
+    }
+    if (null != errCode) {
+      m['errCode'] = errCode;
+    }
+    if (null != errMessage) {
+      m['errMessage'] = errMessage;
     }
     if (null != firstName) {
       m['firstName'] = firstName;
@@ -3705,8 +4370,20 @@ class UpdateResult {
     if (null != id) {
       m['id'] = id;
     }
+    if (null != injectKey) {
+      m['injectKey'] = injectKey;
+    }
+    if (null != ipAddress) {
+      m['ipAddress'] = ipAddress;
+    }
     if (null != isActive) {
       m['isActive'] = isActive;
+    }
+    if (null != items) {
+      m['items'] = items;
+    }
+    if (null != keyType) {
+      m['keyType'] = keyType;
     }
     if (null != kif) {
       m['kif'] = kif;
@@ -3714,17 +4391,95 @@ class UpdateResult {
     if (null != lastName) {
       m['lastName'] = lastName;
     }
+    if (null != location) {
+      m['location'] = location;
+    }
+    if (null != locationType) {
+      m['locationType'] = locationType;
+    }
+    if (null != mailAddress1) {
+      m['mailAddress1'] = mailAddress1;
+    }
+    if (null != mailAddress2) {
+      m['mailAddress2'] = mailAddress2;
+    }
+    if (null != mailCity) {
+      m['mailCity'] = mailCity;
+    }
+    if (null != mailCountry) {
+      m['mailCountry'] = mailCountry;
+    }
+    if (null != mailPostalCode) {
+      m['mailPostalCode'] = mailPostalCode;
+    }
+    if (null != mailStateProvince) {
+      m['mailStateProvince'] = mailStateProvince;
+    }
+    if (null != messageId) {
+      m['messageId'] = messageId;
+    }
+    if (null != method) {
+      m['method'] = method;
+    }
+    if (null != mid) {
+      m['mid'] = mid;
+    }
+    if (null != name) {
+      m['name'] = name;
+    }
+    if (null != nameOfBusiness) {
+      m['nameOfBusiness'] = nameOfBusiness;
+    }
+    if (null != notes) {
+      m['notes'] = notes;
+    }
+    if (null != parent) {
+      m['parent'] = parent;
+    }
     if (null != partner) {
       m['partner'] = partner;
     }
+    if (null != partnerId) {
+      m['partnerId'] = partnerId;
+    }
     if (null != phone) {
       m['phone'] = phone;
+    }
+    if (null != postalCode) {
+      m['postalCode'] = postalCode;
+    }
+    if (null != reference) {
+      m['reference'] = reference;
+    }
+    if (null != sendWelcomeEmail) {
+      m['sendWelcomeEmail'] = sendWelcomeEmail;
+    }
+    if (null != serialNumber) {
+      m['serialNumber'] = serialNumber;
+    }
+    if (null != startDate) {
+      m['startDate'] = startDate;
+    }
+    if (null != stateProvince) {
+      m['stateProvince'] = stateProvince;
+    }
+    if (null != success) {
+      m['success'] = success;
+    }
+    if (null != tracking) {
+      m['tracking'] = tracking;
+    }
+    if (null != uniqueId) {
+      m['uniqueId'] = uniqueId;
     }
     if (null != userName) {
       m['userName'] = userName;
     }
     if (null != userRole) {
       m['userRole'] = userRole;
+    }
+    if (null != verificationPhrase) {
+      m['verificationPhrase'] = verificationPhrase;
     }
     if (null != version) {
       m['version'] = version;
@@ -3783,68 +4538,335 @@ class UpdateResultListMatch {
 }
 
 class UpdateResultCreateData {
+  /// STRING
+  String? address1;
+  /// STRING
+  String? address2;
+  /// STRING
+  String? alternateKey;
+  /// STRING
+  String? auditNextDate;
+  /// STRING
+  String? billingId;
+  /// STRING
+  String? city;
   /// OBJECT
   Map<String, dynamic>? client;
+  /// BOOLEAN
+  bool? clientCanOrderEquipment;
   /// STRING
+  String? clientRef;
+  /// OBJECT (required at the API)
+  Map<String, dynamic>? contact;
+  /// OBJECT
+  Map<String, dynamic>? country;
+  /// STRING
+  String? customReference;
+  /// STRING
+  String? dateShipped;
+  /// INTEGER
+  int? decrypted;
+  /// OBJECT
+  Map<String, dynamic>? device;
+  /// OBJECT
+  Map<String, dynamic>? deviceBuild;
+  /// OBJECT
+  Map<String, dynamic>? deviceType;
+  /// OBJECT
+  Map<String, dynamic>? directPartner;
+  /// STRING (required at the API)
   String? email;
+  /// INTEGER
+  int? encrypted;
   /// STRING
+  String? endDate;
+  /// STRING
+  String? errCode;
+  /// STRING
+  String? errMessage;
+  /// STRING (required at the API)
   String? firstName;
   /// STRING
   String? id;
-  /// BOOLEAN
+  /// OBJECT
+  Map<String, dynamic>? injectKey;
+  /// STRING
+  String? ipAddress;
+  /// BOOLEAN (required at the API)
   bool? isActive;
+  /// ARRAY
+  List<dynamic>? items;
+  /// STRING
+  String? keyType;
   /// OBJECT
   Map<String, dynamic>? kif;
-  /// STRING
+  /// STRING (required at the API)
   String? lastName;
+  /// OBJECT (required at the API)
+  Map<String, dynamic>? location;
+  /// STRING
+  String? locationType;
+  /// STRING
+  String? mailAddress1;
+  /// STRING
+  String? mailAddress2;
+  /// STRING
+  String? mailCity;
+  /// STRING
+  String? mailCountry;
+  /// STRING
+  String? mailPostalCode;
+  /// STRING
+  String? mailStateProvince;
+  /// STRING
+  String? messageId;
+  /// STRING
+  String? method;
+  /// STRING
+  String? mid;
+  /// STRING
+  String? name;
+  /// STRING
+  String? nameOfBusiness;
+  /// STRING
+  String? notes;
+  /// OBJECT
+  Map<String, dynamic>? parent;
   /// OBJECT
   Map<String, dynamic>? partner;
   /// STRING
+  String? partnerId;
+  /// STRING (required at the API)
   String? phone;
   /// STRING
+  String? postalCode;
+  /// STRING
+  String? reference;
+  /// BOOLEAN
+  bool? sendWelcomeEmail;
+  /// STRING
+  String? serialNumber;
+  /// STRING
+  String? startDate;
+  /// STRING
+  String? stateProvince;
+  /// BOOLEAN
+  bool? success;
+  /// STRING
+  String? tracking;
+  /// STRING
+  String? uniqueId;
+  /// STRING (required at the API)
   String? userName;
-  /// OBJECT
+  /// OBJECT (required at the API)
   Map<String, dynamic>? userRole;
+  /// STRING
+  String? verificationPhrase;
   /// INTEGER
   int? version;
 
   UpdateResultCreateData({
+    this.address1,
+    this.address2,
+    this.alternateKey,
+    this.auditNextDate,
+    this.billingId,
+    this.city,
     this.client,
+    this.clientCanOrderEquipment,
+    this.clientRef,
+    this.contact,
+    this.country,
+    this.customReference,
+    this.dateShipped,
+    this.decrypted,
+    this.device,
+    this.deviceBuild,
+    this.deviceType,
+    this.directPartner,
     this.email,
+    this.encrypted,
+    this.endDate,
+    this.errCode,
+    this.errMessage,
     this.firstName,
     this.id,
+    this.injectKey,
+    this.ipAddress,
     this.isActive,
+    this.items,
+    this.keyType,
     this.kif,
     this.lastName,
+    this.location,
+    this.locationType,
+    this.mailAddress1,
+    this.mailAddress2,
+    this.mailCity,
+    this.mailCountry,
+    this.mailPostalCode,
+    this.mailStateProvince,
+    this.messageId,
+    this.method,
+    this.mid,
+    this.name,
+    this.nameOfBusiness,
+    this.notes,
+    this.parent,
     this.partner,
+    this.partnerId,
     this.phone,
+    this.postalCode,
+    this.reference,
+    this.sendWelcomeEmail,
+    this.serialNumber,
+    this.startDate,
+    this.stateProvince,
+    this.success,
+    this.tracking,
+    this.uniqueId,
     this.userName,
     this.userRole,
+    this.verificationPhrase,
     this.version,
   });
 
   factory UpdateResultCreateData.fromMap(Map<String, dynamic> m) => UpdateResultCreateData(
+        address1: m['address1'] is String ? m['address1'] : null,
+        address2: m['address2'] is String ? m['address2'] : null,
+        alternateKey: m['alternateKey'] is String ? m['alternateKey'] : null,
+        auditNextDate: m['auditNextDate'] is String ? m['auditNextDate'] : null,
+        billingId: m['billingId'] is String ? m['billingId'] : null,
+        city: m['city'] is String ? m['city'] : null,
         client: m['client'] is Map<String, dynamic> ? m['client'] : null,
+        clientCanOrderEquipment: m['clientCanOrderEquipment'] is bool ? m['clientCanOrderEquipment'] : null,
+        clientRef: m['clientRef'] is String ? m['clientRef'] : null,
+        contact: m['contact'] is Map<String, dynamic> ? m['contact'] : null,
+        country: m['country'] is Map<String, dynamic> ? m['country'] : null,
+        customReference: m['customReference'] is String ? m['customReference'] : null,
+        dateShipped: m['dateShipped'] is String ? m['dateShipped'] : null,
+        decrypted: m['decrypted'] is int ? m['decrypted'] : null,
+        device: m['device'] is Map<String, dynamic> ? m['device'] : null,
+        deviceBuild: m['deviceBuild'] is Map<String, dynamic> ? m['deviceBuild'] : null,
+        deviceType: m['deviceType'] is Map<String, dynamic> ? m['deviceType'] : null,
+        directPartner: m['directPartner'] is Map<String, dynamic> ? m['directPartner'] : null,
         email: m['email'] is String ? m['email'] : null,
+        encrypted: m['encrypted'] is int ? m['encrypted'] : null,
+        endDate: m['endDate'] is String ? m['endDate'] : null,
+        errCode: m['errCode'] is String ? m['errCode'] : null,
+        errMessage: m['errMessage'] is String ? m['errMessage'] : null,
         firstName: m['firstName'] is String ? m['firstName'] : null,
         id: m['id'] is String ? m['id'] : null,
+        injectKey: m['injectKey'] is Map<String, dynamic> ? m['injectKey'] : null,
+        ipAddress: m['ipAddress'] is String ? m['ipAddress'] : null,
         isActive: m['isActive'] is bool ? m['isActive'] : null,
+        items: m['items'] is List<dynamic> ? m['items'] : null,
+        keyType: m['keyType'] is String ? m['keyType'] : null,
         kif: m['kif'] is Map<String, dynamic> ? m['kif'] : null,
         lastName: m['lastName'] is String ? m['lastName'] : null,
+        location: m['location'] is Map<String, dynamic> ? m['location'] : null,
+        locationType: m['locationType'] is String ? m['locationType'] : null,
+        mailAddress1: m['mailAddress1'] is String ? m['mailAddress1'] : null,
+        mailAddress2: m['mailAddress2'] is String ? m['mailAddress2'] : null,
+        mailCity: m['mailCity'] is String ? m['mailCity'] : null,
+        mailCountry: m['mailCountry'] is String ? m['mailCountry'] : null,
+        mailPostalCode: m['mailPostalCode'] is String ? m['mailPostalCode'] : null,
+        mailStateProvince: m['mailStateProvince'] is String ? m['mailStateProvince'] : null,
+        messageId: m['messageId'] is String ? m['messageId'] : null,
+        method: m['method'] is String ? m['method'] : null,
+        mid: m['mid'] is String ? m['mid'] : null,
+        name: m['name'] is String ? m['name'] : null,
+        nameOfBusiness: m['nameOfBusiness'] is String ? m['nameOfBusiness'] : null,
+        notes: m['notes'] is String ? m['notes'] : null,
+        parent: m['parent'] is Map<String, dynamic> ? m['parent'] : null,
         partner: m['partner'] is Map<String, dynamic> ? m['partner'] : null,
+        partnerId: m['partnerId'] is String ? m['partnerId'] : null,
         phone: m['phone'] is String ? m['phone'] : null,
+        postalCode: m['postalCode'] is String ? m['postalCode'] : null,
+        reference: m['reference'] is String ? m['reference'] : null,
+        sendWelcomeEmail: m['sendWelcomeEmail'] is bool ? m['sendWelcomeEmail'] : null,
+        serialNumber: m['serialNumber'] is String ? m['serialNumber'] : null,
+        startDate: m['startDate'] is String ? m['startDate'] : null,
+        stateProvince: m['stateProvince'] is String ? m['stateProvince'] : null,
+        success: m['success'] is bool ? m['success'] : null,
+        tracking: m['tracking'] is String ? m['tracking'] : null,
+        uniqueId: m['uniqueId'] is String ? m['uniqueId'] : null,
         userName: m['userName'] is String ? m['userName'] : null,
         userRole: m['userRole'] is Map<String, dynamic> ? m['userRole'] : null,
+        verificationPhrase: m['verificationPhrase'] is String ? m['verificationPhrase'] : null,
         version: m['version'] is int ? m['version'] : null,
       );
 
   Map<String, dynamic> toMap() {
     final m = <String, dynamic>{};
+    if (null != address1) {
+      m['address1'] = address1;
+    }
+    if (null != address2) {
+      m['address2'] = address2;
+    }
+    if (null != alternateKey) {
+      m['alternateKey'] = alternateKey;
+    }
+    if (null != auditNextDate) {
+      m['auditNextDate'] = auditNextDate;
+    }
+    if (null != billingId) {
+      m['billingId'] = billingId;
+    }
+    if (null != city) {
+      m['city'] = city;
+    }
     if (null != client) {
       m['client'] = client;
     }
+    if (null != clientCanOrderEquipment) {
+      m['clientCanOrderEquipment'] = clientCanOrderEquipment;
+    }
+    if (null != clientRef) {
+      m['clientRef'] = clientRef;
+    }
+    if (null != contact) {
+      m['contact'] = contact;
+    }
+    if (null != country) {
+      m['country'] = country;
+    }
+    if (null != customReference) {
+      m['customReference'] = customReference;
+    }
+    if (null != dateShipped) {
+      m['dateShipped'] = dateShipped;
+    }
+    if (null != decrypted) {
+      m['decrypted'] = decrypted;
+    }
+    if (null != device) {
+      m['device'] = device;
+    }
+    if (null != deviceBuild) {
+      m['deviceBuild'] = deviceBuild;
+    }
+    if (null != deviceType) {
+      m['deviceType'] = deviceType;
+    }
+    if (null != directPartner) {
+      m['directPartner'] = directPartner;
+    }
     if (null != email) {
       m['email'] = email;
+    }
+    if (null != encrypted) {
+      m['encrypted'] = encrypted;
+    }
+    if (null != endDate) {
+      m['endDate'] = endDate;
+    }
+    if (null != errCode) {
+      m['errCode'] = errCode;
+    }
+    if (null != errMessage) {
+      m['errMessage'] = errMessage;
     }
     if (null != firstName) {
       m['firstName'] = firstName;
@@ -3852,8 +4874,20 @@ class UpdateResultCreateData {
     if (null != id) {
       m['id'] = id;
     }
+    if (null != injectKey) {
+      m['injectKey'] = injectKey;
+    }
+    if (null != ipAddress) {
+      m['ipAddress'] = ipAddress;
+    }
     if (null != isActive) {
       m['isActive'] = isActive;
+    }
+    if (null != items) {
+      m['items'] = items;
+    }
+    if (null != keyType) {
+      m['keyType'] = keyType;
     }
     if (null != kif) {
       m['kif'] = kif;
@@ -3861,17 +4895,95 @@ class UpdateResultCreateData {
     if (null != lastName) {
       m['lastName'] = lastName;
     }
+    if (null != location) {
+      m['location'] = location;
+    }
+    if (null != locationType) {
+      m['locationType'] = locationType;
+    }
+    if (null != mailAddress1) {
+      m['mailAddress1'] = mailAddress1;
+    }
+    if (null != mailAddress2) {
+      m['mailAddress2'] = mailAddress2;
+    }
+    if (null != mailCity) {
+      m['mailCity'] = mailCity;
+    }
+    if (null != mailCountry) {
+      m['mailCountry'] = mailCountry;
+    }
+    if (null != mailPostalCode) {
+      m['mailPostalCode'] = mailPostalCode;
+    }
+    if (null != mailStateProvince) {
+      m['mailStateProvince'] = mailStateProvince;
+    }
+    if (null != messageId) {
+      m['messageId'] = messageId;
+    }
+    if (null != method) {
+      m['method'] = method;
+    }
+    if (null != mid) {
+      m['mid'] = mid;
+    }
+    if (null != name) {
+      m['name'] = name;
+    }
+    if (null != nameOfBusiness) {
+      m['nameOfBusiness'] = nameOfBusiness;
+    }
+    if (null != notes) {
+      m['notes'] = notes;
+    }
+    if (null != parent) {
+      m['parent'] = parent;
+    }
     if (null != partner) {
       m['partner'] = partner;
     }
+    if (null != partnerId) {
+      m['partnerId'] = partnerId;
+    }
     if (null != phone) {
       m['phone'] = phone;
+    }
+    if (null != postalCode) {
+      m['postalCode'] = postalCode;
+    }
+    if (null != reference) {
+      m['reference'] = reference;
+    }
+    if (null != sendWelcomeEmail) {
+      m['sendWelcomeEmail'] = sendWelcomeEmail;
+    }
+    if (null != serialNumber) {
+      m['serialNumber'] = serialNumber;
+    }
+    if (null != startDate) {
+      m['startDate'] = startDate;
+    }
+    if (null != stateProvince) {
+      m['stateProvince'] = stateProvince;
+    }
+    if (null != success) {
+      m['success'] = success;
+    }
+    if (null != tracking) {
+      m['tracking'] = tracking;
+    }
+    if (null != uniqueId) {
+      m['uniqueId'] = uniqueId;
     }
     if (null != userName) {
       m['userName'] = userName;
     }
     if (null != userRole) {
       m['userRole'] = userRole;
+    }
+    if (null != verificationPhrase) {
+      m['verificationPhrase'] = verificationPhrase;
     }
     if (null != version) {
       m['version'] = version;
@@ -3883,56 +4995,260 @@ class UpdateResultCreateData {
 class UpdateResultUpdateData {
   /// STRING (required at the API)
   String? id;
+  /// STRING
+  String? address1;
+  /// STRING
+  String? address2;
+  /// STRING
+  String? alternateKey;
+  /// STRING
+  String? auditNextDate;
+  /// STRING
+  String? billingId;
+  /// STRING
+  String? city;
   /// OBJECT
   Map<String, dynamic>? client;
+  /// BOOLEAN
+  bool? clientCanOrderEquipment;
+  /// STRING
+  String? clientRef;
+  /// OBJECT
+  Map<String, dynamic>? contact;
+  /// OBJECT
+  Map<String, dynamic>? country;
+  /// STRING
+  String? customReference;
+  /// STRING
+  String? dateShipped;
+  /// INTEGER
+  int? decrypted;
+  /// OBJECT
+  Map<String, dynamic>? device;
+  /// OBJECT
+  Map<String, dynamic>? deviceBuild;
+  /// OBJECT
+  Map<String, dynamic>? deviceType;
+  /// OBJECT
+  Map<String, dynamic>? directPartner;
   /// STRING
   String? email;
+  /// INTEGER
+  int? encrypted;
+  /// STRING
+  String? endDate;
+  /// STRING
+  String? errCode;
+  /// STRING
+  String? errMessage;
   /// STRING
   String? firstName;
+  /// OBJECT
+  Map<String, dynamic>? injectKey;
+  /// STRING
+  String? ipAddress;
   /// BOOLEAN
   bool? isActive;
+  /// ARRAY
+  List<dynamic>? items;
+  /// STRING
+  String? keyType;
   /// OBJECT
   Map<String, dynamic>? kif;
   /// STRING
   String? lastName;
   /// OBJECT
+  Map<String, dynamic>? location;
+  /// STRING
+  String? locationType;
+  /// STRING
+  String? mailAddress1;
+  /// STRING
+  String? mailAddress2;
+  /// STRING
+  String? mailCity;
+  /// STRING
+  String? mailCountry;
+  /// STRING
+  String? mailPostalCode;
+  /// STRING
+  String? mailStateProvince;
+  /// STRING
+  String? messageId;
+  /// STRING
+  String? method;
+  /// STRING
+  String? mid;
+  /// STRING
+  String? name;
+  /// STRING
+  String? nameOfBusiness;
+  /// STRING
+  String? notes;
+  /// OBJECT
+  Map<String, dynamic>? parent;
+  /// OBJECT
   Map<String, dynamic>? partner;
   /// STRING
+  String? partnerId;
+  /// STRING
   String? phone;
+  /// STRING
+  String? postalCode;
+  /// STRING
+  String? reference;
+  /// BOOLEAN
+  bool? sendWelcomeEmail;
+  /// STRING
+  String? serialNumber;
+  /// STRING
+  String? startDate;
+  /// STRING
+  String? stateProvince;
+  /// BOOLEAN
+  bool? success;
+  /// STRING
+  String? tracking;
+  /// STRING
+  String? uniqueId;
   /// STRING
   String? userName;
   /// OBJECT
   Map<String, dynamic>? userRole;
+  /// STRING
+  String? verificationPhrase;
   /// INTEGER
   int? version;
 
   UpdateResultUpdateData({
     this.id,
+    this.address1,
+    this.address2,
+    this.alternateKey,
+    this.auditNextDate,
+    this.billingId,
+    this.city,
     this.client,
+    this.clientCanOrderEquipment,
+    this.clientRef,
+    this.contact,
+    this.country,
+    this.customReference,
+    this.dateShipped,
+    this.decrypted,
+    this.device,
+    this.deviceBuild,
+    this.deviceType,
+    this.directPartner,
     this.email,
+    this.encrypted,
+    this.endDate,
+    this.errCode,
+    this.errMessage,
     this.firstName,
+    this.injectKey,
+    this.ipAddress,
     this.isActive,
+    this.items,
+    this.keyType,
     this.kif,
     this.lastName,
+    this.location,
+    this.locationType,
+    this.mailAddress1,
+    this.mailAddress2,
+    this.mailCity,
+    this.mailCountry,
+    this.mailPostalCode,
+    this.mailStateProvince,
+    this.messageId,
+    this.method,
+    this.mid,
+    this.name,
+    this.nameOfBusiness,
+    this.notes,
+    this.parent,
     this.partner,
+    this.partnerId,
     this.phone,
+    this.postalCode,
+    this.reference,
+    this.sendWelcomeEmail,
+    this.serialNumber,
+    this.startDate,
+    this.stateProvince,
+    this.success,
+    this.tracking,
+    this.uniqueId,
     this.userName,
     this.userRole,
+    this.verificationPhrase,
     this.version,
   });
 
   factory UpdateResultUpdateData.fromMap(Map<String, dynamic> m) => UpdateResultUpdateData(
         id: m['id'] is String ? m['id'] : null,
+        address1: m['address1'] is String ? m['address1'] : null,
+        address2: m['address2'] is String ? m['address2'] : null,
+        alternateKey: m['alternateKey'] is String ? m['alternateKey'] : null,
+        auditNextDate: m['auditNextDate'] is String ? m['auditNextDate'] : null,
+        billingId: m['billingId'] is String ? m['billingId'] : null,
+        city: m['city'] is String ? m['city'] : null,
         client: m['client'] is Map<String, dynamic> ? m['client'] : null,
+        clientCanOrderEquipment: m['clientCanOrderEquipment'] is bool ? m['clientCanOrderEquipment'] : null,
+        clientRef: m['clientRef'] is String ? m['clientRef'] : null,
+        contact: m['contact'] is Map<String, dynamic> ? m['contact'] : null,
+        country: m['country'] is Map<String, dynamic> ? m['country'] : null,
+        customReference: m['customReference'] is String ? m['customReference'] : null,
+        dateShipped: m['dateShipped'] is String ? m['dateShipped'] : null,
+        decrypted: m['decrypted'] is int ? m['decrypted'] : null,
+        device: m['device'] is Map<String, dynamic> ? m['device'] : null,
+        deviceBuild: m['deviceBuild'] is Map<String, dynamic> ? m['deviceBuild'] : null,
+        deviceType: m['deviceType'] is Map<String, dynamic> ? m['deviceType'] : null,
+        directPartner: m['directPartner'] is Map<String, dynamic> ? m['directPartner'] : null,
         email: m['email'] is String ? m['email'] : null,
+        encrypted: m['encrypted'] is int ? m['encrypted'] : null,
+        endDate: m['endDate'] is String ? m['endDate'] : null,
+        errCode: m['errCode'] is String ? m['errCode'] : null,
+        errMessage: m['errMessage'] is String ? m['errMessage'] : null,
         firstName: m['firstName'] is String ? m['firstName'] : null,
+        injectKey: m['injectKey'] is Map<String, dynamic> ? m['injectKey'] : null,
+        ipAddress: m['ipAddress'] is String ? m['ipAddress'] : null,
         isActive: m['isActive'] is bool ? m['isActive'] : null,
+        items: m['items'] is List<dynamic> ? m['items'] : null,
+        keyType: m['keyType'] is String ? m['keyType'] : null,
         kif: m['kif'] is Map<String, dynamic> ? m['kif'] : null,
         lastName: m['lastName'] is String ? m['lastName'] : null,
+        location: m['location'] is Map<String, dynamic> ? m['location'] : null,
+        locationType: m['locationType'] is String ? m['locationType'] : null,
+        mailAddress1: m['mailAddress1'] is String ? m['mailAddress1'] : null,
+        mailAddress2: m['mailAddress2'] is String ? m['mailAddress2'] : null,
+        mailCity: m['mailCity'] is String ? m['mailCity'] : null,
+        mailCountry: m['mailCountry'] is String ? m['mailCountry'] : null,
+        mailPostalCode: m['mailPostalCode'] is String ? m['mailPostalCode'] : null,
+        mailStateProvince: m['mailStateProvince'] is String ? m['mailStateProvince'] : null,
+        messageId: m['messageId'] is String ? m['messageId'] : null,
+        method: m['method'] is String ? m['method'] : null,
+        mid: m['mid'] is String ? m['mid'] : null,
+        name: m['name'] is String ? m['name'] : null,
+        nameOfBusiness: m['nameOfBusiness'] is String ? m['nameOfBusiness'] : null,
+        notes: m['notes'] is String ? m['notes'] : null,
+        parent: m['parent'] is Map<String, dynamic> ? m['parent'] : null,
         partner: m['partner'] is Map<String, dynamic> ? m['partner'] : null,
+        partnerId: m['partnerId'] is String ? m['partnerId'] : null,
         phone: m['phone'] is String ? m['phone'] : null,
+        postalCode: m['postalCode'] is String ? m['postalCode'] : null,
+        reference: m['reference'] is String ? m['reference'] : null,
+        sendWelcomeEmail: m['sendWelcomeEmail'] is bool ? m['sendWelcomeEmail'] : null,
+        serialNumber: m['serialNumber'] is String ? m['serialNumber'] : null,
+        startDate: m['startDate'] is String ? m['startDate'] : null,
+        stateProvince: m['stateProvince'] is String ? m['stateProvince'] : null,
+        success: m['success'] is bool ? m['success'] : null,
+        tracking: m['tracking'] is String ? m['tracking'] : null,
+        uniqueId: m['uniqueId'] is String ? m['uniqueId'] : null,
         userName: m['userName'] is String ? m['userName'] : null,
         userRole: m['userRole'] is Map<String, dynamic> ? m['userRole'] : null,
+        verificationPhrase: m['verificationPhrase'] is String ? m['verificationPhrase'] : null,
         version: m['version'] is int ? m['version'] : null,
       );
 
@@ -3941,17 +5257,92 @@ class UpdateResultUpdateData {
     if (null != id) {
       m['id'] = id;
     }
+    if (null != address1) {
+      m['address1'] = address1;
+    }
+    if (null != address2) {
+      m['address2'] = address2;
+    }
+    if (null != alternateKey) {
+      m['alternateKey'] = alternateKey;
+    }
+    if (null != auditNextDate) {
+      m['auditNextDate'] = auditNextDate;
+    }
+    if (null != billingId) {
+      m['billingId'] = billingId;
+    }
+    if (null != city) {
+      m['city'] = city;
+    }
     if (null != client) {
       m['client'] = client;
+    }
+    if (null != clientCanOrderEquipment) {
+      m['clientCanOrderEquipment'] = clientCanOrderEquipment;
+    }
+    if (null != clientRef) {
+      m['clientRef'] = clientRef;
+    }
+    if (null != contact) {
+      m['contact'] = contact;
+    }
+    if (null != country) {
+      m['country'] = country;
+    }
+    if (null != customReference) {
+      m['customReference'] = customReference;
+    }
+    if (null != dateShipped) {
+      m['dateShipped'] = dateShipped;
+    }
+    if (null != decrypted) {
+      m['decrypted'] = decrypted;
+    }
+    if (null != device) {
+      m['device'] = device;
+    }
+    if (null != deviceBuild) {
+      m['deviceBuild'] = deviceBuild;
+    }
+    if (null != deviceType) {
+      m['deviceType'] = deviceType;
+    }
+    if (null != directPartner) {
+      m['directPartner'] = directPartner;
     }
     if (null != email) {
       m['email'] = email;
     }
+    if (null != encrypted) {
+      m['encrypted'] = encrypted;
+    }
+    if (null != endDate) {
+      m['endDate'] = endDate;
+    }
+    if (null != errCode) {
+      m['errCode'] = errCode;
+    }
+    if (null != errMessage) {
+      m['errMessage'] = errMessage;
+    }
     if (null != firstName) {
       m['firstName'] = firstName;
     }
+    if (null != injectKey) {
+      m['injectKey'] = injectKey;
+    }
+    if (null != ipAddress) {
+      m['ipAddress'] = ipAddress;
+    }
     if (null != isActive) {
       m['isActive'] = isActive;
+    }
+    if (null != items) {
+      m['items'] = items;
+    }
+    if (null != keyType) {
+      m['keyType'] = keyType;
     }
     if (null != kif) {
       m['kif'] = kif;
@@ -3959,17 +5350,95 @@ class UpdateResultUpdateData {
     if (null != lastName) {
       m['lastName'] = lastName;
     }
+    if (null != location) {
+      m['location'] = location;
+    }
+    if (null != locationType) {
+      m['locationType'] = locationType;
+    }
+    if (null != mailAddress1) {
+      m['mailAddress1'] = mailAddress1;
+    }
+    if (null != mailAddress2) {
+      m['mailAddress2'] = mailAddress2;
+    }
+    if (null != mailCity) {
+      m['mailCity'] = mailCity;
+    }
+    if (null != mailCountry) {
+      m['mailCountry'] = mailCountry;
+    }
+    if (null != mailPostalCode) {
+      m['mailPostalCode'] = mailPostalCode;
+    }
+    if (null != mailStateProvince) {
+      m['mailStateProvince'] = mailStateProvince;
+    }
+    if (null != messageId) {
+      m['messageId'] = messageId;
+    }
+    if (null != method) {
+      m['method'] = method;
+    }
+    if (null != mid) {
+      m['mid'] = mid;
+    }
+    if (null != name) {
+      m['name'] = name;
+    }
+    if (null != nameOfBusiness) {
+      m['nameOfBusiness'] = nameOfBusiness;
+    }
+    if (null != notes) {
+      m['notes'] = notes;
+    }
+    if (null != parent) {
+      m['parent'] = parent;
+    }
     if (null != partner) {
       m['partner'] = partner;
     }
+    if (null != partnerId) {
+      m['partnerId'] = partnerId;
+    }
     if (null != phone) {
       m['phone'] = phone;
+    }
+    if (null != postalCode) {
+      m['postalCode'] = postalCode;
+    }
+    if (null != reference) {
+      m['reference'] = reference;
+    }
+    if (null != sendWelcomeEmail) {
+      m['sendWelcomeEmail'] = sendWelcomeEmail;
+    }
+    if (null != serialNumber) {
+      m['serialNumber'] = serialNumber;
+    }
+    if (null != startDate) {
+      m['startDate'] = startDate;
+    }
+    if (null != stateProvince) {
+      m['stateProvince'] = stateProvince;
+    }
+    if (null != success) {
+      m['success'] = success;
+    }
+    if (null != tracking) {
+      m['tracking'] = tracking;
+    }
+    if (null != uniqueId) {
+      m['uniqueId'] = uniqueId;
     }
     if (null != userName) {
       m['userName'] = userName;
     }
     if (null != userRole) {
       m['userRole'] = userRole;
+    }
+    if (null != verificationPhrase) {
+      m['verificationPhrase'] = verificationPhrase;
     }
     if (null != version) {
       m['version'] = version;

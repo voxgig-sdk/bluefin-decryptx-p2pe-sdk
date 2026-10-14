@@ -18,6 +18,7 @@ pub struct Attestation {
     pub completedate: Option<String>,
     pub created: Option<String>,
     pub device: Option<std::collections::HashMap<String, Value>>,
+    pub devices: Vec<Value>,
     pub id: Option<String>,
     pub name: Option<String>,
     pub notes: Option<String>,
@@ -44,6 +45,7 @@ pub struct AttestationCreateData {
     pub completedate: Option<String>,
     pub created: Option<String>,
     pub device: Option<std::collections::HashMap<String, Value>>,
+    pub devices: Vec<Value>,
     pub id: Option<String>,
     pub name: Option<String>,
     pub notes: Option<String>,
@@ -104,6 +106,10 @@ pub struct ClientRemoveMatch {
 /// CreateResult is the typed data model for the create_result entity.
 #[derive(Debug, Clone)]
 pub struct CreateResult {
+    pub completedate: Option<String>,
+    pub custodian: std::collections::HashMap<String, Value>,
+    pub location: std::collections::HashMap<String, Value>,
+    pub notes: Option<String>,
 }
 
 /// CreateResultCreateData is the typed request payload for CreateResult.create.
@@ -111,17 +117,37 @@ pub struct CreateResult {
 pub struct CreateResultCreateData {
     pub device_type: String,
     pub serial_number: String,
+    pub completedate: Option<String>,
+    pub custodian: std::collections::HashMap<String, Value>,
+    pub location: std::collections::HashMap<String, Value>,
+    pub notes: Option<String>,
 }
 
 /// Decryption is the typed data model for the decryption entity.
 #[derive(Debug, Clone)]
 pub struct Decryption {
+    pub cbcvector: Option<String>,
+    pub devicetype: String,
+    pub encoding: Option<String>,
+    pub encrypted: Vec<Value>,
+    pub hasccdata: Option<String>,
+    pub reference: Option<String>,
+    pub sequencenumber: Option<String>,
+    pub serialnumber: String,
     pub success: Option<bool>,
 }
 
 /// DecryptionCreateData is the typed request payload for Decryption.create.
 #[derive(Debug, Clone)]
 pub struct DecryptionCreateData {
+    pub cbcvector: Option<String>,
+    pub devicetype: String,
+    pub encoding: Option<String>,
+    pub encrypted: Vec<Value>,
+    pub hasccdata: Option<String>,
+    pub reference: Option<String>,
+    pub sequencenumber: Option<String>,
+    pub serialnumber: String,
     pub success: Option<bool>,
 }
 
@@ -301,25 +327,45 @@ pub struct DeviceCustodyListItemListMatch {
 /// DeviceReceiveResult is the typed data model for the device_receive_result entity.
 #[derive(Debug, Clone)]
 pub struct DeviceReceiveResult {
+    pub serialnumber: String,
     pub success: bool,
+    pub tamperlabel: String,
 }
 
 /// DeviceReceiveResultCreateData is the typed request payload for DeviceReceiveResult.create.
 #[derive(Debug, Clone)]
 pub struct DeviceReceiveResultCreateData {
+    pub serialnumber: String,
     pub success: bool,
+    pub tamperlabel: String,
 }
 
 /// DeviceRkiActivateResult is the typed data model for the device_rki_activate_result entity.
 #[derive(Debug, Clone)]
 pub struct DeviceRkiActivateResult {
+    pub appversion: Option<String>,
+    pub buildname: Option<String>,
+    pub buildnumber: Option<String>,
+    pub configfile: Option<String>,
+    pub firmwareversion: Option<String>,
+    pub hardwareversion: Option<String>,
+    pub serialnumber: String,
     pub success: bool,
+    pub whitelistingbinranges: Option<String>,
 }
 
 /// DeviceRkiActivateResultCreateData is the typed request payload for DeviceRkiActivateResult.create.
 #[derive(Debug, Clone)]
 pub struct DeviceRkiActivateResultCreateData {
+    pub appversion: Option<String>,
+    pub buildname: Option<String>,
+    pub buildnumber: Option<String>,
+    pub configfile: Option<String>,
+    pub firmwareversion: Option<String>,
+    pub hardwareversion: Option<String>,
+    pub serialnumber: String,
     pub success: bool,
+    pub whitelistingbinranges: Option<String>,
 }
 
 /// DeviceState is the typed data model for the device_state entity.
@@ -429,6 +475,7 @@ pub struct Location {
     pub address2: Option<String>,
     pub billingid: Option<String>,
     pub city: Option<String>,
+    pub client: Option<std::collections::HashMap<String, Value>>,
     pub country: Option<String>,
     pub created: Option<String>,
     pub customreference: Option<String>,
@@ -471,6 +518,7 @@ pub struct LocationCreateData {
     pub address2: Option<String>,
     pub billingid: Option<String>,
     pub city: Option<String>,
+    pub client: Option<std::collections::HashMap<String, Value>>,
     pub country: Option<String>,
     pub created: Option<String>,
     pub customreference: Option<String>,
@@ -562,6 +610,7 @@ pub struct Shipment {
     pub id: Option<String>,
     pub items: Option<Vec<Value>>,
     pub kif: Option<std::collections::HashMap<String, Value>>,
+    pub location: std::collections::HashMap<String, Value>,
     pub modified: Option<String>,
     pub partner: Option<std::collections::HashMap<String, Value>>,
     pub shipmenttype: Option<String>,
@@ -596,6 +645,7 @@ pub struct ShipmentCreateData {
     pub id: Option<String>,
     pub items: Option<Vec<Value>>,
     pub kif: Option<std::collections::HashMap<String, Value>>,
+    pub location: std::collections::HashMap<String, Value>,
     pub modified: Option<String>,
     pub partner: Option<std::collections::HashMap<String, Value>>,
     pub shipmenttype: Option<String>,
@@ -606,6 +656,8 @@ pub struct ShipmentCreateData {
 /// Success is the typed data model for the success entity.
 #[derive(Debug, Clone)]
 pub struct Success {
+    pub devices: Vec<Value>,
+    pub sharepartnerfrom: std::collections::HashMap<String, Value>,
     pub success: Option<bool>,
 }
 
@@ -613,6 +665,8 @@ pub struct Success {
 #[derive(Debug, Clone)]
 pub struct SuccessCreateData {
     pub share_partner_to: String,
+    pub devices: Vec<Value>,
+    pub sharepartnerfrom: std::collections::HashMap<String, Value>,
     pub success: Option<bool>,
 }
 
@@ -630,6 +684,7 @@ pub struct Transaction {
     pub clientref: Option<String>,
     pub created: Option<String>,
     pub decrypted: Option<i64>,
+    pub device: std::collections::HashMap<String, Value>,
     pub devicename: Option<String>,
     pub directpartner: Option<std::collections::HashMap<String, Value>>,
     pub encrypted: Option<i64>,
@@ -683,6 +738,7 @@ pub struct TransactionCreateData {
     pub clientref: Option<String>,
     pub created: Option<String>,
     pub decrypted: Option<i64>,
+    pub device: std::collections::HashMap<String, Value>,
     pub devicename: Option<String>,
     pub directpartner: Option<std::collections::HashMap<String, Value>>,
     pub encrypted: Option<i64>,
@@ -707,17 +763,68 @@ pub struct TransactionCreateData {
 /// UpdateResult is the typed data model for the update_result entity.
 #[derive(Debug, Clone)]
 pub struct UpdateResult {
+    pub address1: Option<String>,
+    pub address2: Option<String>,
+    pub alternatekey: Option<String>,
+    pub auditnextdate: Option<String>,
+    pub billingid: Option<String>,
+    pub city: Option<String>,
     pub client: Option<std::collections::HashMap<String, Value>>,
-    pub email: Option<String>,
-    pub firstname: Option<String>,
+    pub clientcanorderequipment: Option<bool>,
+    pub clientref: Option<String>,
+    pub contact: std::collections::HashMap<String, Value>,
+    pub country: Option<std::collections::HashMap<String, Value>>,
+    pub customreference: Option<String>,
+    pub dateshipped: Option<String>,
+    pub decrypted: Option<i64>,
+    pub device: Option<std::collections::HashMap<String, Value>>,
+    pub devicebuild: Option<std::collections::HashMap<String, Value>>,
+    pub devicetype: Option<std::collections::HashMap<String, Value>>,
+    pub directpartner: Option<std::collections::HashMap<String, Value>>,
+    pub email: String,
+    pub encrypted: Option<i64>,
+    pub enddate: Option<String>,
+    pub errcode: Option<String>,
+    pub errmessage: Option<String>,
+    pub firstname: String,
     pub id: Option<String>,
-    pub isactive: Option<bool>,
+    pub injectkey: Option<std::collections::HashMap<String, Value>>,
+    pub ipaddress: Option<String>,
+    pub isactive: bool,
+    pub items: Option<Vec<Value>>,
+    pub keytype: Option<String>,
     pub kif: Option<std::collections::HashMap<String, Value>>,
-    pub lastname: Option<String>,
+    pub lastname: String,
+    pub location: std::collections::HashMap<String, Value>,
+    pub locationtype: Option<String>,
+    pub mailaddress1: Option<String>,
+    pub mailaddress2: Option<String>,
+    pub mailcity: Option<String>,
+    pub mailcountry: Option<String>,
+    pub mailpostalcode: Option<String>,
+    pub mailstateprovince: Option<String>,
+    pub messageid: Option<String>,
+    pub method: Option<String>,
+    pub mid: Option<String>,
+    pub name: Option<String>,
+    pub nameofbusiness: Option<String>,
+    pub notes: Option<String>,
+    pub parent: Option<std::collections::HashMap<String, Value>>,
     pub partner: Option<std::collections::HashMap<String, Value>>,
-    pub phone: Option<String>,
-    pub username: Option<String>,
-    pub userrole: Option<std::collections::HashMap<String, Value>>,
+    pub partnerid: Option<String>,
+    pub phone: String,
+    pub postalcode: Option<String>,
+    pub reference: Option<String>,
+    pub sendwelcomeemail: Option<bool>,
+    pub serialnumber: Option<String>,
+    pub startdate: Option<String>,
+    pub stateprovince: Option<String>,
+    pub success: Option<bool>,
+    pub tracking: Option<String>,
+    pub uniqueid: Option<String>,
+    pub username: String,
+    pub userrole: std::collections::HashMap<String, Value>,
+    pub verificationphrase: Option<String>,
     pub version: Option<i64>,
 }
 
@@ -734,17 +841,68 @@ pub struct UpdateResultListMatch {
 /// UpdateResultCreateData is the typed request payload for UpdateResult.create.
 #[derive(Debug, Clone)]
 pub struct UpdateResultCreateData {
+    pub address1: Option<String>,
+    pub address2: Option<String>,
+    pub alternatekey: Option<String>,
+    pub auditnextdate: Option<String>,
+    pub billingid: Option<String>,
+    pub city: Option<String>,
     pub client: Option<std::collections::HashMap<String, Value>>,
-    pub email: Option<String>,
-    pub firstname: Option<String>,
+    pub clientcanorderequipment: Option<bool>,
+    pub clientref: Option<String>,
+    pub contact: std::collections::HashMap<String, Value>,
+    pub country: Option<std::collections::HashMap<String, Value>>,
+    pub customreference: Option<String>,
+    pub dateshipped: Option<String>,
+    pub decrypted: Option<i64>,
+    pub device: Option<std::collections::HashMap<String, Value>>,
+    pub devicebuild: Option<std::collections::HashMap<String, Value>>,
+    pub devicetype: Option<std::collections::HashMap<String, Value>>,
+    pub directpartner: Option<std::collections::HashMap<String, Value>>,
+    pub email: String,
+    pub encrypted: Option<i64>,
+    pub enddate: Option<String>,
+    pub errcode: Option<String>,
+    pub errmessage: Option<String>,
+    pub firstname: String,
     pub id: Option<String>,
-    pub isactive: Option<bool>,
+    pub injectkey: Option<std::collections::HashMap<String, Value>>,
+    pub ipaddress: Option<String>,
+    pub isactive: bool,
+    pub items: Option<Vec<Value>>,
+    pub keytype: Option<String>,
     pub kif: Option<std::collections::HashMap<String, Value>>,
-    pub lastname: Option<String>,
+    pub lastname: String,
+    pub location: std::collections::HashMap<String, Value>,
+    pub locationtype: Option<String>,
+    pub mailaddress1: Option<String>,
+    pub mailaddress2: Option<String>,
+    pub mailcity: Option<String>,
+    pub mailcountry: Option<String>,
+    pub mailpostalcode: Option<String>,
+    pub mailstateprovince: Option<String>,
+    pub messageid: Option<String>,
+    pub method: Option<String>,
+    pub mid: Option<String>,
+    pub name: Option<String>,
+    pub nameofbusiness: Option<String>,
+    pub notes: Option<String>,
+    pub parent: Option<std::collections::HashMap<String, Value>>,
     pub partner: Option<std::collections::HashMap<String, Value>>,
-    pub phone: Option<String>,
-    pub username: Option<String>,
-    pub userrole: Option<std::collections::HashMap<String, Value>>,
+    pub partnerid: Option<String>,
+    pub phone: String,
+    pub postalcode: Option<String>,
+    pub reference: Option<String>,
+    pub sendwelcomeemail: Option<bool>,
+    pub serialnumber: Option<String>,
+    pub startdate: Option<String>,
+    pub stateprovince: Option<String>,
+    pub success: Option<bool>,
+    pub tracking: Option<String>,
+    pub uniqueid: Option<String>,
+    pub username: String,
+    pub userrole: std::collections::HashMap<String, Value>,
+    pub verificationphrase: Option<String>,
     pub version: Option<i64>,
 }
 
@@ -752,16 +910,67 @@ pub struct UpdateResultCreateData {
 #[derive(Debug, Clone)]
 pub struct UpdateResultUpdateData {
     pub id: String,
+    pub address1: Option<String>,
+    pub address2: Option<String>,
+    pub alternatekey: Option<String>,
+    pub auditnextdate: Option<String>,
+    pub billingid: Option<String>,
+    pub city: Option<String>,
     pub client: Option<std::collections::HashMap<String, Value>>,
+    pub clientcanorderequipment: Option<bool>,
+    pub clientref: Option<String>,
+    pub contact: Option<std::collections::HashMap<String, Value>>,
+    pub country: Option<std::collections::HashMap<String, Value>>,
+    pub customreference: Option<String>,
+    pub dateshipped: Option<String>,
+    pub decrypted: Option<i64>,
+    pub device: Option<std::collections::HashMap<String, Value>>,
+    pub devicebuild: Option<std::collections::HashMap<String, Value>>,
+    pub devicetype: Option<std::collections::HashMap<String, Value>>,
+    pub directpartner: Option<std::collections::HashMap<String, Value>>,
     pub email: Option<String>,
+    pub encrypted: Option<i64>,
+    pub enddate: Option<String>,
+    pub errcode: Option<String>,
+    pub errmessage: Option<String>,
     pub firstname: Option<String>,
+    pub injectkey: Option<std::collections::HashMap<String, Value>>,
+    pub ipaddress: Option<String>,
     pub isactive: Option<bool>,
+    pub items: Option<Vec<Value>>,
+    pub keytype: Option<String>,
     pub kif: Option<std::collections::HashMap<String, Value>>,
     pub lastname: Option<String>,
+    pub location: Option<std::collections::HashMap<String, Value>>,
+    pub locationtype: Option<String>,
+    pub mailaddress1: Option<String>,
+    pub mailaddress2: Option<String>,
+    pub mailcity: Option<String>,
+    pub mailcountry: Option<String>,
+    pub mailpostalcode: Option<String>,
+    pub mailstateprovince: Option<String>,
+    pub messageid: Option<String>,
+    pub method: Option<String>,
+    pub mid: Option<String>,
+    pub name: Option<String>,
+    pub nameofbusiness: Option<String>,
+    pub notes: Option<String>,
+    pub parent: Option<std::collections::HashMap<String, Value>>,
     pub partner: Option<std::collections::HashMap<String, Value>>,
+    pub partnerid: Option<String>,
     pub phone: Option<String>,
+    pub postalcode: Option<String>,
+    pub reference: Option<String>,
+    pub sendwelcomeemail: Option<bool>,
+    pub serialnumber: Option<String>,
+    pub startdate: Option<String>,
+    pub stateprovince: Option<String>,
+    pub success: Option<bool>,
+    pub tracking: Option<String>,
+    pub uniqueid: Option<String>,
     pub username: Option<String>,
     pub userrole: Option<std::collections::HashMap<String, Value>>,
+    pub verificationphrase: Option<String>,
     pub version: Option<i64>,
 }
 

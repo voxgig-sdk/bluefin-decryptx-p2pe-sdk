@@ -1,7 +1,7 @@
 # BluefinDecryptxP2pe SDK Success entity
 #
 # Per-entity module. Generic construction/data/match operations delegate to
-# EntityBase; each active op (load/list/create/update/remove) builds a ctx
+# EntityBase; each active op (load/list/create/update/patch/remove) builds a ctx
 # and drives it through BluefinDecryptxP2pe.Pipeline.run_op.
 
 defmodule BluefinDecryptxP2pe.Entity.Success do
@@ -30,9 +30,10 @@ defmodule BluefinDecryptxP2pe.Entity.Success do
   
 
   
-  # Returns the created success entity map (BluefinDecryptxP2pe.Types.success/0)
-  # on success; pipeline errors surface as the error value built by
-  # Utility.make_error (shape is utility-configurable), hence term().
+  # Returns the created success entity, whose data_get/1 reads its record
+  # (BluefinDecryptxP2pe.Types.success/0), on success; pipeline errors surface as
+  # the error value built by Utility.make_error (shape is
+  # utility-configurable), hence term().
   @spec create(map(), BluefinDecryptxP2pe.Types.success_create_data() | nil, map() | nil) :: term()
   def create(ent, reqdata, ctrl \\ nil) do
     ctx =
@@ -65,9 +66,12 @@ defmodule BluefinDecryptxP2pe.Entity.Success do
   
 
   
-  # Returns the removed success entity map (BluefinDecryptxP2pe.Types.success/0)
-  # on success; pipeline errors surface as the error value built by
-  # Utility.make_error (shape is utility-configurable), hence term().
+
+  
+  # Returns the removed success entity, marked as deleted, whose data_get/1
+  # reads the record it held (BluefinDecryptxP2pe.Types.success/0), on success;
+  # pipeline errors surface as the error value built by Utility.make_error
+  # (shape is utility-configurable), hence term().
   @spec remove(map(), BluefinDecryptxP2pe.Types.success_remove_match() | nil, map() | nil) :: term()
   def remove(ent, reqmatch \\ nil, ctrl \\ nil) do
     reqmatch = if reqmatch == nil, do: S.jm([]), else: reqmatch

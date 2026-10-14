@@ -8,6 +8,12 @@ main: kit: entity: location: {
     address1: {
       h: "Address1"
       n: "address1"
+      op: {
+        create: {
+          req: true
+          type: "`$STRING`"
+        }
+      }
       r: false
       sh: "The Location's street address."
       t: "`$STRING`"
@@ -29,13 +35,32 @@ main: kit: entity: location: {
     city: {
       h: "City"
       n: "city"
+      op: {
+        create: {
+          req: true
+          type: "`$STRING`"
+        }
+      }
       r: false
       sh: "The Location's city."
       t: "`$STRING`"
     }
+    client: {
+      h: "Client"
+      n: "client"
+      r: false
+      sh: "Reference to the associated Client resource."
+      t: "`$OBJECT`"
+    }
     country: {
       h: "Country"
       n: "country"
+      op: {
+        create: {
+          req: true
+          type: "`$OBJECT`"
+        }
+      }
       r: false
       sh: "The Location's country."
       t: "`$STRING`"
@@ -65,6 +90,12 @@ main: kit: entity: location: {
     locationType: {
       h: "Location Type"
       n: "locationType"
+      op: {
+        create: {
+          req: true
+          type: "`$STRING`"
+        }
+      }
       r: false
       sh: "The Location's clasification."
       t: "`$STRING`"
@@ -122,6 +153,12 @@ main: kit: entity: location: {
     name: {
       h: "Name"
       n: "name"
+      op: {
+        create: {
+          req: true
+          type: "`$STRING`"
+        }
+      }
       r: false
       sh: "The Location's name."
       t: "`$STRING`"
@@ -181,6 +218,28 @@ main: kit: entity: location: {
       name: "create"
       points: [
         {
+          bf: [
+            "address1"
+            "address2"
+            "billingId"
+            "city"
+            "client"
+            "country"
+            "customReference"
+            "locationType"
+            "mailAddress1"
+            "mailAddress2"
+            "mailCity"
+            "mailCountry"
+            "mailPostalCode"
+            "mailStateProvince"
+            "name"
+            "nameOfBusiness"
+            "notes"
+            "postalCode"
+            "stateProvince"
+            "uniqueId"
+          ]
           co: {
             id: "POST /locations"
             source: "openapi3"
@@ -188,6 +247,10 @@ main: kit: entity: location: {
           }
           m: "POST"
           o: "/locations"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "locations"
@@ -241,9 +304,11 @@ main: kit: entity: location: {
           q: {
             exist: [
               "client"
-              "skip"
-              "take"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -283,6 +348,10 @@ main: kit: entity: location: {
             exist: [
               "id"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

@@ -11,11 +11,33 @@ use Voxgig\Struct\Struct as Vs;
 
 class DeviceCustodyDetailEntityTest extends TestCase
 {
+    // main.kit.test.live.strict is true (the default is true): a live
+    // request that fails, or a live test missing an input it needs,
+    // fails the test.
+    // An account with no record for a test to read skips it either way.
+    private const LIVE_STRICT = true;
+
     public function test_create_instance(): void
     {
         $testsdk = BluefinDecryptxP2peSDK::test(null, null);
         $ent = $testsdk->DeviceCustodyDetail(null);
         $this->assertNotNull($ent);
+    }
+
+    public function test_validate(): void
+    {
+        $cfg = BluefinDecryptxP2peConfig::shared_config();
+        if (!isset($cfg["feature"]["validate"])) {
+            $this->markTestSkipped('feature not present in this SDK: validate');
+        }
+        $client = BluefinDecryptxP2peSDK::test(null, ["feature" => ["validate" => ["active" => true]]]);
+        $err = null;
+        try {
+            $client->DeviceCustodyDetail(null)->load(["device_type" => 1, "id" => 'x', "serial_number" => 'x'], null);
+        } catch (\Throwable $e) {
+            $err = $e;
+        }
+        $this->assertSame('validate_failed', $err->sdk_code ?? null);
     }
 
     public function test_basic_flow(): void
@@ -30,11 +52,8 @@ class DeviceCustodyDetailEntityTest extends TestCase
                 return;
             }
         }
-        // The basic flow consumes synthetic IDs from the fixture. In live mode
-        // without an *_ENTID env override, those IDs hit the live API and 4xx.
-        if (!empty($setup["synthetic_only"])) {
-            $this->markTestSkipped("live entity test uses synthetic IDs from fixture — set BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_CUSTODY_DETAIL_ENTID JSON to run live");
-            return;
+        if (!empty($setup["live"])) {
+            Runner::live_miss(self::LIVE_STRICT, "Live entity test blocked: " . "the flow loads a device_custody_detail record it has no list to find");
         }
         $client = $setup["client"];
 
@@ -51,6 +70,8 @@ class DeviceCustodyDetailEntityTest extends TestCase
         $device_custody_detail_ref01_match_dt0 = [
             "id" => $device_custody_detail_ref01_data["id"],
         ];
+        $device_custody_detail_ref01_match_dt0["device_type"] = $setup["idmap"]["device_type"] ?? $setup["idmap"]["device_type01"] ?? null;
+        $device_custody_detail_ref01_match_dt0["serial_number"] = $setup["idmap"]["serial_number"] ?? $setup["idmap"]["serial_number01"] ?? null;
         $device_custody_detail_ref01_data_dt0_loaded = $device_custody_detail_ref01_ent->load($device_custody_detail_ref01_match_dt0, null);
         $device_custody_detail_ref01_data_dt0_load_result = Helpers::to_map(is_object($device_custody_detail_ref01_data_dt0_loaded) && method_exists($device_custody_detail_ref01_data_dt0_loaded, 'data_get') ? $device_custody_detail_ref01_data_dt0_loaded->data_get() : $device_custody_detail_ref01_data_dt0_loaded);
         $this->assertNotNull($device_custody_detail_ref01_data_dt0_load_result);
@@ -78,9 +99,8 @@ function device_custody_detail_basic_setup($extra)
         $idmap[$k] = strtoupper($k);
     }
 
-    // Detect ENTID env override before envOverride consumes it. When live
-    // mode is on without a real override, the basic test runs against synthetic
-    // IDs from the fixture and 4xx's. Surface this so the test can skip.
+    // Whether *_ENTID supplied the idmap, read before env_override consumes
+    // it: without it, the ids a live flow binds are the fixture's synthetic ones.
     $entid_env_raw = getenv("BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_CUSTODY_DETAIL_ENTID");
     $idmap_overridden = $entid_env_raw !== false && str_starts_with(trim($entid_env_raw), "{");
 

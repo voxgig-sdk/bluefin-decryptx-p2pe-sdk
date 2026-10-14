@@ -12,7 +12,13 @@ use common::*;
 
 use bluefin_decryptx_p2pe_sdk::core::helpers::{getp, ja, jo, json_thunk, setp, to_int, to_map};
 use bluefin_decryptx_p2pe_sdk::utility::voxgigstruct as vs;
-use bluefin_decryptx_p2pe_sdk::{Value, BluefinDecryptxP2peSDK};
+use bluefin_decryptx_p2pe_sdk::{json_parse, Value, BluefinDecryptxP2peSDK};
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT: bool = true;
 
 struct DeviceCustodyListItemDirectSetup {
     client: Rc<BluefinDecryptxP2peSDK>,
@@ -110,7 +116,7 @@ fn device_custody_list_item_direct_list() {
     if setup.live {
         for live_key in ["device_type01", "serial_number01"] {
             if getp(&setup.idmap, live_key).is_noval() {
-                eprintln!("skip: live test needs {} via *_ENTID env var (synthetic IDs only)", live_key);
+                live_miss(LIVE_STRICT, &format!("Live test blocked: needs {} via BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_CUSTODY_LIST_ITEM_ENTID", live_key));
                 return;
             }
         }
@@ -129,24 +135,26 @@ fn device_custody_list_item_direct_list() {
         setp(&params, "serial_number", Value::str("direct02"));
     }
 
-    let result = client
-        .direct(jo(vec![
-            ("path", Value::str("devices/{serial_number}/{device_type}/custody")),
-            ("method", Value::str("GET")),
-            ("params", params.clone()),
-        ]))
-        .expect("direct failed");
-
-    if setup.live {
-        // Live mode is lenient: synthetic IDs frequently 4xx and the
-        // list-response shape varies wildly across public APIs.
-        if getp(&result, "ok") != Value::Bool(true) {
-            eprintln!("skip: list call not ok (likely synthetic IDs against live API)");
+    let result = match client.direct(jo(vec![
+        ("path", Value::str("devices/{serial_number}/{device_type}/custody")),
+        ("method", Value::str("GET")),
+        ("params", params.clone()),
+    ])) {
+        Ok(result) => result,
+        Err(err) if setup.live => {
+            live_miss(LIVE_STRICT, &format!("Live list failed: {}", err));
             return;
         }
-        let status = to_int(&getp(&result, "status"));
-        if !(200..300).contains(&status) {
-            eprintln!("skip: expected 2xx status, got {}", status);
+        Err(err) => panic!("direct failed: {}", err),
+    };
+
+    if setup.live {
+        if !live_ok(&result) {
+            live_miss(LIVE_STRICT, &format!("Live list failed: {}", live_describe(&result)));
+            return;
+        }
+        if live_list(&getp(&result, "data")).is_none() {
+            live_miss(LIVE_STRICT, &format!("Live list returned no list: {}", live_describe(&result)));
             return;
         }
     } else {

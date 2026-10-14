@@ -136,7 +136,7 @@ main: kit: entity: device_build: {
               {
                 k: "query"
                 n: "device_type"
-                or: "device_type"
+                or: "deviceType"
                 r: false
                 t: "`$STRING`"
               }
@@ -160,12 +160,9 @@ main: kit: entity: device_build: {
           }
           m: "GET"
           o: "/deviceBuilds"
-          q: {
-            exist: [
-              "device_type"
-              "skip"
-              "take"
-            ]
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -205,6 +202,10 @@ main: kit: entity: device_build: {
             exist: [
               "id"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

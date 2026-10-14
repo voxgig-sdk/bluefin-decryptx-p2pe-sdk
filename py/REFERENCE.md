@@ -176,34 +176,49 @@ attestation = client.Attestation()
 | `completeDate` | `str` | No | The date and time that the Attestation took place. |
 | `created` | `str` | No | Creation timestamp in ISO 8601 format. |
 | `device` | `dict` | No | Reference to the associated Device resource. |
+| `devices` | `list` | Yes |  |
 | `id` | `str` | No | This resource's unique identifier. |
 | `name` | `str` | No | Text describing the attestation. |
 | `notes` | `str` | No | Free form field that allows the Client associate notes with the Attestation. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `client` | - | - | Yes |
+| `completeDate` | - | - | Yes |
+| `created` | - | - | - |
+| `device` | - | - | - |
+| `devices` | - | - | - |
+| `id` | - | - | - |
+| `name` | - | - | Yes |
+| `notes` | - | - | - |
+
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> AttestationEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.Attestation().create({
+    "devices": [],  # list
 })
 ```
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[AttestationEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.Attestation().list({"client": "example"})
 for attestation in results:
-    print(attestation)
+    print(attestation.data_get())
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> AttestationEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Attestation().load({"id": "attestation_id"})
@@ -264,23 +279,23 @@ client_ = client.Client()
 
 | Field | load | list | create | remove |
 | --- | --- | --- | --- | --- |
-| `contact` | - | Yes | - | - |
+| `contact` | - | Yes | Yes | - |
 | `created` | - | - | - | - |
-| `directPartner` | - | - | - | - |
+| `directPartner` | - | - | Yes | - |
 | `id` | - | - | - | - |
 | `isActive` | - | - | - | - |
 | `location` | - | - | - | - |
 | `mid` | - | - | - | - |
 | `modified` | - | - | - | - |
-| `name` | - | - | - | - |
+| `name` | - | - | Yes | - |
 | `partner` | - | - | - | - |
 | `version` | - | - | - | - |
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> ClientEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.Client().create({
@@ -288,27 +303,27 @@ result = client.Client().create({
 })
 ```
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[ClientEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.Client().list({"partner": "example"})
 for client_ in results:
-    print(client_)
+    print(client_.data_get())
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> ClientEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Client().load({"id": "client_id"})
 ```
 
-#### `remove(reqmatch, ctrl=None) -> dict`
+#### `remove(reqmatch, ctrl=None) -> ClientEntity`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```python
 result = client.Client().remove({"id": "client_id"})
@@ -349,16 +364,27 @@ Return the entity name.
 create_result = client.CreateResult()
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `completeDate` | `str` | No | The date and time that the Custody change took place. |
+| `custodian` | `dict` | Yes | Reference to the associated User resource. |
+| `location` | `dict` | Yes | Reference to the associated Location resource. |
+| `notes` | `str` | No | Free form field that allows the Client associate notes with the Custody Change. |
+
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> CreateResultEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.CreateResult().create({
     "device_type": "example_device_type",  # str
     "serial_number": "example_serial_number",  # str
+    "custodian": {},  # dict
+    "location": {},  # dict
 })
 ```
 
@@ -401,16 +427,27 @@ decryption = client.Decryption()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `cbcVector` | `str` | No | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | `str` | Yes | The device Type. |
+| `encoding` | `str` | No | The payload encoding |
+| `encrypted` | `list` | Yes |  |
+| `hasCcData` | `str` | No | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | `str` | No | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | `str` | No | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | `str` | Yes | The serial number of the device. |
 | `success` | `bool` | No | true if the payload decryption was successful. |
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> DecryptionEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.Decryption().create({
+    "deviceType": "example_deviceType",  # str
+    "encrypted": [],  # list
+    "serialNumber": "example_serialNumber",  # str
 })
 ```
 
@@ -482,11 +519,44 @@ device = client.Device()
 | `serialNumber` | `str` | No | The Device's serial number. |
 | `version` | `int` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `activatedBy` | - | - | - |
+| `activationDate` | - | - | - |
+| `alternateKey` | - | - | - |
+| `auditNextDate` | - | - | - |
+| `auditNotificationDate` | - | - | - |
+| `client` | - | - | - |
+| `created` | - | - | - |
+| `createdBy` | - | - | - |
+| `deviceBuild` | - | - | - |
+| `deviceState` | - | - | - |
+| `deviceType` | - | - | Yes |
+| `errorCounter` | - | - | - |
+| `errorLastDate` | - | - | - |
+| `id` | - | - | - |
+| `initializedBy` | - | - | - |
+| `initializedDate` | - | - | - |
+| `injectKey` | - | - | - |
+| `isVirtual` | - | - | - |
+| `kif` | - | - | Yes |
+| `lastActivityDate` | - | - | - |
+| `location` | - | - | - |
+| `modified` | - | - | - |
+| `modifiedBy` | - | - | - |
+| `name` | - | - | - |
+| `notes` | - | - | - |
+| `partner` | - | - | - |
+| `serialNumber` | - | - | Yes |
+| `version` | - | - | - |
+
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> DeviceEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.Device().create({
@@ -498,19 +568,19 @@ result = client.Device().create({
 })
 ```
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[DeviceEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.Device().list()
 for device in results:
-    print(device)
+    print(device.data_get())
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> DeviceEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Device().load({"id": "device_id"})
@@ -573,19 +643,19 @@ device_build = client.DeviceBuild()
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[DeviceBuildEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.DeviceBuild().list()
 for device_build in results:
-    print(device_build)
+    print(device_build.data_get())
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> DeviceBuildEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.DeviceBuild().load({"id": "device_build_id"})
@@ -646,9 +716,9 @@ device_custody_detail = client.DeviceCustodyDetail()
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> DeviceCustodyDetailEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.DeviceCustodyDetail().load({"id": "device_custody_detail_id", "device_type": "device_type", "serial_number": "serial_number"})
@@ -709,14 +779,14 @@ device_custody_list_item = client.DeviceCustodyListItem()
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[DeviceCustodyListItemEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.DeviceCustodyListItem().list({"device_type": "example", "serial_number": "example"})
 for device_custody_list_item in results:
-    print(device_custody_list_item)
+    print(device_custody_list_item.data_get())
 ```
 
 ### Common Methods
@@ -758,17 +828,21 @@ device_receive_result = client.DeviceReceiveResult()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `serialNumber` | `str` | Yes | The serial number of the Device that is shipped. |
 | `success` | `bool` | Yes | Indicates if the action succeeded. |
+| `tamperLabel` | `str` | Yes | The code that is printed the tamper label of the Device that is shipped. |
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> DeviceReceiveResultEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.DeviceReceiveResult().create({
+    "serialNumber": "example_serialNumber",  # str
     "success": True,  # bool
+    "tamperLabel": "example_tamperLabel",  # str
 })
 ```
 
@@ -811,16 +885,25 @@ device_rki_activate_result = client.DeviceRkiActivateResult()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `appVersion` | `str` | No | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | `str` | No | The Device Builds's name. |
+| `buildNumber` | `str` | No | The Build Number. |
+| `configFile` | `str` | No | \? |
+| `firmwareVersion` | `str` | No | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `str` | No | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | `str` | Yes | The referenced Device's serial number. |
 | `success` | `bool` | Yes | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | `str` | No | \? |
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> DeviceRkiActivateResultEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.DeviceRkiActivateResult().create({
+    "serialNumber": "example_serialNumber",  # str
     "success": True,  # bool
 })
 ```
@@ -869,14 +952,14 @@ device_state = client.DeviceState()
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[DeviceStateEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.DeviceState().list()
 for device_state in results:
-    print(device_state)
+    print(device_state.data_get())
 ```
 
 ### Common Methods
@@ -933,19 +1016,19 @@ device_type = client.DeviceType()
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[DeviceTypeEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.DeviceType().list()
 for device_type in results:
-    print(device_type)
+    print(device_type.data_get())
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> DeviceTypeEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.DeviceType().load({"id": "device_type_id"})
@@ -1001,19 +1084,19 @@ inject_key = client.InjectKey()
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[InjectKeyEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.InjectKey().list()
 for inject_key in results:
-    print(inject_key)
+    print(inject_key.data_get())
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> InjectKeyEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.InjectKey().load({"id": "inject_key_id"})
@@ -1063,14 +1146,14 @@ kif = client.Kif()
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[KifEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.Kif().list()
 for kif in results:
-    print(kif)
+    print(kif.data_get())
 ```
 
 ### Common Methods
@@ -1116,6 +1199,7 @@ location = client.Location()
 | `address2` | `str` | No | The Location's street address. |
 | `billingId` | `str` | No | \? |
 | `city` | `str` | No | The Location's city. |
+| `client` | `dict` | No | Reference to the associated Client resource. |
 | `country` | `str` | No | The Location's country. |
 | `created` | `str` | No | Creation timestamp in ISO 8601 format. |
 | `customReference` | `str` | No | A Partner specified reference for a location. |
@@ -1136,38 +1220,67 @@ location = client.Location()
 | `uniqueId` | `str` | No | Unique Identifier for the Location. |
 | `version` | `int` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create | remove |
+| --- | --- | --- | --- | --- |
+| `address1` | - | - | Yes | - |
+| `address2` | - | - | - | - |
+| `billingId` | - | - | - | - |
+| `city` | - | - | Yes | - |
+| `client` | - | - | - | - |
+| `country` | - | - | Yes | - |
+| `created` | - | - | - | - |
+| `customReference` | - | - | - | - |
+| `id` | - | - | - | - |
+| `locationType` | - | - | Yes | - |
+| `mailAddress1` | - | - | - | - |
+| `mailAddress2` | - | - | - | - |
+| `mailCity` | - | - | - | - |
+| `mailCountry` | - | - | - | - |
+| `mailPostalCode` | - | - | - | - |
+| `mailStateProvince` | - | - | - | - |
+| `modified` | - | - | - | - |
+| `name` | - | - | Yes | - |
+| `nameOfBusiness` | - | - | - | - |
+| `notes` | - | - | - | - |
+| `postalCode` | - | - | - | - |
+| `stateProvince` | - | - | - | - |
+| `uniqueId` | - | - | - | - |
+| `version` | - | - | - | - |
+
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> LocationEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.Location().create({
 })
 ```
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[LocationEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.Location().list({"client": "example"})
 for location in results:
-    print(location)
+    print(location.data_get())
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> LocationEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Location().load({"id": "location_id"})
 ```
 
-#### `remove(reqmatch, ctrl=None) -> dict`
+#### `remove(reqmatch, ctrl=None) -> LocationEntity`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```python
 result = client.Location().remove({"id": "location_id"})
@@ -1233,24 +1346,24 @@ partner = client.Partner()
 | --- | --- | --- | --- |
 | `billingId` | - | - | - |
 | `clientCanOrderEquipment` | - | - | - |
-| `contact` | - | Yes | - |
+| `contact` | - | Yes | Yes |
 | `created` | - | - | - |
 | `id` | - | - | - |
 | `isActive` | - | - | - |
 | `location` | - | - | - |
 | `modified` | - | - | - |
-| `name` | - | - | - |
-| `parent` | - | - | - |
+| `name` | - | - | Yes |
+| `parent` | - | - | Yes |
 | `partnerId` | - | - | - |
-| `reference` | - | - | - |
+| `reference` | - | - | Yes |
 | `verificationPhrase` | - | - | - |
 | `version` | - | - | - |
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> PartnerEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.Partner().create({
@@ -1258,19 +1371,19 @@ result = client.Partner().create({
 })
 ```
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[PartnerEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.Partner().list()
 for partner in results:
-    print(partner)
+    print(partner.data_get())
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> PartnerEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Partner().load({"id": "partner_id"})
@@ -1324,36 +1437,58 @@ shipment = client.Shipment()
 | `id` | `str` | No | This resource's unique identifier. |
 | `items` | `list` | No |  |
 | `kif` | `dict` | No | Reference to the associated KIF resource. |
+| `location` | `dict` | Yes | Reference to the associated Location resource. |
 | `modified` | `str` | No | Last modified timestamp. |
 | `partner` | `dict` | No | Reference to the associated Partner. |
 | `shipmentType` | `str` | No | The type of shipment. |
 | `tracking` | `str` | No | The courier's tracking number. |
 | `version` | `int` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `carrier` | - | - | Yes |
+| `client` | - | - | Yes |
+| `created` | - | - | - |
+| `dateReceived` | - | - | - |
+| `dateShipped` | - | - | Yes |
+| `dcKif` | - | - | - |
+| `id` | - | - | - |
+| `items` | - | - | Yes |
+| `kif` | - | - | Yes |
+| `location` | - | - | - |
+| `modified` | - | - | - |
+| `partner` | - | - | Yes |
+| `shipmentType` | - | - | - |
+| `tracking` | - | - | Yes |
+| `version` | - | - | - |
+
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> ShipmentEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.Shipment().create({
+    "location": {},  # dict
 })
 ```
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[ShipmentEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.Shipment().list({"kif": "example"})
 for shipment in results:
-    print(shipment)
+    print(shipment.data_get())
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> ShipmentEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Shipment().load({"id": "shipment_id"})
@@ -1398,23 +1533,27 @@ success = client.Success()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `devices` | `list` | Yes | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | `dict` | Yes | Reference to the associated Partner. |
 | `success` | `bool` | No | Indicates if the action was a success. |
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> SuccessEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.Success().create({
     "share_partner_to": "example_share_partner_to",  # str
+    "devices": [],  # list
+    "sharePartnerFrom": {},  # dict
 })
 ```
 
-#### `remove(reqmatch, ctrl=None) -> dict`
+#### `remove(reqmatch, ctrl=None) -> SuccessEntity`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```python
 result = client.Success().remove({"share_partner_to": "share_partner_to"})
@@ -1464,6 +1603,7 @@ transaction = client.Transaction()
 | `clientRef` | `str` | No | Client Reference property that is included in the decrypt API call. |
 | `created` | `str` | No | Creation timestamp in ISO 8601 format. |
 | `decrypted` | `int` | No | A Transcation can process muliple decryptions. |
+| `device` | `dict` | Yes | Reference to the associated Device resource. |
 | `deviceName` | `str` | No | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | `dict` | No | Reference to the associated Partner. |
 | `encrypted` | `int` | No | A Transcation can process muliple encryptions. |
@@ -1484,31 +1624,62 @@ transaction = client.Transaction()
 | `success` | `bool` | No | The success indicator. |
 | `transactionSource` | `str` | No | The source of the Transaction. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `alternateKey` | - | - | - |
+| `client` | - | - | Yes |
+| `clientRef` | - | - | - |
+| `created` | - | - | - |
+| `decrypted` | - | - | - |
+| `device` | - | - | - |
+| `deviceName` | - | - | - |
+| `directPartner` | - | - | - |
+| `encrypted` | - | - | - |
+| `endDate` | - | - | - |
+| `errCode` | - | - | - |
+| `errMessage` | - | - | - |
+| `id` | - | - | - |
+| `ipAddress` | - | - | Yes |
+| `isVirtual` | - | - | - |
+| `keyType` | - | - | Yes |
+| `location` | - | - | - |
+| `messageId` | - | - | - |
+| `method` | - | - | Yes |
+| `partner` | - | - | Yes |
+| `reference` | - | - | - |
+| `serialNumber` | - | - | - |
+| `startDate` | - | - | - |
+| `success` | - | - | - |
+| `transactionSource` | - | - | - |
+
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> TransactionEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.Transaction().create({
+    "device": {},  # dict
     "location": {},  # dict
 })
 ```
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[TransactionEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.Transaction().list()
 for transaction in results:
-    print(transaction)
+    print(transaction.data_get())
 ```
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> TransactionEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Transaction().load({"id": "transaction_id"})
@@ -1553,43 +1724,171 @@ update_result = client.UpdateResult()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `address1` | `str` | No | The Location's street address. |
+| `address2` | `str` | No | The Location's street address. |
+| `alternateKey` | `str` | No | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `str` | No | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | `str` | No | \? |
+| `city` | `str` | No | The Location's city. |
 | `client` | `dict` | No | Reference to the associated Client resource. |
-| `email` | `str` | No | The User's email address. |
-| `firstName` | `str` | No | The User's name. |
+| `clientCanOrderEquipment` | `bool` | No | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | `str` | No | Client Reference property that is included in the decrypt API call. |
+| `contact` | `dict` | Yes | Reference to the associated User resource. |
+| `country` | `dict` | No | Reference to the associated Country. |
+| `customReference` | `str` | No | A Partner specified reference for a location. |
+| `dateShipped` | `str` | No | The date and time that a package is shipped. |
+| `decrypted` | `int` | No | A Transcation can process muliple decryptions. |
+| `device` | `dict` | No | Reference to the associated Device resource. |
+| `deviceBuild` | `dict` | No | Reference to the associated Device Build resource. |
+| `deviceType` | `dict` | No | Reference to the associated Device Type resource. |
+| `directPartner` | `dict` | No | Reference to the associated Partner. |
+| `email` | `str` | Yes | The User's email address. |
+| `encrypted` | `int` | No | A Transcation can process muliple encryptions. |
+| `endDate` | `str` | No | Timestamp from the end of the transaction. |
+| `errCode` | `str` | No | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `str` | No | The error messge that is sent in response to a failed decrypt API call. |
+| `firstName` | `str` | Yes | The User's name. |
 | `id` | `str` | No | ID of newly created resource |
-| `isActive` | `bool` | No | This property indicates if the User account is active or disabled. |
+| `injectKey` | `dict` | No | Reference to the associated Device resource. |
+| `ipAddress` | `str` | No | The IP address of the http client that makes the decrypt API call. |
+| `isActive` | `bool` | Yes | This property indicates if the User account is active or disabled. |
+| `items` | `list` | No |  |
+| `keyType` | `str` | No | The type of cipher used during decrytion. |
 | `kif` | `dict` | No | Reference to the associated KIF resource. |
-| `lastName` | `str` | No | The User's Surname. |
+| `lastName` | `str` | Yes | The User's Surname. |
+| `location` | `dict` | Yes | Reference to the associated Location resource. |
+| `locationType` | `str` | No | The Location's clasification. |
+| `mailAddress1` | `str` | No | The Location's street address. |
+| `mailAddress2` | `str` | No | The Location's street address. |
+| `mailCity` | `str` | No | The Location's city. |
+| `mailCountry` | `str` | No | The Location's street address. |
+| `mailPostalCode` | `str` | No | The Location's postal code. |
+| `mailStateProvince` | `str` | No | The Location's street state or province. |
+| `messageId` | `str` | No | Message ID. |
+| `method` | `str` | No | The decryption cypher/method. |
+| `mid` | `str` | No | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | `str` | No | The Client's name. |
+| `nameOfBusiness` | `str` | No | The name of the business at this location. |
+| `notes` | `str` | No | Arbitary note that can be attached to a Device entry. |
+| `parent` | `dict` | No | Reference to the associated Partner. |
 | `partner` | `dict` | No | Reference to the associated Partner. |
-| `phone` | `str` | No | The User's phone number without dashes, spaces, or brackets. |
-| `userName` | `str` | No | The User's unique username. |
-| `userRole` | `dict` | No | Reference to the associated User Role. |
+| `partnerId` | `str` | No | The Partner's id. |
+| `phone` | `str` | Yes | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | `str` | No | The Location's postal code. |
+| `reference` | `str` | No | The Partner's reference string. |
+| `sendWelcomeEmail` | `bool` | No | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | `str` | No | The Device's serial number. |
+| `startDate` | `str` | No | Timestamp from the beginning of the transaction. |
+| `stateProvince` | `str` | No | The Location's street state or province. |
+| `success` | `bool` | No | The success indicator. |
+| `tracking` | `str` | No | The courier's tracking number. |
+| `uniqueId` | `str` | No | Unique Identifier for the Location. |
+| `userName` | `str` | Yes | The User's unique username. |
+| `userRole` | `dict` | Yes | Reference to the associated User Role. |
+| `verificationPhrase` | `str` | No | The verification phrase is a message that the Partner creates. |
 | `version` | `int` | No | The number of times that this resource has been updated. |
+
+### Field Usage by Operation
+
+| Field | list | create | update |
+| --- | --- | --- | --- |
+| `address1` | - | - | - |
+| `address2` | - | - | - |
+| `alternateKey` | - | - | - |
+| `auditNextDate` | - | - | - |
+| `billingId` | - | - | - |
+| `city` | - | - | - |
+| `client` | - | - | - |
+| `clientCanOrderEquipment` | - | - | - |
+| `clientRef` | - | - | - |
+| `contact` | - | - | - |
+| `country` | - | - | - |
+| `customReference` | - | - | - |
+| `dateShipped` | - | - | - |
+| `decrypted` | - | - | - |
+| `device` | - | - | - |
+| `deviceBuild` | - | - | - |
+| `deviceType` | - | - | - |
+| `directPartner` | - | - | - |
+| `email` | Yes | - | Yes |
+| `encrypted` | - | - | - |
+| `endDate` | - | - | - |
+| `errCode` | - | - | - |
+| `errMessage` | - | - | - |
+| `firstName` | Yes | - | Yes |
+| `id` | - | - | - |
+| `injectKey` | - | - | - |
+| `ipAddress` | - | - | - |
+| `isActive` | Yes | - | Yes |
+| `items` | - | - | - |
+| `keyType` | - | - | - |
+| `kif` | - | - | - |
+| `lastName` | Yes | - | Yes |
+| `location` | - | - | - |
+| `locationType` | - | - | - |
+| `mailAddress1` | - | - | - |
+| `mailAddress2` | - | - | - |
+| `mailCity` | - | - | - |
+| `mailCountry` | - | - | - |
+| `mailPostalCode` | - | - | - |
+| `mailStateProvince` | - | - | - |
+| `messageId` | - | - | - |
+| `method` | - | - | - |
+| `mid` | - | - | - |
+| `name` | - | - | - |
+| `nameOfBusiness` | - | - | - |
+| `notes` | - | - | - |
+| `parent` | - | - | - |
+| `partner` | - | - | - |
+| `partnerId` | - | - | - |
+| `phone` | Yes | - | Yes |
+| `postalCode` | - | - | - |
+| `reference` | - | - | - |
+| `sendWelcomeEmail` | - | - | - |
+| `serialNumber` | - | - | - |
+| `startDate` | - | - | - |
+| `stateProvince` | - | - | - |
+| `success` | - | - | - |
+| `tracking` | - | - | - |
+| `uniqueId` | - | - | - |
+| `userName` | Yes | - | Yes |
+| `userRole` | Yes | - | Yes |
+| `verificationPhrase` | - | - | - |
+| `version` | - | - | - |
 
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> UpdateResultEntity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
 result = client.UpdateResult().create({
+    "contact": {},  # dict
+    "email": "example_email",  # str
+    "firstName": "example_firstName",  # str
+    "isActive": True,  # bool
+    "lastName": "example_lastName",  # str
+    "location": {},  # dict
+    "phone": "example_phone",  # str
+    "userName": "example_userName",  # str
+    "userRole": {},  # dict
 })
 ```
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[UpdateResultEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
 results = client.UpdateResult().list()
 for update_result in results:
-    print(update_result)
+    print(update_result.data_get())
 ```
 
-#### `update(reqdata, ctrl=None) -> dict`
+#### `update(reqdata, ctrl=None) -> UpdateResultEntity`
 
-Update an existing entity. The data must include the entity `id`. Returns the updated entity data and raises on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
 
 ```python
 result = client.UpdateResult().update({
@@ -1654,17 +1953,17 @@ user = client.User()
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> UserEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.User().load({"id": "user_id"})
 ```
 
-#### `remove(reqmatch, ctrl=None) -> dict`
+#### `remove(reqmatch, ctrl=None) -> UserEntity`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```python
 result = client.User().remove({"id": "user_id"})
@@ -1715,9 +2014,9 @@ virtual_device = client.VirtualDevice()
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `load(reqmatch, ctrl=None) -> VirtualDeviceEntity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.VirtualDevice().load({"id": "virtual_device_id"})
@@ -2173,6 +2472,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

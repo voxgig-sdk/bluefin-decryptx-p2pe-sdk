@@ -11,35 +11,18 @@ final class DeviceCustodyListItemEntityTest: XCTestCase {
     XCTAssertEqual(ent.getName(), "device_custody_list_item")
   }
 
-  func testStream() async throws {
-    // Seed two records (under the test feature's entity key) and activate
-    // the streaming feature.
-    let fixtures = vm(("entity", .map(vm(("device_custody_list_item", .map(vm(
-      ("s1", .map(vm(("id", .string("s1"))))),
-      ("s2", .map(vm(("id", .string("s2"))))))))))))
-    let sdkopts = vm(
-      ("feature", .map(vm(("streaming", .map(vm(("active", .bool(true)))))))))
-    let sdk = BluefinDecryptxP2peSDK.testSDK(fixtures, sdkopts)
-    let ent = sdk.DeviceCustodyListItem()
+  // An invalid request fails with validate's own error, before it is sent.
+  func testValidate() throws {
+    try XCTSkipUnless(DeviceCustodyListItemEntityTest.hasFeature("validate"), "feature not present in this SDK: validate")
+    let client = BluefinDecryptxP2peSDK.testSDK(nil, vm(("feature", .map(vm(("validate", .map(vm(("active", .bool(true))))))))))
+    var err: Error? = nil
+    do { _ = try client.DeviceCustodyListItem().list(vm(("device_type", .int(1)), ("serial_number", .string("x"))), nil) } catch { err = error }
+    XCTAssertEqual((err as? BluefinDecryptxP2peError)?.code, "validate_failed",
+      "expected validate_failed, got \(String(describing: err))")
+  }
 
-    // Materialised list result for the same op.
-    let listed = try ent.list(VMap(), nil)
-    let listedN = listed.asList?.items.count ?? 0
-
-    // stream("list") yields items via the streaming feature's iterator.
-    var streamed: [Value] = []
-    let seq = try ent.stream("list", VMap(), nil)
-    for await item in seq { streamed.append(item) }
-    XCTAssertGreaterThan(streamed.count, 0, "expected stream to yield items")
-    XCTAssertEqual(streamed.count, listedN)
-
-    // Fallback: with streaming inactive, stream still yields the materialised
-    // items.
-    let sdk2 = BluefinDecryptxP2peSDK.testSDK(fixtures, nil)
-    let ent2 = sdk2.DeviceCustodyListItem()
-    var streamed2: [Value] = []
-    let seq2 = try ent2.stream("list", VMap(), nil)
-    for await item in seq2 { streamed2.append(item) }
-    XCTAssertEqual(streamed2.count, listedN)
+  // True when this SDK was generated with the named feature.
+  static func hasFeature(_ name: String) -> Bool {
+    gp(SdkConfig.makeConfig(), "feature").asMap?.entries[name] != nil
   }
 }

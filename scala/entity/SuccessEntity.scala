@@ -46,6 +46,10 @@ class SuccessEntity(client0: SdkClient, entopts0: JMap[String, Object]) extends 
     throw Helpers.unsupportedOp("update", this.name)
 
 
+  override def patch(req: java.util.Map[String, Object], ctrl: java.util.Map[String, Object]): Object =
+    throw Helpers.unsupportedOp("patch", this.name)
+
+
 
   override def remove(reqmatch: JMap[String, Object], ctrl: JMap[String, Object]): Object = {
     val ctxmap = new LinkedHashMap[String, Object]()

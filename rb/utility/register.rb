@@ -33,6 +33,8 @@ require_relative 'transform_response'
 
 BluefinDecryptxP2peUtility.registrar = ->(u) {
   u.clean = BluefinDecryptxP2peUtilities::Clean
+  u.clean_add = BluefinDecryptxP2peUtilities::CleanAdd
+  u.clean_explain = BluefinDecryptxP2peUtilities::CleanExplain
   u.done = BluefinDecryptxP2peUtilities::Done
   u.make_error = BluefinDecryptxP2peUtilities::MakeError
   u.feature_add = BluefinDecryptxP2peUtilities::FeatureAdd

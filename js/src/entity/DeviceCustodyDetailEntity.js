@@ -24,7 +24,7 @@ class DeviceCustodyDetailEntity extends BluefinDecryptxP2peEntityBase {
   /**
    * @param {DeviceCustodyDetailLoadMatch} [reqmatch]
    * @param {Object} [ctrl]
-   * @returns {Promise<DeviceCustodyDetail>}
+   * @returns {Promise<DeviceCustodyDetailEntity>}
    */
   async load(reqmatch, ctrl) {
 
@@ -129,9 +129,15 @@ class DeviceCustodyDetailEntity extends BluefinDecryptxP2peEntityBase {
       return (ctx.result && ctx.result.ok) ? this : out
     }
     catch (err) {
+      // What a hook throws here must not escape the cleaning below.
+      try {
 
-      fres = featureHook(ctx, 'PreUnexpected')
-      if (fres instanceof Promise) { await fres }
+        fres = featureHook(ctx, 'PreUnexpected')
+        if (fres instanceof Promise) { await fres }
+      }
+      catch (hookerr) {
+        err = hookerr
+      }
 
       err = this._unexpected(ctx, err)
 
@@ -143,6 +149,7 @@ class DeviceCustodyDetailEntity extends BluefinDecryptxP2peEntityBase {
       }
     }
   }
+
 
 
 

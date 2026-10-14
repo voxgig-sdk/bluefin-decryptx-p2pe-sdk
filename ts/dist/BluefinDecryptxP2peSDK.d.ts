@@ -28,6 +28,19 @@ import { BluefinDecryptxP2peEntityBase } from './BluefinDecryptxP2peEntityBase';
 import { Utility } from './utility/Utility';
 import { BaseFeature } from './feature/base/BaseFeature';
 declare const stdutil: Utility;
+type DirectResult = {
+    ok: false;
+    err: any;
+    status?: undefined;
+    headers?: undefined;
+    data?: undefined;
+} | {
+    ok: boolean;
+    status: number;
+    headers: any;
+    data: any;
+    err?: any;
+};
 declare class BluefinDecryptxP2peSDK {
     _mode: string;
     _options: any;
@@ -38,32 +51,8 @@ declare class BluefinDecryptxP2peSDK {
     options(): any;
     utility(): any;
     prepare(fetchargs?: any): Promise<any>;
-    direct(fetchargs?: any): Promise<Error | {
-        ok: boolean;
-        status: number;
-        headers: any;
-        data: any;
-        err?: undefined;
-    } | {
-        ok: boolean;
-        err: any;
-        status?: undefined;
-        headers?: undefined;
-        data?: undefined;
-    }>;
-    _rawRequest(fetchargs?: any): Promise<Error | {
-        ok: boolean;
-        status: number;
-        headers: any;
-        data: any;
-        err?: undefined;
-    } | {
-        ok: boolean;
-        err: any;
-        status?: undefined;
-        headers?: undefined;
-        data?: undefined;
-    }>;
+    direct(fetchargs?: any): Promise<DirectResult>;
+    _rawRequest(fetchargs?: any): Promise<DirectResult>;
     graphql(query: string, variables?: any, ctrl?: any): Promise<any>;
     Attestation(entopts?: Record<string, any>): AttestationEntity;
     Client(entopts?: Record<string, any>): ClientEntity;
@@ -97,3 +86,4 @@ declare class BluefinDecryptxP2peSDK {
 }
 declare const SDK: typeof BluefinDecryptxP2peSDK;
 export { stdutil, config, BaseFeature, BluefinDecryptxP2peEntityBase, BluefinDecryptxP2peSDK, SDK, };
+export type { DirectResult };

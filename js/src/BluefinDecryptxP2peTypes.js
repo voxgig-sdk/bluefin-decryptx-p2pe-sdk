@@ -12,6 +12,7 @@
  * @property {string} [completeDate]
  * @property {string} [created]
  * @property {Object} [device]
+ * @property {Array} devices
  * @property {string} [id]
  * @property {string} [name]
  * @property {string} [notes]
@@ -35,6 +36,7 @@
  * @property {string} [completeDate]
  * @property {string} [created]
  * @property {Object} [device]
+ * @property {Array} devices
  * @property {string} [id]
  * @property {string} [name]
  * @property {string} [notes]
@@ -89,21 +91,45 @@
 
 /**
  * @typedef {Object} CreateResult
+ * @property {string} [completeDate]
+ * @property {Object} custodian
+ * @property {Object} location
+ * @property {string} [notes]
  */
 
 /**
  * @typedef {Object} CreateResultCreateData
  * @property {string} device_type
  * @property {string} serial_number
+ * @property {string} [completeDate]
+ * @property {Object} custodian
+ * @property {Object} location
+ * @property {string} [notes]
  */
 
 /**
  * @typedef {Object} Decryption
+ * @property {string} [cbcVector]
+ * @property {string} deviceType
+ * @property {string} [encoding]
+ * @property {Array} encrypted
+ * @property {string} [hasCcData]
+ * @property {string} [reference]
+ * @property {string} [sequenceNumber]
+ * @property {string} serialNumber
  * @property {boolean} [success]
  */
 
 /**
  * @typedef {Object} DecryptionCreateData
+ * @property {string} [cbcVector]
+ * @property {string} deviceType
+ * @property {string} [encoding]
+ * @property {Array} encrypted
+ * @property {string} [hasCcData]
+ * @property {string} [reference]
+ * @property {string} [sequenceNumber]
+ * @property {string} serialNumber
  * @property {boolean} [success]
  */
 
@@ -271,22 +297,42 @@
 
 /**
  * @typedef {Object} DeviceReceiveResult
+ * @property {string} serialNumber
  * @property {boolean} success
+ * @property {string} tamperLabel
  */
 
 /**
  * @typedef {Object} DeviceReceiveResultCreateData
+ * @property {string} serialNumber
  * @property {boolean} success
+ * @property {string} tamperLabel
  */
 
 /**
  * @typedef {Object} DeviceRkiActivateResult
+ * @property {string} [appVersion]
+ * @property {string} [buildName]
+ * @property {string} [buildNumber]
+ * @property {string} [configFile]
+ * @property {string} [firmwareVersion]
+ * @property {string} [hardwareVersion]
+ * @property {string} serialNumber
  * @property {boolean} success
+ * @property {string} [whiteListingBinRanges]
  */
 
 /**
  * @typedef {Object} DeviceRkiActivateResultCreateData
+ * @property {string} [appVersion]
+ * @property {string} [buildName]
+ * @property {string} [buildNumber]
+ * @property {string} [configFile]
+ * @property {string} [firmwareVersion]
+ * @property {string} [hardwareVersion]
+ * @property {string} serialNumber
  * @property {boolean} success
+ * @property {string} [whiteListingBinRanges]
  */
 
 /**
@@ -385,6 +431,7 @@
  * @property {string} [address2]
  * @property {string} [billingId]
  * @property {string} [city]
+ * @property {Object} [client]
  * @property {string} [country]
  * @property {string} [created]
  * @property {string} [customReference]
@@ -424,6 +471,7 @@
  * @property {string} [address2]
  * @property {string} [billingId]
  * @property {string} [city]
+ * @property {Object} [client]
  * @property {string} [country]
  * @property {string} [created]
  * @property {string} [customReference]
@@ -509,6 +557,7 @@
  * @property {string} [id]
  * @property {Array} [items]
  * @property {Object} [kif]
+ * @property {Object} location
  * @property {string} [modified]
  * @property {Object} [partner]
  * @property {string} [shipmentType]
@@ -540,6 +589,7 @@
  * @property {string} [id]
  * @property {Array} [items]
  * @property {Object} [kif]
+ * @property {Object} location
  * @property {string} [modified]
  * @property {Object} [partner]
  * @property {string} [shipmentType]
@@ -549,12 +599,16 @@
 
 /**
  * @typedef {Object} Success
+ * @property {Array} devices
+ * @property {Object} sharePartnerFrom
  * @property {boolean} [success]
  */
 
 /**
  * @typedef {Object} SuccessCreateData
  * @property {string} share_partner_to
+ * @property {Array} devices
+ * @property {Object} sharePartnerFrom
  * @property {boolean} [success]
  */
 
@@ -570,6 +624,7 @@
  * @property {string} [clientRef]
  * @property {string} [created]
  * @property {number} [decrypted]
+ * @property {Object} device
  * @property {string} [deviceName]
  * @property {Object} [directPartner]
  * @property {number} [encrypted]
@@ -620,6 +675,7 @@
  * @property {string} [clientRef]
  * @property {string} [created]
  * @property {number} [decrypted]
+ * @property {Object} device
  * @property {string} [deviceName]
  * @property {Object} [directPartner]
  * @property {number} [encrypted]
@@ -643,17 +699,68 @@
 
 /**
  * @typedef {Object} UpdateResult
+ * @property {string} [address1]
+ * @property {string} [address2]
+ * @property {string} [alternateKey]
+ * @property {string} [auditNextDate]
+ * @property {string} [billingId]
+ * @property {string} [city]
  * @property {Object} [client]
- * @property {string} [email]
- * @property {string} [firstName]
+ * @property {boolean} [clientCanOrderEquipment]
+ * @property {string} [clientRef]
+ * @property {Object} contact
+ * @property {Object} [country]
+ * @property {string} [customReference]
+ * @property {string} [dateShipped]
+ * @property {number} [decrypted]
+ * @property {Object} [device]
+ * @property {Object} [deviceBuild]
+ * @property {Object} [deviceType]
+ * @property {Object} [directPartner]
+ * @property {string} email
+ * @property {number} [encrypted]
+ * @property {string} [endDate]
+ * @property {string} [errCode]
+ * @property {string} [errMessage]
+ * @property {string} firstName
  * @property {string} [id]
- * @property {boolean} [isActive]
+ * @property {Object} [injectKey]
+ * @property {string} [ipAddress]
+ * @property {boolean} isActive
+ * @property {Array} [items]
+ * @property {string} [keyType]
  * @property {Object} [kif]
- * @property {string} [lastName]
+ * @property {string} lastName
+ * @property {Object} location
+ * @property {string} [locationType]
+ * @property {string} [mailAddress1]
+ * @property {string} [mailAddress2]
+ * @property {string} [mailCity]
+ * @property {string} [mailCountry]
+ * @property {string} [mailPostalCode]
+ * @property {string} [mailStateProvince]
+ * @property {string} [messageId]
+ * @property {string} [method]
+ * @property {string} [mid]
+ * @property {string} [name]
+ * @property {string} [nameOfBusiness]
+ * @property {string} [notes]
+ * @property {Object} [parent]
  * @property {Object} [partner]
- * @property {string} [phone]
- * @property {string} [userName]
- * @property {Object} [userRole]
+ * @property {string} [partnerId]
+ * @property {string} phone
+ * @property {string} [postalCode]
+ * @property {string} [reference]
+ * @property {boolean} [sendWelcomeEmail]
+ * @property {string} [serialNumber]
+ * @property {string} [startDate]
+ * @property {string} [stateProvince]
+ * @property {boolean} [success]
+ * @property {string} [tracking]
+ * @property {string} [uniqueId]
+ * @property {string} userName
+ * @property {Object} userRole
+ * @property {string} [verificationPhrase]
  * @property {number} [version]
  */
 
@@ -668,33 +775,135 @@
 
 /**
  * @typedef {Object} UpdateResultCreateData
+ * @property {string} [address1]
+ * @property {string} [address2]
+ * @property {string} [alternateKey]
+ * @property {string} [auditNextDate]
+ * @property {string} [billingId]
+ * @property {string} [city]
  * @property {Object} [client]
- * @property {string} [email]
- * @property {string} [firstName]
+ * @property {boolean} [clientCanOrderEquipment]
+ * @property {string} [clientRef]
+ * @property {Object} contact
+ * @property {Object} [country]
+ * @property {string} [customReference]
+ * @property {string} [dateShipped]
+ * @property {number} [decrypted]
+ * @property {Object} [device]
+ * @property {Object} [deviceBuild]
+ * @property {Object} [deviceType]
+ * @property {Object} [directPartner]
+ * @property {string} email
+ * @property {number} [encrypted]
+ * @property {string} [endDate]
+ * @property {string} [errCode]
+ * @property {string} [errMessage]
+ * @property {string} firstName
  * @property {string} [id]
- * @property {boolean} [isActive]
+ * @property {Object} [injectKey]
+ * @property {string} [ipAddress]
+ * @property {boolean} isActive
+ * @property {Array} [items]
+ * @property {string} [keyType]
  * @property {Object} [kif]
- * @property {string} [lastName]
+ * @property {string} lastName
+ * @property {Object} location
+ * @property {string} [locationType]
+ * @property {string} [mailAddress1]
+ * @property {string} [mailAddress2]
+ * @property {string} [mailCity]
+ * @property {string} [mailCountry]
+ * @property {string} [mailPostalCode]
+ * @property {string} [mailStateProvince]
+ * @property {string} [messageId]
+ * @property {string} [method]
+ * @property {string} [mid]
+ * @property {string} [name]
+ * @property {string} [nameOfBusiness]
+ * @property {string} [notes]
+ * @property {Object} [parent]
  * @property {Object} [partner]
- * @property {string} [phone]
- * @property {string} [userName]
- * @property {Object} [userRole]
+ * @property {string} [partnerId]
+ * @property {string} phone
+ * @property {string} [postalCode]
+ * @property {string} [reference]
+ * @property {boolean} [sendWelcomeEmail]
+ * @property {string} [serialNumber]
+ * @property {string} [startDate]
+ * @property {string} [stateProvince]
+ * @property {boolean} [success]
+ * @property {string} [tracking]
+ * @property {string} [uniqueId]
+ * @property {string} userName
+ * @property {Object} userRole
+ * @property {string} [verificationPhrase]
  * @property {number} [version]
  */
 
 /**
  * @typedef {Object} UpdateResultUpdateData
  * @property {string} id
+ * @property {string} [address1]
+ * @property {string} [address2]
+ * @property {string} [alternateKey]
+ * @property {string} [auditNextDate]
+ * @property {string} [billingId]
+ * @property {string} [city]
  * @property {Object} [client]
+ * @property {boolean} [clientCanOrderEquipment]
+ * @property {string} [clientRef]
+ * @property {Object} [contact]
+ * @property {Object} [country]
+ * @property {string} [customReference]
+ * @property {string} [dateShipped]
+ * @property {number} [decrypted]
+ * @property {Object} [device]
+ * @property {Object} [deviceBuild]
+ * @property {Object} [deviceType]
+ * @property {Object} [directPartner]
  * @property {string} [email]
+ * @property {number} [encrypted]
+ * @property {string} [endDate]
+ * @property {string} [errCode]
+ * @property {string} [errMessage]
  * @property {string} [firstName]
+ * @property {Object} [injectKey]
+ * @property {string} [ipAddress]
  * @property {boolean} [isActive]
+ * @property {Array} [items]
+ * @property {string} [keyType]
  * @property {Object} [kif]
  * @property {string} [lastName]
+ * @property {Object} [location]
+ * @property {string} [locationType]
+ * @property {string} [mailAddress1]
+ * @property {string} [mailAddress2]
+ * @property {string} [mailCity]
+ * @property {string} [mailCountry]
+ * @property {string} [mailPostalCode]
+ * @property {string} [mailStateProvince]
+ * @property {string} [messageId]
+ * @property {string} [method]
+ * @property {string} [mid]
+ * @property {string} [name]
+ * @property {string} [nameOfBusiness]
+ * @property {string} [notes]
+ * @property {Object} [parent]
  * @property {Object} [partner]
+ * @property {string} [partnerId]
  * @property {string} [phone]
+ * @property {string} [postalCode]
+ * @property {string} [reference]
+ * @property {boolean} [sendWelcomeEmail]
+ * @property {string} [serialNumber]
+ * @property {string} [startDate]
+ * @property {string} [stateProvince]
+ * @property {boolean} [success]
+ * @property {string} [tracking]
+ * @property {string} [uniqueId]
  * @property {string} [userName]
  * @property {Object} [userRole]
+ * @property {string} [verificationPhrase]
  * @property {number} [version]
  */
 

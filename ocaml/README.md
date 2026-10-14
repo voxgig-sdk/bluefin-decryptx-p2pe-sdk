@@ -17,7 +17,7 @@ keeps the cognitive load low.
 
 ## Install
 This package is not yet published to the opam registry. Install it from the
-GitHub release tag (`ocaml/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases))
+GitHub release tag (`ocaml/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags))
 or from a source checkout. The SDK is dependency-free and compiles with the
 stock `ocamlc` — no opam packages, no dune:
 
@@ -36,6 +36,7 @@ loading a specific record.
 ```ocaml
 open Voxgig_struct
 open Sdk_helpers
+open Sdk_types
 
 let client = Sdk_client.make (jo [("apikey", Str (Sys.getenv "BLUEFIN_DECRYPTX_P2PE_APIKEY"))])
 ```
@@ -47,7 +48,7 @@ record with `e_data_get`.
 
 ```ocaml
 (try
-   let attestations = (Sdk_client.attestation client Noval).e_list (empty_map ()) Noval in
+   let attestations = (Sdk_client.attestation client Noval).e_list (jo [("client", (Str "example"))]) Noval in
    List.iter (fun e -> print_endline (stringify (e.e_data_get ()))) attestations
  with Sdk_error.E err -> Printf.eprintf "list failed: %s\n" (Sdk_error.message err))
 ```
@@ -69,7 +70,7 @@ record.
 
 ```ocaml
 (* Create — resolves to the ENTITY; e_data_get gives the record *)
-let created = (Sdk_client.attestation client Noval).e_create (jo [("client", (empty_map ())); ("completeDate", (Str "example_completeDate"))]) Noval in
+let created = (Sdk_client.attestation client Noval).e_create (jo [("devices", (empty_list ()))]) Noval in
 print_endline (stringify (created.e_data_get ()));
 
 ```
@@ -82,14 +83,15 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 ```ts
 try {
   const devicetypes = await client.DeviceType().list()
-  console.log(devicetypes)
+  console.log(devicetypes.map((item) => item.data()))
 } catch (err) {
   console.error('list failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -98,8 +100,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -191,6 +193,7 @@ cd ocaml && make test
 ```ocaml
 open Voxgig_struct
 open Sdk_helpers
+open Sdk_types
 
 let client = Sdk_client.make options
 ```
@@ -296,6 +299,7 @@ On error, `ok` is `Bool false` and `err` carries the error value.
 | `completeDate` | The date and time that the Attestation took place. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `device` | Reference to the associated Device resource. |
+| `devices` |  |
 | `id` | This resource's unique identifier. |
 | `name` | Text describing the attestation. |
 | `notes` | Free form field that allows the Client associate notes with the Attestation. |
@@ -328,6 +332,10 @@ API path: `/clients`
 
 | Field | Description |
 | --- | --- |
+| `completeDate` | The date and time that the Custody change took place. |
+| `custodian` | Reference to the associated User resource. |
+| `location` | Reference to the associated Location resource. |
+| `notes` | Free form field that allows the Client associate notes with the Custody Change. |
 
 Operations: Create.
 
@@ -337,6 +345,14 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
+| `cbcVector` | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | The device Type. |
+| `encoding` | The payload encoding |
+| `encrypted` |  |
+| `hasCcData` | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | The serial number of the device. |
 | `success` | true if the payload decryption was successful. |
 
 Operations: Create.
@@ -452,7 +468,9 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
+| `serialNumber` | The serial number of the Device that is shipped. |
 | `success` | Indicates if the action succeeded. |
+| `tamperLabel` | The code that is printed the tamper label of the Device that is shipped. |
 
 Operations: Create.
 
@@ -462,7 +480,15 @@ API path: `/devices/receive`
 
 | Field | Description |
 | --- | --- |
+| `appVersion` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | The Device Builds's name. |
+| `buildNumber` | The Build Number. |
+| `configFile` | \? |
+| `firmwareVersion` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | The referenced Device's serial number. |
 | `success` | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | \? |
 
 Operations: Create.
 
@@ -536,6 +562,7 @@ API path: `/kifs`
 | `address2` | The Location's street address. |
 | `billingId` | \? |
 | `city` | The Location's city. |
+| `client` | Reference to the associated Client resource. |
 | `country` | The Location's country. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `customReference` | A Partner specified reference for a location. |
@@ -596,6 +623,7 @@ API path: `/partners`
 | `id` | This resource's unique identifier. |
 | `items` |  |
 | `kif` | Reference to the associated KIF resource. |
+| `location` | Reference to the associated Location resource. |
 | `modified` | Last modified timestamp. |
 | `partner` | Reference to the associated Partner. |
 | `shipmentType` | The type of shipment. |
@@ -610,6 +638,8 @@ API path: `/shipments`
 
 | Field | Description |
 | --- | --- |
+| `devices` | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | Reference to the associated Partner. |
 | `success` | Indicates if the action was a success. |
 
 Operations: Create, Remove.
@@ -625,6 +655,7 @@ API path: `/virtualDevices/{sharePartnerTo}`
 | `clientRef` | Client Reference property that is included in the decrypt API call. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `decrypted` | A Transcation can process muliple decryptions. |
+| `device` | Reference to the associated Device resource. |
 | `deviceName` | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | Reference to the associated Partner. |
 | `encrypted` | A Transcation can process muliple encryptions. |
@@ -653,17 +684,68 @@ API path: `/transactions`
 
 | Field | Description |
 | --- | --- |
+| `address1` | The Location's street address. |
+| `address2` | The Location's street address. |
+| `alternateKey` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | \? |
+| `city` | The Location's city. |
 | `client` | Reference to the associated Client resource. |
+| `clientCanOrderEquipment` | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | Client Reference property that is included in the decrypt API call. |
+| `contact` | Reference to the associated User resource. |
+| `country` | Reference to the associated Country. |
+| `customReference` | A Partner specified reference for a location. |
+| `dateShipped` | The date and time that a package is shipped. |
+| `decrypted` | A Transcation can process muliple decryptions. |
+| `device` | Reference to the associated Device resource. |
+| `deviceBuild` | Reference to the associated Device Build resource. |
+| `deviceType` | Reference to the associated Device Type resource. |
+| `directPartner` | Reference to the associated Partner. |
 | `email` | The User's email address. |
+| `encrypted` | A Transcation can process muliple encryptions. |
+| `endDate` | Timestamp from the end of the transaction. |
+| `errCode` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | The error messge that is sent in response to a failed decrypt API call. |
 | `firstName` | The User's name. |
 | `id` | ID of newly created resource |
+| `injectKey` | Reference to the associated Device resource. |
+| `ipAddress` | The IP address of the http client that makes the decrypt API call. |
 | `isActive` | This property indicates if the User account is active or disabled. |
+| `items` |  |
+| `keyType` | The type of cipher used during decrytion. |
 | `kif` | Reference to the associated KIF resource. |
 | `lastName` | The User's Surname. |
+| `location` | Reference to the associated Location resource. |
+| `locationType` | The Location's clasification. |
+| `mailAddress1` | The Location's street address. |
+| `mailAddress2` | The Location's street address. |
+| `mailCity` | The Location's city. |
+| `mailCountry` | The Location's street address. |
+| `mailPostalCode` | The Location's postal code. |
+| `mailStateProvince` | The Location's street state or province. |
+| `messageId` | Message ID. |
+| `method` | The decryption cypher/method. |
+| `mid` | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | The Client's name. |
+| `nameOfBusiness` | The name of the business at this location. |
+| `notes` | Arbitary note that can be attached to a Device entry. |
+| `parent` | Reference to the associated Partner. |
 | `partner` | Reference to the associated Partner. |
+| `partnerId` | The Partner's id. |
 | `phone` | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | The Location's postal code. |
+| `reference` | The Partner's reference string. |
+| `sendWelcomeEmail` | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | The Device's serial number. |
+| `startDate` | Timestamp from the beginning of the transaction. |
+| `stateProvince` | The Location's street state or province. |
+| `success` | The success indicator. |
+| `tracking` | The courier's tracking number. |
+| `uniqueId` | Unique Identifier for the Location. |
 | `userName` | The User's unique username. |
 | `userRole` | Reference to the associated User Role. |
+| `verificationPhrase` | The verification phrase is a message that the Partner creates. |
 | `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Update.
@@ -730,6 +812,7 @@ Create an instance: `let attestation = Sdk_client.attestation client Noval`
 | `completeDate` | `string` | The date and time that the Attestation took place. |
 | `created` | `string` | Creation timestamp in ISO 8601 format. |
 | `device` | `value map` | Reference to the associated Device resource. |
+| `devices` | `value list` |  |
 | `id` | `string` | This resource's unique identifier. |
 | `name` | `string` | Text describing the attestation. |
 | `notes` | `string` | Free form field that allows the Client associate notes with the Attestation. |
@@ -746,7 +829,7 @@ let attestation_data = attestation.e_data_get ()
 
 ```ocaml
 (* One ENTITY per record. *)
-let attestations = (Sdk_client.attestation client Noval).e_list (empty_map ()) Noval
+let attestations = (Sdk_client.attestation client Noval).e_list (jo [("client", (Str "example"))]) Noval
 let attestation_datas = List.map (fun e -> e.e_data_get ()) attestations
 ```
 
@@ -754,6 +837,7 @@ let attestation_datas = List.map (fun e -> e.e_data_get ()) attestations
 
 ```ocaml
 let attestation = (Sdk_client.attestation client Noval).e_create (jo [
+    ("devices", (empty_list ()));  (* value list *)
 ]) Noval
 let attestation_data = attestation.e_data_get ()
 ```
@@ -800,7 +884,7 @@ let client_data = client.e_data_get ()
 
 ```ocaml
 (* One ENTITY per record. *)
-let clients = (Sdk_client.client client Noval).e_list (empty_map ()) Noval
+let clients = (Sdk_client.client client Noval).e_list (jo [("partner", (Str "example"))]) Noval
 let client_datas = List.map (fun e -> e.e_data_get ()) clients
 ```
 
@@ -824,12 +908,23 @@ Create an instance: `let create_result = Sdk_client.create_result client Noval`
 | --- | --- |
 | `e_create reqdata ctrl` | Create a new entity with the given data. Resolves to the entity. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `completeDate` | `string` | The date and time that the Custody change took place. |
+| `custodian` | `value map` | Reference to the associated User resource. |
+| `location` | `value map` | Reference to the associated Location resource. |
+| `notes` | `string` | Free form field that allows the Client associate notes with the Custody Change. |
+
 #### Example: Create
 
 ```ocaml
 let create_result = (Sdk_client.create_result client Noval).e_create (jo [
     ("device_type", (Str "example_device_type"));  (* string *)
     ("serial_number", (Str "example_serial_number"));  (* string *)
+    ("custodian", (empty_map ()));  (* value map *)
+    ("location", (empty_map ()));  (* value map *)
 ]) Noval
 let create_result_data = create_result.e_data_get ()
 ```
@@ -849,12 +944,23 @@ Create an instance: `let decryption = Sdk_client.decryption client Noval`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `cbcVector` | `string` | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | `string` | The device Type. |
+| `encoding` | `string` | The payload encoding |
+| `encrypted` | `value list` |  |
+| `hasCcData` | `string` | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | `string` | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | `string` | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | `string` | The serial number of the device. |
 | `success` | `bool` | true if the payload decryption was successful. |
 
 #### Example: Create
 
 ```ocaml
 let decryption = (Sdk_client.decryption client Noval).e_create (jo [
+    ("deviceType", (Str "example_deviceType"));  (* string *)
+    ("encrypted", (empty_list ()));  (* value list *)
+    ("serialNumber", (Str "example_serialNumber"));  (* string *)
 ]) Noval
 let decryption_data = decryption.e_data_get ()
 ```
@@ -1052,7 +1158,7 @@ Create an instance: `let device_custody_list_item = Sdk_client.device_custody_li
 
 ```ocaml
 (* One ENTITY per record. *)
-let device_custody_list_items = (Sdk_client.device_custody_list_item client Noval).e_list (empty_map ()) Noval
+let device_custody_list_items = (Sdk_client.device_custody_list_item client Noval).e_list (jo [("device_type", (Str "example")); ("serial_number", (Str "example"))]) Noval
 let device_custody_list_item_datas = List.map (fun e -> e.e_data_get ()) device_custody_list_items
 ```
 
@@ -1071,13 +1177,17 @@ Create an instance: `let device_receive_result = Sdk_client.device_receive_resul
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `serialNumber` | `string` | The serial number of the Device that is shipped. |
 | `success` | `bool` | Indicates if the action succeeded. |
+| `tamperLabel` | `string` | The code that is printed the tamper label of the Device that is shipped. |
 
 #### Example: Create
 
 ```ocaml
 let device_receive_result = (Sdk_client.device_receive_result client Noval).e_create (jo [
+    ("serialNumber", (Str "example_serialNumber"));  (* string *)
     ("success", (Bool true));  (* bool *)
+    ("tamperLabel", (Str "example_tamperLabel"));  (* string *)
 ]) Noval
 let device_receive_result_data = device_receive_result.e_data_get ()
 ```
@@ -1097,12 +1207,21 @@ Create an instance: `let device_rki_activate_result = Sdk_client.device_rki_acti
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `appVersion` | `string` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | `string` | The Device Builds's name. |
+| `buildNumber` | `string` | The Build Number. |
+| `configFile` | `string` | \? |
+| `firmwareVersion` | `string` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `string` | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | `string` | The referenced Device's serial number. |
 | `success` | `bool` | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | `string` | \? |
 
 #### Example: Create
 
 ```ocaml
 let device_rki_activate_result = (Sdk_client.device_rki_activate_result client Noval).e_create (jo [
+    ("serialNumber", (Str "example_serialNumber"));  (* string *)
     ("success", (Bool true));  (* bool *)
 ]) Noval
 let device_rki_activate_result_data = device_rki_activate_result.e_data_get ()
@@ -1268,6 +1387,7 @@ Create an instance: `let location = Sdk_client.location client Noval`
 | `address2` | `string` | The Location's street address. |
 | `billingId` | `string` | \? |
 | `city` | `string` | The Location's city. |
+| `client` | `value map` | Reference to the associated Client resource. |
 | `country` | `string` | The Location's country. |
 | `created` | `string` | Creation timestamp in ISO 8601 format. |
 | `customReference` | `string` | A Partner specified reference for a location. |
@@ -1300,7 +1420,7 @@ let location_data = location.e_data_get ()
 
 ```ocaml
 (* One ENTITY per record. *)
-let locations = (Sdk_client.location client Noval).e_list (empty_map ()) Noval
+let locations = (Sdk_client.location client Noval).e_list (jo [("client", (Str "example"))]) Noval
 let location_datas = List.map (fun e -> e.e_data_get ()) locations
 ```
 
@@ -1395,6 +1515,7 @@ Create an instance: `let shipment = Sdk_client.shipment client Noval`
 | `id` | `string` | This resource's unique identifier. |
 | `items` | `value list` |  |
 | `kif` | `value map` | Reference to the associated KIF resource. |
+| `location` | `value map` | Reference to the associated Location resource. |
 | `modified` | `string` | Last modified timestamp. |
 | `partner` | `value map` | Reference to the associated Partner. |
 | `shipmentType` | `string` | The type of shipment. |
@@ -1413,7 +1534,7 @@ let shipment_data = shipment.e_data_get ()
 
 ```ocaml
 (* One ENTITY per record. *)
-let shipments = (Sdk_client.shipment client Noval).e_list (empty_map ()) Noval
+let shipments = (Sdk_client.shipment client Noval).e_list (jo [("kif", (Str "example"))]) Noval
 let shipment_datas = List.map (fun e -> e.e_data_get ()) shipments
 ```
 
@@ -1421,6 +1542,7 @@ let shipment_datas = List.map (fun e -> e.e_data_get ()) shipments
 
 ```ocaml
 let shipment = (Sdk_client.shipment client Noval).e_create (jo [
+    ("location", (empty_map ()));  (* value map *)
 ]) Noval
 let shipment_data = shipment.e_data_get ()
 ```
@@ -1441,6 +1563,8 @@ Create an instance: `let success = Sdk_client.success client Noval`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `devices` | `value list` | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | `value map` | Reference to the associated Partner. |
 | `success` | `bool` | Indicates if the action was a success. |
 
 #### Example: Create
@@ -1448,6 +1572,8 @@ Create an instance: `let success = Sdk_client.success client Noval`
 ```ocaml
 let success = (Sdk_client.success client Noval).e_create (jo [
     ("share_partner_to", (Str "example_share_partner_to"));  (* string *)
+    ("devices", (empty_list ()));  (* value list *)
+    ("sharePartnerFrom", (empty_map ()));  (* value map *)
 ]) Noval
 let success_data = success.e_data_get ()
 ```
@@ -1474,6 +1600,7 @@ Create an instance: `let transaction = Sdk_client.transaction client Noval`
 | `clientRef` | `string` | Client Reference property that is included in the decrypt API call. |
 | `created` | `string` | Creation timestamp in ISO 8601 format. |
 | `decrypted` | `int` | A Transcation can process muliple decryptions. |
+| `device` | `value map` | Reference to the associated Device resource. |
 | `deviceName` | `string` | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | `value map` | Reference to the associated Partner. |
 | `encrypted` | `int` | A Transcation can process muliple encryptions. |
@@ -1514,6 +1641,7 @@ let transaction_datas = List.map (fun e -> e.e_data_get ()) transactions
 
 ```ocaml
 let transaction = (Sdk_client.transaction client Noval).e_create (jo [
+    ("device", (empty_map ()));  (* value map *)
     ("location", (empty_map ()));  (* value map *)
 ]) Noval
 let transaction_data = transaction.e_data_get ()
@@ -1536,17 +1664,68 @@ Create an instance: `let update_result = Sdk_client.update_result client Noval`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `address1` | `string` | The Location's street address. |
+| `address2` | `string` | The Location's street address. |
+| `alternateKey` | `string` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `string` | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | `string` | \? |
+| `city` | `string` | The Location's city. |
 | `client` | `value map` | Reference to the associated Client resource. |
+| `clientCanOrderEquipment` | `bool` | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | `string` | Client Reference property that is included in the decrypt API call. |
+| `contact` | `value map` | Reference to the associated User resource. |
+| `country` | `value map` | Reference to the associated Country. |
+| `customReference` | `string` | A Partner specified reference for a location. |
+| `dateShipped` | `string` | The date and time that a package is shipped. |
+| `decrypted` | `int` | A Transcation can process muliple decryptions. |
+| `device` | `value map` | Reference to the associated Device resource. |
+| `deviceBuild` | `value map` | Reference to the associated Device Build resource. |
+| `deviceType` | `value map` | Reference to the associated Device Type resource. |
+| `directPartner` | `value map` | Reference to the associated Partner. |
 | `email` | `string` | The User's email address. |
+| `encrypted` | `int` | A Transcation can process muliple encryptions. |
+| `endDate` | `string` | Timestamp from the end of the transaction. |
+| `errCode` | `string` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `string` | The error messge that is sent in response to a failed decrypt API call. |
 | `firstName` | `string` | The User's name. |
 | `id` | `string` | ID of newly created resource |
+| `injectKey` | `value map` | Reference to the associated Device resource. |
+| `ipAddress` | `string` | The IP address of the http client that makes the decrypt API call. |
 | `isActive` | `bool` | This property indicates if the User account is active or disabled. |
+| `items` | `value list` |  |
+| `keyType` | `string` | The type of cipher used during decrytion. |
 | `kif` | `value map` | Reference to the associated KIF resource. |
 | `lastName` | `string` | The User's Surname. |
+| `location` | `value map` | Reference to the associated Location resource. |
+| `locationType` | `string` | The Location's clasification. |
+| `mailAddress1` | `string` | The Location's street address. |
+| `mailAddress2` | `string` | The Location's street address. |
+| `mailCity` | `string` | The Location's city. |
+| `mailCountry` | `string` | The Location's street address. |
+| `mailPostalCode` | `string` | The Location's postal code. |
+| `mailStateProvince` | `string` | The Location's street state or province. |
+| `messageId` | `string` | Message ID. |
+| `method` | `string` | The decryption cypher/method. |
+| `mid` | `string` | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | `string` | The Client's name. |
+| `nameOfBusiness` | `string` | The name of the business at this location. |
+| `notes` | `string` | Arbitary note that can be attached to a Device entry. |
+| `parent` | `value map` | Reference to the associated Partner. |
 | `partner` | `value map` | Reference to the associated Partner. |
+| `partnerId` | `string` | The Partner's id. |
 | `phone` | `string` | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | `string` | The Location's postal code. |
+| `reference` | `string` | The Partner's reference string. |
+| `sendWelcomeEmail` | `bool` | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | `string` | The Device's serial number. |
+| `startDate` | `string` | Timestamp from the beginning of the transaction. |
+| `stateProvince` | `string` | The Location's street state or province. |
+| `success` | `bool` | The success indicator. |
+| `tracking` | `string` | The courier's tracking number. |
+| `uniqueId` | `string` | Unique Identifier for the Location. |
 | `userName` | `string` | The User's unique username. |
 | `userRole` | `value map` | Reference to the associated User Role. |
+| `verificationPhrase` | `string` | The verification phrase is a message that the Partner creates. |
 | `version` | `int` | The number of times that this resource has been updated. |
 
 #### Example: List
@@ -1561,6 +1740,15 @@ let update_result_datas = List.map (fun e -> e.e_data_get ()) update_results
 
 ```ocaml
 let update_result = (Sdk_client.update_result client Noval).e_create (jo [
+    ("contact", (empty_map ()));  (* value map *)
+    ("email", (Str "example_email"));  (* string *)
+    ("firstName", (Str "example_firstName"));  (* string *)
+    ("isActive", (Bool true));  (* bool *)
+    ("lastName", (Str "example_lastName"));  (* string *)
+    ("location", (empty_map ()));  (* value map *)
+    ("phone", (Str "example_phone"));  (* string *)
+    ("userName", (Str "example_userName"));  (* string *)
+    ("userRole", (empty_map ()));  (* value map *)
 ]) Noval
 let update_result_data = update_result.e_data_get ()
 ```

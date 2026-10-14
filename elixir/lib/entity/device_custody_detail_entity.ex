@@ -1,7 +1,7 @@
 # BluefinDecryptxP2pe SDK DeviceCustodyDetail entity
 #
 # Per-entity module. Generic construction/data/match operations delegate to
-# EntityBase; each active op (load/list/create/update/remove) builds a ctx
+# EntityBase; each active op (load/list/create/update/patch/remove) builds a ctx
 # and drives it through BluefinDecryptxP2pe.Pipeline.run_op.
 
 defmodule BluefinDecryptxP2pe.Entity.DeviceCustodyDetail do
@@ -26,9 +26,10 @@ defmodule BluefinDecryptxP2pe.Entity.DeviceCustodyDetail do
     do: EntityBase.stream(ent, action, args, callopts)
 
   
-  # Returns the device_custody_detail entity map (BluefinDecryptxP2pe.Types.device_custody_detail/0) on
-  # success; pipeline errors surface as the error value built by
-  # Utility.make_error (shape is utility-configurable), hence term().
+  # Returns the device_custody_detail entity, whose data_get/1 reads its record
+  # (BluefinDecryptxP2pe.Types.device_custody_detail/0), on success; pipeline errors surface as
+  # the error value built by Utility.make_error (shape is
+  # utility-configurable), hence term().
   @spec load(map(), BluefinDecryptxP2pe.Types.device_custody_detail_load_match() | nil, map() | nil) :: term()
   def load(ent, reqmatch \\ nil, ctrl \\ nil) do
     reqmatch = if reqmatch == nil, do: S.jm([]), else: reqmatch
@@ -61,6 +62,8 @@ defmodule BluefinDecryptxP2pe.Entity.DeviceCustodyDetail do
   end
 
 
+
+  
 
   
 

@@ -10,6 +10,7 @@ export interface Attestation {
   completeDate?: string
   created?: string
   device?: Record<string, any>
+  devices: any[]
   id?: string
   name?: string
   notes?: string
@@ -30,6 +31,7 @@ export interface AttestationCreateData {
   completeDate?: string
   created?: string
   device?: Record<string, any>
+  devices: any[]
   id?: string
   name?: string
   notes?: string
@@ -78,18 +80,42 @@ export interface ClientRemoveMatch {
 }
 
 export interface CreateResult {
+  completeDate?: string
+  custodian: Record<string, any>
+  location: Record<string, any>
+  notes?: string
 }
 
 export interface CreateResultCreateData {
   device_type: string
   serial_number: string
+  completeDate?: string
+  custodian: Record<string, any>
+  location: Record<string, any>
+  notes?: string
 }
 
 export interface Decryption {
+  cbcVector?: string
+  deviceType: string
+  encoding?: string
+  encrypted: any[]
+  hasCcData?: string
+  reference?: string
+  sequenceNumber?: string
+  serialNumber: string
   success?: boolean
 }
 
 export interface DecryptionCreateData {
+  cbcVector?: string
+  deviceType: string
+  encoding?: string
+  encrypted: any[]
+  hasCcData?: string
+  reference?: string
+  sequenceNumber?: string
+  serialNumber: string
   success?: boolean
 }
 
@@ -245,19 +271,39 @@ export interface DeviceCustodyListItemListMatch {
 }
 
 export interface DeviceReceiveResult {
+  serialNumber: string
   success: boolean
+  tamperLabel: string
 }
 
 export interface DeviceReceiveResultCreateData {
+  serialNumber: string
   success: boolean
+  tamperLabel: string
 }
 
 export interface DeviceRkiActivateResult {
+  appVersion?: string
+  buildName?: string
+  buildNumber?: string
+  configFile?: string
+  firmwareVersion?: string
+  hardwareVersion?: string
+  serialNumber: string
   success: boolean
+  whiteListingBinRanges?: string
 }
 
 export interface DeviceRkiActivateResultCreateData {
+  appVersion?: string
+  buildName?: string
+  buildNumber?: string
+  configFile?: string
+  firmwareVersion?: string
+  hardwareVersion?: string
+  serialNumber: string
   success: boolean
+  whiteListingBinRanges?: string
 }
 
 export interface DeviceState {
@@ -345,6 +391,7 @@ export interface Location {
   address2?: string
   billingId?: string
   city?: string
+  client?: Record<string, any>
   country?: string
   created?: string
   customReference?: string
@@ -381,6 +428,7 @@ export interface LocationCreateData {
   address2?: string
   billingId?: string
   city?: string
+  client?: Record<string, any>
   country?: string
   created?: string
   customReference?: string
@@ -460,6 +508,7 @@ export interface Shipment {
   id?: string
   items?: any[]
   kif?: Record<string, any>
+  location: Record<string, any>
   modified?: string
   partner?: Record<string, any>
   shipmentType?: string
@@ -488,6 +537,7 @@ export interface ShipmentCreateData {
   id?: string
   items?: any[]
   kif?: Record<string, any>
+  location: Record<string, any>
   modified?: string
   partner?: Record<string, any>
   shipmentType?: string
@@ -496,11 +546,15 @@ export interface ShipmentCreateData {
 }
 
 export interface Success {
+  devices: any[]
+  sharePartnerFrom: Record<string, any>
   success?: boolean
 }
 
 export interface SuccessCreateData {
   share_partner_to: string
+  devices: any[]
+  sharePartnerFrom: Record<string, any>
   success?: boolean
 }
 
@@ -514,6 +568,7 @@ export interface Transaction {
   clientRef?: string
   created?: string
   decrypted?: number
+  device: Record<string, any>
   deviceName?: string
   directPartner?: Record<string, any>
   encrypted?: number
@@ -561,6 +616,7 @@ export interface TransactionCreateData {
   clientRef?: string
   created?: string
   decrypted?: number
+  device: Record<string, any>
   deviceName?: string
   directPartner?: Record<string, any>
   encrypted?: number
@@ -583,17 +639,68 @@ export interface TransactionCreateData {
 }
 
 export interface UpdateResult {
+  address1?: string
+  address2?: string
+  alternateKey?: string
+  auditNextDate?: string
+  billingId?: string
+  city?: string
   client?: Record<string, any>
-  email?: string
-  firstName?: string
+  clientCanOrderEquipment?: boolean
+  clientRef?: string
+  contact: Record<string, any>
+  country?: Record<string, any>
+  customReference?: string
+  dateShipped?: string
+  decrypted?: number
+  device?: Record<string, any>
+  deviceBuild?: Record<string, any>
+  deviceType?: Record<string, any>
+  directPartner?: Record<string, any>
+  email: string
+  encrypted?: number
+  endDate?: string
+  errCode?: string
+  errMessage?: string
+  firstName: string
   id?: string
-  isActive?: boolean
+  injectKey?: Record<string, any>
+  ipAddress?: string
+  isActive: boolean
+  items?: any[]
+  keyType?: string
   kif?: Record<string, any>
-  lastName?: string
+  lastName: string
+  location: Record<string, any>
+  locationType?: string
+  mailAddress1?: string
+  mailAddress2?: string
+  mailCity?: string
+  mailCountry?: string
+  mailPostalCode?: string
+  mailStateProvince?: string
+  messageId?: string
+  method?: string
+  mid?: string
+  name?: string
+  nameOfBusiness?: string
+  notes?: string
+  parent?: Record<string, any>
   partner?: Record<string, any>
-  phone?: string
-  userName?: string
-  userRole?: Record<string, any>
+  partnerId?: string
+  phone: string
+  postalCode?: string
+  reference?: string
+  sendWelcomeEmail?: boolean
+  serialNumber?: string
+  startDate?: string
+  stateProvince?: string
+  success?: boolean
+  tracking?: string
+  uniqueId?: string
+  userName: string
+  userRole: Record<string, any>
+  verificationPhrase?: string
   version?: number
 }
 
@@ -606,32 +713,134 @@ export interface UpdateResultListMatch {
 }
 
 export interface UpdateResultCreateData {
+  address1?: string
+  address2?: string
+  alternateKey?: string
+  auditNextDate?: string
+  billingId?: string
+  city?: string
   client?: Record<string, any>
-  email?: string
-  firstName?: string
+  clientCanOrderEquipment?: boolean
+  clientRef?: string
+  contact: Record<string, any>
+  country?: Record<string, any>
+  customReference?: string
+  dateShipped?: string
+  decrypted?: number
+  device?: Record<string, any>
+  deviceBuild?: Record<string, any>
+  deviceType?: Record<string, any>
+  directPartner?: Record<string, any>
+  email: string
+  encrypted?: number
+  endDate?: string
+  errCode?: string
+  errMessage?: string
+  firstName: string
   id?: string
-  isActive?: boolean
+  injectKey?: Record<string, any>
+  ipAddress?: string
+  isActive: boolean
+  items?: any[]
+  keyType?: string
   kif?: Record<string, any>
-  lastName?: string
+  lastName: string
+  location: Record<string, any>
+  locationType?: string
+  mailAddress1?: string
+  mailAddress2?: string
+  mailCity?: string
+  mailCountry?: string
+  mailPostalCode?: string
+  mailStateProvince?: string
+  messageId?: string
+  method?: string
+  mid?: string
+  name?: string
+  nameOfBusiness?: string
+  notes?: string
+  parent?: Record<string, any>
   partner?: Record<string, any>
-  phone?: string
-  userName?: string
-  userRole?: Record<string, any>
+  partnerId?: string
+  phone: string
+  postalCode?: string
+  reference?: string
+  sendWelcomeEmail?: boolean
+  serialNumber?: string
+  startDate?: string
+  stateProvince?: string
+  success?: boolean
+  tracking?: string
+  uniqueId?: string
+  userName: string
+  userRole: Record<string, any>
+  verificationPhrase?: string
   version?: number
 }
 
 export interface UpdateResultUpdateData {
   id: string
+  address1?: string
+  address2?: string
+  alternateKey?: string
+  auditNextDate?: string
+  billingId?: string
+  city?: string
   client?: Record<string, any>
+  clientCanOrderEquipment?: boolean
+  clientRef?: string
+  contact?: Record<string, any>
+  country?: Record<string, any>
+  customReference?: string
+  dateShipped?: string
+  decrypted?: number
+  device?: Record<string, any>
+  deviceBuild?: Record<string, any>
+  deviceType?: Record<string, any>
+  directPartner?: Record<string, any>
   email?: string
+  encrypted?: number
+  endDate?: string
+  errCode?: string
+  errMessage?: string
   firstName?: string
+  injectKey?: Record<string, any>
+  ipAddress?: string
   isActive?: boolean
+  items?: any[]
+  keyType?: string
   kif?: Record<string, any>
   lastName?: string
+  location?: Record<string, any>
+  locationType?: string
+  mailAddress1?: string
+  mailAddress2?: string
+  mailCity?: string
+  mailCountry?: string
+  mailPostalCode?: string
+  mailStateProvince?: string
+  messageId?: string
+  method?: string
+  mid?: string
+  name?: string
+  nameOfBusiness?: string
+  notes?: string
+  parent?: Record<string, any>
   partner?: Record<string, any>
+  partnerId?: string
   phone?: string
+  postalCode?: string
+  reference?: string
+  sendWelcomeEmail?: boolean
+  serialNumber?: string
+  startDate?: string
+  stateProvince?: string
+  success?: boolean
+  tracking?: string
+  uniqueId?: string
   userName?: string
   userRole?: Record<string, any>
+  verificationPhrase?: string
   version?: number
 }
 

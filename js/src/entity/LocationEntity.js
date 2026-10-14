@@ -24,7 +24,7 @@ class LocationEntity extends BluefinDecryptxP2peEntityBase {
   /**
    * @param {LocationLoadMatch} [reqmatch]
    * @param {Object} [ctrl]
-   * @returns {Promise<Location>}
+   * @returns {Promise<LocationEntity>}
    */
   async load(reqmatch, ctrl) {
 
@@ -129,9 +129,15 @@ class LocationEntity extends BluefinDecryptxP2peEntityBase {
       return (ctx.result && ctx.result.ok) ? this : out
     }
     catch (err) {
+      // What a hook throws here must not escape the cleaning below.
+      try {
 
-      fres = featureHook(ctx, 'PreUnexpected')
-      if (fres instanceof Promise) { await fres }
+        fres = featureHook(ctx, 'PreUnexpected')
+        if (fres instanceof Promise) { await fres }
+      }
+      catch (hookerr) {
+        err = hookerr
+      }
 
       err = this._unexpected(ctx, err)
 
@@ -149,7 +155,7 @@ class LocationEntity extends BluefinDecryptxP2peEntityBase {
   /**
    * @param {LocationListMatch} [reqmatch]
    * @param {Object} [ctrl]
-   * @returns {Promise<Location[]>}
+   * @returns {Promise<LocationEntity[]>}
    */
   async list(reqmatch, ctrl) {
 
@@ -242,9 +248,15 @@ class LocationEntity extends BluefinDecryptxP2peEntityBase {
       return done(ctx)
     }
     catch (err) {
+      // What a hook throws here must not escape the cleaning below.
+      try {
 
-      fres = featureHook(ctx, 'PreUnexpected')
-      if (fres instanceof Promise) { await fres }
+        fres = featureHook(ctx, 'PreUnexpected')
+        if (fres instanceof Promise) { await fres }
+      }
+      catch (hookerr) {
+        err = hookerr
+      }
 
       err = this._unexpected(ctx, err)
 
@@ -262,7 +274,7 @@ class LocationEntity extends BluefinDecryptxP2peEntityBase {
   /**
    * @param {LocationCreateData} [reqdata]
    * @param {Object} [ctrl]
-   * @returns {Promise<Location>}
+   * @returns {Promise<LocationEntity>}
    */
   async create(reqdata, ctrl) {
 
@@ -362,9 +374,15 @@ class LocationEntity extends BluefinDecryptxP2peEntityBase {
       return (ctx.result && ctx.result.ok) ? this : out
     }
     catch (err) {
+      // What a hook throws here must not escape the cleaning below.
+      try {
 
-      fres = featureHook(ctx, 'PreUnexpected')
-      if (fres instanceof Promise) { await fres }
+        fres = featureHook(ctx, 'PreUnexpected')
+        if (fres instanceof Promise) { await fres }
+      }
+      catch (hookerr) {
+        err = hookerr
+      }
 
       err = this._unexpected(ctx, err)
 
@@ -380,10 +398,11 @@ class LocationEntity extends BluefinDecryptxP2peEntityBase {
 
 
 
+
   /**
    * @param {LocationRemoveMatch} [reqmatch]
    * @param {Object} [ctrl]
-   * @returns {Promise<Location>}
+   * @returns {Promise<LocationEntity>}
    */
   async remove(reqmatch, ctrl) {
 
@@ -495,9 +514,15 @@ class LocationEntity extends BluefinDecryptxP2peEntityBase {
       return out
     }
     catch (err) {
+      // What a hook throws here must not escape the cleaning below.
+      try {
 
-      fres = featureHook(ctx, 'PreUnexpected')
-      if (fres instanceof Promise) { await fres }
+        fres = featureHook(ctx, 'PreUnexpected')
+        if (fres instanceof Promise) { await fres }
+      }
+      catch (hookerr) {
+        err = hookerr
+      }
 
       err = this._unexpected(ctx, err)
 

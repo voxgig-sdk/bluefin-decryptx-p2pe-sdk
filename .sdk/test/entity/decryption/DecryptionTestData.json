@@ -2,14 +2,38 @@
   "existing": {
     "decryption": {
       "DECRYPTION00": {
+        "cbcVector": "s5a",
+        "deviceType": "s5b",
+        "encoding": "s5c",
+        "encrypted": [],
+        "hasCcData": "s5e",
+        "reference": "s5f",
+        "sequenceNumber": "s60",
+        "serialNumber": "s61",
         "success": true,
         "id": "DECRYPTION00"
       },
       "DECRYPTION01": {
+        "cbcVector": "sb4",
+        "deviceType": "sb5",
+        "encoding": "sb6",
+        "encrypted": [],
+        "hasCcData": "sb8",
+        "reference": "sb9",
+        "sequenceNumber": "sba",
+        "serialNumber": "sbb",
         "success": true,
         "id": "DECRYPTION01"
       },
       "DECRYPTION02": {
+        "cbcVector": "s10e",
+        "deviceType": "s10f",
+        "encoding": "s110",
+        "encrypted": [],
+        "hasCcData": "s112",
+        "reference": "s113",
+        "sequenceNumber": "s114",
+        "serialNumber": "s115",
         "success": true,
         "id": "DECRYPTION02"
       }
@@ -18,6 +42,14 @@
   "new": {
     "decryption": {
       "decryption_ref01": {
+        "cbcVector": "s168",
+        "deviceType": "s169",
+        "encoding": "s16a",
+        "encrypted": [],
+        "hasCcData": "s16c",
+        "reference": "s16d",
+        "sequenceNumber": "s16e",
+        "serialNumber": "s16f",
         "success": true
       }
     }

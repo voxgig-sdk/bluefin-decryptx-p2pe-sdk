@@ -6,18 +6,29 @@ import java.nio.file.Paths
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Assumptions
 import org.junit.jupiter.api.Test
 
+import voxgig.bluefindecryptxp2pesdk.core.Config
+import voxgig.bluefindecryptxp2pesdk.core.Context
 import voxgig.bluefindecryptxp2pesdk.core.Helpers
 import voxgig.bluefindecryptxp2pesdk.core.SdkEntity
+import voxgig.bluefindecryptxp2pesdk.core.SdkError
 import voxgig.bluefindecryptxp2pesdk.core.BluefinDecryptxP2peSDK
+import voxgig.bluefindecryptxp2pesdk.feature.BaseFeature
 import voxgig.bluefindecryptxp2pesdk.utility.Json
 import voxgig.bluefindecryptxp2pesdk.utility.struct.Struct
 
 @Suppress("UNCHECKED_CAST", "UNUSED_VARIABLE", "UNUSED_VALUE")
 class DecryptionEntityTest {
+
+  // main.kit.test.live.strict is true (the default is true): a live
+  // request that fails, or a live test missing an input it needs,
+  // fails the test.
+  // An account with no record for a test to read skips it either way.
+  private val LIVE_STRICT = true
 
   @Test
   fun instance() {
@@ -38,10 +49,6 @@ class DecryptionEntityTest {
         if (reason == null || "" == reason) "skipped via sdk-test-control.json" else reason,
       )
     }
-    Assumptions.assumeFalse(
-      setup.syntheticOnly,
-      "live entity test uses synthetic IDs from fixture — set BLUEFIN_DECRYPTX_P2PE_TEST_DECRYPTION_ENTID JSON to run live",
-    )
     val client = setup.client
 
     // CREATE
@@ -53,6 +60,23 @@ class DecryptionEntityTest {
     decryptionRef01Data = Helpers.toMapAny(if (decryptionRef01DataResult is SdkEntity) decryptionRef01DataResult.data() else decryptionRef01DataResult) ?: linkedMapOf()
     assertNotNull(decryptionRef01Data, "expected create result to be a map")
 
+  }
+
+  private fun hasFeature(name: String): Boolean {
+    val fm = Helpers.toMapAny(Config.sharedConfig()["feature"])
+    return fm != null && fm[name] != null
+  }
+
+  @Test
+  fun validate() {
+    Assumptions.assumeTrue(hasFeature("validate"), "feature not present in this SDK: validate")
+    val client = BluefinDecryptxP2peSDK.testSDK(null, linkedMapOf<String, Any?>(
+      "feature" to linkedMapOf<String, Any?>(
+        "validate" to linkedMapOf<String, Any?>("active" to true))))
+    val err = assertThrows(SdkError::class.java) {
+      client.decryption(null).create(linkedMapOf<String, Any?>("cbcVector" to 1, "deviceType" to "x", "encrypted" to "x", "serialNumber" to "x"), null)
+    }
+    assertEquals("validate_failed", err.code)
   }
 
   companion object {
@@ -84,7 +108,7 @@ class DecryptionEntityTest {
           "\"`\$VAL`\": [\"`\$FORMAT`\", \"upper\", \"`\$COPY`\"]" +
           "}]}"))
 
-      // Detect ENTID env override before envOverride consumes it.
+      // Whether *_ENTID supplied the idmap, read before envOverride consumes it.
       val entidEnvRaw = RunnerSupport.getenv("BLUEFIN_DECRYPTX_P2PE_TEST_DECRYPTION_ENTID")
       val idmapOverridden = entidEnvRaw != null && entidEnvRaw.trim().startsWith("{")
 

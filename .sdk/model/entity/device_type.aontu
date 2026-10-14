@@ -110,6 +110,10 @@ main: kit: entity: device_type: {
           }
           m: "GET"
           o: "/deviceTypes"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "deviceTypes"
@@ -148,6 +152,10 @@ main: kit: entity: device_type: {
             exist: [
               "id"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

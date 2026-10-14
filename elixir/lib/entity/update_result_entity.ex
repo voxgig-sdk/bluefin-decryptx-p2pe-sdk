@@ -1,7 +1,7 @@
 # BluefinDecryptxP2pe SDK UpdateResult entity
 #
 # Per-entity module. Generic construction/data/match operations delegate to
-# EntityBase; each active op (load/list/create/update/remove) builds a ctx
+# EntityBase; each active op (load/list/create/update/patch/remove) builds a ctx
 # and drives it through BluefinDecryptxP2pe.Pipeline.run_op.
 
 defmodule BluefinDecryptxP2pe.Entity.UpdateResult do
@@ -28,9 +28,10 @@ defmodule BluefinDecryptxP2pe.Entity.UpdateResult do
   
 
   
-  # Returns a list of update_result entity maps (BluefinDecryptxP2pe.Types.update_result/0)
-  # on success; pipeline errors surface as the error value built by
-  # Utility.make_error (shape is utility-configurable), hence term().
+  # Returns a list of update_result entities, one per record, whose data_get/1
+  # reads each record (BluefinDecryptxP2pe.Types.update_result/0), on success; pipeline
+  # errors surface as the error value built by Utility.make_error (shape is
+  # utility-configurable), hence term().
   @spec list(map(), BluefinDecryptxP2pe.Types.update_result_list_match() | nil, map() | nil) :: term()
   def list(ent, reqmatch \\ nil, ctrl \\ nil) do
     reqmatch = if reqmatch == nil, do: S.jm([]), else: reqmatch
@@ -63,9 +64,10 @@ defmodule BluefinDecryptxP2pe.Entity.UpdateResult do
 
 
   
-  # Returns the created update_result entity map (BluefinDecryptxP2pe.Types.update_result/0)
-  # on success; pipeline errors surface as the error value built by
-  # Utility.make_error (shape is utility-configurable), hence term().
+  # Returns the created update_result entity, whose data_get/1 reads its record
+  # (BluefinDecryptxP2pe.Types.update_result/0), on success; pipeline errors surface as
+  # the error value built by Utility.make_error (shape is
+  # utility-configurable), hence term().
   @spec create(map(), BluefinDecryptxP2pe.Types.update_result_create_data() | nil, map() | nil) :: term()
   def create(ent, reqdata, ctrl \\ nil) do
     ctx =
@@ -96,9 +98,10 @@ defmodule BluefinDecryptxP2pe.Entity.UpdateResult do
 
 
   
-  # Returns the updated update_result entity map (BluefinDecryptxP2pe.Types.update_result/0)
-  # on success; pipeline errors surface as the error value built by
-  # Utility.make_error (shape is utility-configurable), hence term().
+  # Returns the updated update_result entity, whose data_get/1 reads its record
+  # (BluefinDecryptxP2pe.Types.update_result/0), on success; pipeline errors surface as
+  # the error value built by Utility.make_error (shape is
+  # utility-configurable), hence term().
   @spec update(map(), BluefinDecryptxP2pe.Types.update_result_update_data() | nil, map() | nil) :: term()
   def update(ent, reqdata, ctrl \\ nil) do
     ctx =
@@ -129,6 +132,8 @@ defmodule BluefinDecryptxP2pe.Entity.UpdateResult do
   end
 
 
+
+  
 
   
 end

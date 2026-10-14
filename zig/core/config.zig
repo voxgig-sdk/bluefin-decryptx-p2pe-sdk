@@ -192,6 +192,7 @@ pub fn make_config() Value {
                 }) },
                 .{ "optspec", h.jo(&.{
                     .{ "clearTimer", h.vstr("`$FUNCTION`") },
+                    .{ "now", h.vstr("`$FUNCTION`") },
                     .{ "setTimer", h.vstr("`$FUNCTION`") },
                 }) },
                 .{ "strict", h.vbool(false) },
@@ -239,12 +240,24 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("client") },
                         .{ "title", h.vstr("Client") },
                         .{ "type", h.vstr("`$OBJECT`") },
+                        .{ "op", h.jo(&.{
+                            .{ "create", h.jo(&.{
+                                .{ "req", h.vbool(true) },
+                                .{ "type", h.vstr("`$OBJECT`") },
+                            }) },
+                        }) },
                         .{ "short", h.vstr("Reference to the associated Client resource.") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("completeDate") },
                         .{ "title", h.vstr("Complete Date") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "op", h.jo(&.{
+                            .{ "create", h.jo(&.{
+                                .{ "req", h.vbool(true) },
+                                .{ "type", h.vstr("`$STRING`") },
+                            }) },
+                        }) },
                         .{ "short", h.vstr("The date and time that the Attestation took place.") },
                         .{ "format", h.vstr("datetime") },
                     }),
@@ -262,6 +275,12 @@ pub fn make_config() Value {
                         .{ "short", h.vstr("Reference to the associated Device resource.") },
                     }),
                     h.jo(&.{
+                        .{ "name", h.vstr("devices") },
+                        .{ "title", h.vstr("Devices") },
+                        .{ "type", h.vstr("`$ARRAY`") },
+                        .{ "req", h.vbool(true) },
+                    }),
+                    h.jo(&.{
                         .{ "name", h.vstr("id") },
                         .{ "title", h.vstr("Id") },
                         .{ "type", h.vstr("`$STRING`") },
@@ -271,6 +290,12 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("name") },
                         .{ "title", h.vstr("Name") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "op", h.jo(&.{
+                            .{ "create", h.jo(&.{
+                                .{ "req", h.vbool(true) },
+                                .{ "type", h.vstr("`$STRING`") },
+                            }) },
+                        }) },
                         .{ "short", h.vstr("Text describing the attestation.") },
                     }),
                     h.jo(&.{
@@ -309,6 +334,10 @@ pub fn make_config() Value {
                                 }) },
                                 .{ "args", h.omap() },
                                 .{ "select", h.omap() },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
+                                }) },
                             }),
                         }) },
                     }) },
@@ -341,6 +370,7 @@ pub fn make_config() Value {
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("query") },
                                             .{ "reqd", h.vbool(true) },
+                                            .{ "field", h.vbool(true) },
                                         }),
                                         h.jo(&.{
                                             .{ "name", h.vstr("skip") },
@@ -361,9 +391,11 @@ pub fn make_config() Value {
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
                                         h.vstr("client"),
-                                        h.vstr("skip"),
-                                        h.vstr("take"),
                                     }) },
+                                }) },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
                                 }) },
                             }),
                         }) },
@@ -409,6 +441,10 @@ pub fn make_config() Value {
                                         h.vstr("id"),
                                     }) },
                                 }) },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
+                                }) },
                             }),
                         }) },
                     }) },
@@ -424,6 +460,10 @@ pub fn make_config() Value {
                         .{ "title", h.vstr("Contact") },
                         .{ "type", h.vstr("`$OBJECT`") },
                         .{ "op", h.jo(&.{
+                            .{ "create", h.jo(&.{
+                                .{ "req", h.vbool(true) },
+                                .{ "type", h.vstr("`$OBJECT`") },
+                            }) },
                             .{ "list", h.jo(&.{
                                 .{ "req", h.vbool(true) },
                                 .{ "type", h.vstr("`$OBJECT`") },
@@ -442,6 +482,12 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("directPartner") },
                         .{ "title", h.vstr("Direct Partner") },
                         .{ "type", h.vstr("`$OBJECT`") },
+                        .{ "op", h.jo(&.{
+                            .{ "create", h.jo(&.{
+                                .{ "req", h.vbool(true) },
+                                .{ "type", h.vstr("`$OBJECT`") },
+                            }) },
+                        }) },
                         .{ "short", h.vstr("Reference to the associated Partner.") },
                     }),
                     h.jo(&.{
@@ -480,6 +526,12 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("name") },
                         .{ "title", h.vstr("Name") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "op", h.jo(&.{
+                            .{ "create", h.jo(&.{
+                                .{ "req", h.vbool(true) },
+                                .{ "type", h.vstr("`$STRING`") },
+                            }) },
+                        }) },
                         .{ "short", h.vstr("The Client's name.") },
                     }),
                     h.jo(&.{
@@ -524,6 +576,10 @@ pub fn make_config() Value {
                                 }) },
                                 .{ "args", h.omap() },
                                 .{ "select", h.omap() },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
+                                }) },
                             }),
                         }) },
                     }) },
@@ -556,6 +612,7 @@ pub fn make_config() Value {
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("query") },
                                             .{ "reqd", h.vbool(true) },
+                                            .{ "field", h.vbool(true) },
                                         }),
                                         h.jo(&.{
                                             .{ "name", h.vstr("skip") },
@@ -576,9 +633,11 @@ pub fn make_config() Value {
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
                                         h.vstr("partner"),
-                                        h.vstr("skip"),
-                                        h.vstr("take"),
                                     }) },
+                                }) },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
                                 }) },
                             }),
                         }) },
@@ -623,6 +682,10 @@ pub fn make_config() Value {
                                     .{ "exist", h.ja(&.{
                                         h.vstr("id"),
                                     }) },
+                                }) },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
                                 }) },
                             }),
                         }) },
@@ -677,7 +740,35 @@ pub fn make_config() Value {
                 }) },
             }) },
             .{ "create_result", h.jo(&.{
-                .{ "fields", h.olist() },
+                .{ "fields", h.ja(&.{
+                    h.jo(&.{
+                        .{ "name", h.vstr("completeDate") },
+                        .{ "title", h.vstr("Complete Date") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The date and time that the Custody change took place.") },
+                        .{ "format", h.vstr("date-time") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("custodian") },
+                        .{ "title", h.vstr("Custodian") },
+                        .{ "type", h.vstr("`$OBJECT`") },
+                        .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("Reference to the associated User resource.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("location") },
+                        .{ "title", h.vstr("Location") },
+                        .{ "type", h.vstr("`$OBJECT`") },
+                        .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("Reference to the associated Location resource.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("notes") },
+                        .{ "title", h.vstr("Notes") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("Free form field that allows the Client associate notes with the Custody Change.") },
+                    }),
+                }) },
                 .{ "name", h.vstr("create_result") },
                 .{ "op", h.jo(&.{
                     .{ "create", h.jo(&.{
@@ -722,14 +813,14 @@ pub fn make_config() Value {
                                     .{ "params", h.ja(&.{
                                         h.jo(&.{
                                             .{ "name", h.vstr("device_type") },
-                                            .{ "orig", h.vstr("device_type") },
+                                            .{ "orig", h.vstr("deviceType") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("param") },
                                             .{ "reqd", h.vbool(true) },
                                         }),
                                         h.jo(&.{
                                             .{ "name", h.vstr("serial_number") },
-                                            .{ "orig", h.vstr("serial_number") },
+                                            .{ "orig", h.vstr("serialNumber") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("param") },
                                             .{ "reqd", h.vbool(true) },
@@ -741,6 +832,10 @@ pub fn make_config() Value {
                                         h.vstr("device_type"),
                                         h.vstr("serial_number"),
                                     }) },
+                                }) },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
                                 }) },
                             }),
                         }) },
@@ -756,6 +851,56 @@ pub fn make_config() Value {
             }) },
             .{ "decryption", h.jo(&.{
                 .{ "fields", h.ja(&.{
+                    h.jo(&.{
+                        .{ "name", h.vstr("cbcVector") },
+                        .{ "title", h.vstr("Cbc Vector") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("Base64 or hex encoded initial vector obtained from device.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("deviceType") },
+                        .{ "title", h.vstr("Device Type") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("The device Type.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("encoding") },
+                        .{ "title", h.vstr("Encoding") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The payload encoding") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("encrypted") },
+                        .{ "title", h.vstr("Encrypted") },
+                        .{ "type", h.vstr("`$ARRAY`") },
+                        .{ "req", h.vbool(true) },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("hasCcData") },
+                        .{ "title", h.vstr("Has Cc Data") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("reference") },
+                        .{ "title", h.vstr("Reference") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("A string (of up to 50 characters) that helps partners identify individual API calls.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("sequenceNumber") },
+                        .{ "title", h.vstr("Sequence Number") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("Sequence number obtained from device in base 64 or hex encoded format.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("serialNumber") },
+                        .{ "title", h.vstr("Serial Number") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("The serial number of the device.") },
+                    }),
                     h.jo(&.{
                         .{ "name", h.vstr("success") },
                         .{ "title", h.vstr("Success") },
@@ -788,6 +933,10 @@ pub fn make_config() Value {
                                 }) },
                                 .{ "args", h.omap() },
                                 .{ "select", h.omap() },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
+                                }) },
                             }),
                         }) },
                     }) },
@@ -868,6 +1017,12 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("deviceType") },
                         .{ "title", h.vstr("Device Type") },
                         .{ "type", h.vstr("`$OBJECT`") },
+                        .{ "op", h.jo(&.{
+                            .{ "create", h.jo(&.{
+                                .{ "req", h.vbool(true) },
+                                .{ "type", h.vstr("`$OBJECT`") },
+                            }) },
+                        }) },
                         .{ "short", h.vstr("Reference to the associated Device Type resource.") },
                     }),
                     h.jo(&.{
@@ -919,6 +1074,12 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("kif") },
                         .{ "title", h.vstr("Kif") },
                         .{ "type", h.vstr("`$OBJECT`") },
+                        .{ "op", h.jo(&.{
+                            .{ "create", h.jo(&.{
+                                .{ "req", h.vbool(true) },
+                                .{ "type", h.vstr("`$OBJECT`") },
+                            }) },
+                        }) },
                         .{ "short", h.vstr("Reference to the associated KIF resource.") },
                     }),
                     h.jo(&.{
@@ -971,6 +1132,12 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("serialNumber") },
                         .{ "title", h.vstr("Serial Number") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "op", h.jo(&.{
+                            .{ "create", h.jo(&.{
+                                .{ "req", h.vbool(true) },
+                                .{ "type", h.vstr("`$STRING`") },
+                            }) },
+                        }) },
                         .{ "short", h.vstr("The Device's serial number.") },
                     }),
                     h.jo(&.{
@@ -1009,6 +1176,10 @@ pub fn make_config() Value {
                                 }) },
                                 .{ "args", h.omap() },
                                 .{ "select", h.omap() },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
+                                }) },
                             }),
                         }) },
                     }) },
@@ -1040,10 +1211,11 @@ pub fn make_config() Value {
                                             .{ "orig", h.vstr("client") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("query") },
+                                            .{ "field", h.vbool(true) },
                                         }),
                                         h.jo(&.{
                                             .{ "name", h.vstr("device_state") },
-                                            .{ "orig", h.vstr("device_state") },
+                                            .{ "orig", h.vstr("deviceState") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("query") },
                                         }),
@@ -1052,16 +1224,18 @@ pub fn make_config() Value {
                                             .{ "orig", h.vstr("kif") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("query") },
+                                            .{ "field", h.vbool(true) },
                                         }),
                                         h.jo(&.{
                                             .{ "name", h.vstr("partner") },
                                             .{ "orig", h.vstr("partner") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("query") },
+                                            .{ "field", h.vbool(true) },
                                         }),
                                         h.jo(&.{
                                             .{ "name", h.vstr("serial_number") },
-                                            .{ "orig", h.vstr("serial_number") },
+                                            .{ "orig", h.vstr("serialNumber") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("query") },
                                         }),
@@ -1074,14 +1248,14 @@ pub fn make_config() Value {
                                         }),
                                         h.jo(&.{
                                             .{ "name", h.vstr("sorting_direction") },
-                                            .{ "orig", h.vstr("sorting_direction") },
+                                            .{ "orig", h.vstr("sorting.direction") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("query") },
                                             .{ "example", h.vstr("asc") },
                                         }),
                                         h.jo(&.{
                                             .{ "name", h.vstr("sorting_field") },
-                                            .{ "orig", h.vstr("sorting_field") },
+                                            .{ "orig", h.vstr("sorting.field") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("query") },
                                             .{ "example", h.vstr("serialnumber") },
@@ -1095,18 +1269,10 @@ pub fn make_config() Value {
                                         }),
                                     }) },
                                 }) },
-                                .{ "select", h.jo(&.{
-                                    .{ "exist", h.ja(&.{
-                                        h.vstr("client"),
-                                        h.vstr("device_state"),
-                                        h.vstr("kif"),
-                                        h.vstr("partner"),
-                                        h.vstr("serial_number"),
-                                        h.vstr("skip"),
-                                        h.vstr("sorting_direction"),
-                                        h.vstr("sorting_field"),
-                                        h.vstr("take"),
-                                    }) },
+                                .{ "select", h.omap() },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
                                 }) },
                             }),
                         }) },
@@ -1149,14 +1315,14 @@ pub fn make_config() Value {
                                     .{ "params", h.ja(&.{
                                         h.jo(&.{
                                             .{ "name", h.vstr("device_type") },
-                                            .{ "orig", h.vstr("device_type") },
+                                            .{ "orig", h.vstr("deviceType") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("param") },
                                             .{ "reqd", h.vbool(true) },
                                         }),
                                         h.jo(&.{
                                             .{ "name", h.vstr("serial_number") },
-                                            .{ "orig", h.vstr("serial_number") },
+                                            .{ "orig", h.vstr("serialNumber") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("param") },
                                             .{ "reqd", h.vbool(true) },
@@ -1168,6 +1334,10 @@ pub fn make_config() Value {
                                         h.vstr("device_type"),
                                         h.vstr("serial_number"),
                                     }) },
+                                }) },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
                                 }) },
                             }),
                             h.jo(&.{
@@ -1206,6 +1376,10 @@ pub fn make_config() Value {
                                     .{ "exist", h.ja(&.{
                                         h.vstr("id"),
                                     }) },
+                                }) },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
                                 }) },
                             }),
                         }) },
@@ -1342,7 +1516,7 @@ pub fn make_config() Value {
                                     .{ "query", h.ja(&.{
                                         h.jo(&.{
                                             .{ "name", h.vstr("device_type") },
-                                            .{ "orig", h.vstr("device_type") },
+                                            .{ "orig", h.vstr("deviceType") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("query") },
                                         }),
@@ -1362,12 +1536,10 @@ pub fn make_config() Value {
                                         }),
                                     }) },
                                 }) },
-                                .{ "select", h.jo(&.{
-                                    .{ "exist", h.ja(&.{
-                                        h.vstr("device_type"),
-                                        h.vstr("skip"),
-                                        h.vstr("take"),
-                                    }) },
+                                .{ "select", h.omap() },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
                                 }) },
                             }),
                         }) },
@@ -1412,6 +1584,10 @@ pub fn make_config() Value {
                                     .{ "exist", h.ja(&.{
                                         h.vstr("id"),
                                     }) },
+                                }) },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
                                 }) },
                             }),
                         }) },
@@ -1562,7 +1738,7 @@ pub fn make_config() Value {
                                     .{ "params", h.ja(&.{
                                         h.jo(&.{
                                             .{ "name", h.vstr("device_type") },
-                                            .{ "orig", h.vstr("device_type") },
+                                            .{ "orig", h.vstr("deviceType") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("param") },
                                             .{ "reqd", h.vbool(true) },
@@ -1576,7 +1752,7 @@ pub fn make_config() Value {
                                         }),
                                         h.jo(&.{
                                             .{ "name", h.vstr("serial_number") },
-                                            .{ "orig", h.vstr("serial_number") },
+                                            .{ "orig", h.vstr("serialNumber") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("param") },
                                             .{ "reqd", h.vbool(true) },
@@ -1589,6 +1765,10 @@ pub fn make_config() Value {
                                         h.vstr("id"),
                                         h.vstr("serial_number"),
                                     }) },
+                                }) },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
                                 }) },
                             }),
                         }) },
@@ -1739,14 +1919,14 @@ pub fn make_config() Value {
                                     .{ "params", h.ja(&.{
                                         h.jo(&.{
                                             .{ "name", h.vstr("device_type") },
-                                            .{ "orig", h.vstr("device_type") },
+                                            .{ "orig", h.vstr("deviceType") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("param") },
                                             .{ "reqd", h.vbool(true) },
                                         }),
                                         h.jo(&.{
                                             .{ "name", h.vstr("serial_number") },
-                                            .{ "orig", h.vstr("serial_number") },
+                                            .{ "orig", h.vstr("serialNumber") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("param") },
                                             .{ "reqd", h.vbool(true) },
@@ -1773,9 +1953,11 @@ pub fn make_config() Value {
                                     .{ "exist", h.ja(&.{
                                         h.vstr("device_type"),
                                         h.vstr("serial_number"),
-                                        h.vstr("skip"),
-                                        h.vstr("take"),
                                     }) },
+                                }) },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
                                 }) },
                             }),
                         }) },
@@ -1792,11 +1974,25 @@ pub fn make_config() Value {
             .{ "device_receive_result", h.jo(&.{
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
+                        .{ "name", h.vstr("serialNumber") },
+                        .{ "title", h.vstr("Serial Number") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("The serial number of the Device that is shipped.") },
+                    }),
+                    h.jo(&.{
                         .{ "name", h.vstr("success") },
                         .{ "title", h.vstr("Success") },
                         .{ "type", h.vstr("`$BOOLEAN`") },
                         .{ "req", h.vbool(true) },
                         .{ "short", h.vstr("Indicates if the action succeeded.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("tamperLabel") },
+                        .{ "title", h.vstr("Tamper Label") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("The code that is printed the tamper label of the Device that is shipped.") },
                     }),
                 }) },
                 .{ "name", h.vstr("device_receive_result") },
@@ -1828,6 +2024,10 @@ pub fn make_config() Value {
                                 }) },
                                 .{ "args", h.omap() },
                                 .{ "select", h.omap() },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
+                                }) },
                             }),
                         }) },
                     }) },
@@ -1839,11 +2039,60 @@ pub fn make_config() Value {
             .{ "device_rki_activate_result", h.jo(&.{
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
+                        .{ "name", h.vstr("appVersion") },
+                        .{ "title", h.vstr("App Version") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("If a Device Type has more than one Application Code version the supported version is specified here.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("buildName") },
+                        .{ "title", h.vstr("Build Name") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The Device Builds's name.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("buildNumber") },
+                        .{ "title", h.vstr("Build Number") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The Build Number.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("configFile") },
+                        .{ "title", h.vstr("Config File") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("\\?") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("firmwareVersion") },
+                        .{ "title", h.vstr("Firmware Version") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("A list of firmware versions that this Device Build covers.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("hardwareVersion") },
+                        .{ "title", h.vstr("Hardware Version") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("A list of hardware versions that this Device Build covers.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("serialNumber") },
+                        .{ "title", h.vstr("Serial Number") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("The referenced Device's serial number.") },
+                    }),
+                    h.jo(&.{
                         .{ "name", h.vstr("success") },
                         .{ "title", h.vstr("Success") },
                         .{ "type", h.vstr("`$BOOLEAN`") },
                         .{ "req", h.vbool(true) },
                         .{ "short", h.vstr("Indicates if the RKI activation succeeded.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("whiteListingBinRanges") },
+                        .{ "title", h.vstr("White Listing Bin Ranges") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("\\?") },
                     }),
                 }) },
                 .{ "name", h.vstr("device_rki_activate_result") },
@@ -1879,6 +2128,10 @@ pub fn make_config() Value {
                                 }) },
                                 .{ "args", h.omap() },
                                 .{ "select", h.omap() },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
+                                }) },
                             }),
                         }) },
                     }) },
@@ -1932,6 +2185,10 @@ pub fn make_config() Value {
                                 }) },
                                 .{ "args", h.omap() },
                                 .{ "select", h.omap() },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
+                                }) },
                             }),
                         }) },
                     }) },
@@ -2045,6 +2302,10 @@ pub fn make_config() Value {
                                 }) },
                                 .{ "args", h.omap() },
                                 .{ "select", h.omap() },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
+                                }) },
                             }),
                         }) },
                     }) },
@@ -2088,6 +2349,10 @@ pub fn make_config() Value {
                                     .{ "exist", h.ja(&.{
                                         h.vstr("id"),
                                     }) },
+                                }) },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
                                 }) },
                             }),
                         }) },
@@ -2179,6 +2444,10 @@ pub fn make_config() Value {
                                 }) },
                                 .{ "args", h.omap() },
                                 .{ "select", h.omap() },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
+                                }) },
                             }),
                         }) },
                     }) },
@@ -2222,6 +2491,10 @@ pub fn make_config() Value {
                                     .{ "exist", h.ja(&.{
                                         h.vstr("id"),
                                     }) },
+                                }) },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
                                 }) },
                             }),
                         }) },
@@ -2276,6 +2549,10 @@ pub fn make_config() Value {
                                 }) },
                                 .{ "args", h.omap() },
                                 .{ "select", h.omap() },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
+                                }) },
                             }),
                         }) },
                     }) },
@@ -2290,6 +2567,12 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("address1") },
                         .{ "title", h.vstr("Address1") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "op", h.jo(&.{
+                            .{ "create", h.jo(&.{
+                                .{ "req", h.vbool(true) },
+                                .{ "type", h.vstr("`$STRING`") },
+                            }) },
+                        }) },
                         .{ "short", h.vstr("The Location's street address.") },
                     }),
                     h.jo(&.{
@@ -2308,12 +2591,30 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("city") },
                         .{ "title", h.vstr("City") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "op", h.jo(&.{
+                            .{ "create", h.jo(&.{
+                                .{ "req", h.vbool(true) },
+                                .{ "type", h.vstr("`$STRING`") },
+                            }) },
+                        }) },
                         .{ "short", h.vstr("The Location's city.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("client") },
+                        .{ "title", h.vstr("Client") },
+                        .{ "type", h.vstr("`$OBJECT`") },
+                        .{ "short", h.vstr("Reference to the associated Client resource.") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("country") },
                         .{ "title", h.vstr("Country") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "op", h.jo(&.{
+                            .{ "create", h.jo(&.{
+                                .{ "req", h.vbool(true) },
+                                .{ "type", h.vstr("`$OBJECT`") },
+                            }) },
+                        }) },
                         .{ "short", h.vstr("The Location's country.") },
                     }),
                     h.jo(&.{
@@ -2339,6 +2640,12 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("locationType") },
                         .{ "title", h.vstr("Location Type") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "op", h.jo(&.{
+                            .{ "create", h.jo(&.{
+                                .{ "req", h.vbool(true) },
+                                .{ "type", h.vstr("`$STRING`") },
+                            }) },
+                        }) },
                         .{ "short", h.vstr("The Location's clasification.") },
                     }),
                     h.jo(&.{
@@ -2388,6 +2695,12 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("name") },
                         .{ "title", h.vstr("Name") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "op", h.jo(&.{
+                            .{ "create", h.jo(&.{
+                                .{ "req", h.vbool(true) },
+                                .{ "type", h.vstr("`$STRING`") },
+                            }) },
+                        }) },
                         .{ "short", h.vstr("The Location's name.") },
                     }),
                     h.jo(&.{
@@ -2456,6 +2769,10 @@ pub fn make_config() Value {
                                 }) },
                                 .{ "args", h.omap() },
                                 .{ "select", h.omap() },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
+                                }) },
                             }),
                         }) },
                     }) },
@@ -2488,6 +2805,7 @@ pub fn make_config() Value {
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("query") },
                                             .{ "reqd", h.vbool(true) },
+                                            .{ "field", h.vbool(true) },
                                         }),
                                         h.jo(&.{
                                             .{ "name", h.vstr("skip") },
@@ -2508,9 +2826,11 @@ pub fn make_config() Value {
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
                                         h.vstr("client"),
-                                        h.vstr("skip"),
-                                        h.vstr("take"),
                                     }) },
+                                }) },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
                                 }) },
                             }),
                         }) },
@@ -2555,6 +2875,10 @@ pub fn make_config() Value {
                                     .{ "exist", h.ja(&.{
                                         h.vstr("id"),
                                     }) },
+                                }) },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
                                 }) },
                             }),
                         }) },
@@ -2627,6 +2951,10 @@ pub fn make_config() Value {
                         .{ "title", h.vstr("Contact") },
                         .{ "type", h.vstr("`$OBJECT`") },
                         .{ "op", h.jo(&.{
+                            .{ "create", h.jo(&.{
+                                .{ "req", h.vbool(true) },
+                                .{ "type", h.vstr("`$OBJECT`") },
+                            }) },
                             .{ "list", h.jo(&.{
                                 .{ "req", h.vbool(true) },
                                 .{ "type", h.vstr("`$OBJECT`") },
@@ -2671,12 +2999,24 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("name") },
                         .{ "title", h.vstr("Name") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "op", h.jo(&.{
+                            .{ "create", h.jo(&.{
+                                .{ "req", h.vbool(true) },
+                                .{ "type", h.vstr("`$STRING`") },
+                            }) },
+                        }) },
                         .{ "short", h.vstr("The Partner's name.") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("parent") },
                         .{ "title", h.vstr("Parent") },
                         .{ "type", h.vstr("`$OBJECT`") },
+                        .{ "op", h.jo(&.{
+                            .{ "create", h.jo(&.{
+                                .{ "req", h.vbool(true) },
+                                .{ "type", h.vstr("`$OBJECT`") },
+                            }) },
+                        }) },
                         .{ "short", h.vstr("Reference to the associated Partner.") },
                     }),
                     h.jo(&.{
@@ -2689,6 +3029,12 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("reference") },
                         .{ "title", h.vstr("Reference") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "op", h.jo(&.{
+                            .{ "create", h.jo(&.{
+                                .{ "req", h.vbool(true) },
+                                .{ "type", h.vstr("`$STRING`") },
+                            }) },
+                        }) },
                         .{ "short", h.vstr("The Partner's reference string.") },
                     }),
                     h.jo(&.{
@@ -2733,6 +3079,10 @@ pub fn make_config() Value {
                                 }) },
                                 .{ "args", h.omap() },
                                 .{ "select", h.omap() },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
+                                }) },
                             }),
                         }) },
                     }) },
@@ -2781,12 +3131,10 @@ pub fn make_config() Value {
                                         }),
                                     }) },
                                 }) },
-                                .{ "select", h.jo(&.{
-                                    .{ "exist", h.ja(&.{
-                                        h.vstr("partner"),
-                                        h.vstr("skip"),
-                                        h.vstr("take"),
-                                    }) },
+                                .{ "select", h.omap() },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
                                 }) },
                             }),
                         }) },
@@ -2832,6 +3180,10 @@ pub fn make_config() Value {
                                         h.vstr("id"),
                                     }) },
                                 }) },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
+                                }) },
                             }),
                         }) },
                     }) },
@@ -2846,12 +3198,24 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("carrier") },
                         .{ "title", h.vstr("Carrier") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "op", h.jo(&.{
+                            .{ "create", h.jo(&.{
+                                .{ "req", h.vbool(true) },
+                                .{ "type", h.vstr("`$STRING`") },
+                            }) },
+                        }) },
                         .{ "short", h.vstr("The name of the courier.") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("client") },
                         .{ "title", h.vstr("Client") },
                         .{ "type", h.vstr("`$OBJECT`") },
+                        .{ "op", h.jo(&.{
+                            .{ "create", h.jo(&.{
+                                .{ "req", h.vbool(true) },
+                                .{ "type", h.vstr("`$OBJECT`") },
+                            }) },
+                        }) },
                         .{ "short", h.vstr("Reference to the associated Client resource.") },
                     }),
                     h.jo(&.{
@@ -2872,6 +3236,12 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("dateShipped") },
                         .{ "title", h.vstr("Date Shipped") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "op", h.jo(&.{
+                            .{ "create", h.jo(&.{
+                                .{ "req", h.vbool(true) },
+                                .{ "type", h.vstr("`$STRING`") },
+                            }) },
+                        }) },
                         .{ "short", h.vstr("The date and time that a package is shipped.") },
                         .{ "format", h.vstr("datetime") },
                     }),
@@ -2891,12 +3261,31 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("items") },
                         .{ "title", h.vstr("Items") },
                         .{ "type", h.vstr("`$ARRAY`") },
+                        .{ "op", h.jo(&.{
+                            .{ "create", h.jo(&.{
+                                .{ "req", h.vbool(true) },
+                                .{ "type", h.vstr("`$ARRAY`") },
+                            }) },
+                        }) },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("kif") },
                         .{ "title", h.vstr("Kif") },
                         .{ "type", h.vstr("`$OBJECT`") },
+                        .{ "op", h.jo(&.{
+                            .{ "create", h.jo(&.{
+                                .{ "req", h.vbool(true) },
+                                .{ "type", h.vstr("`$OBJECT`") },
+                            }) },
+                        }) },
                         .{ "short", h.vstr("Reference to the associated KIF resource.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("location") },
+                        .{ "title", h.vstr("Location") },
+                        .{ "type", h.vstr("`$OBJECT`") },
+                        .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("Reference to the associated Location resource.") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("modified") },
@@ -2909,6 +3298,12 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("partner") },
                         .{ "title", h.vstr("Partner") },
                         .{ "type", h.vstr("`$OBJECT`") },
+                        .{ "op", h.jo(&.{
+                            .{ "create", h.jo(&.{
+                                .{ "req", h.vbool(true) },
+                                .{ "type", h.vstr("`$OBJECT`") },
+                            }) },
+                        }) },
                         .{ "short", h.vstr("Reference to the associated Partner.") },
                     }),
                     h.jo(&.{
@@ -2921,6 +3316,12 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("tracking") },
                         .{ "title", h.vstr("Tracking") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "op", h.jo(&.{
+                            .{ "create", h.jo(&.{
+                                .{ "req", h.vbool(true) },
+                                .{ "type", h.vstr("`$STRING`") },
+                            }) },
+                        }) },
                         .{ "short", h.vstr("The courier's tracking number.") },
                     }),
                     h.jo(&.{
@@ -2960,6 +3361,10 @@ pub fn make_config() Value {
                                 }) },
                                 .{ "args", h.omap() },
                                 .{ "select", h.omap() },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
+                                }) },
                             }),
                         }) },
                     }) },
@@ -2992,6 +3397,7 @@ pub fn make_config() Value {
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("query") },
                                             .{ "reqd", h.vbool(true) },
+                                            .{ "field", h.vbool(true) },
                                         }),
                                         h.jo(&.{
                                             .{ "name", h.vstr("mode") },
@@ -3018,10 +3424,11 @@ pub fn make_config() Value {
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
                                         h.vstr("kif"),
-                                        h.vstr("mode"),
-                                        h.vstr("skip"),
-                                        h.vstr("take"),
                                     }) },
+                                }) },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
                                 }) },
                             }),
                         }) },
@@ -3067,6 +3474,10 @@ pub fn make_config() Value {
                                         h.vstr("id"),
                                     }) },
                                 }) },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
+                                }) },
                             }),
                         }) },
                     }) },
@@ -3077,6 +3488,20 @@ pub fn make_config() Value {
             }) },
             .{ "success", h.jo(&.{
                 .{ "fields", h.ja(&.{
+                    h.jo(&.{
+                        .{ "name", h.vstr("devices") },
+                        .{ "title", h.vstr("Devices") },
+                        .{ "type", h.vstr("`$ARRAY`") },
+                        .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("An array of Device ids to share with partner.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("sharePartnerFrom") },
+                        .{ "title", h.vstr("Share Partner From") },
+                        .{ "type", h.vstr("`$OBJECT`") },
+                        .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("Reference to the associated Partner.") },
+                    }),
                     h.jo(&.{
                         .{ "name", h.vstr("success") },
                         .{ "title", h.vstr("Success") },
@@ -3119,7 +3544,7 @@ pub fn make_config() Value {
                                     .{ "params", h.ja(&.{
                                         h.jo(&.{
                                             .{ "name", h.vstr("share_partner_to") },
-                                            .{ "orig", h.vstr("share_partner_to") },
+                                            .{ "orig", h.vstr("sharePartnerTo") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("param") },
                                             .{ "reqd", h.vbool(true) },
@@ -3130,6 +3555,10 @@ pub fn make_config() Value {
                                     .{ "exist", h.ja(&.{
                                         h.vstr("share_partner_to"),
                                     }) },
+                                }) },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
                                 }) },
                             }),
                         }) },
@@ -3167,7 +3596,7 @@ pub fn make_config() Value {
                                     .{ "params", h.ja(&.{
                                         h.jo(&.{
                                             .{ "name", h.vstr("share_partner_to") },
-                                            .{ "orig", h.vstr("share_partner_to") },
+                                            .{ "orig", h.vstr("sharePartnerTo") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("param") },
                                             .{ "reqd", h.vbool(true) },
@@ -3178,6 +3607,10 @@ pub fn make_config() Value {
                                     .{ "exist", h.ja(&.{
                                         h.vstr("share_partner_to"),
                                     }) },
+                                }) },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
                                 }) },
                             }),
                         }) },
@@ -3203,6 +3636,12 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("client") },
                         .{ "title", h.vstr("Client") },
                         .{ "type", h.vstr("`$OBJECT`") },
+                        .{ "op", h.jo(&.{
+                            .{ "create", h.jo(&.{
+                                .{ "req", h.vbool(true) },
+                                .{ "type", h.vstr("`$OBJECT`") },
+                            }) },
+                        }) },
                         .{ "short", h.vstr("Reference to the associated Client resource.") },
                     }),
                     h.jo(&.{
@@ -3224,6 +3663,13 @@ pub fn make_config() Value {
                         .{ "type", h.vstr("`$INTEGER`") },
                         .{ "short", h.vstr("A Transcation can process muliple decryptions.") },
                         .{ "format", h.vstr("int32") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("device") },
+                        .{ "title", h.vstr("Device") },
+                        .{ "type", h.vstr("`$OBJECT`") },
+                        .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("Reference to the associated Device resource.") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("deviceName") },
@@ -3273,6 +3719,12 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("ipAddress") },
                         .{ "title", h.vstr("Ip Address") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "op", h.jo(&.{
+                            .{ "create", h.jo(&.{
+                                .{ "req", h.vbool(true) },
+                                .{ "type", h.vstr("`$STRING`") },
+                            }) },
+                        }) },
                         .{ "short", h.vstr("The IP address of the http client that makes the decrypt API call.") },
                     }),
                     h.jo(&.{
@@ -3285,6 +3737,12 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("keyType") },
                         .{ "title", h.vstr("Key Type") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "op", h.jo(&.{
+                            .{ "create", h.jo(&.{
+                                .{ "req", h.vbool(true) },
+                                .{ "type", h.vstr("`$STRING`") },
+                            }) },
+                        }) },
                         .{ "short", h.vstr("The type of cipher used during decrytion.") },
                     }),
                     h.jo(&.{
@@ -3304,12 +3762,24 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("method") },
                         .{ "title", h.vstr("Method") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "op", h.jo(&.{
+                            .{ "create", h.jo(&.{
+                                .{ "req", h.vbool(true) },
+                                .{ "type", h.vstr("`$STRING`") },
+                            }) },
+                        }) },
                         .{ "short", h.vstr("The decryption cypher/method.") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("partner") },
                         .{ "title", h.vstr("Partner") },
                         .{ "type", h.vstr("`$OBJECT`") },
+                        .{ "op", h.jo(&.{
+                            .{ "create", h.jo(&.{
+                                .{ "req", h.vbool(true) },
+                                .{ "type", h.vstr("`$OBJECT`") },
+                            }) },
+                        }) },
                         .{ "short", h.vstr("Reference to the associated Partner.") },
                     }),
                     h.jo(&.{
@@ -3373,6 +3843,10 @@ pub fn make_config() Value {
                                 }) },
                                 .{ "args", h.omap() },
                                 .{ "select", h.omap() },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
+                                }) },
                             }),
                         }) },
                     }) },
@@ -3404,22 +3878,23 @@ pub fn make_config() Value {
                                             .{ "orig", h.vstr("client") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("query") },
+                                            .{ "field", h.vbool(true) },
                                         }),
                                         h.jo(&.{
                                             .{ "name", h.vstr("client_ref") },
-                                            .{ "orig", h.vstr("client_ref") },
+                                            .{ "orig", h.vstr("clientRef") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("query") },
                                         }),
                                         h.jo(&.{
                                             .{ "name", h.vstr("date_from") },
-                                            .{ "orig", h.vstr("date_from") },
+                                            .{ "orig", h.vstr("dateFrom") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("query") },
                                         }),
                                         h.jo(&.{
                                             .{ "name", h.vstr("date_to") },
-                                            .{ "orig", h.vstr("date_to") },
+                                            .{ "orig", h.vstr("dateTo") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("query") },
                                         }),
@@ -3428,16 +3903,17 @@ pub fn make_config() Value {
                                             .{ "orig", h.vstr("location") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("query") },
+                                            .{ "field", h.vbool(true) },
                                         }),
                                         h.jo(&.{
                                             .{ "name", h.vstr("message_id") },
-                                            .{ "orig", h.vstr("message_id") },
+                                            .{ "orig", h.vstr("messageId") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("query") },
                                         }),
                                         h.jo(&.{
                                             .{ "name", h.vstr("paging_mode") },
-                                            .{ "orig", h.vstr("paging_mode") },
+                                            .{ "orig", h.vstr("paging.mode") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("query") },
                                             .{ "example", h.vstr("nocount") },
@@ -3447,16 +3923,18 @@ pub fn make_config() Value {
                                             .{ "orig", h.vstr("partner") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("query") },
+                                            .{ "field", h.vbool(true) },
                                         }),
                                         h.jo(&.{
                                             .{ "name", h.vstr("reference") },
                                             .{ "orig", h.vstr("reference") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("query") },
+                                            .{ "field", h.vbool(true) },
                                         }),
                                         h.jo(&.{
                                             .{ "name", h.vstr("serial_number") },
-                                            .{ "orig", h.vstr("serial_number") },
+                                            .{ "orig", h.vstr("serialNumber") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("query") },
                                         }),
@@ -3472,6 +3950,7 @@ pub fn make_config() Value {
                                             .{ "orig", h.vstr("success") },
                                             .{ "type", h.vstr("`$BOOLEAN`") },
                                             .{ "kind", h.vstr("query") },
+                                            .{ "field", h.vbool(true) },
                                         }),
                                         h.jo(&.{
                                             .{ "name", h.vstr("take") },
@@ -3482,22 +3961,10 @@ pub fn make_config() Value {
                                         }),
                                     }) },
                                 }) },
-                                .{ "select", h.jo(&.{
-                                    .{ "exist", h.ja(&.{
-                                        h.vstr("client"),
-                                        h.vstr("client_ref"),
-                                        h.vstr("date_from"),
-                                        h.vstr("date_to"),
-                                        h.vstr("location"),
-                                        h.vstr("message_id"),
-                                        h.vstr("paging_mode"),
-                                        h.vstr("partner"),
-                                        h.vstr("reference"),
-                                        h.vstr("serial_number"),
-                                        h.vstr("skip"),
-                                        h.vstr("success"),
-                                        h.vstr("take"),
-                                    }) },
+                                .{ "select", h.omap() },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
                                 }) },
                             }),
                         }) },
@@ -3543,6 +4010,10 @@ pub fn make_config() Value {
                                         h.vstr("id"),
                                     }) },
                                 }) },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
+                                }) },
                             }),
                         }) },
                     }) },
@@ -3554,21 +4025,171 @@ pub fn make_config() Value {
             .{ "update_result", h.jo(&.{
                 .{ "fields", h.ja(&.{
                     h.jo(&.{
+                        .{ "name", h.vstr("address1") },
+                        .{ "title", h.vstr("Address1") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The Location's street address.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("address2") },
+                        .{ "title", h.vstr("Address2") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The Location's street address.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("alternateKey") },
+                        .{ "title", h.vstr("Alternate Key") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("auditNextDate") },
+                        .{ "title", h.vstr("Audit Next Date") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("Date and time that the Device is due its next PCI Audit.") },
+                        .{ "format", h.vstr("datetime") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("billingId") },
+                        .{ "title", h.vstr("Billing Id") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("\\?") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("city") },
+                        .{ "title", h.vstr("City") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The Location's city.") },
+                    }),
+                    h.jo(&.{
                         .{ "name", h.vstr("client") },
                         .{ "title", h.vstr("Client") },
                         .{ "type", h.vstr("`$OBJECT`") },
                         .{ "short", h.vstr("Reference to the associated Client resource.") },
                     }),
                     h.jo(&.{
+                        .{ "name", h.vstr("clientCanOrderEquipment") },
+                        .{ "title", h.vstr("Client Can Order Equipment") },
+                        .{ "type", h.vstr("`$BOOLEAN`") },
+                        .{ "short", h.vstr("This property indicates if the Partner is allowed to order Equipment.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("clientRef") },
+                        .{ "title", h.vstr("Client Ref") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("Client Reference property that is included in the decrypt API call.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("contact") },
+                        .{ "title", h.vstr("Contact") },
+                        .{ "type", h.vstr("`$OBJECT`") },
+                        .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("Reference to the associated User resource.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("country") },
+                        .{ "title", h.vstr("Country") },
+                        .{ "type", h.vstr("`$OBJECT`") },
+                        .{ "short", h.vstr("Reference to the associated Country.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("customReference") },
+                        .{ "title", h.vstr("Custom Reference") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("A Partner specified reference for a location.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("dateShipped") },
+                        .{ "title", h.vstr("Date Shipped") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The date and time that a package is shipped.") },
+                        .{ "format", h.vstr("datetime") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("decrypted") },
+                        .{ "title", h.vstr("Decrypted") },
+                        .{ "type", h.vstr("`$INTEGER`") },
+                        .{ "short", h.vstr("A Transcation can process muliple decryptions.") },
+                        .{ "format", h.vstr("int32") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("device") },
+                        .{ "title", h.vstr("Device") },
+                        .{ "type", h.vstr("`$OBJECT`") },
+                        .{ "short", h.vstr("Reference to the associated Device resource.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("deviceBuild") },
+                        .{ "title", h.vstr("Device Build") },
+                        .{ "type", h.vstr("`$OBJECT`") },
+                        .{ "short", h.vstr("Reference to the associated Device Build resource.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("deviceType") },
+                        .{ "title", h.vstr("Device Type") },
+                        .{ "type", h.vstr("`$OBJECT`") },
+                        .{ "short", h.vstr("Reference to the associated Device Type resource.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("directPartner") },
+                        .{ "title", h.vstr("Direct Partner") },
+                        .{ "type", h.vstr("`$OBJECT`") },
+                        .{ "short", h.vstr("Reference to the associated Partner.") },
+                    }),
+                    h.jo(&.{
                         .{ "name", h.vstr("email") },
                         .{ "title", h.vstr("Email") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "req", h.vbool(true) },
+                        .{ "op", h.jo(&.{
+                            .{ "list", h.jo(&.{
+                                .{ "type", h.vstr("`$STRING`") },
+                            }) },
+                            .{ "update", h.jo(&.{
+                                .{ "type", h.vstr("`$STRING`") },
+                            }) },
+                        }) },
                         .{ "short", h.vstr("The User's email address.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("encrypted") },
+                        .{ "title", h.vstr("Encrypted") },
+                        .{ "type", h.vstr("`$INTEGER`") },
+                        .{ "short", h.vstr("A Transcation can process muliple encryptions.") },
+                        .{ "format", h.vstr("int32") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("endDate") },
+                        .{ "title", h.vstr("End Date") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("Timestamp from the end of the transaction.") },
+                        .{ "format", h.vstr("datetime") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("errCode") },
+                        .{ "title", h.vstr("Err Code") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The error code that is sent in response to a failed decrypt API call.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("errMessage") },
+                        .{ "title", h.vstr("Err Message") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The error messge that is sent in response to a failed decrypt API call.") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("firstName") },
                         .{ "title", h.vstr("First Name") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "req", h.vbool(true) },
+                        .{ "op", h.jo(&.{
+                            .{ "list", h.jo(&.{
+                                .{ "type", h.vstr("`$STRING`") },
+                            }) },
+                            .{ "update", h.jo(&.{
+                                .{ "type", h.vstr("`$STRING`") },
+                            }) },
+                        }) },
                         .{ "short", h.vstr("The User's name.") },
                     }),
                     h.jo(&.{
@@ -3578,10 +4199,42 @@ pub fn make_config() Value {
                         .{ "short", h.vstr("ID of newly created resource") },
                     }),
                     h.jo(&.{
+                        .{ "name", h.vstr("injectKey") },
+                        .{ "title", h.vstr("Inject Key") },
+                        .{ "type", h.vstr("`$OBJECT`") },
+                        .{ "short", h.vstr("Reference to the associated Device resource.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("ipAddress") },
+                        .{ "title", h.vstr("Ip Address") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The IP address of the http client that makes the decrypt API call.") },
+                    }),
+                    h.jo(&.{
                         .{ "name", h.vstr("isActive") },
                         .{ "title", h.vstr("Is Active") },
                         .{ "type", h.vstr("`$BOOLEAN`") },
+                        .{ "req", h.vbool(true) },
+                        .{ "op", h.jo(&.{
+                            .{ "list", h.jo(&.{
+                                .{ "type", h.vstr("`$BOOLEAN`") },
+                            }) },
+                            .{ "update", h.jo(&.{
+                                .{ "type", h.vstr("`$BOOLEAN`") },
+                            }) },
+                        }) },
                         .{ "short", h.vstr("This property indicates if the User account is active or disabled.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("items") },
+                        .{ "title", h.vstr("Items") },
+                        .{ "type", h.vstr("`$ARRAY`") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("keyType") },
+                        .{ "title", h.vstr("Key Type") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The type of cipher used during decrytion.") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("kif") },
@@ -3593,7 +4246,107 @@ pub fn make_config() Value {
                         .{ "name", h.vstr("lastName") },
                         .{ "title", h.vstr("Last Name") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "req", h.vbool(true) },
+                        .{ "op", h.jo(&.{
+                            .{ "list", h.jo(&.{
+                                .{ "type", h.vstr("`$STRING`") },
+                            }) },
+                            .{ "update", h.jo(&.{
+                                .{ "type", h.vstr("`$STRING`") },
+                            }) },
+                        }) },
                         .{ "short", h.vstr("The User's Surname.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("location") },
+                        .{ "title", h.vstr("Location") },
+                        .{ "type", h.vstr("`$OBJECT`") },
+                        .{ "req", h.vbool(true) },
+                        .{ "short", h.vstr("Reference to the associated Location resource.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("locationType") },
+                        .{ "title", h.vstr("Location Type") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The Location's clasification.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("mailAddress1") },
+                        .{ "title", h.vstr("Mail Address1") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The Location's street address.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("mailAddress2") },
+                        .{ "title", h.vstr("Mail Address2") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The Location's street address.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("mailCity") },
+                        .{ "title", h.vstr("Mail City") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The Location's city.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("mailCountry") },
+                        .{ "title", h.vstr("Mail Country") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The Location's street address.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("mailPostalCode") },
+                        .{ "title", h.vstr("Mail Postal Code") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The Location's postal code.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("mailStateProvince") },
+                        .{ "title", h.vstr("Mail State Province") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The Location's street state or province.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("messageId") },
+                        .{ "title", h.vstr("Message Id") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("Message ID.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("method") },
+                        .{ "title", h.vstr("Method") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The decryption cypher/method.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("mid") },
+                        .{ "title", h.vstr("Mid") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("Some Partners will have an merchant ids on their own software offerings.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("name") },
+                        .{ "title", h.vstr("Name") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The Client's name.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("nameOfBusiness") },
+                        .{ "title", h.vstr("Name Of Business") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The name of the business at this location.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("notes") },
+                        .{ "title", h.vstr("Notes") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("Arbitary note that can be attached to a Device entry.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("parent") },
+                        .{ "title", h.vstr("Parent") },
+                        .{ "type", h.vstr("`$OBJECT`") },
+                        .{ "short", h.vstr("Reference to the associated Partner.") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("partner") },
@@ -3602,22 +4355,116 @@ pub fn make_config() Value {
                         .{ "short", h.vstr("Reference to the associated Partner.") },
                     }),
                     h.jo(&.{
+                        .{ "name", h.vstr("partnerId") },
+                        .{ "title", h.vstr("Partner Id") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The Partner's id.") },
+                    }),
+                    h.jo(&.{
                         .{ "name", h.vstr("phone") },
                         .{ "title", h.vstr("Phone") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "req", h.vbool(true) },
+                        .{ "op", h.jo(&.{
+                            .{ "list", h.jo(&.{
+                                .{ "type", h.vstr("`$STRING`") },
+                            }) },
+                            .{ "update", h.jo(&.{
+                                .{ "type", h.vstr("`$STRING`") },
+                            }) },
+                        }) },
                         .{ "short", h.vstr("The User's phone number without dashes, spaces, or brackets.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("postalCode") },
+                        .{ "title", h.vstr("Postal Code") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The Location's postal code.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("reference") },
+                        .{ "title", h.vstr("Reference") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The Partner's reference string.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("sendWelcomeEmail") },
+                        .{ "title", h.vstr("Send Welcome Email") },
+                        .{ "type", h.vstr("`$BOOLEAN`") },
+                        .{ "short", h.vstr("If this property is set to '*true*' the newly created user will be sent a welcome email.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("serialNumber") },
+                        .{ "title", h.vstr("Serial Number") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The Device's serial number.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("startDate") },
+                        .{ "title", h.vstr("Start Date") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("Timestamp from the beginning of the transaction.") },
+                        .{ "format", h.vstr("datetime") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("stateProvince") },
+                        .{ "title", h.vstr("State Province") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The Location's street state or province.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("success") },
+                        .{ "title", h.vstr("Success") },
+                        .{ "type", h.vstr("`$BOOLEAN`") },
+                        .{ "short", h.vstr("The success indicator.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("tracking") },
+                        .{ "title", h.vstr("Tracking") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The courier's tracking number.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("uniqueId") },
+                        .{ "title", h.vstr("Unique Id") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("Unique Identifier for the Location.") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("userName") },
                         .{ "title", h.vstr("User Name") },
                         .{ "type", h.vstr("`$STRING`") },
+                        .{ "req", h.vbool(true) },
+                        .{ "op", h.jo(&.{
+                            .{ "list", h.jo(&.{
+                                .{ "type", h.vstr("`$STRING`") },
+                            }) },
+                            .{ "update", h.jo(&.{
+                                .{ "type", h.vstr("`$STRING`") },
+                            }) },
+                        }) },
                         .{ "short", h.vstr("The User's unique username.") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("userRole") },
                         .{ "title", h.vstr("User Role") },
                         .{ "type", h.vstr("`$OBJECT`") },
+                        .{ "req", h.vbool(true) },
+                        .{ "op", h.jo(&.{
+                            .{ "list", h.jo(&.{
+                                .{ "type", h.vstr("`$OBJECT`") },
+                            }) },
+                            .{ "update", h.jo(&.{
+                                .{ "type", h.vstr("`$OBJECT`") },
+                            }) },
+                        }) },
                         .{ "short", h.vstr("Reference to the associated User Role.") },
+                    }),
+                    h.jo(&.{
+                        .{ "name", h.vstr("verificationPhrase") },
+                        .{ "title", h.vstr("Verification Phrase") },
+                        .{ "type", h.vstr("`$STRING`") },
+                        .{ "short", h.vstr("The verification phrase is a message that the Partner creates.") },
                     }),
                     h.jo(&.{
                         .{ "name", h.vstr("version") },
@@ -3655,6 +4502,10 @@ pub fn make_config() Value {
                                 }) },
                                 .{ "args", h.omap() },
                                 .{ "select", h.omap() },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
+                                }) },
                             }),
                         }) },
                     }) },
@@ -3686,18 +4537,21 @@ pub fn make_config() Value {
                                             .{ "orig", h.vstr("client") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("query") },
+                                            .{ "field", h.vbool(true) },
                                         }),
                                         h.jo(&.{
                                             .{ "name", h.vstr("kif") },
                                             .{ "orig", h.vstr("kif") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("query") },
+                                            .{ "field", h.vbool(true) },
                                         }),
                                         h.jo(&.{
                                             .{ "name", h.vstr("partner") },
                                             .{ "orig", h.vstr("partner") },
                                             .{ "type", h.vstr("`$ANY`") },
                                             .{ "kind", h.vstr("query") },
+                                            .{ "field", h.vbool(true) },
                                         }),
                                         h.jo(&.{
                                             .{ "name", h.vstr("skip") },
@@ -3715,14 +4569,10 @@ pub fn make_config() Value {
                                         }),
                                     }) },
                                 }) },
-                                .{ "select", h.jo(&.{
-                                    .{ "exist", h.ja(&.{
-                                        h.vstr("client"),
-                                        h.vstr("kif"),
-                                        h.vstr("partner"),
-                                        h.vstr("skip"),
-                                        h.vstr("take"),
-                                    }) },
+                                .{ "select", h.omap() },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
                                 }) },
                             }),
                         }) },
@@ -3768,6 +4618,10 @@ pub fn make_config() Value {
                                         h.vstr("id"),
                                     }) },
                                 }) },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
+                                }) },
                             }),
                             h.jo(&.{
                                 .{ "kind", h.vstr("http") },
@@ -3805,6 +4659,10 @@ pub fn make_config() Value {
                                     .{ "exist", h.ja(&.{
                                         h.vstr("id"),
                                     }) },
+                                }) },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
                                 }) },
                             }),
                             h.jo(&.{
@@ -3844,6 +4702,10 @@ pub fn make_config() Value {
                                         h.vstr("id"),
                                     }) },
                                 }) },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
+                                }) },
                             }),
                             h.jo(&.{
                                 .{ "kind", h.vstr("http") },
@@ -3881,6 +4743,10 @@ pub fn make_config() Value {
                                     .{ "exist", h.ja(&.{
                                         h.vstr("id"),
                                     }) },
+                                }) },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
                                 }) },
                             }),
                             h.jo(&.{
@@ -3920,6 +4786,10 @@ pub fn make_config() Value {
                                         h.vstr("id"),
                                     }) },
                                 }) },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
+                                }) },
                             }),
                             h.jo(&.{
                                 .{ "kind", h.vstr("http") },
@@ -3958,6 +4828,10 @@ pub fn make_config() Value {
                                         h.vstr("id"),
                                     }) },
                                 }) },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
+                                }) },
                             }),
                             h.jo(&.{
                                 .{ "kind", h.vstr("http") },
@@ -3995,6 +4869,10 @@ pub fn make_config() Value {
                                     .{ "exist", h.ja(&.{
                                         h.vstr("id"),
                                     }) },
+                                }) },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
                                 }) },
                             }),
                         }) },
@@ -4140,6 +5018,10 @@ pub fn make_config() Value {
                                         h.vstr("id"),
                                     }) },
                                 }) },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
+                                }) },
                             }),
                         }) },
                     }) },
@@ -4251,7 +5133,7 @@ pub fn make_config() Value {
                                     .{ "params", h.ja(&.{
                                         h.jo(&.{
                                             .{ "name", h.vstr("id") },
-                                            .{ "orig", h.vstr("share_partner_to") },
+                                            .{ "orig", h.vstr("sharePartnerTo") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("param") },
                                             .{ "reqd", h.vbool(true) },
@@ -4267,14 +5149,14 @@ pub fn make_config() Value {
                                         }),
                                         h.jo(&.{
                                             .{ "name", h.vstr("sorting_direction") },
-                                            .{ "orig", h.vstr("sorting_direction") },
+                                            .{ "orig", h.vstr("sorting.direction") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("query") },
                                             .{ "example", h.vstr("asc") },
                                         }),
                                         h.jo(&.{
                                             .{ "name", h.vstr("sorting_field") },
-                                            .{ "orig", h.vstr("sorting_field") },
+                                            .{ "orig", h.vstr("sorting.field") },
                                             .{ "type", h.vstr("`$STRING`") },
                                             .{ "kind", h.vstr("query") },
                                             .{ "example", h.vstr("serialnumber") },
@@ -4291,11 +5173,11 @@ pub fn make_config() Value {
                                 .{ "select", h.jo(&.{
                                     .{ "exist", h.ja(&.{
                                         h.vstr("id"),
-                                        h.vstr("skip"),
-                                        h.vstr("sorting_direction"),
-                                        h.vstr("sorting_field"),
-                                        h.vstr("take"),
                                     }) },
+                                }) },
+                                .{ "response", h.jo(&.{
+                                    .{ "kind", h.vstr("json") },
+                                    .{ "media", h.vstr("application/json") },
                                 }) },
                             }),
                         }) },

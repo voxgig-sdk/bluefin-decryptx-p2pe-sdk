@@ -9,6 +9,10 @@ main: kit: entity: client: {
       h: "Contact"
       n: "contact"
       op: {
+        create: {
+          req: true
+          type: "`$OBJECT`"
+        }
         list: {
           req: true
           type: "`$OBJECT`"
@@ -29,6 +33,12 @@ main: kit: entity: client: {
     directPartner: {
       h: "Direct Partner"
       n: "directPartner"
+      op: {
+        create: {
+          req: true
+          type: "`$OBJECT`"
+        }
+      }
       r: false
       sh: "Reference to the associated Partner."
       t: "`$OBJECT`"
@@ -72,6 +82,12 @@ main: kit: entity: client: {
     name: {
       h: "Name"
       n: "name"
+      op: {
+        create: {
+          req: true
+          type: "`$STRING`"
+        }
+      }
       r: false
       sh: "The Client's name."
       t: "`$STRING`"
@@ -103,6 +119,14 @@ main: kit: entity: client: {
       name: "create"
       points: [
         {
+          bf: [
+            "contact"
+            "directPartner"
+            "isActive"
+            "location"
+            "mid"
+            "name"
+          ]
           co: {
             id: "POST /clients"
             source: "openapi3"
@@ -110,6 +134,10 @@ main: kit: entity: client: {
           }
           m: "POST"
           o: "/clients"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "clients"
@@ -163,9 +191,11 @@ main: kit: entity: client: {
           q: {
             exist: [
               "partner"
-              "skip"
-              "take"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -205,6 +235,10 @@ main: kit: entity: client: {
             exist: [
               "id"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

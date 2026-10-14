@@ -41,7 +41,7 @@ loading a specific record.
 ```haskell
 import System.Environment (lookupEnv)
 import qualified SdkClient as Sdk
-import VoxgigStruct (Value (..), emptyMap)
+import VoxgigStruct (Value (..), emptyMap, stringify)
 import SdkHelpers (jo)
 
 main :: IO ()
@@ -51,9 +51,9 @@ main = do
   sdk <- Sdk.newSdk opts
 ```
 
-Entity operations raise on error (via `Control.Exception.throwIO`) and
-return the bare result `Value`. Wrap a call in `Control.Exception.try`
-to recover from failures.
+Entity operations return the entity, whose record `eDataGet` reads, and
+raise on error (via `Control.Exception.throwIO`). Wrap a call in
+`Control.Exception.try` to recover from failures.
 
 ### 2. List attestation records
 
@@ -65,7 +65,7 @@ error. Read a record with `eDataGet`.
   match <- emptyMap
   ctrl <- emptyMap
   attestations <- Sdk.eList ent match ctrl
-  mapM_ (\en -> print =<< Sdk.eDataGet en) attestations
+  mapM_ (\en -> putStrLn =<< stringify =<< Sdk.eDataGet en) attestations
 ```
 
 ### 3. Load a devicecustodydetail
@@ -79,17 +79,17 @@ record.
   m <- jo [("device_type", VStr "example_device_type"), ("serial_number", VStr "example_serial_number"), ("id", VStr "example_id")]
   ctrl2 <- emptyMap
   device_custody_detail <- Sdk.eLoad device_custody_detailEnt m ctrl2
-  print =<< Sdk.eDataGet device_custody_detail
+  putStrLn =<< stringify =<< Sdk.eDataGet device_custody_detail
 ```
 
 ### 4. Create, update, and remove
 
 ```haskell
   createEnt <- Sdk.attestation sdk VNoval
-  d <- jo [("client", VNoval), ("completeDate", VStr "example_completeDate")]
+  d <- jo [("devices", VNoval)]
   cctrl <- emptyMap
   created <- Sdk.eCreate createEnt d cctrl
-  print =<< Sdk.eDataGet created
+  putStrLn =<< stringify =<< Sdk.eDataGet created
 ```
 
 
@@ -100,14 +100,15 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 ```ts
 try {
   const devicetypes = await client.DeviceType().list()
-  console.log(devicetypes)
+  console.log(devicetypes.map((item) => item.data()))
 } catch (err) {
   console.error('list failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -116,8 +117,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -132,7 +133,7 @@ raises and returns a result `Value` you branch on via its `ok` field:
 ```haskell
 import qualified SdkClient as Sdk
 import qualified SdkFeatures as F
-import VoxgigStruct (Value (..))
+import VoxgigStruct (Value (..), stringify)
 import SdkHelpers (jo, getp)
 
 main :: IO ()
@@ -146,13 +147,15 @@ main = do
     VBool True -> do
       status <- getp result "status"   -- e.g. VNum 200
       body <- getp result "data"       -- the response body
-      print (status, body)
+      putStrLn =<< stringify status
+      putStrLn =<< stringify body
     _ -> do
       -- A non-2xx response carries status + data (the error body); a
       -- transport-level failure carries err instead.
       status <- getp result "status"
       err <- getp result "err"
-      print (status, err)
+      putStrLn =<< stringify status
+      putStrLn =<< stringify err
 ```
 
 ### Prepare a request without sending it
@@ -160,7 +163,7 @@ main = do
 ```haskell
 import qualified SdkClient as Sdk
 import qualified SdkFeatures as F
-import VoxgigStruct (Value (..))
+import VoxgigStruct (Value (..), stringify)
 import SdkHelpers (jo, getp)
 
 main :: IO ()
@@ -172,7 +175,8 @@ main = do
   fetchdef <- F.prepare sdk args
   url <- getp fetchdef "url"
   method <- getp fetchdef "method"
-  print (url, method)
+  putStrLn =<< stringify url
+  putStrLn =<< stringify method
 ```
 
 ### Use test mode
@@ -182,7 +186,7 @@ Create a mock client for unit testing — no server required:
 ```haskell
 import qualified SdkClient as Sdk
 import qualified SdkFeatures as F
-import VoxgigStruct (Value (..), emptyMap)
+import VoxgigStruct (Value (..), emptyMap, stringify)
 import SdkHelpers (jo)
 
 main :: IO ()
@@ -191,9 +195,10 @@ main = do
   ent <- Sdk.device_type sdk VNoval
   arg <- emptyMap
   ctrl <- emptyMap
-  -- Entity ops return the bare record and raise on error.
-  device_type <- Sdk.eList ent arg ctrl
-  print device_type
+  -- eList returns one entity per record and raises on error;
+  -- eDataGet reads each mock record.
+  device_types <- Sdk.eList ent arg ctrl
+  mapM_ (\en -> putStrLn =<< stringify =<< Sdk.eDataGet en) device_types
 ```
 
 ### Use a custom fetch function
@@ -311,7 +316,7 @@ All entities share the same record interface (fields of the `Entity` type).
 | `eList` | `Value -> Value -> IO [Entity]` | List entities matching the criteria. Resolves to one entity per record. Raises on error. |
 | `eCreate` | `Value -> Value -> IO Entity` | Create a new entity. Resolves to the entity. Raises on error. |
 | `eUpdate` | `Value -> Value -> IO Entity` | Update an existing entity. Resolves to the entity. Raises on error. |
-| `eRemove` | `Value -> Value -> IO Entity` | Remove an entity. Resolves to the entity, marked deleted. Raises on error. |
+| `eRemove` | `Value -> Value -> IO Entity` | Remove an entity. Resolves to the entity, marked as deleted. Raises on error. |
 | `eDataGet` | `IO Value` | Get entity data. |
 | `eDataSet` | `Value -> IO ()` | Set entity data. |
 | `eStream` | `String -> Value -> Value -> IO [Value]` | Run an op as a lazy stream of items. |
@@ -323,7 +328,7 @@ All entities share the same record interface (fields of the `Entity` type).
 Entity operations resolve to the ENTITY, not the raw record — `eList` to
 one entity per record — and raise on error. The record is reached through
 `eDataGet`, which returns the entity's data container. `eRemove` resolves to
-the entity marked deleted (`eDeleted`); it keeps the data it held. Wrap calls
+the entity marked as deleted (`eDeleted`); it keeps the data it held. Wrap calls
 in `Control.Exception.try` to handle failures.
 
 The `direct` escape hatch never raises — it returns a result `Value`
@@ -348,6 +353,7 @@ On error, `ok` is `False` and `err` carries the error value.
 | `completeDate` | The date and time that the Attestation took place. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `device` | Reference to the associated Device resource. |
+| `devices` |  |
 | `id` | This resource's unique identifier. |
 | `name` | Text describing the attestation. |
 | `notes` | Free form field that allows the Client associate notes with the Attestation. |
@@ -380,6 +386,10 @@ API path: `/clients`
 
 | Field | Description |
 | --- | --- |
+| `completeDate` | The date and time that the Custody change took place. |
+| `custodian` | Reference to the associated User resource. |
+| `location` | Reference to the associated Location resource. |
+| `notes` | Free form field that allows the Client associate notes with the Custody Change. |
 
 Operations: Create.
 
@@ -389,6 +399,14 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
+| `cbcVector` | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | The device Type. |
+| `encoding` | The payload encoding |
+| `encrypted` |  |
+| `hasCcData` | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | The serial number of the device. |
 | `success` | true if the payload decryption was successful. |
 
 Operations: Create.
@@ -504,7 +522,9 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
+| `serialNumber` | The serial number of the Device that is shipped. |
 | `success` | Indicates if the action succeeded. |
+| `tamperLabel` | The code that is printed the tamper label of the Device that is shipped. |
 
 Operations: Create.
 
@@ -514,7 +534,15 @@ API path: `/devices/receive`
 
 | Field | Description |
 | --- | --- |
+| `appVersion` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | The Device Builds's name. |
+| `buildNumber` | The Build Number. |
+| `configFile` | \? |
+| `firmwareVersion` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | The referenced Device's serial number. |
 | `success` | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | \? |
 
 Operations: Create.
 
@@ -588,6 +616,7 @@ API path: `/kifs`
 | `address2` | The Location's street address. |
 | `billingId` | \? |
 | `city` | The Location's city. |
+| `client` | Reference to the associated Client resource. |
 | `country` | The Location's country. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `customReference` | A Partner specified reference for a location. |
@@ -648,6 +677,7 @@ API path: `/partners`
 | `id` | This resource's unique identifier. |
 | `items` |  |
 | `kif` | Reference to the associated KIF resource. |
+| `location` | Reference to the associated Location resource. |
 | `modified` | Last modified timestamp. |
 | `partner` | Reference to the associated Partner. |
 | `shipmentType` | The type of shipment. |
@@ -662,6 +692,8 @@ API path: `/shipments`
 
 | Field | Description |
 | --- | --- |
+| `devices` | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | Reference to the associated Partner. |
 | `success` | Indicates if the action was a success. |
 
 Operations: Create, Remove.
@@ -677,6 +709,7 @@ API path: `/virtualDevices/{sharePartnerTo}`
 | `clientRef` | Client Reference property that is included in the decrypt API call. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `decrypted` | A Transcation can process muliple decryptions. |
+| `device` | Reference to the associated Device resource. |
 | `deviceName` | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | Reference to the associated Partner. |
 | `encrypted` | A Transcation can process muliple encryptions. |
@@ -705,17 +738,68 @@ API path: `/transactions`
 
 | Field | Description |
 | --- | --- |
+| `address1` | The Location's street address. |
+| `address2` | The Location's street address. |
+| `alternateKey` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | \? |
+| `city` | The Location's city. |
 | `client` | Reference to the associated Client resource. |
+| `clientCanOrderEquipment` | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | Client Reference property that is included in the decrypt API call. |
+| `contact` | Reference to the associated User resource. |
+| `country` | Reference to the associated Country. |
+| `customReference` | A Partner specified reference for a location. |
+| `dateShipped` | The date and time that a package is shipped. |
+| `decrypted` | A Transcation can process muliple decryptions. |
+| `device` | Reference to the associated Device resource. |
+| `deviceBuild` | Reference to the associated Device Build resource. |
+| `deviceType` | Reference to the associated Device Type resource. |
+| `directPartner` | Reference to the associated Partner. |
 | `email` | The User's email address. |
+| `encrypted` | A Transcation can process muliple encryptions. |
+| `endDate` | Timestamp from the end of the transaction. |
+| `errCode` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | The error messge that is sent in response to a failed decrypt API call. |
 | `firstName` | The User's name. |
 | `id` | ID of newly created resource |
+| `injectKey` | Reference to the associated Device resource. |
+| `ipAddress` | The IP address of the http client that makes the decrypt API call. |
 | `isActive` | This property indicates if the User account is active or disabled. |
+| `items` |  |
+| `keyType` | The type of cipher used during decrytion. |
 | `kif` | Reference to the associated KIF resource. |
 | `lastName` | The User's Surname. |
+| `location` | Reference to the associated Location resource. |
+| `locationType` | The Location's clasification. |
+| `mailAddress1` | The Location's street address. |
+| `mailAddress2` | The Location's street address. |
+| `mailCity` | The Location's city. |
+| `mailCountry` | The Location's street address. |
+| `mailPostalCode` | The Location's postal code. |
+| `mailStateProvince` | The Location's street state or province. |
+| `messageId` | Message ID. |
+| `method` | The decryption cypher/method. |
+| `mid` | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | The Client's name. |
+| `nameOfBusiness` | The name of the business at this location. |
+| `notes` | Arbitary note that can be attached to a Device entry. |
+| `parent` | Reference to the associated Partner. |
 | `partner` | Reference to the associated Partner. |
+| `partnerId` | The Partner's id. |
 | `phone` | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | The Location's postal code. |
+| `reference` | The Partner's reference string. |
+| `sendWelcomeEmail` | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | The Device's serial number. |
+| `startDate` | Timestamp from the beginning of the transaction. |
+| `stateProvince` | The Location's street state or province. |
+| `success` | The success indicator. |
+| `tracking` | The courier's tracking number. |
+| `uniqueId` | Unique Identifier for the Location. |
 | `userName` | The User's unique username. |
 | `userRole` | Reference to the associated User Role. |
+| `verificationPhrase` | The verification phrase is a message that the Partner creates. |
 | `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Update.
@@ -782,6 +866,7 @@ Create an instance: `attestation <- Sdk.attestation sdk VNoval`
 | `completeDate` | `String` | The date and time that the Attestation took place. |
 | `created` | `String` | Creation timestamp in ISO 8601 format. |
 | `device` | `Value` | Reference to the associated Device resource. |
+| `devices` | `[Value]` |  |
 | `id` | `String` | This resource's unique identifier. |
 | `name` | `String` | Text describing the attestation. |
 | `notes` | `String` | Free form field that allows the Client associate notes with the Attestation. |
@@ -813,7 +898,8 @@ Create an instance: `attestation <- Sdk.attestation sdk VNoval`
 ```haskell
   ent <- Sdk.attestation sdk VNoval
   d <- jo
-    []
+    [ ("devices", VNoval)   -- [Value]
+    ]
   ctrl <- emptyMap
   attestation <- Sdk.eCreate ent d ctrl
   attestationData <- Sdk.eDataGet attestation
@@ -831,7 +917,7 @@ Create an instance: `client <- Sdk.client sdk VNoval`
 | `eCreate ent data ctrl` | Create a new entity with the given data. Resolves to the entity. |
 | `eList ent match ctrl` | List entities, optionally matching the given criteria. Resolves to one entity per record. |
 | `eLoad ent match ctrl` | Load a single entity by match criteria. Resolves to the entity. |
-| `eRemove ent match ctrl` | Remove the matching entity. Resolves to the entity, marked deleted. |
+| `eRemove ent match ctrl` | Remove the matching entity. Resolves to the entity, marked as deleted. |
 
 #### Fields
 
@@ -894,6 +980,15 @@ Create an instance: `create_result <- Sdk.create_result sdk VNoval`
 | --- | --- |
 | `eCreate ent data ctrl` | Create a new entity with the given data. Resolves to the entity. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `completeDate` | `String` | The date and time that the Custody change took place. |
+| `custodian` | `Value` | Reference to the associated User resource. |
+| `location` | `Value` | Reference to the associated Location resource. |
+| `notes` | `String` | Free form field that allows the Client associate notes with the Custody Change. |
+
 #### Example: Create
 
 ```haskell
@@ -901,6 +996,8 @@ Create an instance: `create_result <- Sdk.create_result sdk VNoval`
   d <- jo
     [ ("device_type", VStr "example_device_type")   -- String
     , ("serial_number", VStr "example_serial_number")   -- String
+    , ("custodian", VNoval)   -- Value
+    , ("location", VNoval)   -- Value
     ]
   ctrl <- emptyMap
   create_result <- Sdk.eCreate ent d ctrl
@@ -922,6 +1019,14 @@ Create an instance: `decryption <- Sdk.decryption sdk VNoval`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `cbcVector` | `String` | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | `String` | The device Type. |
+| `encoding` | `String` | The payload encoding |
+| `encrypted` | `[Value]` |  |
+| `hasCcData` | `String` | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | `String` | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | `String` | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | `String` | The serial number of the device. |
 | `success` | `Bool` | true if the payload decryption was successful. |
 
 #### Example: Create
@@ -929,7 +1034,10 @@ Create an instance: `decryption <- Sdk.decryption sdk VNoval`
 ```haskell
   ent <- Sdk.decryption sdk VNoval
   d <- jo
-    []
+    [ ("deviceType", VStr "example_deviceType")   -- String
+    , ("encrypted", VNoval)   -- [Value]
+    , ("serialNumber", VStr "example_serialNumber")   -- String
+    ]
   ctrl <- emptyMap
   decryption <- Sdk.eCreate ent d ctrl
   decryptionData <- Sdk.eDataGet decryption
@@ -1168,14 +1276,18 @@ Create an instance: `device_receive_result <- Sdk.device_receive_result sdk VNov
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `serialNumber` | `String` | The serial number of the Device that is shipped. |
 | `success` | `Bool` | Indicates if the action succeeded. |
+| `tamperLabel` | `String` | The code that is printed the tamper label of the Device that is shipped. |
 
 #### Example: Create
 
 ```haskell
   ent <- Sdk.device_receive_result sdk VNoval
   d <- jo
-    [ ("success", VBool True)   -- Bool
+    [ ("serialNumber", VStr "example_serialNumber")   -- String
+    , ("success", VBool True)   -- Bool
+    , ("tamperLabel", VStr "example_tamperLabel")   -- String
     ]
   ctrl <- emptyMap
   device_receive_result <- Sdk.eCreate ent d ctrl
@@ -1197,14 +1309,23 @@ Create an instance: `device_rki_activate_result <- Sdk.device_rki_activate_resul
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `appVersion` | `String` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | `String` | The Device Builds's name. |
+| `buildNumber` | `String` | The Build Number. |
+| `configFile` | `String` | \? |
+| `firmwareVersion` | `String` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `String` | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | `String` | The referenced Device's serial number. |
 | `success` | `Bool` | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | `String` | \? |
 
 #### Example: Create
 
 ```haskell
   ent <- Sdk.device_rki_activate_result sdk VNoval
   d <- jo
-    [ ("success", VBool True)   -- Bool
+    [ ("serialNumber", VStr "example_serialNumber")   -- String
+    , ("success", VBool True)   -- Bool
     ]
   ctrl <- emptyMap
   device_rki_activate_result <- Sdk.eCreate ent d ctrl
@@ -1379,7 +1500,7 @@ Create an instance: `location <- Sdk.location sdk VNoval`
 | `eCreate ent data ctrl` | Create a new entity with the given data. Resolves to the entity. |
 | `eList ent match ctrl` | List entities, optionally matching the given criteria. Resolves to one entity per record. |
 | `eLoad ent match ctrl` | Load a single entity by match criteria. Resolves to the entity. |
-| `eRemove ent match ctrl` | Remove the matching entity. Resolves to the entity, marked deleted. |
+| `eRemove ent match ctrl` | Remove the matching entity. Resolves to the entity, marked as deleted. |
 
 #### Fields
 
@@ -1389,6 +1510,7 @@ Create an instance: `location <- Sdk.location sdk VNoval`
 | `address2` | `String` | The Location's street address. |
 | `billingId` | `String` | \? |
 | `city` | `String` | The Location's city. |
+| `client` | `Value` | Reference to the associated Client resource. |
 | `country` | `String` | The Location's country. |
 | `created` | `String` | Creation timestamp in ISO 8601 format. |
 | `customReference` | `String` | A Partner specified reference for a location. |
@@ -1534,6 +1656,7 @@ Create an instance: `shipment <- Sdk.shipment sdk VNoval`
 | `id` | `String` | This resource's unique identifier. |
 | `items` | `[Value]` |  |
 | `kif` | `Value` | Reference to the associated KIF resource. |
+| `location` | `Value` | Reference to the associated Location resource. |
 | `modified` | `String` | Last modified timestamp. |
 | `partner` | `Value` | Reference to the associated Partner. |
 | `shipmentType` | `String` | The type of shipment. |
@@ -1567,7 +1690,8 @@ Create an instance: `shipment <- Sdk.shipment sdk VNoval`
 ```haskell
   ent <- Sdk.shipment sdk VNoval
   d <- jo
-    []
+    [ ("location", VNoval)   -- Value
+    ]
   ctrl <- emptyMap
   shipment <- Sdk.eCreate ent d ctrl
   shipmentData <- Sdk.eDataGet shipment
@@ -1583,12 +1707,14 @@ Create an instance: `success <- Sdk.success sdk VNoval`
 | Method | Description |
 | --- | --- |
 | `eCreate ent data ctrl` | Create a new entity with the given data. Resolves to the entity. |
-| `eRemove ent match ctrl` | Remove the matching entity. Resolves to the entity, marked deleted. |
+| `eRemove ent match ctrl` | Remove the matching entity. Resolves to the entity, marked as deleted. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `devices` | `[Value]` | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | `Value` | Reference to the associated Partner. |
 | `success` | `Bool` | Indicates if the action was a success. |
 
 #### Example: Create
@@ -1597,6 +1723,8 @@ Create an instance: `success <- Sdk.success sdk VNoval`
   ent <- Sdk.success sdk VNoval
   d <- jo
     [ ("share_partner_to", VStr "example_share_partner_to")   -- String
+    , ("devices", VNoval)   -- [Value]
+    , ("sharePartnerFrom", VNoval)   -- Value
     ]
   ctrl <- emptyMap
   success <- Sdk.eCreate ent d ctrl
@@ -1625,6 +1753,7 @@ Create an instance: `transaction <- Sdk.transaction sdk VNoval`
 | `clientRef` | `String` | Client Reference property that is included in the decrypt API call. |
 | `created` | `String` | Creation timestamp in ISO 8601 format. |
 | `decrypted` | `Int` | A Transcation can process muliple decryptions. |
+| `device` | `Value` | Reference to the associated Device resource. |
 | `deviceName` | `String` | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | `Value` | Reference to the associated Partner. |
 | `encrypted` | `Int` | A Transcation can process muliple encryptions. |
@@ -1672,7 +1801,8 @@ Create an instance: `transaction <- Sdk.transaction sdk VNoval`
 ```haskell
   ent <- Sdk.transaction sdk VNoval
   d <- jo
-    [ ("location", VNoval)   -- Value
+    [ ("device", VNoval)   -- Value
+    , ("location", VNoval)   -- Value
     ]
   ctrl <- emptyMap
   transaction <- Sdk.eCreate ent d ctrl
@@ -1696,17 +1826,68 @@ Create an instance: `update_result <- Sdk.update_result sdk VNoval`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `address1` | `String` | The Location's street address. |
+| `address2` | `String` | The Location's street address. |
+| `alternateKey` | `String` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `String` | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | `String` | \? |
+| `city` | `String` | The Location's city. |
 | `client` | `Value` | Reference to the associated Client resource. |
+| `clientCanOrderEquipment` | `Bool` | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | `String` | Client Reference property that is included in the decrypt API call. |
+| `contact` | `Value` | Reference to the associated User resource. |
+| `country` | `Value` | Reference to the associated Country. |
+| `customReference` | `String` | A Partner specified reference for a location. |
+| `dateShipped` | `String` | The date and time that a package is shipped. |
+| `decrypted` | `Int` | A Transcation can process muliple decryptions. |
+| `device` | `Value` | Reference to the associated Device resource. |
+| `deviceBuild` | `Value` | Reference to the associated Device Build resource. |
+| `deviceType` | `Value` | Reference to the associated Device Type resource. |
+| `directPartner` | `Value` | Reference to the associated Partner. |
 | `email` | `String` | The User's email address. |
+| `encrypted` | `Int` | A Transcation can process muliple encryptions. |
+| `endDate` | `String` | Timestamp from the end of the transaction. |
+| `errCode` | `String` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `String` | The error messge that is sent in response to a failed decrypt API call. |
 | `firstName` | `String` | The User's name. |
 | `id` | `String` | ID of newly created resource |
+| `injectKey` | `Value` | Reference to the associated Device resource. |
+| `ipAddress` | `String` | The IP address of the http client that makes the decrypt API call. |
 | `isActive` | `Bool` | This property indicates if the User account is active or disabled. |
+| `items` | `[Value]` |  |
+| `keyType` | `String` | The type of cipher used during decrytion. |
 | `kif` | `Value` | Reference to the associated KIF resource. |
 | `lastName` | `String` | The User's Surname. |
+| `location` | `Value` | Reference to the associated Location resource. |
+| `locationType` | `String` | The Location's clasification. |
+| `mailAddress1` | `String` | The Location's street address. |
+| `mailAddress2` | `String` | The Location's street address. |
+| `mailCity` | `String` | The Location's city. |
+| `mailCountry` | `String` | The Location's street address. |
+| `mailPostalCode` | `String` | The Location's postal code. |
+| `mailStateProvince` | `String` | The Location's street state or province. |
+| `messageId` | `String` | Message ID. |
+| `method` | `String` | The decryption cypher/method. |
+| `mid` | `String` | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | `String` | The Client's name. |
+| `nameOfBusiness` | `String` | The name of the business at this location. |
+| `notes` | `String` | Arbitary note that can be attached to a Device entry. |
+| `parent` | `Value` | Reference to the associated Partner. |
 | `partner` | `Value` | Reference to the associated Partner. |
+| `partnerId` | `String` | The Partner's id. |
 | `phone` | `String` | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | `String` | The Location's postal code. |
+| `reference` | `String` | The Partner's reference string. |
+| `sendWelcomeEmail` | `Bool` | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | `String` | The Device's serial number. |
+| `startDate` | `String` | Timestamp from the beginning of the transaction. |
+| `stateProvince` | `String` | The Location's street state or province. |
+| `success` | `Bool` | The success indicator. |
+| `tracking` | `String` | The courier's tracking number. |
+| `uniqueId` | `String` | Unique Identifier for the Location. |
 | `userName` | `String` | The User's unique username. |
 | `userRole` | `Value` | Reference to the associated User Role. |
+| `verificationPhrase` | `String` | The verification phrase is a message that the Partner creates. |
 | `version` | `Int` | The number of times that this resource has been updated. |
 
 #### Example: List
@@ -1725,7 +1906,16 @@ Create an instance: `update_result <- Sdk.update_result sdk VNoval`
 ```haskell
   ent <- Sdk.update_result sdk VNoval
   d <- jo
-    []
+    [ ("contact", VNoval)   -- Value
+    , ("email", VStr "example_email")   -- String
+    , ("firstName", VStr "example_firstName")   -- String
+    , ("isActive", VBool True)   -- Bool
+    , ("lastName", VStr "example_lastName")   -- String
+    , ("location", VNoval)   -- Value
+    , ("phone", VStr "example_phone")   -- String
+    , ("userName", VStr "example_userName")   -- String
+    , ("userRole", VNoval)   -- Value
+    ]
   ctrl <- emptyMap
   update_result <- Sdk.eCreate ent d ctrl
   update_resultData <- Sdk.eDataGet update_result
@@ -1741,7 +1931,7 @@ Create an instance: `user <- Sdk.user sdk VNoval`
 | Method | Description |
 | --- | --- |
 | `eLoad ent match ctrl` | Load a single entity by match criteria. Resolves to the entity. |
-| `eRemove ent match ctrl` | Remove the matching entity. Resolves to the entity, marked deleted. |
+| `eRemove ent match ctrl` | Remove the matching entity. Resolves to the entity, marked as deleted. |
 
 #### Fields
 

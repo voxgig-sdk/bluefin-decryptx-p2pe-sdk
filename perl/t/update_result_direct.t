@@ -11,6 +11,18 @@ use Cwd ();
 use BluefinDecryptxP2peSDK;
 require(Cwd::abs_path("$FindBin::Bin/runner.pm"));
 
+# main.kit.test.live.strict is true (the default is true): a live
+# request that fails, or a live test missing an input it needs,
+# fails the test.
+# An account with no record for a test to read skips it either way.
+use constant LIVE_STRICT => 1;
+
+sub live_ok {
+  my ($result) = @_;
+  my $status = BluefinDecryptxP2peHelpers::to_int($result->{status});
+  return !defined $result->{err} && $result->{ok} && $status >= 200 && $status < 300;
+}
+
 DIRECT_LIST: {
   my $setup = update_result_direct_setup([
     { 'id' => 'direct01' },
@@ -25,29 +37,20 @@ DIRECT_LIST: {
   }
   my $client = $setup->{client};
 
+  my $params = {};
+
   my $result = $client->direct({
     'path' => 'users',
     'method' => 'GET',
-    'params' => {},
+    'params' => $params,
   });
   if ($setup->{live}) {
-    # Live mode is lenient: synthetic IDs frequently 4xx and the list-
-    # response shape varies wildly across public APIs. Skip rather than
-    # fail when the call doesn't return a usable list.
-    if (defined $result->{err}) {
-      note("list call failed (likely synthetic IDs against live API): $result->{err}");
-      pass('direct-list-update_result: skipped (live)');
+    if (!live_ok($result)) {
+      BluefinDecryptxP2peTestRunner::live_miss(LIVE_STRICT, 'direct-list-update_result', 'Live list failed: ' . BluefinDecryptxP2peTestRunner::live_describe($result));
       last DIRECT_LIST;
     }
-    unless ($result->{ok}) {
-      note('list call not ok (likely synthetic IDs against live API)');
-      pass('direct-list-update_result: skipped (live)');
-      last DIRECT_LIST;
-    }
-    my $status = BluefinDecryptxP2peHelpers::to_int($result->{status});
-    if ($status < 200 || $status >= 300) {
-      note("expected 2xx status, got $status");
-      pass('direct-list-update_result: skipped (live)');
+    if (!defined BluefinDecryptxP2peTestRunner::live_list($result->{data})) {
+      BluefinDecryptxP2peTestRunner::live_miss(LIVE_STRICT, 'direct-list-update_result', 'Live list returned no list: ' . BluefinDecryptxP2peTestRunner::live_describe($result));
       last DIRECT_LIST;
     }
     pass('direct-list-update_result: live ok');
@@ -85,11 +88,12 @@ sub update_result_direct_setup {
       %{ BluefinDecryptxP2peTestRunner::live_client_options() },
       'apikey' => $env->{'BLUEFIN_DECRYPTX_P2PE_APIKEY'},
     });
+    my $idmap = $env->{'BLUEFIN_DECRYPTX_P2PE_TEST_UPDATE_RESULT_ENTID'};
     return {
       'client' => $client,
       'calls' => $calls,
       'live' => 1,
-      'idmap' => {},
+      'idmap' => ref $idmap eq 'HASH' ? $idmap : {},
     };
   }
 

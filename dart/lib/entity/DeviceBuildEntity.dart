@@ -18,7 +18,7 @@ class DeviceBuildEntity extends BluefinDecryptxP2peEntityBase {
 
 
   /// Load a DeviceBuild by match (see DeviceBuildLoadMatch in
-  /// BluefinDecryptxP2peTypes.dart). Returns the entity data map (DeviceBuild).
+  /// BluefinDecryptxP2peTypes.dart). Returns the entity, whose record `data()` reads.
   Future<dynamic> load([dynamic reqmatch, dynamic ctrl]) async {
     final utility = this.utility;
 
@@ -124,13 +124,19 @@ class DeviceBuildEntity extends BluefinDecryptxP2peEntityBase {
       // operations return ENTITIES".
       return (null != ctx.result && true == ctx.result.ok) ? this : out;
     } catch (err) {
+      // What a hook throws here must not escape the cleaning below.
+      dynamic failure = err;
+      try {
 
-      fres = featureHook(ctx, 'PreUnexpected');
-      if (fres is Future) {
-        await fres;
+        fres = featureHook(ctx, 'PreUnexpected');
+        if (fres is Future) {
+          await fres;
+        }
+      } catch (hookerr) {
+        failure = hookerr;
       }
 
-      final uerr = unexpected(ctx, err);
+      final uerr = unexpected(ctx, failure);
 
       if (null != uerr) {
         throw uerr;
@@ -144,7 +150,7 @@ class DeviceBuildEntity extends BluefinDecryptxP2peEntityBase {
 
 
   /// List DeviceBuild entities by match (see DeviceBuildListMatch in
-  /// BluefinDecryptxP2peTypes.dart). Returns a list of DeviceBuild entity instances.
+  /// BluefinDecryptxP2peTypes.dart). Returns a list of entities, one per record.
   Future<dynamic> list([dynamic reqmatch, dynamic ctrl]) async {
     final utility = this.utility;
 
@@ -238,13 +244,19 @@ class DeviceBuildEntity extends BluefinDecryptxP2peEntityBase {
 
       return done(ctx);
     } catch (err) {
+      // What a hook throws here must not escape the cleaning below.
+      dynamic failure = err;
+      try {
 
-      fres = featureHook(ctx, 'PreUnexpected');
-      if (fres is Future) {
-        await fres;
+        fres = featureHook(ctx, 'PreUnexpected');
+        if (fres is Future) {
+          await fres;
+        }
+      } catch (hookerr) {
+        failure = hookerr;
       }
 
-      final uerr = unexpected(ctx, err);
+      final uerr = unexpected(ctx, failure);
 
       if (null != uerr) {
         throw uerr;
@@ -254,6 +266,7 @@ class DeviceBuildEntity extends BluefinDecryptxP2peEntityBase {
       }
     }
   }
+
 
 
 

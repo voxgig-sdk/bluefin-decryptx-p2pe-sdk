@@ -2,6 +2,7 @@
 
 using System.Text.Json;
 
+using BluefinDecryptxP2peSdk.Feature;
 using Voxgig.Struct;
 using Xunit;
 
@@ -9,6 +10,12 @@ namespace BluefinDecryptxP2peSdk.Test;
 
 public class AttestationEntityTest
 {
+    // main.kit.test.live.strict is true (the default is true): a live
+    // request that fails, or a live test missing an input it needs,
+    // fails the test.
+    // An account with no record for a test to read skips it either way.
+    private const bool LIVE_STRICT = true;
+
     [Fact]
     public void Instance()
     {
@@ -32,13 +39,6 @@ public class AttestationEntityTest
             {
                 return; // skipped via sdk-test-control.json
             }
-        }
-        // The basic flow consumes synthetic IDs from the fixture. In live
-        // mode without an *_ENTID env override, those IDs hit the live API
-        // and 4xx; set BLUEFIN_DECRYPTX_P2PE_TEST_ATTESTATION_ENTID JSON to run live.
-        if (setup.SyntheticOnly)
-        {
-            return;
         }
         var client = setup.Client;
 
@@ -122,6 +122,94 @@ public class AttestationEntityTest
         Assert.Equal(listed.Count, streamed2.Count);
     }
 
+    private sealed class FailHook : BaseFeature
+    {
+        public int Unexpected;
+
+        public FailHook()
+        {
+            Name = "failhook";
+            Version = "0.0.1";
+            Active = true;
+        }
+
+        public override void PreSpec(Context ctx) =>
+            throw new Exception("attestation hook failed");
+
+        public override void PreUnexpected(Context ctx) => Unexpected++;
+    }
+
+    [Fact]
+    public async Task StreamError()
+    {
+        var offline = new Dictionary<string, object?> { ["net"] = new Dictionary<string, object?> { ["offline"] = true } };
+        var err = await Assert.ThrowsAnyAsync<Exception>(async () =>
+        {
+            await foreach (var _ in BluefinDecryptxP2peSDK.TestSDK(offline, null).Attestation().Stream("list", null, null)) { }
+        });
+        Assert.Contains("offline", err.Message);
+
+        await foreach (var _ in BluefinDecryptxP2peSDK.TestSDK(offline, null).Attestation().Stream("list", null,
+            new Dictionary<string, object?> { ["ctrl"] = new Dictionary<string, object?> { ["throw"] = false } })) { }
+
+        if (Fh.HasFeature("rbac"))
+        {
+            var denied = BluefinDecryptxP2peSDK.TestSDK(null,
+                new Dictionary<string, object?> { ["feature"] = new Dictionary<string, object?> { ["rbac"] = new Dictionary<string, object?> { ["active"] = true, ["deny"] = true } } });
+            var denyerr = await Assert.ThrowsAnyAsync<BluefinDecryptxP2peError>(async () =>
+            {
+                await foreach (var _ in denied.Attestation().Stream("list", null, null)) { }
+            });
+            Assert.Equal("rbac_denied", denyerr.Code);
+        }
+    }
+
+    [Fact]
+    public async Task StreamCtrl()
+    {
+        var explain = new Dictionary<string, object?>();
+        var ctrl = new Dictionary<string, object?> { ["explain"] = explain };
+        await foreach (var _ in BluefinDecryptxP2peSDK.TestSDK(null, null).Attestation().Stream("list", null,
+            new Dictionary<string, object?> { ["ctrl"] = ctrl })) { }
+        Assert.Equal(new[] { "explain" }, ctrl.Keys.ToArray());
+        Assert.Same(explain, ctrl["explain"]);
+        Assert.NotEmpty(explain);
+    }
+
+    [Fact]
+    public void Unexpected()
+    {
+        var hook = new FailHook();
+        var client = new BluefinDecryptxP2peSDK(new Dictionary<string, object?>
+        {
+            ["feature"] = new Dictionary<string, object?> { ["test"] = new Dictionary<string, object?> { ["active"] = true } },
+            ["extend"] = new List<object?> { hook },
+        });
+
+        var err = Assert.ThrowsAny<Exception>(() => client.Attestation().List(null, null));
+        Assert.Contains("hook failed", err.Message);
+        Assert.True(hook.Unexpected > 0);
+
+        var fired = hook.Unexpected;
+        client.Attestation().List(null, new Dictionary<string, object?> { ["throw"] = false });
+        Assert.True(hook.Unexpected > fired);
+    }
+
+    [Fact]
+    public void Validate()
+    {
+        if (!Fh.HasFeature("validate"))
+        {
+            Console.WriteLine("skip: feature not present in this SDK: validate");
+            return;
+        }
+        var client = BluefinDecryptxP2peSDK.TestSDK(null,
+            new Dictionary<string, object?> { ["feature"] = new Dictionary<string, object?> { ["validate"] = new Dictionary<string, object?> { ["active"] = true } } });
+        var err = Assert.ThrowsAny<BluefinDecryptxP2peError>(() => client.Attestation().List(
+            new Dictionary<string, object?> { ["client"] = 1 }, null));
+        Assert.Equal("validate_failed", err.Code);
+    }
+
     private static EntityTestSetup AttestationBasicSetup(
         Dictionary<string, object?>? extra)
     {
@@ -161,9 +249,8 @@ public class AttestationEntityTest
                 },
             });
 
-        // Detect ENTID env override before EnvOverride consumes it. When
-        // live mode is on without a real override, the basic test runs
-        // against synthetic IDs from the fixture and 4xx's.
+        // Whether *_ENTID supplied the idmap, read before EnvOverride consumes
+        // it: without it, the ids a live flow binds are the fixture's synthetic ones.
         var entidEnvRaw = Environment.GetEnvironmentVariable(
             "BLUEFIN_DECRYPTX_P2PE_TEST_ATTESTATION_ENTID") ?? "";
         var idmapOverridden = entidEnvRaw != "" &&

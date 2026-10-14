@@ -83,6 +83,10 @@ main: kit: entity: inject_key: {
           }
           m: "GET"
           o: "/injectKeys"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "injectKeys"
@@ -121,6 +125,10 @@ main: kit: entity: inject_key: {
             exist: [
               "id"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

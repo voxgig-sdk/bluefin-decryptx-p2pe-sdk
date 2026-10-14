@@ -54,6 +54,53 @@ const utility_1 = require("../../utility");
         const ent = testsdk.DeviceState();
         (0, node_assert_1.default)(null != ent);
     });
+    class FailHook extends __1.BaseFeature {
+        name = 'failhook';
+        version = '0.0.1';
+        active = true;
+        unexpected = 0;
+        init() { }
+        PreSpec() { throw new Error('device_state hook failed'); }
+        PreUnexpected() { this.unexpected++; }
+    }
+    (0, node_test_1.test)('stream-error', async () => {
+        const offline = { net: { offline: true } };
+        await node_assert_1.default.rejects(async () => {
+            for await (const _item of __1.BluefinDecryptxP2peSDK.test(offline).DeviceState().stream('list')) { }
+        }, /offline/);
+        for await (const _item of __1.BluefinDecryptxP2peSDK.test(offline).DeviceState()
+            .stream('list', undefined, { ctrl: { throw: false } })) { }
+        if (null != __1.config.feature?.rbac) {
+            const denied = __1.BluefinDecryptxP2peSDK.test(undefined, { feature: { rbac: { active: true, deny: true } } });
+            await node_assert_1.default.rejects(async () => {
+                for await (const _item of denied.DeviceState().stream('list')) { }
+            }, (err) => 'rbac_denied' === err.code);
+        }
+    });
+    (0, node_test_1.test)('stream-ctrl', async () => {
+        const explain = {};
+        const ctrl = { explain };
+        for await (const _item of __1.BluefinDecryptxP2peSDK.test().DeviceState().stream('list', undefined, { ctrl })) { }
+        node_assert_1.default.deepStrictEqual(Object.keys(ctrl), ['explain']);
+        (0, node_assert_1.default)(explain === ctrl.explain && 0 < Object.keys(explain).length);
+    });
+    (0, node_test_1.test)('unexpected', async () => {
+        const hook = new FailHook();
+        const client = new __1.BluefinDecryptxP2peSDK({ feature: { test: { active: true } }, extend: [hook] });
+        await node_assert_1.default.rejects(client.DeviceState().list(), /hook failed/);
+        (0, node_assert_1.default)(0 < hook.unexpected);
+        const fired = hook.unexpected;
+        node_assert_1.default.strictEqual(await client.DeviceState().list(undefined, { throw: false }), undefined);
+        (0, node_assert_1.default)(fired < hook.unexpected);
+    });
+    (0, node_test_1.test)('validate', async (t) => {
+        if (null == __1.config.feature?.validate) {
+            t.skip('feature not present in this SDK: validate');
+            return;
+        }
+        const client = __1.BluefinDecryptxP2peSDK.test(undefined, { feature: { validate: { active: true } } });
+        await node_assert_1.default.rejects(client.DeviceState().list({ "id": "x" }), (err) => 'validate_failed' === err.code);
+    });
     (0, node_test_1.test)('basic', async (t) => {
         const live = 'TRUE' === process.env.BLUEFIN_DECRYPTX_P2PE_TEST_LIVE;
         for (const op of ['list']) {
@@ -62,7 +109,7 @@ const utility_1 = require("../../utility");
         }
         const setup = basicSetup();
         if (setup.live) {
-            return (0, live_entity_1.runLiveEntity)(setup, { "active": true, "alias": { "field": {} }, "fields": { "id": { "a": true, "fo": "int64", "h": "Id", "n": "id", "r": false, "sh": "Unique identifier for this Device state.", "t": "`$INTEGER`", "key$": "id", "index$": 0 }, "name": { "a": true, "h": "Name", "n": "name", "r": false, "sh": "Descriptive name for this Device state.", "t": "`$STRING`", "key$": "name", "index$": 1 } }, "id": { "field": "id", "name": "id" }, "name": "device_state", "op": { "list": { "input": "data", "name": "list", "points": [{ "a": true, "co": { "id": "GET /deviceStates", "source": "openapi3", "version": 2 }, "g": {}, "k": "http", "m": "GET", "o": "/deviceStates", "q": {}, "r": {}, "s": [{ "lit": "deviceStates" }], "t": { "req": "`reqdata`", "res": "`body.data`" }, "index$": 0 }], "key$": "list" } }, "relations": { "ancestors": [] }, "key$": "device_state", "name__orig": "device_state", "Name": "DeviceState", "name_": "device_state", "name-": "device-state", "NAME": "DEVICE_STATE", "index$": 10 }, { "active": true, "entity": "device_state", "key$": "BasicDeviceStateFlow", "kind": "basic", "name": "BasicDeviceStateFlow", "param": {}, "step": [{ "a": true, "d": {}, "i": {}, "m": {}, "o": "list", "s": [], "v": [{ "apply": "ItemExists", "def": { "ref": "device_state_ref01" } }], "index$": 0 }] }, 'DeviceState', { "GET /deviceStates": { "protocol": "http", "parameters": [] } });
+            return (0, live_entity_1.runLiveEntity)(setup, { "active": true, "alias": { "field": {} }, "fields": { "id": { "a": true, "fo": "int64", "h": "Id", "n": "id", "r": false, "sh": "Unique identifier for this Device state.", "t": "`$INTEGER`", "key$": "id", "index$": 0 }, "name": { "a": true, "h": "Name", "n": "name", "r": false, "sh": "Descriptive name for this Device state.", "t": "`$STRING`", "key$": "name", "index$": 1 } }, "id": { "field": "id", "name": "id" }, "name": "device_state", "op": { "list": { "input": "data", "name": "list", "points": [{ "a": true, "co": { "id": "GET /deviceStates", "source": "openapi3", "version": 2 }, "g": {}, "k": "http", "m": "GET", "o": "/deviceStates", "q": {}, "r": {}, "rs": { "kind": "json", "media": "application/json" }, "s": [{ "lit": "deviceStates" }], "t": { "req": "`reqdata`", "res": "`body.data`" }, "index$": 0 }], "key$": "list" } }, "relations": { "ancestors": [] }, "key$": "device_state", "name__orig": "device_state", "Name": "DeviceState", "name_": "device_state", "name-": "device-state", "NAME": "DEVICE_STATE", "index$": 10 }, { "active": true, "entity": "device_state", "key$": "BasicDeviceStateFlow", "kind": "basic", "name": "BasicDeviceStateFlow", "param": {}, "step": [{ "a": true, "d": {}, "i": {}, "m": {}, "o": "list", "s": [], "v": [{ "apply": "ItemExists", "def": { "ref": "device_state_ref01" } }], "index$": 0 }] }, 'DeviceState', { "GET /deviceStates": { "protocol": "http", "parameters": [] } }, { strict: LIVE_STRICT, t });
         }
         const client = setup.client;
         const struct = setup.struct;
@@ -75,6 +122,11 @@ const utility_1 = require("../../utility");
         const device_state_ref01_list = (await device_state_ref01_ent.list(device_state_ref01_match)).map((e) => e.data());
     });
 });
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true;
 function basicSetup(extra) {
     // TODO: fix test def options
     const options = {}; // null

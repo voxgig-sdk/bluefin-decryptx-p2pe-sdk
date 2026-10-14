@@ -22,6 +22,9 @@
 # @!attribute [rw] device
 #   @return [Hash, nil]
 #
+# @!attribute [rw] devices
+#   @return [Array]
+#
 # @!attribute [rw] id
 #   @return [String, nil]
 #
@@ -35,6 +38,7 @@ Attestation = Struct.new(
   :completeDate,
   :created,
   :device,
+  :devices,
   :id,
   :name,
   :notes,
@@ -81,6 +85,9 @@ AttestationListMatch = Struct.new(
 # @!attribute [rw] device
 #   @return [Hash, nil]
 #
+# @!attribute [rw] devices
+#   @return [Array]
+#
 # @!attribute [rw] id
 #   @return [String, nil]
 #
@@ -94,6 +101,7 @@ AttestationCreateData = Struct.new(
   :completeDate,
   :created,
   :device,
+  :devices,
   :id,
   :name,
   :notes,
@@ -234,8 +242,25 @@ ClientRemoveMatch = Struct.new(
 )
 
 # CreateResult entity data model.
-class CreateResult
-end
+#
+# @!attribute [rw] completeDate
+#   @return [String, nil]
+#
+# @!attribute [rw] custodian
+#   @return [Hash]
+#
+# @!attribute [rw] location
+#   @return [Hash]
+#
+# @!attribute [rw] notes
+#   @return [String, nil]
+CreateResult = Struct.new(
+  :completeDate,
+  :custodian,
+  :location,
+  :notes,
+  keyword_init: true
+)
 
 # Request payload for CreateResult#create.
 #
@@ -244,26 +269,106 @@ end
 #
 # @!attribute [rw] serial_number
 #   @return [String]
+#
+# @!attribute [rw] completeDate
+#   @return [String, nil]
+#
+# @!attribute [rw] custodian
+#   @return [Hash]
+#
+# @!attribute [rw] location
+#   @return [Hash]
+#
+# @!attribute [rw] notes
+#   @return [String, nil]
 CreateResultCreateData = Struct.new(
   :device_type,
   :serial_number,
+  :completeDate,
+  :custodian,
+  :location,
+  :notes,
   keyword_init: true
 )
 
 # Decryption entity data model.
 #
+# @!attribute [rw] cbcVector
+#   @return [String, nil]
+#
+# @!attribute [rw] deviceType
+#   @return [String]
+#
+# @!attribute [rw] encoding
+#   @return [String, nil]
+#
+# @!attribute [rw] encrypted
+#   @return [Array]
+#
+# @!attribute [rw] hasCcData
+#   @return [String, nil]
+#
+# @!attribute [rw] reference
+#   @return [String, nil]
+#
+# @!attribute [rw] sequenceNumber
+#   @return [String, nil]
+#
+# @!attribute [rw] serialNumber
+#   @return [String]
+#
 # @!attribute [rw] success
 #   @return [Boolean, nil]
 Decryption = Struct.new(
+  :cbcVector,
+  :deviceType,
+  :encoding,
+  :encrypted,
+  :hasCcData,
+  :reference,
+  :sequenceNumber,
+  :serialNumber,
   :success,
   keyword_init: true
 )
 
 # Request payload for Decryption#create.
 #
+# @!attribute [rw] cbcVector
+#   @return [String, nil]
+#
+# @!attribute [rw] deviceType
+#   @return [String]
+#
+# @!attribute [rw] encoding
+#   @return [String, nil]
+#
+# @!attribute [rw] encrypted
+#   @return [Array]
+#
+# @!attribute [rw] hasCcData
+#   @return [String, nil]
+#
+# @!attribute [rw] reference
+#   @return [String, nil]
+#
+# @!attribute [rw] sequenceNumber
+#   @return [String, nil]
+#
+# @!attribute [rw] serialNumber
+#   @return [String]
+#
 # @!attribute [rw] success
 #   @return [Boolean, nil]
 DecryptionCreateData = Struct.new(
+  :cbcVector,
+  :deviceType,
+  :encoding,
+  :encrypted,
+  :hasCcData,
+  :reference,
+  :sequenceNumber,
+  :serialNumber,
   :success,
   keyword_init: true
 )
@@ -797,37 +902,117 @@ DeviceCustodyListItemListMatch = Struct.new(
 
 # DeviceReceiveResult entity data model.
 #
+# @!attribute [rw] serialNumber
+#   @return [String]
+#
 # @!attribute [rw] success
 #   @return [Boolean]
+#
+# @!attribute [rw] tamperLabel
+#   @return [String]
 DeviceReceiveResult = Struct.new(
+  :serialNumber,
   :success,
+  :tamperLabel,
   keyword_init: true
 )
 
 # Request payload for DeviceReceiveResult#create.
 #
+# @!attribute [rw] serialNumber
+#   @return [String]
+#
 # @!attribute [rw] success
 #   @return [Boolean]
+#
+# @!attribute [rw] tamperLabel
+#   @return [String]
 DeviceReceiveResultCreateData = Struct.new(
+  :serialNumber,
   :success,
+  :tamperLabel,
   keyword_init: true
 )
 
 # DeviceRkiActivateResult entity data model.
 #
+# @!attribute [rw] appVersion
+#   @return [String, nil]
+#
+# @!attribute [rw] buildName
+#   @return [String, nil]
+#
+# @!attribute [rw] buildNumber
+#   @return [String, nil]
+#
+# @!attribute [rw] configFile
+#   @return [String, nil]
+#
+# @!attribute [rw] firmwareVersion
+#   @return [String, nil]
+#
+# @!attribute [rw] hardwareVersion
+#   @return [String, nil]
+#
+# @!attribute [rw] serialNumber
+#   @return [String]
+#
 # @!attribute [rw] success
 #   @return [Boolean]
+#
+# @!attribute [rw] whiteListingBinRanges
+#   @return [String, nil]
 DeviceRkiActivateResult = Struct.new(
+  :appVersion,
+  :buildName,
+  :buildNumber,
+  :configFile,
+  :firmwareVersion,
+  :hardwareVersion,
+  :serialNumber,
   :success,
+  :whiteListingBinRanges,
   keyword_init: true
 )
 
 # Request payload for DeviceRkiActivateResult#create.
 #
+# @!attribute [rw] appVersion
+#   @return [String, nil]
+#
+# @!attribute [rw] buildName
+#   @return [String, nil]
+#
+# @!attribute [rw] buildNumber
+#   @return [String, nil]
+#
+# @!attribute [rw] configFile
+#   @return [String, nil]
+#
+# @!attribute [rw] firmwareVersion
+#   @return [String, nil]
+#
+# @!attribute [rw] hardwareVersion
+#   @return [String, nil]
+#
+# @!attribute [rw] serialNumber
+#   @return [String]
+#
 # @!attribute [rw] success
 #   @return [Boolean]
+#
+# @!attribute [rw] whiteListingBinRanges
+#   @return [String, nil]
 DeviceRkiActivateResultCreateData = Struct.new(
+  :appVersion,
+  :buildName,
+  :buildNumber,
+  :configFile,
+  :firmwareVersion,
+  :hardwareVersion,
+  :serialNumber,
   :success,
+  :whiteListingBinRanges,
   keyword_init: true
 )
 
@@ -1095,6 +1280,9 @@ KifListMatch = Struct.new(
 # @!attribute [rw] city
 #   @return [String, nil]
 #
+# @!attribute [rw] client
+#   @return [Hash, nil]
+#
 # @!attribute [rw] country
 #   @return [String, nil]
 #
@@ -1156,6 +1344,7 @@ Location = Struct.new(
   :address2,
   :billingId,
   :city,
+  :client,
   :country,
   :created,
   :customReference,
@@ -1218,6 +1407,9 @@ LocationListMatch = Struct.new(
 # @!attribute [rw] city
 #   @return [String, nil]
 #
+# @!attribute [rw] client
+#   @return [Hash, nil]
+#
 # @!attribute [rw] country
 #   @return [String, nil]
 #
@@ -1279,6 +1471,7 @@ LocationCreateData = Struct.new(
   :address2,
   :billingId,
   :city,
+  :client,
   :country,
   :created,
   :customReference,
@@ -1487,6 +1680,9 @@ PartnerCreateData = Struct.new(
 # @!attribute [rw] kif
 #   @return [Hash, nil]
 #
+# @!attribute [rw] location
+#   @return [Hash]
+#
 # @!attribute [rw] modified
 #   @return [String, nil]
 #
@@ -1511,6 +1707,7 @@ Shipment = Struct.new(
   :id,
   :items,
   :kif,
+  :location,
   :modified,
   :partner,
   :shipmentType,
@@ -1578,6 +1775,9 @@ ShipmentListMatch = Struct.new(
 # @!attribute [rw] kif
 #   @return [Hash, nil]
 #
+# @!attribute [rw] location
+#   @return [Hash]
+#
 # @!attribute [rw] modified
 #   @return [String, nil]
 #
@@ -1602,6 +1802,7 @@ ShipmentCreateData = Struct.new(
   :id,
   :items,
   :kif,
+  :location,
   :modified,
   :partner,
   :shipmentType,
@@ -1612,9 +1813,17 @@ ShipmentCreateData = Struct.new(
 
 # Success entity data model.
 #
+# @!attribute [rw] devices
+#   @return [Array]
+#
+# @!attribute [rw] sharePartnerFrom
+#   @return [Hash]
+#
 # @!attribute [rw] success
 #   @return [Boolean, nil]
 Success = Struct.new(
+  :devices,
+  :sharePartnerFrom,
   :success,
   keyword_init: true
 )
@@ -1624,10 +1833,18 @@ Success = Struct.new(
 # @!attribute [rw] share_partner_to
 #   @return [String]
 #
+# @!attribute [rw] devices
+#   @return [Array]
+#
+# @!attribute [rw] sharePartnerFrom
+#   @return [Hash]
+#
 # @!attribute [rw] success
 #   @return [Boolean, nil]
 SuccessCreateData = Struct.new(
   :share_partner_to,
+  :devices,
+  :sharePartnerFrom,
   :success,
   keyword_init: true
 )
@@ -1657,6 +1874,9 @@ SuccessRemoveMatch = Struct.new(
 #
 # @!attribute [rw] decrypted
 #   @return [Integer, nil]
+#
+# @!attribute [rw] device
+#   @return [Hash]
 #
 # @!attribute [rw] deviceName
 #   @return [String, nil]
@@ -1720,6 +1940,7 @@ Transaction = Struct.new(
   :clientRef,
   :created,
   :decrypted,
+  :device,
   :deviceName,
   :directPartner,
   :encrypted,
@@ -1825,6 +2046,9 @@ TransactionListMatch = Struct.new(
 # @!attribute [rw] decrypted
 #   @return [Integer, nil]
 #
+# @!attribute [rw] device
+#   @return [Hash]
+#
 # @!attribute [rw] deviceName
 #   @return [String, nil]
 #
@@ -1887,6 +2111,7 @@ TransactionCreateData = Struct.new(
   :clientRef,
   :created,
   :decrypted,
+  :device,
   :deviceName,
   :directPartner,
   :encrypted,
@@ -1911,53 +2136,257 @@ TransactionCreateData = Struct.new(
 
 # UpdateResult entity data model.
 #
+# @!attribute [rw] address1
+#   @return [String, nil]
+#
+# @!attribute [rw] address2
+#   @return [String, nil]
+#
+# @!attribute [rw] alternateKey
+#   @return [String, nil]
+#
+# @!attribute [rw] auditNextDate
+#   @return [String, nil]
+#
+# @!attribute [rw] billingId
+#   @return [String, nil]
+#
+# @!attribute [rw] city
+#   @return [String, nil]
+#
 # @!attribute [rw] client
 #   @return [Hash, nil]
 #
+# @!attribute [rw] clientCanOrderEquipment
+#   @return [Boolean, nil]
+#
+# @!attribute [rw] clientRef
+#   @return [String, nil]
+#
+# @!attribute [rw] contact
+#   @return [Hash]
+#
+# @!attribute [rw] country
+#   @return [Hash, nil]
+#
+# @!attribute [rw] customReference
+#   @return [String, nil]
+#
+# @!attribute [rw] dateShipped
+#   @return [String, nil]
+#
+# @!attribute [rw] decrypted
+#   @return [Integer, nil]
+#
+# @!attribute [rw] device
+#   @return [Hash, nil]
+#
+# @!attribute [rw] deviceBuild
+#   @return [Hash, nil]
+#
+# @!attribute [rw] deviceType
+#   @return [Hash, nil]
+#
+# @!attribute [rw] directPartner
+#   @return [Hash, nil]
+#
 # @!attribute [rw] email
+#   @return [String]
+#
+# @!attribute [rw] encrypted
+#   @return [Integer, nil]
+#
+# @!attribute [rw] endDate
+#   @return [String, nil]
+#
+# @!attribute [rw] errCode
+#   @return [String, nil]
+#
+# @!attribute [rw] errMessage
 #   @return [String, nil]
 #
 # @!attribute [rw] firstName
-#   @return [String, nil]
+#   @return [String]
 #
 # @!attribute [rw] id
 #   @return [String, nil]
 #
+# @!attribute [rw] injectKey
+#   @return [Hash, nil]
+#
+# @!attribute [rw] ipAddress
+#   @return [String, nil]
+#
 # @!attribute [rw] isActive
-#   @return [Boolean, nil]
+#   @return [Boolean]
+#
+# @!attribute [rw] items
+#   @return [Array, nil]
+#
+# @!attribute [rw] keyType
+#   @return [String, nil]
 #
 # @!attribute [rw] kif
 #   @return [Hash, nil]
 #
 # @!attribute [rw] lastName
+#   @return [String]
+#
+# @!attribute [rw] location
+#   @return [Hash]
+#
+# @!attribute [rw] locationType
 #   @return [String, nil]
+#
+# @!attribute [rw] mailAddress1
+#   @return [String, nil]
+#
+# @!attribute [rw] mailAddress2
+#   @return [String, nil]
+#
+# @!attribute [rw] mailCity
+#   @return [String, nil]
+#
+# @!attribute [rw] mailCountry
+#   @return [String, nil]
+#
+# @!attribute [rw] mailPostalCode
+#   @return [String, nil]
+#
+# @!attribute [rw] mailStateProvince
+#   @return [String, nil]
+#
+# @!attribute [rw] messageId
+#   @return [String, nil]
+#
+# @!attribute [rw] method
+#   @return [String, nil]
+#
+# @!attribute [rw] mid
+#   @return [String, nil]
+#
+# @!attribute [rw] name
+#   @return [String, nil]
+#
+# @!attribute [rw] nameOfBusiness
+#   @return [String, nil]
+#
+# @!attribute [rw] notes
+#   @return [String, nil]
+#
+# @!attribute [rw] parent
+#   @return [Hash, nil]
 #
 # @!attribute [rw] partner
 #   @return [Hash, nil]
 #
+# @!attribute [rw] partnerId
+#   @return [String, nil]
+#
 # @!attribute [rw] phone
+#   @return [String]
+#
+# @!attribute [rw] postalCode
+#   @return [String, nil]
+#
+# @!attribute [rw] reference
+#   @return [String, nil]
+#
+# @!attribute [rw] sendWelcomeEmail
+#   @return [Boolean, nil]
+#
+# @!attribute [rw] serialNumber
+#   @return [String, nil]
+#
+# @!attribute [rw] startDate
+#   @return [String, nil]
+#
+# @!attribute [rw] stateProvince
+#   @return [String, nil]
+#
+# @!attribute [rw] success
+#   @return [Boolean, nil]
+#
+# @!attribute [rw] tracking
+#   @return [String, nil]
+#
+# @!attribute [rw] uniqueId
 #   @return [String, nil]
 #
 # @!attribute [rw] userName
-#   @return [String, nil]
+#   @return [String]
 #
 # @!attribute [rw] userRole
-#   @return [Hash, nil]
+#   @return [Hash]
+#
+# @!attribute [rw] verificationPhrase
+#   @return [String, nil]
 #
 # @!attribute [rw] version
 #   @return [Integer, nil]
 UpdateResult = Struct.new(
+  :address1,
+  :address2,
+  :alternateKey,
+  :auditNextDate,
+  :billingId,
+  :city,
   :client,
+  :clientCanOrderEquipment,
+  :clientRef,
+  :contact,
+  :country,
+  :customReference,
+  :dateShipped,
+  :decrypted,
+  :device,
+  :deviceBuild,
+  :deviceType,
+  :directPartner,
   :email,
+  :encrypted,
+  :endDate,
+  :errCode,
+  :errMessage,
   :firstName,
   :id,
+  :injectKey,
+  :ipAddress,
   :isActive,
+  :items,
+  :keyType,
   :kif,
   :lastName,
+  :location,
+  :locationType,
+  :mailAddress1,
+  :mailAddress2,
+  :mailCity,
+  :mailCountry,
+  :mailPostalCode,
+  :mailStateProvince,
+  :messageId,
+  :method,
+  :mid,
+  :name,
+  :nameOfBusiness,
+  :notes,
+  :parent,
   :partner,
+  :partnerId,
   :phone,
+  :postalCode,
+  :reference,
+  :sendWelcomeEmail,
+  :serialNumber,
+  :startDate,
+  :stateProvince,
+  :success,
+  :tracking,
+  :uniqueId,
   :userName,
   :userRole,
+  :verificationPhrase,
   :version,
   keyword_init: true
 )
@@ -1989,53 +2418,257 @@ UpdateResultListMatch = Struct.new(
 
 # Request payload for UpdateResult#create.
 #
+# @!attribute [rw] address1
+#   @return [String, nil]
+#
+# @!attribute [rw] address2
+#   @return [String, nil]
+#
+# @!attribute [rw] alternateKey
+#   @return [String, nil]
+#
+# @!attribute [rw] auditNextDate
+#   @return [String, nil]
+#
+# @!attribute [rw] billingId
+#   @return [String, nil]
+#
+# @!attribute [rw] city
+#   @return [String, nil]
+#
 # @!attribute [rw] client
 #   @return [Hash, nil]
 #
+# @!attribute [rw] clientCanOrderEquipment
+#   @return [Boolean, nil]
+#
+# @!attribute [rw] clientRef
+#   @return [String, nil]
+#
+# @!attribute [rw] contact
+#   @return [Hash]
+#
+# @!attribute [rw] country
+#   @return [Hash, nil]
+#
+# @!attribute [rw] customReference
+#   @return [String, nil]
+#
+# @!attribute [rw] dateShipped
+#   @return [String, nil]
+#
+# @!attribute [rw] decrypted
+#   @return [Integer, nil]
+#
+# @!attribute [rw] device
+#   @return [Hash, nil]
+#
+# @!attribute [rw] deviceBuild
+#   @return [Hash, nil]
+#
+# @!attribute [rw] deviceType
+#   @return [Hash, nil]
+#
+# @!attribute [rw] directPartner
+#   @return [Hash, nil]
+#
 # @!attribute [rw] email
+#   @return [String]
+#
+# @!attribute [rw] encrypted
+#   @return [Integer, nil]
+#
+# @!attribute [rw] endDate
+#   @return [String, nil]
+#
+# @!attribute [rw] errCode
+#   @return [String, nil]
+#
+# @!attribute [rw] errMessage
 #   @return [String, nil]
 #
 # @!attribute [rw] firstName
-#   @return [String, nil]
+#   @return [String]
 #
 # @!attribute [rw] id
 #   @return [String, nil]
 #
+# @!attribute [rw] injectKey
+#   @return [Hash, nil]
+#
+# @!attribute [rw] ipAddress
+#   @return [String, nil]
+#
 # @!attribute [rw] isActive
-#   @return [Boolean, nil]
+#   @return [Boolean]
+#
+# @!attribute [rw] items
+#   @return [Array, nil]
+#
+# @!attribute [rw] keyType
+#   @return [String, nil]
 #
 # @!attribute [rw] kif
 #   @return [Hash, nil]
 #
 # @!attribute [rw] lastName
+#   @return [String]
+#
+# @!attribute [rw] location
+#   @return [Hash]
+#
+# @!attribute [rw] locationType
 #   @return [String, nil]
+#
+# @!attribute [rw] mailAddress1
+#   @return [String, nil]
+#
+# @!attribute [rw] mailAddress2
+#   @return [String, nil]
+#
+# @!attribute [rw] mailCity
+#   @return [String, nil]
+#
+# @!attribute [rw] mailCountry
+#   @return [String, nil]
+#
+# @!attribute [rw] mailPostalCode
+#   @return [String, nil]
+#
+# @!attribute [rw] mailStateProvince
+#   @return [String, nil]
+#
+# @!attribute [rw] messageId
+#   @return [String, nil]
+#
+# @!attribute [rw] method
+#   @return [String, nil]
+#
+# @!attribute [rw] mid
+#   @return [String, nil]
+#
+# @!attribute [rw] name
+#   @return [String, nil]
+#
+# @!attribute [rw] nameOfBusiness
+#   @return [String, nil]
+#
+# @!attribute [rw] notes
+#   @return [String, nil]
+#
+# @!attribute [rw] parent
+#   @return [Hash, nil]
 #
 # @!attribute [rw] partner
 #   @return [Hash, nil]
 #
+# @!attribute [rw] partnerId
+#   @return [String, nil]
+#
 # @!attribute [rw] phone
+#   @return [String]
+#
+# @!attribute [rw] postalCode
+#   @return [String, nil]
+#
+# @!attribute [rw] reference
+#   @return [String, nil]
+#
+# @!attribute [rw] sendWelcomeEmail
+#   @return [Boolean, nil]
+#
+# @!attribute [rw] serialNumber
+#   @return [String, nil]
+#
+# @!attribute [rw] startDate
+#   @return [String, nil]
+#
+# @!attribute [rw] stateProvince
+#   @return [String, nil]
+#
+# @!attribute [rw] success
+#   @return [Boolean, nil]
+#
+# @!attribute [rw] tracking
+#   @return [String, nil]
+#
+# @!attribute [rw] uniqueId
 #   @return [String, nil]
 #
 # @!attribute [rw] userName
-#   @return [String, nil]
+#   @return [String]
 #
 # @!attribute [rw] userRole
-#   @return [Hash, nil]
+#   @return [Hash]
+#
+# @!attribute [rw] verificationPhrase
+#   @return [String, nil]
 #
 # @!attribute [rw] version
 #   @return [Integer, nil]
 UpdateResultCreateData = Struct.new(
+  :address1,
+  :address2,
+  :alternateKey,
+  :auditNextDate,
+  :billingId,
+  :city,
   :client,
+  :clientCanOrderEquipment,
+  :clientRef,
+  :contact,
+  :country,
+  :customReference,
+  :dateShipped,
+  :decrypted,
+  :device,
+  :deviceBuild,
+  :deviceType,
+  :directPartner,
   :email,
+  :encrypted,
+  :endDate,
+  :errCode,
+  :errMessage,
   :firstName,
   :id,
+  :injectKey,
+  :ipAddress,
   :isActive,
+  :items,
+  :keyType,
   :kif,
   :lastName,
+  :location,
+  :locationType,
+  :mailAddress1,
+  :mailAddress2,
+  :mailCity,
+  :mailCountry,
+  :mailPostalCode,
+  :mailStateProvince,
+  :messageId,
+  :method,
+  :mid,
+  :name,
+  :nameOfBusiness,
+  :notes,
+  :parent,
   :partner,
+  :partnerId,
   :phone,
+  :postalCode,
+  :reference,
+  :sendWelcomeEmail,
+  :serialNumber,
+  :startDate,
+  :stateProvince,
+  :success,
+  :tracking,
+  :uniqueId,
   :userName,
   :userRole,
+  :verificationPhrase,
   :version,
   keyword_init: true
 )
@@ -2045,17 +2678,92 @@ UpdateResultCreateData = Struct.new(
 # @!attribute [rw] id
 #   @return [String]
 #
+# @!attribute [rw] address1
+#   @return [String, nil]
+#
+# @!attribute [rw] address2
+#   @return [String, nil]
+#
+# @!attribute [rw] alternateKey
+#   @return [String, nil]
+#
+# @!attribute [rw] auditNextDate
+#   @return [String, nil]
+#
+# @!attribute [rw] billingId
+#   @return [String, nil]
+#
+# @!attribute [rw] city
+#   @return [String, nil]
+#
 # @!attribute [rw] client
+#   @return [Hash, nil]
+#
+# @!attribute [rw] clientCanOrderEquipment
+#   @return [Boolean, nil]
+#
+# @!attribute [rw] clientRef
+#   @return [String, nil]
+#
+# @!attribute [rw] contact
+#   @return [Hash, nil]
+#
+# @!attribute [rw] country
+#   @return [Hash, nil]
+#
+# @!attribute [rw] customReference
+#   @return [String, nil]
+#
+# @!attribute [rw] dateShipped
+#   @return [String, nil]
+#
+# @!attribute [rw] decrypted
+#   @return [Integer, nil]
+#
+# @!attribute [rw] device
+#   @return [Hash, nil]
+#
+# @!attribute [rw] deviceBuild
+#   @return [Hash, nil]
+#
+# @!attribute [rw] deviceType
+#   @return [Hash, nil]
+#
+# @!attribute [rw] directPartner
 #   @return [Hash, nil]
 #
 # @!attribute [rw] email
 #   @return [String, nil]
 #
+# @!attribute [rw] encrypted
+#   @return [Integer, nil]
+#
+# @!attribute [rw] endDate
+#   @return [String, nil]
+#
+# @!attribute [rw] errCode
+#   @return [String, nil]
+#
+# @!attribute [rw] errMessage
+#   @return [String, nil]
+#
 # @!attribute [rw] firstName
+#   @return [String, nil]
+#
+# @!attribute [rw] injectKey
+#   @return [Hash, nil]
+#
+# @!attribute [rw] ipAddress
 #   @return [String, nil]
 #
 # @!attribute [rw] isActive
 #   @return [Boolean, nil]
+#
+# @!attribute [rw] items
+#   @return [Array, nil]
+#
+# @!attribute [rw] keyType
+#   @return [String, nil]
 #
 # @!attribute [rw] kif
 #   @return [Hash, nil]
@@ -2063,10 +2771,85 @@ UpdateResultCreateData = Struct.new(
 # @!attribute [rw] lastName
 #   @return [String, nil]
 #
+# @!attribute [rw] location
+#   @return [Hash, nil]
+#
+# @!attribute [rw] locationType
+#   @return [String, nil]
+#
+# @!attribute [rw] mailAddress1
+#   @return [String, nil]
+#
+# @!attribute [rw] mailAddress2
+#   @return [String, nil]
+#
+# @!attribute [rw] mailCity
+#   @return [String, nil]
+#
+# @!attribute [rw] mailCountry
+#   @return [String, nil]
+#
+# @!attribute [rw] mailPostalCode
+#   @return [String, nil]
+#
+# @!attribute [rw] mailStateProvince
+#   @return [String, nil]
+#
+# @!attribute [rw] messageId
+#   @return [String, nil]
+#
+# @!attribute [rw] method
+#   @return [String, nil]
+#
+# @!attribute [rw] mid
+#   @return [String, nil]
+#
+# @!attribute [rw] name
+#   @return [String, nil]
+#
+# @!attribute [rw] nameOfBusiness
+#   @return [String, nil]
+#
+# @!attribute [rw] notes
+#   @return [String, nil]
+#
+# @!attribute [rw] parent
+#   @return [Hash, nil]
+#
 # @!attribute [rw] partner
 #   @return [Hash, nil]
 #
+# @!attribute [rw] partnerId
+#   @return [String, nil]
+#
 # @!attribute [rw] phone
+#   @return [String, nil]
+#
+# @!attribute [rw] postalCode
+#   @return [String, nil]
+#
+# @!attribute [rw] reference
+#   @return [String, nil]
+#
+# @!attribute [rw] sendWelcomeEmail
+#   @return [Boolean, nil]
+#
+# @!attribute [rw] serialNumber
+#   @return [String, nil]
+#
+# @!attribute [rw] startDate
+#   @return [String, nil]
+#
+# @!attribute [rw] stateProvince
+#   @return [String, nil]
+#
+# @!attribute [rw] success
+#   @return [Boolean, nil]
+#
+# @!attribute [rw] tracking
+#   @return [String, nil]
+#
+# @!attribute [rw] uniqueId
 #   @return [String, nil]
 #
 # @!attribute [rw] userName
@@ -2075,20 +2858,74 @@ UpdateResultCreateData = Struct.new(
 # @!attribute [rw] userRole
 #   @return [Hash, nil]
 #
+# @!attribute [rw] verificationPhrase
+#   @return [String, nil]
+#
 # @!attribute [rw] version
 #   @return [Integer, nil]
 UpdateResultUpdateData = Struct.new(
   :id,
+  :address1,
+  :address2,
+  :alternateKey,
+  :auditNextDate,
+  :billingId,
+  :city,
   :client,
+  :clientCanOrderEquipment,
+  :clientRef,
+  :contact,
+  :country,
+  :customReference,
+  :dateShipped,
+  :decrypted,
+  :device,
+  :deviceBuild,
+  :deviceType,
+  :directPartner,
   :email,
+  :encrypted,
+  :endDate,
+  :errCode,
+  :errMessage,
   :firstName,
+  :injectKey,
+  :ipAddress,
   :isActive,
+  :items,
+  :keyType,
   :kif,
   :lastName,
+  :location,
+  :locationType,
+  :mailAddress1,
+  :mailAddress2,
+  :mailCity,
+  :mailCountry,
+  :mailPostalCode,
+  :mailStateProvince,
+  :messageId,
+  :method,
+  :mid,
+  :name,
+  :nameOfBusiness,
+  :notes,
+  :parent,
   :partner,
+  :partnerId,
   :phone,
+  :postalCode,
+  :reference,
+  :sendWelcomeEmail,
+  :serialNumber,
+  :startDate,
+  :stateProvince,
+  :success,
+  :tracking,
+  :uniqueId,
   :userName,
   :userRole,
+  :verificationPhrase,
   :version,
   keyword_init: true
 )

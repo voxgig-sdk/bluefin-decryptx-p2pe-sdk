@@ -6,6 +6,17 @@ require_relative "../BluefinDecryptxP2pe_sdk"
 require_relative "runner"
 
 class DeviceCustodyListItemDirectTest < Minitest::Test
+  # main.kit.test.live.strict is true (the default is true): a live
+  # request that fails, or a live test missing an input it needs,
+  # fails the test.
+  # An account with no record for a test to read skips it either way.
+  LIVE_STRICT = true
+
+  def live_ok(result)
+    status = Helpers.to_int(result["status"])
+    result["err"].nil? && result["ok"] && status >= 200 && status < 300
+  end
+
   def test_direct_list_device_custody_list_item
     setup = device_custody_list_item_direct_setup([
       { "id" => "direct01" },
@@ -19,24 +30,15 @@ class DeviceCustodyListItemDirectTest < Minitest::Test
     if setup[:live]
       ["device_type01", "serial_number01"].each do |_live_key|
         if setup[:idmap][_live_key].nil?
-          skip "live test needs #{_live_key} via *_ENTID env var (synthetic IDs only)"
-          return
+          Runner.live_miss(LIVE_STRICT, "Live test blocked: needs #{_live_key} via BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_CUSTODY_LIST_ITEM_ENTID")
         end
       end
     end
     client = setup[:client]
 
     params = {}
-    if setup[:live]
-      params["device_type"] = setup[:idmap]["device_type01"]
-    else
-      params["device_type"] = "direct01"
-    end
-    if setup[:live]
-      params["serial_number"] = setup[:idmap]["serial_number01"]
-    else
-      params["serial_number"] = "direct01"
-    end
+    params["device_type"] = setup[:live] ? setup[:idmap]["device_type01"] : "direct01"
+    params["serial_number"] = setup[:live] ? setup[:idmap]["serial_number01"] : "direct02"
 
     result = client.direct({
       "path" => "devices/{serial_number}/{device_type}/custody",
@@ -44,22 +46,13 @@ class DeviceCustodyListItemDirectTest < Minitest::Test
       "params" => params,
     })
     if setup[:live]
-      # Live mode is lenient: synthetic IDs frequently 4xx and the list-
-      # response shape varies wildly across public APIs. Skip rather than
-      # fail when the call doesn't return a usable list.
-      if !result["err"].nil?
-        skip("list call failed (likely synthetic IDs against live API): #{result["err"]}")
-        return
+      unless live_ok(result)
+        Runner.live_miss(LIVE_STRICT, "Live list failed: " + Runner.live_describe(result))
       end
-      unless result["ok"]
-        skip("list call not ok (likely synthetic IDs against live API)")
-        return
+      if Runner.live_list(result["data"]).nil?
+        Runner.live_miss(LIVE_STRICT, "Live list returned no list: " + Runner.live_describe(result))
       end
-      status = Helpers.to_int(result["status"])
-      if status < 200 || status >= 300
-        skip("expected 2xx status, got #{status}")
-        return
-      end
+      assert Runner.live_list(result["data"]).is_a?(Array)
     else
       assert_nil result["err"]
       assert result["ok"]
@@ -93,11 +86,12 @@ def device_custody_list_item_direct_setup(mockres)
       "apikey" => env["BLUEFIN_DECRYPTX_P2PE_APIKEY"],
     })
     client = BluefinDecryptxP2peSDK.new(merged_opts)
+    idmap = env["BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_CUSTODY_LIST_ITEM_ENTID"]
     return {
       client: client,
       calls: calls,
       live: true,
-      idmap: {},
+      idmap: idmap.is_a?(Hash) ? idmap : {},
     }
   end
 

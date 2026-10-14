@@ -11,6 +11,18 @@ use Cwd ();
 use BluefinDecryptxP2peSDK;
 require(Cwd::abs_path("$FindBin::Bin/runner.pm"));
 
+# main.kit.test.live.strict is true (the default is true): a live
+# request that fails, or a live test missing an input it needs,
+# fails the test.
+# An account with no record for a test to read skips it either way.
+use constant LIVE_STRICT => 1;
+
+sub live_ok {
+  my ($result) = @_;
+  my $status = BluefinDecryptxP2peHelpers::to_int($result->{status});
+  return !defined $result->{err} && $result->{ok} && $status >= 200 && $status < 300;
+}
+
 DIRECT_LOAD: {
   my $setup = virtual_device_direct_setup({ 'id' => 'direct01' });
   my ($_should_skip, $_reason) = BluefinDecryptxP2peTestRunner::is_control_skipped(
@@ -21,15 +33,20 @@ DIRECT_LOAD: {
     last DIRECT_LOAD;
   }
   if ($setup->{live}) {
-    note('live direct-load needs real ID - set *_ENTID env var with real IDs to run');
-    pass('direct-load-virtual_device: skipped (live)');
-    last DIRECT_LOAD;
+    my @missing = grep { !defined $setup->{idmap}{$_} } ('virtual_device01');
+    if (@missing) {
+      BluefinDecryptxP2peTestRunner::live_miss(LIVE_STRICT, 'direct-load-virtual_device', 'Live test blocked: needs ' . join(', ', @missing) . ' via BLUEFIN_DECRYPTX_P2PE_TEST_VIRTUAL_DEVICE_ENTID');
+      last DIRECT_LOAD;
+    }
   }
   my $client = $setup->{client};
 
   my $params = {};
   my $query = {};
-  unless ($setup->{live}) {
+  if ($setup->{live}) {
+    $params->{'id'} = $setup->{idmap}{'virtual_device01'};
+  }
+  else {
     $params->{'id'} = 'direct01';
   }
 
@@ -40,23 +57,12 @@ DIRECT_LOAD: {
     'query' => $query,
   });
   if ($setup->{live}) {
-    # Live mode is lenient: synthetic IDs frequently 4xx. Skip rather
-    # than fail when the load endpoint isn't reachable with the IDs
-    # we can construct from setup idmap.
-    if (defined $result->{err}) {
-      note("load call failed (likely synthetic IDs against live API): $result->{err}");
-      pass('direct-load-virtual_device: skipped (live)');
+    if (!live_ok($result)) {
+      BluefinDecryptxP2peTestRunner::live_miss(LIVE_STRICT, 'direct-load-virtual_device', 'Live load failed: ' . BluefinDecryptxP2peTestRunner::live_describe($result));
       last DIRECT_LOAD;
     }
-    unless ($result->{ok}) {
-      note('load call not ok (likely synthetic IDs against live API)');
-      pass('direct-load-virtual_device: skipped (live)');
-      last DIRECT_LOAD;
-    }
-    my $status = BluefinDecryptxP2peHelpers::to_int($result->{status});
-    if ($status < 200 || $status >= 300) {
-      note("expected 2xx status, got $status");
-      pass('direct-load-virtual_device: skipped (live)');
+    if (!defined $result->{data}) {
+      BluefinDecryptxP2peTestRunner::live_miss(LIVE_STRICT, 'direct-load-virtual_device', 'Live load returned no data: ' . BluefinDecryptxP2peTestRunner::live_describe($result));
       last DIRECT_LOAD;
     }
     pass('direct-load-virtual_device: live ok');
@@ -96,11 +102,12 @@ sub virtual_device_direct_setup {
       %{ BluefinDecryptxP2peTestRunner::live_client_options() },
       'apikey' => $env->{'BLUEFIN_DECRYPTX_P2PE_APIKEY'},
     });
+    my $idmap = $env->{'BLUEFIN_DECRYPTX_P2PE_TEST_VIRTUAL_DEVICE_ENTID'};
     return {
       'client' => $client,
       'calls' => $calls,
       'live' => 1,
-      'idmap' => {},
+      'idmap' => ref $idmap eq 'HASH' ? $idmap : {},
     };
   }
 

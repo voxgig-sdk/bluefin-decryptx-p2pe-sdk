@@ -21,6 +21,18 @@ import voxgig.bluefindecryptxp2pesdk.utility.Json;
 @SuppressWarnings({"unchecked", "unused"})
 public class DeviceCustodyDetailDirectTest {
 
+  // main.kit.test.live.strict is true (the default is true): a live
+  // request that fails, or a live test missing an input it needs,
+  // fails the test.
+  // An account with no record for a test to read skips it either way.
+  static final boolean LIVE_STRICT = true;
+
+  static boolean liveOk(Map<String, Object> result) {
+    int status = Helpers.toInt(result.get("status"));
+    return result.get("err") == null && Boolean.TRUE.equals(result.get("ok"))
+        && status >= 200 && status < 300;
+  }
+
   static Map<String, Object> jm(Object... kv) {
     Map<String, Object> out = new LinkedHashMap<>();
     for (int i = 0; i < kv.length - 1; i += 2) {
@@ -38,9 +50,10 @@ public class DeviceCustodyDetailDirectTest {
         reason == null || "".equals(reason)
             ? "skipped via sdk-test-control.json" : reason);
     if (setup.live) {
-      for (String liveKey : new String[] { "device_type01", "id01", "serial_number01" }) {
-        Assumptions.assumeTrue(setup.idmap.get(liveKey) != null,
-            "live test needs " + liveKey + " via *_ENTID env var (synthetic IDs only)");
+      for (String liveKey : new String[] { "device_type01", "device_custody_detail01", "serial_number01" }) {
+        if (setup.idmap.get(liveKey) == null) {
+          RunnerSupport.liveMiss(LIVE_STRICT, "Live test blocked: needs " + liveKey + " via BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_CUSTODY_DETAIL_ENTID");
+        }
       }
     }
     BluefinDecryptxP2peSDK client = setup.client;
@@ -48,6 +61,9 @@ public class DeviceCustodyDetailDirectTest {
     Map<String, Object> params = new LinkedHashMap<>();
     Map<String, Object> query = new LinkedHashMap<>();
     if (setup.live) {
+      params.put("device_type", setup.idmap.get("device_type01"));
+      params.put("id", setup.idmap.get("device_custody_detail01"));
+      params.put("serial_number", setup.idmap.get("serial_number01"));
     }
     else {
       params.put("device_type", "direct01");
@@ -61,14 +77,12 @@ public class DeviceCustodyDetailDirectTest {
         "params", params,
         "query", query));
     if (setup.live) {
-      // Live mode is lenient: synthetic IDs frequently 4xx. Skip rather
-      // than fail when the load endpoint isn't reachable with the IDs we
-      // can construct from setup.idmap.
-      Assumptions.assumeTrue(Boolean.TRUE.equals(result.get("ok")),
-          "load call not ok (likely synthetic IDs against live API): " + result);
-      int status = Helpers.toInt(result.get("status"));
-      Assumptions.assumeTrue(status >= 200 && status < 300,
-          "expected 2xx status, got " + result.get("status"));
+      if (!liveOk(result)) {
+        RunnerSupport.liveMiss(LIVE_STRICT, "Live load failed: " + RunnerSupport.liveDescribe(result));
+      }
+      if (result.get("data") == null) {
+        RunnerSupport.liveMiss(LIVE_STRICT, "Live load returned no data: " + RunnerSupport.liveDescribe(result));
+      }
     }
     else {
       assertEquals(true, result.get("ok"), "expected ok to be true");

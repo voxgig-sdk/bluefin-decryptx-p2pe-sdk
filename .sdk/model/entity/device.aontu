@@ -82,6 +82,12 @@ main: kit: entity: device: {
     deviceType: {
       h: "Device Type"
       n: "deviceType"
+      op: {
+        create: {
+          req: true
+          type: "`$OBJECT`"
+        }
+      }
       r: false
       sh: "Reference to the associated Device Type resource."
       t: "`$OBJECT`"
@@ -140,6 +146,12 @@ main: kit: entity: device: {
     kif: {
       h: "Kif"
       n: "kif"
+      op: {
+        create: {
+          req: true
+          type: "`$OBJECT`"
+        }
+      }
       r: false
       sh: "Reference to the associated KIF resource."
       t: "`$OBJECT`"
@@ -198,6 +210,12 @@ main: kit: entity: device: {
     serialNumber: {
       h: "Serial Number"
       n: "serialNumber"
+      op: {
+        create: {
+          req: true
+          type: "`$STRING`"
+        }
+      }
       r: false
       sh: "The Device's serial number."
       t: "`$STRING`"
@@ -222,6 +240,19 @@ main: kit: entity: device: {
       name: "create"
       points: [
         {
+          bf: [
+            "alternateKey"
+            "auditNextDate"
+            "client"
+            "deviceBuild"
+            "deviceType"
+            "injectKey"
+            "kif"
+            "name"
+            "notes"
+            "partner"
+            "serialNumber"
+          ]
           co: {
             id: "POST /devices"
             source: "openapi3"
@@ -229,6 +260,10 @@ main: kit: entity: device: {
           }
           m: "POST"
           o: "/devices"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "devices"
@@ -262,7 +297,7 @@ main: kit: entity: device: {
               {
                 k: "query"
                 n: "device_state"
-                or: "device_state"
+                or: "deviceState"
                 r: false
                 t: "`$STRING`"
               }
@@ -283,7 +318,7 @@ main: kit: entity: device: {
               {
                 k: "query"
                 n: "serial_number"
-                or: "serial_number"
+                or: "serialNumber"
                 r: false
                 t: "`$STRING`"
               }
@@ -299,7 +334,7 @@ main: kit: entity: device: {
                 ex: "asc"
                 k: "query"
                 n: "sorting_direction"
-                or: "sorting_direction"
+                or: "sorting.direction"
                 r: false
                 t: "`$STRING`"
               }
@@ -307,7 +342,7 @@ main: kit: entity: device: {
                 ex: "serialnumber"
                 k: "query"
                 n: "sorting_field"
-                or: "sorting_field"
+                or: "sorting.field"
                 r: false
                 t: "`$STRING`"
               }
@@ -323,18 +358,9 @@ main: kit: entity: device: {
           }
           m: "GET"
           o: "/devices"
-          q: {
-            exist: [
-              "client"
-              "device_state"
-              "kif"
-              "partner"
-              "serial_number"
-              "skip"
-              "sorting_direction"
-              "sorting_field"
-              "take"
-            ]
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -362,14 +388,14 @@ main: kit: entity: device: {
               {
                 k: "param"
                 n: "device_type"
-                or: "device_type"
+                or: "deviceType"
                 r: true
                 t: "`$STRING`"
               }
               {
                 k: "param"
                 n: "serial_number"
-                or: "serial_number"
+                or: "serialNumber"
                 r: true
                 t: "`$STRING`"
               }
@@ -388,6 +414,10 @@ main: kit: entity: device: {
               deviceType: "device_type"
               serialNumber: "serial_number"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -428,6 +458,10 @@ main: kit: entity: device: {
             exist: [
               "id"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

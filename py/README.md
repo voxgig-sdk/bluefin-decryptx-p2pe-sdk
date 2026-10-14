@@ -15,7 +15,7 @@ keeps the cognitive load low.
 
 ## Install
 This package is not yet published to PyPI. Install it from the GitHub
-release tag (`py/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases)) or
+release tag (`py/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags)) or
 from a source checkout:
 
 ```bash
@@ -41,14 +41,14 @@ client = BluefinDecryptxP2peSDK({
 
 ### 2. List attestation records
 
-`list()` returns a `list` of records (each a `dict`) and raises on
-error — iterate it directly.
+`list()` returns a `list` of entities, one per record, and raises on
+error; an entity's `data_get()` reads its record (a `dict`).
 
 ```python
 try:
     attestations = client.Attestation().list({"client": "example"})
     for attestation in attestations:
-        print(attestation)
+        print(attestation.data_get())
 except Exception as err:
     print(f"list failed: {err}")
 ```
@@ -61,7 +61,7 @@ DeviceCustodyDetail is nested under device_type, so provide the `device_type`.
 ```python
 try:
     devicecustodydetail = client.DeviceCustodyDetail().load({"device_type": "example_device_type", "serial_number": "example_serial_number", "id": "example_id"})
-    print(devicecustodydetail)
+    print(devicecustodydetail.data_get())
 except Exception as err:
     print(f"load failed: {err}")
 ```
@@ -70,7 +70,7 @@ except Exception as err:
 
 ```python
 # Create — returns the ENTITY (call data_get() for the record)
-created = client.Attestation().create({"client": {}, "completeDate": "example_completeDate"})
+created = client.Attestation().create({"devices": []})
 
 ```
 
@@ -82,7 +82,7 @@ Entity operations raise on failure, so wrap them in `try` / `except`:
 ```python
 try:
     devicetypes = client.DeviceType().list()
-    print(devicetypes)
+    print([item.data_get() for item in devicetypes])
 except Exception as err:
     print(f"list failed: {err}")
 ```
@@ -148,10 +148,9 @@ Create a mock client for unit testing — no server required:
 ```python
 client = BluefinDecryptxP2peSDK.test()
 
-# Entity ops return the ENTITY and raises on error;
-# call data_get() for the record.
+# Entity ops return the entity, and list one per record; they raise on error.
 devicetype = client.DeviceType().list()
-# devicetype contains the mock response record
+# data_get() on an entity reads its mock response record
 ```
 
 ### Use a custom fetch function
@@ -258,11 +257,11 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria. Raises on error. |
-| `list` | `(reqmatch, ctrl) -> list` | List entities matching the criteria. Raises on error. |
-| `create` | `(reqdata, ctrl) -> any` | Create a new entity. Raises on error. |
-| `update` | `(reqdata, ctrl) -> any` | Update an existing entity. Raises on error. |
-| `remove` | `(reqmatch, ctrl) -> any` | Remove an entity. Raises on error. |
+| `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria, and return it. Raises on error. |
+| `list` | `(reqmatch, ctrl) -> list` | List entities matching the criteria, one per record. Raises on error. |
+| `create` | `(reqdata, ctrl) -> any` | Create a new entity, and return it. Raises on error. |
+| `update` | `(reqdata, ctrl) -> any` | Update an existing entity, and return it. Raises on error. |
+| `remove` | `(reqmatch, ctrl) -> any` | Remove an entity, and return it marked as deleted. Raises on error. |
 | `data_get` | `() -> dict` | Get entity data. |
 | `data_set` | `(data)` | Set entity data. |
 | `match_get` | `() -> dict` | Get entity match criteria. |
@@ -272,9 +271,9 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the ENTITY (call data_get() for the record) (a `dict` for single-entity
-ops, a `list` for `list`) and raise on error. Wrap calls in
-`try`/`except` to handle failures.
+Entity operations return the entity, and `list` a `list` of entities, one
+per record; an entity's `data_get()` reads its record (a `dict`). They raise
+on error, so wrap calls in `try`/`except` to handle failures.
 
 The `direct()` escape hatch never raises — it returns a result `dict`
 you branch on via `result["ok"]`:
@@ -298,6 +297,7 @@ On error, `ok` is `False` and `err` contains the error value.
 | `completeDate` | The date and time that the Attestation took place. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `device` | Reference to the associated Device resource. |
+| `devices` |  |
 | `id` | This resource's unique identifier. |
 | `name` | Text describing the attestation. |
 | `notes` | Free form field that allows the Client associate notes with the Attestation. |
@@ -330,6 +330,10 @@ API path: `/clients`
 
 | Field | Description |
 | --- | --- |
+| `completeDate` | The date and time that the Custody change took place. |
+| `custodian` | Reference to the associated User resource. |
+| `location` | Reference to the associated Location resource. |
+| `notes` | Free form field that allows the Client associate notes with the Custody Change. |
 
 Operations: Create.
 
@@ -339,6 +343,14 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
+| `cbcVector` | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | The device Type. |
+| `encoding` | The payload encoding |
+| `encrypted` |  |
+| `hasCcData` | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | The serial number of the device. |
 | `success` | true if the payload decryption was successful. |
 
 Operations: Create.
@@ -454,7 +466,9 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
+| `serialNumber` | The serial number of the Device that is shipped. |
 | `success` | Indicates if the action succeeded. |
+| `tamperLabel` | The code that is printed the tamper label of the Device that is shipped. |
 
 Operations: Create.
 
@@ -464,7 +478,15 @@ API path: `/devices/receive`
 
 | Field | Description |
 | --- | --- |
+| `appVersion` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | The Device Builds's name. |
+| `buildNumber` | The Build Number. |
+| `configFile` | \? |
+| `firmwareVersion` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | The referenced Device's serial number. |
 | `success` | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | \? |
 
 Operations: Create.
 
@@ -538,6 +560,7 @@ API path: `/kifs`
 | `address2` | The Location's street address. |
 | `billingId` | \? |
 | `city` | The Location's city. |
+| `client` | Reference to the associated Client resource. |
 | `country` | The Location's country. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `customReference` | A Partner specified reference for a location. |
@@ -598,6 +621,7 @@ API path: `/partners`
 | `id` | This resource's unique identifier. |
 | `items` |  |
 | `kif` | Reference to the associated KIF resource. |
+| `location` | Reference to the associated Location resource. |
 | `modified` | Last modified timestamp. |
 | `partner` | Reference to the associated Partner. |
 | `shipmentType` | The type of shipment. |
@@ -612,6 +636,8 @@ API path: `/shipments`
 
 | Field | Description |
 | --- | --- |
+| `devices` | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | Reference to the associated Partner. |
 | `success` | Indicates if the action was a success. |
 
 Operations: Create, Remove.
@@ -627,6 +653,7 @@ API path: `/virtualDevices/{sharePartnerTo}`
 | `clientRef` | Client Reference property that is included in the decrypt API call. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `decrypted` | A Transcation can process muliple decryptions. |
+| `device` | Reference to the associated Device resource. |
 | `deviceName` | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | Reference to the associated Partner. |
 | `encrypted` | A Transcation can process muliple encryptions. |
@@ -655,17 +682,68 @@ API path: `/transactions`
 
 | Field | Description |
 | --- | --- |
+| `address1` | The Location's street address. |
+| `address2` | The Location's street address. |
+| `alternateKey` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | \? |
+| `city` | The Location's city. |
 | `client` | Reference to the associated Client resource. |
+| `clientCanOrderEquipment` | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | Client Reference property that is included in the decrypt API call. |
+| `contact` | Reference to the associated User resource. |
+| `country` | Reference to the associated Country. |
+| `customReference` | A Partner specified reference for a location. |
+| `dateShipped` | The date and time that a package is shipped. |
+| `decrypted` | A Transcation can process muliple decryptions. |
+| `device` | Reference to the associated Device resource. |
+| `deviceBuild` | Reference to the associated Device Build resource. |
+| `deviceType` | Reference to the associated Device Type resource. |
+| `directPartner` | Reference to the associated Partner. |
 | `email` | The User's email address. |
+| `encrypted` | A Transcation can process muliple encryptions. |
+| `endDate` | Timestamp from the end of the transaction. |
+| `errCode` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | The error messge that is sent in response to a failed decrypt API call. |
 | `firstName` | The User's name. |
 | `id` | ID of newly created resource |
+| `injectKey` | Reference to the associated Device resource. |
+| `ipAddress` | The IP address of the http client that makes the decrypt API call. |
 | `isActive` | This property indicates if the User account is active or disabled. |
+| `items` |  |
+| `keyType` | The type of cipher used during decrytion. |
 | `kif` | Reference to the associated KIF resource. |
 | `lastName` | The User's Surname. |
+| `location` | Reference to the associated Location resource. |
+| `locationType` | The Location's clasification. |
+| `mailAddress1` | The Location's street address. |
+| `mailAddress2` | The Location's street address. |
+| `mailCity` | The Location's city. |
+| `mailCountry` | The Location's street address. |
+| `mailPostalCode` | The Location's postal code. |
+| `mailStateProvince` | The Location's street state or province. |
+| `messageId` | Message ID. |
+| `method` | The decryption cypher/method. |
+| `mid` | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | The Client's name. |
+| `nameOfBusiness` | The name of the business at this location. |
+| `notes` | Arbitary note that can be attached to a Device entry. |
+| `parent` | Reference to the associated Partner. |
 | `partner` | Reference to the associated Partner. |
+| `partnerId` | The Partner's id. |
 | `phone` | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | The Location's postal code. |
+| `reference` | The Partner's reference string. |
+| `sendWelcomeEmail` | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | The Device's serial number. |
+| `startDate` | Timestamp from the beginning of the transaction. |
+| `stateProvince` | The Location's street state or province. |
+| `success` | The success indicator. |
+| `tracking` | The courier's tracking number. |
+| `uniqueId` | Unique Identifier for the Location. |
 | `userName` | The User's unique username. |
 | `userRole` | Reference to the associated User Role. |
+| `verificationPhrase` | The verification phrase is a message that the Partner creates. |
 | `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Update.
@@ -732,6 +810,7 @@ Create an instance: `attestation = client.Attestation()`
 | `completeDate` | `str` | The date and time that the Attestation took place. |
 | `created` | `str` | Creation timestamp in ISO 8601 format. |
 | `device` | `dict` | Reference to the associated Device resource. |
+| `devices` | `list` |  |
 | `id` | `str` | This resource's unique identifier. |
 | `name` | `str` | Text describing the attestation. |
 | `notes` | `str` | Free form field that allows the Client associate notes with the Attestation. |
@@ -752,6 +831,7 @@ attestations = client.Attestation().list({"client": "example"})
 
 ```python
 attestation = client.Attestation().create({
+    "devices": [],  # list
 })
 ```
 
@@ -816,12 +896,23 @@ Create an instance: `create_result = client.CreateResult()`
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `completeDate` | `str` | The date and time that the Custody change took place. |
+| `custodian` | `dict` | Reference to the associated User resource. |
+| `location` | `dict` | Reference to the associated Location resource. |
+| `notes` | `str` | Free form field that allows the Client associate notes with the Custody Change. |
+
 #### Example: Create
 
 ```python
 create_result = client.CreateResult().create({
     "device_type": "example_device_type",  # str
     "serial_number": "example_serial_number",  # str
+    "custodian": {},  # dict
+    "location": {},  # dict
 })
 ```
 
@@ -840,12 +931,23 @@ Create an instance: `decryption = client.Decryption()`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `cbcVector` | `str` | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | `str` | The device Type. |
+| `encoding` | `str` | The payload encoding |
+| `encrypted` | `list` |  |
+| `hasCcData` | `str` | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | `str` | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | `str` | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | `str` | The serial number of the device. |
 | `success` | `bool` | true if the payload decryption was successful. |
 
 #### Example: Create
 
 ```python
 decryption = client.Decryption().create({
+    "deviceType": "example_deviceType",  # str
+    "encrypted": [],  # list
+    "serialNumber": "example_serialNumber",  # str
 })
 ```
 
@@ -1048,13 +1150,17 @@ Create an instance: `device_receive_result = client.DeviceReceiveResult()`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `serialNumber` | `str` | The serial number of the Device that is shipped. |
 | `success` | `bool` | Indicates if the action succeeded. |
+| `tamperLabel` | `str` | The code that is printed the tamper label of the Device that is shipped. |
 
 #### Example: Create
 
 ```python
 device_receive_result = client.DeviceReceiveResult().create({
+    "serialNumber": "example_serialNumber",  # str
     "success": True,  # bool
+    "tamperLabel": "example_tamperLabel",  # str
 })
 ```
 
@@ -1073,12 +1179,21 @@ Create an instance: `device_rki_activate_result = client.DeviceRkiActivateResult
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `appVersion` | `str` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | `str` | The Device Builds's name. |
+| `buildNumber` | `str` | The Build Number. |
+| `configFile` | `str` | \? |
+| `firmwareVersion` | `str` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `str` | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | `str` | The referenced Device's serial number. |
 | `success` | `bool` | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | `str` | \? |
 
 #### Example: Create
 
 ```python
 device_rki_activate_result = client.DeviceRkiActivateResult().create({
+    "serialNumber": "example_serialNumber",  # str
     "success": True,  # bool
 })
 ```
@@ -1231,6 +1346,7 @@ Create an instance: `location = client.Location()`
 | `address2` | `str` | The Location's street address. |
 | `billingId` | `str` | \? |
 | `city` | `str` | The Location's city. |
+| `client` | `dict` | Reference to the associated Client resource. |
 | `country` | `str` | The Location's country. |
 | `created` | `str` | Creation timestamp in ISO 8601 format. |
 | `customReference` | `str` | A Partner specified reference for a location. |
@@ -1348,6 +1464,7 @@ Create an instance: `shipment = client.Shipment()`
 | `id` | `str` | This resource's unique identifier. |
 | `items` | `list` |  |
 | `kif` | `dict` | Reference to the associated KIF resource. |
+| `location` | `dict` | Reference to the associated Location resource. |
 | `modified` | `str` | Last modified timestamp. |
 | `partner` | `dict` | Reference to the associated Partner. |
 | `shipmentType` | `str` | The type of shipment. |
@@ -1370,6 +1487,7 @@ shipments = client.Shipment().list({"kif": "example"})
 
 ```python
 shipment = client.Shipment().create({
+    "location": {},  # dict
 })
 ```
 
@@ -1389,6 +1507,8 @@ Create an instance: `success = client.Success()`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `devices` | `list` | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | `dict` | Reference to the associated Partner. |
 | `success` | `bool` | Indicates if the action was a success. |
 
 #### Example: Create
@@ -1396,6 +1516,8 @@ Create an instance: `success = client.Success()`
 ```python
 success = client.Success().create({
     "share_partner_to": "example_share_partner_to",  # str
+    "devices": [],  # list
+    "sharePartnerFrom": {},  # dict
 })
 ```
 
@@ -1421,6 +1543,7 @@ Create an instance: `transaction = client.Transaction()`
 | `clientRef` | `str` | Client Reference property that is included in the decrypt API call. |
 | `created` | `str` | Creation timestamp in ISO 8601 format. |
 | `decrypted` | `int` | A Transcation can process muliple decryptions. |
+| `device` | `dict` | Reference to the associated Device resource. |
 | `deviceName` | `str` | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | `dict` | Reference to the associated Partner. |
 | `encrypted` | `int` | A Transcation can process muliple encryptions. |
@@ -1457,6 +1580,7 @@ transactions = client.Transaction().list()
 
 ```python
 transaction = client.Transaction().create({
+    "device": {},  # dict
     "location": {},  # dict
 })
 ```
@@ -1478,17 +1602,68 @@ Create an instance: `update_result = client.UpdateResult()`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `address1` | `str` | The Location's street address. |
+| `address2` | `str` | The Location's street address. |
+| `alternateKey` | `str` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `str` | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | `str` | \? |
+| `city` | `str` | The Location's city. |
 | `client` | `dict` | Reference to the associated Client resource. |
+| `clientCanOrderEquipment` | `bool` | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | `str` | Client Reference property that is included in the decrypt API call. |
+| `contact` | `dict` | Reference to the associated User resource. |
+| `country` | `dict` | Reference to the associated Country. |
+| `customReference` | `str` | A Partner specified reference for a location. |
+| `dateShipped` | `str` | The date and time that a package is shipped. |
+| `decrypted` | `int` | A Transcation can process muliple decryptions. |
+| `device` | `dict` | Reference to the associated Device resource. |
+| `deviceBuild` | `dict` | Reference to the associated Device Build resource. |
+| `deviceType` | `dict` | Reference to the associated Device Type resource. |
+| `directPartner` | `dict` | Reference to the associated Partner. |
 | `email` | `str` | The User's email address. |
+| `encrypted` | `int` | A Transcation can process muliple encryptions. |
+| `endDate` | `str` | Timestamp from the end of the transaction. |
+| `errCode` | `str` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `str` | The error messge that is sent in response to a failed decrypt API call. |
 | `firstName` | `str` | The User's name. |
 | `id` | `str` | ID of newly created resource |
+| `injectKey` | `dict` | Reference to the associated Device resource. |
+| `ipAddress` | `str` | The IP address of the http client that makes the decrypt API call. |
 | `isActive` | `bool` | This property indicates if the User account is active or disabled. |
+| `items` | `list` |  |
+| `keyType` | `str` | The type of cipher used during decrytion. |
 | `kif` | `dict` | Reference to the associated KIF resource. |
 | `lastName` | `str` | The User's Surname. |
+| `location` | `dict` | Reference to the associated Location resource. |
+| `locationType` | `str` | The Location's clasification. |
+| `mailAddress1` | `str` | The Location's street address. |
+| `mailAddress2` | `str` | The Location's street address. |
+| `mailCity` | `str` | The Location's city. |
+| `mailCountry` | `str` | The Location's street address. |
+| `mailPostalCode` | `str` | The Location's postal code. |
+| `mailStateProvince` | `str` | The Location's street state or province. |
+| `messageId` | `str` | Message ID. |
+| `method` | `str` | The decryption cypher/method. |
+| `mid` | `str` | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | `str` | The Client's name. |
+| `nameOfBusiness` | `str` | The name of the business at this location. |
+| `notes` | `str` | Arbitary note that can be attached to a Device entry. |
+| `parent` | `dict` | Reference to the associated Partner. |
 | `partner` | `dict` | Reference to the associated Partner. |
+| `partnerId` | `str` | The Partner's id. |
 | `phone` | `str` | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | `str` | The Location's postal code. |
+| `reference` | `str` | The Partner's reference string. |
+| `sendWelcomeEmail` | `bool` | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | `str` | The Device's serial number. |
+| `startDate` | `str` | Timestamp from the beginning of the transaction. |
+| `stateProvince` | `str` | The Location's street state or province. |
+| `success` | `bool` | The success indicator. |
+| `tracking` | `str` | The courier's tracking number. |
+| `uniqueId` | `str` | Unique Identifier for the Location. |
 | `userName` | `str` | The User's unique username. |
 | `userRole` | `dict` | Reference to the associated User Role. |
+| `verificationPhrase` | `str` | The verification phrase is a message that the Partner creates. |
 | `version` | `int` | The number of times that this resource has been updated. |
 
 #### Example: List
@@ -1501,6 +1676,15 @@ update_results = client.UpdateResult().list()
 
 ```python
 update_result = client.UpdateResult().create({
+    "contact": {},  # dict
+    "email": "example_email",  # str
+    "firstName": "example_firstName",  # str
+    "isActive": True,  # bool
+    "lastName": "example_lastName",  # str
+    "location": {},  # dict
+    "phone": "example_phone",  # str
+    "userName": "example_userName",  # str
+    "userRole": {},  # dict
 })
 ```
 

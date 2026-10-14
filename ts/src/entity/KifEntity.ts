@@ -127,9 +127,15 @@ class KifEntity extends BluefinDecryptxP2peEntityBase<Kif> {
       return done(ctx)
     }
     catch (err: any) {
+      // What a hook throws here must not escape the cleaning below.
+      try {
 
-      fres = featureHook(ctx, 'PreUnexpected')
-      if (fres instanceof Promise) { await fres }
+        fres = featureHook(ctx, 'PreUnexpected')
+        if (fres instanceof Promise) { await fres }
+      }
+      catch (hookerr: any) {
+        err = hookerr
+      }
 
       err = this._unexpected(ctx, err)
 
@@ -138,11 +144,12 @@ class KifEntity extends BluefinDecryptxP2peEntityBase<Kif> {
       }
       else {
         // Off-happy-path (throw disabled): typed as any so the method's
-        // Promise<Kif[]> return stays clean under strict null checks.
+        // Promise<KifEntity[]> return stays clean under strict null checks.
         return undefined as any
       }
     }
   }
+
 
 
 

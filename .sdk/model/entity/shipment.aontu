@@ -8,6 +8,12 @@ main: kit: entity: shipment: {
     carrier: {
       h: "Carrier"
       n: "carrier"
+      op: {
+        create: {
+          req: true
+          type: "`$STRING`"
+        }
+      }
       r: false
       sh: "The name of the courier."
       t: "`$STRING`"
@@ -15,6 +21,12 @@ main: kit: entity: shipment: {
     client: {
       h: "Client"
       n: "client"
+      op: {
+        create: {
+          req: true
+          type: "`$OBJECT`"
+        }
+      }
       r: false
       sh: "Reference to the associated Client resource."
       t: "`$OBJECT`"
@@ -39,6 +51,12 @@ main: kit: entity: shipment: {
       fo: "datetime"
       h: "Date Shipped"
       n: "dateShipped"
+      op: {
+        create: {
+          req: true
+          type: "`$STRING`"
+        }
+      }
       r: false
       sh: "The date and time that a package is shipped."
       t: "`$STRING`"
@@ -60,14 +78,33 @@ main: kit: entity: shipment: {
     items: {
       h: "Items"
       n: "items"
+      op: {
+        create: {
+          req: true
+          type: "`$ARRAY`"
+        }
+      }
       r: false
       t: "`$ARRAY`"
     }
     kif: {
       h: "Kif"
       n: "kif"
+      op: {
+        create: {
+          req: true
+          type: "`$OBJECT`"
+        }
+      }
       r: false
       sh: "Reference to the associated KIF resource."
+      t: "`$OBJECT`"
+    }
+    location: {
+      h: "Location"
+      n: "location"
+      r: true
+      sh: "Reference to the associated Location resource."
       t: "`$OBJECT`"
     }
     modified: {
@@ -81,6 +118,12 @@ main: kit: entity: shipment: {
     partner: {
       h: "Partner"
       n: "partner"
+      op: {
+        create: {
+          req: true
+          type: "`$OBJECT`"
+        }
+      }
       r: false
       sh: "Reference to the associated Partner."
       t: "`$OBJECT`"
@@ -95,6 +138,12 @@ main: kit: entity: shipment: {
     tracking: {
       h: "Tracking"
       n: "tracking"
+      op: {
+        create: {
+          req: true
+          type: "`$STRING`"
+        }
+      }
       r: false
       sh: "The courier's tracking number."
       t: "`$STRING`"
@@ -120,6 +169,17 @@ main: kit: entity: shipment: {
       name: "create"
       points: [
         {
+          bf: [
+            "carrier"
+            "client"
+            "dateShipped"
+            "dcKif"
+            "items"
+            "kif"
+            "location"
+            "partner"
+            "tracking"
+          ]
           co: {
             id: "POST /shipments"
             source: "openapi3"
@@ -127,6 +187,10 @@ main: kit: entity: shipment: {
           }
           m: "POST"
           o: "/shipments"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "shipments"
@@ -187,10 +251,11 @@ main: kit: entity: shipment: {
           q: {
             exist: [
               "kif"
-              "mode"
-              "skip"
-              "take"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -230,6 +295,10 @@ main: kit: entity: shipment: {
             exist: [
               "id"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

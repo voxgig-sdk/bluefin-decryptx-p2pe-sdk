@@ -62,8 +62,8 @@ int main(void) {
     voxgig_value* mockres = cmap(1, "id", v_str("direct01"));
     BluefinDecryptxP2peSDK* sdk = device_direct_setup(mockres);
     voxgig_value* params = v_map();
-    setp(params, "undefined", v_str("direct01"));
-    setp(params, "undefined", v_str("direct02"));
+    setp(params, "device_type", v_str("direct01"));
+    setp(params, "serial_number", v_str("direct02"));
     PNError* err = NULL;
     voxgig_value* result = sdk_direct(sdk, cmap(3,
       "path", v_str("devices/{serial_number}/{device_type}"),

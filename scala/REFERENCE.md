@@ -199,33 +199,48 @@ val attestation = client.attestation(null)
 | `completeDate` | `String` | No | The date and time that the Attestation took place. |
 | `created` | `String` | No | Creation timestamp in ISO 8601 format. |
 | `device` | `java.util.Map[String, Object]` | No | Reference to the associated Device resource. |
+| `devices` | `java.util.List[Object]` | Yes |  |
 | `id` | `String` | No | This resource's unique identifier. |
 | `name` | `String` | No | Text describing the attestation. |
 | `notes` | `String` | No | Free form field that allows the Client associate notes with the Attestation. |
+
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `client` | - | - | Yes |
+| `completeDate` | - | - | Yes |
+| `created` | - | - | - |
+| `device` | - | - | - |
+| `devices` | - | - | - |
+| `id` | - | - | - |
+| `name` | - | - | Yes |
+| `notes` | - | - | - |
 
 ### Operations
 
 #### `create(reqdata, ctrl) -> Object`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```scala
 val result = client.attestation(null).create(java.util.Map.of(
+    "devices", java.util.List.of()  // java.util.List[Object]
 ), null)
 ```
 
 #### `list(reqmatch, ctrl) -> Object`
 
-List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns an aggregate list and raises on error.
+List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```scala
-val results = client.attestation(null).list(null, null)
-println(results)
+val results = client.attestation(null).list(java.util.Map.of("client", "example"), null).asInstanceOf[java.util.List[SdkEntity]]
+results.forEach(item => println(item.data()))
 ```
 
 #### `load(reqmatch, ctrl) -> Object`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and raises on error.
 
 ```scala
 val result = client.attestation(null).load(java.util.Map.of("id", "attestation_id"), null)
@@ -278,15 +293,15 @@ val client = client.client(null)
 
 | Field | load | list | create | remove |
 | --- | --- | --- | --- | --- |
-| `contact` | - | Yes | - | - |
+| `contact` | - | Yes | Yes | - |
 | `created` | - | - | - | - |
-| `directPartner` | - | - | - | - |
+| `directPartner` | - | - | Yes | - |
 | `id` | - | - | - | - |
 | `isActive` | - | - | - | - |
 | `location` | - | - | - | - |
 | `mid` | - | - | - | - |
 | `modified` | - | - | - | - |
-| `name` | - | - | - | - |
+| `name` | - | - | Yes | - |
 | `partner` | - | - | - | - |
 | `version` | - | - | - | - |
 
@@ -294,7 +309,7 @@ val client = client.client(null)
 
 #### `create(reqdata, ctrl) -> Object`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```scala
 val result = client.client(null).create(java.util.Map.of(
@@ -304,16 +319,16 @@ val result = client.client(null).create(java.util.Map.of(
 
 #### `list(reqmatch, ctrl) -> Object`
 
-List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns an aggregate list and raises on error.
+List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```scala
-val results = client.client(null).list(null, null)
-println(results)
+val results = client.client(null).list(java.util.Map.of("partner", "example"), null).asInstanceOf[java.util.List[SdkEntity]]
+results.forEach(item => println(item.data()))
 ```
 
 #### `load(reqmatch, ctrl) -> Object`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and raises on error.
 
 ```scala
 val result = client.client(null).load(java.util.Map.of("id", "client_id"), null)
@@ -321,7 +336,7 @@ val result = client.client(null).load(java.util.Map.of("id", "client_id"), null)
 
 #### `remove(reqmatch, ctrl) -> Object`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```scala
 val result = client.client(null).remove(java.util.Map.of("id", "client_id"), null)
@@ -354,16 +369,27 @@ Return the entity name.
 val createResult = client.createResult(null)
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `completeDate` | `String` | No | The date and time that the Custody change took place. |
+| `custodian` | `java.util.Map[String, Object]` | Yes | Reference to the associated User resource. |
+| `location` | `java.util.Map[String, Object]` | Yes | Reference to the associated Location resource. |
+| `notes` | `String` | No | Free form field that allows the Client associate notes with the Custody Change. |
+
 ### Operations
 
 #### `create(reqdata, ctrl) -> Object`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```scala
 val result = client.createResult(null).create(java.util.Map.of(
     "device_type", "example_device_type",  // String
-    "serial_number", "example_serial_number"  // String
+    "serial_number", "example_serial_number",  // String
+    "custodian", java.util.Map.of(),  // java.util.Map[String, Object]
+    "location", java.util.Map.of()  // java.util.Map[String, Object]
 ), null)
 ```
 
@@ -398,16 +424,27 @@ val decryption = client.decryption(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `cbcVector` | `String` | No | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | `String` | Yes | The device Type. |
+| `encoding` | `String` | No | The payload encoding |
+| `encrypted` | `java.util.List[Object]` | Yes |  |
+| `hasCcData` | `String` | No | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | `String` | No | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | `String` | No | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | `String` | Yes | The serial number of the device. |
 | `success` | `java.lang.Boolean` | No | true if the payload decryption was successful. |
 
 ### Operations
 
 #### `create(reqdata, ctrl) -> Object`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```scala
 val result = client.decryption(null).create(java.util.Map.of(
+    "deviceType", "example_deviceType",  // String
+    "encrypted", java.util.List.of(),  // java.util.List[Object]
+    "serialNumber", "example_serialNumber"  // String
 ), null)
 ```
 
@@ -471,11 +508,44 @@ val device = client.device(null)
 | `serialNumber` | `String` | No | The Device's serial number. |
 | `version` | `java.lang.Long` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `activatedBy` | - | - | - |
+| `activationDate` | - | - | - |
+| `alternateKey` | - | - | - |
+| `auditNextDate` | - | - | - |
+| `auditNotificationDate` | - | - | - |
+| `client` | - | - | - |
+| `created` | - | - | - |
+| `createdBy` | - | - | - |
+| `deviceBuild` | - | - | - |
+| `deviceState` | - | - | - |
+| `deviceType` | - | - | Yes |
+| `errorCounter` | - | - | - |
+| `errorLastDate` | - | - | - |
+| `id` | - | - | - |
+| `initializedBy` | - | - | - |
+| `initializedDate` | - | - | - |
+| `injectKey` | - | - | - |
+| `isVirtual` | - | - | - |
+| `kif` | - | - | Yes |
+| `lastActivityDate` | - | - | - |
+| `location` | - | - | - |
+| `modified` | - | - | - |
+| `modifiedBy` | - | - | - |
+| `name` | - | - | - |
+| `notes` | - | - | - |
+| `partner` | - | - | - |
+| `serialNumber` | - | - | Yes |
+| `version` | - | - | - |
+
 ### Operations
 
 #### `create(reqdata, ctrl) -> Object`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```scala
 val result = client.device(null).create(java.util.Map.of(
@@ -489,16 +559,16 @@ val result = client.device(null).create(java.util.Map.of(
 
 #### `list(reqmatch, ctrl) -> Object`
 
-List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns an aggregate list and raises on error.
+List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```scala
-val results = client.device(null).list(null, null)
-println(results)
+val results = client.device(null).list(null, null).asInstanceOf[java.util.List[SdkEntity]]
+results.forEach(item => println(item.data()))
 ```
 
 #### `load(reqmatch, ctrl) -> Object`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and raises on error.
 
 ```scala
 val result = client.device(null).load(java.util.Map.of("id", "device_id"), null)
@@ -555,16 +625,16 @@ val deviceBuild = client.deviceBuild(null)
 
 #### `list(reqmatch, ctrl) -> Object`
 
-List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns an aggregate list and raises on error.
+List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```scala
-val results = client.deviceBuild(null).list(null, null)
-println(results)
+val results = client.deviceBuild(null).list(null, null).asInstanceOf[java.util.List[SdkEntity]]
+results.forEach(item => println(item.data()))
 ```
 
 #### `load(reqmatch, ctrl) -> Object`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and raises on error.
 
 ```scala
 val result = client.deviceBuild(null).load(java.util.Map.of("id", "device_build_id"), null)
@@ -619,7 +689,7 @@ val deviceCustodyDetail = client.deviceCustodyDetail(null)
 
 #### `load(reqmatch, ctrl) -> Object`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and raises on error.
 
 ```scala
 val result = client.deviceCustodyDetail(null).load(java.util.Map.of("id", "device_custody_detail_id", "device_type", "device_type", "serial_number", "serial_number"), null)
@@ -674,11 +744,11 @@ val deviceCustodyListItem = client.deviceCustodyListItem(null)
 
 #### `list(reqmatch, ctrl) -> Object`
 
-List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns an aggregate list and raises on error.
+List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```scala
-val results = client.deviceCustodyListItem(null).list(null, null)
-println(results)
+val results = client.deviceCustodyListItem(null).list(java.util.Map.of("device_type", "example", "serial_number", "example"), null).asInstanceOf[java.util.List[SdkEntity]]
+results.forEach(item => println(item.data()))
 ```
 
 ### Common Methods
@@ -712,17 +782,21 @@ val deviceReceiveResult = client.deviceReceiveResult(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `serialNumber` | `String` | Yes | The serial number of the Device that is shipped. |
 | `success` | `java.lang.Boolean` | Yes | Indicates if the action succeeded. |
+| `tamperLabel` | `String` | Yes | The code that is printed the tamper label of the Device that is shipped. |
 
 ### Operations
 
 #### `create(reqdata, ctrl) -> Object`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```scala
 val result = client.deviceReceiveResult(null).create(java.util.Map.of(
-    "success", true  // java.lang.Boolean
+    "serialNumber", "example_serialNumber",  // String
+    "success", true,  // java.lang.Boolean
+    "tamperLabel", "example_tamperLabel"  // String
 ), null)
 ```
 
@@ -757,16 +831,25 @@ val deviceRkiActivateResult = client.deviceRkiActivateResult(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `appVersion` | `String` | No | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | `String` | No | The Device Builds's name. |
+| `buildNumber` | `String` | No | The Build Number. |
+| `configFile` | `String` | No | \? |
+| `firmwareVersion` | `String` | No | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `String` | No | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | `String` | Yes | The referenced Device's serial number. |
 | `success` | `java.lang.Boolean` | Yes | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | `String` | No | \? |
 
 ### Operations
 
 #### `create(reqdata, ctrl) -> Object`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```scala
 val result = client.deviceRkiActivateResult(null).create(java.util.Map.of(
+    "serialNumber", "example_serialNumber",  // String
     "success", true  // java.lang.Boolean
 ), null)
 ```
@@ -809,11 +892,11 @@ val deviceState = client.deviceState(null)
 
 #### `list(reqmatch, ctrl) -> Object`
 
-List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns an aggregate list and raises on error.
+List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```scala
-val results = client.deviceState(null).list(null, null)
-println(results)
+val results = client.deviceState(null).list(null, null).asInstanceOf[java.util.List[SdkEntity]]
+results.forEach(item => println(item.data()))
 ```
 
 ### Common Methods
@@ -864,16 +947,16 @@ val deviceType = client.deviceType(null)
 
 #### `list(reqmatch, ctrl) -> Object`
 
-List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns an aggregate list and raises on error.
+List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```scala
-val results = client.deviceType(null).list(null, null)
-println(results)
+val results = client.deviceType(null).list(null, null).asInstanceOf[java.util.List[SdkEntity]]
+results.forEach(item => println(item.data()))
 ```
 
 #### `load(reqmatch, ctrl) -> Object`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and raises on error.
 
 ```scala
 val result = client.deviceType(null).load(java.util.Map.of("id", "device_type_id"), null)
@@ -923,16 +1006,16 @@ val injectKey = client.injectKey(null)
 
 #### `list(reqmatch, ctrl) -> Object`
 
-List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns an aggregate list and raises on error.
+List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```scala
-val results = client.injectKey(null).list(null, null)
-println(results)
+val results = client.injectKey(null).list(null, null).asInstanceOf[java.util.List[SdkEntity]]
+results.forEach(item => println(item.data()))
 ```
 
 #### `load(reqmatch, ctrl) -> Object`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and raises on error.
 
 ```scala
 val result = client.injectKey(null).load(java.util.Map.of("id", "inject_key_id"), null)
@@ -976,11 +1059,11 @@ val kif = client.kif(null)
 
 #### `list(reqmatch, ctrl) -> Object`
 
-List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns an aggregate list and raises on error.
+List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```scala
-val results = client.kif(null).list(null, null)
-println(results)
+val results = client.kif(null).list(null, null).asInstanceOf[java.util.List[SdkEntity]]
+results.forEach(item => println(item.data()))
 ```
 
 ### Common Methods
@@ -1018,6 +1101,7 @@ val location = client.location(null)
 | `address2` | `String` | No | The Location's street address. |
 | `billingId` | `String` | No | \? |
 | `city` | `String` | No | The Location's city. |
+| `client` | `java.util.Map[String, Object]` | No | Reference to the associated Client resource. |
 | `country` | `String` | No | The Location's country. |
 | `created` | `String` | No | Creation timestamp in ISO 8601 format. |
 | `customReference` | `String` | No | A Partner specified reference for a location. |
@@ -1038,11 +1122,40 @@ val location = client.location(null)
 | `uniqueId` | `String` | No | Unique Identifier for the Location. |
 | `version` | `java.lang.Long` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create | remove |
+| --- | --- | --- | --- | --- |
+| `address1` | - | - | Yes | - |
+| `address2` | - | - | - | - |
+| `billingId` | - | - | - | - |
+| `city` | - | - | Yes | - |
+| `client` | - | - | - | - |
+| `country` | - | - | Yes | - |
+| `created` | - | - | - | - |
+| `customReference` | - | - | - | - |
+| `id` | - | - | - | - |
+| `locationType` | - | - | Yes | - |
+| `mailAddress1` | - | - | - | - |
+| `mailAddress2` | - | - | - | - |
+| `mailCity` | - | - | - | - |
+| `mailCountry` | - | - | - | - |
+| `mailPostalCode` | - | - | - | - |
+| `mailStateProvince` | - | - | - | - |
+| `modified` | - | - | - | - |
+| `name` | - | - | Yes | - |
+| `nameOfBusiness` | - | - | - | - |
+| `notes` | - | - | - | - |
+| `postalCode` | - | - | - | - |
+| `stateProvince` | - | - | - | - |
+| `uniqueId` | - | - | - | - |
+| `version` | - | - | - | - |
+
 ### Operations
 
 #### `create(reqdata, ctrl) -> Object`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```scala
 val result = client.location(null).create(java.util.Map.of(
@@ -1051,16 +1164,16 @@ val result = client.location(null).create(java.util.Map.of(
 
 #### `list(reqmatch, ctrl) -> Object`
 
-List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns an aggregate list and raises on error.
+List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```scala
-val results = client.location(null).list(null, null)
-println(results)
+val results = client.location(null).list(java.util.Map.of("client", "example"), null).asInstanceOf[java.util.List[SdkEntity]]
+results.forEach(item => println(item.data()))
 ```
 
 #### `load(reqmatch, ctrl) -> Object`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and raises on error.
 
 ```scala
 val result = client.location(null).load(java.util.Map.of("id", "location_id"), null)
@@ -1068,7 +1181,7 @@ val result = client.location(null).load(java.util.Map.of("id", "location_id"), n
 
 #### `remove(reqmatch, ctrl) -> Object`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```scala
 val result = client.location(null).remove(java.util.Map.of("id", "location_id"), null)
@@ -1126,16 +1239,16 @@ val partner = client.partner(null)
 | --- | --- | --- | --- |
 | `billingId` | - | - | - |
 | `clientCanOrderEquipment` | - | - | - |
-| `contact` | - | Yes | - |
+| `contact` | - | Yes | Yes |
 | `created` | - | - | - |
 | `id` | - | - | - |
 | `isActive` | - | - | - |
 | `location` | - | - | - |
 | `modified` | - | - | - |
-| `name` | - | - | - |
-| `parent` | - | - | - |
+| `name` | - | - | Yes |
+| `parent` | - | - | Yes |
 | `partnerId` | - | - | - |
-| `reference` | - | - | - |
+| `reference` | - | - | Yes |
 | `verificationPhrase` | - | - | - |
 | `version` | - | - | - |
 
@@ -1143,7 +1256,7 @@ val partner = client.partner(null)
 
 #### `create(reqdata, ctrl) -> Object`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```scala
 val result = client.partner(null).create(java.util.Map.of(
@@ -1153,16 +1266,16 @@ val result = client.partner(null).create(java.util.Map.of(
 
 #### `list(reqmatch, ctrl) -> Object`
 
-List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns an aggregate list and raises on error.
+List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```scala
-val results = client.partner(null).list(null, null)
-println(results)
+val results = client.partner(null).list(null, null).asInstanceOf[java.util.List[SdkEntity]]
+results.forEach(item => println(item.data()))
 ```
 
 #### `load(reqmatch, ctrl) -> Object`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and raises on error.
 
 ```scala
 val result = client.partner(null).load(java.util.Map.of("id", "partner_id"), null)
@@ -1208,35 +1321,57 @@ val shipment = client.shipment(null)
 | `id` | `String` | No | This resource's unique identifier. |
 | `items` | `java.util.List[Object]` | No |  |
 | `kif` | `java.util.Map[String, Object]` | No | Reference to the associated KIF resource. |
+| `location` | `java.util.Map[String, Object]` | Yes | Reference to the associated Location resource. |
 | `modified` | `String` | No | Last modified timestamp. |
 | `partner` | `java.util.Map[String, Object]` | No | Reference to the associated Partner. |
 | `shipmentType` | `String` | No | The type of shipment. |
 | `tracking` | `String` | No | The courier's tracking number. |
 | `version` | `java.lang.Long` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `carrier` | - | - | Yes |
+| `client` | - | - | Yes |
+| `created` | - | - | - |
+| `dateReceived` | - | - | - |
+| `dateShipped` | - | - | Yes |
+| `dcKif` | - | - | - |
+| `id` | - | - | - |
+| `items` | - | - | Yes |
+| `kif` | - | - | Yes |
+| `location` | - | - | - |
+| `modified` | - | - | - |
+| `partner` | - | - | Yes |
+| `shipmentType` | - | - | - |
+| `tracking` | - | - | Yes |
+| `version` | - | - | - |
+
 ### Operations
 
 #### `create(reqdata, ctrl) -> Object`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```scala
 val result = client.shipment(null).create(java.util.Map.of(
+    "location", java.util.Map.of()  // java.util.Map[String, Object]
 ), null)
 ```
 
 #### `list(reqmatch, ctrl) -> Object`
 
-List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns an aggregate list and raises on error.
+List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```scala
-val results = client.shipment(null).list(null, null)
-println(results)
+val results = client.shipment(null).list(java.util.Map.of("kif", "example"), null).asInstanceOf[java.util.List[SdkEntity]]
+results.forEach(item => println(item.data()))
 ```
 
 #### `load(reqmatch, ctrl) -> Object`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and raises on error.
 
 ```scala
 val result = client.shipment(null).load(java.util.Map.of("id", "shipment_id"), null)
@@ -1273,23 +1408,27 @@ val success = client.success(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `devices` | `java.util.List[Object]` | Yes | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | `java.util.Map[String, Object]` | Yes | Reference to the associated Partner. |
 | `success` | `java.lang.Boolean` | No | Indicates if the action was a success. |
 
 ### Operations
 
 #### `create(reqdata, ctrl) -> Object`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```scala
 val result = client.success(null).create(java.util.Map.of(
-    "share_partner_to", "example_share_partner_to"  // String
+    "share_partner_to", "example_share_partner_to",  // String
+    "devices", java.util.List.of(),  // java.util.List[Object]
+    "sharePartnerFrom", java.util.Map.of()  // java.util.Map[String, Object]
 ), null)
 ```
 
 #### `remove(reqmatch, ctrl) -> Object`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```scala
 val result = client.success(null).remove(java.util.Map.of("share_partner_to", "share_partner_to"), null)
@@ -1331,6 +1470,7 @@ val transaction = client.transaction(null)
 | `clientRef` | `String` | No | Client Reference property that is included in the decrypt API call. |
 | `created` | `String` | No | Creation timestamp in ISO 8601 format. |
 | `decrypted` | `java.lang.Long` | No | A Transcation can process muliple decryptions. |
+| `device` | `java.util.Map[String, Object]` | Yes | Reference to the associated Device resource. |
 | `deviceName` | `String` | No | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | `java.util.Map[String, Object]` | No | Reference to the associated Partner. |
 | `encrypted` | `java.lang.Long` | No | A Transcation can process muliple encryptions. |
@@ -1351,30 +1491,61 @@ val transaction = client.transaction(null)
 | `success` | `java.lang.Boolean` | No | The success indicator. |
 | `transactionSource` | `String` | No | The source of the Transaction. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `alternateKey` | - | - | - |
+| `client` | - | - | Yes |
+| `clientRef` | - | - | - |
+| `created` | - | - | - |
+| `decrypted` | - | - | - |
+| `device` | - | - | - |
+| `deviceName` | - | - | - |
+| `directPartner` | - | - | - |
+| `encrypted` | - | - | - |
+| `endDate` | - | - | - |
+| `errCode` | - | - | - |
+| `errMessage` | - | - | - |
+| `id` | - | - | - |
+| `ipAddress` | - | - | Yes |
+| `isVirtual` | - | - | - |
+| `keyType` | - | - | Yes |
+| `location` | - | - | - |
+| `messageId` | - | - | - |
+| `method` | - | - | Yes |
+| `partner` | - | - | Yes |
+| `reference` | - | - | - |
+| `serialNumber` | - | - | - |
+| `startDate` | - | - | - |
+| `success` | - | - | - |
+| `transactionSource` | - | - | - |
+
 ### Operations
 
 #### `create(reqdata, ctrl) -> Object`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```scala
 val result = client.transaction(null).create(java.util.Map.of(
+    "device", java.util.Map.of(),  // java.util.Map[String, Object]
     "location", java.util.Map.of()  // java.util.Map[String, Object]
 ), null)
 ```
 
 #### `list(reqmatch, ctrl) -> Object`
 
-List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns an aggregate list and raises on error.
+List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```scala
-val results = client.transaction(null).list(null, null)
-println(results)
+val results = client.transaction(null).list(null, null).asInstanceOf[java.util.List[SdkEntity]]
+results.forEach(item => println(item.data()))
 ```
 
 #### `load(reqmatch, ctrl) -> Object`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and raises on error.
 
 ```scala
 val result = client.transaction(null).load(java.util.Map.of("id", "transaction_id"), null)
@@ -1411,42 +1582,170 @@ val updateResult = client.updateResult(null)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `address1` | `String` | No | The Location's street address. |
+| `address2` | `String` | No | The Location's street address. |
+| `alternateKey` | `String` | No | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `String` | No | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | `String` | No | \? |
+| `city` | `String` | No | The Location's city. |
 | `client` | `java.util.Map[String, Object]` | No | Reference to the associated Client resource. |
-| `email` | `String` | No | The User's email address. |
-| `firstName` | `String` | No | The User's name. |
+| `clientCanOrderEquipment` | `java.lang.Boolean` | No | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | `String` | No | Client Reference property that is included in the decrypt API call. |
+| `contact` | `java.util.Map[String, Object]` | Yes | Reference to the associated User resource. |
+| `country` | `java.util.Map[String, Object]` | No | Reference to the associated Country. |
+| `customReference` | `String` | No | A Partner specified reference for a location. |
+| `dateShipped` | `String` | No | The date and time that a package is shipped. |
+| `decrypted` | `java.lang.Long` | No | A Transcation can process muliple decryptions. |
+| `device` | `java.util.Map[String, Object]` | No | Reference to the associated Device resource. |
+| `deviceBuild` | `java.util.Map[String, Object]` | No | Reference to the associated Device Build resource. |
+| `deviceType` | `java.util.Map[String, Object]` | No | Reference to the associated Device Type resource. |
+| `directPartner` | `java.util.Map[String, Object]` | No | Reference to the associated Partner. |
+| `email` | `String` | Yes | The User's email address. |
+| `encrypted` | `java.lang.Long` | No | A Transcation can process muliple encryptions. |
+| `endDate` | `String` | No | Timestamp from the end of the transaction. |
+| `errCode` | `String` | No | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `String` | No | The error messge that is sent in response to a failed decrypt API call. |
+| `firstName` | `String` | Yes | The User's name. |
 | `id` | `String` | No | ID of newly created resource |
-| `isActive` | `java.lang.Boolean` | No | This property indicates if the User account is active or disabled. |
+| `injectKey` | `java.util.Map[String, Object]` | No | Reference to the associated Device resource. |
+| `ipAddress` | `String` | No | The IP address of the http client that makes the decrypt API call. |
+| `isActive` | `java.lang.Boolean` | Yes | This property indicates if the User account is active or disabled. |
+| `items` | `java.util.List[Object]` | No |  |
+| `keyType` | `String` | No | The type of cipher used during decrytion. |
 | `kif` | `java.util.Map[String, Object]` | No | Reference to the associated KIF resource. |
-| `lastName` | `String` | No | The User's Surname. |
+| `lastName` | `String` | Yes | The User's Surname. |
+| `location` | `java.util.Map[String, Object]` | Yes | Reference to the associated Location resource. |
+| `locationType` | `String` | No | The Location's clasification. |
+| `mailAddress1` | `String` | No | The Location's street address. |
+| `mailAddress2` | `String` | No | The Location's street address. |
+| `mailCity` | `String` | No | The Location's city. |
+| `mailCountry` | `String` | No | The Location's street address. |
+| `mailPostalCode` | `String` | No | The Location's postal code. |
+| `mailStateProvince` | `String` | No | The Location's street state or province. |
+| `messageId` | `String` | No | Message ID. |
+| `method` | `String` | No | The decryption cypher/method. |
+| `mid` | `String` | No | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | `String` | No | The Client's name. |
+| `nameOfBusiness` | `String` | No | The name of the business at this location. |
+| `notes` | `String` | No | Arbitary note that can be attached to a Device entry. |
+| `parent` | `java.util.Map[String, Object]` | No | Reference to the associated Partner. |
 | `partner` | `java.util.Map[String, Object]` | No | Reference to the associated Partner. |
-| `phone` | `String` | No | The User's phone number without dashes, spaces, or brackets. |
-| `userName` | `String` | No | The User's unique username. |
-| `userRole` | `java.util.Map[String, Object]` | No | Reference to the associated User Role. |
+| `partnerId` | `String` | No | The Partner's id. |
+| `phone` | `String` | Yes | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | `String` | No | The Location's postal code. |
+| `reference` | `String` | No | The Partner's reference string. |
+| `sendWelcomeEmail` | `java.lang.Boolean` | No | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | `String` | No | The Device's serial number. |
+| `startDate` | `String` | No | Timestamp from the beginning of the transaction. |
+| `stateProvince` | `String` | No | The Location's street state or province. |
+| `success` | `java.lang.Boolean` | No | The success indicator. |
+| `tracking` | `String` | No | The courier's tracking number. |
+| `uniqueId` | `String` | No | Unique Identifier for the Location. |
+| `userName` | `String` | Yes | The User's unique username. |
+| `userRole` | `java.util.Map[String, Object]` | Yes | Reference to the associated User Role. |
+| `verificationPhrase` | `String` | No | The verification phrase is a message that the Partner creates. |
 | `version` | `java.lang.Long` | No | The number of times that this resource has been updated. |
+
+### Field Usage by Operation
+
+| Field | list | create | update |
+| --- | --- | --- | --- |
+| `address1` | - | - | - |
+| `address2` | - | - | - |
+| `alternateKey` | - | - | - |
+| `auditNextDate` | - | - | - |
+| `billingId` | - | - | - |
+| `city` | - | - | - |
+| `client` | - | - | - |
+| `clientCanOrderEquipment` | - | - | - |
+| `clientRef` | - | - | - |
+| `contact` | - | - | - |
+| `country` | - | - | - |
+| `customReference` | - | - | - |
+| `dateShipped` | - | - | - |
+| `decrypted` | - | - | - |
+| `device` | - | - | - |
+| `deviceBuild` | - | - | - |
+| `deviceType` | - | - | - |
+| `directPartner` | - | - | - |
+| `email` | Yes | - | Yes |
+| `encrypted` | - | - | - |
+| `endDate` | - | - | - |
+| `errCode` | - | - | - |
+| `errMessage` | - | - | - |
+| `firstName` | Yes | - | Yes |
+| `id` | - | - | - |
+| `injectKey` | - | - | - |
+| `ipAddress` | - | - | - |
+| `isActive` | Yes | - | Yes |
+| `items` | - | - | - |
+| `keyType` | - | - | - |
+| `kif` | - | - | - |
+| `lastName` | Yes | - | Yes |
+| `location` | - | - | - |
+| `locationType` | - | - | - |
+| `mailAddress1` | - | - | - |
+| `mailAddress2` | - | - | - |
+| `mailCity` | - | - | - |
+| `mailCountry` | - | - | - |
+| `mailPostalCode` | - | - | - |
+| `mailStateProvince` | - | - | - |
+| `messageId` | - | - | - |
+| `method` | - | - | - |
+| `mid` | - | - | - |
+| `name` | - | - | - |
+| `nameOfBusiness` | - | - | - |
+| `notes` | - | - | - |
+| `parent` | - | - | - |
+| `partner` | - | - | - |
+| `partnerId` | - | - | - |
+| `phone` | Yes | - | Yes |
+| `postalCode` | - | - | - |
+| `reference` | - | - | - |
+| `sendWelcomeEmail` | - | - | - |
+| `serialNumber` | - | - | - |
+| `startDate` | - | - | - |
+| `stateProvince` | - | - | - |
+| `success` | - | - | - |
+| `tracking` | - | - | - |
+| `uniqueId` | - | - | - |
+| `userName` | Yes | - | Yes |
+| `userRole` | Yes | - | Yes |
+| `verificationPhrase` | - | - | - |
+| `version` | - | - | - |
 
 ### Operations
 
 #### `create(reqdata, ctrl) -> Object`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```scala
 val result = client.updateResult(null).create(java.util.Map.of(
+    "contact", java.util.Map.of(),  // java.util.Map[String, Object]
+    "email", "example_email",  // String
+    "firstName", "example_firstName",  // String
+    "isActive", true,  // java.lang.Boolean
+    "lastName", "example_lastName",  // String
+    "location", java.util.Map.of(),  // java.util.Map[String, Object]
+    "phone", "example_phone",  // String
+    "userName", "example_userName",  // String
+    "userRole", java.util.Map.of()  // java.util.Map[String, Object]
 ), null)
 ```
 
 #### `list(reqmatch, ctrl) -> Object`
 
-List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns an aggregate list and raises on error.
+List entities matching the given criteria. The match is optional — call `list(null, null)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```scala
-val results = client.updateResult(null).list(null, null)
-println(results)
+val results = client.updateResult(null).list(null, null).asInstanceOf[java.util.List[SdkEntity]]
+results.forEach(item => println(item.data()))
 ```
 
 #### `update(reqdata, ctrl) -> Object`
 
-Update an existing entity. The data must include the entity `id`. Returns the updated entity data and raises on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
 
 ```scala
 val result = client.updateResult(null).update(java.util.Map.of(
@@ -1504,7 +1803,7 @@ val user = client.user(null)
 
 #### `load(reqmatch, ctrl) -> Object`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and raises on error.
 
 ```scala
 val result = client.user(null).load(java.util.Map.of("id", "user_id"), null)
@@ -1512,7 +1811,7 @@ val result = client.user(null).load(java.util.Map.of("id", "user_id"), null)
 
 #### `remove(reqmatch, ctrl) -> Object`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```scala
 val result = client.user(null).remove(java.util.Map.of("id", "user_id"), null)
@@ -1557,7 +1856,7 @@ val virtualDevice = client.virtualDevice(null)
 
 #### `load(reqmatch, ctrl) -> Object`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and raises on error.
 
 ```scala
 val result = client.virtualDevice(null).load(java.util.Map.of("id", "virtual_device_id"), null)
@@ -2005,6 +2304,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

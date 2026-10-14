@@ -12,7 +12,13 @@ use common::*;
 
 use bluefin_decryptx_p2pe_sdk::core::helpers::{getp, ja, jo, json_thunk, setp, to_int, to_map};
 use bluefin_decryptx_p2pe_sdk::utility::voxgigstruct as vs;
-use bluefin_decryptx_p2pe_sdk::{Value, BluefinDecryptxP2peSDK};
+use bluefin_decryptx_p2pe_sdk::{json_parse, Value, BluefinDecryptxP2peSDK};
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT: bool = true;
 
 struct DeviceCustodyDetailDirectSetup {
     client: Rc<BluefinDecryptxP2peSDK>,
@@ -107,7 +113,7 @@ fn device_custody_detail_direct_load() {
     if setup.live {
         for live_key in ["device_type01", "device_custody_detail01", "serial_number01"] {
             if getp(&setup.idmap, live_key).is_noval() {
-                eprintln!("skip: live test needs {} via *_ENTID env var (synthetic IDs only)", live_key);
+                live_miss(LIVE_STRICT, &format!("Live test blocked: needs {} via BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_CUSTODY_DETAIL_ENTID", live_key));
                 return;
             }
         }
@@ -117,37 +123,34 @@ fn device_custody_detail_direct_load() {
     let params = Value::empty_map();
     if setup.live {
         setp(&params, "device_type", getp(&setup.idmap, "device_type01"));
-    } else {
-        setp(&params, "device_type", Value::str("direct01"));
-    }
-    if setup.live {
         setp(&params, "id", getp(&setup.idmap, "device_custody_detail01"));
-    } else {
-        setp(&params, "id", Value::str("direct02"));
-    }
-    if setup.live {
         setp(&params, "serial_number", getp(&setup.idmap, "serial_number01"));
     } else {
+        setp(&params, "device_type", Value::str("direct01"));
+        setp(&params, "id", Value::str("direct02"));
         setp(&params, "serial_number", Value::str("direct03"));
     }
 
-    let result = client
-        .direct(jo(vec![
-            ("path", Value::str("devices/{serial_number}/{device_type}/custody/{id}")),
-            ("method", Value::str("GET")),
-            ("params", params.clone()),
-        ]))
-        .expect("direct failed");
-
-    if setup.live {
-        // Live mode is lenient: synthetic IDs frequently 4xx.
-        if getp(&result, "ok") != Value::Bool(true) {
-            eprintln!("skip: load call not ok (likely synthetic IDs against live API)");
+    let result = match client.direct(jo(vec![
+        ("path", Value::str("devices/{serial_number}/{device_type}/custody/{id}")),
+        ("method", Value::str("GET")),
+        ("params", params.clone()),
+    ])) {
+        Ok(result) => result,
+        Err(err) if setup.live => {
+            live_miss(LIVE_STRICT, &format!("Live load failed: {}", err));
             return;
         }
-        let status = to_int(&getp(&result, "status"));
-        if !(200..300).contains(&status) {
-            eprintln!("skip: expected 2xx status, got {}", status);
+        Err(err) => panic!("direct failed: {}", err),
+    };
+
+    if setup.live {
+        if !live_ok(&result) {
+            live_miss(LIVE_STRICT, &format!("Live load failed: {}", live_describe(&result)));
+            return;
+        }
+        if getp(&result, "data").is_noval() {
+            live_miss(LIVE_STRICT, &format!("Live load returned no data: {}", live_describe(&result)));
             return;
         }
     } else {

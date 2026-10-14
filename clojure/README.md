@@ -17,7 +17,7 @@ keeps the cognitive load low.
 
 ## Install
 This package is not yet published to Clojars. Depend on it directly from the
-GitHub release tag (`clojure/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases)),
+GitHub release tag (`clojure/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags)),
 using a `tools.deps` git dependency:
 
 ```clojure
@@ -55,13 +55,13 @@ loading a specific record.
 
 ### 2. List attestation records
 
-`list` returns a vector of records (each a map) and raises on error —
-iterate it directly.
+`list` returns a vector of entities, one per record, and raises on error.
+Read each record with `((:data-get attestation))`.
 
 ```clojure
 (try
-  (doseq [attestation (e-attestation/list (api/attestation client nil) nil nil)]
-    (println attestation))
+  (doseq [attestation (e-attestation/list (api/attestation client nil) (vs/jm "client" "example") nil)]
+    (println ((:data-get attestation))))
   (catch Exception err
     (println "list failed:" (.getMessage err))))
 ```
@@ -69,12 +69,13 @@ iterate it directly.
 ### 3. Load a device_custody_detail
 
 DeviceCustodyDetail is nested under device_type, so provide the
-`device_type`. `load` returns the bare record (a map) and raises on error.
+`device_type`. `load` returns the entity and raises on error;
+`((:data-get device_custody_detail))` reads its record.
 
 ```clojure
 (try
   (let [device_custody_detail (e-device_custody_detail/load (api/device_custody_detail client nil) (vs/jm "device_type" "example_device_type" "serial_number" "example_serial_number" "id" "example_id") nil)]
-    (println device_custody_detail))
+    (println ((:data-get device_custody_detail))))
   (catch Exception err
     (println "load failed:" (.getMessage err))))
 ```
@@ -82,8 +83,8 @@ DeviceCustodyDetail is nested under device_type, so provide the
 ### 4. Create, update, and remove
 
 ```clojure
-;; Create — returns the bare created record (a map)
-(def created (e-attestation/create (api/attestation client nil) (vs/jm "client" (vs/jm) "completeDate" "example_completeDate") nil))
+;; Create — returns the created entity
+(def created (e-attestation/create (api/attestation client nil) (vs/jm "devices" (vs/jt)) nil))
 
 ```
 
@@ -95,14 +96,15 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 ```ts
 try {
   const devicetypes = await client.DeviceType().list()
-  console.log(devicetypes)
+  console.log(devicetypes.map((item) => item.data()))
 } catch (err) {
   console.error('list failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -111,8 +113,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -165,10 +167,10 @@ Create a mock client for unit testing — no server required:
 
 (def client (api/test-sdk nil nil))
 
-;; Entity ops return the bare record and raise on error.
-(def device_type (e-device_type/list (api/device_type client nil) nil nil))
-;; device_type contains the mock response record
-(println device_type)
+;; list returns a vector of entities, one per mock record; it raises on error.
+(def device_types (e-device_type/list (api/device_type client nil) nil nil))
+(doseq [item device_types]
+  (println ((:data-get item))))
 ```
 
 ### Use a custom fetch function
@@ -275,11 +277,11 @@ entity map and are called via keyword lookup.
 
 | Member | Signature | Description |
 | --- | --- | --- |
-| `load` | `(ent reqmatch ctrl) -> map` | Load a single entity by match criteria. Raises on error. |
-| `list` | `(ent reqmatch ctrl) -> vector` | List entities matching the criteria. Raises on error. |
-| `create` | `(ent reqdata ctrl) -> map` | Create a new entity. Raises on error. |
-| `update` | `(ent reqdata ctrl) -> map` | Update an existing entity. Raises on error. |
-| `remove` | `(ent reqmatch ctrl) -> map` | Remove an entity. Raises on error. |
+| `load` | `(ent reqmatch ctrl) -> entity` | Load a single entity by match criteria, and return it. Raises on error. |
+| `list` | `(ent reqmatch ctrl) -> vector` | List entities matching the criteria, one per record. Raises on error. |
+| `create` | `(ent reqdata ctrl) -> entity` | Create a new entity, and return it. Raises on error. |
+| `update` | `(ent reqdata ctrl) -> entity` | Update an existing entity, and return it. Raises on error. |
+| `remove` | `(ent reqmatch ctrl) -> entity` | Remove an entity, and return it marked as deleted. Raises on error. |
 | `:data-get` | `() -> map` | Get entity data. |
 | `:data-set` | `(data)` | Set entity data. |
 | `:match-get` | `() -> map` | Get entity match criteria. |
@@ -292,9 +294,10 @@ State accessors are called by looking up the fn and applying it, e.g.
 
 ### Result shape
 
-Entity operations return the bare result data (a `map` for single-entity
-ops, a `vector` for `list`) and raise (via `ex-info`) on error. Wrap
-calls in `try`/`catch` to handle failures.
+Entity operations resolve to the entity, and `list` to a `vector` of
+entities, one per record. Read an entity's record with
+`((:data-get ent))`. They raise (via `ex-info`) on error, so wrap calls
+in `try`/`catch` to handle failures.
 
 The `direct` escape hatch never raises — it returns a result `map` you
 branch on via `(vs/getprop result "ok")`:
@@ -318,6 +321,7 @@ On error, `ok` is `false` and `err` contains the error value.
 | `completeDate` | The date and time that the Attestation took place. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `device` | Reference to the associated Device resource. |
+| `devices` |  |
 | `id` | This resource's unique identifier. |
 | `name` | Text describing the attestation. |
 | `notes` | Free form field that allows the Client associate notes with the Attestation. |
@@ -350,6 +354,10 @@ API path: `/clients`
 
 | Field | Description |
 | --- | --- |
+| `completeDate` | The date and time that the Custody change took place. |
+| `custodian` | Reference to the associated User resource. |
+| `location` | Reference to the associated Location resource. |
+| `notes` | Free form field that allows the Client associate notes with the Custody Change. |
 
 Operations: Create.
 
@@ -359,6 +367,14 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
+| `cbcVector` | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | The device Type. |
+| `encoding` | The payload encoding |
+| `encrypted` |  |
+| `hasCcData` | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | The serial number of the device. |
 | `success` | true if the payload decryption was successful. |
 
 Operations: Create.
@@ -474,7 +490,9 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
+| `serialNumber` | The serial number of the Device that is shipped. |
 | `success` | Indicates if the action succeeded. |
+| `tamperLabel` | The code that is printed the tamper label of the Device that is shipped. |
 
 Operations: Create.
 
@@ -484,7 +502,15 @@ API path: `/devices/receive`
 
 | Field | Description |
 | --- | --- |
+| `appVersion` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | The Device Builds's name. |
+| `buildNumber` | The Build Number. |
+| `configFile` | \? |
+| `firmwareVersion` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | The referenced Device's serial number. |
 | `success` | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | \? |
 
 Operations: Create.
 
@@ -558,6 +584,7 @@ API path: `/kifs`
 | `address2` | The Location's street address. |
 | `billingId` | \? |
 | `city` | The Location's city. |
+| `client` | Reference to the associated Client resource. |
 | `country` | The Location's country. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `customReference` | A Partner specified reference for a location. |
@@ -618,6 +645,7 @@ API path: `/partners`
 | `id` | This resource's unique identifier. |
 | `items` |  |
 | `kif` | Reference to the associated KIF resource. |
+| `location` | Reference to the associated Location resource. |
 | `modified` | Last modified timestamp. |
 | `partner` | Reference to the associated Partner. |
 | `shipmentType` | The type of shipment. |
@@ -632,6 +660,8 @@ API path: `/shipments`
 
 | Field | Description |
 | --- | --- |
+| `devices` | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | Reference to the associated Partner. |
 | `success` | Indicates if the action was a success. |
 
 Operations: Create, Remove.
@@ -647,6 +677,7 @@ API path: `/virtualDevices/{sharePartnerTo}`
 | `clientRef` | Client Reference property that is included in the decrypt API call. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `decrypted` | A Transcation can process muliple decryptions. |
+| `device` | Reference to the associated Device resource. |
 | `deviceName` | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | Reference to the associated Partner. |
 | `encrypted` | A Transcation can process muliple encryptions. |
@@ -675,17 +706,68 @@ API path: `/transactions`
 
 | Field | Description |
 | --- | --- |
+| `address1` | The Location's street address. |
+| `address2` | The Location's street address. |
+| `alternateKey` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | \? |
+| `city` | The Location's city. |
 | `client` | Reference to the associated Client resource. |
+| `clientCanOrderEquipment` | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | Client Reference property that is included in the decrypt API call. |
+| `contact` | Reference to the associated User resource. |
+| `country` | Reference to the associated Country. |
+| `customReference` | A Partner specified reference for a location. |
+| `dateShipped` | The date and time that a package is shipped. |
+| `decrypted` | A Transcation can process muliple decryptions. |
+| `device` | Reference to the associated Device resource. |
+| `deviceBuild` | Reference to the associated Device Build resource. |
+| `deviceType` | Reference to the associated Device Type resource. |
+| `directPartner` | Reference to the associated Partner. |
 | `email` | The User's email address. |
+| `encrypted` | A Transcation can process muliple encryptions. |
+| `endDate` | Timestamp from the end of the transaction. |
+| `errCode` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | The error messge that is sent in response to a failed decrypt API call. |
 | `firstName` | The User's name. |
 | `id` | ID of newly created resource |
+| `injectKey` | Reference to the associated Device resource. |
+| `ipAddress` | The IP address of the http client that makes the decrypt API call. |
 | `isActive` | This property indicates if the User account is active or disabled. |
+| `items` |  |
+| `keyType` | The type of cipher used during decrytion. |
 | `kif` | Reference to the associated KIF resource. |
 | `lastName` | The User's Surname. |
+| `location` | Reference to the associated Location resource. |
+| `locationType` | The Location's clasification. |
+| `mailAddress1` | The Location's street address. |
+| `mailAddress2` | The Location's street address. |
+| `mailCity` | The Location's city. |
+| `mailCountry` | The Location's street address. |
+| `mailPostalCode` | The Location's postal code. |
+| `mailStateProvince` | The Location's street state or province. |
+| `messageId` | Message ID. |
+| `method` | The decryption cypher/method. |
+| `mid` | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | The Client's name. |
+| `nameOfBusiness` | The name of the business at this location. |
+| `notes` | Arbitary note that can be attached to a Device entry. |
+| `parent` | Reference to the associated Partner. |
 | `partner` | Reference to the associated Partner. |
+| `partnerId` | The Partner's id. |
 | `phone` | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | The Location's postal code. |
+| `reference` | The Partner's reference string. |
+| `sendWelcomeEmail` | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | The Device's serial number. |
+| `startDate` | Timestamp from the beginning of the transaction. |
+| `stateProvince` | The Location's street state or province. |
+| `success` | The success indicator. |
+| `tracking` | The courier's tracking number. |
+| `uniqueId` | Unique Identifier for the Location. |
 | `userName` | The User's unique username. |
 | `userRole` | Reference to the associated User Role. |
+| `verificationPhrase` | The verification phrase is a message that the Partner creates. |
 | `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Update.
@@ -752,6 +834,7 @@ Create an instance: `(def attestation (api/attestation client nil))`
 | `completeDate` | `string` | The date and time that the Attestation took place. |
 | `created` | `string` | Creation timestamp in ISO 8601 format. |
 | `device` | `map` | Reference to the associated Device resource. |
+| `devices` | `vector` |  |
 | `id` | `string` | This resource's unique identifier. |
 | `name` | `string` | Text describing the attestation. |
 | `notes` | `string` | Free form field that allows the Client associate notes with the Attestation. |
@@ -765,7 +848,7 @@ Create an instance: `(def attestation (api/attestation client nil))`
 #### Example: List
 
 ```clojure
-(def attestations (e-attestation/list (api/attestation client nil) nil nil))
+(def attestations (e-attestation/list (api/attestation client nil) (vs/jm "client" "example") nil))
 ```
 
 #### Example: Create
@@ -774,6 +857,7 @@ Create an instance: `(def attestation (api/attestation client nil))`
 (def attestation
   (e-attestation/create (api/attestation client nil)
     (vs/jm
+      "devices" (vs/jt)  ;; vector
       )
     nil))
 ```
@@ -817,7 +901,7 @@ Create an instance: `(def client (api/client client nil))`
 #### Example: List
 
 ```clojure
-(def clients (e-client/list (api/client client nil) nil nil))
+(def clients (e-client/list (api/client client nil) (vs/jm "partner" "example") nil))
 ```
 
 #### Example: Create
@@ -842,6 +926,15 @@ Create an instance: `(def create_result (api/create_result client nil))`
 | --- | --- |
 | `(create ent data ctrl)` | Create a new entity with the given data. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `completeDate` | `string` | The date and time that the Custody change took place. |
+| `custodian` | `map` | Reference to the associated User resource. |
+| `location` | `map` | Reference to the associated Location resource. |
+| `notes` | `string` | Free form field that allows the Client associate notes with the Custody Change. |
+
 #### Example: Create
 
 ```clojure
@@ -850,6 +943,8 @@ Create an instance: `(def create_result (api/create_result client nil))`
     (vs/jm
       "device_type" "example_device_type"  ;; string
       "serial_number" "example_serial_number"  ;; string
+      "custodian" (vs/jm)  ;; map
+      "location" (vs/jm)  ;; map
       )
     nil))
 ```
@@ -869,6 +964,14 @@ Create an instance: `(def decryption (api/decryption client nil))`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `cbcVector` | `string` | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | `string` | The device Type. |
+| `encoding` | `string` | The payload encoding |
+| `encrypted` | `vector` |  |
+| `hasCcData` | `string` | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | `string` | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | `string` | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | `string` | The serial number of the device. |
 | `success` | `boolean` | true if the payload decryption was successful. |
 
 #### Example: Create
@@ -877,6 +980,9 @@ Create an instance: `(def decryption (api/decryption client nil))`
 (def decryption
   (e-decryption/create (api/decryption client nil)
     (vs/jm
+      "deviceType" "example_deviceType"  ;; string
+      "encrypted" (vs/jt)  ;; vector
+      "serialNumber" "example_serialNumber"  ;; string
       )
     nil))
 ```
@@ -1065,7 +1171,7 @@ Create an instance: `(def device_custody_list_item (api/device_custody_list_item
 #### Example: List
 
 ```clojure
-(def device_custody_list_items (e-device_custody_list_item/list (api/device_custody_list_item client nil) nil nil))
+(def device_custody_list_items (e-device_custody_list_item/list (api/device_custody_list_item client nil) (vs/jm "device_type" "example" "serial_number" "example") nil))
 ```
 
 
@@ -1083,7 +1189,9 @@ Create an instance: `(def device_receive_result (api/device_receive_result clien
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `serialNumber` | `string` | The serial number of the Device that is shipped. |
 | `success` | `boolean` | Indicates if the action succeeded. |
+| `tamperLabel` | `string` | The code that is printed the tamper label of the Device that is shipped. |
 
 #### Example: Create
 
@@ -1091,7 +1199,9 @@ Create an instance: `(def device_receive_result (api/device_receive_result clien
 (def device_receive_result
   (e-device_receive_result/create (api/device_receive_result client nil)
     (vs/jm
+      "serialNumber" "example_serialNumber"  ;; string
       "success" true  ;; boolean
+      "tamperLabel" "example_tamperLabel"  ;; string
       )
     nil))
 ```
@@ -1111,7 +1221,15 @@ Create an instance: `(def device_rki_activate_result (api/device_rki_activate_re
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `appVersion` | `string` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | `string` | The Device Builds's name. |
+| `buildNumber` | `string` | The Build Number. |
+| `configFile` | `string` | \? |
+| `firmwareVersion` | `string` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `string` | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | `string` | The referenced Device's serial number. |
 | `success` | `boolean` | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | `string` | \? |
 
 #### Example: Create
 
@@ -1119,6 +1237,7 @@ Create an instance: `(def device_rki_activate_result (api/device_rki_activate_re
 (def device_rki_activate_result
   (e-device_rki_activate_result/create (api/device_rki_activate_result client nil)
     (vs/jm
+      "serialNumber" "example_serialNumber"  ;; string
       "success" true  ;; boolean
       )
     nil))
@@ -1272,6 +1391,7 @@ Create an instance: `(def location (api/location client nil))`
 | `address2` | `string` | The Location's street address. |
 | `billingId` | `string` | \? |
 | `city` | `string` | The Location's city. |
+| `client` | `map` | Reference to the associated Client resource. |
 | `country` | `string` | The Location's country. |
 | `created` | `string` | Creation timestamp in ISO 8601 format. |
 | `customReference` | `string` | A Partner specified reference for a location. |
@@ -1301,7 +1421,7 @@ Create an instance: `(def location (api/location client nil))`
 #### Example: List
 
 ```clojure
-(def locations (e-location/list (api/location client nil) nil nil))
+(def locations (e-location/list (api/location client nil) (vs/jm "client" "example") nil))
 ```
 
 #### Example: Create
@@ -1395,6 +1515,7 @@ Create an instance: `(def shipment (api/shipment client nil))`
 | `id` | `string` | This resource's unique identifier. |
 | `items` | `vector` |  |
 | `kif` | `map` | Reference to the associated KIF resource. |
+| `location` | `map` | Reference to the associated Location resource. |
 | `modified` | `string` | Last modified timestamp. |
 | `partner` | `map` | Reference to the associated Partner. |
 | `shipmentType` | `string` | The type of shipment. |
@@ -1410,7 +1531,7 @@ Create an instance: `(def shipment (api/shipment client nil))`
 #### Example: List
 
 ```clojure
-(def shipments (e-shipment/list (api/shipment client nil) nil nil))
+(def shipments (e-shipment/list (api/shipment client nil) (vs/jm "kif" "example") nil))
 ```
 
 #### Example: Create
@@ -1419,6 +1540,7 @@ Create an instance: `(def shipment (api/shipment client nil))`
 (def shipment
   (e-shipment/create (api/shipment client nil)
     (vs/jm
+      "location" (vs/jm)  ;; map
       )
     nil))
 ```
@@ -1439,6 +1561,8 @@ Create an instance: `(def success (api/success client nil))`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `devices` | `vector` | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | `map` | Reference to the associated Partner. |
 | `success` | `boolean` | Indicates if the action was a success. |
 
 #### Example: Create
@@ -1448,6 +1572,8 @@ Create an instance: `(def success (api/success client nil))`
   (e-success/create (api/success client nil)
     (vs/jm
       "share_partner_to" "example_share_partner_to"  ;; string
+      "devices" (vs/jt)  ;; vector
+      "sharePartnerFrom" (vs/jm)  ;; map
       )
     nil))
 ```
@@ -1474,6 +1600,7 @@ Create an instance: `(def transaction (api/transaction client nil))`
 | `clientRef` | `string` | Client Reference property that is included in the decrypt API call. |
 | `created` | `string` | Creation timestamp in ISO 8601 format. |
 | `decrypted` | `long` | A Transcation can process muliple decryptions. |
+| `device` | `map` | Reference to the associated Device resource. |
 | `deviceName` | `string` | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | `map` | Reference to the associated Partner. |
 | `encrypted` | `long` | A Transcation can process muliple encryptions. |
@@ -1512,6 +1639,7 @@ Create an instance: `(def transaction (api/transaction client nil))`
 (def transaction
   (e-transaction/create (api/transaction client nil)
     (vs/jm
+      "device" (vs/jm)  ;; map
       "location" (vs/jm)  ;; map
       )
     nil))
@@ -1534,17 +1662,68 @@ Create an instance: `(def update_result (api/update_result client nil))`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `address1` | `string` | The Location's street address. |
+| `address2` | `string` | The Location's street address. |
+| `alternateKey` | `string` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `string` | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | `string` | \? |
+| `city` | `string` | The Location's city. |
 | `client` | `map` | Reference to the associated Client resource. |
+| `clientCanOrderEquipment` | `boolean` | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | `string` | Client Reference property that is included in the decrypt API call. |
+| `contact` | `map` | Reference to the associated User resource. |
+| `country` | `map` | Reference to the associated Country. |
+| `customReference` | `string` | A Partner specified reference for a location. |
+| `dateShipped` | `string` | The date and time that a package is shipped. |
+| `decrypted` | `long` | A Transcation can process muliple decryptions. |
+| `device` | `map` | Reference to the associated Device resource. |
+| `deviceBuild` | `map` | Reference to the associated Device Build resource. |
+| `deviceType` | `map` | Reference to the associated Device Type resource. |
+| `directPartner` | `map` | Reference to the associated Partner. |
 | `email` | `string` | The User's email address. |
+| `encrypted` | `long` | A Transcation can process muliple encryptions. |
+| `endDate` | `string` | Timestamp from the end of the transaction. |
+| `errCode` | `string` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `string` | The error messge that is sent in response to a failed decrypt API call. |
 | `firstName` | `string` | The User's name. |
 | `id` | `string` | ID of newly created resource |
+| `injectKey` | `map` | Reference to the associated Device resource. |
+| `ipAddress` | `string` | The IP address of the http client that makes the decrypt API call. |
 | `isActive` | `boolean` | This property indicates if the User account is active or disabled. |
+| `items` | `vector` |  |
+| `keyType` | `string` | The type of cipher used during decrytion. |
 | `kif` | `map` | Reference to the associated KIF resource. |
 | `lastName` | `string` | The User's Surname. |
+| `location` | `map` | Reference to the associated Location resource. |
+| `locationType` | `string` | The Location's clasification. |
+| `mailAddress1` | `string` | The Location's street address. |
+| `mailAddress2` | `string` | The Location's street address. |
+| `mailCity` | `string` | The Location's city. |
+| `mailCountry` | `string` | The Location's street address. |
+| `mailPostalCode` | `string` | The Location's postal code. |
+| `mailStateProvince` | `string` | The Location's street state or province. |
+| `messageId` | `string` | Message ID. |
+| `method` | `string` | The decryption cypher/method. |
+| `mid` | `string` | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | `string` | The Client's name. |
+| `nameOfBusiness` | `string` | The name of the business at this location. |
+| `notes` | `string` | Arbitary note that can be attached to a Device entry. |
+| `parent` | `map` | Reference to the associated Partner. |
 | `partner` | `map` | Reference to the associated Partner. |
+| `partnerId` | `string` | The Partner's id. |
 | `phone` | `string` | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | `string` | The Location's postal code. |
+| `reference` | `string` | The Partner's reference string. |
+| `sendWelcomeEmail` | `boolean` | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | `string` | The Device's serial number. |
+| `startDate` | `string` | Timestamp from the beginning of the transaction. |
+| `stateProvince` | `string` | The Location's street state or province. |
+| `success` | `boolean` | The success indicator. |
+| `tracking` | `string` | The courier's tracking number. |
+| `uniqueId` | `string` | Unique Identifier for the Location. |
 | `userName` | `string` | The User's unique username. |
 | `userRole` | `map` | Reference to the associated User Role. |
+| `verificationPhrase` | `string` | The verification phrase is a message that the Partner creates. |
 | `version` | `long` | The number of times that this resource has been updated. |
 
 #### Example: List
@@ -1559,6 +1738,15 @@ Create an instance: `(def update_result (api/update_result client nil))`
 (def update_result
   (e-update_result/create (api/update_result client nil)
     (vs/jm
+      "contact" (vs/jm)  ;; map
+      "email" "example_email"  ;; string
+      "firstName" "example_firstName"  ;; string
+      "isActive" true  ;; boolean
+      "lastName" "example_lastName"  ;; string
+      "location" (vs/jm)  ;; map
+      "phone" "example_phone"  ;; string
+      "userName" "example_userName"  ;; string
+      "userRole" (vs/jm)  ;; map
       )
     nil))
 ```

@@ -2,71 +2,75 @@
   "existing": {
     "shipment": {
       "SHIPMENT00": {
-        "carrier": "s8c",
+        "carrier": "s96",
         "client": {},
-        "created": "s8e",
-        "dateReceived": "s8f",
-        "dateShipped": "s90",
+        "created": "s98",
+        "dateReceived": "s99",
+        "dateShipped": "s9a",
         "dcKif": {},
         "id": "SHIPMENT00",
         "items": [],
         "kif": {},
-        "modified": "s95",
+        "location": {},
+        "modified": "sa0",
         "partner": {},
-        "shipmentType": "s97",
-        "tracking": "s98",
-        "version": 153
+        "shipmentType": "sa2",
+        "tracking": "sa3",
+        "version": 164
       },
       "SHIPMENT01": {
-        "carrier": "s118",
+        "carrier": "s12c",
         "client": {},
-        "created": "s11a",
-        "dateReceived": "s11b",
-        "dateShipped": "s11c",
+        "created": "s12e",
+        "dateReceived": "s12f",
+        "dateShipped": "s130",
         "dcKif": {},
         "id": "SHIPMENT01",
         "items": [],
         "kif": {},
-        "modified": "s121",
+        "location": {},
+        "modified": "s136",
         "partner": {},
-        "shipmentType": "s123",
-        "tracking": "s124",
-        "version": 293
+        "shipmentType": "s138",
+        "tracking": "s139",
+        "version": 314
       },
       "SHIPMENT02": {
-        "carrier": "s1a4",
+        "carrier": "s1c2",
         "client": {},
-        "created": "s1a6",
-        "dateReceived": "s1a7",
-        "dateShipped": "s1a8",
+        "created": "s1c4",
+        "dateReceived": "s1c5",
+        "dateShipped": "s1c6",
         "dcKif": {},
         "id": "SHIPMENT02",
         "items": [],
         "kif": {},
-        "modified": "s1ad",
+        "location": {},
+        "modified": "s1cc",
         "partner": {},
-        "shipmentType": "s1af",
-        "tracking": "s1b0",
-        "version": 433
+        "shipmentType": "s1ce",
+        "tracking": "s1cf",
+        "version": 464
       }
     }
   },
   "new": {
     "shipment": {
       "shipment_ref01": {
-        "carrier": "s230",
+        "carrier": "s258",
         "client": {},
-        "created": "s232",
-        "dateReceived": "s233",
-        "dateShipped": "s234",
+        "created": "s25a",
+        "dateReceived": "s25b",
+        "dateShipped": "s25c",
         "dcKif": {},
         "items": [],
         "kif": {},
-        "modified": "s239",
+        "location": {},
+        "modified": "s262",
         "partner": {},
-        "shipmentType": "s23b",
-        "tracking": "s23c",
-        "version": 573
+        "shipmentType": "s264",
+        "tracking": "s265",
+        "version": 614
       }
     }
   },

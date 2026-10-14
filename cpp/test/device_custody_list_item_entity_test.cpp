@@ -50,7 +50,7 @@ static DeviceCustodyListItemSetup device_custody_list_item_basic_setup(const Val
 
   DeviceCustodyListItemSetup s;
   s.client = client;
-  s.d = entity_data;
+  s.data = entity_data;
   s.idmap = idmap_resolved;
   s.env = env;
   s.live = live;
@@ -66,26 +66,25 @@ static void device_custody_list_item_entity_instance() {
 }
 
 
-static void device_custody_list_item_entity_stream() {
-  // stream() runs the list op through the full pipeline and returns the
-  // result items. Seed two entities via test mode; with the streaming feature
-  // active it yields the feature's incremental items, else it falls back to
-  // the materialised items — either way every item is yielded.
-  Value seed = vmap({{"entity", vmap({{"device_custody_list_item", vmap({
-      {"strm01", vmap({{"id", Value("strm01")}})},
-      {"strm02", vmap({{"id", Value("strm02")}})}})}})}});
-  Value sdkopts = vmap({{"feature",
-      vmap({{"streaming", vmap({{"active", Value(true)}})}})}});
+static bool device_custody_list_item_has_feature(const std::string& name) {
+  Value fm = Helpers::toMapAny(getp(sharedConfig(), "feature"));
+  return fm.is_map() && !getp(fm, name).is_undef();
+}
 
-  auto strsdk = BluefinDecryptxP2peSDK::testSDK(seed, sdkopts);
-  auto se = strsdk->device_custody_list_item();
-  std::vector<Value> items = se->stream("list", Value::undef(), Value::undef());
-  ASSERT_EQ((int)items.size(), 2, "stream yields both seeded items");
-
-  auto plainsdk = BluefinDecryptxP2peSDK::testSDK(seed, Value::undef());
-  auto pe = plainsdk->device_custody_list_item();
-  std::vector<Value> pitems = pe->stream("list", Value::undef(), Value::undef());
-  ASSERT_EQ((int)pitems.size(), 2, "fallback stream yields both items");
+static void device_custody_list_item_entity_validate() {
+  if (!device_custody_list_item_has_feature("validate")) {
+    std::cerr << "skip: feature not present in this SDK: validate\n";
+    return;
+  }
+  auto vsdk = BluefinDecryptxP2peSDK::testSDK(Value::undef(), vmap({{"feature",
+      vmap({{"validate", vmap({{"active", Value(true)}})}})}}));
+  std::string code;
+  try {
+    vsdk->device_custody_list_item()->list(vmap({{"device_type", Value(1)}, {"serial_number", Value("x")}}), Value::undef());
+  } catch (const SdkErrorPtr& err) {
+    code = err->code;
+  }
+  ASSERT_EQ(code, std::string("validate_failed"), "an invalid request fails with validate_failed");
 }
 
 static void device_custody_list_item_entity_basic() {
@@ -123,7 +122,7 @@ static void device_custody_list_item_entity_basic() {
 
 int main() {
   T_RUN(device_custody_list_item_entity_instance);
-  T_RUN(device_custody_list_item_entity_stream);
+  T_RUN(device_custody_list_item_entity_validate);
   T_RUN(device_custody_list_item_entity_basic);
   return sdktest::summary("device_custody_list_item_entity_test");
 }

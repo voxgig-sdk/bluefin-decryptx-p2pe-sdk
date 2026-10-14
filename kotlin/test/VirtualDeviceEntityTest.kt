@@ -6,18 +6,29 @@ import java.nio.file.Paths
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Assumptions
 import org.junit.jupiter.api.Test
 
+import voxgig.bluefindecryptxp2pesdk.core.Config
+import voxgig.bluefindecryptxp2pesdk.core.Context
 import voxgig.bluefindecryptxp2pesdk.core.Helpers
 import voxgig.bluefindecryptxp2pesdk.core.SdkEntity
+import voxgig.bluefindecryptxp2pesdk.core.SdkError
 import voxgig.bluefindecryptxp2pesdk.core.BluefinDecryptxP2peSDK
+import voxgig.bluefindecryptxp2pesdk.feature.BaseFeature
 import voxgig.bluefindecryptxp2pesdk.utility.Json
 import voxgig.bluefindecryptxp2pesdk.utility.struct.Struct
 
 @Suppress("UNCHECKED_CAST", "UNUSED_VARIABLE", "UNUSED_VALUE")
 class VirtualDeviceEntityTest {
+
+  // main.kit.test.live.strict is true (the default is true): a live
+  // request that fails, or a live test missing an input it needs,
+  // fails the test.
+  // An account with no record for a test to read skips it either way.
+  private val LIVE_STRICT = true
 
   @Test
   fun instance() {
@@ -38,10 +49,9 @@ class VirtualDeviceEntityTest {
         if (reason == null || "" == reason) "skipped via sdk-test-control.json" else reason,
       )
     }
-    Assumptions.assumeFalse(
-      setup.syntheticOnly,
-      "live entity test uses synthetic IDs from fixture — set BLUEFIN_DECRYPTX_P2PE_TEST_VIRTUAL_DEVICE_ENTID JSON to run live",
-    )
+    if (setup.live) {
+      RunnerSupport.liveMiss(LIVE_STRICT, "Live entity test blocked: " + "the flow loads a virtual_device record it has no list to find")
+    }
     val client = setup.client
 
     // Bootstrap entity data from existing test data (no create step in flow).
@@ -60,6 +70,23 @@ class VirtualDeviceEntityTest {
     assertEquals(virtualDeviceRef01Data["id"], virtualDeviceRef01DataDt0LoadResult["id"],
         "expected load result id to match")
 
+  }
+
+  private fun hasFeature(name: String): Boolean {
+    val fm = Helpers.toMapAny(Config.sharedConfig()["feature"])
+    return fm != null && fm[name] != null
+  }
+
+  @Test
+  fun validate() {
+    Assumptions.assumeTrue(hasFeature("validate"), "feature not present in this SDK: validate")
+    val client = BluefinDecryptxP2peSDK.testSDK(null, linkedMapOf<String, Any?>(
+      "feature" to linkedMapOf<String, Any?>(
+        "validate" to linkedMapOf<String, Any?>("active" to true))))
+    val err = assertThrows(SdkError::class.java) {
+      client.virtualDevice(null).load(linkedMapOf<String, Any?>("id" to 1), null)
+    }
+    assertEquals("validate_failed", err.code)
   }
 
   companion object {
@@ -91,7 +118,7 @@ class VirtualDeviceEntityTest {
           "\"`\$VAL`\": [\"`\$FORMAT`\", \"upper\", \"`\$COPY`\"]" +
           "}]}"))
 
-      // Detect ENTID env override before envOverride consumes it.
+      // Whether *_ENTID supplied the idmap, read before envOverride consumes it.
       val entidEnvRaw = RunnerSupport.getenv("BLUEFIN_DECRYPTX_P2PE_TEST_VIRTUAL_DEVICE_ENTID")
       val idmapOverridden = entidEnvRaw != null && entidEnvRaw.trim().startsWith("{")
 

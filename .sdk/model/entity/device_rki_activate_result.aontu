@@ -5,12 +5,68 @@ main: kit: entity: device_rki_activate_result: {
   alias: field: {}
 
   fields: {
+    appVersion: {
+      h: "App Version"
+      n: "appVersion"
+      r: false
+      sh: "If a Device Type has more than one Application Code version the supported version is specified here."
+      t: "`$STRING`"
+    }
+    buildName: {
+      h: "Build Name"
+      n: "buildName"
+      r: false
+      sh: "The Device Builds's name."
+      t: "`$STRING`"
+    }
+    buildNumber: {
+      h: "Build Number"
+      n: "buildNumber"
+      r: false
+      sh: "The Build Number."
+      t: "`$STRING`"
+    }
+    configFile: {
+      h: "Config File"
+      n: "configFile"
+      r: false
+      sh: "\\?"
+      t: "`$STRING`"
+    }
+    firmwareVersion: {
+      h: "Firmware Version"
+      n: "firmwareVersion"
+      r: false
+      sh: "A list of firmware versions that this Device Build covers."
+      t: "`$STRING`"
+    }
+    hardwareVersion: {
+      h: "Hardware Version"
+      n: "hardwareVersion"
+      r: false
+      sh: "A list of hardware versions that this Device Build covers."
+      t: "`$STRING`"
+    }
+    serialNumber: {
+      h: "Serial Number"
+      n: "serialNumber"
+      r: true
+      sh: "The referenced Device's serial number."
+      t: "`$STRING`"
+    }
     success: {
       h: "Success"
       n: "success"
       r: true
       sh: "Indicates if the RKI activation succeeded."
       t: "`$BOOLEAN`"
+    }
+    whiteListingBinRanges: {
+      h: "White Listing Bin Ranges"
+      n: "whiteListingBinRanges"
+      r: false
+      sh: "\\?"
+      t: "`$STRING`"
     }
   }
 
@@ -20,6 +76,16 @@ main: kit: entity: device_rki_activate_result: {
       name: "create"
       points: [
         {
+          bf: [
+            "appVersion"
+            "buildName"
+            "buildNumber"
+            "configFile"
+            "firmwareVersion"
+            "hardwareVersion"
+            "serialNumber"
+            "whiteListingBinRanges"
+          ]
           co: {
             id: "POST /devices/rki/activate"
             source: "openapi3"
@@ -27,6 +93,10 @@ main: kit: entity: device_rki_activate_result: {
           }
           m: "POST"
           o: "/devices/rki/activate"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "devices"

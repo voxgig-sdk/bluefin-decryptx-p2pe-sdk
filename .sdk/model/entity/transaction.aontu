@@ -15,6 +15,12 @@ main: kit: entity: transaction: {
     client: {
       h: "Client"
       n: "client"
+      op: {
+        create: {
+          req: true
+          type: "`$OBJECT`"
+        }
+      }
       r: false
       sh: "Reference to the associated Client resource."
       t: "`$OBJECT`"
@@ -41,6 +47,13 @@ main: kit: entity: transaction: {
       r: false
       sh: "A Transcation can process muliple decryptions."
       t: "`$INTEGER`"
+    }
+    device: {
+      h: "Device"
+      n: "device"
+      r: true
+      sh: "Reference to the associated Device resource."
+      t: "`$OBJECT`"
     }
     deviceName: {
       h: "Device Name"
@@ -96,6 +109,12 @@ main: kit: entity: transaction: {
     ipAddress: {
       h: "Ip Address"
       n: "ipAddress"
+      op: {
+        create: {
+          req: true
+          type: "`$STRING`"
+        }
+      }
       r: false
       sh: "The IP address of the http client that makes the decrypt API call."
       t: "`$STRING`"
@@ -110,6 +129,12 @@ main: kit: entity: transaction: {
     keyType: {
       h: "Key Type"
       n: "keyType"
+      op: {
+        create: {
+          req: true
+          type: "`$STRING`"
+        }
+      }
       r: false
       sh: "The type of cipher used during decrytion."
       t: "`$STRING`"
@@ -131,6 +156,12 @@ main: kit: entity: transaction: {
     method: {
       h: "Method"
       n: "method"
+      op: {
+        create: {
+          req: true
+          type: "`$STRING`"
+        }
+      }
       r: false
       sh: "The decryption cypher/method."
       t: "`$STRING`"
@@ -138,6 +169,12 @@ main: kit: entity: transaction: {
     partner: {
       h: "Partner"
       n: "partner"
+      op: {
+        create: {
+          req: true
+          type: "`$OBJECT`"
+        }
+      }
       r: false
       sh: "Reference to the associated Partner."
       t: "`$OBJECT`"
@@ -191,6 +228,24 @@ main: kit: entity: transaction: {
       name: "create"
       points: [
         {
+          bf: [
+            "client"
+            "clientRef"
+            "decrypted"
+            "device"
+            "encrypted"
+            "endDate"
+            "errCode"
+            "errMessage"
+            "ipAddress"
+            "keyType"
+            "messageId"
+            "method"
+            "partner"
+            "reference"
+            "startDate"
+            "success"
+          ]
           co: {
             id: "POST /transactions"
             source: "openapi3"
@@ -198,6 +253,10 @@ main: kit: entity: transaction: {
           }
           m: "POST"
           o: "/transactions"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "transactions"
@@ -231,21 +290,21 @@ main: kit: entity: transaction: {
               {
                 k: "query"
                 n: "client_ref"
-                or: "client_ref"
+                or: "clientRef"
                 r: false
                 t: "`$STRING`"
               }
               {
                 k: "query"
                 n: "date_from"
-                or: "date_from"
+                or: "dateFrom"
                 r: false
                 t: "`$STRING`"
               }
               {
                 k: "query"
                 n: "date_to"
-                or: "date_to"
+                or: "dateTo"
                 r: false
                 t: "`$STRING`"
               }
@@ -259,7 +318,7 @@ main: kit: entity: transaction: {
               {
                 k: "query"
                 n: "message_id"
-                or: "message_id"
+                or: "messageId"
                 r: false
                 t: "`$STRING`"
               }
@@ -267,7 +326,7 @@ main: kit: entity: transaction: {
                 ex: "nocount"
                 k: "query"
                 n: "paging_mode"
-                or: "paging_mode"
+                or: "paging.mode"
                 r: false
                 t: "`$STRING`"
               }
@@ -288,7 +347,7 @@ main: kit: entity: transaction: {
               {
                 k: "query"
                 n: "serial_number"
-                or: "serial_number"
+                or: "serialNumber"
                 r: false
                 t: "`$STRING`"
               }
@@ -319,22 +378,9 @@ main: kit: entity: transaction: {
           }
           m: "GET"
           o: "/transactions"
-          q: {
-            exist: [
-              "client"
-              "client_ref"
-              "date_from"
-              "date_to"
-              "location"
-              "message_id"
-              "paging_mode"
-              "partner"
-              "reference"
-              "serial_number"
-              "skip"
-              "success"
-              "take"
-            ]
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -374,6 +420,10 @@ main: kit: entity: transaction: {
             exist: [
               "id"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

@@ -18,7 +18,7 @@ class DeviceCustodyDetailEntity extends BluefinDecryptxP2peEntityBase {
 
 
   /// Load a DeviceCustodyDetail by match (see DeviceCustodyDetailLoadMatch in
-  /// BluefinDecryptxP2peTypes.dart). Returns the entity data map (DeviceCustodyDetail).
+  /// BluefinDecryptxP2peTypes.dart). Returns the entity, whose record `data()` reads.
   Future<dynamic> load([dynamic reqmatch, dynamic ctrl]) async {
     final utility = this.utility;
 
@@ -124,13 +124,19 @@ class DeviceCustodyDetailEntity extends BluefinDecryptxP2peEntityBase {
       // operations return ENTITIES".
       return (null != ctx.result && true == ctx.result.ok) ? this : out;
     } catch (err) {
+      // What a hook throws here must not escape the cleaning below.
+      dynamic failure = err;
+      try {
 
-      fres = featureHook(ctx, 'PreUnexpected');
-      if (fres is Future) {
-        await fres;
+        fres = featureHook(ctx, 'PreUnexpected');
+        if (fres is Future) {
+          await fres;
+        }
+      } catch (hookerr) {
+        failure = hookerr;
       }
 
-      final uerr = unexpected(ctx, err);
+      final uerr = unexpected(ctx, failure);
 
       if (null != uerr) {
         throw uerr;
@@ -140,6 +146,7 @@ class DeviceCustodyDetailEntity extends BluefinDecryptxP2peEntityBase {
       }
     }
   }
+
 
 
 

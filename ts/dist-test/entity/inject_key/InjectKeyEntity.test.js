@@ -54,6 +54,53 @@ const utility_1 = require("../../utility");
         const ent = testsdk.InjectKey();
         (0, node_assert_1.default)(null != ent);
     });
+    class FailHook extends __1.BaseFeature {
+        name = 'failhook';
+        version = '0.0.1';
+        active = true;
+        unexpected = 0;
+        init() { }
+        PreSpec() { throw new Error('inject_key hook failed'); }
+        PreUnexpected() { this.unexpected++; }
+    }
+    (0, node_test_1.test)('stream-error', async () => {
+        const offline = { net: { offline: true } };
+        await node_assert_1.default.rejects(async () => {
+            for await (const _item of __1.BluefinDecryptxP2peSDK.test(offline).InjectKey().stream('list')) { }
+        }, /offline/);
+        for await (const _item of __1.BluefinDecryptxP2peSDK.test(offline).InjectKey()
+            .stream('list', undefined, { ctrl: { throw: false } })) { }
+        if (null != __1.config.feature?.rbac) {
+            const denied = __1.BluefinDecryptxP2peSDK.test(undefined, { feature: { rbac: { active: true, deny: true } } });
+            await node_assert_1.default.rejects(async () => {
+                for await (const _item of denied.InjectKey().stream('list')) { }
+            }, (err) => 'rbac_denied' === err.code);
+        }
+    });
+    (0, node_test_1.test)('stream-ctrl', async () => {
+        const explain = {};
+        const ctrl = { explain };
+        for await (const _item of __1.BluefinDecryptxP2peSDK.test().InjectKey().stream('list', undefined, { ctrl })) { }
+        node_assert_1.default.deepStrictEqual(Object.keys(ctrl), ['explain']);
+        (0, node_assert_1.default)(explain === ctrl.explain && 0 < Object.keys(explain).length);
+    });
+    (0, node_test_1.test)('unexpected', async () => {
+        const hook = new FailHook();
+        const client = new __1.BluefinDecryptxP2peSDK({ feature: { test: { active: true } }, extend: [hook] });
+        await node_assert_1.default.rejects(client.InjectKey().list(), /hook failed/);
+        (0, node_assert_1.default)(0 < hook.unexpected);
+        const fired = hook.unexpected;
+        node_assert_1.default.strictEqual(await client.InjectKey().list(undefined, { throw: false }), undefined);
+        (0, node_assert_1.default)(fired < hook.unexpected);
+    });
+    (0, node_test_1.test)('validate', async (t) => {
+        if (null == __1.config.feature?.validate) {
+            t.skip('feature not present in this SDK: validate');
+            return;
+        }
+        const client = __1.BluefinDecryptxP2peSDK.test(undefined, { feature: { validate: { active: true } } });
+        await node_assert_1.default.rejects(client.InjectKey().list({ "created": 1 }), (err) => 'validate_failed' === err.code);
+    });
     (0, node_test_1.test)('basic', async (t) => {
         const live = 'TRUE' === process.env.BLUEFIN_DECRYPTX_P2PE_TEST_LIVE;
         for (const op of ['list', 'load']) {
@@ -62,7 +109,7 @@ const utility_1 = require("../../utility");
         }
         const setup = basicSetup();
         if (setup.live) {
-            return (0, live_entity_1.runLiveEntity)(setup, { "active": true, "alias": { "field": {} }, "fields": { "created": { "a": true, "fo": "datetime", "h": "Created", "n": "created", "r": false, "sh": "Creation timestamp in ISO 8601 format.", "t": "`$STRING`", "key$": "created", "index$": 0 }, "id": { "a": true, "h": "Id", "n": "id", "r": false, "sh": "unique idenifier", "t": "`$STRING`", "key$": "id", "index$": 1 }, "isActive": { "a": true, "h": "Is Active", "n": "isActive", "r": false, "sh": "Active flag, inactive keys cannot be assigned to devices.", "t": "`$BOOLEAN`", "key$": "isActive", "index$": 2 }, "isP2PE": { "a": true, "h": "Is P2 Pe", "n": "isP2PE", "r": false, "sh": "Flags if a key is for a P2PE compliant cypher.", "t": "`$BOOLEAN`", "key$": "isP2PE", "index$": 3 }, "keyType": { "a": true, "h": "Key Type", "n": "keyType", "r": false, "sh": "The cipher type that the key works with.", "t": "`$STRING`", "key$": "keyType", "index$": 4 }, "modified": { "a": true, "fo": "datetime", "h": "Modified", "n": "modified", "r": false, "sh": "Last modified timestamp in ISO 8601 format.", "t": "`$STRING`", "key$": "modified", "index$": 5 }, "name": { "a": true, "h": "Name", "n": "name", "r": false, "sh": "Key name.", "t": "`$STRING`", "key$": "name", "index$": 6 }, "version": { "a": true, "h": "Version", "n": "version", "r": false, "sh": "The number of times that this resource has been updated.", "t": "`$INTEGER`", "key$": "version", "index$": 7 } }, "id": { "field": "id", "name": "id" }, "name": "inject_key", "op": { "list": { "input": "data", "name": "list", "points": [{ "a": true, "co": { "id": "GET /injectKeys", "source": "openapi3", "version": 2 }, "g": {}, "k": "http", "m": "GET", "o": "/injectKeys", "q": {}, "r": {}, "s": [{ "lit": "injectKeys" }], "t": { "req": "`reqdata`", "res": "`body.data`" }, "index$": 0 }], "key$": "list" }, "load": { "input": "data", "name": "load", "points": [{ "a": true, "co": { "id": "GET /injectKeys/{id}", "source": "openapi3", "version": 2 }, "g": { "params": [{ "a": true, "k": "param", "n": "id", "or": "id", "r": true, "t": "`$STRING`", "index$": 0 }] }, "k": "http", "m": "GET", "o": "/injectKeys/{id}", "q": { "exist": ["id"] }, "r": {}, "s": [{ "lit": "injectKeys" }, { "var": "id" }], "t": { "req": "`reqdata`", "res": "`body`" }, "index$": 0 }], "key$": "load" } }, "relations": { "ancestors": [] }, "key$": "inject_key", "name__orig": "inject_key", "Name": "InjectKey", "name_": "inject_key", "name-": "inject-key", "NAME": "INJECT_KEY", "index$": 12 }, { "active": true, "entity": "inject_key", "key$": "BasicInjectKeyFlow", "kind": "basic", "name": "BasicInjectKeyFlow", "param": {}, "step": [{ "a": true, "d": {}, "i": {}, "m": {}, "o": "list", "s": [], "v": [{ "apply": "ItemExists", "def": { "ref": "inject_key_ref01" } }], "index$": 0 }, { "a": true, "d": {}, "i": { "ref": "inject_key_ref01", "srcdatavar": "inject_key_ref01_data", "suffix": "_dt0" }, "m": { "id": "inject_key01" }, "o": "load", "s": [], "v": [{ "apply": "TextFieldMark", "def": { "mark": "Mark01-inject_key_ref01" } }], "index$": 1 }] }, 'InjectKey', { "GET /injectKeys": { "protocol": "http", "parameters": [] }, "GET /injectKeys/{id}": { "protocol": "http", "parameters": [{ "name": "id", "in": "path", "description": "The Inject Key's unique identifier.", "required": true, "schema": { "type": "string" }, "index$": 0 }] } });
+            return (0, live_entity_1.runLiveEntity)(setup, { "active": true, "alias": { "field": {} }, "fields": { "created": { "a": true, "fo": "datetime", "h": "Created", "n": "created", "r": false, "sh": "Creation timestamp in ISO 8601 format.", "t": "`$STRING`", "key$": "created", "index$": 0 }, "id": { "a": true, "h": "Id", "n": "id", "r": false, "sh": "unique idenifier", "t": "`$STRING`", "key$": "id", "index$": 1 }, "isActive": { "a": true, "h": "Is Active", "n": "isActive", "r": false, "sh": "Active flag, inactive keys cannot be assigned to devices.", "t": "`$BOOLEAN`", "key$": "isActive", "index$": 2 }, "isP2PE": { "a": true, "h": "Is P2 Pe", "n": "isP2PE", "r": false, "sh": "Flags if a key is for a P2PE compliant cypher.", "t": "`$BOOLEAN`", "key$": "isP2PE", "index$": 3 }, "keyType": { "a": true, "h": "Key Type", "n": "keyType", "r": false, "sh": "The cipher type that the key works with.", "t": "`$STRING`", "key$": "keyType", "index$": 4 }, "modified": { "a": true, "fo": "datetime", "h": "Modified", "n": "modified", "r": false, "sh": "Last modified timestamp in ISO 8601 format.", "t": "`$STRING`", "key$": "modified", "index$": 5 }, "name": { "a": true, "h": "Name", "n": "name", "r": false, "sh": "Key name.", "t": "`$STRING`", "key$": "name", "index$": 6 }, "version": { "a": true, "h": "Version", "n": "version", "r": false, "sh": "The number of times that this resource has been updated.", "t": "`$INTEGER`", "key$": "version", "index$": 7 } }, "id": { "field": "id", "name": "id" }, "name": "inject_key", "op": { "list": { "input": "data", "name": "list", "points": [{ "a": true, "co": { "id": "GET /injectKeys", "source": "openapi3", "version": 2 }, "g": {}, "k": "http", "m": "GET", "o": "/injectKeys", "q": {}, "r": {}, "rs": { "kind": "json", "media": "application/json" }, "s": [{ "lit": "injectKeys" }], "t": { "req": "`reqdata`", "res": "`body.data`" }, "index$": 0 }], "key$": "list" }, "load": { "input": "data", "name": "load", "points": [{ "a": true, "co": { "id": "GET /injectKeys/{id}", "source": "openapi3", "version": 2 }, "g": { "params": [{ "a": true, "k": "param", "n": "id", "or": "id", "r": true, "t": "`$STRING`", "index$": 0 }] }, "k": "http", "m": "GET", "o": "/injectKeys/{id}", "q": { "exist": ["id"] }, "r": {}, "rs": { "kind": "json", "media": "application/json" }, "s": [{ "lit": "injectKeys" }, { "var": "id" }], "t": { "req": "`reqdata`", "res": "`body`" }, "index$": 0 }], "key$": "load" } }, "relations": { "ancestors": [] }, "key$": "inject_key", "name__orig": "inject_key", "Name": "InjectKey", "name_": "inject_key", "name-": "inject-key", "NAME": "INJECT_KEY", "index$": 12 }, { "active": true, "entity": "inject_key", "key$": "BasicInjectKeyFlow", "kind": "basic", "name": "BasicInjectKeyFlow", "param": {}, "step": [{ "a": true, "d": {}, "i": {}, "m": {}, "o": "list", "s": [], "v": [{ "apply": "ItemExists", "def": { "ref": "inject_key_ref01" } }], "index$": 0 }, { "a": true, "d": {}, "i": { "ref": "inject_key_ref01", "srcdatavar": "inject_key_ref01_data", "suffix": "_dt0" }, "m": { "id": "inject_key01" }, "o": "load", "s": [], "v": [{ "apply": "TextFieldMark", "def": { "mark": "Mark01-inject_key_ref01" } }], "index$": 1 }] }, 'InjectKey', { "GET /injectKeys": { "protocol": "http", "parameters": [] }, "GET /injectKeys/{id}": { "protocol": "http", "parameters": [{ "name": "id", "in": "path", "description": "The Inject Key's unique identifier.", "required": true, "schema": { "type": "string" }, "index$": 0 }] } }, { strict: LIVE_STRICT, t });
         }
         const client = setup.client;
         const struct = setup.struct;
@@ -80,6 +127,11 @@ const utility_1 = require("../../utility");
         (0, node_assert_1.default)(inject_key_ref01_data_dt0.id === inject_key_ref01_data.id);
     });
 });
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true;
 function basicSetup(extra) {
     // TODO: fix test def options
     const options = {}; // null

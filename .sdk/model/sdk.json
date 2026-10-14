@@ -53,7 +53,7 @@
         },
         "edition": {
           "github-pages": {
-            "active": true,
+            "active": false,
             "base": "node_modules/@voxgig/docgen/project/.sdk",
             "brand": {},
             "filter": {
@@ -133,6 +133,12 @@
               "a": true,
               "h": "Client",
               "n": "client",
+              "op": {
+                "create": {
+                  "req": true,
+                  "type": "`$OBJECT`"
+                }
+              },
               "r": false,
               "sh": "Reference to the associated Client resource.",
               "t": "`$OBJECT`"
@@ -142,6 +148,12 @@
               "fo": "datetime",
               "h": "Complete Date",
               "n": "completeDate",
+              "op": {
+                "create": {
+                  "req": true,
+                  "type": "`$STRING`"
+                }
+              },
               "r": false,
               "sh": "The date and time that the Attestation took place.",
               "t": "`$STRING`"
@@ -163,6 +175,13 @@
               "sh": "Reference to the associated Device resource.",
               "t": "`$OBJECT`"
             },
+            "devices": {
+              "a": true,
+              "h": "Devices",
+              "n": "devices",
+              "r": true,
+              "t": "`$ARRAY`"
+            },
             "id": {
               "a": true,
               "h": "Id",
@@ -175,6 +194,12 @@
               "a": true,
               "h": "Name",
               "n": "name",
+              "op": {
+                "create": {
+                  "req": true,
+                  "type": "`$STRING`"
+                }
+              },
               "r": false,
               "sh": "Text describing the attestation.",
               "t": "`$STRING`"
@@ -200,6 +225,13 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "client",
+                    "completeDate",
+                    "devices",
+                    "name",
+                    "notes"
+                  ],
                   "co": {
                     "id": "POST /attestations",
                     "source": "openapi3",
@@ -211,6 +243,10 @@
                   "o": "/attestations",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "attestations"
@@ -269,12 +305,14 @@
                   "o": "/attestations",
                   "q": {
                     "exist": [
-                      "client",
-                      "skip",
-                      "take"
+                      "client"
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "attestations"
@@ -319,6 +357,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "attestations"
@@ -350,6 +392,10 @@
               "h": "Contact",
               "n": "contact",
               "op": {
+                "create": {
+                  "req": true,
+                  "type": "`$OBJECT`"
+                },
                 "list": {
                   "req": true,
                   "type": "`$OBJECT`"
@@ -372,6 +418,12 @@
               "a": true,
               "h": "Direct Partner",
               "n": "directPartner",
+              "op": {
+                "create": {
+                  "req": true,
+                  "type": "`$OBJECT`"
+                }
+              },
               "r": false,
               "sh": "Reference to the associated Partner.",
               "t": "`$OBJECT`"
@@ -421,6 +473,12 @@
               "a": true,
               "h": "Name",
               "n": "name",
+              "op": {
+                "create": {
+                  "req": true,
+                  "type": "`$STRING`"
+                }
+              },
               "r": false,
               "sh": "The Client's name.",
               "t": "`$STRING`"
@@ -454,6 +512,14 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "contact",
+                    "directPartner",
+                    "isActive",
+                    "location",
+                    "mid",
+                    "name"
+                  ],
                   "co": {
                     "id": "POST /clients",
                     "source": "openapi3",
@@ -465,6 +531,10 @@
                   "o": "/clients",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "clients"
@@ -523,12 +593,14 @@
                   "o": "/clients",
                   "q": {
                     "exist": [
-                      "partner",
-                      "skip",
-                      "take"
+                      "partner"
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "clients"
@@ -573,6 +645,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "clients"
@@ -645,7 +721,41 @@
           "alias": {
             "field": {}
           },
-          "fields": {},
+          "fields": {
+            "completeDate": {
+              "a": true,
+              "fo": "date-time",
+              "h": "Complete Date",
+              "n": "completeDate",
+              "r": false,
+              "sh": "The date and time that the Custody change took place.",
+              "t": "`$STRING`"
+            },
+            "custodian": {
+              "a": true,
+              "h": "Custodian",
+              "n": "custodian",
+              "r": true,
+              "sh": "Reference to the associated User resource.",
+              "t": "`$OBJECT`"
+            },
+            "location": {
+              "a": true,
+              "h": "Location",
+              "n": "location",
+              "r": true,
+              "sh": "Reference to the associated Location resource.",
+              "t": "`$OBJECT`"
+            },
+            "notes": {
+              "a": true,
+              "h": "Notes",
+              "n": "notes",
+              "r": false,
+              "sh": "Free form field that allows the Client associate notes with the Custody Change.",
+              "t": "`$STRING`"
+            }
+          },
           "name": "create_result",
           "op": {
             "create": {
@@ -654,6 +764,12 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "completeDate",
+                    "custodian",
+                    "location",
+                    "notes"
+                  ],
                   "co": {
                     "id": "POST /devices/{serialNumber}/{deviceType}/custody",
                     "source": "openapi3",
@@ -665,7 +781,7 @@
                         "a": true,
                         "k": "param",
                         "n": "device_type",
-                        "or": "device_type",
+                        "or": "deviceType",
                         "r": true,
                         "t": "`$STRING`"
                       },
@@ -673,7 +789,7 @@
                         "a": true,
                         "k": "param",
                         "n": "serial_number",
-                        "or": "serial_number",
+                        "or": "serialNumber",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -693,6 +809,10 @@
                       "deviceType": "device_type",
                       "serialNumber": "serial_number"
                     }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
                   },
                   "s": [
                     {
@@ -730,6 +850,69 @@
             "field": {}
           },
           "fields": {
+            "cbcVector": {
+              "a": true,
+              "h": "Cbc Vector",
+              "n": "cbcVector",
+              "r": false,
+              "sh": "Base64 or hex encoded initial vector obtained from device.",
+              "t": "`$STRING`"
+            },
+            "deviceType": {
+              "a": true,
+              "h": "Device Type",
+              "n": "deviceType",
+              "r": true,
+              "sh": "The device Type.",
+              "t": "`$STRING`"
+            },
+            "encoding": {
+              "a": true,
+              "h": "Encoding",
+              "n": "encoding",
+              "r": false,
+              "sh": "The payload encoding",
+              "t": "`$STRING`"
+            },
+            "encrypted": {
+              "a": true,
+              "h": "Encrypted",
+              "n": "encrypted",
+              "r": true,
+              "t": "`$ARRAY`"
+            },
+            "hasCcData": {
+              "a": true,
+              "h": "Has Cc Data",
+              "n": "hasCcData",
+              "r": false,
+              "sh": "Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers.",
+              "t": "`$STRING`"
+            },
+            "reference": {
+              "a": true,
+              "h": "Reference",
+              "n": "reference",
+              "r": false,
+              "sh": "A string (of up to 50 characters) that helps partners identify individual API calls.",
+              "t": "`$STRING`"
+            },
+            "sequenceNumber": {
+              "a": true,
+              "h": "Sequence Number",
+              "n": "sequenceNumber",
+              "r": false,
+              "sh": "Sequence number obtained from device in base 64 or hex encoded format.",
+              "t": "`$STRING`"
+            },
+            "serialNumber": {
+              "a": true,
+              "h": "Serial Number",
+              "n": "serialNumber",
+              "r": true,
+              "sh": "The serial number of the device.",
+              "t": "`$STRING`"
+            },
             "success": {
               "a": true,
               "h": "Success",
@@ -747,6 +930,16 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "cbcVector",
+                    "deviceType",
+                    "encoding",
+                    "encrypted",
+                    "hasCcData",
+                    "reference",
+                    "sequenceNumber",
+                    "serialNumber"
+                  ],
                   "co": {
                     "id": "POST /decryption",
                     "source": "openapi3",
@@ -758,6 +951,10 @@
                   "o": "/decryption",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "decryption"
@@ -869,6 +1066,12 @@
               "a": true,
               "h": "Device Type",
               "n": "deviceType",
+              "op": {
+                "create": {
+                  "req": true,
+                  "type": "`$OBJECT`"
+                }
+              },
               "r": false,
               "sh": "Reference to the associated Device Type resource.",
               "t": "`$OBJECT`"
@@ -935,6 +1138,12 @@
               "a": true,
               "h": "Kif",
               "n": "kif",
+              "op": {
+                "create": {
+                  "req": true,
+                  "type": "`$OBJECT`"
+                }
+              },
               "r": false,
               "sh": "Reference to the associated KIF resource.",
               "t": "`$OBJECT`"
@@ -1001,6 +1210,12 @@
               "a": true,
               "h": "Serial Number",
               "n": "serialNumber",
+              "op": {
+                "create": {
+                  "req": true,
+                  "type": "`$STRING`"
+                }
+              },
               "r": false,
               "sh": "The Device's serial number.",
               "t": "`$STRING`"
@@ -1026,6 +1241,19 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "alternateKey",
+                    "auditNextDate",
+                    "client",
+                    "deviceBuild",
+                    "deviceType",
+                    "injectKey",
+                    "kif",
+                    "name",
+                    "notes",
+                    "partner",
+                    "serialNumber"
+                  ],
                   "co": {
                     "id": "POST /devices",
                     "source": "openapi3",
@@ -1037,6 +1265,10 @@
                   "o": "/devices",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "devices"
@@ -1074,7 +1306,7 @@
                         "a": true,
                         "k": "query",
                         "n": "device_state",
-                        "or": "device_state",
+                        "or": "deviceState",
                         "r": false,
                         "t": "`$STRING`"
                       },
@@ -1098,7 +1330,7 @@
                         "a": true,
                         "k": "query",
                         "n": "serial_number",
-                        "or": "serial_number",
+                        "or": "serialNumber",
                         "r": false,
                         "t": "`$STRING`"
                       },
@@ -1116,7 +1348,7 @@
                         "ex": "asc",
                         "k": "query",
                         "n": "sorting_direction",
-                        "or": "sorting_direction",
+                        "or": "sorting.direction",
                         "r": false,
                         "t": "`$STRING`"
                       },
@@ -1125,7 +1357,7 @@
                         "ex": "serialnumber",
                         "k": "query",
                         "n": "sorting_field",
-                        "or": "sorting_field",
+                        "or": "sorting.field",
                         "r": false,
                         "t": "`$STRING`"
                       },
@@ -1143,20 +1375,12 @@
                   "k": "http",
                   "m": "GET",
                   "o": "/devices",
-                  "q": {
-                    "exist": [
-                      "client",
-                      "device_state",
-                      "kif",
-                      "partner",
-                      "serial_number",
-                      "skip",
-                      "sorting_direction",
-                      "sorting_field",
-                      "take"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "devices"
@@ -1186,7 +1410,7 @@
                         "a": true,
                         "k": "param",
                         "n": "device_type",
-                        "or": "device_type",
+                        "or": "deviceType",
                         "r": true,
                         "t": "`$STRING`"
                       },
@@ -1194,7 +1418,7 @@
                         "a": true,
                         "k": "param",
                         "n": "serial_number",
-                        "or": "serial_number",
+                        "or": "serialNumber",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -1214,6 +1438,10 @@
                       "deviceType": "device_type",
                       "serialNumber": "serial_number"
                     }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
                   },
                   "s": [
                     {
@@ -1259,6 +1487,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "devices"
@@ -1432,7 +1664,7 @@
                         "a": true,
                         "k": "query",
                         "n": "device_type",
-                        "or": "device_type",
+                        "or": "deviceType",
                         "r": false,
                         "t": "`$STRING`"
                       },
@@ -1459,14 +1691,12 @@
                   "k": "http",
                   "m": "GET",
                   "o": "/deviceBuilds",
-                  "q": {
-                    "exist": [
-                      "device_type",
-                      "skip",
-                      "take"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "deviceBuilds"
@@ -1511,6 +1741,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "deviceBuilds"
@@ -1669,7 +1903,7 @@
                         "a": true,
                         "k": "param",
                         "n": "device_type",
-                        "or": "device_type",
+                        "or": "deviceType",
                         "r": true,
                         "t": "`$STRING`"
                       },
@@ -1685,7 +1919,7 @@
                         "a": true,
                         "k": "param",
                         "n": "serial_number",
-                        "or": "serial_number",
+                        "or": "serialNumber",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -1706,6 +1940,10 @@
                       "deviceType": "device_type",
                       "serialNumber": "serial_number"
                     }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
                   },
                   "s": [
                     {
@@ -1878,7 +2116,7 @@
                         "a": true,
                         "k": "param",
                         "n": "device_type",
-                        "or": "device_type",
+                        "or": "deviceType",
                         "r": true,
                         "t": "`$STRING`"
                       },
@@ -1886,7 +2124,7 @@
                         "a": true,
                         "k": "param",
                         "n": "serial_number",
-                        "or": "serial_number",
+                        "or": "serialNumber",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -1918,9 +2156,7 @@
                   "q": {
                     "exist": [
                       "device_type",
-                      "serial_number",
-                      "skip",
-                      "take"
+                      "serial_number"
                     ]
                   },
                   "r": {
@@ -1928,6 +2164,10 @@
                       "deviceType": "device_type",
                       "serialNumber": "serial_number"
                     }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
                   },
                   "s": [
                     {
@@ -1965,6 +2205,14 @@
             "field": {}
           },
           "fields": {
+            "serialNumber": {
+              "a": true,
+              "h": "Serial Number",
+              "n": "serialNumber",
+              "r": true,
+              "sh": "The serial number of the Device that is shipped.",
+              "t": "`$STRING`"
+            },
             "success": {
               "a": true,
               "h": "Success",
@@ -1972,6 +2220,14 @@
               "r": true,
               "sh": "Indicates if the action succeeded.",
               "t": "`$BOOLEAN`"
+            },
+            "tamperLabel": {
+              "a": true,
+              "h": "Tamper Label",
+              "n": "tamperLabel",
+              "r": true,
+              "sh": "The code that is printed the tamper label of the Device that is shipped.",
+              "t": "`$STRING`"
             }
           },
           "name": "device_receive_result",
@@ -1982,6 +2238,10 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "serialNumber",
+                    "tamperLabel"
+                  ],
                   "co": {
                     "id": "POST /devices/receive",
                     "source": "openapi3",
@@ -1993,6 +2253,10 @@
                   "o": "/devices/receive",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "devices"
@@ -2019,6 +2283,62 @@
             "field": {}
           },
           "fields": {
+            "appVersion": {
+              "a": true,
+              "h": "App Version",
+              "n": "appVersion",
+              "r": false,
+              "sh": "If a Device Type has more than one Application Code version the supported version is specified here.",
+              "t": "`$STRING`"
+            },
+            "buildName": {
+              "a": true,
+              "h": "Build Name",
+              "n": "buildName",
+              "r": false,
+              "sh": "The Device Builds's name.",
+              "t": "`$STRING`"
+            },
+            "buildNumber": {
+              "a": true,
+              "h": "Build Number",
+              "n": "buildNumber",
+              "r": false,
+              "sh": "The Build Number.",
+              "t": "`$STRING`"
+            },
+            "configFile": {
+              "a": true,
+              "h": "Config File",
+              "n": "configFile",
+              "r": false,
+              "sh": "\\?",
+              "t": "`$STRING`"
+            },
+            "firmwareVersion": {
+              "a": true,
+              "h": "Firmware Version",
+              "n": "firmwareVersion",
+              "r": false,
+              "sh": "A list of firmware versions that this Device Build covers.",
+              "t": "`$STRING`"
+            },
+            "hardwareVersion": {
+              "a": true,
+              "h": "Hardware Version",
+              "n": "hardwareVersion",
+              "r": false,
+              "sh": "A list of hardware versions that this Device Build covers.",
+              "t": "`$STRING`"
+            },
+            "serialNumber": {
+              "a": true,
+              "h": "Serial Number",
+              "n": "serialNumber",
+              "r": true,
+              "sh": "The referenced Device's serial number.",
+              "t": "`$STRING`"
+            },
             "success": {
               "a": true,
               "h": "Success",
@@ -2026,6 +2346,14 @@
               "r": true,
               "sh": "Indicates if the RKI activation succeeded.",
               "t": "`$BOOLEAN`"
+            },
+            "whiteListingBinRanges": {
+              "a": true,
+              "h": "White Listing Bin Ranges",
+              "n": "whiteListingBinRanges",
+              "r": false,
+              "sh": "\\?",
+              "t": "`$STRING`"
             }
           },
           "name": "device_rki_activate_result",
@@ -2036,6 +2364,16 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "appVersion",
+                    "buildName",
+                    "buildNumber",
+                    "configFile",
+                    "firmwareVersion",
+                    "hardwareVersion",
+                    "serialNumber",
+                    "whiteListingBinRanges"
+                  ],
                   "co": {
                     "id": "POST /devices/rki/activate",
                     "source": "openapi3",
@@ -2047,6 +2385,10 @@
                   "o": "/devices/rki/activate",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "devices"
@@ -2117,6 +2459,10 @@
                   "o": "/deviceStates",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "deviceStates"
@@ -2261,6 +2607,10 @@
                   "o": "/deviceTypes",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "deviceTypes"
@@ -2305,6 +2655,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "deviceTypes"
@@ -2421,6 +2775,10 @@
                   "o": "/injectKeys",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "injectKeys"
@@ -2465,6 +2823,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "injectKeys"
@@ -2532,6 +2894,10 @@
                   "o": "/kifs",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "kifs"
@@ -2559,6 +2925,12 @@
               "a": true,
               "h": "Address1",
               "n": "address1",
+              "op": {
+                "create": {
+                  "req": true,
+                  "type": "`$STRING`"
+                }
+              },
               "r": false,
               "sh": "The Location's street address.",
               "t": "`$STRING`"
@@ -2583,14 +2955,34 @@
               "a": true,
               "h": "City",
               "n": "city",
+              "op": {
+                "create": {
+                  "req": true,
+                  "type": "`$STRING`"
+                }
+              },
               "r": false,
               "sh": "The Location's city.",
               "t": "`$STRING`"
+            },
+            "client": {
+              "a": true,
+              "h": "Client",
+              "n": "client",
+              "r": false,
+              "sh": "Reference to the associated Client resource.",
+              "t": "`$OBJECT`"
             },
             "country": {
               "a": true,
               "h": "Country",
               "n": "country",
+              "op": {
+                "create": {
+                  "req": true,
+                  "type": "`$OBJECT`"
+                }
+              },
               "r": false,
               "sh": "The Location's country.",
               "t": "`$STRING`"
@@ -2624,6 +3016,12 @@
               "a": true,
               "h": "Location Type",
               "n": "locationType",
+              "op": {
+                "create": {
+                  "req": true,
+                  "type": "`$STRING`"
+                }
+              },
               "r": false,
               "sh": "The Location's clasification.",
               "t": "`$STRING`"
@@ -2689,6 +3087,12 @@
               "a": true,
               "h": "Name",
               "n": "name",
+              "op": {
+                "create": {
+                  "req": true,
+                  "type": "`$STRING`"
+                }
+              },
               "r": false,
               "sh": "The Location's name.",
               "t": "`$STRING`"
@@ -2754,6 +3158,28 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "address1",
+                    "address2",
+                    "billingId",
+                    "city",
+                    "client",
+                    "country",
+                    "customReference",
+                    "locationType",
+                    "mailAddress1",
+                    "mailAddress2",
+                    "mailCity",
+                    "mailCountry",
+                    "mailPostalCode",
+                    "mailStateProvince",
+                    "name",
+                    "nameOfBusiness",
+                    "notes",
+                    "postalCode",
+                    "stateProvince",
+                    "uniqueId"
+                  ],
                   "co": {
                     "id": "POST /locations",
                     "source": "openapi3",
@@ -2765,6 +3191,10 @@
                   "o": "/locations",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "locations"
@@ -2823,12 +3253,14 @@
                   "o": "/locations",
                   "q": {
                     "exist": [
-                      "client",
-                      "skip",
-                      "take"
+                      "client"
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "locations"
@@ -2873,6 +3305,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "locations"
@@ -2967,6 +3403,10 @@
               "h": "Contact",
               "n": "contact",
               "op": {
+                "create": {
+                  "req": true,
+                  "type": "`$OBJECT`"
+                },
                 "list": {
                   "req": true,
                   "type": "`$OBJECT`"
@@ -3022,6 +3462,12 @@
               "a": true,
               "h": "Name",
               "n": "name",
+              "op": {
+                "create": {
+                  "req": true,
+                  "type": "`$STRING`"
+                }
+              },
               "r": false,
               "sh": "The Partner's name.",
               "t": "`$STRING`"
@@ -3030,6 +3476,12 @@
               "a": true,
               "h": "Parent",
               "n": "parent",
+              "op": {
+                "create": {
+                  "req": true,
+                  "type": "`$OBJECT`"
+                }
+              },
               "r": false,
               "sh": "Reference to the associated Partner.",
               "t": "`$OBJECT`"
@@ -3046,6 +3498,12 @@
               "a": true,
               "h": "Reference",
               "n": "reference",
+              "op": {
+                "create": {
+                  "req": true,
+                  "type": "`$STRING`"
+                }
+              },
               "r": false,
               "sh": "The Partner's reference string.",
               "t": "`$STRING`"
@@ -3079,6 +3537,18 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "billingId",
+                    "clientCanOrderEquipment",
+                    "contact",
+                    "isActive",
+                    "location",
+                    "name",
+                    "parent",
+                    "partnerId",
+                    "reference",
+                    "verificationPhrase"
+                  ],
                   "co": {
                     "id": "POST /partners",
                     "source": "openapi3",
@@ -3090,6 +3560,10 @@
                   "o": "/partners",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "partners"
@@ -3146,14 +3620,12 @@
                   "k": "http",
                   "m": "GET",
                   "o": "/partners",
-                  "q": {
-                    "exist": [
-                      "partner",
-                      "skip",
-                      "take"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "partners"
@@ -3198,6 +3670,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "partners"
@@ -3228,6 +3704,12 @@
               "a": true,
               "h": "Carrier",
               "n": "carrier",
+              "op": {
+                "create": {
+                  "req": true,
+                  "type": "`$STRING`"
+                }
+              },
               "r": false,
               "sh": "The name of the courier.",
               "t": "`$STRING`"
@@ -3236,6 +3718,12 @@
               "a": true,
               "h": "Client",
               "n": "client",
+              "op": {
+                "create": {
+                  "req": true,
+                  "type": "`$OBJECT`"
+                }
+              },
               "r": false,
               "sh": "Reference to the associated Client resource.",
               "t": "`$OBJECT`"
@@ -3263,6 +3751,12 @@
               "fo": "datetime",
               "h": "Date Shipped",
               "n": "dateShipped",
+              "op": {
+                "create": {
+                  "req": true,
+                  "type": "`$STRING`"
+                }
+              },
               "r": false,
               "sh": "The date and time that a package is shipped.",
               "t": "`$STRING`"
@@ -3287,6 +3781,12 @@
               "a": true,
               "h": "Items",
               "n": "items",
+              "op": {
+                "create": {
+                  "req": true,
+                  "type": "`$ARRAY`"
+                }
+              },
               "r": false,
               "t": "`$ARRAY`"
             },
@@ -3294,8 +3794,22 @@
               "a": true,
               "h": "Kif",
               "n": "kif",
+              "op": {
+                "create": {
+                  "req": true,
+                  "type": "`$OBJECT`"
+                }
+              },
               "r": false,
               "sh": "Reference to the associated KIF resource.",
+              "t": "`$OBJECT`"
+            },
+            "location": {
+              "a": true,
+              "h": "Location",
+              "n": "location",
+              "r": true,
+              "sh": "Reference to the associated Location resource.",
               "t": "`$OBJECT`"
             },
             "modified": {
@@ -3311,6 +3825,12 @@
               "a": true,
               "h": "Partner",
               "n": "partner",
+              "op": {
+                "create": {
+                  "req": true,
+                  "type": "`$OBJECT`"
+                }
+              },
               "r": false,
               "sh": "Reference to the associated Partner.",
               "t": "`$OBJECT`"
@@ -3327,6 +3847,12 @@
               "a": true,
               "h": "Tracking",
               "n": "tracking",
+              "op": {
+                "create": {
+                  "req": true,
+                  "type": "`$STRING`"
+                }
+              },
               "r": false,
               "sh": "The courier's tracking number.",
               "t": "`$STRING`"
@@ -3353,6 +3879,17 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "carrier",
+                    "client",
+                    "dateShipped",
+                    "dcKif",
+                    "items",
+                    "kif",
+                    "location",
+                    "partner",
+                    "tracking"
+                  ],
                   "co": {
                     "id": "POST /shipments",
                     "source": "openapi3",
@@ -3364,6 +3901,10 @@
                   "o": "/shipments",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "shipments"
@@ -3430,13 +3971,14 @@
                   "o": "/shipments",
                   "q": {
                     "exist": [
-                      "kif",
-                      "mode",
-                      "skip",
-                      "take"
+                      "kif"
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "shipments"
@@ -3481,6 +4023,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "shipments"
@@ -3507,6 +4053,22 @@
             "field": {}
           },
           "fields": {
+            "devices": {
+              "a": true,
+              "h": "Devices",
+              "n": "devices",
+              "r": true,
+              "sh": "An array of Device ids to share with partner.",
+              "t": "`$ARRAY`"
+            },
+            "sharePartnerFrom": {
+              "a": true,
+              "h": "Share Partner From",
+              "n": "sharePartnerFrom",
+              "r": true,
+              "sh": "Reference to the associated Partner.",
+              "t": "`$OBJECT`"
+            },
             "success": {
               "a": true,
               "h": "Success",
@@ -3524,6 +4086,10 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "devices",
+                    "sharePartnerFrom"
+                  ],
                   "co": {
                     "id": "POST /virtualDevices/{sharePartnerTo}",
                     "source": "openapi3",
@@ -3535,7 +4101,7 @@
                         "a": true,
                         "k": "param",
                         "n": "share_partner_to",
-                        "or": "share_partner_to",
+                        "or": "sharePartnerTo",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -3553,6 +4119,10 @@
                     "param": {
                       "sharePartnerTo": "share_partner_to"
                     }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
                   },
                   "s": [
                     {
@@ -3575,6 +4145,9 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "devices"
+                  ],
                   "co": {
                     "id": "DELETE /virtualDevices/{sharePartnerTo}",
                     "source": "openapi3",
@@ -3586,7 +4159,7 @@
                         "a": true,
                         "k": "param",
                         "n": "share_partner_to",
-                        "or": "share_partner_to",
+                        "or": "sharePartnerTo",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -3604,6 +4177,10 @@
                     "param": {
                       "sharePartnerTo": "share_partner_to"
                     }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
                   },
                   "s": [
                     {
@@ -3647,6 +4224,12 @@
               "a": true,
               "h": "Client",
               "n": "client",
+              "op": {
+                "create": {
+                  "req": true,
+                  "type": "`$OBJECT`"
+                }
+              },
               "r": false,
               "sh": "Reference to the associated Client resource.",
               "t": "`$OBJECT`"
@@ -3676,6 +4259,14 @@
               "r": false,
               "sh": "A Transcation can process muliple decryptions.",
               "t": "`$INTEGER`"
+            },
+            "device": {
+              "a": true,
+              "h": "Device",
+              "n": "device",
+              "r": true,
+              "sh": "Reference to the associated Device resource.",
+              "t": "`$OBJECT`"
             },
             "deviceName": {
               "a": true,
@@ -3739,6 +4330,12 @@
               "a": true,
               "h": "Ip Address",
               "n": "ipAddress",
+              "op": {
+                "create": {
+                  "req": true,
+                  "type": "`$STRING`"
+                }
+              },
               "r": false,
               "sh": "The IP address of the http client that makes the decrypt API call.",
               "t": "`$STRING`"
@@ -3755,6 +4352,12 @@
               "a": true,
               "h": "Key Type",
               "n": "keyType",
+              "op": {
+                "create": {
+                  "req": true,
+                  "type": "`$STRING`"
+                }
+              },
               "r": false,
               "sh": "The type of cipher used during decrytion.",
               "t": "`$STRING`"
@@ -3779,6 +4382,12 @@
               "a": true,
               "h": "Method",
               "n": "method",
+              "op": {
+                "create": {
+                  "req": true,
+                  "type": "`$STRING`"
+                }
+              },
               "r": false,
               "sh": "The decryption cypher/method.",
               "t": "`$STRING`"
@@ -3787,6 +4396,12 @@
               "a": true,
               "h": "Partner",
               "n": "partner",
+              "op": {
+                "create": {
+                  "req": true,
+                  "type": "`$OBJECT`"
+                }
+              },
               "r": false,
               "sh": "Reference to the associated Partner.",
               "t": "`$OBJECT`"
@@ -3845,6 +4460,24 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "client",
+                    "clientRef",
+                    "decrypted",
+                    "device",
+                    "encrypted",
+                    "endDate",
+                    "errCode",
+                    "errMessage",
+                    "ipAddress",
+                    "keyType",
+                    "messageId",
+                    "method",
+                    "partner",
+                    "reference",
+                    "startDate",
+                    "success"
+                  ],
                   "co": {
                     "id": "POST /transactions",
                     "source": "openapi3",
@@ -3856,6 +4489,10 @@
                   "o": "/transactions",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "transactions"
@@ -3893,7 +4530,7 @@
                         "a": true,
                         "k": "query",
                         "n": "client_ref",
-                        "or": "client_ref",
+                        "or": "clientRef",
                         "r": false,
                         "t": "`$STRING`"
                       },
@@ -3901,7 +4538,7 @@
                         "a": true,
                         "k": "query",
                         "n": "date_from",
-                        "or": "date_from",
+                        "or": "dateFrom",
                         "r": false,
                         "t": "`$STRING`"
                       },
@@ -3909,7 +4546,7 @@
                         "a": true,
                         "k": "query",
                         "n": "date_to",
-                        "or": "date_to",
+                        "or": "dateTo",
                         "r": false,
                         "t": "`$STRING`"
                       },
@@ -3925,7 +4562,7 @@
                         "a": true,
                         "k": "query",
                         "n": "message_id",
-                        "or": "message_id",
+                        "or": "messageId",
                         "r": false,
                         "t": "`$STRING`"
                       },
@@ -3934,7 +4571,7 @@
                         "ex": "nocount",
                         "k": "query",
                         "n": "paging_mode",
-                        "or": "paging_mode",
+                        "or": "paging.mode",
                         "r": false,
                         "t": "`$STRING`"
                       },
@@ -3958,7 +4595,7 @@
                         "a": true,
                         "k": "query",
                         "n": "serial_number",
-                        "or": "serial_number",
+                        "or": "serialNumber",
                         "r": false,
                         "t": "`$STRING`"
                       },
@@ -3993,24 +4630,12 @@
                   "k": "http",
                   "m": "GET",
                   "o": "/transactions",
-                  "q": {
-                    "exist": [
-                      "client",
-                      "client_ref",
-                      "date_from",
-                      "date_to",
-                      "location",
-                      "message_id",
-                      "paging_mode",
-                      "partner",
-                      "reference",
-                      "serial_number",
-                      "skip",
-                      "success",
-                      "take"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "transactions"
@@ -4055,6 +4680,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "transactions"
@@ -4081,6 +4710,55 @@
             "field": {}
           },
           "fields": {
+            "address1": {
+              "a": true,
+              "h": "Address1",
+              "n": "address1",
+              "r": false,
+              "sh": "The Location's street address.",
+              "t": "`$STRING`"
+            },
+            "address2": {
+              "a": true,
+              "h": "Address2",
+              "n": "address2",
+              "r": false,
+              "sh": "The Location's street address.",
+              "t": "`$STRING`"
+            },
+            "alternateKey": {
+              "a": true,
+              "h": "Alternate Key",
+              "n": "alternateKey",
+              "r": false,
+              "sh": "The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging.",
+              "t": "`$STRING`"
+            },
+            "auditNextDate": {
+              "a": true,
+              "fo": "datetime",
+              "h": "Audit Next Date",
+              "n": "auditNextDate",
+              "r": false,
+              "sh": "Date and time that the Device is due its next PCI Audit.",
+              "t": "`$STRING`"
+            },
+            "billingId": {
+              "a": true,
+              "h": "Billing Id",
+              "n": "billingId",
+              "r": false,
+              "sh": "\\?",
+              "t": "`$STRING`"
+            },
+            "city": {
+              "a": true,
+              "h": "City",
+              "n": "city",
+              "r": false,
+              "sh": "The Location's city.",
+              "t": "`$STRING`"
+            },
             "client": {
               "a": true,
               "h": "Client",
@@ -4089,19 +4767,163 @@
               "sh": "Reference to the associated Client resource.",
               "t": "`$OBJECT`"
             },
+            "clientCanOrderEquipment": {
+              "a": true,
+              "h": "Client Can Order Equipment",
+              "n": "clientCanOrderEquipment",
+              "r": false,
+              "sh": "This property indicates if the Partner is allowed to order Equipment.",
+              "t": "`$BOOLEAN`"
+            },
+            "clientRef": {
+              "a": true,
+              "h": "Client Ref",
+              "n": "clientRef",
+              "r": false,
+              "sh": "Client Reference property that is included in the decrypt API call.",
+              "t": "`$STRING`"
+            },
+            "contact": {
+              "a": true,
+              "h": "Contact",
+              "n": "contact",
+              "r": true,
+              "sh": "Reference to the associated User resource.",
+              "t": "`$OBJECT`"
+            },
+            "country": {
+              "a": true,
+              "h": "Country",
+              "n": "country",
+              "r": false,
+              "sh": "Reference to the associated Country.",
+              "t": "`$OBJECT`"
+            },
+            "customReference": {
+              "a": true,
+              "h": "Custom Reference",
+              "n": "customReference",
+              "r": false,
+              "sh": "A Partner specified reference for a location.",
+              "t": "`$STRING`"
+            },
+            "dateShipped": {
+              "a": true,
+              "fo": "datetime",
+              "h": "Date Shipped",
+              "n": "dateShipped",
+              "r": false,
+              "sh": "The date and time that a package is shipped.",
+              "t": "`$STRING`"
+            },
+            "decrypted": {
+              "a": true,
+              "fo": "int32",
+              "h": "Decrypted",
+              "n": "decrypted",
+              "r": false,
+              "sh": "A Transcation can process muliple decryptions.",
+              "t": "`$INTEGER`"
+            },
+            "device": {
+              "a": true,
+              "h": "Device",
+              "n": "device",
+              "r": false,
+              "sh": "Reference to the associated Device resource.",
+              "t": "`$OBJECT`"
+            },
+            "deviceBuild": {
+              "a": true,
+              "h": "Device Build",
+              "n": "deviceBuild",
+              "r": false,
+              "sh": "Reference to the associated Device Build resource.",
+              "t": "`$OBJECT`"
+            },
+            "deviceType": {
+              "a": true,
+              "h": "Device Type",
+              "n": "deviceType",
+              "r": false,
+              "sh": "Reference to the associated Device Type resource.",
+              "t": "`$OBJECT`"
+            },
+            "directPartner": {
+              "a": true,
+              "h": "Direct Partner",
+              "n": "directPartner",
+              "r": false,
+              "sh": "Reference to the associated Partner.",
+              "t": "`$OBJECT`"
+            },
             "email": {
               "a": true,
               "h": "Email",
               "n": "email",
-              "r": false,
+              "op": {
+                "list": {
+                  "req": false,
+                  "type": "`$STRING`"
+                },
+                "update": {
+                  "req": false,
+                  "type": "`$STRING`"
+                }
+              },
+              "r": true,
               "sh": "The User's email address.",
+              "t": "`$STRING`"
+            },
+            "encrypted": {
+              "a": true,
+              "fo": "int32",
+              "h": "Encrypted",
+              "n": "encrypted",
+              "r": false,
+              "sh": "A Transcation can process muliple encryptions.",
+              "t": "`$INTEGER`"
+            },
+            "endDate": {
+              "a": true,
+              "fo": "datetime",
+              "h": "End Date",
+              "n": "endDate",
+              "r": false,
+              "sh": "Timestamp from the end of the transaction.",
+              "t": "`$STRING`"
+            },
+            "errCode": {
+              "a": true,
+              "h": "Err Code",
+              "n": "errCode",
+              "r": false,
+              "sh": "The error code that is sent in response to a failed decrypt API call.",
+              "t": "`$STRING`"
+            },
+            "errMessage": {
+              "a": true,
+              "h": "Err Message",
+              "n": "errMessage",
+              "r": false,
+              "sh": "The error messge that is sent in response to a failed decrypt API call.",
               "t": "`$STRING`"
             },
             "firstName": {
               "a": true,
               "h": "First Name",
               "n": "firstName",
-              "r": false,
+              "op": {
+                "list": {
+                  "req": false,
+                  "type": "`$STRING`"
+                },
+                "update": {
+                  "req": false,
+                  "type": "`$STRING`"
+                }
+              },
+              "r": true,
               "sh": "The User's name.",
               "t": "`$STRING`"
             },
@@ -4113,13 +4935,54 @@
               "sh": "ID of newly created resource",
               "t": "`$STRING`"
             },
+            "injectKey": {
+              "a": true,
+              "h": "Inject Key",
+              "n": "injectKey",
+              "r": false,
+              "sh": "Reference to the associated Device resource.",
+              "t": "`$OBJECT`"
+            },
+            "ipAddress": {
+              "a": true,
+              "h": "Ip Address",
+              "n": "ipAddress",
+              "r": false,
+              "sh": "The IP address of the http client that makes the decrypt API call.",
+              "t": "`$STRING`"
+            },
             "isActive": {
               "a": true,
               "h": "Is Active",
               "n": "isActive",
-              "r": false,
+              "op": {
+                "list": {
+                  "req": false,
+                  "type": "`$BOOLEAN`"
+                },
+                "update": {
+                  "req": false,
+                  "type": "`$BOOLEAN`"
+                }
+              },
+              "r": true,
               "sh": "This property indicates if the User account is active or disabled.",
               "t": "`$BOOLEAN`"
+            },
+            "items": {
+              "a": true,
+              "h": "Items",
+              "n": "items",
+              "r": false,
+              "t": "`$ARRAY`"
+            },
+            "keyType": {
+              "a": true,
+              "h": "Key Type",
+              "n": "keyType",
+              "r": false,
+              "sh": "The type of cipher used during decrytion.",
+              "t": "`$STRING`"
             },
             "kif": {
               "a": true,
@@ -4133,9 +4996,139 @@
               "a": true,
               "h": "Last Name",
               "n": "lastName",
-              "r": false,
+              "op": {
+                "list": {
+                  "req": false,
+                  "type": "`$STRING`"
+                },
+                "update": {
+                  "req": false,
+                  "type": "`$STRING`"
+                }
+              },
+              "r": true,
               "sh": "The User's Surname.",
               "t": "`$STRING`"
+            },
+            "location": {
+              "a": true,
+              "h": "Location",
+              "n": "location",
+              "r": true,
+              "sh": "Reference to the associated Location resource.",
+              "t": "`$OBJECT`"
+            },
+            "locationType": {
+              "a": true,
+              "h": "Location Type",
+              "n": "locationType",
+              "r": false,
+              "sh": "The Location's clasification.",
+              "t": "`$STRING`"
+            },
+            "mailAddress1": {
+              "a": true,
+              "h": "Mail Address1",
+              "n": "mailAddress1",
+              "r": false,
+              "sh": "The Location's street address.",
+              "t": "`$STRING`"
+            },
+            "mailAddress2": {
+              "a": true,
+              "h": "Mail Address2",
+              "n": "mailAddress2",
+              "r": false,
+              "sh": "The Location's street address.",
+              "t": "`$STRING`"
+            },
+            "mailCity": {
+              "a": true,
+              "h": "Mail City",
+              "n": "mailCity",
+              "r": false,
+              "sh": "The Location's city.",
+              "t": "`$STRING`"
+            },
+            "mailCountry": {
+              "a": true,
+              "h": "Mail Country",
+              "n": "mailCountry",
+              "r": false,
+              "sh": "The Location's street address.",
+              "t": "`$STRING`"
+            },
+            "mailPostalCode": {
+              "a": true,
+              "h": "Mail Postal Code",
+              "n": "mailPostalCode",
+              "r": false,
+              "sh": "The Location's postal code.",
+              "t": "`$STRING`"
+            },
+            "mailStateProvince": {
+              "a": true,
+              "h": "Mail State Province",
+              "n": "mailStateProvince",
+              "r": false,
+              "sh": "The Location's street state or province.",
+              "t": "`$STRING`"
+            },
+            "messageId": {
+              "a": true,
+              "h": "Message Id",
+              "n": "messageId",
+              "r": false,
+              "sh": "Message ID.",
+              "t": "`$STRING`"
+            },
+            "method": {
+              "a": true,
+              "h": "Method",
+              "n": "method",
+              "r": false,
+              "sh": "The decryption cypher/method.",
+              "t": "`$STRING`"
+            },
+            "mid": {
+              "a": true,
+              "h": "Mid",
+              "n": "mid",
+              "r": false,
+              "sh": "Some Partners will have an merchant ids on their own software offerings.",
+              "t": "`$STRING`"
+            },
+            "name": {
+              "a": true,
+              "h": "Name",
+              "n": "name",
+              "r": false,
+              "sh": "The Client's name.",
+              "t": "`$STRING`"
+            },
+            "nameOfBusiness": {
+              "a": true,
+              "h": "Name Of Business",
+              "n": "nameOfBusiness",
+              "r": false,
+              "sh": "The name of the business at this location.",
+              "t": "`$STRING`"
+            },
+            "notes": {
+              "a": true,
+              "h": "Notes",
+              "n": "notes",
+              "r": false,
+              "sh": "Arbitary note that can be attached to a Device entry.",
+              "t": "`$STRING`"
+            },
+            "parent": {
+              "a": true,
+              "h": "Parent",
+              "n": "parent",
+              "r": false,
+              "sh": "Reference to the associated Partner.",
+              "t": "`$OBJECT`"
             },
             "partner": {
               "a": true,
@@ -4145,19 +5138,120 @@
               "sh": "Reference to the associated Partner.",
               "t": "`$OBJECT`"
             },
+            "partnerId": {
+              "a": true,
+              "h": "Partner Id",
+              "n": "partnerId",
+              "r": false,
+              "sh": "The Partner's id.",
+              "t": "`$STRING`"
+            },
             "phone": {
               "a": true,
               "h": "Phone",
               "n": "phone",
-              "r": false,
+              "op": {
+                "list": {
+                  "req": false,
+                  "type": "`$STRING`"
+                },
+                "update": {
+                  "req": false,
+                  "type": "`$STRING`"
+                }
+              },
+              "r": true,
               "sh": "The User's phone number without dashes, spaces, or brackets.",
+              "t": "`$STRING`"
+            },
+            "postalCode": {
+              "a": true,
+              "h": "Postal Code",
+              "n": "postalCode",
+              "r": false,
+              "sh": "The Location's postal code.",
+              "t": "`$STRING`"
+            },
+            "reference": {
+              "a": true,
+              "h": "Reference",
+              "n": "reference",
+              "r": false,
+              "sh": "The Partner's reference string.",
+              "t": "`$STRING`"
+            },
+            "sendWelcomeEmail": {
+              "a": true,
+              "h": "Send Welcome Email",
+              "n": "sendWelcomeEmail",
+              "r": false,
+              "sh": "If this property is set to '*true*' the newly created user will be sent a welcome email.",
+              "t": "`$BOOLEAN`"
+            },
+            "serialNumber": {
+              "a": true,
+              "h": "Serial Number",
+              "n": "serialNumber",
+              "r": false,
+              "sh": "The Device's serial number.",
+              "t": "`$STRING`"
+            },
+            "startDate": {
+              "a": true,
+              "fo": "datetime",
+              "h": "Start Date",
+              "n": "startDate",
+              "r": false,
+              "sh": "Timestamp from the beginning of the transaction.",
+              "t": "`$STRING`"
+            },
+            "stateProvince": {
+              "a": true,
+              "h": "State Province",
+              "n": "stateProvince",
+              "r": false,
+              "sh": "The Location's street state or province.",
+              "t": "`$STRING`"
+            },
+            "success": {
+              "a": true,
+              "h": "Success",
+              "n": "success",
+              "r": false,
+              "sh": "The success indicator.",
+              "t": "`$BOOLEAN`"
+            },
+            "tracking": {
+              "a": true,
+              "h": "Tracking",
+              "n": "tracking",
+              "r": false,
+              "sh": "The courier's tracking number.",
+              "t": "`$STRING`"
+            },
+            "uniqueId": {
+              "a": true,
+              "h": "Unique Id",
+              "n": "uniqueId",
+              "r": false,
+              "sh": "Unique Identifier for the Location.",
               "t": "`$STRING`"
             },
             "userName": {
               "a": true,
               "h": "User Name",
               "n": "userName",
-              "r": false,
+              "op": {
+                "list": {
+                  "req": false,
+                  "type": "`$STRING`"
+                },
+                "update": {
+                  "req": false,
+                  "type": "`$STRING`"
+                }
+              },
+              "r": true,
               "sh": "The User's unique username.",
               "t": "`$STRING`"
             },
@@ -4165,9 +5259,27 @@
               "a": true,
               "h": "User Role",
               "n": "userRole",
-              "r": false,
+              "op": {
+                "list": {
+                  "req": false,
+                  "type": "`$OBJECT`"
+                },
+                "update": {
+                  "req": false,
+                  "type": "`$OBJECT`"
+                }
+              },
+              "r": true,
               "sh": "Reference to the associated User Role.",
               "t": "`$OBJECT`"
+            },
+            "verificationPhrase": {
+              "a": true,
+              "h": "Verification Phrase",
+              "n": "verificationPhrase",
+              "r": false,
+              "sh": "The verification phrase is a message that the Partner creates.",
+              "t": "`$STRING`"
             },
             "version": {
               "a": true,
@@ -4190,6 +5302,19 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "client",
+                    "email",
+                    "firstName",
+                    "isActive",
+                    "kif",
+                    "lastName",
+                    "partner",
+                    "phone",
+                    "sendWelcomeEmail",
+                    "userName",
+                    "userRole"
+                  ],
                   "co": {
                     "id": "POST /users",
                     "source": "openapi3",
@@ -4201,6 +5326,10 @@
                   "o": "/users",
                   "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "users"
@@ -4273,16 +5402,12 @@
                   "k": "http",
                   "m": "GET",
                   "o": "/users",
-                  "q": {
-                    "exist": [
-                      "client",
-                      "kif",
-                      "partner",
-                      "skip",
-                      "take"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "users"
@@ -4301,6 +5426,15 @@
               "points": [
                 {
                   "a": true,
+                  "bf": [
+                    "contact",
+                    "directPartner",
+                    "isActive",
+                    "location",
+                    "mid",
+                    "name",
+                    "version"
+                  ],
                   "co": {
                     "id": "PATCH /clients/{id}",
                     "source": "openapi3",
@@ -4327,6 +5461,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "clients"
@@ -4342,6 +5480,19 @@
                 },
                 {
                   "a": true,
+                  "bf": [
+                    "alternateKey",
+                    "auditNextDate",
+                    "client",
+                    "deviceBuild",
+                    "deviceType",
+                    "injectKey",
+                    "kif",
+                    "name",
+                    "notes",
+                    "partner",
+                    "serialNumber"
+                  ],
                   "co": {
                     "id": "PATCH /devices/{id}",
                     "source": "openapi3",
@@ -4368,6 +5519,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "devices"
@@ -4383,6 +5538,27 @@
                 },
                 {
                   "a": true,
+                  "bf": [
+                    "address1",
+                    "address2",
+                    "billingId",
+                    "city",
+                    "country",
+                    "customReference",
+                    "locationType",
+                    "mailAddress1",
+                    "mailAddress2",
+                    "mailCity",
+                    "mailCountry",
+                    "mailPostalCode",
+                    "mailStateProvince",
+                    "name",
+                    "nameOfBusiness",
+                    "notes",
+                    "postalCode",
+                    "stateProvince",
+                    "uniqueId"
+                  ],
                   "co": {
                     "id": "PATCH /locations/{id}",
                     "source": "openapi3",
@@ -4409,6 +5585,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "locations"
@@ -4424,6 +5604,19 @@
                 },
                 {
                   "a": true,
+                  "bf": [
+                    "billingId",
+                    "clientCanOrderEquipment",
+                    "contact",
+                    "isActive",
+                    "location",
+                    "name",
+                    "parent",
+                    "partnerId",
+                    "reference",
+                    "verificationPhrase",
+                    "version"
+                  ],
                   "co": {
                     "id": "PATCH /partners/{id}",
                     "source": "openapi3",
@@ -4450,6 +5643,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "partners"
@@ -4465,6 +5662,11 @@
                 },
                 {
                   "a": true,
+                  "bf": [
+                    "dateShipped",
+                    "items",
+                    "tracking"
+                  ],
                   "co": {
                     "id": "PATCH /shipments/{id}",
                     "source": "openapi3",
@@ -4491,6 +5693,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "shipments"
@@ -4506,6 +5712,24 @@
                 },
                 {
                   "a": true,
+                  "bf": [
+                    "client",
+                    "clientRef",
+                    "decrypted",
+                    "device",
+                    "encrypted",
+                    "endDate",
+                    "errCode",
+                    "errMessage",
+                    "ipAddress",
+                    "keyType",
+                    "messageId",
+                    "method",
+                    "partner",
+                    "reference",
+                    "startDate",
+                    "success"
+                  ],
                   "co": {
                     "id": "PATCH /transactions/{id}",
                     "source": "openapi3",
@@ -4532,6 +5756,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "transactions"
@@ -4547,6 +5775,19 @@
                 },
                 {
                   "a": true,
+                  "bf": [
+                    "client",
+                    "email",
+                    "firstName",
+                    "isActive",
+                    "kif",
+                    "lastName",
+                    "partner",
+                    "phone",
+                    "sendWelcomeEmail",
+                    "userName",
+                    "userRole"
+                  ],
                   "co": {
                     "id": "PATCH /users/{id}",
                     "source": "openapi3",
@@ -4573,6 +5814,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "users"
@@ -4752,6 +5997,10 @@
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "users"
@@ -4872,7 +6121,7 @@
                         "a": true,
                         "k": "param",
                         "n": "id",
-                        "or": "share_partner_to",
+                        "or": "sharePartnerTo",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -4892,7 +6141,7 @@
                         "ex": "asc",
                         "k": "query",
                         "n": "sorting_direction",
-                        "or": "sorting_direction",
+                        "or": "sorting.direction",
                         "r": false,
                         "t": "`$STRING`"
                       },
@@ -4901,7 +6150,7 @@
                         "ex": "serialnumber",
                         "k": "query",
                         "n": "sorting_field",
-                        "or": "sorting_field",
+                        "or": "sorting.field",
                         "r": false,
                         "t": "`$STRING`"
                       },
@@ -4921,17 +6170,17 @@
                   "o": "/virtualDevices/{sharePartnerTo}",
                   "q": {
                     "exist": [
-                      "id",
-                      "skip",
-                      "sorting_direction",
-                      "sorting_field",
-                      "take"
+                      "id"
                     ]
                   },
                   "r": {
                     "param": {
                       "sharePartnerTo": "id"
                     }
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
                   },
                   "s": [
                     {
@@ -6713,6 +7962,7 @@
             },
             "optspec": {
               "clearTimer": "`$FUNCTION`",
+              "now": "`$FUNCTION`",
               "setTimer": "`$FUNCTION`"
             },
             "strict": false
@@ -7757,7 +9007,7 @@
                 "ref": "update_result_ref01",
                 "srcdatavar": "update_result_ref01_data",
                 "suffix": "_up0",
-                "textfield": "email"
+                "textfield": "address1"
               },
               "m": {},
               "o": "update",
@@ -7864,7 +9114,7 @@
       "optspec": {
         "allow": {
           "method": "GET,PUT,POST,PATCH,DELETE,OPTIONS",
-          "op": "create,update,load,list,remove,command,direct,graphql"
+          "op": "create,update,patch,load,list,remove,command,direct,graphql"
         },
         "apikey": "",
         "auth": {
@@ -7875,7 +9125,12 @@
         },
         "base": "http://localhost:8000",
         "clean": {
-          "keys": "key,token,id"
+          "active": true,
+          "hint": "0",
+          "keys": "key,secret,token,password,passwd,authorization,cookie,credential,signature",
+          "mask": "[redacted]",
+          "min": "4",
+          "values": ""
         },
         "entity": {
           "`$CHILD`": {
@@ -7912,6 +9167,11 @@
         "top": {
           "active": true
         }
+      },
+      "publisher": {
+        "name": "",
+        "security": "",
+        "url": ""
       },
       "repo": {
         "host": "github.com",
@@ -8549,7 +9809,10 @@
             "version": "0.1.1"
           },
           "superseded": [],
-          "title": "Go MCP server"
+          "title": "Go MCP server",
+          "tool": {
+            "write": false
+          }
         },
         "haskell": {
           "active": true,
@@ -9704,6 +10967,17 @@
           "base": "",
           "strict": true
         }
+      },
+      "text": {
+        "about_md": "",
+        "docs_url": "",
+        "entity_desc": {},
+        "homepage": "",
+        "meta_source": "",
+        "summary": "",
+        "tagline": "",
+        "title": "",
+        "website": ""
       }
     }
   },

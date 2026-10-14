@@ -202,42 +202,61 @@ const attestation = client.attestation(h.vnull());
 | `completeDate` | `[]const u8` | No | The date and time that the Attestation took place. |
 | `created` | `[]const u8` | No | Creation timestamp in ISO 8601 format. |
 | `device` | `Value (object)` | No | Reference to the associated Device resource. |
+| `devices` | `Value (array)` | Yes |  |
 | `id` | `[]const u8` | No | This resource's unique identifier. |
 | `name` | `[]const u8` | No | Text describing the attestation. |
 | `notes` | `[]const u8` | No | Free form field that allows the Client associate notes with the Attestation. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `client` | - | - | Yes |
+| `completeDate` | - | - | Yes |
+| `created` | - | - | - |
+| `device` | - | - | - |
+| `devices` | - | - | - |
+| `id` | - | - | - |
+| `name` | - | - | Yes |
+| `notes` | - | - | - |
+
 ### Operations
 
-#### `create(reqdata: Value, ctrl: Value) OpResult`
+#### `create(reqdata: Value, ctrl: Value) EntResult`
 
-Create a new entity with the given data. `.ok` carries the created entity data.
+Create a new entity with the given data. `.ok` carries the created entity.
 
 ```zig
 switch (client.attestation(h.vnull()).create(h.jo(&.{
+    .{ "devices", h.olist() }, // Value (array)
 }), h.vnull())) {
-    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result)}),
+    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
 }
 ```
 
-#### `list(reqmatch: Value, ctrl: Value) OpResult`
+#### `list(reqmatch: Value, ctrl: Value) EntListResult`
 
-List entities matching the given criteria. The match is optional — pass `h.vnull()` to list all records. `.ok` is a `Value` array.
+List entities matching the given criteria. The match is optional — pass `h.vnull()` to list all records. `.ok` is a slice of entities, one per record.
 
 ```zig
-switch (client.attestation(h.vnull()).list(h.vnull(), h.vnull())) {
-    .ok => |results| std.debug.print("{s}\n", .{h.stringify(results)}),
+switch (client.attestation(h.vnull()).list(h.jo(&.{.{ "client", h.vstr("example") }}), h.vnull())) {
+    .ok => |results| {
+        for (results) |result| {
+            std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))});
+        }
+    },
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
 }
 ```
 
-#### `load(reqmatch: Value, ctrl: Value) OpResult`
+#### `load(reqmatch: Value, ctrl: Value) EntResult`
 
-Load a single entity matching the given criteria. `.ok` carries the entity data, `.err` the branded error.
+Load a single entity matching the given criteria. `.ok` carries the entity, whose record `asEntity().data(null)` reads, and `.err` the branded error.
 
 ```zig
 switch (client.attestation(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("attestation_id") }}), h.vnull())) {
-    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result)}),
+    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))}),
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
@@ -252,9 +271,13 @@ Get the entity data. Pass a map to set it.
 
 Get the entity match criteria. Pass a map to set it.
 
-#### `stream(action: []const u8, args: Value, callopts: Value) []Value`
+#### `stream(action: []const u8, args: Value, callopts: Value) StreamResult`
 
 Run an operation through the pipeline and materialise its result items.
+`StreamResult` is `.ok` with the items, or `.err` with the error that
+failed the operation, as an operation call reports it. Under `throw: false`
+in `callopts.ctrl`, a failed stream is `.ok` with whatever data the
+failure left.
 
 #### `get_name() []const u8`
 
@@ -289,62 +312,66 @@ const client = client.client(h.vnull());
 
 | Field | load | list | create | remove |
 | --- | --- | --- | --- | --- |
-| `contact` | - | Yes | - | - |
+| `contact` | - | Yes | Yes | - |
 | `created` | - | - | - | - |
-| `directPartner` | - | - | - | - |
+| `directPartner` | - | - | Yes | - |
 | `id` | - | - | - | - |
 | `isActive` | - | - | - | - |
 | `location` | - | - | - | - |
 | `mid` | - | - | - | - |
 | `modified` | - | - | - | - |
-| `name` | - | - | - | - |
+| `name` | - | - | Yes | - |
 | `partner` | - | - | - | - |
 | `version` | - | - | - | - |
 
 ### Operations
 
-#### `create(reqdata: Value, ctrl: Value) OpResult`
+#### `create(reqdata: Value, ctrl: Value) EntResult`
 
-Create a new entity with the given data. `.ok` carries the created entity data.
+Create a new entity with the given data. `.ok` carries the created entity.
 
 ```zig
 switch (client.client(h.vnull()).create(h.jo(&.{
     .{ "location", h.omap() }, // Value (object)
 }), h.vnull())) {
-    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result)}),
+    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
 }
 ```
 
-#### `list(reqmatch: Value, ctrl: Value) OpResult`
+#### `list(reqmatch: Value, ctrl: Value) EntListResult`
 
-List entities matching the given criteria. The match is optional — pass `h.vnull()` to list all records. `.ok` is a `Value` array.
+List entities matching the given criteria. The match is optional — pass `h.vnull()` to list all records. `.ok` is a slice of entities, one per record.
 
 ```zig
-switch (client.client(h.vnull()).list(h.vnull(), h.vnull())) {
-    .ok => |results| std.debug.print("{s}\n", .{h.stringify(results)}),
+switch (client.client(h.vnull()).list(h.jo(&.{.{ "partner", h.vstr("example") }}), h.vnull())) {
+    .ok => |results| {
+        for (results) |result| {
+            std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))});
+        }
+    },
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
 }
 ```
 
-#### `load(reqmatch: Value, ctrl: Value) OpResult`
+#### `load(reqmatch: Value, ctrl: Value) EntResult`
 
-Load a single entity matching the given criteria. `.ok` carries the entity data, `.err` the branded error.
+Load a single entity matching the given criteria. `.ok` carries the entity, whose record `asEntity().data(null)` reads, and `.err` the branded error.
 
 ```zig
 switch (client.client(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("client_id") }}), h.vnull())) {
-    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result)}),
+    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))}),
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
 
-#### `remove(reqmatch: Value, ctrl: Value) OpResult`
+#### `remove(reqmatch: Value, ctrl: Value) EntResult`
 
-Remove the entity matching the given criteria. `.err` on failure.
+Remove the entity matching the given criteria. `.ok` carries the entity, marked as deleted, and `.err` the branded error.
 
 ```zig
 switch (client.client(h.vnull()).remove(h.jo(&.{.{ "id", h.vstr("client_id") }}), h.vnull())) {
-    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result)}),
+    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))}),
     .err => |e| std.debug.print("remove failed: {s}\n", .{e.msg}),
 }
 ```
@@ -359,9 +386,13 @@ Get the entity data. Pass a map to set it.
 
 Get the entity match criteria. Pass a map to set it.
 
-#### `stream(action: []const u8, args: Value, callopts: Value) []Value`
+#### `stream(action: []const u8, args: Value, callopts: Value) StreamResult`
 
 Run an operation through the pipeline and materialise its result items.
+`StreamResult` is `.ok` with the items, or `.err` with the error that
+failed the operation, as an operation call reports it. Under `throw: false`
+in `callopts.ctrl`, a failed stream is `.ok` with whatever data the
+failure left.
 
 #### `get_name() []const u8`
 
@@ -376,18 +407,29 @@ Return the entity name.
 const create_result = client.create_result(h.vnull());
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `completeDate` | `[]const u8` | No | The date and time that the Custody change took place. |
+| `custodian` | `Value (object)` | Yes | Reference to the associated User resource. |
+| `location` | `Value (object)` | Yes | Reference to the associated Location resource. |
+| `notes` | `[]const u8` | No | Free form field that allows the Client associate notes with the Custody Change. |
+
 ### Operations
 
-#### `create(reqdata: Value, ctrl: Value) OpResult`
+#### `create(reqdata: Value, ctrl: Value) EntResult`
 
-Create a new entity with the given data. `.ok` carries the created entity data.
+Create a new entity with the given data. `.ok` carries the created entity.
 
 ```zig
 switch (client.create_result(h.vnull()).create(h.jo(&.{
     .{ "device_type", h.vstr("example_device_type") }, // []const u8
     .{ "serial_number", h.vstr("example_serial_number") }, // []const u8
+    .{ "custodian", h.omap() }, // Value (object)
+    .{ "location", h.omap() }, // Value (object)
 }), h.vnull())) {
-    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result)}),
+    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
 }
 ```
@@ -402,9 +444,13 @@ Get the entity data. Pass a map to set it.
 
 Get the entity match criteria. Pass a map to set it.
 
-#### `stream(action: []const u8, args: Value, callopts: Value) []Value`
+#### `stream(action: []const u8, args: Value, callopts: Value) StreamResult`
 
 Run an operation through the pipeline and materialise its result items.
+`StreamResult` is `.ok` with the items, or `.err` with the error that
+failed the operation, as an operation call reports it. Under `throw: false`
+in `callopts.ctrl`, a failed stream is `.ok` with whatever data the
+failure left.
 
 #### `get_name() []const u8`
 
@@ -423,18 +469,29 @@ const decryption = client.decryption(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `cbcVector` | `[]const u8` | No | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | `[]const u8` | Yes | The device Type. |
+| `encoding` | `[]const u8` | No | The payload encoding |
+| `encrypted` | `Value (array)` | Yes |  |
+| `hasCcData` | `[]const u8` | No | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | `[]const u8` | No | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | `[]const u8` | No | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | `[]const u8` | Yes | The serial number of the device. |
 | `success` | `bool` | No | true if the payload decryption was successful. |
 
 ### Operations
 
-#### `create(reqdata: Value, ctrl: Value) OpResult`
+#### `create(reqdata: Value, ctrl: Value) EntResult`
 
-Create a new entity with the given data. `.ok` carries the created entity data.
+Create a new entity with the given data. `.ok` carries the created entity.
 
 ```zig
 switch (client.decryption(h.vnull()).create(h.jo(&.{
+    .{ "deviceType", h.vstr("example_deviceType") }, // []const u8
+    .{ "encrypted", h.olist() }, // Value (array)
+    .{ "serialNumber", h.vstr("example_serialNumber") }, // []const u8
 }), h.vnull())) {
-    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result)}),
+    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
 }
 ```
@@ -449,9 +506,13 @@ Get the entity data. Pass a map to set it.
 
 Get the entity match criteria. Pass a map to set it.
 
-#### `stream(action: []const u8, args: Value, callopts: Value) []Value`
+#### `stream(action: []const u8, args: Value, callopts: Value) StreamResult`
 
 Run an operation through the pipeline and materialise its result items.
+`StreamResult` is `.ok` with the items, or `.err` with the error that
+failed the operation, as an operation call reports it. Under `throw: false`
+in `callopts.ctrl`, a failed stream is `.ok` with whatever data the
+failure left.
 
 #### `get_name() []const u8`
 
@@ -499,11 +560,44 @@ const device = client.device(h.vnull());
 | `serialNumber` | `[]const u8` | No | The Device's serial number. |
 | `version` | `i64` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `activatedBy` | - | - | - |
+| `activationDate` | - | - | - |
+| `alternateKey` | - | - | - |
+| `auditNextDate` | - | - | - |
+| `auditNotificationDate` | - | - | - |
+| `client` | - | - | - |
+| `created` | - | - | - |
+| `createdBy` | - | - | - |
+| `deviceBuild` | - | - | - |
+| `deviceState` | - | - | - |
+| `deviceType` | - | - | Yes |
+| `errorCounter` | - | - | - |
+| `errorLastDate` | - | - | - |
+| `id` | - | - | - |
+| `initializedBy` | - | - | - |
+| `initializedDate` | - | - | - |
+| `injectKey` | - | - | - |
+| `isVirtual` | - | - | - |
+| `kif` | - | - | Yes |
+| `lastActivityDate` | - | - | - |
+| `location` | - | - | - |
+| `modified` | - | - | - |
+| `modifiedBy` | - | - | - |
+| `name` | - | - | - |
+| `notes` | - | - | - |
+| `partner` | - | - | - |
+| `serialNumber` | - | - | Yes |
+| `version` | - | - | - |
+
 ### Operations
 
-#### `create(reqdata: Value, ctrl: Value) OpResult`
+#### `create(reqdata: Value, ctrl: Value) EntResult`
 
-Create a new entity with the given data. `.ok` carries the created entity data.
+Create a new entity with the given data. `.ok` carries the created entity.
 
 ```zig
 switch (client.device(h.vnull()).create(h.jo(&.{
@@ -513,29 +607,33 @@ switch (client.device(h.vnull()).create(h.jo(&.{
     .{ "location", h.omap() }, // Value (object)
     .{ "modifiedBy", h.omap() }, // Value (object)
 }), h.vnull())) {
-    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result)}),
+    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
 }
 ```
 
-#### `list(reqmatch: Value, ctrl: Value) OpResult`
+#### `list(reqmatch: Value, ctrl: Value) EntListResult`
 
-List entities matching the given criteria. The match is optional — pass `h.vnull()` to list all records. `.ok` is a `Value` array.
+List entities matching the given criteria. The match is optional — pass `h.vnull()` to list all records. `.ok` is a slice of entities, one per record.
 
 ```zig
 switch (client.device(h.vnull()).list(h.vnull(), h.vnull())) {
-    .ok => |results| std.debug.print("{s}\n", .{h.stringify(results)}),
+    .ok => |results| {
+        for (results) |result| {
+            std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))});
+        }
+    },
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
 }
 ```
 
-#### `load(reqmatch: Value, ctrl: Value) OpResult`
+#### `load(reqmatch: Value, ctrl: Value) EntResult`
 
-Load a single entity matching the given criteria. `.ok` carries the entity data, `.err` the branded error.
+Load a single entity matching the given criteria. `.ok` carries the entity, whose record `asEntity().data(null)` reads, and `.err` the branded error.
 
 ```zig
 switch (client.device(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("device_id") }}), h.vnull())) {
-    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result)}),
+    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))}),
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
@@ -550,9 +648,13 @@ Get the entity data. Pass a map to set it.
 
 Get the entity match criteria. Pass a map to set it.
 
-#### `stream(action: []const u8, args: Value, callopts: Value) []Value`
+#### `stream(action: []const u8, args: Value, callopts: Value) StreamResult`
 
 Run an operation through the pipeline and materialise its result items.
+`StreamResult` is `.ok` with the items, or `.err` with the error that
+failed the operation, as an operation call reports it. Under `throw: false`
+in `callopts.ctrl`, a failed stream is `.ok` with whatever data the
+failure left.
 
 #### `get_name() []const u8`
 
@@ -589,24 +691,28 @@ const device_build = client.device_build(h.vnull());
 
 ### Operations
 
-#### `list(reqmatch: Value, ctrl: Value) OpResult`
+#### `list(reqmatch: Value, ctrl: Value) EntListResult`
 
-List entities matching the given criteria. The match is optional — pass `h.vnull()` to list all records. `.ok` is a `Value` array.
+List entities matching the given criteria. The match is optional — pass `h.vnull()` to list all records. `.ok` is a slice of entities, one per record.
 
 ```zig
 switch (client.device_build(h.vnull()).list(h.vnull(), h.vnull())) {
-    .ok => |results| std.debug.print("{s}\n", .{h.stringify(results)}),
+    .ok => |results| {
+        for (results) |result| {
+            std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))});
+        }
+    },
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
 }
 ```
 
-#### `load(reqmatch: Value, ctrl: Value) OpResult`
+#### `load(reqmatch: Value, ctrl: Value) EntResult`
 
-Load a single entity matching the given criteria. `.ok` carries the entity data, `.err` the branded error.
+Load a single entity matching the given criteria. `.ok` carries the entity, whose record `asEntity().data(null)` reads, and `.err` the branded error.
 
 ```zig
 switch (client.device_build(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("device_build_id") }}), h.vnull())) {
-    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result)}),
+    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))}),
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
@@ -621,9 +727,13 @@ Get the entity data. Pass a map to set it.
 
 Get the entity match criteria. Pass a map to set it.
 
-#### `stream(action: []const u8, args: Value, callopts: Value) []Value`
+#### `stream(action: []const u8, args: Value, callopts: Value) StreamResult`
 
 Run an operation through the pipeline and materialise its result items.
+`StreamResult` is `.ok` with the items, or `.err` with the error that
+failed the operation, as an operation call reports it. Under `throw: false`
+in `callopts.ctrl`, a failed stream is `.ok` with whatever data the
+failure left.
 
 #### `get_name() []const u8`
 
@@ -658,13 +768,13 @@ const device_custody_detail = client.device_custody_detail(h.vnull());
 
 ### Operations
 
-#### `load(reqmatch: Value, ctrl: Value) OpResult`
+#### `load(reqmatch: Value, ctrl: Value) EntResult`
 
-Load a single entity matching the given criteria. `.ok` carries the entity data, `.err` the branded error.
+Load a single entity matching the given criteria. `.ok` carries the entity, whose record `asEntity().data(null)` reads, and `.err` the branded error.
 
 ```zig
 switch (client.device_custody_detail(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("device_custody_detail_id") }, .{ "device_type", h.vstr("device_type") }, .{ "serial_number", h.vstr("serial_number") }}), h.vnull())) {
-    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result)}),
+    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))}),
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
@@ -679,9 +789,13 @@ Get the entity data. Pass a map to set it.
 
 Get the entity match criteria. Pass a map to set it.
 
-#### `stream(action: []const u8, args: Value, callopts: Value) []Value`
+#### `stream(action: []const u8, args: Value, callopts: Value) StreamResult`
 
 Run an operation through the pipeline and materialise its result items.
+`StreamResult` is `.ok` with the items, or `.err` with the error that
+failed the operation, as an operation call reports it. Under `throw: false`
+in `callopts.ctrl`, a failed stream is `.ok` with whatever data the
+failure left.
 
 #### `get_name() []const u8`
 
@@ -716,13 +830,17 @@ const device_custody_list_item = client.device_custody_list_item(h.vnull());
 
 ### Operations
 
-#### `list(reqmatch: Value, ctrl: Value) OpResult`
+#### `list(reqmatch: Value, ctrl: Value) EntListResult`
 
-List entities matching the given criteria. The match is optional — pass `h.vnull()` to list all records. `.ok` is a `Value` array.
+List entities matching the given criteria. The match is optional — pass `h.vnull()` to list all records. `.ok` is a slice of entities, one per record.
 
 ```zig
-switch (client.device_custody_list_item(h.vnull()).list(h.vnull(), h.vnull())) {
-    .ok => |results| std.debug.print("{s}\n", .{h.stringify(results)}),
+switch (client.device_custody_list_item(h.vnull()).list(h.jo(&.{.{ "device_type", h.vstr("example") }, .{ "serial_number", h.vstr("example") }}), h.vnull())) {
+    .ok => |results| {
+        for (results) |result| {
+            std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))});
+        }
+    },
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
 }
 ```
@@ -737,9 +855,13 @@ Get the entity data. Pass a map to set it.
 
 Get the entity match criteria. Pass a map to set it.
 
-#### `stream(action: []const u8, args: Value, callopts: Value) []Value`
+#### `stream(action: []const u8, args: Value, callopts: Value) StreamResult`
 
 Run an operation through the pipeline and materialise its result items.
+`StreamResult` is `.ok` with the items, or `.err` with the error that
+failed the operation, as an operation call reports it. Under `throw: false`
+in `callopts.ctrl`, a failed stream is `.ok` with whatever data the
+failure left.
 
 #### `get_name() []const u8`
 
@@ -758,19 +880,23 @@ const device_receive_result = client.device_receive_result(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `serialNumber` | `[]const u8` | Yes | The serial number of the Device that is shipped. |
 | `success` | `bool` | Yes | Indicates if the action succeeded. |
+| `tamperLabel` | `[]const u8` | Yes | The code that is printed the tamper label of the Device that is shipped. |
 
 ### Operations
 
-#### `create(reqdata: Value, ctrl: Value) OpResult`
+#### `create(reqdata: Value, ctrl: Value) EntResult`
 
-Create a new entity with the given data. `.ok` carries the created entity data.
+Create a new entity with the given data. `.ok` carries the created entity.
 
 ```zig
 switch (client.device_receive_result(h.vnull()).create(h.jo(&.{
+    .{ "serialNumber", h.vstr("example_serialNumber") }, // []const u8
     .{ "success", h.vbool(true) }, // bool
+    .{ "tamperLabel", h.vstr("example_tamperLabel") }, // []const u8
 }), h.vnull())) {
-    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result)}),
+    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
 }
 ```
@@ -785,9 +911,13 @@ Get the entity data. Pass a map to set it.
 
 Get the entity match criteria. Pass a map to set it.
 
-#### `stream(action: []const u8, args: Value, callopts: Value) []Value`
+#### `stream(action: []const u8, args: Value, callopts: Value) StreamResult`
 
 Run an operation through the pipeline and materialise its result items.
+`StreamResult` is `.ok` with the items, or `.err` with the error that
+failed the operation, as an operation call reports it. Under `throw: false`
+in `callopts.ctrl`, a failed stream is `.ok` with whatever data the
+failure left.
 
 #### `get_name() []const u8`
 
@@ -806,19 +936,28 @@ const device_rki_activate_result = client.device_rki_activate_result(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `appVersion` | `[]const u8` | No | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | `[]const u8` | No | The Device Builds's name. |
+| `buildNumber` | `[]const u8` | No | The Build Number. |
+| `configFile` | `[]const u8` | No | \? |
+| `firmwareVersion` | `[]const u8` | No | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `[]const u8` | No | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | `[]const u8` | Yes | The referenced Device's serial number. |
 | `success` | `bool` | Yes | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | `[]const u8` | No | \? |
 
 ### Operations
 
-#### `create(reqdata: Value, ctrl: Value) OpResult`
+#### `create(reqdata: Value, ctrl: Value) EntResult`
 
-Create a new entity with the given data. `.ok` carries the created entity data.
+Create a new entity with the given data. `.ok` carries the created entity.
 
 ```zig
 switch (client.device_rki_activate_result(h.vnull()).create(h.jo(&.{
+    .{ "serialNumber", h.vstr("example_serialNumber") }, // []const u8
     .{ "success", h.vbool(true) }, // bool
 }), h.vnull())) {
-    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result)}),
+    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
 }
 ```
@@ -833,9 +972,13 @@ Get the entity data. Pass a map to set it.
 
 Get the entity match criteria. Pass a map to set it.
 
-#### `stream(action: []const u8, args: Value, callopts: Value) []Value`
+#### `stream(action: []const u8, args: Value, callopts: Value) StreamResult`
 
 Run an operation through the pipeline and materialise its result items.
+`StreamResult` is `.ok` with the items, or `.err` with the error that
+failed the operation, as an operation call reports it. Under `throw: false`
+in `callopts.ctrl`, a failed stream is `.ok` with whatever data the
+failure left.
 
 #### `get_name() []const u8`
 
@@ -859,13 +1002,17 @@ const device_state = client.device_state(h.vnull());
 
 ### Operations
 
-#### `list(reqmatch: Value, ctrl: Value) OpResult`
+#### `list(reqmatch: Value, ctrl: Value) EntListResult`
 
-List entities matching the given criteria. The match is optional — pass `h.vnull()` to list all records. `.ok` is a `Value` array.
+List entities matching the given criteria. The match is optional — pass `h.vnull()` to list all records. `.ok` is a slice of entities, one per record.
 
 ```zig
 switch (client.device_state(h.vnull()).list(h.vnull(), h.vnull())) {
-    .ok => |results| std.debug.print("{s}\n", .{h.stringify(results)}),
+    .ok => |results| {
+        for (results) |result| {
+            std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))});
+        }
+    },
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
 }
 ```
@@ -880,9 +1027,13 @@ Get the entity data. Pass a map to set it.
 
 Get the entity match criteria. Pass a map to set it.
 
-#### `stream(action: []const u8, args: Value, callopts: Value) []Value`
+#### `stream(action: []const u8, args: Value, callopts: Value) StreamResult`
 
 Run an operation through the pipeline and materialise its result items.
+`StreamResult` is `.ok` with the items, or `.err` with the error that
+failed the operation, as an operation call reports it. Under `throw: false`
+in `callopts.ctrl`, a failed stream is `.ok` with whatever data the
+failure left.
 
 #### `get_name() []const u8`
 
@@ -916,24 +1067,28 @@ const device_type = client.device_type(h.vnull());
 
 ### Operations
 
-#### `list(reqmatch: Value, ctrl: Value) OpResult`
+#### `list(reqmatch: Value, ctrl: Value) EntListResult`
 
-List entities matching the given criteria. The match is optional — pass `h.vnull()` to list all records. `.ok` is a `Value` array.
+List entities matching the given criteria. The match is optional — pass `h.vnull()` to list all records. `.ok` is a slice of entities, one per record.
 
 ```zig
 switch (client.device_type(h.vnull()).list(h.vnull(), h.vnull())) {
-    .ok => |results| std.debug.print("{s}\n", .{h.stringify(results)}),
+    .ok => |results| {
+        for (results) |result| {
+            std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))});
+        }
+    },
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
 }
 ```
 
-#### `load(reqmatch: Value, ctrl: Value) OpResult`
+#### `load(reqmatch: Value, ctrl: Value) EntResult`
 
-Load a single entity matching the given criteria. `.ok` carries the entity data, `.err` the branded error.
+Load a single entity matching the given criteria. `.ok` carries the entity, whose record `asEntity().data(null)` reads, and `.err` the branded error.
 
 ```zig
 switch (client.device_type(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("device_type_id") }}), h.vnull())) {
-    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result)}),
+    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))}),
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
@@ -948,9 +1103,13 @@ Get the entity data. Pass a map to set it.
 
 Get the entity match criteria. Pass a map to set it.
 
-#### `stream(action: []const u8, args: Value, callopts: Value) []Value`
+#### `stream(action: []const u8, args: Value, callopts: Value) StreamResult`
 
 Run an operation through the pipeline and materialise its result items.
+`StreamResult` is `.ok` with the items, or `.err` with the error that
+failed the operation, as an operation call reports it. Under `throw: false`
+in `callopts.ctrl`, a failed stream is `.ok` with whatever data the
+failure left.
 
 #### `get_name() []const u8`
 
@@ -980,24 +1139,28 @@ const inject_key = client.inject_key(h.vnull());
 
 ### Operations
 
-#### `list(reqmatch: Value, ctrl: Value) OpResult`
+#### `list(reqmatch: Value, ctrl: Value) EntListResult`
 
-List entities matching the given criteria. The match is optional — pass `h.vnull()` to list all records. `.ok` is a `Value` array.
+List entities matching the given criteria. The match is optional — pass `h.vnull()` to list all records. `.ok` is a slice of entities, one per record.
 
 ```zig
 switch (client.inject_key(h.vnull()).list(h.vnull(), h.vnull())) {
-    .ok => |results| std.debug.print("{s}\n", .{h.stringify(results)}),
+    .ok => |results| {
+        for (results) |result| {
+            std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))});
+        }
+    },
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
 }
 ```
 
-#### `load(reqmatch: Value, ctrl: Value) OpResult`
+#### `load(reqmatch: Value, ctrl: Value) EntResult`
 
-Load a single entity matching the given criteria. `.ok` carries the entity data, `.err` the branded error.
+Load a single entity matching the given criteria. `.ok` carries the entity, whose record `asEntity().data(null)` reads, and `.err` the branded error.
 
 ```zig
 switch (client.inject_key(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("inject_key_id") }}), h.vnull())) {
-    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result)}),
+    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))}),
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
@@ -1012,9 +1175,13 @@ Get the entity data. Pass a map to set it.
 
 Get the entity match criteria. Pass a map to set it.
 
-#### `stream(action: []const u8, args: Value, callopts: Value) []Value`
+#### `stream(action: []const u8, args: Value, callopts: Value) StreamResult`
 
 Run an operation through the pipeline and materialise its result items.
+`StreamResult` is `.ok` with the items, or `.err` with the error that
+failed the operation, as an operation call reports it. Under `throw: false`
+in `callopts.ctrl`, a failed stream is `.ok` with whatever data the
+failure left.
 
 #### `get_name() []const u8`
 
@@ -1038,13 +1205,17 @@ const kif = client.kif(h.vnull());
 
 ### Operations
 
-#### `list(reqmatch: Value, ctrl: Value) OpResult`
+#### `list(reqmatch: Value, ctrl: Value) EntListResult`
 
-List entities matching the given criteria. The match is optional — pass `h.vnull()` to list all records. `.ok` is a `Value` array.
+List entities matching the given criteria. The match is optional — pass `h.vnull()` to list all records. `.ok` is a slice of entities, one per record.
 
 ```zig
 switch (client.kif(h.vnull()).list(h.vnull(), h.vnull())) {
-    .ok => |results| std.debug.print("{s}\n", .{h.stringify(results)}),
+    .ok => |results| {
+        for (results) |result| {
+            std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))});
+        }
+    },
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
 }
 ```
@@ -1059,9 +1230,13 @@ Get the entity data. Pass a map to set it.
 
 Get the entity match criteria. Pass a map to set it.
 
-#### `stream(action: []const u8, args: Value, callopts: Value) []Value`
+#### `stream(action: []const u8, args: Value, callopts: Value) StreamResult`
 
 Run an operation through the pipeline and materialise its result items.
+`StreamResult` is `.ok` with the items, or `.err` with the error that
+failed the operation, as an operation call reports it. Under `throw: false`
+in `callopts.ctrl`, a failed stream is `.ok` with whatever data the
+failure left.
 
 #### `get_name() []const u8`
 
@@ -1084,6 +1259,7 @@ const location = client.location(h.vnull());
 | `address2` | `[]const u8` | No | The Location's street address. |
 | `billingId` | `[]const u8` | No | \? |
 | `city` | `[]const u8` | No | The Location's city. |
+| `client` | `Value (object)` | No | Reference to the associated Client resource. |
 | `country` | `[]const u8` | No | The Location's country. |
 | `created` | `[]const u8` | No | Creation timestamp in ISO 8601 format. |
 | `customReference` | `[]const u8` | No | A Partner specified reference for a location. |
@@ -1104,49 +1280,82 @@ const location = client.location(h.vnull());
 | `uniqueId` | `[]const u8` | No | Unique Identifier for the Location. |
 | `version` | `i64` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create | remove |
+| --- | --- | --- | --- | --- |
+| `address1` | - | - | Yes | - |
+| `address2` | - | - | - | - |
+| `billingId` | - | - | - | - |
+| `city` | - | - | Yes | - |
+| `client` | - | - | - | - |
+| `country` | - | - | Yes | - |
+| `created` | - | - | - | - |
+| `customReference` | - | - | - | - |
+| `id` | - | - | - | - |
+| `locationType` | - | - | Yes | - |
+| `mailAddress1` | - | - | - | - |
+| `mailAddress2` | - | - | - | - |
+| `mailCity` | - | - | - | - |
+| `mailCountry` | - | - | - | - |
+| `mailPostalCode` | - | - | - | - |
+| `mailStateProvince` | - | - | - | - |
+| `modified` | - | - | - | - |
+| `name` | - | - | Yes | - |
+| `nameOfBusiness` | - | - | - | - |
+| `notes` | - | - | - | - |
+| `postalCode` | - | - | - | - |
+| `stateProvince` | - | - | - | - |
+| `uniqueId` | - | - | - | - |
+| `version` | - | - | - | - |
+
 ### Operations
 
-#### `create(reqdata: Value, ctrl: Value) OpResult`
+#### `create(reqdata: Value, ctrl: Value) EntResult`
 
-Create a new entity with the given data. `.ok` carries the created entity data.
+Create a new entity with the given data. `.ok` carries the created entity.
 
 ```zig
 switch (client.location(h.vnull()).create(h.jo(&.{
 }), h.vnull())) {
-    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result)}),
+    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
 }
 ```
 
-#### `list(reqmatch: Value, ctrl: Value) OpResult`
+#### `list(reqmatch: Value, ctrl: Value) EntListResult`
 
-List entities matching the given criteria. The match is optional — pass `h.vnull()` to list all records. `.ok` is a `Value` array.
+List entities matching the given criteria. The match is optional — pass `h.vnull()` to list all records. `.ok` is a slice of entities, one per record.
 
 ```zig
-switch (client.location(h.vnull()).list(h.vnull(), h.vnull())) {
-    .ok => |results| std.debug.print("{s}\n", .{h.stringify(results)}),
+switch (client.location(h.vnull()).list(h.jo(&.{.{ "client", h.vstr("example") }}), h.vnull())) {
+    .ok => |results| {
+        for (results) |result| {
+            std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))});
+        }
+    },
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
 }
 ```
 
-#### `load(reqmatch: Value, ctrl: Value) OpResult`
+#### `load(reqmatch: Value, ctrl: Value) EntResult`
 
-Load a single entity matching the given criteria. `.ok` carries the entity data, `.err` the branded error.
+Load a single entity matching the given criteria. `.ok` carries the entity, whose record `asEntity().data(null)` reads, and `.err` the branded error.
 
 ```zig
 switch (client.location(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("location_id") }}), h.vnull())) {
-    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result)}),
+    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))}),
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
 
-#### `remove(reqmatch: Value, ctrl: Value) OpResult`
+#### `remove(reqmatch: Value, ctrl: Value) EntResult`
 
-Remove the entity matching the given criteria. `.err` on failure.
+Remove the entity matching the given criteria. `.ok` carries the entity, marked as deleted, and `.err` the branded error.
 
 ```zig
 switch (client.location(h.vnull()).remove(h.jo(&.{.{ "id", h.vstr("location_id") }}), h.vnull())) {
-    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result)}),
+    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))}),
     .err => |e| std.debug.print("remove failed: {s}\n", .{e.msg}),
 }
 ```
@@ -1161,9 +1370,13 @@ Get the entity data. Pass a map to set it.
 
 Get the entity match criteria. Pass a map to set it.
 
-#### `stream(action: []const u8, args: Value, callopts: Value) []Value`
+#### `stream(action: []const u8, args: Value, callopts: Value) StreamResult`
 
 Run an operation through the pipeline and materialise its result items.
+`StreamResult` is `.ok` with the items, or `.err` with the error that
+failed the operation, as an operation call reports it. Under `throw: false`
+in `callopts.ctrl`, a failed stream is `.ok` with whatever data the
+failure left.
 
 #### `get_name() []const u8`
 
@@ -1203,52 +1416,56 @@ const partner = client.partner(h.vnull());
 | --- | --- | --- | --- |
 | `billingId` | - | - | - |
 | `clientCanOrderEquipment` | - | - | - |
-| `contact` | - | Yes | - |
+| `contact` | - | Yes | Yes |
 | `created` | - | - | - |
 | `id` | - | - | - |
 | `isActive` | - | - | - |
 | `location` | - | - | - |
 | `modified` | - | - | - |
-| `name` | - | - | - |
-| `parent` | - | - | - |
+| `name` | - | - | Yes |
+| `parent` | - | - | Yes |
 | `partnerId` | - | - | - |
-| `reference` | - | - | - |
+| `reference` | - | - | Yes |
 | `verificationPhrase` | - | - | - |
 | `version` | - | - | - |
 
 ### Operations
 
-#### `create(reqdata: Value, ctrl: Value) OpResult`
+#### `create(reqdata: Value, ctrl: Value) EntResult`
 
-Create a new entity with the given data. `.ok` carries the created entity data.
+Create a new entity with the given data. `.ok` carries the created entity.
 
 ```zig
 switch (client.partner(h.vnull()).create(h.jo(&.{
     .{ "location", h.omap() }, // Value (object)
 }), h.vnull())) {
-    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result)}),
+    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
 }
 ```
 
-#### `list(reqmatch: Value, ctrl: Value) OpResult`
+#### `list(reqmatch: Value, ctrl: Value) EntListResult`
 
-List entities matching the given criteria. The match is optional — pass `h.vnull()` to list all records. `.ok` is a `Value` array.
+List entities matching the given criteria. The match is optional — pass `h.vnull()` to list all records. `.ok` is a slice of entities, one per record.
 
 ```zig
 switch (client.partner(h.vnull()).list(h.vnull(), h.vnull())) {
-    .ok => |results| std.debug.print("{s}\n", .{h.stringify(results)}),
+    .ok => |results| {
+        for (results) |result| {
+            std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))});
+        }
+    },
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
 }
 ```
 
-#### `load(reqmatch: Value, ctrl: Value) OpResult`
+#### `load(reqmatch: Value, ctrl: Value) EntResult`
 
-Load a single entity matching the given criteria. `.ok` carries the entity data, `.err` the branded error.
+Load a single entity matching the given criteria. `.ok` carries the entity, whose record `asEntity().data(null)` reads, and `.err` the branded error.
 
 ```zig
 switch (client.partner(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("partner_id") }}), h.vnull())) {
-    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result)}),
+    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))}),
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
@@ -1263,9 +1480,13 @@ Get the entity data. Pass a map to set it.
 
 Get the entity match criteria. Pass a map to set it.
 
-#### `stream(action: []const u8, args: Value, callopts: Value) []Value`
+#### `stream(action: []const u8, args: Value, callopts: Value) StreamResult`
 
 Run an operation through the pipeline and materialise its result items.
+`StreamResult` is `.ok` with the items, or `.err` with the error that
+failed the operation, as an operation call reports it. Under `throw: false`
+in `callopts.ctrl`, a failed stream is `.ok` with whatever data the
+failure left.
 
 #### `get_name() []const u8`
 
@@ -1293,44 +1514,70 @@ const shipment = client.shipment(h.vnull());
 | `id` | `[]const u8` | No | This resource's unique identifier. |
 | `items` | `Value (array)` | No |  |
 | `kif` | `Value (object)` | No | Reference to the associated KIF resource. |
+| `location` | `Value (object)` | Yes | Reference to the associated Location resource. |
 | `modified` | `[]const u8` | No | Last modified timestamp. |
 | `partner` | `Value (object)` | No | Reference to the associated Partner. |
 | `shipmentType` | `[]const u8` | No | The type of shipment. |
 | `tracking` | `[]const u8` | No | The courier's tracking number. |
 | `version` | `i64` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `carrier` | - | - | Yes |
+| `client` | - | - | Yes |
+| `created` | - | - | - |
+| `dateReceived` | - | - | - |
+| `dateShipped` | - | - | Yes |
+| `dcKif` | - | - | - |
+| `id` | - | - | - |
+| `items` | - | - | Yes |
+| `kif` | - | - | Yes |
+| `location` | - | - | - |
+| `modified` | - | - | - |
+| `partner` | - | - | Yes |
+| `shipmentType` | - | - | - |
+| `tracking` | - | - | Yes |
+| `version` | - | - | - |
+
 ### Operations
 
-#### `create(reqdata: Value, ctrl: Value) OpResult`
+#### `create(reqdata: Value, ctrl: Value) EntResult`
 
-Create a new entity with the given data. `.ok` carries the created entity data.
+Create a new entity with the given data. `.ok` carries the created entity.
 
 ```zig
 switch (client.shipment(h.vnull()).create(h.jo(&.{
+    .{ "location", h.omap() }, // Value (object)
 }), h.vnull())) {
-    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result)}),
+    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
 }
 ```
 
-#### `list(reqmatch: Value, ctrl: Value) OpResult`
+#### `list(reqmatch: Value, ctrl: Value) EntListResult`
 
-List entities matching the given criteria. The match is optional — pass `h.vnull()` to list all records. `.ok` is a `Value` array.
+List entities matching the given criteria. The match is optional — pass `h.vnull()` to list all records. `.ok` is a slice of entities, one per record.
 
 ```zig
-switch (client.shipment(h.vnull()).list(h.vnull(), h.vnull())) {
-    .ok => |results| std.debug.print("{s}\n", .{h.stringify(results)}),
+switch (client.shipment(h.vnull()).list(h.jo(&.{.{ "kif", h.vstr("example") }}), h.vnull())) {
+    .ok => |results| {
+        for (results) |result| {
+            std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))});
+        }
+    },
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
 }
 ```
 
-#### `load(reqmatch: Value, ctrl: Value) OpResult`
+#### `load(reqmatch: Value, ctrl: Value) EntResult`
 
-Load a single entity matching the given criteria. `.ok` carries the entity data, `.err` the branded error.
+Load a single entity matching the given criteria. `.ok` carries the entity, whose record `asEntity().data(null)` reads, and `.err` the branded error.
 
 ```zig
 switch (client.shipment(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("shipment_id") }}), h.vnull())) {
-    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result)}),
+    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))}),
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
@@ -1345,9 +1592,13 @@ Get the entity data. Pass a map to set it.
 
 Get the entity match criteria. Pass a map to set it.
 
-#### `stream(action: []const u8, args: Value, callopts: Value) []Value`
+#### `stream(action: []const u8, args: Value, callopts: Value) StreamResult`
 
 Run an operation through the pipeline and materialise its result items.
+`StreamResult` is `.ok` with the items, or `.err` with the error that
+failed the operation, as an operation call reports it. Under `throw: false`
+in `callopts.ctrl`, a failed stream is `.ok` with whatever data the
+failure left.
 
 #### `get_name() []const u8`
 
@@ -1366,30 +1617,34 @@ const success = client.success(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `devices` | `Value (array)` | Yes | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | `Value (object)` | Yes | Reference to the associated Partner. |
 | `success` | `bool` | No | Indicates if the action was a success. |
 
 ### Operations
 
-#### `create(reqdata: Value, ctrl: Value) OpResult`
+#### `create(reqdata: Value, ctrl: Value) EntResult`
 
-Create a new entity with the given data. `.ok` carries the created entity data.
+Create a new entity with the given data. `.ok` carries the created entity.
 
 ```zig
 switch (client.success(h.vnull()).create(h.jo(&.{
     .{ "share_partner_to", h.vstr("example_share_partner_to") }, // []const u8
+    .{ "devices", h.olist() }, // Value (array)
+    .{ "sharePartnerFrom", h.omap() }, // Value (object)
 }), h.vnull())) {
-    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result)}),
+    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
 }
 ```
 
-#### `remove(reqmatch: Value, ctrl: Value) OpResult`
+#### `remove(reqmatch: Value, ctrl: Value) EntResult`
 
-Remove the entity matching the given criteria. `.err` on failure.
+Remove the entity matching the given criteria. `.ok` carries the entity, marked as deleted, and `.err` the branded error.
 
 ```zig
 switch (client.success(h.vnull()).remove(h.jo(&.{.{ "share_partner_to", h.vstr("share_partner_to") }}), h.vnull())) {
-    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result)}),
+    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))}),
     .err => |e| std.debug.print("remove failed: {s}\n", .{e.msg}),
 }
 ```
@@ -1404,9 +1659,13 @@ Get the entity data. Pass a map to set it.
 
 Get the entity match criteria. Pass a map to set it.
 
-#### `stream(action: []const u8, args: Value, callopts: Value) []Value`
+#### `stream(action: []const u8, args: Value, callopts: Value) StreamResult`
 
 Run an operation through the pipeline and materialise its result items.
+`StreamResult` is `.ok` with the items, or `.err` with the error that
+failed the operation, as an operation call reports it. Under `throw: false`
+in `callopts.ctrl`, a failed stream is `.ok` with whatever data the
+failure left.
 
 #### `get_name() []const u8`
 
@@ -1430,6 +1689,7 @@ const transaction = client.transaction(h.vnull());
 | `clientRef` | `[]const u8` | No | Client Reference property that is included in the decrypt API call. |
 | `created` | `[]const u8` | No | Creation timestamp in ISO 8601 format. |
 | `decrypted` | `i64` | No | A Transcation can process muliple decryptions. |
+| `device` | `Value (object)` | Yes | Reference to the associated Device resource. |
 | `deviceName` | `[]const u8` | No | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | `Value (object)` | No | Reference to the associated Partner. |
 | `encrypted` | `i64` | No | A Transcation can process muliple encryptions. |
@@ -1450,39 +1710,74 @@ const transaction = client.transaction(h.vnull());
 | `success` | `bool` | No | The success indicator. |
 | `transactionSource` | `[]const u8` | No | The source of the Transaction. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `alternateKey` | - | - | - |
+| `client` | - | - | Yes |
+| `clientRef` | - | - | - |
+| `created` | - | - | - |
+| `decrypted` | - | - | - |
+| `device` | - | - | - |
+| `deviceName` | - | - | - |
+| `directPartner` | - | - | - |
+| `encrypted` | - | - | - |
+| `endDate` | - | - | - |
+| `errCode` | - | - | - |
+| `errMessage` | - | - | - |
+| `id` | - | - | - |
+| `ipAddress` | - | - | Yes |
+| `isVirtual` | - | - | - |
+| `keyType` | - | - | Yes |
+| `location` | - | - | - |
+| `messageId` | - | - | - |
+| `method` | - | - | Yes |
+| `partner` | - | - | Yes |
+| `reference` | - | - | - |
+| `serialNumber` | - | - | - |
+| `startDate` | - | - | - |
+| `success` | - | - | - |
+| `transactionSource` | - | - | - |
+
 ### Operations
 
-#### `create(reqdata: Value, ctrl: Value) OpResult`
+#### `create(reqdata: Value, ctrl: Value) EntResult`
 
-Create a new entity with the given data. `.ok` carries the created entity data.
+Create a new entity with the given data. `.ok` carries the created entity.
 
 ```zig
 switch (client.transaction(h.vnull()).create(h.jo(&.{
+    .{ "device", h.omap() }, // Value (object)
     .{ "location", h.omap() }, // Value (object)
 }), h.vnull())) {
-    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result)}),
+    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
 }
 ```
 
-#### `list(reqmatch: Value, ctrl: Value) OpResult`
+#### `list(reqmatch: Value, ctrl: Value) EntListResult`
 
-List entities matching the given criteria. The match is optional — pass `h.vnull()` to list all records. `.ok` is a `Value` array.
+List entities matching the given criteria. The match is optional — pass `h.vnull()` to list all records. `.ok` is a slice of entities, one per record.
 
 ```zig
 switch (client.transaction(h.vnull()).list(h.vnull(), h.vnull())) {
-    .ok => |results| std.debug.print("{s}\n", .{h.stringify(results)}),
+    .ok => |results| {
+        for (results) |result| {
+            std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))});
+        }
+    },
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
 }
 ```
 
-#### `load(reqmatch: Value, ctrl: Value) OpResult`
+#### `load(reqmatch: Value, ctrl: Value) EntResult`
 
-Load a single entity matching the given criteria. `.ok` carries the entity data, `.err` the branded error.
+Load a single entity matching the given criteria. `.ok` carries the entity, whose record `asEntity().data(null)` reads, and `.err` the branded error.
 
 ```zig
 switch (client.transaction(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("transaction_id") }}), h.vnull())) {
-    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result)}),
+    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))}),
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
@@ -1497,9 +1792,13 @@ Get the entity data. Pass a map to set it.
 
 Get the entity match criteria. Pass a map to set it.
 
-#### `stream(action: []const u8, args: Value, callopts: Value) []Value`
+#### `stream(action: []const u8, args: Value, callopts: Value) StreamResult`
 
 Run an operation through the pipeline and materialise its result items.
+`StreamResult` is `.ok` with the items, or `.err` with the error that
+failed the operation, as an operation call reports it. Under `throw: false`
+in `callopts.ctrl`, a failed stream is `.ok` with whatever data the
+failure left.
 
 #### `get_name() []const u8`
 
@@ -1518,54 +1817,186 @@ const update_result = client.update_result(h.vnull());
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `address1` | `[]const u8` | No | The Location's street address. |
+| `address2` | `[]const u8` | No | The Location's street address. |
+| `alternateKey` | `[]const u8` | No | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `[]const u8` | No | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | `[]const u8` | No | \? |
+| `city` | `[]const u8` | No | The Location's city. |
 | `client` | `Value (object)` | No | Reference to the associated Client resource. |
-| `email` | `[]const u8` | No | The User's email address. |
-| `firstName` | `[]const u8` | No | The User's name. |
+| `clientCanOrderEquipment` | `bool` | No | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | `[]const u8` | No | Client Reference property that is included in the decrypt API call. |
+| `contact` | `Value (object)` | Yes | Reference to the associated User resource. |
+| `country` | `Value (object)` | No | Reference to the associated Country. |
+| `customReference` | `[]const u8` | No | A Partner specified reference for a location. |
+| `dateShipped` | `[]const u8` | No | The date and time that a package is shipped. |
+| `decrypted` | `i64` | No | A Transcation can process muliple decryptions. |
+| `device` | `Value (object)` | No | Reference to the associated Device resource. |
+| `deviceBuild` | `Value (object)` | No | Reference to the associated Device Build resource. |
+| `deviceType` | `Value (object)` | No | Reference to the associated Device Type resource. |
+| `directPartner` | `Value (object)` | No | Reference to the associated Partner. |
+| `email` | `[]const u8` | Yes | The User's email address. |
+| `encrypted` | `i64` | No | A Transcation can process muliple encryptions. |
+| `endDate` | `[]const u8` | No | Timestamp from the end of the transaction. |
+| `errCode` | `[]const u8` | No | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `[]const u8` | No | The error messge that is sent in response to a failed decrypt API call. |
+| `firstName` | `[]const u8` | Yes | The User's name. |
 | `id` | `[]const u8` | No | ID of newly created resource |
-| `isActive` | `bool` | No | This property indicates if the User account is active or disabled. |
+| `injectKey` | `Value (object)` | No | Reference to the associated Device resource. |
+| `ipAddress` | `[]const u8` | No | The IP address of the http client that makes the decrypt API call. |
+| `isActive` | `bool` | Yes | This property indicates if the User account is active or disabled. |
+| `items` | `Value (array)` | No |  |
+| `keyType` | `[]const u8` | No | The type of cipher used during decrytion. |
 | `kif` | `Value (object)` | No | Reference to the associated KIF resource. |
-| `lastName` | `[]const u8` | No | The User's Surname. |
+| `lastName` | `[]const u8` | Yes | The User's Surname. |
+| `location` | `Value (object)` | Yes | Reference to the associated Location resource. |
+| `locationType` | `[]const u8` | No | The Location's clasification. |
+| `mailAddress1` | `[]const u8` | No | The Location's street address. |
+| `mailAddress2` | `[]const u8` | No | The Location's street address. |
+| `mailCity` | `[]const u8` | No | The Location's city. |
+| `mailCountry` | `[]const u8` | No | The Location's street address. |
+| `mailPostalCode` | `[]const u8` | No | The Location's postal code. |
+| `mailStateProvince` | `[]const u8` | No | The Location's street state or province. |
+| `messageId` | `[]const u8` | No | Message ID. |
+| `method` | `[]const u8` | No | The decryption cypher/method. |
+| `mid` | `[]const u8` | No | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | `[]const u8` | No | The Client's name. |
+| `nameOfBusiness` | `[]const u8` | No | The name of the business at this location. |
+| `notes` | `[]const u8` | No | Arbitary note that can be attached to a Device entry. |
+| `parent` | `Value (object)` | No | Reference to the associated Partner. |
 | `partner` | `Value (object)` | No | Reference to the associated Partner. |
-| `phone` | `[]const u8` | No | The User's phone number without dashes, spaces, or brackets. |
-| `userName` | `[]const u8` | No | The User's unique username. |
-| `userRole` | `Value (object)` | No | Reference to the associated User Role. |
+| `partnerId` | `[]const u8` | No | The Partner's id. |
+| `phone` | `[]const u8` | Yes | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | `[]const u8` | No | The Location's postal code. |
+| `reference` | `[]const u8` | No | The Partner's reference string. |
+| `sendWelcomeEmail` | `bool` | No | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | `[]const u8` | No | The Device's serial number. |
+| `startDate` | `[]const u8` | No | Timestamp from the beginning of the transaction. |
+| `stateProvince` | `[]const u8` | No | The Location's street state or province. |
+| `success` | `bool` | No | The success indicator. |
+| `tracking` | `[]const u8` | No | The courier's tracking number. |
+| `uniqueId` | `[]const u8` | No | Unique Identifier for the Location. |
+| `userName` | `[]const u8` | Yes | The User's unique username. |
+| `userRole` | `Value (object)` | Yes | Reference to the associated User Role. |
+| `verificationPhrase` | `[]const u8` | No | The verification phrase is a message that the Partner creates. |
 | `version` | `i64` | No | The number of times that this resource has been updated. |
+
+### Field Usage by Operation
+
+| Field | list | create | update |
+| --- | --- | --- | --- |
+| `address1` | - | - | - |
+| `address2` | - | - | - |
+| `alternateKey` | - | - | - |
+| `auditNextDate` | - | - | - |
+| `billingId` | - | - | - |
+| `city` | - | - | - |
+| `client` | - | - | - |
+| `clientCanOrderEquipment` | - | - | - |
+| `clientRef` | - | - | - |
+| `contact` | - | - | - |
+| `country` | - | - | - |
+| `customReference` | - | - | - |
+| `dateShipped` | - | - | - |
+| `decrypted` | - | - | - |
+| `device` | - | - | - |
+| `deviceBuild` | - | - | - |
+| `deviceType` | - | - | - |
+| `directPartner` | - | - | - |
+| `email` | Yes | - | Yes |
+| `encrypted` | - | - | - |
+| `endDate` | - | - | - |
+| `errCode` | - | - | - |
+| `errMessage` | - | - | - |
+| `firstName` | Yes | - | Yes |
+| `id` | - | - | - |
+| `injectKey` | - | - | - |
+| `ipAddress` | - | - | - |
+| `isActive` | Yes | - | Yes |
+| `items` | - | - | - |
+| `keyType` | - | - | - |
+| `kif` | - | - | - |
+| `lastName` | Yes | - | Yes |
+| `location` | - | - | - |
+| `locationType` | - | - | - |
+| `mailAddress1` | - | - | - |
+| `mailAddress2` | - | - | - |
+| `mailCity` | - | - | - |
+| `mailCountry` | - | - | - |
+| `mailPostalCode` | - | - | - |
+| `mailStateProvince` | - | - | - |
+| `messageId` | - | - | - |
+| `method` | - | - | - |
+| `mid` | - | - | - |
+| `name` | - | - | - |
+| `nameOfBusiness` | - | - | - |
+| `notes` | - | - | - |
+| `parent` | - | - | - |
+| `partner` | - | - | - |
+| `partnerId` | - | - | - |
+| `phone` | Yes | - | Yes |
+| `postalCode` | - | - | - |
+| `reference` | - | - | - |
+| `sendWelcomeEmail` | - | - | - |
+| `serialNumber` | - | - | - |
+| `startDate` | - | - | - |
+| `stateProvince` | - | - | - |
+| `success` | - | - | - |
+| `tracking` | - | - | - |
+| `uniqueId` | - | - | - |
+| `userName` | Yes | - | Yes |
+| `userRole` | Yes | - | Yes |
+| `verificationPhrase` | - | - | - |
+| `version` | - | - | - |
 
 ### Operations
 
-#### `create(reqdata: Value, ctrl: Value) OpResult`
+#### `create(reqdata: Value, ctrl: Value) EntResult`
 
-Create a new entity with the given data. `.ok` carries the created entity data.
+Create a new entity with the given data. `.ok` carries the created entity.
 
 ```zig
 switch (client.update_result(h.vnull()).create(h.jo(&.{
+    .{ "contact", h.omap() }, // Value (object)
+    .{ "email", h.vstr("example_email") }, // []const u8
+    .{ "firstName", h.vstr("example_firstName") }, // []const u8
+    .{ "isActive", h.vbool(true) }, // bool
+    .{ "lastName", h.vstr("example_lastName") }, // []const u8
+    .{ "location", h.omap() }, // Value (object)
+    .{ "phone", h.vstr("example_phone") }, // []const u8
+    .{ "userName", h.vstr("example_userName") }, // []const u8
+    .{ "userRole", h.omap() }, // Value (object)
 }), h.vnull())) {
-    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result)}),
+    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
 }
 ```
 
-#### `list(reqmatch: Value, ctrl: Value) OpResult`
+#### `list(reqmatch: Value, ctrl: Value) EntListResult`
 
-List entities matching the given criteria. The match is optional — pass `h.vnull()` to list all records. `.ok` is a `Value` array.
+List entities matching the given criteria. The match is optional — pass `h.vnull()` to list all records. `.ok` is a slice of entities, one per record.
 
 ```zig
 switch (client.update_result(h.vnull()).list(h.vnull(), h.vnull())) {
-    .ok => |results| std.debug.print("{s}\n", .{h.stringify(results)}),
+    .ok => |results| {
+        for (results) |result| {
+            std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))});
+        }
+    },
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
 }
 ```
 
-#### `update(reqdata: Value, ctrl: Value) OpResult`
+#### `update(reqdata: Value, ctrl: Value) EntResult`
 
-Update an existing entity. The data must include the entity id. `.ok` carries the updated entity data.
+Update an existing entity. The data must include the entity id. `.ok` carries the updated entity.
 
 ```zig
 switch (client.update_result(h.vnull()).update(h.jo(&.{
     .{ "id", h.vstr("id") },
     // Fields to update
 }), h.vnull())) {
-    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result)}),
+    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))}),
     .err => |e| std.debug.print("update failed: {s}\n", .{e.msg}),
 }
 ```
@@ -1580,9 +2011,13 @@ Get the entity data. Pass a map to set it.
 
 Get the entity match criteria. Pass a map to set it.
 
-#### `stream(action: []const u8, args: Value, callopts: Value) []Value`
+#### `stream(action: []const u8, args: Value, callopts: Value) StreamResult`
 
 Run an operation through the pipeline and materialise its result items.
+`StreamResult` is `.ok` with the items, or `.err` with the error that
+failed the operation, as an operation call reports it. Under `throw: false`
+in `callopts.ctrl`, a failed stream is `.ok` with whatever data the
+failure left.
 
 #### `get_name() []const u8`
 
@@ -1618,24 +2053,24 @@ const user = client.user(h.vnull());
 
 ### Operations
 
-#### `load(reqmatch: Value, ctrl: Value) OpResult`
+#### `load(reqmatch: Value, ctrl: Value) EntResult`
 
-Load a single entity matching the given criteria. `.ok` carries the entity data, `.err` the branded error.
+Load a single entity matching the given criteria. `.ok` carries the entity, whose record `asEntity().data(null)` reads, and `.err` the branded error.
 
 ```zig
 switch (client.user(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("user_id") }}), h.vnull())) {
-    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result)}),
+    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))}),
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
 
-#### `remove(reqmatch: Value, ctrl: Value) OpResult`
+#### `remove(reqmatch: Value, ctrl: Value) EntResult`
 
-Remove the entity matching the given criteria. `.err` on failure.
+Remove the entity matching the given criteria. `.ok` carries the entity, marked as deleted, and `.err` the branded error.
 
 ```zig
 switch (client.user(h.vnull()).remove(h.jo(&.{.{ "id", h.vstr("user_id") }}), h.vnull())) {
-    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result)}),
+    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))}),
     .err => |e| std.debug.print("remove failed: {s}\n", .{e.msg}),
 }
 ```
@@ -1650,9 +2085,13 @@ Get the entity data. Pass a map to set it.
 
 Get the entity match criteria. Pass a map to set it.
 
-#### `stream(action: []const u8, args: Value, callopts: Value) []Value`
+#### `stream(action: []const u8, args: Value, callopts: Value) StreamResult`
 
 Run an operation through the pipeline and materialise its result items.
+`StreamResult` is `.ok` with the items, or `.err` with the error that
+failed the operation, as an operation call reports it. Under `throw: false`
+in `callopts.ctrl`, a failed stream is `.ok` with whatever data the
+failure left.
 
 #### `get_name() []const u8`
 
@@ -1677,13 +2116,13 @@ const virtual_device = client.virtual_device(h.vnull());
 
 ### Operations
 
-#### `load(reqmatch: Value, ctrl: Value) OpResult`
+#### `load(reqmatch: Value, ctrl: Value) EntResult`
 
-Load a single entity matching the given criteria. `.ok` carries the entity data, `.err` the branded error.
+Load a single entity matching the given criteria. `.ok` carries the entity, whose record `asEntity().data(null)` reads, and `.err` the branded error.
 
 ```zig
 switch (client.virtual_device(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("virtual_device_id") }}), h.vnull())) {
-    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result)}),
+    .ok => |result| std.debug.print("{s}\n", .{h.stringify(result.asEntity().data(null))}),
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
@@ -1698,9 +2137,13 @@ Get the entity data. Pass a map to set it.
 
 Get the entity match criteria. Pass a map to set it.
 
-#### `stream(action: []const u8, args: Value, callopts: Value) []Value`
+#### `stream(action: []const u8, args: Value, callopts: Value) StreamResult`
 
 Run an operation through the pipeline and materialise its result items.
+`StreamResult` is `.ok` with the items, or `.err` with the error that
+failed the operation, as an operation call reports it. Under `throw: false`
+in `callopts.ctrl`, a failed stream is `.ok` with whatever data the
+failure left.
 
 #### `get_name() []const u8`
 
@@ -2130,6 +2573,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

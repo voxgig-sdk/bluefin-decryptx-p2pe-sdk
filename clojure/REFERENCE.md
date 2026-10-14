@@ -178,36 +178,51 @@ Prepare a fetch definition without sending. Returns the `fetchdef` and raises on
 | `completeDate` | `string` | No | The date and time that the Attestation took place. |
 | `created` | `string` | No | Creation timestamp in ISO 8601 format. |
 | `device` | `map` | No | Reference to the associated Device resource. |
+| `devices` | `vector` | Yes |  |
 | `id` | `string` | No | This resource's unique identifier. |
 | `name` | `string` | No | Text describing the attestation. |
 | `notes` | `string` | No | Free form field that allows the Client associate notes with the Attestation. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `client` | - | - | Yes |
+| `completeDate` | - | - | Yes |
+| `created` | - | - | - |
+| `device` | - | - | - |
+| `devices` | - | - | - |
+| `id` | - | - | - |
+| `name` | - | - | Yes |
+| `notes` | - | - | - |
+
 ### Operations
 
-#### `(create ent reqdata ctrl) -> map`
+#### `(create ent reqdata ctrl) -> entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```clojure
 (def result
   (e-attestation/create (api/attestation client nil)
     (vs/jm
+      "devices" (vs/jt)  ;; vector
       )
     nil))
 ```
 
 #### `(list ent reqmatch ctrl) -> vector`
 
-List entities matching the given criteria. The match is optional — call with `nil` to list all records. Returns a vector and raises on error.
+List entities matching the given criteria. The match is optional — call with `nil` to list all records. Returns a vector of entities, one per record, and raises on error.
 
 ```clojure
-(doseq [attestation (e-attestation/list (api/attestation client nil) nil nil)]
-  (println attestation))
+(doseq [attestation (e-attestation/list (api/attestation client nil) (vs/jm "client" "example") nil)]
+  (println ((:data-get attestation))))
 ```
 
-#### `(load ent reqmatch ctrl) -> map`
+#### `(load ent reqmatch ctrl) -> entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `((:data-get ent))` reads, and raises on error.
 
 ```clojure
 (def result (e-attestation/load (api/attestation client nil) (vs/jm "id" "attestation_id") nil))
@@ -272,23 +287,23 @@ Return the entity name.
 
 | Field | load | list | create | remove |
 | --- | --- | --- | --- | --- |
-| `contact` | - | Yes | - | - |
+| `contact` | - | Yes | Yes | - |
 | `created` | - | - | - | - |
-| `directPartner` | - | - | - | - |
+| `directPartner` | - | - | Yes | - |
 | `id` | - | - | - | - |
 | `isActive` | - | - | - | - |
 | `location` | - | - | - | - |
 | `mid` | - | - | - | - |
 | `modified` | - | - | - | - |
-| `name` | - | - | - | - |
+| `name` | - | - | Yes | - |
 | `partner` | - | - | - | - |
 | `version` | - | - | - | - |
 
 ### Operations
 
-#### `(create ent reqdata ctrl) -> map`
+#### `(create ent reqdata ctrl) -> entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```clojure
 (def result
@@ -301,24 +316,24 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 #### `(list ent reqmatch ctrl) -> vector`
 
-List entities matching the given criteria. The match is optional — call with `nil` to list all records. Returns a vector and raises on error.
+List entities matching the given criteria. The match is optional — call with `nil` to list all records. Returns a vector of entities, one per record, and raises on error.
 
 ```clojure
-(doseq [client (e-client/list (api/client client nil) nil nil)]
-  (println client))
+(doseq [client (e-client/list (api/client client nil) (vs/jm "partner" "example") nil)]
+  (println ((:data-get client))))
 ```
 
-#### `(load ent reqmatch ctrl) -> map`
+#### `(load ent reqmatch ctrl) -> entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `((:data-get ent))` reads, and raises on error.
 
 ```clojure
 (def result (e-client/load (api/client client nil) (vs/jm "id" "client_id") nil))
 ```
 
-#### `(remove ent reqmatch ctrl) -> map`
+#### `(remove ent reqmatch ctrl) -> entity`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```clojure
 (def result (e-client/remove (api/client client nil) (vs/jm "id" "client_id") nil))
@@ -363,11 +378,20 @@ Return the entity name.
 (def create_result (api/create_result client nil))
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `completeDate` | `string` | No | The date and time that the Custody change took place. |
+| `custodian` | `map` | Yes | Reference to the associated User resource. |
+| `location` | `map` | Yes | Reference to the associated Location resource. |
+| `notes` | `string` | No | Free form field that allows the Client associate notes with the Custody Change. |
+
 ### Operations
 
-#### `(create ent reqdata ctrl) -> map`
+#### `(create ent reqdata ctrl) -> entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```clojure
 (def result
@@ -375,6 +399,8 @@ Create a new entity with the given data. Returns the created entity data and rai
     (vs/jm
       "device_type" "example_device_type"  ;; string
       "serial_number" "example_serial_number"  ;; string
+      "custodian" (vs/jm)  ;; map
+      "location" (vs/jm)  ;; map
       )
     nil))
 ```
@@ -422,18 +448,29 @@ Return the entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `cbcVector` | `string` | No | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | `string` | Yes | The device Type. |
+| `encoding` | `string` | No | The payload encoding |
+| `encrypted` | `vector` | Yes |  |
+| `hasCcData` | `string` | No | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | `string` | No | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | `string` | No | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | `string` | Yes | The serial number of the device. |
 | `success` | `boolean` | No | true if the payload decryption was successful. |
 
 ### Operations
 
-#### `(create ent reqdata ctrl) -> map`
+#### `(create ent reqdata ctrl) -> entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```clojure
 (def result
   (e-decryption/create (api/decryption client nil)
     (vs/jm
+      "deviceType" "example_deviceType"  ;; string
+      "encrypted" (vs/jt)  ;; vector
+      "serialNumber" "example_serialNumber"  ;; string
       )
     nil))
 ```
@@ -510,11 +547,44 @@ Return the entity name.
 | `serialNumber` | `string` | No | The Device's serial number. |
 | `version` | `long` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `activatedBy` | - | - | - |
+| `activationDate` | - | - | - |
+| `alternateKey` | - | - | - |
+| `auditNextDate` | - | - | - |
+| `auditNotificationDate` | - | - | - |
+| `client` | - | - | - |
+| `created` | - | - | - |
+| `createdBy` | - | - | - |
+| `deviceBuild` | - | - | - |
+| `deviceState` | - | - | - |
+| `deviceType` | - | - | Yes |
+| `errorCounter` | - | - | - |
+| `errorLastDate` | - | - | - |
+| `id` | - | - | - |
+| `initializedBy` | - | - | - |
+| `initializedDate` | - | - | - |
+| `injectKey` | - | - | - |
+| `isVirtual` | - | - | - |
+| `kif` | - | - | Yes |
+| `lastActivityDate` | - | - | - |
+| `location` | - | - | - |
+| `modified` | - | - | - |
+| `modifiedBy` | - | - | - |
+| `name` | - | - | - |
+| `notes` | - | - | - |
+| `partner` | - | - | - |
+| `serialNumber` | - | - | Yes |
+| `version` | - | - | - |
+
 ### Operations
 
-#### `(create ent reqdata ctrl) -> map`
+#### `(create ent reqdata ctrl) -> entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```clojure
 (def result
@@ -531,16 +601,16 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 #### `(list ent reqmatch ctrl) -> vector`
 
-List entities matching the given criteria. The match is optional — call with `nil` to list all records. Returns a vector and raises on error.
+List entities matching the given criteria. The match is optional — call with `nil` to list all records. Returns a vector of entities, one per record, and raises on error.
 
 ```clojure
 (doseq [device (e-device/list (api/device client nil) nil nil)]
-  (println device))
+  (println ((:data-get device))))
 ```
 
-#### `(load ent reqmatch ctrl) -> map`
+#### `(load ent reqmatch ctrl) -> entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `((:data-get ent))` reads, and raises on error.
 
 ```clojure
 (def result (e-device/load (api/device client nil) (vs/jm "id" "device_id") nil))
@@ -609,16 +679,16 @@ Return the entity name.
 
 #### `(list ent reqmatch ctrl) -> vector`
 
-List entities matching the given criteria. The match is optional — call with `nil` to list all records. Returns a vector and raises on error.
+List entities matching the given criteria. The match is optional — call with `nil` to list all records. Returns a vector of entities, one per record, and raises on error.
 
 ```clojure
 (doseq [device_build (e-device_build/list (api/device_build client nil) nil nil)]
-  (println device_build))
+  (println ((:data-get device_build))))
 ```
 
-#### `(load ent reqmatch ctrl) -> map`
+#### `(load ent reqmatch ctrl) -> entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `((:data-get ent))` reads, and raises on error.
 
 ```clojure
 (def result (e-device_build/load (api/device_build client nil) (vs/jm "id" "device_build_id") nil))
@@ -683,9 +753,9 @@ Return the entity name.
 
 ### Operations
 
-#### `(load ent reqmatch ctrl) -> map`
+#### `(load ent reqmatch ctrl) -> entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `((:data-get ent))` reads, and raises on error.
 
 ```clojure
 (def result (e-device_custody_detail/load (api/device_custody_detail client nil) (vs/jm "id" "device_custody_detail_id" "device_type" "device_type" "serial_number" "serial_number") nil))
@@ -752,11 +822,11 @@ Return the entity name.
 
 #### `(list ent reqmatch ctrl) -> vector`
 
-List entities matching the given criteria. The match is optional — call with `nil` to list all records. Returns a vector and raises on error.
+List entities matching the given criteria. The match is optional — call with `nil` to list all records. Returns a vector of entities, one per record, and raises on error.
 
 ```clojure
-(doseq [device_custody_list_item (e-device_custody_list_item/list (api/device_custody_list_item client nil) nil nil)]
-  (println device_custody_list_item))
+(doseq [device_custody_list_item (e-device_custody_list_item/list (api/device_custody_list_item client nil) (vs/jm "device_type" "example" "serial_number" "example") nil)]
+  (println ((:data-get device_custody_list_item))))
 ```
 
 ### Common Members
@@ -802,19 +872,23 @@ Return the entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `serialNumber` | `string` | Yes | The serial number of the Device that is shipped. |
 | `success` | `boolean` | Yes | Indicates if the action succeeded. |
+| `tamperLabel` | `string` | Yes | The code that is printed the tamper label of the Device that is shipped. |
 
 ### Operations
 
-#### `(create ent reqdata ctrl) -> map`
+#### `(create ent reqdata ctrl) -> entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```clojure
 (def result
   (e-device_receive_result/create (api/device_receive_result client nil)
     (vs/jm
+      "serialNumber" "example_serialNumber"  ;; string
       "success" true  ;; boolean
+      "tamperLabel" "example_tamperLabel"  ;; string
       )
     nil))
 ```
@@ -862,18 +936,27 @@ Return the entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `appVersion` | `string` | No | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | `string` | No | The Device Builds's name. |
+| `buildNumber` | `string` | No | The Build Number. |
+| `configFile` | `string` | No | \? |
+| `firmwareVersion` | `string` | No | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `string` | No | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | `string` | Yes | The referenced Device's serial number. |
 | `success` | `boolean` | Yes | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | `string` | No | \? |
 
 ### Operations
 
-#### `(create ent reqdata ctrl) -> map`
+#### `(create ent reqdata ctrl) -> entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```clojure
 (def result
   (e-device_rki_activate_result/create (api/device_rki_activate_result client nil)
     (vs/jm
+      "serialNumber" "example_serialNumber"  ;; string
       "success" true  ;; boolean
       )
     nil))
@@ -929,11 +1012,11 @@ Return the entity name.
 
 #### `(list ent reqmatch ctrl) -> vector`
 
-List entities matching the given criteria. The match is optional — call with `nil` to list all records. Returns a vector and raises on error.
+List entities matching the given criteria. The match is optional — call with `nil` to list all records. Returns a vector of entities, one per record, and raises on error.
 
 ```clojure
 (doseq [device_state (e-device_state/list (api/device_state client nil) nil nil)]
-  (println device_state))
+  (println ((:data-get device_state))))
 ```
 
 ### Common Members
@@ -996,16 +1079,16 @@ Return the entity name.
 
 #### `(list ent reqmatch ctrl) -> vector`
 
-List entities matching the given criteria. The match is optional — call with `nil` to list all records. Returns a vector and raises on error.
+List entities matching the given criteria. The match is optional — call with `nil` to list all records. Returns a vector of entities, one per record, and raises on error.
 
 ```clojure
 (doseq [device_type (e-device_type/list (api/device_type client nil) nil nil)]
-  (println device_type))
+  (println ((:data-get device_type))))
 ```
 
-#### `(load ent reqmatch ctrl) -> map`
+#### `(load ent reqmatch ctrl) -> entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `((:data-get ent))` reads, and raises on error.
 
 ```clojure
 (def result (e-device_type/load (api/device_type client nil) (vs/jm "id" "device_type_id") nil))
@@ -1067,16 +1150,16 @@ Return the entity name.
 
 #### `(list ent reqmatch ctrl) -> vector`
 
-List entities matching the given criteria. The match is optional — call with `nil` to list all records. Returns a vector and raises on error.
+List entities matching the given criteria. The match is optional — call with `nil` to list all records. Returns a vector of entities, one per record, and raises on error.
 
 ```clojure
 (doseq [inject_key (e-inject_key/list (api/inject_key client nil) nil nil)]
-  (println inject_key))
+  (println ((:data-get inject_key))))
 ```
 
-#### `(load ent reqmatch ctrl) -> map`
+#### `(load ent reqmatch ctrl) -> entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `((:data-get ent))` reads, and raises on error.
 
 ```clojure
 (def result (e-inject_key/load (api/inject_key client nil) (vs/jm "id" "inject_key_id") nil))
@@ -1132,11 +1215,11 @@ Return the entity name.
 
 #### `(list ent reqmatch ctrl) -> vector`
 
-List entities matching the given criteria. The match is optional — call with `nil` to list all records. Returns a vector and raises on error.
+List entities matching the given criteria. The match is optional — call with `nil` to list all records. Returns a vector of entities, one per record, and raises on error.
 
 ```clojure
 (doseq [kif (e-kif/list (api/kif client nil) nil nil)]
-  (println kif))
+  (println ((:data-get kif))))
 ```
 
 ### Common Members
@@ -1186,6 +1269,7 @@ Return the entity name.
 | `address2` | `string` | No | The Location's street address. |
 | `billingId` | `string` | No | \? |
 | `city` | `string` | No | The Location's city. |
+| `client` | `map` | No | Reference to the associated Client resource. |
 | `country` | `string` | No | The Location's country. |
 | `created` | `string` | No | Creation timestamp in ISO 8601 format. |
 | `customReference` | `string` | No | A Partner specified reference for a location. |
@@ -1206,11 +1290,40 @@ Return the entity name.
 | `uniqueId` | `string` | No | Unique Identifier for the Location. |
 | `version` | `long` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create | remove |
+| --- | --- | --- | --- | --- |
+| `address1` | - | - | Yes | - |
+| `address2` | - | - | - | - |
+| `billingId` | - | - | - | - |
+| `city` | - | - | Yes | - |
+| `client` | - | - | - | - |
+| `country` | - | - | Yes | - |
+| `created` | - | - | - | - |
+| `customReference` | - | - | - | - |
+| `id` | - | - | - | - |
+| `locationType` | - | - | Yes | - |
+| `mailAddress1` | - | - | - | - |
+| `mailAddress2` | - | - | - | - |
+| `mailCity` | - | - | - | - |
+| `mailCountry` | - | - | - | - |
+| `mailPostalCode` | - | - | - | - |
+| `mailStateProvince` | - | - | - | - |
+| `modified` | - | - | - | - |
+| `name` | - | - | Yes | - |
+| `nameOfBusiness` | - | - | - | - |
+| `notes` | - | - | - | - |
+| `postalCode` | - | - | - | - |
+| `stateProvince` | - | - | - | - |
+| `uniqueId` | - | - | - | - |
+| `version` | - | - | - | - |
+
 ### Operations
 
-#### `(create ent reqdata ctrl) -> map`
+#### `(create ent reqdata ctrl) -> entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```clojure
 (def result
@@ -1222,24 +1335,24 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 #### `(list ent reqmatch ctrl) -> vector`
 
-List entities matching the given criteria. The match is optional — call with `nil` to list all records. Returns a vector and raises on error.
+List entities matching the given criteria. The match is optional — call with `nil` to list all records. Returns a vector of entities, one per record, and raises on error.
 
 ```clojure
-(doseq [location (e-location/list (api/location client nil) nil nil)]
-  (println location))
+(doseq [location (e-location/list (api/location client nil) (vs/jm "client" "example") nil)]
+  (println ((:data-get location))))
 ```
 
-#### `(load ent reqmatch ctrl) -> map`
+#### `(load ent reqmatch ctrl) -> entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `((:data-get ent))` reads, and raises on error.
 
 ```clojure
 (def result (e-location/load (api/location client nil) (vs/jm "id" "location_id") nil))
 ```
 
-#### `(remove ent reqmatch ctrl) -> map`
+#### `(remove ent reqmatch ctrl) -> entity`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```clojure
 (def result (e-location/remove (api/location client nil) (vs/jm "id" "location_id") nil))
@@ -1309,24 +1422,24 @@ Return the entity name.
 | --- | --- | --- | --- |
 | `billingId` | - | - | - |
 | `clientCanOrderEquipment` | - | - | - |
-| `contact` | - | Yes | - |
+| `contact` | - | Yes | Yes |
 | `created` | - | - | - |
 | `id` | - | - | - |
 | `isActive` | - | - | - |
 | `location` | - | - | - |
 | `modified` | - | - | - |
-| `name` | - | - | - |
-| `parent` | - | - | - |
+| `name` | - | - | Yes |
+| `parent` | - | - | Yes |
 | `partnerId` | - | - | - |
-| `reference` | - | - | - |
+| `reference` | - | - | Yes |
 | `verificationPhrase` | - | - | - |
 | `version` | - | - | - |
 
 ### Operations
 
-#### `(create ent reqdata ctrl) -> map`
+#### `(create ent reqdata ctrl) -> entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```clojure
 (def result
@@ -1339,16 +1452,16 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 #### `(list ent reqmatch ctrl) -> vector`
 
-List entities matching the given criteria. The match is optional — call with `nil` to list all records. Returns a vector and raises on error.
+List entities matching the given criteria. The match is optional — call with `nil` to list all records. Returns a vector of entities, one per record, and raises on error.
 
 ```clojure
 (doseq [partner (e-partner/list (api/partner client nil) nil nil)]
-  (println partner))
+  (println ((:data-get partner))))
 ```
 
-#### `(load ent reqmatch ctrl) -> map`
+#### `(load ent reqmatch ctrl) -> entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `((:data-get ent))` reads, and raises on error.
 
 ```clojure
 (def result (e-partner/load (api/partner client nil) (vs/jm "id" "partner_id") nil))
@@ -1406,38 +1519,60 @@ Return the entity name.
 | `id` | `string` | No | This resource's unique identifier. |
 | `items` | `vector` | No |  |
 | `kif` | `map` | No | Reference to the associated KIF resource. |
+| `location` | `map` | Yes | Reference to the associated Location resource. |
 | `modified` | `string` | No | Last modified timestamp. |
 | `partner` | `map` | No | Reference to the associated Partner. |
 | `shipmentType` | `string` | No | The type of shipment. |
 | `tracking` | `string` | No | The courier's tracking number. |
 | `version` | `long` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `carrier` | - | - | Yes |
+| `client` | - | - | Yes |
+| `created` | - | - | - |
+| `dateReceived` | - | - | - |
+| `dateShipped` | - | - | Yes |
+| `dcKif` | - | - | - |
+| `id` | - | - | - |
+| `items` | - | - | Yes |
+| `kif` | - | - | Yes |
+| `location` | - | - | - |
+| `modified` | - | - | - |
+| `partner` | - | - | Yes |
+| `shipmentType` | - | - | - |
+| `tracking` | - | - | Yes |
+| `version` | - | - | - |
+
 ### Operations
 
-#### `(create ent reqdata ctrl) -> map`
+#### `(create ent reqdata ctrl) -> entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```clojure
 (def result
   (e-shipment/create (api/shipment client nil)
     (vs/jm
+      "location" (vs/jm)  ;; map
       )
     nil))
 ```
 
 #### `(list ent reqmatch ctrl) -> vector`
 
-List entities matching the given criteria. The match is optional — call with `nil` to list all records. Returns a vector and raises on error.
+List entities matching the given criteria. The match is optional — call with `nil` to list all records. Returns a vector of entities, one per record, and raises on error.
 
 ```clojure
-(doseq [shipment (e-shipment/list (api/shipment client nil) nil nil)]
-  (println shipment))
+(doseq [shipment (e-shipment/list (api/shipment client nil) (vs/jm "kif" "example") nil)]
+  (println ((:data-get shipment))))
 ```
 
-#### `(load ent reqmatch ctrl) -> map`
+#### `(load ent reqmatch ctrl) -> entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `((:data-get ent))` reads, and raises on error.
 
 ```clojure
 (def result (e-shipment/load (api/shipment client nil) (vs/jm "id" "shipment_id") nil))
@@ -1486,26 +1621,30 @@ Return the entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `devices` | `vector` | Yes | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | `map` | Yes | Reference to the associated Partner. |
 | `success` | `boolean` | No | Indicates if the action was a success. |
 
 ### Operations
 
-#### `(create ent reqdata ctrl) -> map`
+#### `(create ent reqdata ctrl) -> entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```clojure
 (def result
   (e-success/create (api/success client nil)
     (vs/jm
       "share_partner_to" "example_share_partner_to"  ;; string
+      "devices" (vs/jt)  ;; vector
+      "sharePartnerFrom" (vs/jm)  ;; map
       )
     nil))
 ```
 
-#### `(remove ent reqmatch ctrl) -> map`
+#### `(remove ent reqmatch ctrl) -> entity`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```clojure
 (def result (e-success/remove (api/success client nil) (vs/jm "share_partner_to" "share_partner_to") nil))
@@ -1559,6 +1698,7 @@ Return the entity name.
 | `clientRef` | `string` | No | Client Reference property that is included in the decrypt API call. |
 | `created` | `string` | No | Creation timestamp in ISO 8601 format. |
 | `decrypted` | `long` | No | A Transcation can process muliple decryptions. |
+| `device` | `map` | Yes | Reference to the associated Device resource. |
 | `deviceName` | `string` | No | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | `map` | No | Reference to the associated Partner. |
 | `encrypted` | `long` | No | A Transcation can process muliple encryptions. |
@@ -1579,16 +1719,47 @@ Return the entity name.
 | `success` | `boolean` | No | The success indicator. |
 | `transactionSource` | `string` | No | The source of the Transaction. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `alternateKey` | - | - | - |
+| `client` | - | - | Yes |
+| `clientRef` | - | - | - |
+| `created` | - | - | - |
+| `decrypted` | - | - | - |
+| `device` | - | - | - |
+| `deviceName` | - | - | - |
+| `directPartner` | - | - | - |
+| `encrypted` | - | - | - |
+| `endDate` | - | - | - |
+| `errCode` | - | - | - |
+| `errMessage` | - | - | - |
+| `id` | - | - | - |
+| `ipAddress` | - | - | Yes |
+| `isVirtual` | - | - | - |
+| `keyType` | - | - | Yes |
+| `location` | - | - | - |
+| `messageId` | - | - | - |
+| `method` | - | - | Yes |
+| `partner` | - | - | Yes |
+| `reference` | - | - | - |
+| `serialNumber` | - | - | - |
+| `startDate` | - | - | - |
+| `success` | - | - | - |
+| `transactionSource` | - | - | - |
+
 ### Operations
 
-#### `(create ent reqdata ctrl) -> map`
+#### `(create ent reqdata ctrl) -> entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```clojure
 (def result
   (e-transaction/create (api/transaction client nil)
     (vs/jm
+      "device" (vs/jm)  ;; map
       "location" (vs/jm)  ;; map
       )
     nil))
@@ -1596,16 +1767,16 @@ Create a new entity with the given data. Returns the created entity data and rai
 
 #### `(list ent reqmatch ctrl) -> vector`
 
-List entities matching the given criteria. The match is optional — call with `nil` to list all records. Returns a vector and raises on error.
+List entities matching the given criteria. The match is optional — call with `nil` to list all records. Returns a vector of entities, one per record, and raises on error.
 
 ```clojure
 (doseq [transaction (e-transaction/list (api/transaction client nil) nil nil)]
-  (println transaction))
+  (println ((:data-get transaction))))
 ```
 
-#### `(load ent reqmatch ctrl) -> map`
+#### `(load ent reqmatch ctrl) -> entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `((:data-get ent))` reads, and raises on error.
 
 ```clojure
 (def result (e-transaction/load (api/transaction client nil) (vs/jm "id" "transaction_id") nil))
@@ -1654,45 +1825,173 @@ Return the entity name.
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `address1` | `string` | No | The Location's street address. |
+| `address2` | `string` | No | The Location's street address. |
+| `alternateKey` | `string` | No | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `string` | No | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | `string` | No | \? |
+| `city` | `string` | No | The Location's city. |
 | `client` | `map` | No | Reference to the associated Client resource. |
-| `email` | `string` | No | The User's email address. |
-| `firstName` | `string` | No | The User's name. |
+| `clientCanOrderEquipment` | `boolean` | No | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | `string` | No | Client Reference property that is included in the decrypt API call. |
+| `contact` | `map` | Yes | Reference to the associated User resource. |
+| `country` | `map` | No | Reference to the associated Country. |
+| `customReference` | `string` | No | A Partner specified reference for a location. |
+| `dateShipped` | `string` | No | The date and time that a package is shipped. |
+| `decrypted` | `long` | No | A Transcation can process muliple decryptions. |
+| `device` | `map` | No | Reference to the associated Device resource. |
+| `deviceBuild` | `map` | No | Reference to the associated Device Build resource. |
+| `deviceType` | `map` | No | Reference to the associated Device Type resource. |
+| `directPartner` | `map` | No | Reference to the associated Partner. |
+| `email` | `string` | Yes | The User's email address. |
+| `encrypted` | `long` | No | A Transcation can process muliple encryptions. |
+| `endDate` | `string` | No | Timestamp from the end of the transaction. |
+| `errCode` | `string` | No | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `string` | No | The error messge that is sent in response to a failed decrypt API call. |
+| `firstName` | `string` | Yes | The User's name. |
 | `id` | `string` | No | ID of newly created resource |
-| `isActive` | `boolean` | No | This property indicates if the User account is active or disabled. |
+| `injectKey` | `map` | No | Reference to the associated Device resource. |
+| `ipAddress` | `string` | No | The IP address of the http client that makes the decrypt API call. |
+| `isActive` | `boolean` | Yes | This property indicates if the User account is active or disabled. |
+| `items` | `vector` | No |  |
+| `keyType` | `string` | No | The type of cipher used during decrytion. |
 | `kif` | `map` | No | Reference to the associated KIF resource. |
-| `lastName` | `string` | No | The User's Surname. |
+| `lastName` | `string` | Yes | The User's Surname. |
+| `location` | `map` | Yes | Reference to the associated Location resource. |
+| `locationType` | `string` | No | The Location's clasification. |
+| `mailAddress1` | `string` | No | The Location's street address. |
+| `mailAddress2` | `string` | No | The Location's street address. |
+| `mailCity` | `string` | No | The Location's city. |
+| `mailCountry` | `string` | No | The Location's street address. |
+| `mailPostalCode` | `string` | No | The Location's postal code. |
+| `mailStateProvince` | `string` | No | The Location's street state or province. |
+| `messageId` | `string` | No | Message ID. |
+| `method` | `string` | No | The decryption cypher/method. |
+| `mid` | `string` | No | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | `string` | No | The Client's name. |
+| `nameOfBusiness` | `string` | No | The name of the business at this location. |
+| `notes` | `string` | No | Arbitary note that can be attached to a Device entry. |
+| `parent` | `map` | No | Reference to the associated Partner. |
 | `partner` | `map` | No | Reference to the associated Partner. |
-| `phone` | `string` | No | The User's phone number without dashes, spaces, or brackets. |
-| `userName` | `string` | No | The User's unique username. |
-| `userRole` | `map` | No | Reference to the associated User Role. |
+| `partnerId` | `string` | No | The Partner's id. |
+| `phone` | `string` | Yes | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | `string` | No | The Location's postal code. |
+| `reference` | `string` | No | The Partner's reference string. |
+| `sendWelcomeEmail` | `boolean` | No | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | `string` | No | The Device's serial number. |
+| `startDate` | `string` | No | Timestamp from the beginning of the transaction. |
+| `stateProvince` | `string` | No | The Location's street state or province. |
+| `success` | `boolean` | No | The success indicator. |
+| `tracking` | `string` | No | The courier's tracking number. |
+| `uniqueId` | `string` | No | Unique Identifier for the Location. |
+| `userName` | `string` | Yes | The User's unique username. |
+| `userRole` | `map` | Yes | Reference to the associated User Role. |
+| `verificationPhrase` | `string` | No | The verification phrase is a message that the Partner creates. |
 | `version` | `long` | No | The number of times that this resource has been updated. |
+
+### Field Usage by Operation
+
+| Field | list | create | update |
+| --- | --- | --- | --- |
+| `address1` | - | - | - |
+| `address2` | - | - | - |
+| `alternateKey` | - | - | - |
+| `auditNextDate` | - | - | - |
+| `billingId` | - | - | - |
+| `city` | - | - | - |
+| `client` | - | - | - |
+| `clientCanOrderEquipment` | - | - | - |
+| `clientRef` | - | - | - |
+| `contact` | - | - | - |
+| `country` | - | - | - |
+| `customReference` | - | - | - |
+| `dateShipped` | - | - | - |
+| `decrypted` | - | - | - |
+| `device` | - | - | - |
+| `deviceBuild` | - | - | - |
+| `deviceType` | - | - | - |
+| `directPartner` | - | - | - |
+| `email` | Yes | - | Yes |
+| `encrypted` | - | - | - |
+| `endDate` | - | - | - |
+| `errCode` | - | - | - |
+| `errMessage` | - | - | - |
+| `firstName` | Yes | - | Yes |
+| `id` | - | - | - |
+| `injectKey` | - | - | - |
+| `ipAddress` | - | - | - |
+| `isActive` | Yes | - | Yes |
+| `items` | - | - | - |
+| `keyType` | - | - | - |
+| `kif` | - | - | - |
+| `lastName` | Yes | - | Yes |
+| `location` | - | - | - |
+| `locationType` | - | - | - |
+| `mailAddress1` | - | - | - |
+| `mailAddress2` | - | - | - |
+| `mailCity` | - | - | - |
+| `mailCountry` | - | - | - |
+| `mailPostalCode` | - | - | - |
+| `mailStateProvince` | - | - | - |
+| `messageId` | - | - | - |
+| `method` | - | - | - |
+| `mid` | - | - | - |
+| `name` | - | - | - |
+| `nameOfBusiness` | - | - | - |
+| `notes` | - | - | - |
+| `parent` | - | - | - |
+| `partner` | - | - | - |
+| `partnerId` | - | - | - |
+| `phone` | Yes | - | Yes |
+| `postalCode` | - | - | - |
+| `reference` | - | - | - |
+| `sendWelcomeEmail` | - | - | - |
+| `serialNumber` | - | - | - |
+| `startDate` | - | - | - |
+| `stateProvince` | - | - | - |
+| `success` | - | - | - |
+| `tracking` | - | - | - |
+| `uniqueId` | - | - | - |
+| `userName` | Yes | - | Yes |
+| `userRole` | Yes | - | Yes |
+| `verificationPhrase` | - | - | - |
+| `version` | - | - | - |
 
 ### Operations
 
-#### `(create ent reqdata ctrl) -> map`
+#### `(create ent reqdata ctrl) -> entity`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```clojure
 (def result
   (e-update_result/create (api/update_result client nil)
     (vs/jm
+      "contact" (vs/jm)  ;; map
+      "email" "example_email"  ;; string
+      "firstName" "example_firstName"  ;; string
+      "isActive" true  ;; boolean
+      "lastName" "example_lastName"  ;; string
+      "location" (vs/jm)  ;; map
+      "phone" "example_phone"  ;; string
+      "userName" "example_userName"  ;; string
+      "userRole" (vs/jm)  ;; map
       )
     nil))
 ```
 
 #### `(list ent reqmatch ctrl) -> vector`
 
-List entities matching the given criteria. The match is optional — call with `nil` to list all records. Returns a vector and raises on error.
+List entities matching the given criteria. The match is optional — call with `nil` to list all records. Returns a vector of entities, one per record, and raises on error.
 
 ```clojure
 (doseq [update_result (e-update_result/list (api/update_result client nil) nil nil)]
-  (println update_result))
+  (println ((:data-get update_result))))
 ```
 
-#### `(update ent reqdata ctrl) -> map`
+#### `(update ent reqdata ctrl) -> entity`
 
-Update an existing entity. The data must include the entity `id`. Returns the updated entity data and raises on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
 
 ```clojure
 (def result
@@ -1764,17 +2063,17 @@ Return the entity name.
 
 ### Operations
 
-#### `(load ent reqmatch ctrl) -> map`
+#### `(load ent reqmatch ctrl) -> entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `((:data-get ent))` reads, and raises on error.
 
 ```clojure
 (def result (e-user/load (api/user client nil) (vs/jm "id" "user_id") nil))
 ```
 
-#### `(remove ent reqmatch ctrl) -> map`
+#### `(remove ent reqmatch ctrl) -> entity`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```clojure
 (def result (e-user/remove (api/user client nil) (vs/jm "id" "user_id") nil))
@@ -1829,9 +2128,9 @@ Return the entity name.
 
 ### Operations
 
-#### `(load ent reqmatch ctrl) -> map`
+#### `(load ent reqmatch ctrl) -> entity`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `((:data-get ent))` reads, and raises on error.
 
 ```clojure
 (def result (e-virtual_device/load (api/virtual_device client nil) (vs/jm "id" "virtual_device_id") nil))
@@ -2290,6 +2589,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

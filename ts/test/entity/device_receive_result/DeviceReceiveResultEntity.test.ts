@@ -9,7 +9,7 @@ import { createLiveTransport } from '../../live-runner'
 import { runLiveEntity } from '../../live-entity'
 
 
-import { BluefinDecryptxP2peSDK, BaseFeature, stdutil } from '../../..'
+import { BluefinDecryptxP2peSDK, BaseFeature, config, stdutil } from '../../..'
 
 import {
   envOverride,
@@ -41,6 +41,18 @@ describe('DeviceReceiveResultEntity', async () => {
   })
 
 
+  test('validate', async (t) => {
+    if (null == (config as any).feature?.validate) {
+      t.skip('feature not present in this SDK: validate')
+      return
+    }
+    const client = BluefinDecryptxP2peSDK.test(undefined, { feature: { validate: { active: true } } })
+    await assert.rejects(client.DeviceReceiveResult().create({"serialNumber":1,"success":true,"tamperLabel":"x"} as any),
+      (err: any) => 'validate_failed' === err.code)
+  })
+
+
+
   test('basic', async (t) => {
 
     const live = 'TRUE' === process.env.BLUEFIN_DECRYPTX_P2PE_TEST_LIVE
@@ -51,7 +63,7 @@ describe('DeviceReceiveResultEntity', async () => {
     
     const setup = basicSetup()
     if (setup.live) {
-      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"success":{"a":true,"h":"Success","n":"success","r":true,"sh":"Indicates if the action succeeded.","t":"`$BOOLEAN`","key$":"success","index$":0}},"name":"device_receive_result","op":{"create":{"input":"data","name":"create","points":[{"a":true,"co":{"id":"POST /devices/receive","source":"openapi3","version":2},"g":{},"k":"http","m":"POST","o":"/devices/receive","q":{},"r":{},"s":[{"lit":"devices"},{"lit":"receive"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"create"}},"relations":{"ancestors":[]},"key$":"device_receive_result","name__orig":"device_receive_result","Name":"DeviceReceiveResult","name_":"device_receive_result","name-":"device-receive-result","NAME":"DEVICE_RECEIVE_RESULT","index$":8}, {"active":true,"entity":"device_receive_result","key$":"BasicDeviceReceiveResultFlow","kind":"basic","name":"BasicDeviceReceiveResultFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"device_receive_result_ref01"},"m":{},"o":"create","s":[],"v":[],"index$":0}]}, 'DeviceReceiveResult', {"POST /devices/receive":{"protocol":"http","requestBody":{"description":"Device Shippment Details.","content":{"*/*":{"schema":{"required":["serialNumber","tamperLabel"],"type":"object","properties":{"tamperLabel":{"maxLength":255,"type":"string","description":"The code that is printed the tamper label of the Device that is shipped.","example":"BF120877"},"serialNumber":{"maxLength":255,"type":"string","description":"The serial number of the Device that is shipped.","example":"85000711"}},"x-ref":"#/components/schemas/DeviceReceive"}}},"required":true},"parameters":[]}})
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"serialNumber":{"a":true,"h":"Serial Number","n":"serialNumber","r":true,"sh":"The serial number of the Device that is shipped.","t":"`$STRING`","key$":"serialNumber","index$":0},"success":{"a":true,"h":"Success","n":"success","r":true,"sh":"Indicates if the action succeeded.","t":"`$BOOLEAN`","key$":"success","index$":1},"tamperLabel":{"a":true,"h":"Tamper Label","n":"tamperLabel","r":true,"sh":"The code that is printed the tamper label of the Device that is shipped.","t":"`$STRING`","key$":"tamperLabel","index$":2}},"name":"device_receive_result","op":{"create":{"input":"data","name":"create","points":[{"a":true,"bf":["serialNumber","tamperLabel"],"co":{"id":"POST /devices/receive","source":"openapi3","version":2},"g":{},"k":"http","m":"POST","o":"/devices/receive","q":{},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"devices"},{"lit":"receive"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"create"}},"relations":{"ancestors":[]},"key$":"device_receive_result","name__orig":"device_receive_result","Name":"DeviceReceiveResult","name_":"device_receive_result","name-":"device-receive-result","NAME":"DEVICE_RECEIVE_RESULT","index$":8}, {"active":true,"entity":"device_receive_result","key$":"BasicDeviceReceiveResultFlow","kind":"basic","name":"BasicDeviceReceiveResultFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"device_receive_result_ref01"},"m":{},"o":"create","s":[],"v":[],"index$":0}]}, 'DeviceReceiveResult', {"POST /devices/receive":{"protocol":"http","requestBody":{"description":"Device Shippment Details.","content":{"*/*":{"schema":{"required":["serialNumber","tamperLabel"],"type":"object","properties":{"tamperLabel":{"maxLength":255,"type":"string","description":"The code that is printed the tamper label of the Device that is shipped.","example":"BF120877","key$":"tamperLabel"},"serialNumber":{"maxLength":255,"type":"string","description":"The serial number of the Device that is shipped.","example":"85000711","key$":"serialNumber"}},"x-ref":"#/components/schemas/DeviceReceive","index$":1}}},"required":true},"parameters":[]}}, { strict: LIVE_STRICT, t })
     }
     const client = setup.client
     const struct = setup.struct
@@ -72,6 +84,12 @@ describe('DeviceReceiveResultEntity', async () => {
 })
 
 
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true
 
 function basicSetup(extra?: any) {
   // TODO: fix test def options

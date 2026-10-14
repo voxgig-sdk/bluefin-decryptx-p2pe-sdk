@@ -1,7 +1,7 @@
 # BluefinDecryptxP2pe SDK Location entity
 #
 # Per-entity module. Generic construction/data/match operations delegate to
-# EntityBase; each active op (load/list/create/update/remove) builds a ctx
+# EntityBase; each active op (load/list/create/update/patch/remove) builds a ctx
 # and drives it through BluefinDecryptxP2pe.Pipeline.run_op.
 
 defmodule BluefinDecryptxP2pe.Entity.Location do
@@ -26,9 +26,10 @@ defmodule BluefinDecryptxP2pe.Entity.Location do
     do: EntityBase.stream(ent, action, args, callopts)
 
   
-  # Returns the location entity map (BluefinDecryptxP2pe.Types.location/0) on
-  # success; pipeline errors surface as the error value built by
-  # Utility.make_error (shape is utility-configurable), hence term().
+  # Returns the location entity, whose data_get/1 reads its record
+  # (BluefinDecryptxP2pe.Types.location/0), on success; pipeline errors surface as
+  # the error value built by Utility.make_error (shape is
+  # utility-configurable), hence term().
   @spec load(map(), BluefinDecryptxP2pe.Types.location_load_match() | nil, map() | nil) :: term()
   def load(ent, reqmatch \\ nil, ctrl \\ nil) do
     reqmatch = if reqmatch == nil, do: S.jm([]), else: reqmatch
@@ -63,9 +64,10 @@ defmodule BluefinDecryptxP2pe.Entity.Location do
 
 
   
-  # Returns a list of location entity maps (BluefinDecryptxP2pe.Types.location/0)
-  # on success; pipeline errors surface as the error value built by
-  # Utility.make_error (shape is utility-configurable), hence term().
+  # Returns a list of location entities, one per record, whose data_get/1
+  # reads each record (BluefinDecryptxP2pe.Types.location/0), on success; pipeline
+  # errors surface as the error value built by Utility.make_error (shape is
+  # utility-configurable), hence term().
   @spec list(map(), BluefinDecryptxP2pe.Types.location_list_match() | nil, map() | nil) :: term()
   def list(ent, reqmatch \\ nil, ctrl \\ nil) do
     reqmatch = if reqmatch == nil, do: S.jm([]), else: reqmatch
@@ -98,9 +100,10 @@ defmodule BluefinDecryptxP2pe.Entity.Location do
 
 
   
-  # Returns the created location entity map (BluefinDecryptxP2pe.Types.location/0)
-  # on success; pipeline errors surface as the error value built by
-  # Utility.make_error (shape is utility-configurable), hence term().
+  # Returns the created location entity, whose data_get/1 reads its record
+  # (BluefinDecryptxP2pe.Types.location/0), on success; pipeline errors surface as
+  # the error value built by Utility.make_error (shape is
+  # utility-configurable), hence term().
   @spec create(map(), BluefinDecryptxP2pe.Types.location_create_data() | nil, map() | nil) :: term()
   def create(ent, reqdata, ctrl \\ nil) do
     ctx =
@@ -133,9 +136,12 @@ defmodule BluefinDecryptxP2pe.Entity.Location do
   
 
   
-  # Returns the removed location entity map (BluefinDecryptxP2pe.Types.location/0)
-  # on success; pipeline errors surface as the error value built by
-  # Utility.make_error (shape is utility-configurable), hence term().
+
+  
+  # Returns the removed location entity, marked as deleted, whose data_get/1
+  # reads the record it held (BluefinDecryptxP2pe.Types.location/0), on success;
+  # pipeline errors surface as the error value built by Utility.make_error
+  # (shape is utility-configurable), hence term().
   @spec remove(map(), BluefinDecryptxP2pe.Types.location_remove_match() | nil, map() | nil) :: term()
   def remove(ent, reqmatch \\ nil, ctrl \\ nil) do
     reqmatch = if reqmatch == nil, do: S.jm([]), else: reqmatch

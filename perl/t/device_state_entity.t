@@ -11,10 +11,106 @@ use Cwd ();
 use BluefinDecryptxP2peSDK;
 require(Cwd::abs_path("$FindBin::Bin/runner.pm"));
 
+# main.kit.test.live.strict is true (the default is true): a live
+# request that fails, or a live test missing an input it needs,
+# fails the test.
+# An account with no record for a test to read skips it either way.
+use constant LIVE_STRICT => 1;
+
 {
   my $testsdk = BluefinDecryptxP2peSDK->test(undef, undef);
   my $ent = $testsdk->DeviceState(undef);
   ok(defined $ent, 'device_state: create instance');
+}
+
+{
+  package BluefinDecryptxP2peEntityTestDeviceStateFailHook;
+  our @ISA = ('BluefinDecryptxP2peBaseFeature');
+
+  sub new {
+    my ($class) = @_;
+    my $self = BluefinDecryptxP2peBaseFeature::new($class);
+    $self->{name} = 'failhook';
+    $self->{unexpected} = 0;
+    return $self;
+  }
+
+  sub init { }
+  sub PreSpec { die "device_state hook failed\n" }
+  sub PreUnexpected { $_[0]->{unexpected}++; return }
+}
+
+{
+  my $offline = { net => { offline => 1 } };
+  my $died = !eval {
+    my $next = BluefinDecryptxP2peSDK->test($offline, undef)->DeviceState(undef)->stream('list', undef, undef);
+    1 while defined $next->();
+    1;
+  };
+  like($died ? "$@" : '', qr/offline/, 'device_state: a failed stream raises');
+
+  ok(eval {
+    my $next = BluefinDecryptxP2peSDK->test($offline, undef)->DeviceState(undef)
+      ->stream('list', undef, { ctrl => { throw => 0 } });
+    1 while defined $next->();
+    1;
+  }, 'device_state: under throw false a failed stream ends');
+
+  if (BluefinDecryptxP2peConfig::shared_config()->{feature}{rbac}) {
+    my $denied = BluefinDecryptxP2peSDK->test(undef, { feature => { rbac => { active => 1, deny => 1 } } });
+    my $denyerr = eval {
+      my $next = $denied->DeviceState(undef)->stream('list', undef, undef);
+      1 while defined $next->();
+      undef;
+    } // $@;
+    is(ref $denyerr ? $denyerr->{code} : undef, 'rbac_denied',
+      'device_state: a denied stream raises');
+  }
+}
+
+{
+  my $explain = {};
+  my $ctrl = { explain => $explain };
+  my $next = BluefinDecryptxP2peSDK->test(undef, undef)->DeviceState(undef)
+    ->stream('list', undef, { ctrl => $ctrl });
+  1 while defined $next->();
+  is_deeply([sort keys %$ctrl], ['explain'], 'device_state: the stream leaves the caller ctrl');
+  ok($explain == $ctrl->{explain} && 0 < keys %$explain,
+    'device_state: the caller explain record is filled');
+}
+
+{
+  my $hook = BluefinDecryptxP2peEntityTestDeviceStateFailHook->new;
+  my $client = BluefinDecryptxP2peSDK->new({ feature => { test => { active => 1 } }, extend => [$hook] });
+
+  my $err = eval { $client->DeviceState(undef)->list(undef, undef); undef } // $@;
+  like("$err", qr/hook failed/, 'device_state: a dying hook fails the operation');
+  ok(0 < $hook->{unexpected}, 'device_state: PreUnexpected fired');
+
+  my $fired = $hook->{unexpected};
+  my $out = eval { $client->DeviceState(undef)->list(undef, { throw => 0 }) };
+  ok(!$@ && !defined $out, 'device_state: under throw false the call returns undef');
+  ok($fired < $hook->{unexpected}, 'device_state: PreUnexpected fired under throw false');
+}
+
+{
+  my $seed = { entity => { 'device_state' => { l1 => { id => 'l1' }, l2 => { id => 'l2' } } } };
+  my $items = BluefinDecryptxP2peSDK->test($seed, undef)->DeviceState(undef)->list(undef, undef);
+  # list resolves to one entity per record; data_get reads the record.
+  is(scalar(@$items), 2, 'device_state: list answers each seeded record');
+  my $entities = grep {
+    Scalar::Util::blessed($_) && $_->can('data_get') && Voxgig::Struct::ismap($_->data_get)
+  } @$items;
+  is($entities, 2, 'device_state: each listed item is an entity carrying its record');
+}
+
+SKIP: {
+  skip('feature not present in this SDK: validate', 1)
+    unless BluefinDecryptxP2peConfig::shared_config()->{feature}{validate};
+  my $client = BluefinDecryptxP2peSDK->test(undef, { feature => { validate => { active => 1 } } });
+  my $err = eval { $client->DeviceState(undef)->list({ 'id' => 'x' }, undef); undef } // $@;
+  is(ref $err ? $err->{code} : undef, 'validate_failed',
+    'device_state: an invalid request fails with validate_failed');
 }
 
 BASIC_FLOW: {
@@ -29,13 +125,6 @@ BASIC_FLOW: {
       pass('device_state: basic flow skipped via sdk-test-control.json');
       last BASIC_FLOW;
     }
-  }
-  # The basic flow consumes synthetic IDs from the fixture. In live mode
-  # without an *_ENTID env override, those IDs hit the live API and 4xx.
-  if ($setup->{synthetic_only}) {
-    note('live entity test uses synthetic IDs from fixture - set BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_STATE_ENTID JSON to run live');
-    pass('device_state: basic flow skipped (synthetic IDs only)');
-    last BASIC_FLOW;
   }
   my $client = $setup->{client};
   my %V;
@@ -85,10 +174,8 @@ sub device_state_basic_setup {
     }
   );
 
-  # Detect ENTID env override before env_override consumes it. When live
-  # mode is on without a real override, the basic test runs against
-  # synthetic IDs from the fixture and 4xx's. Surface this so the test can
-  # skip.
+  # Whether *_ENTID supplied the idmap, read before env_override consumes
+  # it: without it, the ids a live flow binds are the fixture's synthetic ones.
   my $entid_env_raw = $ENV{'BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_STATE_ENTID'};
   my $idmap_overridden = (defined $entid_env_raw && $entid_env_raw =~ /^\s*\{/) ? 1 : 0;
 

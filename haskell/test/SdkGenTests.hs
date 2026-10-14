@@ -22,7 +22,7 @@ loadFixture entName = do
   -- plain lowercase of the CamelCase entName (createresult) misses the
   -- underscores for multi-word entities. Convert CamelCase -> snake_case.
   let lname = camelToSnake entName
-  raw <- readFile ("../.sdk/test/entity/" ++ lname ++ "/" ++ entName ++ "TestData.json")
+  raw <- readUtf8 ("../.sdk/test/entity/" ++ lname ++ "/" ++ entName ++ "TestData.json")
   jsonRead raw
   where
     toLowerCh ch = if ch >= 'A' && ch <= 'Z' then toEnum (fromEnum ch + 32) else ch
@@ -141,6 +141,11 @@ attestationBasicTest c = do
     sdk <- C.testSdk opts VNoval
     ent <- C.attestation sdk VNoval
     em1 <- emptyMap; em2 <- emptyMap
+    entmap <- getp existing "attestation"
+    rec0 <- keysof entmap >>= \ids -> case ids of { (i : _) -> getp entmap i; [] -> emptyMap }
+    setp em1 "client" =<< getp rec0 "client"
+    setp em1 "skip" =<< getp rec0 "skip"
+    setp em1 "take" =<< getp rec0 "take"
     lst <- eList ent em1 em2
     -- `list` resolves to one ENTITY per record; the record is reached
     -- through eDataGet. See AGENTS.md "Entity operations return ENTITIES".
@@ -195,10 +200,11 @@ attestationDirectTest c = runTest c "attestation.direct" $ do
 
 attestationStreamTest :: Counters -> IO ()
 attestationStreamTest c = do
-  let mkSeed = do
-        r1 <- jo [("id", VStr "S1"), ("name", VStr "a")]
-        r2 <- jo [("id", VStr "S2"), ("name", VStr "b")]
-        r3 <- jo [("id", VStr "S3"), ("name", VStr "c")]
+  let parentVals = [("client", VStr "P1"), ("skip", VStr "P1"), ("take", VStr "P1")]
+      mkSeed = do
+        r1 <- jo ([("id", VStr "S1"), ("name", VStr "a")] ++ parentVals)
+        r2 <- jo ([("id", VStr "S2"), ("name", VStr "b")] ++ parentVals)
+        r3 <- jo ([("id", VStr "S3"), ("name", VStr "c")] ++ parentVals)
         recs <- jo [("S1", r1), ("S2", r2), ("S3", r3)]
         jo [("attestation", recs)]
       hasStreaming = do
@@ -210,14 +216,14 @@ attestationStreamTest c = do
     seed <- mkSeed; opts <- jo [("entity", seed)]
     sdk <- C.testSdk opts VNoval
     ent <- C.attestation sdk VNoval
-    em1 <- emptyMap
+    em1 <- jo parentVals
     items <- eStream ent "list" em1 VNoval
     pure (length items == 3 && (case items of (x : _) -> ismap x; [] -> False))
   runTest c "attestation.stream_signal" $ do
     seed <- mkSeed; opts <- jo [("entity", seed)]
     sdk <- C.testSdk opts VNoval
     ent <- C.attestation sdk VNoval
-    em1 <- emptyMap
+    em1 <- jo parentVals
     n <- newIORef (0 :: Int)
     let sig = vfunc0 (do modifyIORef n (+ 1); v <- readIORef n; pure (VBool (v >= 2)))
     co <- jo [("signal", sig)]
@@ -230,7 +236,7 @@ attestationStreamTest c = do
       stg <- jo [("active", VBool True)]; strm <- jo [("streaming", stg)]; sopts <- jo [("feature", strm)]
       sdk <- C.testSdk opts sopts
       ent <- C.attestation sdk VNoval
-      em1 <- emptyMap
+      em1 <- jo parentVals
       items <- eStream ent "list" em1 VNoval
       pure (length items == 3)
   runTest c "attestation.stream_chunk" $ do
@@ -240,7 +246,7 @@ attestationStreamTest c = do
       stg <- jo [("active", VBool True), ("chunkSize", VNum 2)]; strm <- jo [("streaming", stg)]; sopts <- jo [("feature", strm)]
       sdk <- C.testSdk opts sopts
       ent <- C.attestation sdk VNoval
-      em1 <- emptyMap
+      em1 <- jo parentVals
       batches <- eStream ent "list" em1 VNoval
       pure (length batches == 2)
 
@@ -259,6 +265,11 @@ clientBasicTest c = do
     sdk <- C.testSdk opts VNoval
     ent <- C.client sdk VNoval
     em1 <- emptyMap; em2 <- emptyMap
+    entmap <- getp existing "client"
+    rec0 <- keysof entmap >>= \ids -> case ids of { (i : _) -> getp entmap i; [] -> emptyMap }
+    setp em1 "partner" =<< getp rec0 "partner"
+    setp em1 "skip" =<< getp rec0 "skip"
+    setp em1 "take" =<< getp rec0 "take"
     lst <- eList ent em1 em2
     -- `list` resolves to one ENTITY per record; the record is reached
     -- through eDataGet. See AGENTS.md "Entity operations return ENTITIES".
@@ -328,10 +339,11 @@ clientDirectTest c = runTest c "client.direct" $ do
 
 clientStreamTest :: Counters -> IO ()
 clientStreamTest c = do
-  let mkSeed = do
-        r1 <- jo [("id", VStr "S1"), ("name", VStr "a")]
-        r2 <- jo [("id", VStr "S2"), ("name", VStr "b")]
-        r3 <- jo [("id", VStr "S3"), ("name", VStr "c")]
+  let parentVals = [("partner", VStr "P1"), ("skip", VStr "P1"), ("take", VStr "P1")]
+      mkSeed = do
+        r1 <- jo ([("id", VStr "S1"), ("name", VStr "a")] ++ parentVals)
+        r2 <- jo ([("id", VStr "S2"), ("name", VStr "b")] ++ parentVals)
+        r3 <- jo ([("id", VStr "S3"), ("name", VStr "c")] ++ parentVals)
         recs <- jo [("S1", r1), ("S2", r2), ("S3", r3)]
         jo [("client", recs)]
       hasStreaming = do
@@ -343,14 +355,14 @@ clientStreamTest c = do
     seed <- mkSeed; opts <- jo [("entity", seed)]
     sdk <- C.testSdk opts VNoval
     ent <- C.client sdk VNoval
-    em1 <- emptyMap
+    em1 <- jo parentVals
     items <- eStream ent "list" em1 VNoval
     pure (length items == 3 && (case items of (x : _) -> ismap x; [] -> False))
   runTest c "client.stream_signal" $ do
     seed <- mkSeed; opts <- jo [("entity", seed)]
     sdk <- C.testSdk opts VNoval
     ent <- C.client sdk VNoval
-    em1 <- emptyMap
+    em1 <- jo parentVals
     n <- newIORef (0 :: Int)
     let sig = vfunc0 (do modifyIORef n (+ 1); v <- readIORef n; pure (VBool (v >= 2)))
     co <- jo [("signal", sig)]
@@ -363,7 +375,7 @@ clientStreamTest c = do
       stg <- jo [("active", VBool True)]; strm <- jo [("streaming", stg)]; sopts <- jo [("feature", strm)]
       sdk <- C.testSdk opts sopts
       ent <- C.client sdk VNoval
-      em1 <- emptyMap
+      em1 <- jo parentVals
       items <- eStream ent "list" em1 VNoval
       pure (length items == 3)
   runTest c "client.stream_chunk" $ do
@@ -373,7 +385,7 @@ clientStreamTest c = do
       stg <- jo [("active", VBool True), ("chunkSize", VNum 2)]; strm <- jo [("streaming", stg)]; sopts <- jo [("feature", strm)]
       sdk <- C.testSdk opts sopts
       ent <- C.client sdk VNoval
-      em1 <- emptyMap
+      em1 <- jo parentVals
       batches <- eStream ent "list" em1 VNoval
       pure (length batches == 2)
 
@@ -482,6 +494,17 @@ deviceBasicTest c = do
     sdk <- C.testSdk opts VNoval
     ent <- C.device sdk VNoval
     em1 <- emptyMap; em2 <- emptyMap
+    entmap <- getp existing "device"
+    rec0 <- keysof entmap >>= \ids -> case ids of { (i : _) -> getp entmap i; [] -> emptyMap }
+    setp em1 "client" =<< getp rec0 "client"
+    setp em1 "device_state" =<< getp rec0 "device_state"
+    setp em1 "kif" =<< getp rec0 "kif"
+    setp em1 "partner" =<< getp rec0 "partner"
+    setp em1 "serial_number" =<< getp rec0 "serial_number"
+    setp em1 "skip" =<< getp rec0 "skip"
+    setp em1 "sorting_direction" =<< getp rec0 "sorting_direction"
+    setp em1 "sorting_field" =<< getp rec0 "sorting_field"
+    setp em1 "take" =<< getp rec0 "take"
     lst <- eList ent em1 em2
     -- `list` resolves to one ENTITY per record; the record is reached
     -- through eDataGet. See AGENTS.md "Entity operations return ENTITIES".
@@ -536,10 +559,11 @@ deviceDirectTest c = runTest c "device.direct" $ do
 
 deviceStreamTest :: Counters -> IO ()
 deviceStreamTest c = do
-  let mkSeed = do
-        r1 <- jo [("id", VStr "S1"), ("name", VStr "a")]
-        r2 <- jo [("id", VStr "S2"), ("name", VStr "b")]
-        r3 <- jo [("id", VStr "S3"), ("name", VStr "c")]
+  let parentVals = [("client", VStr "P1"), ("device_state", VStr "P1"), ("kif", VStr "P1"), ("partner", VStr "P1"), ("serial_number", VStr "P1"), ("skip", VStr "P1"), ("sorting_direction", VStr "P1"), ("sorting_field", VStr "P1"), ("take", VStr "P1")]
+      mkSeed = do
+        r1 <- jo ([("id", VStr "S1"), ("name", VStr "a")] ++ parentVals)
+        r2 <- jo ([("id", VStr "S2"), ("name", VStr "b")] ++ parentVals)
+        r3 <- jo ([("id", VStr "S3"), ("name", VStr "c")] ++ parentVals)
         recs <- jo [("S1", r1), ("S2", r2), ("S3", r3)]
         jo [("device", recs)]
       hasStreaming = do
@@ -551,14 +575,14 @@ deviceStreamTest c = do
     seed <- mkSeed; opts <- jo [("entity", seed)]
     sdk <- C.testSdk opts VNoval
     ent <- C.device sdk VNoval
-    em1 <- emptyMap
+    em1 <- jo parentVals
     items <- eStream ent "list" em1 VNoval
     pure (length items == 3 && (case items of (x : _) -> ismap x; [] -> False))
   runTest c "device.stream_signal" $ do
     seed <- mkSeed; opts <- jo [("entity", seed)]
     sdk <- C.testSdk opts VNoval
     ent <- C.device sdk VNoval
-    em1 <- emptyMap
+    em1 <- jo parentVals
     n <- newIORef (0 :: Int)
     let sig = vfunc0 (do modifyIORef n (+ 1); v <- readIORef n; pure (VBool (v >= 2)))
     co <- jo [("signal", sig)]
@@ -571,7 +595,7 @@ deviceStreamTest c = do
       stg <- jo [("active", VBool True)]; strm <- jo [("streaming", stg)]; sopts <- jo [("feature", strm)]
       sdk <- C.testSdk opts sopts
       ent <- C.device sdk VNoval
-      em1 <- emptyMap
+      em1 <- jo parentVals
       items <- eStream ent "list" em1 VNoval
       pure (length items == 3)
   runTest c "device.stream_chunk" $ do
@@ -581,7 +605,7 @@ deviceStreamTest c = do
       stg <- jo [("active", VBool True), ("chunkSize", VNum 2)]; strm <- jo [("streaming", stg)]; sopts <- jo [("feature", strm)]
       sdk <- C.testSdk opts sopts
       ent <- C.device sdk VNoval
-      em1 <- emptyMap
+      em1 <- jo parentVals
       batches <- eStream ent "list" em1 VNoval
       pure (length batches == 2)
 
@@ -600,6 +624,11 @@ device_buildBasicTest c = do
     sdk <- C.testSdk opts VNoval
     ent <- C.device_build sdk VNoval
     em1 <- emptyMap; em2 <- emptyMap
+    entmap <- getp existing "device_build"
+    rec0 <- keysof entmap >>= \ids -> case ids of { (i : _) -> getp entmap i; [] -> emptyMap }
+    setp em1 "device_type" =<< getp rec0 "device_type"
+    setp em1 "skip" =<< getp rec0 "skip"
+    setp em1 "take" =<< getp rec0 "take"
     lst <- eList ent em1 em2
     -- `list` resolves to one ENTITY per record; the record is reached
     -- through eDataGet. See AGENTS.md "Entity operations return ENTITIES".
@@ -640,10 +669,11 @@ device_buildDirectTest c = runTest c "device_build.direct" $ do
 
 device_buildStreamTest :: Counters -> IO ()
 device_buildStreamTest c = do
-  let mkSeed = do
-        r1 <- jo [("id", VStr "S1"), ("name", VStr "a")]
-        r2 <- jo [("id", VStr "S2"), ("name", VStr "b")]
-        r3 <- jo [("id", VStr "S3"), ("name", VStr "c")]
+  let parentVals = [("device_type", VStr "P1"), ("skip", VStr "P1"), ("take", VStr "P1")]
+      mkSeed = do
+        r1 <- jo ([("id", VStr "S1"), ("name", VStr "a")] ++ parentVals)
+        r2 <- jo ([("id", VStr "S2"), ("name", VStr "b")] ++ parentVals)
+        r3 <- jo ([("id", VStr "S3"), ("name", VStr "c")] ++ parentVals)
         recs <- jo [("S1", r1), ("S2", r2), ("S3", r3)]
         jo [("device_build", recs)]
       hasStreaming = do
@@ -655,14 +685,14 @@ device_buildStreamTest c = do
     seed <- mkSeed; opts <- jo [("entity", seed)]
     sdk <- C.testSdk opts VNoval
     ent <- C.device_build sdk VNoval
-    em1 <- emptyMap
+    em1 <- jo parentVals
     items <- eStream ent "list" em1 VNoval
     pure (length items == 3 && (case items of (x : _) -> ismap x; [] -> False))
   runTest c "device_build.stream_signal" $ do
     seed <- mkSeed; opts <- jo [("entity", seed)]
     sdk <- C.testSdk opts VNoval
     ent <- C.device_build sdk VNoval
-    em1 <- emptyMap
+    em1 <- jo parentVals
     n <- newIORef (0 :: Int)
     let sig = vfunc0 (do modifyIORef n (+ 1); v <- readIORef n; pure (VBool (v >= 2)))
     co <- jo [("signal", sig)]
@@ -675,7 +705,7 @@ device_buildStreamTest c = do
       stg <- jo [("active", VBool True)]; strm <- jo [("streaming", stg)]; sopts <- jo [("feature", strm)]
       sdk <- C.testSdk opts sopts
       ent <- C.device_build sdk VNoval
-      em1 <- emptyMap
+      em1 <- jo parentVals
       items <- eStream ent "list" em1 VNoval
       pure (length items == 3)
   runTest c "device_build.stream_chunk" $ do
@@ -685,7 +715,7 @@ device_buildStreamTest c = do
       stg <- jo [("active", VBool True), ("chunkSize", VNum 2)]; strm <- jo [("streaming", stg)]; sopts <- jo [("feature", strm)]
       sdk <- C.testSdk opts sopts
       ent <- C.device_build sdk VNoval
-      em1 <- emptyMap
+      em1 <- jo parentVals
       batches <- eStream ent "list" em1 VNoval
       pure (length batches == 2)
 
@@ -709,6 +739,9 @@ device_custody_detailBasicTest c = do
       [] -> pure True
       (id0 : _) -> do
         m <- jo [("id", VStr id0)]; ctrl <- emptyMap
+        rec0 <- getp entmap id0
+        setp m "device_type" =<< getp rec0 "device_type"
+        setp m "serial_number" =<< getp rec0 "serial_number"
         loaded <- eLoad ent m ctrl
         ld <- eDataGet loaded
         lid <- getp ld "id"
@@ -748,6 +781,12 @@ device_custody_list_itemBasicTest c = do
     sdk <- C.testSdk opts VNoval
     ent <- C.device_custody_list_item sdk VNoval
     em1 <- emptyMap; em2 <- emptyMap
+    entmap <- getp existing "device_custody_list_item"
+    rec0 <- keysof entmap >>= \ids -> case ids of { (i : _) -> getp entmap i; [] -> emptyMap }
+    setp em1 "device_type" =<< getp rec0 "device_type"
+    setp em1 "serial_number" =<< getp rec0 "serial_number"
+    setp em1 "skip" =<< getp rec0 "skip"
+    setp em1 "take" =<< getp rec0 "take"
     lst <- eList ent em1 em2
     -- `list` resolves to one ENTITY per record; the record is reached
     -- through eDataGet. See AGENTS.md "Entity operations return ENTITIES".
@@ -775,10 +814,11 @@ device_custody_list_itemDirectTest c = runTest c "device_custody_list_item.direc
 
 device_custody_list_itemStreamTest :: Counters -> IO ()
 device_custody_list_itemStreamTest c = do
-  let mkSeed = do
-        r1 <- jo [("id", VStr "S1"), ("name", VStr "a")]
-        r2 <- jo [("id", VStr "S2"), ("name", VStr "b")]
-        r3 <- jo [("id", VStr "S3"), ("name", VStr "c")]
+  let parentVals = [("device_type", VStr "P1"), ("serial_number", VStr "P1"), ("skip", VStr "P1"), ("take", VStr "P1")]
+      mkSeed = do
+        r1 <- jo ([("id", VStr "S1"), ("name", VStr "a")] ++ parentVals)
+        r2 <- jo ([("id", VStr "S2"), ("name", VStr "b")] ++ parentVals)
+        r3 <- jo ([("id", VStr "S3"), ("name", VStr "c")] ++ parentVals)
         recs <- jo [("S1", r1), ("S2", r2), ("S3", r3)]
         jo [("device_custody_list_item", recs)]
       hasStreaming = do
@@ -790,14 +830,14 @@ device_custody_list_itemStreamTest c = do
     seed <- mkSeed; opts <- jo [("entity", seed)]
     sdk <- C.testSdk opts VNoval
     ent <- C.device_custody_list_item sdk VNoval
-    em1 <- emptyMap
+    em1 <- jo parentVals
     items <- eStream ent "list" em1 VNoval
     pure (length items == 3 && (case items of (x : _) -> ismap x; [] -> False))
   runTest c "device_custody_list_item.stream_signal" $ do
     seed <- mkSeed; opts <- jo [("entity", seed)]
     sdk <- C.testSdk opts VNoval
     ent <- C.device_custody_list_item sdk VNoval
-    em1 <- emptyMap
+    em1 <- jo parentVals
     n <- newIORef (0 :: Int)
     let sig = vfunc0 (do modifyIORef n (+ 1); v <- readIORef n; pure (VBool (v >= 2)))
     co <- jo [("signal", sig)]
@@ -810,7 +850,7 @@ device_custody_list_itemStreamTest c = do
       stg <- jo [("active", VBool True)]; strm <- jo [("streaming", stg)]; sopts <- jo [("feature", strm)]
       sdk <- C.testSdk opts sopts
       ent <- C.device_custody_list_item sdk VNoval
-      em1 <- emptyMap
+      em1 <- jo parentVals
       items <- eStream ent "list" em1 VNoval
       pure (length items == 3)
   runTest c "device_custody_list_item.stream_chunk" $ do
@@ -820,7 +860,7 @@ device_custody_list_itemStreamTest c = do
       stg <- jo [("active", VBool True), ("chunkSize", VNum 2)]; strm <- jo [("streaming", stg)]; sopts <- jo [("feature", strm)]
       sdk <- C.testSdk opts sopts
       ent <- C.device_custody_list_item sdk VNoval
-      em1 <- emptyMap
+      em1 <- jo parentVals
       batches <- eStream ent "list" em1 VNoval
       pure (length batches == 2)
 
@@ -956,10 +996,11 @@ device_stateDirectTest c = runTest c "device_state.direct" $ do
 
 device_stateStreamTest :: Counters -> IO ()
 device_stateStreamTest c = do
-  let mkSeed = do
-        r1 <- jo [("id", VStr "S1"), ("name", VStr "a")]
-        r2 <- jo [("id", VStr "S2"), ("name", VStr "b")]
-        r3 <- jo [("id", VStr "S3"), ("name", VStr "c")]
+  let parentVals = []
+      mkSeed = do
+        r1 <- jo ([("id", VStr "S1"), ("name", VStr "a")] ++ parentVals)
+        r2 <- jo ([("id", VStr "S2"), ("name", VStr "b")] ++ parentVals)
+        r3 <- jo ([("id", VStr "S3"), ("name", VStr "c")] ++ parentVals)
         recs <- jo [("S1", r1), ("S2", r2), ("S3", r3)]
         jo [("device_state", recs)]
       hasStreaming = do
@@ -971,14 +1012,14 @@ device_stateStreamTest c = do
     seed <- mkSeed; opts <- jo [("entity", seed)]
     sdk <- C.testSdk opts VNoval
     ent <- C.device_state sdk VNoval
-    em1 <- emptyMap
+    em1 <- jo parentVals
     items <- eStream ent "list" em1 VNoval
     pure (length items == 3 && (case items of (x : _) -> ismap x; [] -> False))
   runTest c "device_state.stream_signal" $ do
     seed <- mkSeed; opts <- jo [("entity", seed)]
     sdk <- C.testSdk opts VNoval
     ent <- C.device_state sdk VNoval
-    em1 <- emptyMap
+    em1 <- jo parentVals
     n <- newIORef (0 :: Int)
     let sig = vfunc0 (do modifyIORef n (+ 1); v <- readIORef n; pure (VBool (v >= 2)))
     co <- jo [("signal", sig)]
@@ -991,7 +1032,7 @@ device_stateStreamTest c = do
       stg <- jo [("active", VBool True)]; strm <- jo [("streaming", stg)]; sopts <- jo [("feature", strm)]
       sdk <- C.testSdk opts sopts
       ent <- C.device_state sdk VNoval
-      em1 <- emptyMap
+      em1 <- jo parentVals
       items <- eStream ent "list" em1 VNoval
       pure (length items == 3)
   runTest c "device_state.stream_chunk" $ do
@@ -1001,7 +1042,7 @@ device_stateStreamTest c = do
       stg <- jo [("active", VBool True), ("chunkSize", VNum 2)]; strm <- jo [("streaming", stg)]; sopts <- jo [("feature", strm)]
       sdk <- C.testSdk opts sopts
       ent <- C.device_state sdk VNoval
-      em1 <- emptyMap
+      em1 <- jo parentVals
       batches <- eStream ent "list" em1 VNoval
       pure (length batches == 2)
 
@@ -1060,10 +1101,11 @@ device_typeDirectTest c = runTest c "device_type.direct" $ do
 
 device_typeStreamTest :: Counters -> IO ()
 device_typeStreamTest c = do
-  let mkSeed = do
-        r1 <- jo [("id", VStr "S1"), ("name", VStr "a")]
-        r2 <- jo [("id", VStr "S2"), ("name", VStr "b")]
-        r3 <- jo [("id", VStr "S3"), ("name", VStr "c")]
+  let parentVals = []
+      mkSeed = do
+        r1 <- jo ([("id", VStr "S1"), ("name", VStr "a")] ++ parentVals)
+        r2 <- jo ([("id", VStr "S2"), ("name", VStr "b")] ++ parentVals)
+        r3 <- jo ([("id", VStr "S3"), ("name", VStr "c")] ++ parentVals)
         recs <- jo [("S1", r1), ("S2", r2), ("S3", r3)]
         jo [("device_type", recs)]
       hasStreaming = do
@@ -1075,14 +1117,14 @@ device_typeStreamTest c = do
     seed <- mkSeed; opts <- jo [("entity", seed)]
     sdk <- C.testSdk opts VNoval
     ent <- C.device_type sdk VNoval
-    em1 <- emptyMap
+    em1 <- jo parentVals
     items <- eStream ent "list" em1 VNoval
     pure (length items == 3 && (case items of (x : _) -> ismap x; [] -> False))
   runTest c "device_type.stream_signal" $ do
     seed <- mkSeed; opts <- jo [("entity", seed)]
     sdk <- C.testSdk opts VNoval
     ent <- C.device_type sdk VNoval
-    em1 <- emptyMap
+    em1 <- jo parentVals
     n <- newIORef (0 :: Int)
     let sig = vfunc0 (do modifyIORef n (+ 1); v <- readIORef n; pure (VBool (v >= 2)))
     co <- jo [("signal", sig)]
@@ -1095,7 +1137,7 @@ device_typeStreamTest c = do
       stg <- jo [("active", VBool True)]; strm <- jo [("streaming", stg)]; sopts <- jo [("feature", strm)]
       sdk <- C.testSdk opts sopts
       ent <- C.device_type sdk VNoval
-      em1 <- emptyMap
+      em1 <- jo parentVals
       items <- eStream ent "list" em1 VNoval
       pure (length items == 3)
   runTest c "device_type.stream_chunk" $ do
@@ -1105,7 +1147,7 @@ device_typeStreamTest c = do
       stg <- jo [("active", VBool True), ("chunkSize", VNum 2)]; strm <- jo [("streaming", stg)]; sopts <- jo [("feature", strm)]
       sdk <- C.testSdk opts sopts
       ent <- C.device_type sdk VNoval
-      em1 <- emptyMap
+      em1 <- jo parentVals
       batches <- eStream ent "list" em1 VNoval
       pure (length batches == 2)
 
@@ -1164,10 +1206,11 @@ inject_keyDirectTest c = runTest c "inject_key.direct" $ do
 
 inject_keyStreamTest :: Counters -> IO ()
 inject_keyStreamTest c = do
-  let mkSeed = do
-        r1 <- jo [("id", VStr "S1"), ("name", VStr "a")]
-        r2 <- jo [("id", VStr "S2"), ("name", VStr "b")]
-        r3 <- jo [("id", VStr "S3"), ("name", VStr "c")]
+  let parentVals = []
+      mkSeed = do
+        r1 <- jo ([("id", VStr "S1"), ("name", VStr "a")] ++ parentVals)
+        r2 <- jo ([("id", VStr "S2"), ("name", VStr "b")] ++ parentVals)
+        r3 <- jo ([("id", VStr "S3"), ("name", VStr "c")] ++ parentVals)
         recs <- jo [("S1", r1), ("S2", r2), ("S3", r3)]
         jo [("inject_key", recs)]
       hasStreaming = do
@@ -1179,14 +1222,14 @@ inject_keyStreamTest c = do
     seed <- mkSeed; opts <- jo [("entity", seed)]
     sdk <- C.testSdk opts VNoval
     ent <- C.inject_key sdk VNoval
-    em1 <- emptyMap
+    em1 <- jo parentVals
     items <- eStream ent "list" em1 VNoval
     pure (length items == 3 && (case items of (x : _) -> ismap x; [] -> False))
   runTest c "inject_key.stream_signal" $ do
     seed <- mkSeed; opts <- jo [("entity", seed)]
     sdk <- C.testSdk opts VNoval
     ent <- C.inject_key sdk VNoval
-    em1 <- emptyMap
+    em1 <- jo parentVals
     n <- newIORef (0 :: Int)
     let sig = vfunc0 (do modifyIORef n (+ 1); v <- readIORef n; pure (VBool (v >= 2)))
     co <- jo [("signal", sig)]
@@ -1199,7 +1242,7 @@ inject_keyStreamTest c = do
       stg <- jo [("active", VBool True)]; strm <- jo [("streaming", stg)]; sopts <- jo [("feature", strm)]
       sdk <- C.testSdk opts sopts
       ent <- C.inject_key sdk VNoval
-      em1 <- emptyMap
+      em1 <- jo parentVals
       items <- eStream ent "list" em1 VNoval
       pure (length items == 3)
   runTest c "inject_key.stream_chunk" $ do
@@ -1209,7 +1252,7 @@ inject_keyStreamTest c = do
       stg <- jo [("active", VBool True), ("chunkSize", VNum 2)]; strm <- jo [("streaming", stg)]; sopts <- jo [("feature", strm)]
       sdk <- C.testSdk opts sopts
       ent <- C.inject_key sdk VNoval
-      em1 <- emptyMap
+      em1 <- jo parentVals
       batches <- eStream ent "list" em1 VNoval
       pure (length batches == 2)
 
@@ -1255,10 +1298,11 @@ kifDirectTest c = runTest c "kif.direct" $ do
 
 kifStreamTest :: Counters -> IO ()
 kifStreamTest c = do
-  let mkSeed = do
-        r1 <- jo [("id", VStr "S1"), ("name", VStr "a")]
-        r2 <- jo [("id", VStr "S2"), ("name", VStr "b")]
-        r3 <- jo [("id", VStr "S3"), ("name", VStr "c")]
+  let parentVals = []
+      mkSeed = do
+        r1 <- jo ([("id", VStr "S1"), ("name", VStr "a")] ++ parentVals)
+        r2 <- jo ([("id", VStr "S2"), ("name", VStr "b")] ++ parentVals)
+        r3 <- jo ([("id", VStr "S3"), ("name", VStr "c")] ++ parentVals)
         recs <- jo [("S1", r1), ("S2", r2), ("S3", r3)]
         jo [("kif", recs)]
       hasStreaming = do
@@ -1270,14 +1314,14 @@ kifStreamTest c = do
     seed <- mkSeed; opts <- jo [("entity", seed)]
     sdk <- C.testSdk opts VNoval
     ent <- C.kif sdk VNoval
-    em1 <- emptyMap
+    em1 <- jo parentVals
     items <- eStream ent "list" em1 VNoval
     pure (length items == 3 && (case items of (x : _) -> ismap x; [] -> False))
   runTest c "kif.stream_signal" $ do
     seed <- mkSeed; opts <- jo [("entity", seed)]
     sdk <- C.testSdk opts VNoval
     ent <- C.kif sdk VNoval
-    em1 <- emptyMap
+    em1 <- jo parentVals
     n <- newIORef (0 :: Int)
     let sig = vfunc0 (do modifyIORef n (+ 1); v <- readIORef n; pure (VBool (v >= 2)))
     co <- jo [("signal", sig)]
@@ -1290,7 +1334,7 @@ kifStreamTest c = do
       stg <- jo [("active", VBool True)]; strm <- jo [("streaming", stg)]; sopts <- jo [("feature", strm)]
       sdk <- C.testSdk opts sopts
       ent <- C.kif sdk VNoval
-      em1 <- emptyMap
+      em1 <- jo parentVals
       items <- eStream ent "list" em1 VNoval
       pure (length items == 3)
   runTest c "kif.stream_chunk" $ do
@@ -1300,7 +1344,7 @@ kifStreamTest c = do
       stg <- jo [("active", VBool True), ("chunkSize", VNum 2)]; strm <- jo [("streaming", stg)]; sopts <- jo [("feature", strm)]
       sdk <- C.testSdk opts sopts
       ent <- C.kif sdk VNoval
-      em1 <- emptyMap
+      em1 <- jo parentVals
       batches <- eStream ent "list" em1 VNoval
       pure (length batches == 2)
 
@@ -1319,6 +1363,11 @@ locationBasicTest c = do
     sdk <- C.testSdk opts VNoval
     ent <- C.location sdk VNoval
     em1 <- emptyMap; em2 <- emptyMap
+    entmap <- getp existing "location"
+    rec0 <- keysof entmap >>= \ids -> case ids of { (i : _) -> getp entmap i; [] -> emptyMap }
+    setp em1 "client" =<< getp rec0 "client"
+    setp em1 "skip" =<< getp rec0 "skip"
+    setp em1 "take" =<< getp rec0 "take"
     lst <- eList ent em1 em2
     -- `list` resolves to one ENTITY per record; the record is reached
     -- through eDataGet. See AGENTS.md "Entity operations return ENTITIES".
@@ -1388,10 +1437,11 @@ locationDirectTest c = runTest c "location.direct" $ do
 
 locationStreamTest :: Counters -> IO ()
 locationStreamTest c = do
-  let mkSeed = do
-        r1 <- jo [("id", VStr "S1"), ("name", VStr "a")]
-        r2 <- jo [("id", VStr "S2"), ("name", VStr "b")]
-        r3 <- jo [("id", VStr "S3"), ("name", VStr "c")]
+  let parentVals = [("client", VStr "P1"), ("skip", VStr "P1"), ("take", VStr "P1")]
+      mkSeed = do
+        r1 <- jo ([("id", VStr "S1"), ("name", VStr "a")] ++ parentVals)
+        r2 <- jo ([("id", VStr "S2"), ("name", VStr "b")] ++ parentVals)
+        r3 <- jo ([("id", VStr "S3"), ("name", VStr "c")] ++ parentVals)
         recs <- jo [("S1", r1), ("S2", r2), ("S3", r3)]
         jo [("location", recs)]
       hasStreaming = do
@@ -1403,14 +1453,14 @@ locationStreamTest c = do
     seed <- mkSeed; opts <- jo [("entity", seed)]
     sdk <- C.testSdk opts VNoval
     ent <- C.location sdk VNoval
-    em1 <- emptyMap
+    em1 <- jo parentVals
     items <- eStream ent "list" em1 VNoval
     pure (length items == 3 && (case items of (x : _) -> ismap x; [] -> False))
   runTest c "location.stream_signal" $ do
     seed <- mkSeed; opts <- jo [("entity", seed)]
     sdk <- C.testSdk opts VNoval
     ent <- C.location sdk VNoval
-    em1 <- emptyMap
+    em1 <- jo parentVals
     n <- newIORef (0 :: Int)
     let sig = vfunc0 (do modifyIORef n (+ 1); v <- readIORef n; pure (VBool (v >= 2)))
     co <- jo [("signal", sig)]
@@ -1423,7 +1473,7 @@ locationStreamTest c = do
       stg <- jo [("active", VBool True)]; strm <- jo [("streaming", stg)]; sopts <- jo [("feature", strm)]
       sdk <- C.testSdk opts sopts
       ent <- C.location sdk VNoval
-      em1 <- emptyMap
+      em1 <- jo parentVals
       items <- eStream ent "list" em1 VNoval
       pure (length items == 3)
   runTest c "location.stream_chunk" $ do
@@ -1433,7 +1483,7 @@ locationStreamTest c = do
       stg <- jo [("active", VBool True), ("chunkSize", VNum 2)]; strm <- jo [("streaming", stg)]; sopts <- jo [("feature", strm)]
       sdk <- C.testSdk opts sopts
       ent <- C.location sdk VNoval
-      em1 <- emptyMap
+      em1 <- jo parentVals
       batches <- eStream ent "list" em1 VNoval
       pure (length batches == 2)
 
@@ -1452,6 +1502,11 @@ partnerBasicTest c = do
     sdk <- C.testSdk opts VNoval
     ent <- C.partner sdk VNoval
     em1 <- emptyMap; em2 <- emptyMap
+    entmap <- getp existing "partner"
+    rec0 <- keysof entmap >>= \ids -> case ids of { (i : _) -> getp entmap i; [] -> emptyMap }
+    setp em1 "partner" =<< getp rec0 "partner"
+    setp em1 "skip" =<< getp rec0 "skip"
+    setp em1 "take" =<< getp rec0 "take"
     lst <- eList ent em1 em2
     -- `list` resolves to one ENTITY per record; the record is reached
     -- through eDataGet. See AGENTS.md "Entity operations return ENTITIES".
@@ -1506,10 +1561,11 @@ partnerDirectTest c = runTest c "partner.direct" $ do
 
 partnerStreamTest :: Counters -> IO ()
 partnerStreamTest c = do
-  let mkSeed = do
-        r1 <- jo [("id", VStr "S1"), ("name", VStr "a")]
-        r2 <- jo [("id", VStr "S2"), ("name", VStr "b")]
-        r3 <- jo [("id", VStr "S3"), ("name", VStr "c")]
+  let parentVals = [("partner", VStr "P1"), ("skip", VStr "P1"), ("take", VStr "P1")]
+      mkSeed = do
+        r1 <- jo ([("id", VStr "S1"), ("name", VStr "a")] ++ parentVals)
+        r2 <- jo ([("id", VStr "S2"), ("name", VStr "b")] ++ parentVals)
+        r3 <- jo ([("id", VStr "S3"), ("name", VStr "c")] ++ parentVals)
         recs <- jo [("S1", r1), ("S2", r2), ("S3", r3)]
         jo [("partner", recs)]
       hasStreaming = do
@@ -1521,14 +1577,14 @@ partnerStreamTest c = do
     seed <- mkSeed; opts <- jo [("entity", seed)]
     sdk <- C.testSdk opts VNoval
     ent <- C.partner sdk VNoval
-    em1 <- emptyMap
+    em1 <- jo parentVals
     items <- eStream ent "list" em1 VNoval
     pure (length items == 3 && (case items of (x : _) -> ismap x; [] -> False))
   runTest c "partner.stream_signal" $ do
     seed <- mkSeed; opts <- jo [("entity", seed)]
     sdk <- C.testSdk opts VNoval
     ent <- C.partner sdk VNoval
-    em1 <- emptyMap
+    em1 <- jo parentVals
     n <- newIORef (0 :: Int)
     let sig = vfunc0 (do modifyIORef n (+ 1); v <- readIORef n; pure (VBool (v >= 2)))
     co <- jo [("signal", sig)]
@@ -1541,7 +1597,7 @@ partnerStreamTest c = do
       stg <- jo [("active", VBool True)]; strm <- jo [("streaming", stg)]; sopts <- jo [("feature", strm)]
       sdk <- C.testSdk opts sopts
       ent <- C.partner sdk VNoval
-      em1 <- emptyMap
+      em1 <- jo parentVals
       items <- eStream ent "list" em1 VNoval
       pure (length items == 3)
   runTest c "partner.stream_chunk" $ do
@@ -1551,7 +1607,7 @@ partnerStreamTest c = do
       stg <- jo [("active", VBool True), ("chunkSize", VNum 2)]; strm <- jo [("streaming", stg)]; sopts <- jo [("feature", strm)]
       sdk <- C.testSdk opts sopts
       ent <- C.partner sdk VNoval
-      em1 <- emptyMap
+      em1 <- jo parentVals
       batches <- eStream ent "list" em1 VNoval
       pure (length batches == 2)
 
@@ -1570,6 +1626,12 @@ shipmentBasicTest c = do
     sdk <- C.testSdk opts VNoval
     ent <- C.shipment sdk VNoval
     em1 <- emptyMap; em2 <- emptyMap
+    entmap <- getp existing "shipment"
+    rec0 <- keysof entmap >>= \ids -> case ids of { (i : _) -> getp entmap i; [] -> emptyMap }
+    setp em1 "kif" =<< getp rec0 "kif"
+    setp em1 "mode" =<< getp rec0 "mode"
+    setp em1 "skip" =<< getp rec0 "skip"
+    setp em1 "take" =<< getp rec0 "take"
     lst <- eList ent em1 em2
     -- `list` resolves to one ENTITY per record; the record is reached
     -- through eDataGet. See AGENTS.md "Entity operations return ENTITIES".
@@ -1624,10 +1686,11 @@ shipmentDirectTest c = runTest c "shipment.direct" $ do
 
 shipmentStreamTest :: Counters -> IO ()
 shipmentStreamTest c = do
-  let mkSeed = do
-        r1 <- jo [("id", VStr "S1"), ("name", VStr "a")]
-        r2 <- jo [("id", VStr "S2"), ("name", VStr "b")]
-        r3 <- jo [("id", VStr "S3"), ("name", VStr "c")]
+  let parentVals = [("kif", VStr "P1"), ("mode", VStr "P1"), ("skip", VStr "P1"), ("take", VStr "P1")]
+      mkSeed = do
+        r1 <- jo ([("id", VStr "S1"), ("name", VStr "a")] ++ parentVals)
+        r2 <- jo ([("id", VStr "S2"), ("name", VStr "b")] ++ parentVals)
+        r3 <- jo ([("id", VStr "S3"), ("name", VStr "c")] ++ parentVals)
         recs <- jo [("S1", r1), ("S2", r2), ("S3", r3)]
         jo [("shipment", recs)]
       hasStreaming = do
@@ -1639,14 +1702,14 @@ shipmentStreamTest c = do
     seed <- mkSeed; opts <- jo [("entity", seed)]
     sdk <- C.testSdk opts VNoval
     ent <- C.shipment sdk VNoval
-    em1 <- emptyMap
+    em1 <- jo parentVals
     items <- eStream ent "list" em1 VNoval
     pure (length items == 3 && (case items of (x : _) -> ismap x; [] -> False))
   runTest c "shipment.stream_signal" $ do
     seed <- mkSeed; opts <- jo [("entity", seed)]
     sdk <- C.testSdk opts VNoval
     ent <- C.shipment sdk VNoval
-    em1 <- emptyMap
+    em1 <- jo parentVals
     n <- newIORef (0 :: Int)
     let sig = vfunc0 (do modifyIORef n (+ 1); v <- readIORef n; pure (VBool (v >= 2)))
     co <- jo [("signal", sig)]
@@ -1659,7 +1722,7 @@ shipmentStreamTest c = do
       stg <- jo [("active", VBool True)]; strm <- jo [("streaming", stg)]; sopts <- jo [("feature", strm)]
       sdk <- C.testSdk opts sopts
       ent <- C.shipment sdk VNoval
-      em1 <- emptyMap
+      em1 <- jo parentVals
       items <- eStream ent "list" em1 VNoval
       pure (length items == 3)
   runTest c "shipment.stream_chunk" $ do
@@ -1669,7 +1732,7 @@ shipmentStreamTest c = do
       stg <- jo [("active", VBool True), ("chunkSize", VNum 2)]; strm <- jo [("streaming", stg)]; sopts <- jo [("feature", strm)]
       sdk <- C.testSdk opts sopts
       ent <- C.shipment sdk VNoval
-      em1 <- emptyMap
+      em1 <- jo parentVals
       batches <- eStream ent "list" em1 VNoval
       pure (length batches == 2)
 
@@ -1707,6 +1770,7 @@ successBasicTest c = do
     cd <- eDataGet created
     cid <- getp cd "id"
     rm <- jo [("id", cid)]; ctrl2 <- emptyMap
+    setp rm "share_partner_to" =<< getp cd "share_partner_to"
     -- `remove` resolves to the entity, marked. It KEEPS the data it held.
     removed <- eRemove ent rm ctrl2
     gone <- readIORef (eDeleted removed)
@@ -1748,6 +1812,21 @@ transactionBasicTest c = do
     sdk <- C.testSdk opts VNoval
     ent <- C.transaction sdk VNoval
     em1 <- emptyMap; em2 <- emptyMap
+    entmap <- getp existing "transaction"
+    rec0 <- keysof entmap >>= \ids -> case ids of { (i : _) -> getp entmap i; [] -> emptyMap }
+    setp em1 "client" =<< getp rec0 "client"
+    setp em1 "client_ref" =<< getp rec0 "client_ref"
+    setp em1 "date_from" =<< getp rec0 "date_from"
+    setp em1 "date_to" =<< getp rec0 "date_to"
+    setp em1 "location" =<< getp rec0 "location"
+    setp em1 "message_id" =<< getp rec0 "message_id"
+    setp em1 "paging_mode" =<< getp rec0 "paging_mode"
+    setp em1 "partner" =<< getp rec0 "partner"
+    setp em1 "reference" =<< getp rec0 "reference"
+    setp em1 "serial_number" =<< getp rec0 "serial_number"
+    setp em1 "skip" =<< getp rec0 "skip"
+    setp em1 "success" =<< getp rec0 "success"
+    setp em1 "take" =<< getp rec0 "take"
     lst <- eList ent em1 em2
     -- `list` resolves to one ENTITY per record; the record is reached
     -- through eDataGet. See AGENTS.md "Entity operations return ENTITIES".
@@ -1802,10 +1881,11 @@ transactionDirectTest c = runTest c "transaction.direct" $ do
 
 transactionStreamTest :: Counters -> IO ()
 transactionStreamTest c = do
-  let mkSeed = do
-        r1 <- jo [("id", VStr "S1"), ("name", VStr "a")]
-        r2 <- jo [("id", VStr "S2"), ("name", VStr "b")]
-        r3 <- jo [("id", VStr "S3"), ("name", VStr "c")]
+  let parentVals = [("client", VStr "P1"), ("client_ref", VStr "P1"), ("date_from", VStr "P1"), ("date_to", VStr "P1"), ("location", VStr "P1"), ("message_id", VStr "P1"), ("paging_mode", VStr "P1"), ("partner", VStr "P1"), ("reference", VStr "P1"), ("serial_number", VStr "P1"), ("skip", VStr "P1"), ("success", VStr "P1"), ("take", VStr "P1")]
+      mkSeed = do
+        r1 <- jo ([("id", VStr "S1"), ("name", VStr "a")] ++ parentVals)
+        r2 <- jo ([("id", VStr "S2"), ("name", VStr "b")] ++ parentVals)
+        r3 <- jo ([("id", VStr "S3"), ("name", VStr "c")] ++ parentVals)
         recs <- jo [("S1", r1), ("S2", r2), ("S3", r3)]
         jo [("transaction", recs)]
       hasStreaming = do
@@ -1817,14 +1897,14 @@ transactionStreamTest c = do
     seed <- mkSeed; opts <- jo [("entity", seed)]
     sdk <- C.testSdk opts VNoval
     ent <- C.transaction sdk VNoval
-    em1 <- emptyMap
+    em1 <- jo parentVals
     items <- eStream ent "list" em1 VNoval
     pure (length items == 3 && (case items of (x : _) -> ismap x; [] -> False))
   runTest c "transaction.stream_signal" $ do
     seed <- mkSeed; opts <- jo [("entity", seed)]
     sdk <- C.testSdk opts VNoval
     ent <- C.transaction sdk VNoval
-    em1 <- emptyMap
+    em1 <- jo parentVals
     n <- newIORef (0 :: Int)
     let sig = vfunc0 (do modifyIORef n (+ 1); v <- readIORef n; pure (VBool (v >= 2)))
     co <- jo [("signal", sig)]
@@ -1837,7 +1917,7 @@ transactionStreamTest c = do
       stg <- jo [("active", VBool True)]; strm <- jo [("streaming", stg)]; sopts <- jo [("feature", strm)]
       sdk <- C.testSdk opts sopts
       ent <- C.transaction sdk VNoval
-      em1 <- emptyMap
+      em1 <- jo parentVals
       items <- eStream ent "list" em1 VNoval
       pure (length items == 3)
   runTest c "transaction.stream_chunk" $ do
@@ -1847,7 +1927,7 @@ transactionStreamTest c = do
       stg <- jo [("active", VBool True), ("chunkSize", VNum 2)]; strm <- jo [("streaming", stg)]; sopts <- jo [("feature", strm)]
       sdk <- C.testSdk opts sopts
       ent <- C.transaction sdk VNoval
-      em1 <- emptyMap
+      em1 <- jo parentVals
       batches <- eStream ent "list" em1 VNoval
       pure (length batches == 2)
 
@@ -1866,6 +1946,13 @@ update_resultBasicTest c = do
     sdk <- C.testSdk opts VNoval
     ent <- C.update_result sdk VNoval
     em1 <- emptyMap; em2 <- emptyMap
+    entmap <- getp existing "update_result"
+    rec0 <- keysof entmap >>= \ids -> case ids of { (i : _) -> getp entmap i; [] -> emptyMap }
+    setp em1 "client" =<< getp rec0 "client"
+    setp em1 "kif" =<< getp rec0 "kif"
+    setp em1 "partner" =<< getp rec0 "partner"
+    setp em1 "skip" =<< getp rec0 "skip"
+    setp em1 "take" =<< getp rec0 "take"
     lst <- eList ent em1 em2
     -- `list` resolves to one ENTITY per record; the record is reached
     -- through eDataGet. See AGENTS.md "Entity operations return ENTITIES".
@@ -1893,12 +1980,14 @@ update_resultBasicTest c = do
     created <- eCreate ent d ctrl
     cd <- eDataGet created
     cid <- getp cd "id"
-    upd <- jo [("id", cid), ("client", VStr "UpdatedMark")]
+    upd <- jo [("id", cid), ("address1", VStr "UpdatedMark")]
     ctrl2 <- emptyMap
     updated <- eUpdate ent upd ctrl2
     ud <- eDataGet updated
-    uv <- getp ud "client"
-    pure (ismap ud && vstring uv == "UpdatedMark")
+    uv <- getp ud "address1"
+    um <- readIORef (eMatch updated)
+    umid <- getp um "id"
+    pure (ismap ud && vstring uv == "UpdatedMark" && vstring umid == vstring cid)
 
 update_resultDirectTest :: Counters -> IO ()
 update_resultDirectTest c = runTest c "update_result.direct" $ do
@@ -1921,10 +2010,11 @@ update_resultDirectTest c = runTest c "update_result.direct" $ do
 
 update_resultStreamTest :: Counters -> IO ()
 update_resultStreamTest c = do
-  let mkSeed = do
-        r1 <- jo [("id", VStr "S1"), ("name", VStr "a")]
-        r2 <- jo [("id", VStr "S2"), ("name", VStr "b")]
-        r3 <- jo [("id", VStr "S3"), ("name", VStr "c")]
+  let parentVals = [("client", VStr "P1"), ("kif", VStr "P1"), ("partner", VStr "P1"), ("skip", VStr "P1"), ("take", VStr "P1")]
+      mkSeed = do
+        r1 <- jo ([("id", VStr "S1"), ("name", VStr "a")] ++ parentVals)
+        r2 <- jo ([("id", VStr "S2"), ("name", VStr "b")] ++ parentVals)
+        r3 <- jo ([("id", VStr "S3"), ("name", VStr "c")] ++ parentVals)
         recs <- jo [("S1", r1), ("S2", r2), ("S3", r3)]
         jo [("update_result", recs)]
       hasStreaming = do
@@ -1936,14 +2026,14 @@ update_resultStreamTest c = do
     seed <- mkSeed; opts <- jo [("entity", seed)]
     sdk <- C.testSdk opts VNoval
     ent <- C.update_result sdk VNoval
-    em1 <- emptyMap
+    em1 <- jo parentVals
     items <- eStream ent "list" em1 VNoval
     pure (length items == 3 && (case items of (x : _) -> ismap x; [] -> False))
   runTest c "update_result.stream_signal" $ do
     seed <- mkSeed; opts <- jo [("entity", seed)]
     sdk <- C.testSdk opts VNoval
     ent <- C.update_result sdk VNoval
-    em1 <- emptyMap
+    em1 <- jo parentVals
     n <- newIORef (0 :: Int)
     let sig = vfunc0 (do modifyIORef n (+ 1); v <- readIORef n; pure (VBool (v >= 2)))
     co <- jo [("signal", sig)]
@@ -1956,7 +2046,7 @@ update_resultStreamTest c = do
       stg <- jo [("active", VBool True)]; strm <- jo [("streaming", stg)]; sopts <- jo [("feature", strm)]
       sdk <- C.testSdk opts sopts
       ent <- C.update_result sdk VNoval
-      em1 <- emptyMap
+      em1 <- jo parentVals
       items <- eStream ent "list" em1 VNoval
       pure (length items == 3)
   runTest c "update_result.stream_chunk" $ do
@@ -1966,7 +2056,7 @@ update_resultStreamTest c = do
       stg <- jo [("active", VBool True), ("chunkSize", VNum 2)]; strm <- jo [("streaming", stg)]; sopts <- jo [("feature", strm)]
       sdk <- C.testSdk opts sopts
       ent <- C.update_result sdk VNoval
-      em1 <- emptyMap
+      em1 <- jo parentVals
       batches <- eStream ent "list" em1 VNoval
       pure (length batches == 2)
 
@@ -2034,6 +2124,11 @@ virtual_deviceBasicTest c = do
       [] -> pure True
       (id0 : _) -> do
         m <- jo [("id", VStr id0)]; ctrl <- emptyMap
+        rec0 <- getp entmap id0
+        setp m "skip" =<< getp rec0 "skip"
+        setp m "sorting_direction" =<< getp rec0 "sorting_direction"
+        setp m "sorting_field" =<< getp rec0 "sorting_field"
+        setp m "take" =<< getp rec0 "take"
         loaded <- eLoad ent m ctrl
         ld <- eDataGet loaded
         lid <- getp ld "id"

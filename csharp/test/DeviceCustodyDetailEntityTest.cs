@@ -2,6 +2,7 @@
 
 using System.Text.Json;
 
+using BluefinDecryptxP2peSdk.Feature;
 using Voxgig.Struct;
 using Xunit;
 
@@ -9,6 +10,12 @@ namespace BluefinDecryptxP2peSdk.Test;
 
 public class DeviceCustodyDetailEntityTest
 {
+    // main.kit.test.live.strict is true (the default is true): a live
+    // request that fails, or a live test missing an input it needs,
+    // fails the test.
+    // An account with no record for a test to read skips it either way.
+    private const bool LIVE_STRICT = true;
+
     [Fact]
     public void Instance()
     {
@@ -33,11 +40,9 @@ public class DeviceCustodyDetailEntityTest
                 return; // skipped via sdk-test-control.json
             }
         }
-        // The basic flow consumes synthetic IDs from the fixture. In live
-        // mode without an *_ENTID env override, those IDs hit the live API
-        // and 4xx; set BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_CUSTODY_DETAIL_ENTID JSON to run live.
-        if (setup.SyntheticOnly)
+        if (setup.Live)
         {
+            TestRunner.LiveMiss(LIVE_STRICT, "Live entity test blocked: " + "the flow loads a device_custody_detail record it has no list to find");
             return;
         }
         var client = setup.Client;
@@ -55,12 +60,29 @@ public class DeviceCustodyDetailEntityTest
         {
             ["id"] = deviceCustodyDetailRef01Data!["id"],
         };
+        deviceCustodyDetailRef01MatchDt0["device_type"] = StructUtils.GetProp(setup.Idmap, "device_type") ?? StructUtils.GetProp(setup.Idmap, "device_type01");
+        deviceCustodyDetailRef01MatchDt0["serial_number"] = StructUtils.GetProp(setup.Idmap, "serial_number") ?? StructUtils.GetProp(setup.Idmap, "serial_number01");
         var deviceCustodyDetailRef01DataDt0Loaded = deviceCustodyDetailRef01Ent.Load(deviceCustodyDetailRef01MatchDt0, null);
         var deviceCustodyDetailRef01DataDt0LoadResult = Helpers.ToMapAny(deviceCustodyDetailRef01DataDt0Loaded is IEntity le ? le.Data() : deviceCustodyDetailRef01DataDt0Loaded);
         Assert.True(deviceCustodyDetailRef01DataDt0LoadResult != null, "expected load result to be a map");
         Assert.True(StructRunner.DeepEqual(deviceCustodyDetailRef01DataDt0LoadResult!["id"], deviceCustodyDetailRef01Data["id"]),
             "expected load result id to match");
 
+    }
+
+    [Fact]
+    public void Validate()
+    {
+        if (!Fh.HasFeature("validate"))
+        {
+            Console.WriteLine("skip: feature not present in this SDK: validate");
+            return;
+        }
+        var client = BluefinDecryptxP2peSDK.TestSDK(null,
+            new Dictionary<string, object?> { ["feature"] = new Dictionary<string, object?> { ["validate"] = new Dictionary<string, object?> { ["active"] = true } } });
+        var err = Assert.ThrowsAny<BluefinDecryptxP2peError>(() => client.DeviceCustodyDetail().Load(
+            new Dictionary<string, object?> { ["device_type"] = 1, ["id"] = "x", ["serial_number"] = "x" }, null));
+        Assert.Equal("validate_failed", err.Code);
     }
 
     private static EntityTestSetup DeviceCustodyDetailBasicSetup(
@@ -102,9 +124,8 @@ public class DeviceCustodyDetailEntityTest
                 },
             });
 
-        // Detect ENTID env override before EnvOverride consumes it. When
-        // live mode is on without a real override, the basic test runs
-        // against synthetic IDs from the fixture and 4xx's.
+        // Whether *_ENTID supplied the idmap, read before EnvOverride consumes
+        // it: without it, the ids a live flow binds are the fixture's synthetic ones.
         var entidEnvRaw = Environment.GetEnvironmentVariable(
             "BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_CUSTODY_DETAIL_ENTID") ?? "";
         var idmapOverridden = entidEnvRaw != "" &&

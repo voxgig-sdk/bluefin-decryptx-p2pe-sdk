@@ -16,7 +16,11 @@ from __future__ import annotations
 from typing import TypedDict, Any
 
 
-class Attestation(TypedDict, total=False):
+class AttestationRequired(TypedDict):
+    devices: list
+
+
+class Attestation(AttestationRequired, total=False):
     client: dict
     completeDate: str
     created: str
@@ -39,7 +43,11 @@ class AttestationListMatch(AttestationListMatchRequired, total=False):
     take: int
 
 
-class AttestationCreateData(TypedDict, total=False):
+class AttestationCreateDataRequired(TypedDict):
+    devices: list
+
+
+class AttestationCreateData(AttestationCreateDataRequired, total=False):
     client: dict
     completeDate: str
     created: str
@@ -100,20 +108,55 @@ class ClientRemoveMatch(TypedDict):
     id: str
 
 
-class CreateResult(TypedDict):
-    pass
+class CreateResultRequired(TypedDict):
+    custodian: dict
+    location: dict
 
 
-class CreateResultCreateData(TypedDict):
+class CreateResult(CreateResultRequired, total=False):
+    completeDate: str
+    notes: str
+
+
+class CreateResultCreateDataRequired(TypedDict):
     device_type: str
     serial_number: str
+    custodian: dict
+    location: dict
 
 
-class Decryption(TypedDict, total=False):
+class CreateResultCreateData(CreateResultCreateDataRequired, total=False):
+    completeDate: str
+    notes: str
+
+
+class DecryptionRequired(TypedDict):
+    deviceType: str
+    encrypted: list
+    serialNumber: str
+
+
+class Decryption(DecryptionRequired, total=False):
+    cbcVector: str
+    encoding: str
+    hasCcData: str
+    reference: str
+    sequenceNumber: str
     success: bool
 
 
-class DecryptionCreateData(TypedDict, total=False):
+class DecryptionCreateDataRequired(TypedDict):
+    deviceType: str
+    encrypted: list
+    serialNumber: str
+
+
+class DecryptionCreateData(DecryptionCreateDataRequired, total=False):
+    cbcVector: str
+    encoding: str
+    hasCcData: str
+    reference: str
+    sequenceNumber: str
     success: bool
 
 
@@ -284,19 +327,45 @@ class DeviceCustodyListItemListMatch(DeviceCustodyListItemListMatchRequired, tot
 
 
 class DeviceReceiveResult(TypedDict):
+    serialNumber: str
     success: bool
+    tamperLabel: str
 
 
 class DeviceReceiveResultCreateData(TypedDict):
+    serialNumber: str
+    success: bool
+    tamperLabel: str
+
+
+class DeviceRkiActivateResultRequired(TypedDict):
+    serialNumber: str
     success: bool
 
 
-class DeviceRkiActivateResult(TypedDict):
+class DeviceRkiActivateResult(DeviceRkiActivateResultRequired, total=False):
+    appVersion: str
+    buildName: str
+    buildNumber: str
+    configFile: str
+    firmwareVersion: str
+    hardwareVersion: str
+    whiteListingBinRanges: str
+
+
+class DeviceRkiActivateResultCreateDataRequired(TypedDict):
+    serialNumber: str
     success: bool
 
 
-class DeviceRkiActivateResultCreateData(TypedDict):
-    success: bool
+class DeviceRkiActivateResultCreateData(DeviceRkiActivateResultCreateDataRequired, total=False):
+    appVersion: str
+    buildName: str
+    buildNumber: str
+    configFile: str
+    firmwareVersion: str
+    hardwareVersion: str
+    whiteListingBinRanges: str
 
 
 class DeviceState(TypedDict, total=False):
@@ -384,6 +453,7 @@ class Location(TypedDict, total=False):
     address2: str
     billingId: str
     city: str
+    client: dict
     country: str
     created: str
     customReference: str
@@ -423,6 +493,7 @@ class LocationCreateData(TypedDict, total=False):
     address2: str
     billingId: str
     city: str
+    client: dict
     country: str
     created: str
     customReference: str
@@ -498,7 +569,11 @@ class PartnerCreateData(PartnerCreateDataRequired, total=False):
     version: int
 
 
-class Shipment(TypedDict, total=False):
+class ShipmentRequired(TypedDict):
+    location: dict
+
+
+class Shipment(ShipmentRequired, total=False):
     carrier: str
     client: dict
     created: str
@@ -529,7 +604,11 @@ class ShipmentListMatch(ShipmentListMatchRequired, total=False):
     take: int
 
 
-class ShipmentCreateData(TypedDict, total=False):
+class ShipmentCreateDataRequired(TypedDict):
+    location: dict
+
+
+class ShipmentCreateData(ShipmentCreateDataRequired, total=False):
     carrier: str
     client: dict
     created: str
@@ -546,12 +625,19 @@ class ShipmentCreateData(TypedDict, total=False):
     version: int
 
 
-class Success(TypedDict, total=False):
+class SuccessRequired(TypedDict):
+    devices: list
+    sharePartnerFrom: dict
+
+
+class Success(SuccessRequired, total=False):
     success: bool
 
 
 class SuccessCreateDataRequired(TypedDict):
     share_partner_to: str
+    devices: list
+    sharePartnerFrom: dict
 
 
 class SuccessCreateData(SuccessCreateDataRequired, total=False):
@@ -563,6 +649,7 @@ class SuccessRemoveMatch(TypedDict):
 
 
 class TransactionRequired(TypedDict):
+    device: dict
     location: dict
 
 
@@ -613,6 +700,7 @@ class TransactionListMatch(TypedDict, total=False):
 
 
 class TransactionCreateDataRequired(TypedDict):
+    device: dict
     location: dict
 
 
@@ -642,18 +730,72 @@ class TransactionCreateData(TransactionCreateDataRequired, total=False):
     transactionSource: str
 
 
-class UpdateResult(TypedDict, total=False):
-    client: dict
+class UpdateResultRequired(TypedDict):
+    contact: dict
     email: str
     firstName: str
-    id: str
     isActive: bool
-    kif: dict
     lastName: str
-    partner: dict
+    location: dict
     phone: str
     userName: str
     userRole: dict
+
+
+class UpdateResult(UpdateResultRequired, total=False):
+    address1: str
+    address2: str
+    alternateKey: str
+    auditNextDate: str
+    billingId: str
+    city: str
+    client: dict
+    clientCanOrderEquipment: bool
+    clientRef: str
+    country: dict
+    customReference: str
+    dateShipped: str
+    decrypted: int
+    device: dict
+    deviceBuild: dict
+    deviceType: dict
+    directPartner: dict
+    encrypted: int
+    endDate: str
+    errCode: str
+    errMessage: str
+    id: str
+    injectKey: dict
+    ipAddress: str
+    items: list
+    keyType: str
+    kif: dict
+    locationType: str
+    mailAddress1: str
+    mailAddress2: str
+    mailCity: str
+    mailCountry: str
+    mailPostalCode: str
+    mailStateProvince: str
+    messageId: str
+    method: str
+    mid: str
+    name: str
+    nameOfBusiness: str
+    notes: str
+    parent: dict
+    partner: dict
+    partnerId: str
+    postalCode: str
+    reference: str
+    sendWelcomeEmail: bool
+    serialNumber: str
+    startDate: str
+    stateProvince: str
+    success: bool
+    tracking: str
+    uniqueId: str
+    verificationPhrase: str
     version: int
 
 
@@ -665,18 +807,72 @@ class UpdateResultListMatch(TypedDict, total=False):
     take: int
 
 
-class UpdateResultCreateData(TypedDict, total=False):
-    client: dict
+class UpdateResultCreateDataRequired(TypedDict):
+    contact: dict
     email: str
     firstName: str
-    id: str
     isActive: bool
-    kif: dict
     lastName: str
-    partner: dict
+    location: dict
     phone: str
     userName: str
     userRole: dict
+
+
+class UpdateResultCreateData(UpdateResultCreateDataRequired, total=False):
+    address1: str
+    address2: str
+    alternateKey: str
+    auditNextDate: str
+    billingId: str
+    city: str
+    client: dict
+    clientCanOrderEquipment: bool
+    clientRef: str
+    country: dict
+    customReference: str
+    dateShipped: str
+    decrypted: int
+    device: dict
+    deviceBuild: dict
+    deviceType: dict
+    directPartner: dict
+    encrypted: int
+    endDate: str
+    errCode: str
+    errMessage: str
+    id: str
+    injectKey: dict
+    ipAddress: str
+    items: list
+    keyType: str
+    kif: dict
+    locationType: str
+    mailAddress1: str
+    mailAddress2: str
+    mailCity: str
+    mailCountry: str
+    mailPostalCode: str
+    mailStateProvince: str
+    messageId: str
+    method: str
+    mid: str
+    name: str
+    nameOfBusiness: str
+    notes: str
+    parent: dict
+    partner: dict
+    partnerId: str
+    postalCode: str
+    reference: str
+    sendWelcomeEmail: bool
+    serialNumber: str
+    startDate: str
+    stateProvince: str
+    success: bool
+    tracking: str
+    uniqueId: str
+    verificationPhrase: str
     version: int
 
 
@@ -685,16 +881,67 @@ class UpdateResultUpdateDataRequired(TypedDict):
 
 
 class UpdateResultUpdateData(UpdateResultUpdateDataRequired, total=False):
+    address1: str
+    address2: str
+    alternateKey: str
+    auditNextDate: str
+    billingId: str
+    city: str
     client: dict
+    clientCanOrderEquipment: bool
+    clientRef: str
+    contact: dict
+    country: dict
+    customReference: str
+    dateShipped: str
+    decrypted: int
+    device: dict
+    deviceBuild: dict
+    deviceType: dict
+    directPartner: dict
     email: str
+    encrypted: int
+    endDate: str
+    errCode: str
+    errMessage: str
     firstName: str
+    injectKey: dict
+    ipAddress: str
     isActive: bool
+    items: list
+    keyType: str
     kif: dict
     lastName: str
+    location: dict
+    locationType: str
+    mailAddress1: str
+    mailAddress2: str
+    mailCity: str
+    mailCountry: str
+    mailPostalCode: str
+    mailStateProvince: str
+    messageId: str
+    method: str
+    mid: str
+    name: str
+    nameOfBusiness: str
+    notes: str
+    parent: dict
     partner: dict
+    partnerId: str
     phone: str
+    postalCode: str
+    reference: str
+    sendWelcomeEmail: bool
+    serialNumber: str
+    startDate: str
+    stateProvince: str
+    success: bool
+    tracking: str
+    uniqueId: str
     userName: str
     userRole: dict
+    verificationPhrase: str
     version: int
 
 

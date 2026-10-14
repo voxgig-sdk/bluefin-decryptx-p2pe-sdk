@@ -5,16 +5,36 @@
 
 import java.util.{ArrayList, LinkedHashMap, List => JList, Map => JMap}
 
-import voxgig.bluefindecryptxp2pesdk.core.{Helpers, SdkEntity, BluefinDecryptxP2peSDK}
+import voxgig.bluefindecryptxp2pesdk.core.{Config, Context, Helpers, SdkEntity, SdkError, BluefinDecryptxP2peSDK}
+import voxgig.bluefindecryptxp2pesdk.feature.BaseFeature
 import voxgig.bluefindecryptxp2pesdk.utility.struct.Struct
 
 object CreateResultEntityTest {
+
+  import SdkTestSupport.{B, I, jl, om}
+
+  private def hasFeature(name: String): Boolean = {
+    val fm = Helpers.toMapAny(Config.sharedConfig().get("feature"))
+    fm != null && fm.get(name) != null
+  }
 
   def run(rep: SdkTestReport): Unit = {
     rep.scope("create_result.instance") {
       val testsdk = BluefinDecryptxP2peSDK.testSDK()
       val ent = testsdk.createResult(null)
       rep.check("create_result.instance", ent != null, "expected non-null create_result entity")
+    }
+
+    rep.scope("create_result.validate") {
+      if (hasFeature("validate")) {
+        val client = BluefinDecryptxP2peSDK.testSDK(null, om("feature" -> om("validate" -> om("active" -> B(true)))))
+        val err = try {
+          client.createResult(null).create(om("device_type" -> I(1), "serial_number" -> "x", "custodian" -> "x", "location" -> "x"), null)
+          null
+        } catch { case e: SdkError => e }
+        rep.check("create_result.validate", err != null && "validate_failed" == err.code,
+          "expected validate_failed, got " + err)
+      }
     }
 
     rep.scope("create_result.basic") {

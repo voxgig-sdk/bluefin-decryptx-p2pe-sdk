@@ -11,6 +11,7 @@
 ---@field completeDate? string
 ---@field created? string
 ---@field device? table
+---@field devices table
 ---@field id? string
 ---@field name? string
 ---@field notes? string
@@ -28,6 +29,7 @@
 ---@field completeDate? string
 ---@field created? string
 ---@field device? table
+---@field devices table
 ---@field id? string
 ---@field name? string
 ---@field notes? string
@@ -70,15 +72,39 @@
 ---@field id string
 
 ---@class CreateResult
+---@field completeDate? string
+---@field custodian table
+---@field location table
+---@field notes? string
 
 ---@class CreateResultCreateData
 ---@field device_type string
 ---@field serial_number string
+---@field completeDate? string
+---@field custodian table
+---@field location table
+---@field notes? string
 
 ---@class Decryption
+---@field cbcVector? string
+---@field deviceType string
+---@field encoding? string
+---@field encrypted table
+---@field hasCcData? string
+---@field reference? string
+---@field sequenceNumber? string
+---@field serialNumber string
 ---@field success? boolean
 
 ---@class DecryptionCreateData
+---@field cbcVector? string
+---@field deviceType string
+---@field encoding? string
+---@field encrypted table
+---@field hasCcData? string
+---@field reference? string
+---@field sequenceNumber? string
+---@field serialNumber string
 ---@field success? boolean
 
 ---@class Device
@@ -222,16 +248,36 @@
 ---@field take? number
 
 ---@class DeviceReceiveResult
+---@field serialNumber string
 ---@field success boolean
+---@field tamperLabel string
 
 ---@class DeviceReceiveResultCreateData
+---@field serialNumber string
 ---@field success boolean
+---@field tamperLabel string
 
 ---@class DeviceRkiActivateResult
+---@field appVersion? string
+---@field buildName? string
+---@field buildNumber? string
+---@field configFile? string
+---@field firmwareVersion? string
+---@field hardwareVersion? string
+---@field serialNumber string
 ---@field success boolean
+---@field whiteListingBinRanges? string
 
 ---@class DeviceRkiActivateResultCreateData
+---@field appVersion? string
+---@field buildName? string
+---@field buildNumber? string
+---@field configFile? string
+---@field firmwareVersion? string
+---@field hardwareVersion? string
+---@field serialNumber string
 ---@field success boolean
+---@field whiteListingBinRanges? string
 
 ---@class DeviceState
 ---@field id? number
@@ -308,6 +354,7 @@
 ---@field address2? string
 ---@field billingId? string
 ---@field city? string
+---@field client? table
 ---@field country? string
 ---@field created? string
 ---@field customReference? string
@@ -341,6 +388,7 @@
 ---@field address2? string
 ---@field billingId? string
 ---@field city? string
+---@field client? table
 ---@field country? string
 ---@field created? string
 ---@field customReference? string
@@ -414,6 +462,7 @@
 ---@field id? string
 ---@field items? table
 ---@field kif? table
+---@field location table
 ---@field modified? string
 ---@field partner? table
 ---@field shipmentType? string
@@ -439,6 +488,7 @@
 ---@field id? string
 ---@field items? table
 ---@field kif? table
+---@field location table
 ---@field modified? string
 ---@field partner? table
 ---@field shipmentType? string
@@ -446,10 +496,14 @@
 ---@field version? number
 
 ---@class Success
+---@field devices table
+---@field sharePartnerFrom table
 ---@field success? boolean
 
 ---@class SuccessCreateData
 ---@field share_partner_to string
+---@field devices table
+---@field sharePartnerFrom table
 ---@field success? boolean
 
 ---@class SuccessRemoveMatch
@@ -461,6 +515,7 @@
 ---@field clientRef? string
 ---@field created? string
 ---@field decrypted? number
+---@field device table
 ---@field deviceName? string
 ---@field directPartner? table
 ---@field encrypted? number
@@ -505,6 +560,7 @@
 ---@field clientRef? string
 ---@field created? string
 ---@field decrypted? number
+---@field device table
 ---@field deviceName? string
 ---@field directPartner? table
 ---@field encrypted? number
@@ -526,17 +582,68 @@
 ---@field transactionSource? string
 
 ---@class UpdateResult
+---@field address1? string
+---@field address2? string
+---@field alternateKey? string
+---@field auditNextDate? string
+---@field billingId? string
+---@field city? string
 ---@field client? table
----@field email? string
----@field firstName? string
+---@field clientCanOrderEquipment? boolean
+---@field clientRef? string
+---@field contact table
+---@field country? table
+---@field customReference? string
+---@field dateShipped? string
+---@field decrypted? number
+---@field device? table
+---@field deviceBuild? table
+---@field deviceType? table
+---@field directPartner? table
+---@field email string
+---@field encrypted? number
+---@field endDate? string
+---@field errCode? string
+---@field errMessage? string
+---@field firstName string
 ---@field id? string
----@field isActive? boolean
+---@field injectKey? table
+---@field ipAddress? string
+---@field isActive boolean
+---@field items? table
+---@field keyType? string
 ---@field kif? table
----@field lastName? string
+---@field lastName string
+---@field location table
+---@field locationType? string
+---@field mailAddress1? string
+---@field mailAddress2? string
+---@field mailCity? string
+---@field mailCountry? string
+---@field mailPostalCode? string
+---@field mailStateProvince? string
+---@field messageId? string
+---@field method? string
+---@field mid? string
+---@field name? string
+---@field nameOfBusiness? string
+---@field notes? string
+---@field parent? table
 ---@field partner? table
----@field phone? string
----@field userName? string
----@field userRole? table
+---@field partnerId? string
+---@field phone string
+---@field postalCode? string
+---@field reference? string
+---@field sendWelcomeEmail? boolean
+---@field serialNumber? string
+---@field startDate? string
+---@field stateProvince? string
+---@field success? boolean
+---@field tracking? string
+---@field uniqueId? string
+---@field userName string
+---@field userRole table
+---@field verificationPhrase? string
 ---@field version? number
 
 ---@class UpdateResultListMatch
@@ -547,31 +654,133 @@
 ---@field take? number
 
 ---@class UpdateResultCreateData
+---@field address1? string
+---@field address2? string
+---@field alternateKey? string
+---@field auditNextDate? string
+---@field billingId? string
+---@field city? string
 ---@field client? table
----@field email? string
----@field firstName? string
+---@field clientCanOrderEquipment? boolean
+---@field clientRef? string
+---@field contact table
+---@field country? table
+---@field customReference? string
+---@field dateShipped? string
+---@field decrypted? number
+---@field device? table
+---@field deviceBuild? table
+---@field deviceType? table
+---@field directPartner? table
+---@field email string
+---@field encrypted? number
+---@field endDate? string
+---@field errCode? string
+---@field errMessage? string
+---@field firstName string
 ---@field id? string
----@field isActive? boolean
+---@field injectKey? table
+---@field ipAddress? string
+---@field isActive boolean
+---@field items? table
+---@field keyType? string
 ---@field kif? table
----@field lastName? string
+---@field lastName string
+---@field location table
+---@field locationType? string
+---@field mailAddress1? string
+---@field mailAddress2? string
+---@field mailCity? string
+---@field mailCountry? string
+---@field mailPostalCode? string
+---@field mailStateProvince? string
+---@field messageId? string
+---@field method? string
+---@field mid? string
+---@field name? string
+---@field nameOfBusiness? string
+---@field notes? string
+---@field parent? table
 ---@field partner? table
----@field phone? string
----@field userName? string
----@field userRole? table
+---@field partnerId? string
+---@field phone string
+---@field postalCode? string
+---@field reference? string
+---@field sendWelcomeEmail? boolean
+---@field serialNumber? string
+---@field startDate? string
+---@field stateProvince? string
+---@field success? boolean
+---@field tracking? string
+---@field uniqueId? string
+---@field userName string
+---@field userRole table
+---@field verificationPhrase? string
 ---@field version? number
 
 ---@class UpdateResultUpdateData
 ---@field id string
+---@field address1? string
+---@field address2? string
+---@field alternateKey? string
+---@field auditNextDate? string
+---@field billingId? string
+---@field city? string
 ---@field client? table
+---@field clientCanOrderEquipment? boolean
+---@field clientRef? string
+---@field contact? table
+---@field country? table
+---@field customReference? string
+---@field dateShipped? string
+---@field decrypted? number
+---@field device? table
+---@field deviceBuild? table
+---@field deviceType? table
+---@field directPartner? table
 ---@field email? string
+---@field encrypted? number
+---@field endDate? string
+---@field errCode? string
+---@field errMessage? string
 ---@field firstName? string
+---@field injectKey? table
+---@field ipAddress? string
 ---@field isActive? boolean
+---@field items? table
+---@field keyType? string
 ---@field kif? table
 ---@field lastName? string
+---@field location? table
+---@field locationType? string
+---@field mailAddress1? string
+---@field mailAddress2? string
+---@field mailCity? string
+---@field mailCountry? string
+---@field mailPostalCode? string
+---@field mailStateProvince? string
+---@field messageId? string
+---@field method? string
+---@field mid? string
+---@field name? string
+---@field nameOfBusiness? string
+---@field notes? string
+---@field parent? table
 ---@field partner? table
+---@field partnerId? string
 ---@field phone? string
+---@field postalCode? string
+---@field reference? string
+---@field sendWelcomeEmail? boolean
+---@field serialNumber? string
+---@field startDate? string
+---@field stateProvince? string
+---@field success? boolean
+---@field tracking? string
+---@field uniqueId? string
 ---@field userName? string
 ---@field userRole? table
+---@field verificationPhrase? string
 ---@field version? number
 
 ---@class User

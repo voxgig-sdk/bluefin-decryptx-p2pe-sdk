@@ -12,6 +12,10 @@ const {
   envOverride,
   liveClientOptions,
   liveDelay,
+  skipIfMissingIds,
+  liveMiss,
+  liveEmpty,
+  describeLive,
 } = require('../../utility')
 
 
@@ -37,10 +41,13 @@ describe('VirtualDeviceDirect', async () => {
   test('direct-load-virtual_device', async (t) => {
     if (liveScenariosActive()) { t.skip('Covered by live operation scenarios'); return }
     const setup = directSetup({ id: 'direct01' })
+    if (skipIfMissingIds(t, setup, ["virtual_device01"], LIVE_STRICT)) return
     const { client, calls } = setup
 
     const params = {}
-    if (!setup.live) {
+    if (setup.live) {
+      params.id = setup.idmap['virtual_device01']
+    } else {
       params.id = 'direct01'
     }
 
@@ -50,11 +57,17 @@ describe('VirtualDeviceDirect', async () => {
       params,
     })
 
-    assert(result.ok === true)
-    assert(setup.live ? result.status >= 200 && result.status < 300 : result.status === 200)
-    assert(null != result.data)
-
-    if (!setup.live) {
+    if (setup.live) {
+      if (!result.ok || result.status < 200 || result.status >= 300) {
+        return void liveMiss(t, LIVE_STRICT, 'Live load failed: ' + describeLive(result))
+      }
+      if (!(null != result.data)) {
+        return void liveMiss(t, LIVE_STRICT, 'Live load returned no data: ' + describeLive(result))
+      }
+    } else {
+      assert(result.ok === true)
+      assert(result.status === 200)
+      assert(null != result.data)
       assert(result.data.id === 'direct01')
       assert(calls.length === 1)
       assert(calls[0].init.method === 'GET')
@@ -65,6 +78,12 @@ describe('VirtualDeviceDirect', async () => {
 })
 
 
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true
 
 function liveScenariosActive() { return false && process.env.BLUEFIN_DECRYPTX_P2PE_TEST_LIVE === 'TRUE' }
 function directSetup(mockres) {

@@ -9,6 +9,7 @@ Complete API reference for the BluefinDecryptxP2pe C# SDK.
 
 ```csharp
 using BluefinDecryptxP2peSdk;
+using Voxgig.Struct;
 
 var client = new BluefinDecryptxP2peSDK(options);
 ```
@@ -202,34 +203,52 @@ var attestation = client.Attestation();
 | `completeDate` | `string` | No | The date and time that the Attestation took place. |
 | `created` | `string` | No | Creation timestamp in ISO 8601 format. |
 | `device` | `Dictionary<string, object?>` | No | Reference to the associated Device resource. |
+| `devices` | `List<object?>` | Yes |  |
 | `id` | `string` | No | This resource's unique identifier. |
 | `name` | `string` | No | Text describing the attestation. |
 | `notes` | `string` | No | Free form field that allows the Client associate notes with the Attestation. |
+
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `client` | - | - | Yes |
+| `completeDate` | - | - | Yes |
+| `created` | - | - | - |
+| `device` | - | - | - |
+| `devices` | - | - | - |
+| `id` | - | - | - |
+| `name` | - | - | Yes |
+| `notes` | - | - | - |
 
 ### Operations
 
 #### `Create(reqdata, ctrl = null) -> object?`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```csharp
 var result = client.Attestation().Create(new Dictionary<string, object?>
 {
+    ["devices"] = new List<object?>(),  // List<object?>
 });
 ```
 
 #### `List(reqmatch, ctrl = null) -> object?`
 
-List entities matching the given criteria. The match is optional — call `List(null)` to list all records. Returns an aggregate list and raises on error.
+List entities matching the given criteria. The match is optional — call `List(null)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```csharp
-var results = client.Attestation().List(null);
-Console.WriteLine(results);
+var results = (List<object?>)client.Attestation().List(new Dictionary<string, object?> { ["client"] = "example" })!;
+foreach (var item in results)
+{
+    Console.WriteLine(StructUtils.Jsonify(((IEntity)item!).Data()));
+}
 ```
 
 #### `Load(reqmatch, ctrl = null) -> object?`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `Data()` reads, and raises on error.
 
 ```csharp
 var result = client.Attestation().Load(new Dictionary<string, object?> { ["id"] = "attestation_id" });
@@ -282,15 +301,15 @@ var client = client.Client();
 
 | Field | load | list | create | remove |
 | --- | --- | --- | --- | --- |
-| `contact` | - | Yes | - | - |
+| `contact` | - | Yes | Yes | - |
 | `created` | - | - | - | - |
-| `directPartner` | - | - | - | - |
+| `directPartner` | - | - | Yes | - |
 | `id` | - | - | - | - |
 | `isActive` | - | - | - | - |
 | `location` | - | - | - | - |
 | `mid` | - | - | - | - |
 | `modified` | - | - | - | - |
-| `name` | - | - | - | - |
+| `name` | - | - | Yes | - |
 | `partner` | - | - | - | - |
 | `version` | - | - | - | - |
 
@@ -298,7 +317,7 @@ var client = client.Client();
 
 #### `Create(reqdata, ctrl = null) -> object?`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```csharp
 var result = client.Client().Create(new Dictionary<string, object?>
@@ -309,16 +328,19 @@ var result = client.Client().Create(new Dictionary<string, object?>
 
 #### `List(reqmatch, ctrl = null) -> object?`
 
-List entities matching the given criteria. The match is optional — call `List(null)` to list all records. Returns an aggregate list and raises on error.
+List entities matching the given criteria. The match is optional — call `List(null)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```csharp
-var results = client.Client().List(null);
-Console.WriteLine(results);
+var results = (List<object?>)client.Client().List(new Dictionary<string, object?> { ["partner"] = "example" })!;
+foreach (var item in results)
+{
+    Console.WriteLine(StructUtils.Jsonify(((IEntity)item!).Data()));
+}
 ```
 
 #### `Load(reqmatch, ctrl = null) -> object?`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `Data()` reads, and raises on error.
 
 ```csharp
 var result = client.Client().Load(new Dictionary<string, object?> { ["id"] = "client_id" });
@@ -326,7 +348,7 @@ var result = client.Client().Load(new Dictionary<string, object?> { ["id"] = "cl
 
 #### `Remove(reqmatch, ctrl = null) -> object?`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```csharp
 var result = client.Client().Remove(new Dictionary<string, object?> { ["id"] = "client_id" });
@@ -359,17 +381,28 @@ Return the entity name.
 var createResult = client.CreateResult();
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `completeDate` | `string` | No | The date and time that the Custody change took place. |
+| `custodian` | `Dictionary<string, object?>` | Yes | Reference to the associated User resource. |
+| `location` | `Dictionary<string, object?>` | Yes | Reference to the associated Location resource. |
+| `notes` | `string` | No | Free form field that allows the Client associate notes with the Custody Change. |
+
 ### Operations
 
 #### `Create(reqdata, ctrl = null) -> object?`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```csharp
 var result = client.CreateResult().Create(new Dictionary<string, object?>
 {
     ["device_type"] = "example_device_type",  // string
     ["serial_number"] = "example_serial_number",  // string
+    ["custodian"] = new Dictionary<string, object?>(),  // Dictionary<string, object?>
+    ["location"] = new Dictionary<string, object?>(),  // Dictionary<string, object?>
 });
 ```
 
@@ -404,17 +437,28 @@ var decryption = client.Decryption();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `cbcVector` | `string` | No | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | `string` | Yes | The device Type. |
+| `encoding` | `string` | No | The payload encoding |
+| `encrypted` | `List<object?>` | Yes |  |
+| `hasCcData` | `string` | No | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | `string` | No | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | `string` | No | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | `string` | Yes | The serial number of the device. |
 | `success` | `bool` | No | true if the payload decryption was successful. |
 
 ### Operations
 
 #### `Create(reqdata, ctrl = null) -> object?`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```csharp
 var result = client.Decryption().Create(new Dictionary<string, object?>
 {
+    ["deviceType"] = "example_deviceType",  // string
+    ["encrypted"] = new List<object?>(),  // List<object?>
+    ["serialNumber"] = "example_serialNumber",  // string
 });
 ```
 
@@ -478,11 +522,44 @@ var device = client.Device();
 | `serialNumber` | `string` | No | The Device's serial number. |
 | `version` | `long` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `activatedBy` | - | - | - |
+| `activationDate` | - | - | - |
+| `alternateKey` | - | - | - |
+| `auditNextDate` | - | - | - |
+| `auditNotificationDate` | - | - | - |
+| `client` | - | - | - |
+| `created` | - | - | - |
+| `createdBy` | - | - | - |
+| `deviceBuild` | - | - | - |
+| `deviceState` | - | - | - |
+| `deviceType` | - | - | Yes |
+| `errorCounter` | - | - | - |
+| `errorLastDate` | - | - | - |
+| `id` | - | - | - |
+| `initializedBy` | - | - | - |
+| `initializedDate` | - | - | - |
+| `injectKey` | - | - | - |
+| `isVirtual` | - | - | - |
+| `kif` | - | - | Yes |
+| `lastActivityDate` | - | - | - |
+| `location` | - | - | - |
+| `modified` | - | - | - |
+| `modifiedBy` | - | - | - |
+| `name` | - | - | - |
+| `notes` | - | - | - |
+| `partner` | - | - | - |
+| `serialNumber` | - | - | Yes |
+| `version` | - | - | - |
+
 ### Operations
 
 #### `Create(reqdata, ctrl = null) -> object?`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```csharp
 var result = client.Device().Create(new Dictionary<string, object?>
@@ -497,16 +574,19 @@ var result = client.Device().Create(new Dictionary<string, object?>
 
 #### `List(reqmatch, ctrl = null) -> object?`
 
-List entities matching the given criteria. The match is optional — call `List(null)` to list all records. Returns an aggregate list and raises on error.
+List entities matching the given criteria. The match is optional — call `List(null)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```csharp
-var results = client.Device().List(null);
-Console.WriteLine(results);
+var results = (List<object?>)client.Device().List(null)!;
+foreach (var item in results)
+{
+    Console.WriteLine(StructUtils.Jsonify(((IEntity)item!).Data()));
+}
 ```
 
 #### `Load(reqmatch, ctrl = null) -> object?`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `Data()` reads, and raises on error.
 
 ```csharp
 var result = client.Device().Load(new Dictionary<string, object?> { ["id"] = "device_id" });
@@ -563,16 +643,19 @@ var deviceBuild = client.DeviceBuild();
 
 #### `List(reqmatch, ctrl = null) -> object?`
 
-List entities matching the given criteria. The match is optional — call `List(null)` to list all records. Returns an aggregate list and raises on error.
+List entities matching the given criteria. The match is optional — call `List(null)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```csharp
-var results = client.DeviceBuild().List(null);
-Console.WriteLine(results);
+var results = (List<object?>)client.DeviceBuild().List(null)!;
+foreach (var item in results)
+{
+    Console.WriteLine(StructUtils.Jsonify(((IEntity)item!).Data()));
+}
 ```
 
 #### `Load(reqmatch, ctrl = null) -> object?`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `Data()` reads, and raises on error.
 
 ```csharp
 var result = client.DeviceBuild().Load(new Dictionary<string, object?> { ["id"] = "device_build_id" });
@@ -627,7 +710,7 @@ var deviceCustodyDetail = client.DeviceCustodyDetail();
 
 #### `Load(reqmatch, ctrl = null) -> object?`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `Data()` reads, and raises on error.
 
 ```csharp
 var result = client.DeviceCustodyDetail().Load(new Dictionary<string, object?> { ["id"] = "device_custody_detail_id", ["device_type"] = "device_type", ["serial_number"] = "serial_number" });
@@ -682,11 +765,14 @@ var deviceCustodyListItem = client.DeviceCustodyListItem();
 
 #### `List(reqmatch, ctrl = null) -> object?`
 
-List entities matching the given criteria. The match is optional — call `List(null)` to list all records. Returns an aggregate list and raises on error.
+List entities matching the given criteria. The match is optional — call `List(null)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```csharp
-var results = client.DeviceCustodyListItem().List(null);
-Console.WriteLine(results);
+var results = (List<object?>)client.DeviceCustodyListItem().List(new Dictionary<string, object?> { ["device_type"] = "example", ["serial_number"] = "example" })!;
+foreach (var item in results)
+{
+    Console.WriteLine(StructUtils.Jsonify(((IEntity)item!).Data()));
+}
 ```
 
 ### Common Methods
@@ -720,18 +806,22 @@ var deviceReceiveResult = client.DeviceReceiveResult();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `serialNumber` | `string` | Yes | The serial number of the Device that is shipped. |
 | `success` | `bool` | Yes | Indicates if the action succeeded. |
+| `tamperLabel` | `string` | Yes | The code that is printed the tamper label of the Device that is shipped. |
 
 ### Operations
 
 #### `Create(reqdata, ctrl = null) -> object?`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```csharp
 var result = client.DeviceReceiveResult().Create(new Dictionary<string, object?>
 {
+    ["serialNumber"] = "example_serialNumber",  // string
     ["success"] = true,  // bool
+    ["tamperLabel"] = "example_tamperLabel",  // string
 });
 ```
 
@@ -766,17 +856,26 @@ var deviceRkiActivateResult = client.DeviceRkiActivateResult();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `appVersion` | `string` | No | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | `string` | No | The Device Builds's name. |
+| `buildNumber` | `string` | No | The Build Number. |
+| `configFile` | `string` | No | \? |
+| `firmwareVersion` | `string` | No | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `string` | No | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | `string` | Yes | The referenced Device's serial number. |
 | `success` | `bool` | Yes | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | `string` | No | \? |
 
 ### Operations
 
 #### `Create(reqdata, ctrl = null) -> object?`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```csharp
 var result = client.DeviceRkiActivateResult().Create(new Dictionary<string, object?>
 {
+    ["serialNumber"] = "example_serialNumber",  // string
     ["success"] = true,  // bool
 });
 ```
@@ -819,11 +918,14 @@ var deviceState = client.DeviceState();
 
 #### `List(reqmatch, ctrl = null) -> object?`
 
-List entities matching the given criteria. The match is optional — call `List(null)` to list all records. Returns an aggregate list and raises on error.
+List entities matching the given criteria. The match is optional — call `List(null)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```csharp
-var results = client.DeviceState().List(null);
-Console.WriteLine(results);
+var results = (List<object?>)client.DeviceState().List(null)!;
+foreach (var item in results)
+{
+    Console.WriteLine(StructUtils.Jsonify(((IEntity)item!).Data()));
+}
 ```
 
 ### Common Methods
@@ -874,16 +976,19 @@ var deviceType = client.DeviceType();
 
 #### `List(reqmatch, ctrl = null) -> object?`
 
-List entities matching the given criteria. The match is optional — call `List(null)` to list all records. Returns an aggregate list and raises on error.
+List entities matching the given criteria. The match is optional — call `List(null)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```csharp
-var results = client.DeviceType().List(null);
-Console.WriteLine(results);
+var results = (List<object?>)client.DeviceType().List(null)!;
+foreach (var item in results)
+{
+    Console.WriteLine(StructUtils.Jsonify(((IEntity)item!).Data()));
+}
 ```
 
 #### `Load(reqmatch, ctrl = null) -> object?`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `Data()` reads, and raises on error.
 
 ```csharp
 var result = client.DeviceType().Load(new Dictionary<string, object?> { ["id"] = "device_type_id" });
@@ -933,16 +1038,19 @@ var injectKey = client.InjectKey();
 
 #### `List(reqmatch, ctrl = null) -> object?`
 
-List entities matching the given criteria. The match is optional — call `List(null)` to list all records. Returns an aggregate list and raises on error.
+List entities matching the given criteria. The match is optional — call `List(null)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```csharp
-var results = client.InjectKey().List(null);
-Console.WriteLine(results);
+var results = (List<object?>)client.InjectKey().List(null)!;
+foreach (var item in results)
+{
+    Console.WriteLine(StructUtils.Jsonify(((IEntity)item!).Data()));
+}
 ```
 
 #### `Load(reqmatch, ctrl = null) -> object?`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `Data()` reads, and raises on error.
 
 ```csharp
 var result = client.InjectKey().Load(new Dictionary<string, object?> { ["id"] = "inject_key_id" });
@@ -986,11 +1094,14 @@ var kif = client.Kif();
 
 #### `List(reqmatch, ctrl = null) -> object?`
 
-List entities matching the given criteria. The match is optional — call `List(null)` to list all records. Returns an aggregate list and raises on error.
+List entities matching the given criteria. The match is optional — call `List(null)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```csharp
-var results = client.Kif().List(null);
-Console.WriteLine(results);
+var results = (List<object?>)client.Kif().List(null)!;
+foreach (var item in results)
+{
+    Console.WriteLine(StructUtils.Jsonify(((IEntity)item!).Data()));
+}
 ```
 
 ### Common Methods
@@ -1028,6 +1139,7 @@ var location = client.Location();
 | `address2` | `string` | No | The Location's street address. |
 | `billingId` | `string` | No | \? |
 | `city` | `string` | No | The Location's city. |
+| `client` | `Dictionary<string, object?>` | No | Reference to the associated Client resource. |
 | `country` | `string` | No | The Location's country. |
 | `created` | `string` | No | Creation timestamp in ISO 8601 format. |
 | `customReference` | `string` | No | A Partner specified reference for a location. |
@@ -1048,11 +1160,40 @@ var location = client.Location();
 | `uniqueId` | `string` | No | Unique Identifier for the Location. |
 | `version` | `long` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create | remove |
+| --- | --- | --- | --- | --- |
+| `address1` | - | - | Yes | - |
+| `address2` | - | - | - | - |
+| `billingId` | - | - | - | - |
+| `city` | - | - | Yes | - |
+| `client` | - | - | - | - |
+| `country` | - | - | Yes | - |
+| `created` | - | - | - | - |
+| `customReference` | - | - | - | - |
+| `id` | - | - | - | - |
+| `locationType` | - | - | Yes | - |
+| `mailAddress1` | - | - | - | - |
+| `mailAddress2` | - | - | - | - |
+| `mailCity` | - | - | - | - |
+| `mailCountry` | - | - | - | - |
+| `mailPostalCode` | - | - | - | - |
+| `mailStateProvince` | - | - | - | - |
+| `modified` | - | - | - | - |
+| `name` | - | - | Yes | - |
+| `nameOfBusiness` | - | - | - | - |
+| `notes` | - | - | - | - |
+| `postalCode` | - | - | - | - |
+| `stateProvince` | - | - | - | - |
+| `uniqueId` | - | - | - | - |
+| `version` | - | - | - | - |
+
 ### Operations
 
 #### `Create(reqdata, ctrl = null) -> object?`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```csharp
 var result = client.Location().Create(new Dictionary<string, object?>
@@ -1062,16 +1203,19 @@ var result = client.Location().Create(new Dictionary<string, object?>
 
 #### `List(reqmatch, ctrl = null) -> object?`
 
-List entities matching the given criteria. The match is optional — call `List(null)` to list all records. Returns an aggregate list and raises on error.
+List entities matching the given criteria. The match is optional — call `List(null)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```csharp
-var results = client.Location().List(null);
-Console.WriteLine(results);
+var results = (List<object?>)client.Location().List(new Dictionary<string, object?> { ["client"] = "example" })!;
+foreach (var item in results)
+{
+    Console.WriteLine(StructUtils.Jsonify(((IEntity)item!).Data()));
+}
 ```
 
 #### `Load(reqmatch, ctrl = null) -> object?`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `Data()` reads, and raises on error.
 
 ```csharp
 var result = client.Location().Load(new Dictionary<string, object?> { ["id"] = "location_id" });
@@ -1079,7 +1223,7 @@ var result = client.Location().Load(new Dictionary<string, object?> { ["id"] = "
 
 #### `Remove(reqmatch, ctrl = null) -> object?`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```csharp
 var result = client.Location().Remove(new Dictionary<string, object?> { ["id"] = "location_id" });
@@ -1137,16 +1281,16 @@ var partner = client.Partner();
 | --- | --- | --- | --- |
 | `billingId` | - | - | - |
 | `clientCanOrderEquipment` | - | - | - |
-| `contact` | - | Yes | - |
+| `contact` | - | Yes | Yes |
 | `created` | - | - | - |
 | `id` | - | - | - |
 | `isActive` | - | - | - |
 | `location` | - | - | - |
 | `modified` | - | - | - |
-| `name` | - | - | - |
-| `parent` | - | - | - |
+| `name` | - | - | Yes |
+| `parent` | - | - | Yes |
 | `partnerId` | - | - | - |
-| `reference` | - | - | - |
+| `reference` | - | - | Yes |
 | `verificationPhrase` | - | - | - |
 | `version` | - | - | - |
 
@@ -1154,7 +1298,7 @@ var partner = client.Partner();
 
 #### `Create(reqdata, ctrl = null) -> object?`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```csharp
 var result = client.Partner().Create(new Dictionary<string, object?>
@@ -1165,16 +1309,19 @@ var result = client.Partner().Create(new Dictionary<string, object?>
 
 #### `List(reqmatch, ctrl = null) -> object?`
 
-List entities matching the given criteria. The match is optional — call `List(null)` to list all records. Returns an aggregate list and raises on error.
+List entities matching the given criteria. The match is optional — call `List(null)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```csharp
-var results = client.Partner().List(null);
-Console.WriteLine(results);
+var results = (List<object?>)client.Partner().List(null)!;
+foreach (var item in results)
+{
+    Console.WriteLine(StructUtils.Jsonify(((IEntity)item!).Data()));
+}
 ```
 
 #### `Load(reqmatch, ctrl = null) -> object?`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `Data()` reads, and raises on error.
 
 ```csharp
 var result = client.Partner().Load(new Dictionary<string, object?> { ["id"] = "partner_id" });
@@ -1220,36 +1367,61 @@ var shipment = client.Shipment();
 | `id` | `string` | No | This resource's unique identifier. |
 | `items` | `List<object?>` | No |  |
 | `kif` | `Dictionary<string, object?>` | No | Reference to the associated KIF resource. |
+| `location` | `Dictionary<string, object?>` | Yes | Reference to the associated Location resource. |
 | `modified` | `string` | No | Last modified timestamp. |
 | `partner` | `Dictionary<string, object?>` | No | Reference to the associated Partner. |
 | `shipmentType` | `string` | No | The type of shipment. |
 | `tracking` | `string` | No | The courier's tracking number. |
 | `version` | `long` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `carrier` | - | - | Yes |
+| `client` | - | - | Yes |
+| `created` | - | - | - |
+| `dateReceived` | - | - | - |
+| `dateShipped` | - | - | Yes |
+| `dcKif` | - | - | - |
+| `id` | - | - | - |
+| `items` | - | - | Yes |
+| `kif` | - | - | Yes |
+| `location` | - | - | - |
+| `modified` | - | - | - |
+| `partner` | - | - | Yes |
+| `shipmentType` | - | - | - |
+| `tracking` | - | - | Yes |
+| `version` | - | - | - |
+
 ### Operations
 
 #### `Create(reqdata, ctrl = null) -> object?`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```csharp
 var result = client.Shipment().Create(new Dictionary<string, object?>
 {
+    ["location"] = new Dictionary<string, object?>(),  // Dictionary<string, object?>
 });
 ```
 
 #### `List(reqmatch, ctrl = null) -> object?`
 
-List entities matching the given criteria. The match is optional — call `List(null)` to list all records. Returns an aggregate list and raises on error.
+List entities matching the given criteria. The match is optional — call `List(null)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```csharp
-var results = client.Shipment().List(null);
-Console.WriteLine(results);
+var results = (List<object?>)client.Shipment().List(new Dictionary<string, object?> { ["kif"] = "example" })!;
+foreach (var item in results)
+{
+    Console.WriteLine(StructUtils.Jsonify(((IEntity)item!).Data()));
+}
 ```
 
 #### `Load(reqmatch, ctrl = null) -> object?`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `Data()` reads, and raises on error.
 
 ```csharp
 var result = client.Shipment().Load(new Dictionary<string, object?> { ["id"] = "shipment_id" });
@@ -1286,24 +1458,28 @@ var success = client.Success();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `devices` | `List<object?>` | Yes | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | `Dictionary<string, object?>` | Yes | Reference to the associated Partner. |
 | `success` | `bool` | No | Indicates if the action was a success. |
 
 ### Operations
 
 #### `Create(reqdata, ctrl = null) -> object?`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```csharp
 var result = client.Success().Create(new Dictionary<string, object?>
 {
     ["share_partner_to"] = "example_share_partner_to",  // string
+    ["devices"] = new List<object?>(),  // List<object?>
+    ["sharePartnerFrom"] = new Dictionary<string, object?>(),  // Dictionary<string, object?>
 });
 ```
 
 #### `Remove(reqmatch, ctrl = null) -> object?`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```csharp
 var result = client.Success().Remove(new Dictionary<string, object?> { ["share_partner_to"] = "share_partner_to" });
@@ -1345,6 +1521,7 @@ var transaction = client.Transaction();
 | `clientRef` | `string` | No | Client Reference property that is included in the decrypt API call. |
 | `created` | `string` | No | Creation timestamp in ISO 8601 format. |
 | `decrypted` | `long` | No | A Transcation can process muliple decryptions. |
+| `device` | `Dictionary<string, object?>` | Yes | Reference to the associated Device resource. |
 | `deviceName` | `string` | No | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | `Dictionary<string, object?>` | No | Reference to the associated Partner. |
 | `encrypted` | `long` | No | A Transcation can process muliple encryptions. |
@@ -1365,31 +1542,65 @@ var transaction = client.Transaction();
 | `success` | `bool` | No | The success indicator. |
 | `transactionSource` | `string` | No | The source of the Transaction. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `alternateKey` | - | - | - |
+| `client` | - | - | Yes |
+| `clientRef` | - | - | - |
+| `created` | - | - | - |
+| `decrypted` | - | - | - |
+| `device` | - | - | - |
+| `deviceName` | - | - | - |
+| `directPartner` | - | - | - |
+| `encrypted` | - | - | - |
+| `endDate` | - | - | - |
+| `errCode` | - | - | - |
+| `errMessage` | - | - | - |
+| `id` | - | - | - |
+| `ipAddress` | - | - | Yes |
+| `isVirtual` | - | - | - |
+| `keyType` | - | - | Yes |
+| `location` | - | - | - |
+| `messageId` | - | - | - |
+| `method` | - | - | Yes |
+| `partner` | - | - | Yes |
+| `reference` | - | - | - |
+| `serialNumber` | - | - | - |
+| `startDate` | - | - | - |
+| `success` | - | - | - |
+| `transactionSource` | - | - | - |
+
 ### Operations
 
 #### `Create(reqdata, ctrl = null) -> object?`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```csharp
 var result = client.Transaction().Create(new Dictionary<string, object?>
 {
+    ["device"] = new Dictionary<string, object?>(),  // Dictionary<string, object?>
     ["location"] = new Dictionary<string, object?>(),  // Dictionary<string, object?>
 });
 ```
 
 #### `List(reqmatch, ctrl = null) -> object?`
 
-List entities matching the given criteria. The match is optional — call `List(null)` to list all records. Returns an aggregate list and raises on error.
+List entities matching the given criteria. The match is optional — call `List(null)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```csharp
-var results = client.Transaction().List(null);
-Console.WriteLine(results);
+var results = (List<object?>)client.Transaction().List(null)!;
+foreach (var item in results)
+{
+    Console.WriteLine(StructUtils.Jsonify(((IEntity)item!).Data()));
+}
 ```
 
 #### `Load(reqmatch, ctrl = null) -> object?`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `Data()` reads, and raises on error.
 
 ```csharp
 var result = client.Transaction().Load(new Dictionary<string, object?> { ["id"] = "transaction_id" });
@@ -1426,43 +1637,174 @@ var updateResult = client.UpdateResult();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `address1` | `string` | No | The Location's street address. |
+| `address2` | `string` | No | The Location's street address. |
+| `alternateKey` | `string` | No | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `string` | No | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | `string` | No | \? |
+| `city` | `string` | No | The Location's city. |
 | `client` | `Dictionary<string, object?>` | No | Reference to the associated Client resource. |
-| `email` | `string` | No | The User's email address. |
-| `firstName` | `string` | No | The User's name. |
+| `clientCanOrderEquipment` | `bool` | No | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | `string` | No | Client Reference property that is included in the decrypt API call. |
+| `contact` | `Dictionary<string, object?>` | Yes | Reference to the associated User resource. |
+| `country` | `Dictionary<string, object?>` | No | Reference to the associated Country. |
+| `customReference` | `string` | No | A Partner specified reference for a location. |
+| `dateShipped` | `string` | No | The date and time that a package is shipped. |
+| `decrypted` | `long` | No | A Transcation can process muliple decryptions. |
+| `device` | `Dictionary<string, object?>` | No | Reference to the associated Device resource. |
+| `deviceBuild` | `Dictionary<string, object?>` | No | Reference to the associated Device Build resource. |
+| `deviceType` | `Dictionary<string, object?>` | No | Reference to the associated Device Type resource. |
+| `directPartner` | `Dictionary<string, object?>` | No | Reference to the associated Partner. |
+| `email` | `string` | Yes | The User's email address. |
+| `encrypted` | `long` | No | A Transcation can process muliple encryptions. |
+| `endDate` | `string` | No | Timestamp from the end of the transaction. |
+| `errCode` | `string` | No | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `string` | No | The error messge that is sent in response to a failed decrypt API call. |
+| `firstName` | `string` | Yes | The User's name. |
 | `id` | `string` | No | ID of newly created resource |
-| `isActive` | `bool` | No | This property indicates if the User account is active or disabled. |
+| `injectKey` | `Dictionary<string, object?>` | No | Reference to the associated Device resource. |
+| `ipAddress` | `string` | No | The IP address of the http client that makes the decrypt API call. |
+| `isActive` | `bool` | Yes | This property indicates if the User account is active or disabled. |
+| `items` | `List<object?>` | No |  |
+| `keyType` | `string` | No | The type of cipher used during decrytion. |
 | `kif` | `Dictionary<string, object?>` | No | Reference to the associated KIF resource. |
-| `lastName` | `string` | No | The User's Surname. |
+| `lastName` | `string` | Yes | The User's Surname. |
+| `location` | `Dictionary<string, object?>` | Yes | Reference to the associated Location resource. |
+| `locationType` | `string` | No | The Location's clasification. |
+| `mailAddress1` | `string` | No | The Location's street address. |
+| `mailAddress2` | `string` | No | The Location's street address. |
+| `mailCity` | `string` | No | The Location's city. |
+| `mailCountry` | `string` | No | The Location's street address. |
+| `mailPostalCode` | `string` | No | The Location's postal code. |
+| `mailStateProvince` | `string` | No | The Location's street state or province. |
+| `messageId` | `string` | No | Message ID. |
+| `method` | `string` | No | The decryption cypher/method. |
+| `mid` | `string` | No | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | `string` | No | The Client's name. |
+| `nameOfBusiness` | `string` | No | The name of the business at this location. |
+| `notes` | `string` | No | Arbitary note that can be attached to a Device entry. |
+| `parent` | `Dictionary<string, object?>` | No | Reference to the associated Partner. |
 | `partner` | `Dictionary<string, object?>` | No | Reference to the associated Partner. |
-| `phone` | `string` | No | The User's phone number without dashes, spaces, or brackets. |
-| `userName` | `string` | No | The User's unique username. |
-| `userRole` | `Dictionary<string, object?>` | No | Reference to the associated User Role. |
+| `partnerId` | `string` | No | The Partner's id. |
+| `phone` | `string` | Yes | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | `string` | No | The Location's postal code. |
+| `reference` | `string` | No | The Partner's reference string. |
+| `sendWelcomeEmail` | `bool` | No | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | `string` | No | The Device's serial number. |
+| `startDate` | `string` | No | Timestamp from the beginning of the transaction. |
+| `stateProvince` | `string` | No | The Location's street state or province. |
+| `success` | `bool` | No | The success indicator. |
+| `tracking` | `string` | No | The courier's tracking number. |
+| `uniqueId` | `string` | No | Unique Identifier for the Location. |
+| `userName` | `string` | Yes | The User's unique username. |
+| `userRole` | `Dictionary<string, object?>` | Yes | Reference to the associated User Role. |
+| `verificationPhrase` | `string` | No | The verification phrase is a message that the Partner creates. |
 | `version` | `long` | No | The number of times that this resource has been updated. |
+
+### Field Usage by Operation
+
+| Field | list | create | update |
+| --- | --- | --- | --- |
+| `address1` | - | - | - |
+| `address2` | - | - | - |
+| `alternateKey` | - | - | - |
+| `auditNextDate` | - | - | - |
+| `billingId` | - | - | - |
+| `city` | - | - | - |
+| `client` | - | - | - |
+| `clientCanOrderEquipment` | - | - | - |
+| `clientRef` | - | - | - |
+| `contact` | - | - | - |
+| `country` | - | - | - |
+| `customReference` | - | - | - |
+| `dateShipped` | - | - | - |
+| `decrypted` | - | - | - |
+| `device` | - | - | - |
+| `deviceBuild` | - | - | - |
+| `deviceType` | - | - | - |
+| `directPartner` | - | - | - |
+| `email` | Yes | - | Yes |
+| `encrypted` | - | - | - |
+| `endDate` | - | - | - |
+| `errCode` | - | - | - |
+| `errMessage` | - | - | - |
+| `firstName` | Yes | - | Yes |
+| `id` | - | - | - |
+| `injectKey` | - | - | - |
+| `ipAddress` | - | - | - |
+| `isActive` | Yes | - | Yes |
+| `items` | - | - | - |
+| `keyType` | - | - | - |
+| `kif` | - | - | - |
+| `lastName` | Yes | - | Yes |
+| `location` | - | - | - |
+| `locationType` | - | - | - |
+| `mailAddress1` | - | - | - |
+| `mailAddress2` | - | - | - |
+| `mailCity` | - | - | - |
+| `mailCountry` | - | - | - |
+| `mailPostalCode` | - | - | - |
+| `mailStateProvince` | - | - | - |
+| `messageId` | - | - | - |
+| `method` | - | - | - |
+| `mid` | - | - | - |
+| `name` | - | - | - |
+| `nameOfBusiness` | - | - | - |
+| `notes` | - | - | - |
+| `parent` | - | - | - |
+| `partner` | - | - | - |
+| `partnerId` | - | - | - |
+| `phone` | Yes | - | Yes |
+| `postalCode` | - | - | - |
+| `reference` | - | - | - |
+| `sendWelcomeEmail` | - | - | - |
+| `serialNumber` | - | - | - |
+| `startDate` | - | - | - |
+| `stateProvince` | - | - | - |
+| `success` | - | - | - |
+| `tracking` | - | - | - |
+| `uniqueId` | - | - | - |
+| `userName` | Yes | - | Yes |
+| `userRole` | Yes | - | Yes |
+| `verificationPhrase` | - | - | - |
+| `version` | - | - | - |
 
 ### Operations
 
 #### `Create(reqdata, ctrl = null) -> object?`
 
-Create a new entity with the given data. Returns the created entity data and raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```csharp
 var result = client.UpdateResult().Create(new Dictionary<string, object?>
 {
+    ["contact"] = new Dictionary<string, object?>(),  // Dictionary<string, object?>
+    ["email"] = "example_email",  // string
+    ["firstName"] = "example_firstName",  // string
+    ["isActive"] = true,  // bool
+    ["lastName"] = "example_lastName",  // string
+    ["location"] = new Dictionary<string, object?>(),  // Dictionary<string, object?>
+    ["phone"] = "example_phone",  // string
+    ["userName"] = "example_userName",  // string
+    ["userRole"] = new Dictionary<string, object?>(),  // Dictionary<string, object?>
 });
 ```
 
 #### `List(reqmatch, ctrl = null) -> object?`
 
-List entities matching the given criteria. The match is optional — call `List(null)` to list all records. Returns an aggregate list and raises on error.
+List entities matching the given criteria. The match is optional — call `List(null)` to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```csharp
-var results = client.UpdateResult().List(null);
-Console.WriteLine(results);
+var results = (List<object?>)client.UpdateResult().List(null)!;
+foreach (var item in results)
+{
+    Console.WriteLine(StructUtils.Jsonify(((IEntity)item!).Data()));
+}
 ```
 
 #### `Update(reqdata, ctrl = null) -> object?`
 
-Update an existing entity. The data must include the entity `id`. Returns the updated entity data and raises on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
 
 ```csharp
 var result = client.UpdateResult().Update(new Dictionary<string, object?>
@@ -1522,7 +1864,7 @@ var user = client.User();
 
 #### `Load(reqmatch, ctrl = null) -> object?`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `Data()` reads, and raises on error.
 
 ```csharp
 var result = client.User().Load(new Dictionary<string, object?> { ["id"] = "user_id" });
@@ -1530,7 +1872,7 @@ var result = client.User().Load(new Dictionary<string, object?> { ["id"] = "user
 
 #### `Remove(reqmatch, ctrl = null) -> object?`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```csharp
 var result = client.User().Remove(new Dictionary<string, object?> { ["id"] = "user_id" });
@@ -1575,7 +1917,7 @@ var virtualDevice = client.VirtualDevice();
 
 #### `Load(reqmatch, ctrl = null) -> object?`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `Data()` reads, and raises on error.
 
 ```csharp
 var result = client.VirtualDevice().Load(new Dictionary<string, object?> { ["id"] = "virtual_device_id" });
@@ -2025,6 +2367,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

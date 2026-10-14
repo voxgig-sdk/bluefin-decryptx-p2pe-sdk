@@ -86,7 +86,7 @@ class BluefinDecryptxP2peAuditFeature extends BluefinDecryptxP2peBaseFeature
             : ($this->options['actor'] ?? null);
         $actor = (is_string($actor) && $actor !== '') ? $actor : 'anonymous';
 
-        $record = [
+        $record = ($ctx->utility->clean)($ctx, [
             'seq' => $this->seq,
             'ts' => $this->_now(),
             'actor' => $actor,
@@ -95,7 +95,7 @@ class BluefinDecryptxP2peAuditFeature extends BluefinDecryptxP2peBaseFeature
             'outcome' => $outcome,
             'status' => $ctx->result !== null ? $ctx->result->status : null,
             'correlationId' => $ctx->id,
-        ];
+        ]);
 
         $client = $this->client;
         $client->_audit['records'][] = $record;

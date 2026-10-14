@@ -5,16 +5,36 @@
 
 import java.util.{ArrayList, LinkedHashMap, List => JList, Map => JMap}
 
-import voxgig.bluefindecryptxp2pesdk.core.{Helpers, SdkEntity, BluefinDecryptxP2peSDK}
+import voxgig.bluefindecryptxp2pesdk.core.{Config, Context, Helpers, SdkEntity, SdkError, BluefinDecryptxP2peSDK}
+import voxgig.bluefindecryptxp2pesdk.feature.BaseFeature
 import voxgig.bluefindecryptxp2pesdk.utility.struct.Struct
 
 object VirtualDeviceEntityTest {
+
+  import SdkTestSupport.{B, I, jl, om}
+
+  private def hasFeature(name: String): Boolean = {
+    val fm = Helpers.toMapAny(Config.sharedConfig().get("feature"))
+    fm != null && fm.get(name) != null
+  }
 
   def run(rep: SdkTestReport): Unit = {
     rep.scope("virtual_device.instance") {
       val testsdk = BluefinDecryptxP2peSDK.testSDK()
       val ent = testsdk.virtualDevice(null)
       rep.check("virtual_device.instance", ent != null, "expected non-null virtual_device entity")
+    }
+
+    rep.scope("virtual_device.validate") {
+      if (hasFeature("validate")) {
+        val client = BluefinDecryptxP2peSDK.testSDK(null, om("feature" -> om("validate" -> om("active" -> B(true)))))
+        val err = try {
+          client.virtualDevice(null).load(om("id" -> I(1)), null)
+          null
+        } catch { case e: SdkError => e }
+        rep.check("virtual_device.validate", err != null && "validate_failed" == err.code,
+          "expected validate_failed, got " + err)
+      }
     }
 
     rep.scope("virtual_device.basic") {

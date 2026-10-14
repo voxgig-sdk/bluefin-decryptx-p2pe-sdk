@@ -4,23 +4,6 @@ defmodule BluefinDecryptxP2pe.DeviceRkiActivateResultEntityTest do
   use ExUnit.Case
 
   alias Voxgig.Struct, as: S
-  alias BluefinDecryptxP2pe.Helpers, as: H
-  alias BluefinDecryptxP2pe.Json
-
-  defp fixture do
-    Json.parse(File.read!("../.sdk/test/entity/device_rki_activate_result/DeviceRkiActivateResultTestData.json"))
-  end
-
-  defp mk_sdk do
-    existing = H.or_(S.getpath(fixture(), "existing"), S.jm([]))
-    BluefinDecryptxP2pe.test(S.jm(["entity", existing]))
-  end
-
-  defp first_id do
-    existing = H.or_(S.getpath(fixture(), "existing.device_rki_activate_result"), S.jm([]))
-    keys = S.keysof(existing)
-    if keys == [], do: nil, else: hd(keys)
-  end
 
   test "should create instance" do
     sdk = BluefinDecryptxP2pe.test()
@@ -35,5 +18,18 @@ defmodule BluefinDecryptxP2pe.DeviceRkiActivateResultEntityTest do
     made = BluefinDecryptxP2pe.EntityBase.data_get(created)
     assert S.ismap(made)
     assert S.getprop(made, "id") != nil
+  end
+
+  test "should refuse an invalid request" do
+    if BluefinDecryptxP2pe.FeatureHarness.has_feature("validate") do
+      client = BluefinDecryptxP2pe.test(nil, S.jm(["feature", S.jm(["validate", S.jm(["active", true])])]))
+
+      err =
+        assert_raise BluefinDecryptxP2pe.Error, fn ->
+          BluefinDecryptxP2pe.Entity.DeviceRkiActivateResult.create(BluefinDecryptxP2pe.device_rki_activate_result(client), S.jm(["appVersion", 1, "serialNumber", "x", "success", true]))
+        end
+
+      assert err.code == "validate_failed"
+    end
   end
 end

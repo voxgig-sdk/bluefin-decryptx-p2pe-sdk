@@ -50,7 +50,7 @@ static CreateResultSetup create_result_basic_setup(const Value& extra) {
 
   CreateResultSetup s;
   s.client = client;
-  s.d = entity_data;
+  s.data = entity_data;
   s.idmap = idmap_resolved;
   s.env = env;
   s.live = live;
@@ -65,6 +65,27 @@ static void create_result_entity_instance() {
   ASSERT_EQ(ent->getName(), std::string("create_result"), "entity name");
 }
 
+
+static bool create_result_has_feature(const std::string& name) {
+  Value fm = Helpers::toMapAny(getp(sharedConfig(), "feature"));
+  return fm.is_map() && !getp(fm, name).is_undef();
+}
+
+static void create_result_entity_validate() {
+  if (!create_result_has_feature("validate")) {
+    std::cerr << "skip: feature not present in this SDK: validate\n";
+    return;
+  }
+  auto vsdk = BluefinDecryptxP2peSDK::testSDK(Value::undef(), vmap({{"feature",
+      vmap({{"validate", vmap({{"active", Value(true)}})}})}}));
+  std::string code;
+  try {
+    vsdk->create_result()->create(vmap({{"device_type", Value(1)}, {"serial_number", Value("x")}, {"custodian", Value("x")}, {"location", Value("x")}}), Value::undef());
+  } catch (const SdkErrorPtr& err) {
+    code = err->code;
+  }
+  ASSERT_EQ(code, std::string("validate_failed"), "an invalid request fails with validate_failed");
+}
 
 static void create_result_entity_basic() {
   auto setup = create_result_basic_setup(Value::undef());
@@ -91,6 +112,7 @@ static void create_result_entity_basic() {
 
 int main() {
   T_RUN(create_result_entity_instance);
+  T_RUN(create_result_entity_validate);
   T_RUN(create_result_entity_basic);
   return sdktest::summary("create_result_entity_test");
 }

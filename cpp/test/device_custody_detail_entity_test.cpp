@@ -50,7 +50,7 @@ static DeviceCustodyDetailSetup device_custody_detail_basic_setup(const Value& e
 
   DeviceCustodyDetailSetup s;
   s.client = client;
-  s.d = entity_data;
+  s.data = entity_data;
   s.idmap = idmap_resolved;
   s.env = env;
   s.live = live;
@@ -65,6 +65,27 @@ static void device_custody_detail_entity_instance() {
   ASSERT_EQ(ent->getName(), std::string("device_custody_detail"), "entity name");
 }
 
+
+static bool device_custody_detail_has_feature(const std::string& name) {
+  Value fm = Helpers::toMapAny(getp(sharedConfig(), "feature"));
+  return fm.is_map() && !getp(fm, name).is_undef();
+}
+
+static void device_custody_detail_entity_validate() {
+  if (!device_custody_detail_has_feature("validate")) {
+    std::cerr << "skip: feature not present in this SDK: validate\n";
+    return;
+  }
+  auto vsdk = BluefinDecryptxP2peSDK::testSDK(Value::undef(), vmap({{"feature",
+      vmap({{"validate", vmap({{"active", Value(true)}})}})}}));
+  std::string code;
+  try {
+    vsdk->device_custody_detail()->load(vmap({{"device_type", Value(1)}, {"id", Value("x")}, {"serial_number", Value("x")}}), Value::undef());
+  } catch (const SdkErrorPtr& err) {
+    code = err->code;
+  }
+  ASSERT_EQ(code, std::string("validate_failed"), "an invalid request fails with validate_failed");
+}
 
 static void device_custody_detail_entity_basic() {
   auto setup = device_custody_detail_basic_setup(Value::undef());
@@ -89,6 +110,16 @@ static void device_custody_detail_entity_basic() {
   // LOAD
   auto device_custody_detail_ref01_ent = client->device_custody_detail();
   Value device_custody_detail_ref01_match_dt0 = vmap({{"id", getp(device_custody_detail_ref01_data, "id")}});
+  {
+    Value parent_id = getp(setup.idmap, "device_type");
+    if (parent_id.is_undef() || parent_id.is_null()) parent_id = getp(setup.idmap, "device_type01");
+    setp(device_custody_detail_ref01_match_dt0, "device_type", parent_id);
+  }
+  {
+    Value parent_id = getp(setup.idmap, "serial_number");
+    if (parent_id.is_undef() || parent_id.is_null()) parent_id = getp(setup.idmap, "serial_number01");
+    setp(device_custody_detail_ref01_match_dt0, "serial_number", parent_id);
+  }
   Value device_custody_detail_ref01_data_dt0_loaded = device_custody_detail_ref01_ent->load(Struct::clone(device_custody_detail_ref01_match_dt0), Value::undef())->data();
   Value device_custody_detail_ref01_data_dt0_load_result = Helpers::toMapAny(device_custody_detail_ref01_data_dt0_loaded);
   ASSERT_TRUE(device_custody_detail_ref01_data_dt0_load_result.is_map(), "expected load result to be a map");
@@ -98,6 +129,7 @@ static void device_custody_detail_entity_basic() {
 
 int main() {
   T_RUN(device_custody_detail_entity_instance);
+  T_RUN(device_custody_detail_entity_validate);
   T_RUN(device_custody_detail_entity_basic);
   return sdktest::summary("device_custody_detail_entity_test");
 }

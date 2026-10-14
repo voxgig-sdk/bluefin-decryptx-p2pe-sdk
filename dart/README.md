@@ -54,8 +54,8 @@ final client = BluefinDecryptxP2peSDK({
 
 ### 2. List attestation records
 
-`list()` returns a `List` of entity instances and throws on error — iterate
-it and read each record's data via `.data()`.
+`list()` returns a `List` of entities, one per record, and throws on error —
+iterate it and read each record with `.data()`.
 
 ```dart
 try {
@@ -71,12 +71,12 @@ try {
 ### 3. Load a devicecustodydetail
 
 DeviceCustodyDetail is nested under device_type, so provide the `device_type`.
-`load()` returns the ENTITY — call data() for the record — and throws on error.
+`load()` returns the entity and throws on error; `.data()` reads its record.
 
 ```dart
 try {
   final devicecustodydetail = await client.DeviceCustodyDetail().load({'device_type': 'example_device_type', 'serial_number': 'example_serial_number', 'id': 'example_id'});
-  print(devicecustodydetail);
+  print(devicecustodydetail.data());
 } catch (err) {
   print('load failed: $err');
 }
@@ -85,8 +85,8 @@ try {
 ### 4. Create, update, and remove
 
 ```dart
-// Create — returns the ENTITY (call data() for the record)
-final created = await client.Attestation().create({'client': <String, dynamic>{}, 'completeDate': 'example_completeDate'});
+// Create — returns the created entity; data() reads its record
+final created = await client.Attestation().create({'devices': <dynamic>[]});
 
 ```
 
@@ -98,14 +98,15 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 ```ts
 try {
   const devicetypes = await client.DeviceType().list()
-  console.log(devicetypes)
+  console.log(devicetypes.map((item) => item.data()))
 } catch (err) {
   console.error('list failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -114,8 +115,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -167,11 +168,12 @@ Create a mock client for unit testing — no server required:
 ```dart
 final client = BluefinDecryptxP2peSDK.test();
 
-// Entity ops return the ENTITY and throws on error;
-// call data() for the record.
-final devicetype = await client.DeviceType().list();
-// devicetype contains the mock response record
-print(devicetype);
+// list returns one entity per record and throws on error;
+// data() reads each mock record.
+final devicetypes = await client.DeviceType().list();
+for (final item in devicetypes) {
+  print(item.data());
+}
 ```
 
 ### Use a custom fetch function
@@ -279,11 +281,11 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `(reqmatch, [ctrl]) -> Future<dynamic>` | Load a single entity by match criteria. Throws on error. |
-| `list` | `(reqmatch, [ctrl]) -> Future<List>` | List entities matching the criteria (a list of entity instances). Throws on error. |
-| `create` | `(reqdata, [ctrl]) -> Future<dynamic>` | Create a new entity. Throws on error. |
-| `update` | `(reqdata, [ctrl]) -> Future<dynamic>` | Update an existing entity. Throws on error. |
-| `remove` | `(reqmatch, [ctrl]) -> Future<dynamic>` | Remove an entity. Throws on error. |
+| `load` | `(reqmatch, [ctrl]) -> Future<dynamic>` | Load a single entity by match criteria. Returns the entity. Throws on error. |
+| `list` | `(reqmatch, [ctrl]) -> Future<List>` | List entities matching the criteria. Returns one entity per record. Throws on error. |
+| `create` | `(reqdata, [ctrl]) -> Future<dynamic>` | Create a new entity. Returns the entity. Throws on error. |
+| `update` | `(reqdata, [ctrl]) -> Future<dynamic>` | Update an existing entity. Returns the entity. Throws on error. |
+| `remove` | `(reqmatch, [ctrl]) -> Future<dynamic>` | Remove an entity. Returns the entity, marked as deleted. Throws on error. |
 | `data` | `([d]) -> Map` | Get (or, with an argument, set) entity data. |
 | `match` | `([m]) -> Map` | Get (or, with an argument, set) entity match criteria. |
 | `make` | `() -> Entity` | Create a new instance with the same options. |
@@ -292,9 +294,10 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the ENTITY (call data() for the record) (a `Map` for single-entity
-ops, a `List` of entity instances for `list`) and throw on error. Wrap calls
-in `try`/`catch` to handle failures.
+Entity operations return the entity, not the raw record — `list` a `List`
+of entities, one per record — and throw on error. An entity's `data()` reads
+its record. `remove` returns the entity marked as deleted (`deleted()`); it
+keeps the data it held. Wrap calls in `try`/`catch` to handle failures.
 
 The `direct()` escape hatch never throws — it returns a result `Map` you
 branch on via `result['ok']`:
@@ -318,6 +321,7 @@ On error, `ok` is `false` and `err` contains the error value.
 | `completeDate` | The date and time that the Attestation took place. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `device` | Reference to the associated Device resource. |
+| `devices` |  |
 | `id` | This resource's unique identifier. |
 | `name` | Text describing the attestation. |
 | `notes` | Free form field that allows the Client associate notes with the Attestation. |
@@ -350,6 +354,10 @@ API path: `/clients`
 
 | Field | Description |
 | --- | --- |
+| `completeDate` | The date and time that the Custody change took place. |
+| `custodian` | Reference to the associated User resource. |
+| `location` | Reference to the associated Location resource. |
+| `notes` | Free form field that allows the Client associate notes with the Custody Change. |
 
 Operations: Create.
 
@@ -359,6 +367,14 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
+| `cbcVector` | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | The device Type. |
+| `encoding` | The payload encoding |
+| `encrypted` |  |
+| `hasCcData` | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | The serial number of the device. |
 | `success` | true if the payload decryption was successful. |
 
 Operations: Create.
@@ -474,7 +490,9 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
+| `serialNumber` | The serial number of the Device that is shipped. |
 | `success` | Indicates if the action succeeded. |
+| `tamperLabel` | The code that is printed the tamper label of the Device that is shipped. |
 
 Operations: Create.
 
@@ -484,7 +502,15 @@ API path: `/devices/receive`
 
 | Field | Description |
 | --- | --- |
+| `appVersion` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | The Device Builds's name. |
+| `buildNumber` | The Build Number. |
+| `configFile` | \? |
+| `firmwareVersion` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | The referenced Device's serial number. |
 | `success` | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | \? |
 
 Operations: Create.
 
@@ -558,6 +584,7 @@ API path: `/kifs`
 | `address2` | The Location's street address. |
 | `billingId` | \? |
 | `city` | The Location's city. |
+| `client` | Reference to the associated Client resource. |
 | `country` | The Location's country. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `customReference` | A Partner specified reference for a location. |
@@ -618,6 +645,7 @@ API path: `/partners`
 | `id` | This resource's unique identifier. |
 | `items` |  |
 | `kif` | Reference to the associated KIF resource. |
+| `location` | Reference to the associated Location resource. |
 | `modified` | Last modified timestamp. |
 | `partner` | Reference to the associated Partner. |
 | `shipmentType` | The type of shipment. |
@@ -632,6 +660,8 @@ API path: `/shipments`
 
 | Field | Description |
 | --- | --- |
+| `devices` | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | Reference to the associated Partner. |
 | `success` | Indicates if the action was a success. |
 
 Operations: Create, Remove.
@@ -647,6 +677,7 @@ API path: `/virtualDevices/{sharePartnerTo}`
 | `clientRef` | Client Reference property that is included in the decrypt API call. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `decrypted` | A Transcation can process muliple decryptions. |
+| `device` | Reference to the associated Device resource. |
 | `deviceName` | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | Reference to the associated Partner. |
 | `encrypted` | A Transcation can process muliple encryptions. |
@@ -675,17 +706,68 @@ API path: `/transactions`
 
 | Field | Description |
 | --- | --- |
+| `address1` | The Location's street address. |
+| `address2` | The Location's street address. |
+| `alternateKey` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | \? |
+| `city` | The Location's city. |
 | `client` | Reference to the associated Client resource. |
+| `clientCanOrderEquipment` | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | Client Reference property that is included in the decrypt API call. |
+| `contact` | Reference to the associated User resource. |
+| `country` | Reference to the associated Country. |
+| `customReference` | A Partner specified reference for a location. |
+| `dateShipped` | The date and time that a package is shipped. |
+| `decrypted` | A Transcation can process muliple decryptions. |
+| `device` | Reference to the associated Device resource. |
+| `deviceBuild` | Reference to the associated Device Build resource. |
+| `deviceType` | Reference to the associated Device Type resource. |
+| `directPartner` | Reference to the associated Partner. |
 | `email` | The User's email address. |
+| `encrypted` | A Transcation can process muliple encryptions. |
+| `endDate` | Timestamp from the end of the transaction. |
+| `errCode` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | The error messge that is sent in response to a failed decrypt API call. |
 | `firstName` | The User's name. |
 | `id` | ID of newly created resource |
+| `injectKey` | Reference to the associated Device resource. |
+| `ipAddress` | The IP address of the http client that makes the decrypt API call. |
 | `isActive` | This property indicates if the User account is active or disabled. |
+| `items` |  |
+| `keyType` | The type of cipher used during decrytion. |
 | `kif` | Reference to the associated KIF resource. |
 | `lastName` | The User's Surname. |
+| `location` | Reference to the associated Location resource. |
+| `locationType` | The Location's clasification. |
+| `mailAddress1` | The Location's street address. |
+| `mailAddress2` | The Location's street address. |
+| `mailCity` | The Location's city. |
+| `mailCountry` | The Location's street address. |
+| `mailPostalCode` | The Location's postal code. |
+| `mailStateProvince` | The Location's street state or province. |
+| `messageId` | Message ID. |
+| `method` | The decryption cypher/method. |
+| `mid` | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | The Client's name. |
+| `nameOfBusiness` | The name of the business at this location. |
+| `notes` | Arbitary note that can be attached to a Device entry. |
+| `parent` | Reference to the associated Partner. |
 | `partner` | Reference to the associated Partner. |
+| `partnerId` | The Partner's id. |
 | `phone` | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | The Location's postal code. |
+| `reference` | The Partner's reference string. |
+| `sendWelcomeEmail` | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | The Device's serial number. |
+| `startDate` | Timestamp from the beginning of the transaction. |
+| `stateProvince` | The Location's street state or province. |
+| `success` | The success indicator. |
+| `tracking` | The courier's tracking number. |
+| `uniqueId` | Unique Identifier for the Location. |
 | `userName` | The User's unique username. |
 | `userRole` | Reference to the associated User Role. |
+| `verificationPhrase` | The verification phrase is a message that the Partner creates. |
 | `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Update.
@@ -740,9 +822,9 @@ Create an instance: `final attestation = client.Attestation();`
 
 | Method | Description |
 | --- | --- |
-| `create(data)` | Create a new entity with the given data. |
-| `list()` | List entities, optionally matching the given criteria. |
-| `load(match)` | Load a single entity by match criteria. |
+| `create(data)` | Create a new entity with the given data. Returns the entity. |
+| `list()` | List entities, optionally matching the given criteria. Returns one entity per record. |
+| `load(match)` | Load a single entity by match criteria. Returns the entity. |
 
 #### Fields
 
@@ -752,6 +834,7 @@ Create an instance: `final attestation = client.Attestation();`
 | `completeDate` | `String` | The date and time that the Attestation took place. |
 | `created` | `String` | Creation timestamp in ISO 8601 format. |
 | `device` | `Map<String, dynamic>` | Reference to the associated Device resource. |
+| `devices` | `List<dynamic>` |  |
 | `id` | `String` | This resource's unique identifier. |
 | `name` | `String` | Text describing the attestation. |
 | `notes` | `String` | Free form field that allows the Client associate notes with the Attestation. |
@@ -772,6 +855,7 @@ final attestations = await client.Attestation().list({ client: "example" });
 
 ```dart
 final attestation = await client.Attestation().create({
+  'devices': <dynamic>[],  // List<dynamic>
 });
 ```
 
@@ -784,10 +868,10 @@ Create an instance: `final client_ = client.Client();`
 
 | Method | Description |
 | --- | --- |
-| `create(data)` | Create a new entity with the given data. |
-| `list()` | List entities, optionally matching the given criteria. |
-| `load(match)` | Load a single entity by match criteria. |
-| `remove(match)` | Remove the matching entity. |
+| `create(data)` | Create a new entity with the given data. Returns the entity. |
+| `list()` | List entities, optionally matching the given criteria. Returns one entity per record. |
+| `load(match)` | Load a single entity by match criteria. Returns the entity. |
+| `remove(match)` | Remove the matching entity. Returns the entity, marked as deleted. |
 
 #### Fields
 
@@ -834,7 +918,16 @@ Create an instance: `final create_result = client.CreateResult();`
 
 | Method | Description |
 | --- | --- |
-| `create(data)` | Create a new entity with the given data. |
+| `create(data)` | Create a new entity with the given data. Returns the entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `completeDate` | `String` | The date and time that the Custody change took place. |
+| `custodian` | `Map<String, dynamic>` | Reference to the associated User resource. |
+| `location` | `Map<String, dynamic>` | Reference to the associated Location resource. |
+| `notes` | `String` | Free form field that allows the Client associate notes with the Custody Change. |
 
 #### Example: Create
 
@@ -842,6 +935,8 @@ Create an instance: `final create_result = client.CreateResult();`
 final create_result = await client.CreateResult().create({
   'device_type': 'example_device_type',  // String
   'serial_number': 'example_serial_number',  // String
+  'custodian': <String, dynamic>{},  // Map<String, dynamic>
+  'location': <String, dynamic>{},  // Map<String, dynamic>
 });
 ```
 
@@ -854,18 +949,29 @@ Create an instance: `final decryption = client.Decryption();`
 
 | Method | Description |
 | --- | --- |
-| `create(data)` | Create a new entity with the given data. |
+| `create(data)` | Create a new entity with the given data. Returns the entity. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `cbcVector` | `String` | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | `String` | The device Type. |
+| `encoding` | `String` | The payload encoding |
+| `encrypted` | `List<dynamic>` |  |
+| `hasCcData` | `String` | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | `String` | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | `String` | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | `String` | The serial number of the device. |
 | `success` | `bool` | true if the payload decryption was successful. |
 
 #### Example: Create
 
 ```dart
 final decryption = await client.Decryption().create({
+  'deviceType': 'example_deviceType',  // String
+  'encrypted': <dynamic>[],  // List<dynamic>
+  'serialNumber': 'example_serialNumber',  // String
 });
 ```
 
@@ -878,9 +984,9 @@ Create an instance: `final device = client.Device();`
 
 | Method | Description |
 | --- | --- |
-| `create(data)` | Create a new entity with the given data. |
-| `list()` | List entities, optionally matching the given criteria. |
-| `load(match)` | Load a single entity by match criteria. |
+| `create(data)` | Create a new entity with the given data. Returns the entity. |
+| `list()` | List entities, optionally matching the given criteria. Returns one entity per record. |
+| `load(match)` | Load a single entity by match criteria. Returns the entity. |
 
 #### Fields
 
@@ -948,8 +1054,8 @@ Create an instance: `final device_build = client.DeviceBuild();`
 
 | Method | Description |
 | --- | --- |
-| `list()` | List entities, optionally matching the given criteria. |
-| `load(match)` | Load a single entity by match criteria. |
+| `list()` | List entities, optionally matching the given criteria. Returns one entity per record. |
+| `load(match)` | Load a single entity by match criteria. Returns the entity. |
 
 #### Fields
 
@@ -992,7 +1098,7 @@ Create an instance: `final device_custody_detail = client.DeviceCustodyDetail();
 
 | Method | Description |
 | --- | --- |
-| `load(match)` | Load a single entity by match criteria. |
+| `load(match)` | Load a single entity by match criteria. Returns the entity. |
 
 #### Fields
 
@@ -1027,7 +1133,7 @@ Create an instance: `final device_custody_list_item = client.DeviceCustodyListIt
 
 | Method | Description |
 | --- | --- |
-| `list()` | List entities, optionally matching the given criteria. |
+| `list()` | List entities, optionally matching the given criteria. Returns one entity per record. |
 
 #### Fields
 
@@ -1062,19 +1168,23 @@ Create an instance: `final device_receive_result = client.DeviceReceiveResult();
 
 | Method | Description |
 | --- | --- |
-| `create(data)` | Create a new entity with the given data. |
+| `create(data)` | Create a new entity with the given data. Returns the entity. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `serialNumber` | `String` | The serial number of the Device that is shipped. |
 | `success` | `bool` | Indicates if the action succeeded. |
+| `tamperLabel` | `String` | The code that is printed the tamper label of the Device that is shipped. |
 
 #### Example: Create
 
 ```dart
 final device_receive_result = await client.DeviceReceiveResult().create({
+  'serialNumber': 'example_serialNumber',  // String
   'success': true,  // bool
+  'tamperLabel': 'example_tamperLabel',  // String
 });
 ```
 
@@ -1087,18 +1197,27 @@ Create an instance: `final device_rki_activate_result = client.DeviceRkiActivate
 
 | Method | Description |
 | --- | --- |
-| `create(data)` | Create a new entity with the given data. |
+| `create(data)` | Create a new entity with the given data. Returns the entity. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `appVersion` | `String` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | `String` | The Device Builds's name. |
+| `buildNumber` | `String` | The Build Number. |
+| `configFile` | `String` | \? |
+| `firmwareVersion` | `String` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `String` | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | `String` | The referenced Device's serial number. |
 | `success` | `bool` | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | `String` | \? |
 
 #### Example: Create
 
 ```dart
 final device_rki_activate_result = await client.DeviceRkiActivateResult().create({
+  'serialNumber': 'example_serialNumber',  // String
   'success': true,  // bool
 });
 ```
@@ -1112,7 +1231,7 @@ Create an instance: `final device_state = client.DeviceState();`
 
 | Method | Description |
 | --- | --- |
-| `list()` | List entities, optionally matching the given criteria. |
+| `list()` | List entities, optionally matching the given criteria. Returns one entity per record. |
 
 #### Fields
 
@@ -1136,8 +1255,8 @@ Create an instance: `final device_type = client.DeviceType();`
 
 | Method | Description |
 | --- | --- |
-| `list()` | List entities, optionally matching the given criteria. |
-| `load(match)` | Load a single entity by match criteria. |
+| `list()` | List entities, optionally matching the given criteria. Returns one entity per record. |
+| `load(match)` | Load a single entity by match criteria. Returns the entity. |
 
 #### Fields
 
@@ -1177,8 +1296,8 @@ Create an instance: `final inject_key = client.InjectKey();`
 
 | Method | Description |
 | --- | --- |
-| `list()` | List entities, optionally matching the given criteria. |
-| `load(match)` | Load a single entity by match criteria. |
+| `list()` | List entities, optionally matching the given criteria. Returns one entity per record. |
+| `load(match)` | Load a single entity by match criteria. Returns the entity. |
 
 #### Fields
 
@@ -1214,7 +1333,7 @@ Create an instance: `final kif = client.Kif();`
 
 | Method | Description |
 | --- | --- |
-| `list()` | List entities, optionally matching the given criteria. |
+| `list()` | List entities, optionally matching the given criteria. Returns one entity per record. |
 
 #### Fields
 
@@ -1238,10 +1357,10 @@ Create an instance: `final location = client.Location();`
 
 | Method | Description |
 | --- | --- |
-| `create(data)` | Create a new entity with the given data. |
-| `list()` | List entities, optionally matching the given criteria. |
-| `load(match)` | Load a single entity by match criteria. |
-| `remove(match)` | Remove the matching entity. |
+| `create(data)` | Create a new entity with the given data. Returns the entity. |
+| `list()` | List entities, optionally matching the given criteria. Returns one entity per record. |
+| `load(match)` | Load a single entity by match criteria. Returns the entity. |
+| `remove(match)` | Remove the matching entity. Returns the entity, marked as deleted. |
 
 #### Fields
 
@@ -1251,6 +1370,7 @@ Create an instance: `final location = client.Location();`
 | `address2` | `String` | The Location's street address. |
 | `billingId` | `String` | \? |
 | `city` | `String` | The Location's city. |
+| `client` | `Map<String, dynamic>` | Reference to the associated Client resource. |
 | `country` | `String` | The Location's country. |
 | `created` | `String` | Creation timestamp in ISO 8601 format. |
 | `customReference` | `String` | A Partner specified reference for a location. |
@@ -1299,9 +1419,9 @@ Create an instance: `final partner = client.Partner();`
 
 | Method | Description |
 | --- | --- |
-| `create(data)` | Create a new entity with the given data. |
-| `list()` | List entities, optionally matching the given criteria. |
-| `load(match)` | Load a single entity by match criteria. |
+| `create(data)` | Create a new entity with the given data. Returns the entity. |
+| `list()` | List entities, optionally matching the given criteria. Returns one entity per record. |
+| `load(match)` | Load a single entity by match criteria. Returns the entity. |
 
 #### Fields
 
@@ -1351,9 +1471,9 @@ Create an instance: `final shipment = client.Shipment();`
 
 | Method | Description |
 | --- | --- |
-| `create(data)` | Create a new entity with the given data. |
-| `list()` | List entities, optionally matching the given criteria. |
-| `load(match)` | Load a single entity by match criteria. |
+| `create(data)` | Create a new entity with the given data. Returns the entity. |
+| `list()` | List entities, optionally matching the given criteria. Returns one entity per record. |
+| `load(match)` | Load a single entity by match criteria. Returns the entity. |
 
 #### Fields
 
@@ -1368,6 +1488,7 @@ Create an instance: `final shipment = client.Shipment();`
 | `id` | `String` | This resource's unique identifier. |
 | `items` | `List<dynamic>` |  |
 | `kif` | `Map<String, dynamic>` | Reference to the associated KIF resource. |
+| `location` | `Map<String, dynamic>` | Reference to the associated Location resource. |
 | `modified` | `String` | Last modified timestamp. |
 | `partner` | `Map<String, dynamic>` | Reference to the associated Partner. |
 | `shipmentType` | `String` | The type of shipment. |
@@ -1390,6 +1511,7 @@ final shipments = await client.Shipment().list({ kif: "example" });
 
 ```dart
 final shipment = await client.Shipment().create({
+  'location': <String, dynamic>{},  // Map<String, dynamic>
 });
 ```
 
@@ -1402,13 +1524,15 @@ Create an instance: `final success = client.Success();`
 
 | Method | Description |
 | --- | --- |
-| `create(data)` | Create a new entity with the given data. |
-| `remove(match)` | Remove the matching entity. |
+| `create(data)` | Create a new entity with the given data. Returns the entity. |
+| `remove(match)` | Remove the matching entity. Returns the entity, marked as deleted. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `devices` | `List<dynamic>` | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | `Map<String, dynamic>` | Reference to the associated Partner. |
 | `success` | `bool` | Indicates if the action was a success. |
 
 #### Example: Create
@@ -1416,6 +1540,8 @@ Create an instance: `final success = client.Success();`
 ```dart
 final success = await client.Success().create({
   'share_partner_to': 'example_share_partner_to',  // String
+  'devices': <dynamic>[],  // List<dynamic>
+  'sharePartnerFrom': <String, dynamic>{},  // Map<String, dynamic>
 });
 ```
 
@@ -1428,9 +1554,9 @@ Create an instance: `final transaction = client.Transaction();`
 
 | Method | Description |
 | --- | --- |
-| `create(data)` | Create a new entity with the given data. |
-| `list()` | List entities, optionally matching the given criteria. |
-| `load(match)` | Load a single entity by match criteria. |
+| `create(data)` | Create a new entity with the given data. Returns the entity. |
+| `list()` | List entities, optionally matching the given criteria. Returns one entity per record. |
+| `load(match)` | Load a single entity by match criteria. Returns the entity. |
 
 #### Fields
 
@@ -1441,6 +1567,7 @@ Create an instance: `final transaction = client.Transaction();`
 | `clientRef` | `String` | Client Reference property that is included in the decrypt API call. |
 | `created` | `String` | Creation timestamp in ISO 8601 format. |
 | `decrypted` | `int` | A Transcation can process muliple decryptions. |
+| `device` | `Map<String, dynamic>` | Reference to the associated Device resource. |
 | `deviceName` | `String` | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | `Map<String, dynamic>` | Reference to the associated Partner. |
 | `encrypted` | `int` | A Transcation can process muliple encryptions. |
@@ -1477,6 +1604,7 @@ final transactions = await client.Transaction().list();
 
 ```dart
 final transaction = await client.Transaction().create({
+  'device': <String, dynamic>{},  // Map<String, dynamic>
   'location': <String, dynamic>{},  // Map<String, dynamic>
 });
 ```
@@ -1490,25 +1618,76 @@ Create an instance: `final update_result = client.UpdateResult();`
 
 | Method | Description |
 | --- | --- |
-| `create(data)` | Create a new entity with the given data. |
-| `list()` | List entities, optionally matching the given criteria. |
-| `update(data)` | Update an existing entity. |
+| `create(data)` | Create a new entity with the given data. Returns the entity. |
+| `list()` | List entities, optionally matching the given criteria. Returns one entity per record. |
+| `update(data)` | Update an existing entity. Returns the entity. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `address1` | `String` | The Location's street address. |
+| `address2` | `String` | The Location's street address. |
+| `alternateKey` | `String` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `String` | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | `String` | \? |
+| `city` | `String` | The Location's city. |
 | `client` | `Map<String, dynamic>` | Reference to the associated Client resource. |
+| `clientCanOrderEquipment` | `bool` | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | `String` | Client Reference property that is included in the decrypt API call. |
+| `contact` | `Map<String, dynamic>` | Reference to the associated User resource. |
+| `country` | `Map<String, dynamic>` | Reference to the associated Country. |
+| `customReference` | `String` | A Partner specified reference for a location. |
+| `dateShipped` | `String` | The date and time that a package is shipped. |
+| `decrypted` | `int` | A Transcation can process muliple decryptions. |
+| `device` | `Map<String, dynamic>` | Reference to the associated Device resource. |
+| `deviceBuild` | `Map<String, dynamic>` | Reference to the associated Device Build resource. |
+| `deviceType` | `Map<String, dynamic>` | Reference to the associated Device Type resource. |
+| `directPartner` | `Map<String, dynamic>` | Reference to the associated Partner. |
 | `email` | `String` | The User's email address. |
+| `encrypted` | `int` | A Transcation can process muliple encryptions. |
+| `endDate` | `String` | Timestamp from the end of the transaction. |
+| `errCode` | `String` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `String` | The error messge that is sent in response to a failed decrypt API call. |
 | `firstName` | `String` | The User's name. |
 | `id` | `String` | ID of newly created resource |
+| `injectKey` | `Map<String, dynamic>` | Reference to the associated Device resource. |
+| `ipAddress` | `String` | The IP address of the http client that makes the decrypt API call. |
 | `isActive` | `bool` | This property indicates if the User account is active or disabled. |
+| `items` | `List<dynamic>` |  |
+| `keyType` | `String` | The type of cipher used during decrytion. |
 | `kif` | `Map<String, dynamic>` | Reference to the associated KIF resource. |
 | `lastName` | `String` | The User's Surname. |
+| `location` | `Map<String, dynamic>` | Reference to the associated Location resource. |
+| `locationType` | `String` | The Location's clasification. |
+| `mailAddress1` | `String` | The Location's street address. |
+| `mailAddress2` | `String` | The Location's street address. |
+| `mailCity` | `String` | The Location's city. |
+| `mailCountry` | `String` | The Location's street address. |
+| `mailPostalCode` | `String` | The Location's postal code. |
+| `mailStateProvince` | `String` | The Location's street state or province. |
+| `messageId` | `String` | Message ID. |
+| `method` | `String` | The decryption cypher/method. |
+| `mid` | `String` | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | `String` | The Client's name. |
+| `nameOfBusiness` | `String` | The name of the business at this location. |
+| `notes` | `String` | Arbitary note that can be attached to a Device entry. |
+| `parent` | `Map<String, dynamic>` | Reference to the associated Partner. |
 | `partner` | `Map<String, dynamic>` | Reference to the associated Partner. |
+| `partnerId` | `String` | The Partner's id. |
 | `phone` | `String` | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | `String` | The Location's postal code. |
+| `reference` | `String` | The Partner's reference string. |
+| `sendWelcomeEmail` | `bool` | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | `String` | The Device's serial number. |
+| `startDate` | `String` | Timestamp from the beginning of the transaction. |
+| `stateProvince` | `String` | The Location's street state or province. |
+| `success` | `bool` | The success indicator. |
+| `tracking` | `String` | The courier's tracking number. |
+| `uniqueId` | `String` | Unique Identifier for the Location. |
 | `userName` | `String` | The User's unique username. |
 | `userRole` | `Map<String, dynamic>` | Reference to the associated User Role. |
+| `verificationPhrase` | `String` | The verification phrase is a message that the Partner creates. |
 | `version` | `int` | The number of times that this resource has been updated. |
 
 #### Example: List
@@ -1521,6 +1700,15 @@ final update_results = await client.UpdateResult().list();
 
 ```dart
 final update_result = await client.UpdateResult().create({
+  'contact': <String, dynamic>{},  // Map<String, dynamic>
+  'email': 'example_email',  // String
+  'firstName': 'example_firstName',  // String
+  'isActive': true,  // bool
+  'lastName': 'example_lastName',  // String
+  'location': <String, dynamic>{},  // Map<String, dynamic>
+  'phone': 'example_phone',  // String
+  'userName': 'example_userName',  // String
+  'userRole': <String, dynamic>{},  // Map<String, dynamic>
 });
 ```
 
@@ -1533,8 +1721,8 @@ Create an instance: `final user = client.User();`
 
 | Method | Description |
 | --- | --- |
-| `load(match)` | Load a single entity by match criteria. |
-| `remove(match)` | Remove the matching entity. |
+| `load(match)` | Load a single entity by match criteria. Returns the entity. |
+| `remove(match)` | Remove the matching entity. Returns the entity, marked as deleted. |
 
 #### Fields
 
@@ -1570,7 +1758,7 @@ Create an instance: `final virtual_device = client.VirtualDevice();`
 
 | Method | Description |
 | --- | --- |
-| `load(match)` | Load a single entity by match criteria. |
+| `load(match)` | Load a single entity by match criteria. Returns the entity. |
 
 #### Fields
 

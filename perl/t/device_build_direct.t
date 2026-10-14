@@ -11,6 +11,18 @@ use Cwd ();
 use BluefinDecryptxP2peSDK;
 require(Cwd::abs_path("$FindBin::Bin/runner.pm"));
 
+# main.kit.test.live.strict is true (the default is true): a live
+# request that fails, or a live test missing an input it needs,
+# fails the test.
+# An account with no record for a test to read skips it either way.
+use constant LIVE_STRICT => 1;
+
+sub live_ok {
+  my ($result) = @_;
+  my $status = BluefinDecryptxP2peHelpers::to_int($result->{status});
+  return !defined $result->{err} && $result->{ok} && $status >= 200 && $status < 300;
+}
+
 DIRECT_LIST: {
   my $setup = device_build_direct_setup([
     { 'id' => 'direct01' },
@@ -25,29 +37,20 @@ DIRECT_LIST: {
   }
   my $client = $setup->{client};
 
+  my $params = {};
+
   my $result = $client->direct({
     'path' => 'deviceBuilds',
     'method' => 'GET',
-    'params' => {},
+    'params' => $params,
   });
   if ($setup->{live}) {
-    # Live mode is lenient: synthetic IDs frequently 4xx and the list-
-    # response shape varies wildly across public APIs. Skip rather than
-    # fail when the call doesn't return a usable list.
-    if (defined $result->{err}) {
-      note("list call failed (likely synthetic IDs against live API): $result->{err}");
-      pass('direct-list-device_build: skipped (live)');
+    if (!live_ok($result)) {
+      BluefinDecryptxP2peTestRunner::live_miss(LIVE_STRICT, 'direct-list-device_build', 'Live list failed: ' . BluefinDecryptxP2peTestRunner::live_describe($result));
       last DIRECT_LIST;
     }
-    unless ($result->{ok}) {
-      note('list call not ok (likely synthetic IDs against live API)');
-      pass('direct-list-device_build: skipped (live)');
-      last DIRECT_LIST;
-    }
-    my $status = BluefinDecryptxP2peHelpers::to_int($result->{status});
-    if ($status < 200 || $status >= 300) {
-      note("expected 2xx status, got $status");
-      pass('direct-list-device_build: skipped (live)');
+    if (!defined BluefinDecryptxP2peTestRunner::live_list($result->{data})) {
+      BluefinDecryptxP2peTestRunner::live_miss(LIVE_STRICT, 'direct-list-device_build', 'Live list returned no list: ' . BluefinDecryptxP2peTestRunner::live_describe($result));
       last DIRECT_LIST;
     }
     pass('direct-list-device_build: live ok');
@@ -71,16 +74,38 @@ DIRECT_LOAD: {
     pass('direct-load-device_build: skipped via sdk-test-control.json');
     last DIRECT_LOAD;
   }
-  if ($setup->{live}) {
-    note('live direct-load needs real ID - set *_ENTID env var with real IDs to run');
-    pass('direct-load-device_build: skipped (live)');
-    last DIRECT_LOAD;
-  }
   my $client = $setup->{client};
 
   my $params = {};
   my $query = {};
-  unless ($setup->{live}) {
+  if ($setup->{live}) {
+    my $list_result = $client->direct({
+      'path' => 'deviceBuilds',
+      'method' => 'GET',
+      'params' => {},
+    });
+    if (!live_ok($list_result)) {
+      BluefinDecryptxP2peTestRunner::live_miss(LIVE_STRICT, 'direct-load-device_build', 'Live list discovery failed: ' . BluefinDecryptxP2peTestRunner::live_describe($list_result));
+      last DIRECT_LOAD;
+    }
+    my $records = BluefinDecryptxP2peTestRunner::live_list($list_result->{data});
+    if (!defined $records) {
+      BluefinDecryptxP2peTestRunner::live_miss(LIVE_STRICT, 'direct-load-device_build', 'Live list discovery returned no list: ' . BluefinDecryptxP2peTestRunner::live_describe($list_result));
+      last DIRECT_LOAD;
+    }
+    if (!@$records) {
+      BluefinDecryptxP2peTestRunner::live_empty('direct-load-device_build', 'The account has no device_build record to load');
+      last DIRECT_LOAD;
+    }
+    my $first = ref $records->[0] eq 'HASH' ? $records->[0] : {};
+    my $found = $first->{'id'} // $first->{'id'};
+    if (!defined $found) {
+      BluefinDecryptxP2peTestRunner::live_miss(LIVE_STRICT, 'direct-load-device_build', 'Live load blocked: discovery returned no usable identity');
+      last DIRECT_LOAD;
+    }
+    $params->{'id'} = $found;
+  }
+  else {
     $params->{'id'} = 'direct01';
   }
 
@@ -91,23 +116,12 @@ DIRECT_LOAD: {
     'query' => $query,
   });
   if ($setup->{live}) {
-    # Live mode is lenient: synthetic IDs frequently 4xx. Skip rather
-    # than fail when the load endpoint isn't reachable with the IDs
-    # we can construct from setup idmap.
-    if (defined $result->{err}) {
-      note("load call failed (likely synthetic IDs against live API): $result->{err}");
-      pass('direct-load-device_build: skipped (live)');
+    if (!live_ok($result)) {
+      BluefinDecryptxP2peTestRunner::live_miss(LIVE_STRICT, 'direct-load-device_build', 'Live load failed: ' . BluefinDecryptxP2peTestRunner::live_describe($result));
       last DIRECT_LOAD;
     }
-    unless ($result->{ok}) {
-      note('load call not ok (likely synthetic IDs against live API)');
-      pass('direct-load-device_build: skipped (live)');
-      last DIRECT_LOAD;
-    }
-    my $status = BluefinDecryptxP2peHelpers::to_int($result->{status});
-    if ($status < 200 || $status >= 300) {
-      note("expected 2xx status, got $status");
-      pass('direct-load-device_build: skipped (live)');
+    if (!defined $result->{data}) {
+      BluefinDecryptxP2peTestRunner::live_miss(LIVE_STRICT, 'direct-load-device_build', 'Live load returned no data: ' . BluefinDecryptxP2peTestRunner::live_describe($result));
       last DIRECT_LOAD;
     }
     pass('direct-load-device_build: live ok');
@@ -147,11 +161,12 @@ sub device_build_direct_setup {
       %{ BluefinDecryptxP2peTestRunner::live_client_options() },
       'apikey' => $env->{'BLUEFIN_DECRYPTX_P2PE_APIKEY'},
     });
+    my $idmap = $env->{'BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_BUILD_ENTID'};
     return {
       'client' => $client,
       'calls' => $calls,
       'live' => 1,
-      'idmap' => {},
+      'idmap' => ref $idmap eq 'HASH' ? $idmap : {},
     };
   }
 

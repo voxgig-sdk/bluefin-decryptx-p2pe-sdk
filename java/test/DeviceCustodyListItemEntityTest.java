@@ -3,6 +3,7 @@ package voxgig.bluefindecryptxp2pesdk.sdktest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Files;
@@ -16,14 +17,24 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 
+import voxgig.bluefindecryptxp2pesdk.core.Config;
+import voxgig.bluefindecryptxp2pesdk.core.Context;
 import voxgig.bluefindecryptxp2pesdk.core.Helpers;
 import voxgig.bluefindecryptxp2pesdk.core.SdkEntity;
+import voxgig.bluefindecryptxp2pesdk.core.SdkError;
 import voxgig.bluefindecryptxp2pesdk.core.BluefinDecryptxP2peSDK;
+import voxgig.bluefindecryptxp2pesdk.feature.BaseFeature;
 import voxgig.bluefindecryptxp2pesdk.utility.Json;
 import voxgig.bluefindecryptxp2pesdk.utility.struct.Struct;
 
 @SuppressWarnings({"unchecked", "unused"})
 public class DeviceCustodyListItemEntityTest {
+
+  // main.kit.test.live.strict is true (the default is true): a live
+  // request that fails, or a live test missing an input it needs,
+  // fails the test.
+  // An account with no record for a test to read skips it either way.
+  static final boolean LIVE_STRICT = true;
 
   @Test
   public void instance() {
@@ -44,10 +55,13 @@ public class DeviceCustodyListItemEntityTest {
           reason == null || "".equals(reason)
               ? "skipped via sdk-test-control.json" : reason);
     }
-    // The basic flow consumes synthetic IDs from the fixture. In live mode
-    // without an *_ENTID env override, those IDs hit the live API and 4xx.
-    Assumptions.assumeFalse(setup.syntheticOnly,
-        "live entity test uses synthetic IDs from fixture — set BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_CUSTODY_LIST_ITEM_ENTID JSON to run live");
+    if (setup.live) {
+      for (String liveKey : new String[] { "device_type01", "serial_number01" }) {
+        if (setup.syntheticOnly || setup.idmap.get(liveKey) == null) {
+          RunnerSupport.liveMiss(LIVE_STRICT, "Live entity test blocked: needs " + liveKey + " via BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_CUSTODY_LIST_ITEM_ENTID");
+        }
+      }
+    }
     BluefinDecryptxP2peSDK client = setup.client;
 
     // Bootstrap entity data from existing test data (no create step in flow).
@@ -68,42 +82,19 @@ public class DeviceCustodyListItemEntityTest {
 
   }
 
+  static boolean hasFeature(String name) {
+    Map<String, Object> fm = Helpers.toMapAny(Config.makeConfig().get("feature"));
+    return fm != null && fm.get(name) != null;
+  }
+
   @Test
-  public void stream() {
-    Map<String, Object> streamingActive = new LinkedHashMap<>();
-    Map<String, Object> streamingOpts = new LinkedHashMap<>();
-    streamingOpts.put("active", true);
-    Map<String, Object> featureOpts = new LinkedHashMap<>();
-    featureOpts.put("streaming", streamingOpts);
-    streamingActive.put("feature", featureOpts);
-
-    RunnerSupport.EntityTestSetup setup = deviceCustodyListItemBasicSetup(streamingActive);
-    Assumptions.assumeFalse(setup.live,
-        "stream test streams the seeded fixture data (unit mode only)");
-
-    SdkEntity ent = setup.client.deviceCustodyListItem(null);
-    Map<String, Object> match = new LinkedHashMap<>();
-
-    // Materialised list result for the same op.
-    Object listedResult = ent.list(match, null);
-    List<Object> listed = listedResult instanceof List
-        ? (List<Object>) listedResult : new ArrayList<>();
-
-    // stream("list") yields items via the streaming feature's iterator.
-    List<Object> streamed = ent.stream("list", match, null)
-        .collect(Collectors.toList());
-    assertTrue(streamed.size() > 0, "expected stream to yield items");
-    assertEquals(listed.size(), streamed.size(),
-        "expected stream to yield the same item count as list");
-
-    // Fallback: with streaming inactive, stream still yields the
-    // materialised items.
-    RunnerSupport.EntityTestSetup setup2 = deviceCustodyListItemBasicSetup(null);
-    SdkEntity ent2 = setup2.client.deviceCustodyListItem(null);
-    List<Object> streamed2 = ent2.stream("list", match, null)
-        .collect(Collectors.toList());
-    assertEquals(listed.size(), streamed2.size(),
-        "expected fallback stream to yield the materialised items");
+  public void validate() {
+    Assumptions.assumeTrue(hasFeature("validate"), "feature not present in this SDK: validate");
+    BluefinDecryptxP2peSDK client = BluefinDecryptxP2peSDK.testSDK(null,
+        Struct.jm("feature", Struct.jm("validate", Struct.jm("active", true))));
+    SdkError err = assertThrows(SdkError.class, () ->
+        client.deviceCustodyListItem(null).list(Struct.jm("device_type", 1, "serial_number", "x"), null));
+    assertEquals("validate_failed", err.code);
   }
 
   static RunnerSupport.EntityTestSetup deviceCustodyListItemBasicSetup(Map<String, Object> extra) {
@@ -140,10 +131,8 @@ public class DeviceCustodyListItemEntityTest {
         + "\"`$VAL`\": [\"`$FORMAT`\", \"upper\", \"`$COPY`\"]"
         + "}]}"));
 
-    // Detect ENTID env override before envOverride consumes it. When live
-    // mode is on without a real override, the basic test runs against
-    // synthetic IDs from the fixture and 4xx's. Surface this so the test
-    // can skip.
+    // Whether *_ENTID supplied the idmap, read before envOverride consumes
+    // it: without it, the ids a live flow binds are the fixture's synthetic ones.
     String entidEnvRaw = RunnerSupport.getenv("BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_CUSTODY_LIST_ITEM_ENTID");
     boolean idmapOverridden = entidEnvRaw != null
         && entidEnvRaw.trim().startsWith("{");

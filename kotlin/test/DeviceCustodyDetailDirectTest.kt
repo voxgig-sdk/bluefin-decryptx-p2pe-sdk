@@ -16,6 +16,17 @@ import voxgig.bluefindecryptxp2pesdk.utility.Json
 @Suppress("UNCHECKED_CAST", "UNUSED_VARIABLE")
 class DeviceCustodyDetailDirectTest {
 
+  // main.kit.test.live.strict is true (the default is true): a live
+  // request that fails, or a live test missing an input it needs,
+  // fails the test.
+  // An account with no record for a test to read skips it either way.
+  private val LIVE_STRICT = true
+
+  private fun liveOk(result: Map<String, Any?>): Boolean {
+    val status = Helpers.toInt(result["status"])
+    return result["err"] == null && result["ok"] == true && status in 200..299
+  }
+
   @Test
   fun directLoadDeviceCustodyDetail() {
     val setup = directSetup(jm("id", "direct01"))
@@ -26,9 +37,10 @@ class DeviceCustodyDetailDirectTest {
       if (reason == null || "" == reason) "skipped via sdk-test-control.json" else reason,
     )
     if (setup.live) {
-      for (liveKey in arrayOf<String>("device_type01", "id01", "serial_number01")) {
-        Assumptions.assumeTrue(setup.idmap[liveKey] != null,
-            "live test needs " + liveKey + " via *_ENTID env var (synthetic IDs only)")
+      for (liveKey in arrayOf<String>("device_type01", "device_custody_detail01", "serial_number01")) {
+        if (setup.idmap[liveKey] == null) {
+          RunnerSupport.liveMiss(LIVE_STRICT, "Live test blocked: needs " + liveKey + " via BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_CUSTODY_DETAIL_ENTID")
+        }
       }
     }
     val client = setup.client
@@ -36,6 +48,9 @@ class DeviceCustodyDetailDirectTest {
     val params = linkedMapOf<String, Any?>()
     val query = linkedMapOf<String, Any?>()
     if (setup.live) {
+      params["device_type"] = setup.idmap["device_type01"]
+      params["id"] = setup.idmap["device_custody_detail01"]
+      params["serial_number"] = setup.idmap["serial_number01"]
     } else {
       params["device_type"] = "direct01"
       params["id"] = "direct02"
@@ -48,10 +63,12 @@ class DeviceCustodyDetailDirectTest {
         "params", params,
         "query", query))
     if (setup.live) {
-      Assumptions.assumeTrue(result["ok"] == true,
-          "load call not ok (likely synthetic IDs against live API): " + result)
-      val status = Helpers.toInt(result["status"])
-      Assumptions.assumeTrue(status in 200..299, "expected 2xx status, got " + result["status"])
+      if (!liveOk(result)) {
+        RunnerSupport.liveMiss(LIVE_STRICT, "Live load failed: " + RunnerSupport.liveDescribe(result))
+      }
+      if (result["data"] == null) {
+        RunnerSupport.liveMiss(LIVE_STRICT, "Live load returned no data: " + RunnerSupport.liveDescribe(result))
+      }
     } else {
       assertEquals(true, result["ok"], "expected ok to be true")
       assertEquals(200, Helpers.toInt(result["status"]), "expected status 200")

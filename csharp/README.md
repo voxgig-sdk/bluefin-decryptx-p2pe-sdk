@@ -15,7 +15,7 @@ keeps the cognitive load low.
 
 ## Install
 This package is not yet published to NuGet. Install it from the GitHub
-release tag (`csharp/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases)) or
+release tag (`csharp/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags)) or
 from a source checkout — build the library and add a project reference:
 
 ```bash
@@ -32,6 +32,7 @@ loading a specific record.
 
 ```csharp
 using BluefinDecryptxP2peSdk;
+using Voxgig.Struct;
 
 var client = new BluefinDecryptxP2peSDK(new Dictionary<string, object?>
 {
@@ -41,14 +42,17 @@ var client = new BluefinDecryptxP2peSDK(new Dictionary<string, object?>
 
 ### 2. List attestation records
 
-`List(null)` returns an aggregate list of records (as `object?`) and raises
-on error.
+`List(null)` returns a list of entities, one per record (as `object?`), and
+raises on error; an entity's `Data()` reads its record.
 
 ```csharp
 try
 {
-    var attestationList = client.Attestation().List(null);
-    Console.WriteLine(attestationList);
+    var attestationList = (List<object?>)client.Attestation().List(new Dictionary<string, object?> { ["client"] = "example" })!;
+    foreach (var attestationItem in attestationList)
+    {
+        Console.WriteLine(StructUtils.Jsonify(((IEntity)attestationItem!).Data()));
+    }
 }
 catch (Exception err)
 {
@@ -59,13 +63,14 @@ catch (Exception err)
 ### 3. Load a devicecustodydetail
 
 DeviceCustodyDetail is nested under device_type, so provide the `device_type`.
-`Load()` returns the bare record (as `object?`) and raises on error.
+`Load()` returns the entity (as `object?`) and raises on error; an entity's
+`Data()` reads its record.
 
 ```csharp
 try
 {
-    var deviceCustodyDetail = client.DeviceCustodyDetail().Load(new Dictionary<string, object?> { ["device_type"] = "example_device_type", ["serial_number"] = "example_serial_number", ["id"] = "example_id" });
-    Console.WriteLine(deviceCustodyDetail);
+    var deviceCustodyDetail = (IEntity)client.DeviceCustodyDetail().Load(new Dictionary<string, object?> { ["device_type"] = "example_device_type", ["serial_number"] = "example_serial_number", ["id"] = "example_id" })!;
+    Console.WriteLine(StructUtils.Jsonify(deviceCustodyDetail.Data()));
 }
 catch (Exception err)
 {
@@ -76,8 +81,8 @@ catch (Exception err)
 ### 4. Create, update, and remove
 
 ```csharp
-// Create — returns the bare created record (as object?)
-var created = client.Attestation().Create(new Dictionary<string, object?> { ["client"] = new Dictionary<string, object?>(), ["completeDate"] = "example_completeDate" });
+// Create — returns the created entity (as object?)
+var created = client.Attestation().Create(new Dictionary<string, object?> { ["devices"] = new List<object?>() });
 
 ```
 
@@ -89,14 +94,15 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 ```ts
 try {
   const devicetypes = await client.DeviceType().list()
-  console.log(devicetypes)
+  console.log(devicetypes.map((item) => item.data()))
 } catch (err) {
   console.error('list failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -105,8 +111,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -164,10 +170,12 @@ Create a mock client for unit testing — no server required:
 ```csharp
 var client = BluefinDecryptxP2peSDK.TestSDK(null, null);
 
-// Entity ops return the bare record and raise on error.
-var deviceType = client.DeviceType().List(null);
-// deviceType holds the mock response record
-Console.WriteLine(deviceType);
+// List returns a list of entities, one per mock record; it raises on error.
+var deviceTypeList = (List<object?>)client.DeviceType().List(null)!;
+foreach (var deviceTypeItem in deviceTypeList)
+{
+    Console.WriteLine(StructUtils.Jsonify(((IEntity)deviceTypeItem!).Data()));
+}
 ```
 
 ### Use a custom fetch function
@@ -277,11 +285,11 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `Load` | `(reqmatch, ctrl) -> object?` | Load a single entity by match criteria. Raises on error. |
-| `List` | `(reqmatch, ctrl) -> object?` | List entities matching the criteria (an aggregate list). Raises on error. |
-| `Create` | `(reqdata, ctrl) -> object?` | Create a new entity. Raises on error. |
-| `Update` | `(reqdata, ctrl) -> object?` | Update an existing entity. Raises on error. |
-| `Remove` | `(reqmatch, ctrl) -> object?` | Remove an entity. Raises on error. |
+| `Load` | `(reqmatch, ctrl) -> object?` | Load a single entity by match criteria, and return it. Raises on error. |
+| `List` | `(reqmatch, ctrl) -> object?` | List entities matching the criteria, one per record. Raises on error. |
+| `Create` | `(reqdata, ctrl) -> object?` | Create a new entity, and return it. Raises on error. |
+| `Update` | `(reqdata, ctrl) -> object?` | Update an existing entity, and return it. Raises on error. |
+| `Remove` | `(reqmatch, ctrl) -> object?` | Remove an entity, and return it marked as deleted. Raises on error. |
 | `Data` | `(newdata) -> object?` | Get or set entity data. |
 | `Match` | `(newmatch) -> object?` | Get or set entity match criteria. |
 | `Make` | `() -> IEntity` | Create a new instance with the same options. |
@@ -289,9 +297,10 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (a `Dictionary` for
-single-entity ops, an aggregate list for `List`) as `object?` and raise on
-error. Wrap calls in `try`/`catch` to handle failures.
+Entity operations return the entity, and `List` a list of entities, one per
+record, as `object?`; an entity is an `IEntity`, whose `Data()` reads its
+record. They raise on error, so wrap calls in `try`/`catch` to handle
+failures.
 
 The `Direct()` escape hatch never raises — it returns a result
 `Dictionary<string, object?>` you branch on via `result["ok"]`:
@@ -315,6 +324,7 @@ On error, `ok` is `false` and `err` contains the error value.
 | `completeDate` | The date and time that the Attestation took place. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `device` | Reference to the associated Device resource. |
+| `devices` |  |
 | `id` | This resource's unique identifier. |
 | `name` | Text describing the attestation. |
 | `notes` | Free form field that allows the Client associate notes with the Attestation. |
@@ -347,6 +357,10 @@ API path: `/clients`
 
 | Field | Description |
 | --- | --- |
+| `completeDate` | The date and time that the Custody change took place. |
+| `custodian` | Reference to the associated User resource. |
+| `location` | Reference to the associated Location resource. |
+| `notes` | Free form field that allows the Client associate notes with the Custody Change. |
 
 Operations: Create.
 
@@ -356,6 +370,14 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
+| `cbcVector` | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | The device Type. |
+| `encoding` | The payload encoding |
+| `encrypted` |  |
+| `hasCcData` | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | The serial number of the device. |
 | `success` | true if the payload decryption was successful. |
 
 Operations: Create.
@@ -471,7 +493,9 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
+| `serialNumber` | The serial number of the Device that is shipped. |
 | `success` | Indicates if the action succeeded. |
+| `tamperLabel` | The code that is printed the tamper label of the Device that is shipped. |
 
 Operations: Create.
 
@@ -481,7 +505,15 @@ API path: `/devices/receive`
 
 | Field | Description |
 | --- | --- |
+| `appVersion` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | The Device Builds's name. |
+| `buildNumber` | The Build Number. |
+| `configFile` | \? |
+| `firmwareVersion` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | The referenced Device's serial number. |
 | `success` | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | \? |
 
 Operations: Create.
 
@@ -555,6 +587,7 @@ API path: `/kifs`
 | `address2` | The Location's street address. |
 | `billingId` | \? |
 | `city` | The Location's city. |
+| `client` | Reference to the associated Client resource. |
 | `country` | The Location's country. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `customReference` | A Partner specified reference for a location. |
@@ -615,6 +648,7 @@ API path: `/partners`
 | `id` | This resource's unique identifier. |
 | `items` |  |
 | `kif` | Reference to the associated KIF resource. |
+| `location` | Reference to the associated Location resource. |
 | `modified` | Last modified timestamp. |
 | `partner` | Reference to the associated Partner. |
 | `shipmentType` | The type of shipment. |
@@ -629,6 +663,8 @@ API path: `/shipments`
 
 | Field | Description |
 | --- | --- |
+| `devices` | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | Reference to the associated Partner. |
 | `success` | Indicates if the action was a success. |
 
 Operations: Create, Remove.
@@ -644,6 +680,7 @@ API path: `/virtualDevices/{sharePartnerTo}`
 | `clientRef` | Client Reference property that is included in the decrypt API call. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `decrypted` | A Transcation can process muliple decryptions. |
+| `device` | Reference to the associated Device resource. |
 | `deviceName` | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | Reference to the associated Partner. |
 | `encrypted` | A Transcation can process muliple encryptions. |
@@ -672,17 +709,68 @@ API path: `/transactions`
 
 | Field | Description |
 | --- | --- |
+| `address1` | The Location's street address. |
+| `address2` | The Location's street address. |
+| `alternateKey` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | \? |
+| `city` | The Location's city. |
 | `client` | Reference to the associated Client resource. |
+| `clientCanOrderEquipment` | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | Client Reference property that is included in the decrypt API call. |
+| `contact` | Reference to the associated User resource. |
+| `country` | Reference to the associated Country. |
+| `customReference` | A Partner specified reference for a location. |
+| `dateShipped` | The date and time that a package is shipped. |
+| `decrypted` | A Transcation can process muliple decryptions. |
+| `device` | Reference to the associated Device resource. |
+| `deviceBuild` | Reference to the associated Device Build resource. |
+| `deviceType` | Reference to the associated Device Type resource. |
+| `directPartner` | Reference to the associated Partner. |
 | `email` | The User's email address. |
+| `encrypted` | A Transcation can process muliple encryptions. |
+| `endDate` | Timestamp from the end of the transaction. |
+| `errCode` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | The error messge that is sent in response to a failed decrypt API call. |
 | `firstName` | The User's name. |
 | `id` | ID of newly created resource |
+| `injectKey` | Reference to the associated Device resource. |
+| `ipAddress` | The IP address of the http client that makes the decrypt API call. |
 | `isActive` | This property indicates if the User account is active or disabled. |
+| `items` |  |
+| `keyType` | The type of cipher used during decrytion. |
 | `kif` | Reference to the associated KIF resource. |
 | `lastName` | The User's Surname. |
+| `location` | Reference to the associated Location resource. |
+| `locationType` | The Location's clasification. |
+| `mailAddress1` | The Location's street address. |
+| `mailAddress2` | The Location's street address. |
+| `mailCity` | The Location's city. |
+| `mailCountry` | The Location's street address. |
+| `mailPostalCode` | The Location's postal code. |
+| `mailStateProvince` | The Location's street state or province. |
+| `messageId` | Message ID. |
+| `method` | The decryption cypher/method. |
+| `mid` | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | The Client's name. |
+| `nameOfBusiness` | The name of the business at this location. |
+| `notes` | Arbitary note that can be attached to a Device entry. |
+| `parent` | Reference to the associated Partner. |
 | `partner` | Reference to the associated Partner. |
+| `partnerId` | The Partner's id. |
 | `phone` | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | The Location's postal code. |
+| `reference` | The Partner's reference string. |
+| `sendWelcomeEmail` | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | The Device's serial number. |
+| `startDate` | Timestamp from the beginning of the transaction. |
+| `stateProvince` | The Location's street state or province. |
+| `success` | The success indicator. |
+| `tracking` | The courier's tracking number. |
+| `uniqueId` | Unique Identifier for the Location. |
 | `userName` | The User's unique username. |
 | `userRole` | Reference to the associated User Role. |
+| `verificationPhrase` | The verification phrase is a message that the Partner creates. |
 | `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Update.
@@ -749,6 +837,7 @@ Create an instance: `var attestation = client.Attestation();`
 | `completeDate` | `string` | The date and time that the Attestation took place. |
 | `created` | `string` | Creation timestamp in ISO 8601 format. |
 | `device` | `Dictionary<string, object?>` | Reference to the associated Device resource. |
+| `devices` | `List<object?>` |  |
 | `id` | `string` | This resource's unique identifier. |
 | `name` | `string` | Text describing the attestation. |
 | `notes` | `string` | Free form field that allows the Client associate notes with the Attestation. |
@@ -762,7 +851,7 @@ var attestation = client.Attestation().Load(new Dictionary<string, object?> { ["
 #### Example: List
 
 ```csharp
-var attestationList = client.Attestation().List(null);
+var attestationList = client.Attestation().List(new Dictionary<string, object?> { ["client"] = "example" });
 ```
 
 #### Example: Create
@@ -770,6 +859,7 @@ var attestationList = client.Attestation().List(null);
 ```csharp
 var attestation = client.Attestation().Create(new Dictionary<string, object?>
 {
+    ["devices"] = new List<object?>(),  // List<object?>
 });
 ```
 
@@ -812,7 +902,7 @@ var client = client.Client().Load(new Dictionary<string, object?> { ["id"] = "cl
 #### Example: List
 
 ```csharp
-var clientList = client.Client().List(null);
+var clientList = client.Client().List(new Dictionary<string, object?> { ["partner"] = "example" });
 ```
 
 #### Example: Create
@@ -835,6 +925,15 @@ Create an instance: `var createResult = client.CreateResult();`
 | --- | --- |
 | `Create(data)` | Create a new entity with the given data. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `completeDate` | `string` | The date and time that the Custody change took place. |
+| `custodian` | `Dictionary<string, object?>` | Reference to the associated User resource. |
+| `location` | `Dictionary<string, object?>` | Reference to the associated Location resource. |
+| `notes` | `string` | Free form field that allows the Client associate notes with the Custody Change. |
+
 #### Example: Create
 
 ```csharp
@@ -842,6 +941,8 @@ var createResult = client.CreateResult().Create(new Dictionary<string, object?>
 {
     ["device_type"] = "example_device_type",  // string
     ["serial_number"] = "example_serial_number",  // string
+    ["custodian"] = new Dictionary<string, object?>(),  // Dictionary<string, object?>
+    ["location"] = new Dictionary<string, object?>(),  // Dictionary<string, object?>
 });
 ```
 
@@ -860,6 +961,14 @@ Create an instance: `var decryption = client.Decryption();`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `cbcVector` | `string` | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | `string` | The device Type. |
+| `encoding` | `string` | The payload encoding |
+| `encrypted` | `List<object?>` |  |
+| `hasCcData` | `string` | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | `string` | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | `string` | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | `string` | The serial number of the device. |
 | `success` | `bool` | true if the payload decryption was successful. |
 
 #### Example: Create
@@ -867,6 +976,9 @@ Create an instance: `var decryption = client.Decryption();`
 ```csharp
 var decryption = client.Decryption().Create(new Dictionary<string, object?>
 {
+    ["deviceType"] = "example_deviceType",  // string
+    ["encrypted"] = new List<object?>(),  // List<object?>
+    ["serialNumber"] = "example_serialNumber",  // string
 });
 ```
 
@@ -1052,7 +1164,7 @@ Create an instance: `var deviceCustodyListItem = client.DeviceCustodyListItem();
 #### Example: List
 
 ```csharp
-var deviceCustodyListItemList = client.DeviceCustodyListItem().List(null);
+var deviceCustodyListItemList = client.DeviceCustodyListItem().List(new Dictionary<string, object?> { ["device_type"] = "example", ["serial_number"] = "example" });
 ```
 
 
@@ -1070,14 +1182,18 @@ Create an instance: `var deviceReceiveResult = client.DeviceReceiveResult();`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `serialNumber` | `string` | The serial number of the Device that is shipped. |
 | `success` | `bool` | Indicates if the action succeeded. |
+| `tamperLabel` | `string` | The code that is printed the tamper label of the Device that is shipped. |
 
 #### Example: Create
 
 ```csharp
 var deviceReceiveResult = client.DeviceReceiveResult().Create(new Dictionary<string, object?>
 {
+    ["serialNumber"] = "example_serialNumber",  // string
     ["success"] = true,  // bool
+    ["tamperLabel"] = "example_tamperLabel",  // string
 });
 ```
 
@@ -1096,13 +1212,22 @@ Create an instance: `var deviceRkiActivateResult = client.DeviceRkiActivateResul
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `appVersion` | `string` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | `string` | The Device Builds's name. |
+| `buildNumber` | `string` | The Build Number. |
+| `configFile` | `string` | \? |
+| `firmwareVersion` | `string` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `string` | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | `string` | The referenced Device's serial number. |
 | `success` | `bool` | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | `string` | \? |
 
 #### Example: Create
 
 ```csharp
 var deviceRkiActivateResult = client.DeviceRkiActivateResult().Create(new Dictionary<string, object?>
 {
+    ["serialNumber"] = "example_serialNumber",  // string
     ["success"] = true,  // bool
 });
 ```
@@ -1255,6 +1380,7 @@ Create an instance: `var location = client.Location();`
 | `address2` | `string` | The Location's street address. |
 | `billingId` | `string` | \? |
 | `city` | `string` | The Location's city. |
+| `client` | `Dictionary<string, object?>` | Reference to the associated Client resource. |
 | `country` | `string` | The Location's country. |
 | `created` | `string` | Creation timestamp in ISO 8601 format. |
 | `customReference` | `string` | A Partner specified reference for a location. |
@@ -1284,7 +1410,7 @@ var location = client.Location().Load(new Dictionary<string, object?> { ["id"] =
 #### Example: List
 
 ```csharp
-var locationList = client.Location().List(null);
+var locationList = client.Location().List(new Dictionary<string, object?> { ["client"] = "example" });
 ```
 
 #### Example: Create
@@ -1374,6 +1500,7 @@ Create an instance: `var shipment = client.Shipment();`
 | `id` | `string` | This resource's unique identifier. |
 | `items` | `List<object?>` |  |
 | `kif` | `Dictionary<string, object?>` | Reference to the associated KIF resource. |
+| `location` | `Dictionary<string, object?>` | Reference to the associated Location resource. |
 | `modified` | `string` | Last modified timestamp. |
 | `partner` | `Dictionary<string, object?>` | Reference to the associated Partner. |
 | `shipmentType` | `string` | The type of shipment. |
@@ -1389,7 +1516,7 @@ var shipment = client.Shipment().Load(new Dictionary<string, object?> { ["id"] =
 #### Example: List
 
 ```csharp
-var shipmentList = client.Shipment().List(null);
+var shipmentList = client.Shipment().List(new Dictionary<string, object?> { ["kif"] = "example" });
 ```
 
 #### Example: Create
@@ -1397,6 +1524,7 @@ var shipmentList = client.Shipment().List(null);
 ```csharp
 var shipment = client.Shipment().Create(new Dictionary<string, object?>
 {
+    ["location"] = new Dictionary<string, object?>(),  // Dictionary<string, object?>
 });
 ```
 
@@ -1416,6 +1544,8 @@ Create an instance: `var success = client.Success();`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `devices` | `List<object?>` | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | `Dictionary<string, object?>` | Reference to the associated Partner. |
 | `success` | `bool` | Indicates if the action was a success. |
 
 #### Example: Create
@@ -1424,6 +1554,8 @@ Create an instance: `var success = client.Success();`
 var success = client.Success().Create(new Dictionary<string, object?>
 {
     ["share_partner_to"] = "example_share_partner_to",  // string
+    ["devices"] = new List<object?>(),  // List<object?>
+    ["sharePartnerFrom"] = new Dictionary<string, object?>(),  // Dictionary<string, object?>
 });
 ```
 
@@ -1449,6 +1581,7 @@ Create an instance: `var transaction = client.Transaction();`
 | `clientRef` | `string` | Client Reference property that is included in the decrypt API call. |
 | `created` | `string` | Creation timestamp in ISO 8601 format. |
 | `decrypted` | `long` | A Transcation can process muliple decryptions. |
+| `device` | `Dictionary<string, object?>` | Reference to the associated Device resource. |
 | `deviceName` | `string` | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | `Dictionary<string, object?>` | Reference to the associated Partner. |
 | `encrypted` | `long` | A Transcation can process muliple encryptions. |
@@ -1486,6 +1619,7 @@ var transactionList = client.Transaction().List(null);
 ```csharp
 var transaction = client.Transaction().Create(new Dictionary<string, object?>
 {
+    ["device"] = new Dictionary<string, object?>(),  // Dictionary<string, object?>
     ["location"] = new Dictionary<string, object?>(),  // Dictionary<string, object?>
 });
 ```
@@ -1507,17 +1641,68 @@ Create an instance: `var updateResult = client.UpdateResult();`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `address1` | `string` | The Location's street address. |
+| `address2` | `string` | The Location's street address. |
+| `alternateKey` | `string` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `string` | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | `string` | \? |
+| `city` | `string` | The Location's city. |
 | `client` | `Dictionary<string, object?>` | Reference to the associated Client resource. |
+| `clientCanOrderEquipment` | `bool` | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | `string` | Client Reference property that is included in the decrypt API call. |
+| `contact` | `Dictionary<string, object?>` | Reference to the associated User resource. |
+| `country` | `Dictionary<string, object?>` | Reference to the associated Country. |
+| `customReference` | `string` | A Partner specified reference for a location. |
+| `dateShipped` | `string` | The date and time that a package is shipped. |
+| `decrypted` | `long` | A Transcation can process muliple decryptions. |
+| `device` | `Dictionary<string, object?>` | Reference to the associated Device resource. |
+| `deviceBuild` | `Dictionary<string, object?>` | Reference to the associated Device Build resource. |
+| `deviceType` | `Dictionary<string, object?>` | Reference to the associated Device Type resource. |
+| `directPartner` | `Dictionary<string, object?>` | Reference to the associated Partner. |
 | `email` | `string` | The User's email address. |
+| `encrypted` | `long` | A Transcation can process muliple encryptions. |
+| `endDate` | `string` | Timestamp from the end of the transaction. |
+| `errCode` | `string` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `string` | The error messge that is sent in response to a failed decrypt API call. |
 | `firstName` | `string` | The User's name. |
 | `id` | `string` | ID of newly created resource |
+| `injectKey` | `Dictionary<string, object?>` | Reference to the associated Device resource. |
+| `ipAddress` | `string` | The IP address of the http client that makes the decrypt API call. |
 | `isActive` | `bool` | This property indicates if the User account is active or disabled. |
+| `items` | `List<object?>` |  |
+| `keyType` | `string` | The type of cipher used during decrytion. |
 | `kif` | `Dictionary<string, object?>` | Reference to the associated KIF resource. |
 | `lastName` | `string` | The User's Surname. |
+| `location` | `Dictionary<string, object?>` | Reference to the associated Location resource. |
+| `locationType` | `string` | The Location's clasification. |
+| `mailAddress1` | `string` | The Location's street address. |
+| `mailAddress2` | `string` | The Location's street address. |
+| `mailCity` | `string` | The Location's city. |
+| `mailCountry` | `string` | The Location's street address. |
+| `mailPostalCode` | `string` | The Location's postal code. |
+| `mailStateProvince` | `string` | The Location's street state or province. |
+| `messageId` | `string` | Message ID. |
+| `method` | `string` | The decryption cypher/method. |
+| `mid` | `string` | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | `string` | The Client's name. |
+| `nameOfBusiness` | `string` | The name of the business at this location. |
+| `notes` | `string` | Arbitary note that can be attached to a Device entry. |
+| `parent` | `Dictionary<string, object?>` | Reference to the associated Partner. |
 | `partner` | `Dictionary<string, object?>` | Reference to the associated Partner. |
+| `partnerId` | `string` | The Partner's id. |
 | `phone` | `string` | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | `string` | The Location's postal code. |
+| `reference` | `string` | The Partner's reference string. |
+| `sendWelcomeEmail` | `bool` | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | `string` | The Device's serial number. |
+| `startDate` | `string` | Timestamp from the beginning of the transaction. |
+| `stateProvince` | `string` | The Location's street state or province. |
+| `success` | `bool` | The success indicator. |
+| `tracking` | `string` | The courier's tracking number. |
+| `uniqueId` | `string` | Unique Identifier for the Location. |
 | `userName` | `string` | The User's unique username. |
 | `userRole` | `Dictionary<string, object?>` | Reference to the associated User Role. |
+| `verificationPhrase` | `string` | The verification phrase is a message that the Partner creates. |
 | `version` | `long` | The number of times that this resource has been updated. |
 
 #### Example: List
@@ -1531,6 +1716,15 @@ var updateResultList = client.UpdateResult().List(null);
 ```csharp
 var updateResult = client.UpdateResult().Create(new Dictionary<string, object?>
 {
+    ["contact"] = new Dictionary<string, object?>(),  // Dictionary<string, object?>
+    ["email"] = "example_email",  // string
+    ["firstName"] = "example_firstName",  // string
+    ["isActive"] = true,  // bool
+    ["lastName"] = "example_lastName",  // string
+    ["location"] = new Dictionary<string, object?>(),  // Dictionary<string, object?>
+    ["phone"] = "example_phone",  // string
+    ["userName"] = "example_userName",  // string
+    ["userRole"] = new Dictionary<string, object?>(),  // Dictionary<string, object?>
 });
 ```
 

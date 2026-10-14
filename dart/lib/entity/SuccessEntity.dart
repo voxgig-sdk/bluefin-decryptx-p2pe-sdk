@@ -20,7 +20,7 @@ class SuccessEntity extends BluefinDecryptxP2peEntityBase {
 
 
   /// Create a Success (see SuccessCreateData in
-  /// BluefinDecryptxP2peTypes.dart). Returns the entity data map (Success).
+  /// BluefinDecryptxP2peTypes.dart). Returns the created entity.
   Future<dynamic> create([dynamic reqdata, dynamic ctrl]) async {
     final utility = this.utility;
 
@@ -122,13 +122,19 @@ class SuccessEntity extends BluefinDecryptxP2peEntityBase {
       // operations return ENTITIES".
       return (null != ctx.result && true == ctx.result.ok) ? this : out;
     } catch (err) {
+      // What a hook throws here must not escape the cleaning below.
+      dynamic failure = err;
+      try {
 
-      fres = featureHook(ctx, 'PreUnexpected');
-      if (fres is Future) {
-        await fres;
+        fres = featureHook(ctx, 'PreUnexpected');
+        if (fres is Future) {
+          await fres;
+        }
+      } catch (hookerr) {
+        failure = hookerr;
       }
 
-      final uerr = unexpected(ctx, err);
+      final uerr = unexpected(ctx, failure);
 
       if (null != uerr) {
         throw uerr;
@@ -142,8 +148,9 @@ class SuccessEntity extends BluefinDecryptxP2peEntityBase {
 
 
 
+
   /// Remove a Success by match (see SuccessRemoveMatch in
-  /// BluefinDecryptxP2peTypes.dart). Returns the entity data map (Success).
+  /// BluefinDecryptxP2peTypes.dart). Returns the entity, marked as deleted.
   Future<dynamic> remove([dynamic reqmatch, dynamic ctrl]) async {
     final utility = this.utility;
 
@@ -255,13 +262,19 @@ class SuccessEntity extends BluefinDecryptxP2peEntityBase {
 
       return out;
     } catch (err) {
+      // What a hook throws here must not escape the cleaning below.
+      dynamic failure = err;
+      try {
 
-      fres = featureHook(ctx, 'PreUnexpected');
-      if (fres is Future) {
-        await fres;
+        fres = featureHook(ctx, 'PreUnexpected');
+        if (fres is Future) {
+          await fres;
+        }
+      } catch (hookerr) {
+        failure = hookerr;
       }
 
-      final uerr = unexpected(ctx, err);
+      final uerr = unexpected(ctx, failure);
 
       if (null != uerr) {
         throw uerr;

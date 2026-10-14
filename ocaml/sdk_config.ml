@@ -155,6 +155,7 @@ let make_config () : value =
           ("ms", (Num (30000.))) ]));
         ("optspec", (jo [
           ("clearTimer", (Str "`$FUNCTION`"));
+          ("now", (Str "`$FUNCTION`"));
           ("setTimer", (Str "`$FUNCTION`")) ]));
         ("strict", (Bool false));
         ("transport", (Str "wrap")) ])) ]));
@@ -195,11 +196,19 @@ let make_config () : value =
             ("name", (Str "client"));
             ("title", (Str "Client"));
             ("type", (Str "`$OBJECT`"));
+            ("op", (jo [
+              ("create", (jo [
+                ("req", (Bool true));
+                ("type", (Str "`$OBJECT`")) ])) ]));
             ("short", (Str "Reference to the associated Client resource.")) ]);
           (jo [
             ("name", (Str "completeDate"));
             ("title", (Str "Complete Date"));
             ("type", (Str "`$STRING`"));
+            ("op", (jo [
+              ("create", (jo [
+                ("req", (Bool true));
+                ("type", (Str "`$STRING`")) ])) ]));
             ("short", (Str "The date and time that the Attestation took place."));
             ("format", (Str "datetime")) ]);
           (jo [
@@ -214,6 +223,11 @@ let make_config () : value =
             ("type", (Str "`$OBJECT`"));
             ("short", (Str "Reference to the associated Device resource.")) ]);
           (jo [
+            ("name", (Str "devices"));
+            ("title", (Str "Devices"));
+            ("type", (Str "`$ARRAY`"));
+            ("req", (Bool true)) ]);
+          (jo [
             ("name", (Str "id"));
             ("title", (Str "Id"));
             ("type", (Str "`$STRING`"));
@@ -222,6 +236,10 @@ let make_config () : value =
             ("name", (Str "name"));
             ("title", (Str "Name"));
             ("type", (Str "`$STRING`"));
+            ("op", (jo [
+              ("create", (jo [
+                ("req", (Bool true));
+                ("type", (Str "`$STRING`")) ])) ]));
             ("short", (Str "Text describing the attestation.")) ]);
           (jo [
             ("name", (Str "notes"));
@@ -251,7 +269,10 @@ let make_config () : value =
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
                 ("args", (empty_map ()));
-                ("select", (empty_map ())) ]) ])) ]));
+                ("select", (empty_map ()));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ]));
           ("list", (jo [
             ("input", (Str "data"));
             ("name", (Str "list"));
@@ -276,7 +297,8 @@ let make_config () : value =
                       ("orig", (Str "client"));
                       ("type", (Str "`$STRING`"));
                       ("kind", (Str "query"));
-                      ("reqd", (Bool true)) ]);
+                      ("reqd", (Bool true));
+                      ("field", (Bool true)) ]);
                     (jo [
                       ("name", (Str "skip"));
                       ("orig", (Str "skip"));
@@ -291,9 +313,10 @@ let make_config () : value =
                       ("example", (Num (10.))) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
-                    (Str "client");
-                    (Str "skip");
-                    (Str "take") ])) ])) ]) ])) ]));
+                    (Str "client") ])) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ]));
           ("load", (jo [
             ("input", (Str "data"));
             ("name", (Str "load"));
@@ -324,7 +347,10 @@ let make_config () : value =
                       ("reqd", (Bool true)) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
-                    (Str "id") ])) ])) ]) ])) ])) ]));
+                    (Str "id") ])) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("client", (jo [
@@ -334,6 +360,9 @@ let make_config () : value =
             ("title", (Str "Contact"));
             ("type", (Str "`$OBJECT`"));
             ("op", (jo [
+              ("create", (jo [
+                ("req", (Bool true));
+                ("type", (Str "`$OBJECT`")) ]));
               ("list", (jo [
                 ("req", (Bool true));
                 ("type", (Str "`$OBJECT`")) ])) ]));
@@ -348,6 +377,10 @@ let make_config () : value =
             ("name", (Str "directPartner"));
             ("title", (Str "Direct Partner"));
             ("type", (Str "`$OBJECT`"));
+            ("op", (jo [
+              ("create", (jo [
+                ("req", (Bool true));
+                ("type", (Str "`$OBJECT`")) ])) ]));
             ("short", (Str "Reference to the associated Partner.")) ]);
           (jo [
             ("name", (Str "id"));
@@ -380,6 +413,10 @@ let make_config () : value =
             ("name", (Str "name"));
             ("title", (Str "Name"));
             ("type", (Str "`$STRING`"));
+            ("op", (jo [
+              ("create", (jo [
+                ("req", (Bool true));
+                ("type", (Str "`$STRING`")) ])) ]));
             ("short", (Str "The Client's name.")) ]);
           (jo [
             ("name", (Str "partner"));
@@ -414,7 +451,10 @@ let make_config () : value =
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
                 ("args", (empty_map ()));
-                ("select", (empty_map ())) ]) ])) ]));
+                ("select", (empty_map ()));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ]));
           ("list", (jo [
             ("input", (Str "data"));
             ("name", (Str "list"));
@@ -439,7 +479,8 @@ let make_config () : value =
                       ("orig", (Str "partner"));
                       ("type", (Str "`$STRING`"));
                       ("kind", (Str "query"));
-                      ("reqd", (Bool true)) ]);
+                      ("reqd", (Bool true));
+                      ("field", (Bool true)) ]);
                     (jo [
                       ("name", (Str "skip"));
                       ("orig", (Str "skip"));
@@ -454,9 +495,10 @@ let make_config () : value =
                       ("example", (Num (10.))) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
-                    (Str "partner");
-                    (Str "skip");
-                    (Str "take") ])) ])) ]) ])) ]));
+                    (Str "partner") ])) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ]));
           ("load", (jo [
             ("input", (Str "data"));
             ("name", (Str "load"));
@@ -487,7 +529,10 @@ let make_config () : value =
                       ("reqd", (Bool true)) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
-                    (Str "id") ])) ])) ]) ])) ]));
+                    (Str "id") ])) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ]));
           ("remove", (jo [
             ("input", (Str "data"));
             ("name", (Str "remove"));
@@ -522,7 +567,30 @@ let make_config () : value =
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("create_result", (jo [
-        ("fields", (empty_list ()));
+        ("fields", (ja [
+          (jo [
+            ("name", (Str "completeDate"));
+            ("title", (Str "Complete Date"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The date and time that the Custody change took place."));
+            ("format", (Str "date-time")) ]);
+          (jo [
+            ("name", (Str "custodian"));
+            ("title", (Str "Custodian"));
+            ("type", (Str "`$OBJECT`"));
+            ("req", (Bool true));
+            ("short", (Str "Reference to the associated User resource.")) ]);
+          (jo [
+            ("name", (Str "location"));
+            ("title", (Str "Location"));
+            ("type", (Str "`$OBJECT`"));
+            ("req", (Bool true));
+            ("short", (Str "Reference to the associated Location resource.")) ]);
+          (jo [
+            ("name", (Str "notes"));
+            ("title", (Str "Notes"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Free form field that allows the Client associate notes with the Custody Change.")) ]) ]));
         ("name", (Str "create_result"));
         ("op", (jo [
           ("create", (jo [
@@ -558,26 +626,71 @@ let make_config () : value =
                   ("params", (ja [
                     (jo [
                       ("name", (Str "device_type"));
-                      ("orig", (Str "device_type"));
+                      ("orig", (Str "deviceType"));
                       ("type", (Str "`$STRING`"));
                       ("kind", (Str "param"));
                       ("reqd", (Bool true)) ]);
                     (jo [
                       ("name", (Str "serial_number"));
-                      ("orig", (Str "serial_number"));
+                      ("orig", (Str "serialNumber"));
                       ("type", (Str "`$STRING`"));
                       ("kind", (Str "param"));
                       ("reqd", (Bool true)) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
                     (Str "device_type");
-                    (Str "serial_number") ])) ])) ]) ])) ])) ]));
+                    (Str "serial_number") ])) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (ja [
             (ja [
               (Str "$.main.kit.entity.device") ]) ])) ])) ]));
       ("decryption", (jo [
         ("fields", (ja [
+          (jo [
+            ("name", (Str "cbcVector"));
+            ("title", (Str "Cbc Vector"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Base64 or hex encoded initial vector obtained from device.")) ]);
+          (jo [
+            ("name", (Str "deviceType"));
+            ("title", (Str "Device Type"));
+            ("type", (Str "`$STRING`"));
+            ("req", (Bool true));
+            ("short", (Str "The device Type.")) ]);
+          (jo [
+            ("name", (Str "encoding"));
+            ("title", (Str "Encoding"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The payload encoding")) ]);
+          (jo [
+            ("name", (Str "encrypted"));
+            ("title", (Str "Encrypted"));
+            ("type", (Str "`$ARRAY`"));
+            ("req", (Bool true)) ]);
+          (jo [
+            ("name", (Str "hasCcData"));
+            ("title", (Str "Has Cc Data"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers.")) ]);
+          (jo [
+            ("name", (Str "reference"));
+            ("title", (Str "Reference"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "A string (of up to 50 characters) that helps partners identify individual API calls.")) ]);
+          (jo [
+            ("name", (Str "sequenceNumber"));
+            ("title", (Str "Sequence Number"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Sequence number obtained from device in base 64 or hex encoded format.")) ]);
+          (jo [
+            ("name", (Str "serialNumber"));
+            ("title", (Str "Serial Number"));
+            ("type", (Str "`$STRING`"));
+            ("req", (Bool true));
+            ("short", (Str "The serial number of the device.")) ]);
           (jo [
             ("name", (Str "success"));
             ("title", (Str "Success"));
@@ -603,7 +716,10 @@ let make_config () : value =
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
                 ("args", (empty_map ()));
-                ("select", (empty_map ())) ]) ])) ])) ]));
+                ("select", (empty_map ()));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("device", (jo [
@@ -668,6 +784,10 @@ let make_config () : value =
             ("name", (Str "deviceType"));
             ("title", (Str "Device Type"));
             ("type", (Str "`$OBJECT`"));
+            ("op", (jo [
+              ("create", (jo [
+                ("req", (Bool true));
+                ("type", (Str "`$OBJECT`")) ])) ]));
             ("short", (Str "Reference to the associated Device Type resource.")) ]);
           (jo [
             ("name", (Str "errorCounter"));
@@ -711,6 +831,10 @@ let make_config () : value =
             ("name", (Str "kif"));
             ("title", (Str "Kif"));
             ("type", (Str "`$OBJECT`"));
+            ("op", (jo [
+              ("create", (jo [
+                ("req", (Bool true));
+                ("type", (Str "`$OBJECT`")) ])) ]));
             ("short", (Str "Reference to the associated KIF resource.")) ]);
           (jo [
             ("name", (Str "lastActivityDate"));
@@ -755,6 +879,10 @@ let make_config () : value =
             ("name", (Str "serialNumber"));
             ("title", (Str "Serial Number"));
             ("type", (Str "`$STRING`"));
+            ("op", (jo [
+              ("create", (jo [
+                ("req", (Bool true));
+                ("type", (Str "`$STRING`")) ])) ]));
             ("short", (Str "The Device's serial number.")) ]);
           (jo [
             ("name", (Str "version"));
@@ -784,7 +912,10 @@ let make_config () : value =
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
                 ("args", (empty_map ()));
-                ("select", (empty_map ())) ]) ])) ]));
+                ("select", (empty_map ()));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ]));
           ("list", (jo [
             ("input", (Str "data"));
             ("name", (Str "list"));
@@ -808,25 +939,28 @@ let make_config () : value =
                       ("name", (Str "client"));
                       ("orig", (Str "client"));
                       ("type", (Str "`$STRING`"));
-                      ("kind", (Str "query")) ]);
+                      ("kind", (Str "query"));
+                      ("field", (Bool true)) ]);
                     (jo [
                       ("name", (Str "device_state"));
-                      ("orig", (Str "device_state"));
+                      ("orig", (Str "deviceState"));
                       ("type", (Str "`$STRING`"));
                       ("kind", (Str "query")) ]);
                     (jo [
                       ("name", (Str "kif"));
                       ("orig", (Str "kif"));
                       ("type", (Str "`$STRING`"));
-                      ("kind", (Str "query")) ]);
+                      ("kind", (Str "query"));
+                      ("field", (Bool true)) ]);
                     (jo [
                       ("name", (Str "partner"));
                       ("orig", (Str "partner"));
                       ("type", (Str "`$STRING`"));
-                      ("kind", (Str "query")) ]);
+                      ("kind", (Str "query"));
+                      ("field", (Bool true)) ]);
                     (jo [
                       ("name", (Str "serial_number"));
-                      ("orig", (Str "serial_number"));
+                      ("orig", (Str "serialNumber"));
                       ("type", (Str "`$STRING`"));
                       ("kind", (Str "query")) ]);
                     (jo [
@@ -837,13 +971,13 @@ let make_config () : value =
                       ("example", (Num (0.))) ]);
                     (jo [
                       ("name", (Str "sorting_direction"));
-                      ("orig", (Str "sorting_direction"));
+                      ("orig", (Str "sorting.direction"));
                       ("type", (Str "`$STRING`"));
                       ("kind", (Str "query"));
                       ("example", (Str "asc")) ]);
                     (jo [
                       ("name", (Str "sorting_field"));
-                      ("orig", (Str "sorting_field"));
+                      ("orig", (Str "sorting.field"));
                       ("type", (Str "`$STRING`"));
                       ("kind", (Str "query"));
                       ("example", (Str "serialnumber")) ]);
@@ -853,17 +987,10 @@ let make_config () : value =
                       ("type", (Str "`$INTEGER`"));
                       ("kind", (Str "query"));
                       ("example", (Num (10.))) ]) ])) ]));
-                ("select", (jo [
-                  ("exist", (ja [
-                    (Str "client");
-                    (Str "device_state");
-                    (Str "kif");
-                    (Str "partner");
-                    (Str "serial_number");
-                    (Str "skip");
-                    (Str "sorting_direction");
-                    (Str "sorting_field");
-                    (Str "take") ])) ])) ]) ])) ]));
+                ("select", (empty_map ()));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ]));
           ("load", (jo [
             ("input", (Str "data"));
             ("name", (Str "load"));
@@ -894,20 +1021,23 @@ let make_config () : value =
                   ("params", (ja [
                     (jo [
                       ("name", (Str "device_type"));
-                      ("orig", (Str "device_type"));
+                      ("orig", (Str "deviceType"));
                       ("type", (Str "`$STRING`"));
                       ("kind", (Str "param"));
                       ("reqd", (Bool true)) ]);
                     (jo [
                       ("name", (Str "serial_number"));
-                      ("orig", (Str "serial_number"));
+                      ("orig", (Str "serialNumber"));
                       ("type", (Str "`$STRING`"));
                       ("kind", (Str "param"));
                       ("reqd", (Bool true)) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
                     (Str "device_type");
-                    (Str "serial_number") ])) ])) ]);
+                    (Str "serial_number") ])) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]);
               (jo [
                 ("kind", (Str "http"));
                 ("method", (Str "GET"));
@@ -934,7 +1064,10 @@ let make_config () : value =
                       ("reqd", (Bool true)) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
-                    (Str "id") ])) ])) ]) ])) ])) ]));
+                    (Str "id") ])) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("device_build", (jo [
@@ -1043,7 +1176,7 @@ let make_config () : value =
                   ("query", (ja [
                     (jo [
                       ("name", (Str "device_type"));
-                      ("orig", (Str "device_type"));
+                      ("orig", (Str "deviceType"));
                       ("type", (Str "`$STRING`"));
                       ("kind", (Str "query")) ]);
                     (jo [
@@ -1058,11 +1191,10 @@ let make_config () : value =
                       ("type", (Str "`$INTEGER`"));
                       ("kind", (Str "query"));
                       ("example", (Num (10.))) ]) ])) ]));
-                ("select", (jo [
-                  ("exist", (ja [
-                    (Str "device_type");
-                    (Str "skip");
-                    (Str "take") ])) ])) ]) ])) ]));
+                ("select", (empty_map ()));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ]));
           ("load", (jo [
             ("input", (Str "data"));
             ("name", (Str "load"));
@@ -1093,7 +1225,10 @@ let make_config () : value =
                       ("reqd", (Bool true)) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
-                    (Str "id") ])) ])) ]) ])) ])) ]));
+                    (Str "id") ])) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("device_custody_detail", (jo [
@@ -1212,7 +1347,7 @@ let make_config () : value =
                   ("params", (ja [
                     (jo [
                       ("name", (Str "device_type"));
-                      ("orig", (Str "device_type"));
+                      ("orig", (Str "deviceType"));
                       ("type", (Str "`$STRING`"));
                       ("kind", (Str "param"));
                       ("reqd", (Bool true)) ]);
@@ -1224,7 +1359,7 @@ let make_config () : value =
                       ("reqd", (Bool true)) ]);
                     (jo [
                       ("name", (Str "serial_number"));
-                      ("orig", (Str "serial_number"));
+                      ("orig", (Str "serialNumber"));
                       ("type", (Str "`$STRING`"));
                       ("kind", (Str "param"));
                       ("reqd", (Bool true)) ]) ])) ]));
@@ -1232,7 +1367,10 @@ let make_config () : value =
                   ("exist", (ja [
                     (Str "device_type");
                     (Str "id");
-                    (Str "serial_number") ])) ])) ]) ])) ])) ]));
+                    (Str "serial_number") ])) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (ja [
             (ja [
@@ -1350,13 +1488,13 @@ let make_config () : value =
                   ("params", (ja [
                     (jo [
                       ("name", (Str "device_type"));
-                      ("orig", (Str "device_type"));
+                      ("orig", (Str "deviceType"));
                       ("type", (Str "`$STRING`"));
                       ("kind", (Str "param"));
                       ("reqd", (Bool true)) ]);
                     (jo [
                       ("name", (Str "serial_number"));
-                      ("orig", (Str "serial_number"));
+                      ("orig", (Str "serialNumber"));
                       ("type", (Str "`$STRING`"));
                       ("kind", (Str "param"));
                       ("reqd", (Bool true)) ]) ]));
@@ -1376,9 +1514,10 @@ let make_config () : value =
                 ("select", (jo [
                   ("exist", (ja [
                     (Str "device_type");
-                    (Str "serial_number");
-                    (Str "skip");
-                    (Str "take") ])) ])) ]) ])) ])) ]));
+                    (Str "serial_number") ])) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (ja [
             (ja [
@@ -1386,11 +1525,23 @@ let make_config () : value =
       ("device_receive_result", (jo [
         ("fields", (ja [
           (jo [
+            ("name", (Str "serialNumber"));
+            ("title", (Str "Serial Number"));
+            ("type", (Str "`$STRING`"));
+            ("req", (Bool true));
+            ("short", (Str "The serial number of the Device that is shipped.")) ]);
+          (jo [
             ("name", (Str "success"));
             ("title", (Str "Success"));
             ("type", (Str "`$BOOLEAN`"));
             ("req", (Bool true));
-            ("short", (Str "Indicates if the action succeeded.")) ]) ]));
+            ("short", (Str "Indicates if the action succeeded.")) ]);
+          (jo [
+            ("name", (Str "tamperLabel"));
+            ("title", (Str "Tamper Label"));
+            ("type", (Str "`$STRING`"));
+            ("req", (Bool true));
+            ("short", (Str "The code that is printed the tamper label of the Device that is shipped.")) ]) ]));
         ("name", (Str "device_receive_result"));
         ("op", (jo [
           ("create", (jo [
@@ -1414,17 +1565,61 @@ let make_config () : value =
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
                 ("args", (empty_map ()));
-                ("select", (empty_map ())) ]) ])) ])) ]));
+                ("select", (empty_map ()));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("device_rki_activate_result", (jo [
         ("fields", (ja [
           (jo [
+            ("name", (Str "appVersion"));
+            ("title", (Str "App Version"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "If a Device Type has more than one Application Code version the supported version is specified here.")) ]);
+          (jo [
+            ("name", (Str "buildName"));
+            ("title", (Str "Build Name"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Device Builds's name.")) ]);
+          (jo [
+            ("name", (Str "buildNumber"));
+            ("title", (Str "Build Number"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Build Number.")) ]);
+          (jo [
+            ("name", (Str "configFile"));
+            ("title", (Str "Config File"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "\\?")) ]);
+          (jo [
+            ("name", (Str "firmwareVersion"));
+            ("title", (Str "Firmware Version"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "A list of firmware versions that this Device Build covers.")) ]);
+          (jo [
+            ("name", (Str "hardwareVersion"));
+            ("title", (Str "Hardware Version"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "A list of hardware versions that this Device Build covers.")) ]);
+          (jo [
+            ("name", (Str "serialNumber"));
+            ("title", (Str "Serial Number"));
+            ("type", (Str "`$STRING`"));
+            ("req", (Bool true));
+            ("short", (Str "The referenced Device's serial number.")) ]);
+          (jo [
             ("name", (Str "success"));
             ("title", (Str "Success"));
             ("type", (Str "`$BOOLEAN`"));
             ("req", (Bool true));
-            ("short", (Str "Indicates if the RKI activation succeeded.")) ]) ]));
+            ("short", (Str "Indicates if the RKI activation succeeded.")) ]);
+          (jo [
+            ("name", (Str "whiteListingBinRanges"));
+            ("title", (Str "White Listing Bin Ranges"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "\\?")) ]) ]));
         ("name", (Str "device_rki_activate_result"));
         ("op", (jo [
           ("create", (jo [
@@ -1451,7 +1646,10 @@ let make_config () : value =
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
                 ("args", (empty_map ()));
-                ("select", (empty_map ())) ]) ])) ])) ]));
+                ("select", (empty_map ()));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("device_state", (jo [
@@ -1490,7 +1688,10 @@ let make_config () : value =
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body.data`")) ]));
                 ("args", (empty_map ()));
-                ("select", (empty_map ())) ]) ])) ])) ]));
+                ("select", (empty_map ()));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("device_type", (jo [
@@ -1579,7 +1780,10 @@ let make_config () : value =
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body.data`")) ]));
                 ("args", (empty_map ()));
-                ("select", (empty_map ())) ]) ])) ]));
+                ("select", (empty_map ()));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ]));
           ("load", (jo [
             ("input", (Str "data"));
             ("name", (Str "load"));
@@ -1610,7 +1814,10 @@ let make_config () : value =
                       ("reqd", (Bool true)) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
-                    (Str "id") ])) ])) ]) ])) ])) ]));
+                    (Str "id") ])) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("inject_key", (jo [
@@ -1680,7 +1887,10 @@ let make_config () : value =
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body.data`")) ]));
                 ("args", (empty_map ()));
-                ("select", (empty_map ())) ]) ])) ]));
+                ("select", (empty_map ()));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ]));
           ("load", (jo [
             ("input", (Str "data"));
             ("name", (Str "load"));
@@ -1711,7 +1921,10 @@ let make_config () : value =
                       ("reqd", (Bool true)) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
-                    (Str "id") ])) ])) ]) ])) ])) ]));
+                    (Str "id") ])) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("kif", (jo [
@@ -1750,7 +1963,10 @@ let make_config () : value =
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body.data`")) ]));
                 ("args", (empty_map ()));
-                ("select", (empty_map ())) ]) ])) ])) ]));
+                ("select", (empty_map ()));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("location", (jo [
@@ -1759,6 +1975,10 @@ let make_config () : value =
             ("name", (Str "address1"));
             ("title", (Str "Address1"));
             ("type", (Str "`$STRING`"));
+            ("op", (jo [
+              ("create", (jo [
+                ("req", (Bool true));
+                ("type", (Str "`$STRING`")) ])) ]));
             ("short", (Str "The Location's street address.")) ]);
           (jo [
             ("name", (Str "address2"));
@@ -1774,11 +1994,24 @@ let make_config () : value =
             ("name", (Str "city"));
             ("title", (Str "City"));
             ("type", (Str "`$STRING`"));
+            ("op", (jo [
+              ("create", (jo [
+                ("req", (Bool true));
+                ("type", (Str "`$STRING`")) ])) ]));
             ("short", (Str "The Location's city.")) ]);
+          (jo [
+            ("name", (Str "client"));
+            ("title", (Str "Client"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated Client resource.")) ]);
           (jo [
             ("name", (Str "country"));
             ("title", (Str "Country"));
             ("type", (Str "`$STRING`"));
+            ("op", (jo [
+              ("create", (jo [
+                ("req", (Bool true));
+                ("type", (Str "`$OBJECT`")) ])) ]));
             ("short", (Str "The Location's country.")) ]);
           (jo [
             ("name", (Str "created"));
@@ -1800,6 +2033,10 @@ let make_config () : value =
             ("name", (Str "locationType"));
             ("title", (Str "Location Type"));
             ("type", (Str "`$STRING`"));
+            ("op", (jo [
+              ("create", (jo [
+                ("req", (Bool true));
+                ("type", (Str "`$STRING`")) ])) ]));
             ("short", (Str "The Location's clasification.")) ]);
           (jo [
             ("name", (Str "mailAddress1"));
@@ -1841,6 +2078,10 @@ let make_config () : value =
             ("name", (Str "name"));
             ("title", (Str "Name"));
             ("type", (Str "`$STRING`"));
+            ("op", (jo [
+              ("create", (jo [
+                ("req", (Bool true));
+                ("type", (Str "`$STRING`")) ])) ]));
             ("short", (Str "The Location's name.")) ]);
           (jo [
             ("name", (Str "nameOfBusiness"));
@@ -1895,7 +2136,10 @@ let make_config () : value =
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
                 ("args", (empty_map ()));
-                ("select", (empty_map ())) ]) ])) ]));
+                ("select", (empty_map ()));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ]));
           ("list", (jo [
             ("input", (Str "data"));
             ("name", (Str "list"));
@@ -1920,7 +2164,8 @@ let make_config () : value =
                       ("orig", (Str "client"));
                       ("type", (Str "`$STRING`"));
                       ("kind", (Str "query"));
-                      ("reqd", (Bool true)) ]);
+                      ("reqd", (Bool true));
+                      ("field", (Bool true)) ]);
                     (jo [
                       ("name", (Str "skip"));
                       ("orig", (Str "skip"));
@@ -1935,9 +2180,10 @@ let make_config () : value =
                       ("example", (Num (10.))) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
-                    (Str "client");
-                    (Str "skip");
-                    (Str "take") ])) ])) ]) ])) ]));
+                    (Str "client") ])) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ]));
           ("load", (jo [
             ("input", (Str "data"));
             ("name", (Str "load"));
@@ -1968,7 +2214,10 @@ let make_config () : value =
                       ("reqd", (Bool true)) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
-                    (Str "id") ])) ])) ]) ])) ]));
+                    (Str "id") ])) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ]));
           ("remove", (jo [
             ("input", (Str "data"));
             ("name", (Str "remove"));
@@ -2019,6 +2268,9 @@ let make_config () : value =
             ("title", (Str "Contact"));
             ("type", (Str "`$OBJECT`"));
             ("op", (jo [
+              ("create", (jo [
+                ("req", (Bool true));
+                ("type", (Str "`$OBJECT`")) ]));
               ("list", (jo [
                 ("req", (Bool true));
                 ("type", (Str "`$OBJECT`")) ])) ]));
@@ -2055,11 +2307,19 @@ let make_config () : value =
             ("name", (Str "name"));
             ("title", (Str "Name"));
             ("type", (Str "`$STRING`"));
+            ("op", (jo [
+              ("create", (jo [
+                ("req", (Bool true));
+                ("type", (Str "`$STRING`")) ])) ]));
             ("short", (Str "The Partner's name.")) ]);
           (jo [
             ("name", (Str "parent"));
             ("title", (Str "Parent"));
             ("type", (Str "`$OBJECT`"));
+            ("op", (jo [
+              ("create", (jo [
+                ("req", (Bool true));
+                ("type", (Str "`$OBJECT`")) ])) ]));
             ("short", (Str "Reference to the associated Partner.")) ]);
           (jo [
             ("name", (Str "partnerId"));
@@ -2070,6 +2330,10 @@ let make_config () : value =
             ("name", (Str "reference"));
             ("title", (Str "Reference"));
             ("type", (Str "`$STRING`"));
+            ("op", (jo [
+              ("create", (jo [
+                ("req", (Bool true));
+                ("type", (Str "`$STRING`")) ])) ]));
             ("short", (Str "The Partner's reference string.")) ]);
           (jo [
             ("name", (Str "verificationPhrase"));
@@ -2104,7 +2368,10 @@ let make_config () : value =
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
                 ("args", (empty_map ()));
-                ("select", (empty_map ())) ]) ])) ]));
+                ("select", (empty_map ()));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ]));
           ("list", (jo [
             ("input", (Str "data"));
             ("name", (Str "list"));
@@ -2141,11 +2408,10 @@ let make_config () : value =
                       ("type", (Str "`$INTEGER`"));
                       ("kind", (Str "query"));
                       ("example", (Num (10.))) ]) ])) ]));
-                ("select", (jo [
-                  ("exist", (ja [
-                    (Str "partner");
-                    (Str "skip");
-                    (Str "take") ])) ])) ]) ])) ]));
+                ("select", (empty_map ()));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ]));
           ("load", (jo [
             ("input", (Str "data"));
             ("name", (Str "load"));
@@ -2176,7 +2442,10 @@ let make_config () : value =
                       ("reqd", (Bool true)) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
-                    (Str "id") ])) ])) ]) ])) ])) ]));
+                    (Str "id") ])) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("shipment", (jo [
@@ -2185,11 +2454,19 @@ let make_config () : value =
             ("name", (Str "carrier"));
             ("title", (Str "Carrier"));
             ("type", (Str "`$STRING`"));
+            ("op", (jo [
+              ("create", (jo [
+                ("req", (Bool true));
+                ("type", (Str "`$STRING`")) ])) ]));
             ("short", (Str "The name of the courier.")) ]);
           (jo [
             ("name", (Str "client"));
             ("title", (Str "Client"));
             ("type", (Str "`$OBJECT`"));
+            ("op", (jo [
+              ("create", (jo [
+                ("req", (Bool true));
+                ("type", (Str "`$OBJECT`")) ])) ]));
             ("short", (Str "Reference to the associated Client resource.")) ]);
           (jo [
             ("name", (Str "created"));
@@ -2207,6 +2484,10 @@ let make_config () : value =
             ("name", (Str "dateShipped"));
             ("title", (Str "Date Shipped"));
             ("type", (Str "`$STRING`"));
+            ("op", (jo [
+              ("create", (jo [
+                ("req", (Bool true));
+                ("type", (Str "`$STRING`")) ])) ]));
             ("short", (Str "The date and time that a package is shipped."));
             ("format", (Str "datetime")) ]);
           (jo [
@@ -2222,12 +2503,26 @@ let make_config () : value =
           (jo [
             ("name", (Str "items"));
             ("title", (Str "Items"));
-            ("type", (Str "`$ARRAY`")) ]);
+            ("type", (Str "`$ARRAY`"));
+            ("op", (jo [
+              ("create", (jo [
+                ("req", (Bool true));
+                ("type", (Str "`$ARRAY`")) ])) ])) ]);
           (jo [
             ("name", (Str "kif"));
             ("title", (Str "Kif"));
             ("type", (Str "`$OBJECT`"));
+            ("op", (jo [
+              ("create", (jo [
+                ("req", (Bool true));
+                ("type", (Str "`$OBJECT`")) ])) ]));
             ("short", (Str "Reference to the associated KIF resource.")) ]);
+          (jo [
+            ("name", (Str "location"));
+            ("title", (Str "Location"));
+            ("type", (Str "`$OBJECT`"));
+            ("req", (Bool true));
+            ("short", (Str "Reference to the associated Location resource.")) ]);
           (jo [
             ("name", (Str "modified"));
             ("title", (Str "Modified"));
@@ -2238,6 +2533,10 @@ let make_config () : value =
             ("name", (Str "partner"));
             ("title", (Str "Partner"));
             ("type", (Str "`$OBJECT`"));
+            ("op", (jo [
+              ("create", (jo [
+                ("req", (Bool true));
+                ("type", (Str "`$OBJECT`")) ])) ]));
             ("short", (Str "Reference to the associated Partner.")) ]);
           (jo [
             ("name", (Str "shipmentType"));
@@ -2248,6 +2547,10 @@ let make_config () : value =
             ("name", (Str "tracking"));
             ("title", (Str "Tracking"));
             ("type", (Str "`$STRING`"));
+            ("op", (jo [
+              ("create", (jo [
+                ("req", (Bool true));
+                ("type", (Str "`$STRING`")) ])) ]));
             ("short", (Str "The courier's tracking number.")) ]);
           (jo [
             ("name", (Str "version"));
@@ -2278,7 +2581,10 @@ let make_config () : value =
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
                 ("args", (empty_map ()));
-                ("select", (empty_map ())) ]) ])) ]));
+                ("select", (empty_map ()));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ]));
           ("list", (jo [
             ("input", (Str "data"));
             ("name", (Str "list"));
@@ -2303,7 +2609,8 @@ let make_config () : value =
                       ("orig", (Str "kif"));
                       ("type", (Str "`$STRING`"));
                       ("kind", (Str "query"));
-                      ("reqd", (Bool true)) ]);
+                      ("reqd", (Bool true));
+                      ("field", (Bool true)) ]);
                     (jo [
                       ("name", (Str "mode"));
                       ("orig", (Str "mode"));
@@ -2323,10 +2630,10 @@ let make_config () : value =
                       ("example", (Num (10.))) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
-                    (Str "kif");
-                    (Str "mode");
-                    (Str "skip");
-                    (Str "take") ])) ])) ]) ])) ]));
+                    (Str "kif") ])) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ]));
           ("load", (jo [
             ("input", (Str "data"));
             ("name", (Str "load"));
@@ -2357,11 +2664,26 @@ let make_config () : value =
                       ("reqd", (Bool true)) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
-                    (Str "id") ])) ])) ]) ])) ])) ]));
+                    (Str "id") ])) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("success", (jo [
         ("fields", (ja [
+          (jo [
+            ("name", (Str "devices"));
+            ("title", (Str "Devices"));
+            ("type", (Str "`$ARRAY`"));
+            ("req", (Bool true));
+            ("short", (Str "An array of Device ids to share with partner.")) ]);
+          (jo [
+            ("name", (Str "sharePartnerFrom"));
+            ("title", (Str "Share Partner From"));
+            ("type", (Str "`$OBJECT`"));
+            ("req", (Bool true));
+            ("short", (Str "Reference to the associated Partner.")) ]);
           (jo [
             ("name", (Str "success"));
             ("title", (Str "Success"));
@@ -2395,13 +2717,16 @@ let make_config () : value =
                   ("params", (ja [
                     (jo [
                       ("name", (Str "share_partner_to"));
-                      ("orig", (Str "share_partner_to"));
+                      ("orig", (Str "sharePartnerTo"));
                       ("type", (Str "`$STRING`"));
                       ("kind", (Str "param"));
                       ("reqd", (Bool true)) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
-                    (Str "share_partner_to") ])) ])) ]) ])) ]));
+                    (Str "share_partner_to") ])) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ]));
           ("remove", (jo [
             ("input", (Str "data"));
             ("name", (Str "remove"));
@@ -2428,13 +2753,16 @@ let make_config () : value =
                   ("params", (ja [
                     (jo [
                       ("name", (Str "share_partner_to"));
-                      ("orig", (Str "share_partner_to"));
+                      ("orig", (Str "sharePartnerTo"));
                       ("type", (Str "`$STRING`"));
                       ("kind", (Str "param"));
                       ("reqd", (Bool true)) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
-                    (Str "share_partner_to") ])) ])) ]) ])) ])) ]));
+                    (Str "share_partner_to") ])) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (ja [
             (ja [
@@ -2450,6 +2778,10 @@ let make_config () : value =
             ("name", (Str "client"));
             ("title", (Str "Client"));
             ("type", (Str "`$OBJECT`"));
+            ("op", (jo [
+              ("create", (jo [
+                ("req", (Bool true));
+                ("type", (Str "`$OBJECT`")) ])) ]));
             ("short", (Str "Reference to the associated Client resource.")) ]);
           (jo [
             ("name", (Str "clientRef"));
@@ -2468,6 +2800,12 @@ let make_config () : value =
             ("type", (Str "`$INTEGER`"));
             ("short", (Str "A Transcation can process muliple decryptions."));
             ("format", (Str "int32")) ]);
+          (jo [
+            ("name", (Str "device"));
+            ("title", (Str "Device"));
+            ("type", (Str "`$OBJECT`"));
+            ("req", (Bool true));
+            ("short", (Str "Reference to the associated Device resource.")) ]);
           (jo [
             ("name", (Str "deviceName"));
             ("title", (Str "Device Name"));
@@ -2509,6 +2847,10 @@ let make_config () : value =
             ("name", (Str "ipAddress"));
             ("title", (Str "Ip Address"));
             ("type", (Str "`$STRING`"));
+            ("op", (jo [
+              ("create", (jo [
+                ("req", (Bool true));
+                ("type", (Str "`$STRING`")) ])) ]));
             ("short", (Str "The IP address of the http client that makes the decrypt API call.")) ]);
           (jo [
             ("name", (Str "isVirtual"));
@@ -2519,6 +2861,10 @@ let make_config () : value =
             ("name", (Str "keyType"));
             ("title", (Str "Key Type"));
             ("type", (Str "`$STRING`"));
+            ("op", (jo [
+              ("create", (jo [
+                ("req", (Bool true));
+                ("type", (Str "`$STRING`")) ])) ]));
             ("short", (Str "The type of cipher used during decrytion.")) ]);
           (jo [
             ("name", (Str "location"));
@@ -2535,11 +2881,19 @@ let make_config () : value =
             ("name", (Str "method"));
             ("title", (Str "Method"));
             ("type", (Str "`$STRING`"));
+            ("op", (jo [
+              ("create", (jo [
+                ("req", (Bool true));
+                ("type", (Str "`$STRING`")) ])) ]));
             ("short", (Str "The decryption cypher/method.")) ]);
           (jo [
             ("name", (Str "partner"));
             ("title", (Str "Partner"));
             ("type", (Str "`$OBJECT`"));
+            ("op", (jo [
+              ("create", (jo [
+                ("req", (Bool true));
+                ("type", (Str "`$OBJECT`")) ])) ]));
             ("short", (Str "Reference to the associated Partner.")) ]);
           (jo [
             ("name", (Str "reference"));
@@ -2590,7 +2944,10 @@ let make_config () : value =
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
                 ("args", (empty_map ()));
-                ("select", (empty_map ())) ]) ])) ]));
+                ("select", (empty_map ()));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ]));
           ("list", (jo [
             ("input", (Str "data"));
             ("name", (Str "list"));
@@ -2614,35 +2971,37 @@ let make_config () : value =
                       ("name", (Str "client"));
                       ("orig", (Str "client"));
                       ("type", (Str "`$STRING`"));
-                      ("kind", (Str "query")) ]);
+                      ("kind", (Str "query"));
+                      ("field", (Bool true)) ]);
                     (jo [
                       ("name", (Str "client_ref"));
-                      ("orig", (Str "client_ref"));
+                      ("orig", (Str "clientRef"));
                       ("type", (Str "`$STRING`"));
                       ("kind", (Str "query")) ]);
                     (jo [
                       ("name", (Str "date_from"));
-                      ("orig", (Str "date_from"));
+                      ("orig", (Str "dateFrom"));
                       ("type", (Str "`$STRING`"));
                       ("kind", (Str "query")) ]);
                     (jo [
                       ("name", (Str "date_to"));
-                      ("orig", (Str "date_to"));
+                      ("orig", (Str "dateTo"));
                       ("type", (Str "`$STRING`"));
                       ("kind", (Str "query")) ]);
                     (jo [
                       ("name", (Str "location"));
                       ("orig", (Str "location"));
                       ("type", (Str "`$STRING`"));
-                      ("kind", (Str "query")) ]);
+                      ("kind", (Str "query"));
+                      ("field", (Bool true)) ]);
                     (jo [
                       ("name", (Str "message_id"));
-                      ("orig", (Str "message_id"));
+                      ("orig", (Str "messageId"));
                       ("type", (Str "`$STRING`"));
                       ("kind", (Str "query")) ]);
                     (jo [
                       ("name", (Str "paging_mode"));
-                      ("orig", (Str "paging_mode"));
+                      ("orig", (Str "paging.mode"));
                       ("type", (Str "`$STRING`"));
                       ("kind", (Str "query"));
                       ("example", (Str "nocount")) ]);
@@ -2650,15 +3009,17 @@ let make_config () : value =
                       ("name", (Str "partner"));
                       ("orig", (Str "partner"));
                       ("type", (Str "`$STRING`"));
-                      ("kind", (Str "query")) ]);
+                      ("kind", (Str "query"));
+                      ("field", (Bool true)) ]);
                     (jo [
                       ("name", (Str "reference"));
                       ("orig", (Str "reference"));
                       ("type", (Str "`$STRING`"));
-                      ("kind", (Str "query")) ]);
+                      ("kind", (Str "query"));
+                      ("field", (Bool true)) ]);
                     (jo [
                       ("name", (Str "serial_number"));
-                      ("orig", (Str "serial_number"));
+                      ("orig", (Str "serialNumber"));
                       ("type", (Str "`$STRING`"));
                       ("kind", (Str "query")) ]);
                     (jo [
@@ -2671,28 +3032,18 @@ let make_config () : value =
                       ("name", (Str "success"));
                       ("orig", (Str "success"));
                       ("type", (Str "`$BOOLEAN`"));
-                      ("kind", (Str "query")) ]);
+                      ("kind", (Str "query"));
+                      ("field", (Bool true)) ]);
                     (jo [
                       ("name", (Str "take"));
                       ("orig", (Str "take"));
                       ("type", (Str "`$INTEGER`"));
                       ("kind", (Str "query"));
                       ("example", (Num (10.))) ]) ])) ]));
-                ("select", (jo [
-                  ("exist", (ja [
-                    (Str "client");
-                    (Str "client_ref");
-                    (Str "date_from");
-                    (Str "date_to");
-                    (Str "location");
-                    (Str "message_id");
-                    (Str "paging_mode");
-                    (Str "partner");
-                    (Str "reference");
-                    (Str "serial_number");
-                    (Str "skip");
-                    (Str "success");
-                    (Str "take") ])) ])) ]) ])) ]));
+                ("select", (empty_map ()));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ]));
           ("load", (jo [
             ("input", (Str "data"));
             ("name", (Str "load"));
@@ -2723,25 +3074,151 @@ let make_config () : value =
                       ("reqd", (Bool true)) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
-                    (Str "id") ])) ])) ]) ])) ])) ]));
+                    (Str "id") ])) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("update_result", (jo [
         ("fields", (ja [
+          (jo [
+            ("name", (Str "address1"));
+            ("title", (Str "Address1"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Location's street address.")) ]);
+          (jo [
+            ("name", (Str "address2"));
+            ("title", (Str "Address2"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Location's street address.")) ]);
+          (jo [
+            ("name", (Str "alternateKey"));
+            ("title", (Str "Alternate Key"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging.")) ]);
+          (jo [
+            ("name", (Str "auditNextDate"));
+            ("title", (Str "Audit Next Date"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Date and time that the Device is due its next PCI Audit."));
+            ("format", (Str "datetime")) ]);
+          (jo [
+            ("name", (Str "billingId"));
+            ("title", (Str "Billing Id"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "\\?")) ]);
+          (jo [
+            ("name", (Str "city"));
+            ("title", (Str "City"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Location's city.")) ]);
           (jo [
             ("name", (Str "client"));
             ("title", (Str "Client"));
             ("type", (Str "`$OBJECT`"));
             ("short", (Str "Reference to the associated Client resource.")) ]);
           (jo [
+            ("name", (Str "clientCanOrderEquipment"));
+            ("title", (Str "Client Can Order Equipment"));
+            ("type", (Str "`$BOOLEAN`"));
+            ("short", (Str "This property indicates if the Partner is allowed to order Equipment.")) ]);
+          (jo [
+            ("name", (Str "clientRef"));
+            ("title", (Str "Client Ref"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Client Reference property that is included in the decrypt API call.")) ]);
+          (jo [
+            ("name", (Str "contact"));
+            ("title", (Str "Contact"));
+            ("type", (Str "`$OBJECT`"));
+            ("req", (Bool true));
+            ("short", (Str "Reference to the associated User resource.")) ]);
+          (jo [
+            ("name", (Str "country"));
+            ("title", (Str "Country"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated Country.")) ]);
+          (jo [
+            ("name", (Str "customReference"));
+            ("title", (Str "Custom Reference"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "A Partner specified reference for a location.")) ]);
+          (jo [
+            ("name", (Str "dateShipped"));
+            ("title", (Str "Date Shipped"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The date and time that a package is shipped."));
+            ("format", (Str "datetime")) ]);
+          (jo [
+            ("name", (Str "decrypted"));
+            ("title", (Str "Decrypted"));
+            ("type", (Str "`$INTEGER`"));
+            ("short", (Str "A Transcation can process muliple decryptions."));
+            ("format", (Str "int32")) ]);
+          (jo [
+            ("name", (Str "device"));
+            ("title", (Str "Device"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated Device resource.")) ]);
+          (jo [
+            ("name", (Str "deviceBuild"));
+            ("title", (Str "Device Build"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated Device Build resource.")) ]);
+          (jo [
+            ("name", (Str "deviceType"));
+            ("title", (Str "Device Type"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated Device Type resource.")) ]);
+          (jo [
+            ("name", (Str "directPartner"));
+            ("title", (Str "Direct Partner"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated Partner.")) ]);
+          (jo [
             ("name", (Str "email"));
             ("title", (Str "Email"));
             ("type", (Str "`$STRING`"));
+            ("req", (Bool true));
+            ("op", (jo [
+              ("list", (jo [
+                ("type", (Str "`$STRING`")) ]));
+              ("update", (jo [
+                ("type", (Str "`$STRING`")) ])) ]));
             ("short", (Str "The User's email address.")) ]);
+          (jo [
+            ("name", (Str "encrypted"));
+            ("title", (Str "Encrypted"));
+            ("type", (Str "`$INTEGER`"));
+            ("short", (Str "A Transcation can process muliple encryptions."));
+            ("format", (Str "int32")) ]);
+          (jo [
+            ("name", (Str "endDate"));
+            ("title", (Str "End Date"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Timestamp from the end of the transaction."));
+            ("format", (Str "datetime")) ]);
+          (jo [
+            ("name", (Str "errCode"));
+            ("title", (Str "Err Code"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The error code that is sent in response to a failed decrypt API call.")) ]);
+          (jo [
+            ("name", (Str "errMessage"));
+            ("title", (Str "Err Message"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The error messge that is sent in response to a failed decrypt API call.")) ]);
           (jo [
             ("name", (Str "firstName"));
             ("title", (Str "First Name"));
             ("type", (Str "`$STRING`"));
+            ("req", (Bool true));
+            ("op", (jo [
+              ("list", (jo [
+                ("type", (Str "`$STRING`")) ]));
+              ("update", (jo [
+                ("type", (Str "`$STRING`")) ])) ]));
             ("short", (Str "The User's name.")) ]);
           (jo [
             ("name", (Str "id"));
@@ -2749,10 +3226,35 @@ let make_config () : value =
             ("type", (Str "`$STRING`"));
             ("short", (Str "ID of newly created resource")) ]);
           (jo [
+            ("name", (Str "injectKey"));
+            ("title", (Str "Inject Key"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated Device resource.")) ]);
+          (jo [
+            ("name", (Str "ipAddress"));
+            ("title", (Str "Ip Address"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The IP address of the http client that makes the decrypt API call.")) ]);
+          (jo [
             ("name", (Str "isActive"));
             ("title", (Str "Is Active"));
             ("type", (Str "`$BOOLEAN`"));
+            ("req", (Bool true));
+            ("op", (jo [
+              ("list", (jo [
+                ("type", (Str "`$BOOLEAN`")) ]));
+              ("update", (jo [
+                ("type", (Str "`$BOOLEAN`")) ])) ]));
             ("short", (Str "This property indicates if the User account is active or disabled.")) ]);
+          (jo [
+            ("name", (Str "items"));
+            ("title", (Str "Items"));
+            ("type", (Str "`$ARRAY`")) ]);
+          (jo [
+            ("name", (Str "keyType"));
+            ("title", (Str "Key Type"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The type of cipher used during decrytion.")) ]);
           (jo [
             ("name", (Str "kif"));
             ("title", (Str "Kif"));
@@ -2762,27 +3264,183 @@ let make_config () : value =
             ("name", (Str "lastName"));
             ("title", (Str "Last Name"));
             ("type", (Str "`$STRING`"));
+            ("req", (Bool true));
+            ("op", (jo [
+              ("list", (jo [
+                ("type", (Str "`$STRING`")) ]));
+              ("update", (jo [
+                ("type", (Str "`$STRING`")) ])) ]));
             ("short", (Str "The User's Surname.")) ]);
+          (jo [
+            ("name", (Str "location"));
+            ("title", (Str "Location"));
+            ("type", (Str "`$OBJECT`"));
+            ("req", (Bool true));
+            ("short", (Str "Reference to the associated Location resource.")) ]);
+          (jo [
+            ("name", (Str "locationType"));
+            ("title", (Str "Location Type"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Location's clasification.")) ]);
+          (jo [
+            ("name", (Str "mailAddress1"));
+            ("title", (Str "Mail Address1"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Location's street address.")) ]);
+          (jo [
+            ("name", (Str "mailAddress2"));
+            ("title", (Str "Mail Address2"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Location's street address.")) ]);
+          (jo [
+            ("name", (Str "mailCity"));
+            ("title", (Str "Mail City"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Location's city.")) ]);
+          (jo [
+            ("name", (Str "mailCountry"));
+            ("title", (Str "Mail Country"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Location's street address.")) ]);
+          (jo [
+            ("name", (Str "mailPostalCode"));
+            ("title", (Str "Mail Postal Code"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Location's postal code.")) ]);
+          (jo [
+            ("name", (Str "mailStateProvince"));
+            ("title", (Str "Mail State Province"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Location's street state or province.")) ]);
+          (jo [
+            ("name", (Str "messageId"));
+            ("title", (Str "Message Id"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Message ID.")) ]);
+          (jo [
+            ("name", (Str "method"));
+            ("title", (Str "Method"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The decryption cypher/method.")) ]);
+          (jo [
+            ("name", (Str "mid"));
+            ("title", (Str "Mid"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Some Partners will have an merchant ids on their own software offerings.")) ]);
+          (jo [
+            ("name", (Str "name"));
+            ("title", (Str "Name"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Client's name.")) ]);
+          (jo [
+            ("name", (Str "nameOfBusiness"));
+            ("title", (Str "Name Of Business"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The name of the business at this location.")) ]);
+          (jo [
+            ("name", (Str "notes"));
+            ("title", (Str "Notes"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Arbitary note that can be attached to a Device entry.")) ]);
+          (jo [
+            ("name", (Str "parent"));
+            ("title", (Str "Parent"));
+            ("type", (Str "`$OBJECT`"));
+            ("short", (Str "Reference to the associated Partner.")) ]);
           (jo [
             ("name", (Str "partner"));
             ("title", (Str "Partner"));
             ("type", (Str "`$OBJECT`"));
             ("short", (Str "Reference to the associated Partner.")) ]);
           (jo [
+            ("name", (Str "partnerId"));
+            ("title", (Str "Partner Id"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Partner's id.")) ]);
+          (jo [
             ("name", (Str "phone"));
             ("title", (Str "Phone"));
             ("type", (Str "`$STRING`"));
+            ("req", (Bool true));
+            ("op", (jo [
+              ("list", (jo [
+                ("type", (Str "`$STRING`")) ]));
+              ("update", (jo [
+                ("type", (Str "`$STRING`")) ])) ]));
             ("short", (Str "The User's phone number without dashes, spaces, or brackets.")) ]);
+          (jo [
+            ("name", (Str "postalCode"));
+            ("title", (Str "Postal Code"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Location's postal code.")) ]);
+          (jo [
+            ("name", (Str "reference"));
+            ("title", (Str "Reference"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Partner's reference string.")) ]);
+          (jo [
+            ("name", (Str "sendWelcomeEmail"));
+            ("title", (Str "Send Welcome Email"));
+            ("type", (Str "`$BOOLEAN`"));
+            ("short", (Str "If this property is set to '*true*' the newly created user will be sent a welcome email.")) ]);
+          (jo [
+            ("name", (Str "serialNumber"));
+            ("title", (Str "Serial Number"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Device's serial number.")) ]);
+          (jo [
+            ("name", (Str "startDate"));
+            ("title", (Str "Start Date"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Timestamp from the beginning of the transaction."));
+            ("format", (Str "datetime")) ]);
+          (jo [
+            ("name", (Str "stateProvince"));
+            ("title", (Str "State Province"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The Location's street state or province.")) ]);
+          (jo [
+            ("name", (Str "success"));
+            ("title", (Str "Success"));
+            ("type", (Str "`$BOOLEAN`"));
+            ("short", (Str "The success indicator.")) ]);
+          (jo [
+            ("name", (Str "tracking"));
+            ("title", (Str "Tracking"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The courier's tracking number.")) ]);
+          (jo [
+            ("name", (Str "uniqueId"));
+            ("title", (Str "Unique Id"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "Unique Identifier for the Location.")) ]);
           (jo [
             ("name", (Str "userName"));
             ("title", (Str "User Name"));
             ("type", (Str "`$STRING`"));
+            ("req", (Bool true));
+            ("op", (jo [
+              ("list", (jo [
+                ("type", (Str "`$STRING`")) ]));
+              ("update", (jo [
+                ("type", (Str "`$STRING`")) ])) ]));
             ("short", (Str "The User's unique username.")) ]);
           (jo [
             ("name", (Str "userRole"));
             ("title", (Str "User Role"));
             ("type", (Str "`$OBJECT`"));
+            ("req", (Bool true));
+            ("op", (jo [
+              ("list", (jo [
+                ("type", (Str "`$OBJECT`")) ]));
+              ("update", (jo [
+                ("type", (Str "`$OBJECT`")) ])) ]));
             ("short", (Str "Reference to the associated User Role.")) ]);
+          (jo [
+            ("name", (Str "verificationPhrase"));
+            ("title", (Str "Verification Phrase"));
+            ("type", (Str "`$STRING`"));
+            ("short", (Str "The verification phrase is a message that the Partner creates.")) ]);
           (jo [
             ("name", (Str "version"));
             ("title", (Str "Version"));
@@ -2811,7 +3469,10 @@ let make_config () : value =
                   ("req", (Str "`reqdata`"));
                   ("res", (Str "`body`")) ]));
                 ("args", (empty_map ()));
-                ("select", (empty_map ())) ]) ])) ]));
+                ("select", (empty_map ()));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ]));
           ("list", (jo [
             ("input", (Str "data"));
             ("name", (Str "list"));
@@ -2835,17 +3496,20 @@ let make_config () : value =
                       ("name", (Str "client"));
                       ("orig", (Str "client"));
                       ("type", (Str "`$STRING`"));
-                      ("kind", (Str "query")) ]);
+                      ("kind", (Str "query"));
+                      ("field", (Bool true)) ]);
                     (jo [
                       ("name", (Str "kif"));
                       ("orig", (Str "kif"));
                       ("type", (Str "`$STRING`"));
-                      ("kind", (Str "query")) ]);
+                      ("kind", (Str "query"));
+                      ("field", (Bool true)) ]);
                     (jo [
                       ("name", (Str "partner"));
                       ("orig", (Str "partner"));
                       ("type", (Str "`$ANY`"));
-                      ("kind", (Str "query")) ]);
+                      ("kind", (Str "query"));
+                      ("field", (Bool true)) ]);
                     (jo [
                       ("name", (Str "skip"));
                       ("orig", (Str "skip"));
@@ -2858,13 +3522,10 @@ let make_config () : value =
                       ("type", (Str "`$INTEGER`"));
                       ("kind", (Str "query"));
                       ("example", (Num (10.))) ]) ])) ]));
-                ("select", (jo [
-                  ("exist", (ja [
-                    (Str "client");
-                    (Str "kif");
-                    (Str "partner");
-                    (Str "skip");
-                    (Str "take") ])) ])) ]) ])) ]));
+                ("select", (empty_map ()));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ]));
           ("update", (jo [
             ("input", (Str "data"));
             ("name", (Str "update"));
@@ -2895,7 +3556,10 @@ let make_config () : value =
                       ("reqd", (Bool true)) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
-                    (Str "id") ])) ])) ]);
+                    (Str "id") ])) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]);
               (jo [
                 ("kind", (Str "http"));
                 ("method", (Str "PATCH"));
@@ -2922,7 +3586,10 @@ let make_config () : value =
                       ("reqd", (Bool true)) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
-                    (Str "id") ])) ])) ]);
+                    (Str "id") ])) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]);
               (jo [
                 ("kind", (Str "http"));
                 ("method", (Str "PATCH"));
@@ -2949,7 +3616,10 @@ let make_config () : value =
                       ("reqd", (Bool true)) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
-                    (Str "id") ])) ])) ]);
+                    (Str "id") ])) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]);
               (jo [
                 ("kind", (Str "http"));
                 ("method", (Str "PATCH"));
@@ -2976,7 +3646,10 @@ let make_config () : value =
                       ("reqd", (Bool true)) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
-                    (Str "id") ])) ])) ]);
+                    (Str "id") ])) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]);
               (jo [
                 ("kind", (Str "http"));
                 ("method", (Str "PATCH"));
@@ -3003,7 +3676,10 @@ let make_config () : value =
                       ("reqd", (Bool true)) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
-                    (Str "id") ])) ])) ]);
+                    (Str "id") ])) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]);
               (jo [
                 ("kind", (Str "http"));
                 ("method", (Str "PATCH"));
@@ -3030,7 +3706,10 @@ let make_config () : value =
                       ("reqd", (Bool true)) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
-                    (Str "id") ])) ])) ]);
+                    (Str "id") ])) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]);
               (jo [
                 ("kind", (Str "http"));
                 ("method", (Str "PATCH"));
@@ -3057,7 +3736,10 @@ let make_config () : value =
                       ("reqd", (Bool true)) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
-                    (Str "id") ])) ])) ]) ])) ])) ]));
+                    (Str "id") ])) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ]));
       ("user", (jo [
@@ -3169,7 +3851,10 @@ let make_config () : value =
                       ("reqd", (Bool true)) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
-                    (Str "id") ])) ])) ]) ])) ]));
+                    (Str "id") ])) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ]));
           ("remove", (jo [
             ("input", (Str "data"));
             ("name", (Str "remove"));
@@ -3250,7 +3935,7 @@ let make_config () : value =
                   ("params", (ja [
                     (jo [
                       ("name", (Str "id"));
-                      ("orig", (Str "share_partner_to"));
+                      ("orig", (Str "sharePartnerTo"));
                       ("type", (Str "`$STRING`"));
                       ("kind", (Str "param"));
                       ("reqd", (Bool true)) ]) ]));
@@ -3263,13 +3948,13 @@ let make_config () : value =
                       ("example", (Num (0.))) ]);
                     (jo [
                       ("name", (Str "sorting_direction"));
-                      ("orig", (Str "sorting_direction"));
+                      ("orig", (Str "sorting.direction"));
                       ("type", (Str "`$STRING`"));
                       ("kind", (Str "query"));
                       ("example", (Str "asc")) ]);
                     (jo [
                       ("name", (Str "sorting_field"));
-                      ("orig", (Str "sorting_field"));
+                      ("orig", (Str "sorting.field"));
                       ("type", (Str "`$STRING`"));
                       ("kind", (Str "query"));
                       ("example", (Str "serialnumber")) ]);
@@ -3281,11 +3966,10 @@ let make_config () : value =
                       ("example", (Num (10.))) ]) ])) ]));
                 ("select", (jo [
                   ("exist", (ja [
-                    (Str "id");
-                    (Str "skip");
-                    (Str "sorting_direction");
-                    (Str "sorting_field");
-                    (Str "take") ])) ])) ]) ])) ])) ]));
+                    (Str "id") ])) ]));
+                ("response", (jo [
+                  ("kind", (Str "json"));
+                  ("media", (Str "application/json")) ])) ]) ])) ])) ]));
         ("relations", (jo [
           ("ancestors", (empty_list ())) ])) ])) ])) ])
 

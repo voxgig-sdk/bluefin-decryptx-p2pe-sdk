@@ -9,7 +9,7 @@ import { createLiveTransport } from '../../live-runner'
 import { runLiveEntity } from '../../live-entity'
 
 
-import { BluefinDecryptxP2peSDK, BaseFeature, stdutil } from '../../..'
+import { BluefinDecryptxP2peSDK, BaseFeature, config, stdutil } from '../../..'
 
 import {
   envOverride,
@@ -41,6 +41,18 @@ describe('UserEntity', async () => {
   })
 
 
+  test('validate', async (t) => {
+    if (null == (config as any).feature?.validate) {
+      t.skip('feature not present in this SDK: validate')
+      return
+    }
+    const client = BluefinDecryptxP2peSDK.test(undefined, { feature: { validate: { active: true } } })
+    await assert.rejects(client.User().load({"id":1} as any),
+      (err: any) => 'validate_failed' === err.code)
+  })
+
+
+
   test('basic', async (t) => {
 
     const live = 'TRUE' === process.env.BLUEFIN_DECRYPTX_P2PE_TEST_LIVE
@@ -51,7 +63,7 @@ describe('UserEntity', async () => {
     
     const setup = basicSetup()
     if (setup.live) {
-      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"client":{"a":true,"h":"Client","n":"client","r":false,"sh":"Reference to the associated Client resource.","t":"`$OBJECT`","key$":"client","index$":0},"created":{"a":true,"fo":"datetime","h":"Created","n":"created","r":false,"sh":"Creation timestamp in ISO 8601 format.","t":"`$STRING`","key$":"created","index$":1},"email":{"a":true,"h":"Email","n":"email","r":false,"sh":"The User's email address.","t":"`$STRING`","key$":"email","index$":2},"firstName":{"a":true,"h":"First Name","n":"firstName","r":false,"sh":"The User's name.","t":"`$STRING`","key$":"firstName","index$":3},"id":{"a":true,"h":"Id","n":"id","r":false,"sh":"This resource's unique identifier.","t":"`$STRING`","key$":"id","index$":4},"isActive":{"a":true,"h":"Is Active","n":"isActive","r":false,"sh":"This property indicates if the User account is active or disabled.","t":"`$BOOLEAN`","key$":"isActive","index$":5},"kif":{"a":true,"h":"Kif","n":"kif","r":false,"sh":"Reference to the associated KIF resource.","t":"`$OBJECT`","key$":"kif","index$":6},"lastName":{"a":true,"h":"Last Name","n":"lastName","r":false,"sh":"The User's Surname.","t":"`$STRING`","key$":"lastName","index$":7},"modified":{"a":true,"fo":"datetime","h":"Modified","n":"modified","r":false,"sh":"Last modified timestamp.","t":"`$STRING`","key$":"modified","index$":8},"partner":{"a":true,"h":"Partner","n":"partner","r":false,"sh":"Reference to the associated Partner.","t":"`$OBJECT`","key$":"partner","index$":9},"phone":{"a":true,"h":"Phone","n":"phone","r":false,"sh":"The User's phone number without dashes, spaces, or brackets.","t":"`$STRING`","key$":"phone","index$":10},"userName":{"a":true,"h":"User Name","n":"userName","r":false,"sh":"The User's unique username.","t":"`$STRING`","key$":"userName","index$":11},"userRole":{"a":true,"h":"User Role","n":"userRole","r":false,"sh":"Reference to the associated User Role.","t":"`$OBJECT`","key$":"userRole","index$":12},"version":{"a":true,"h":"Version","n":"version","r":false,"sh":"The number of times that this resource has been updated.","t":"`$INTEGER`","key$":"version","index$":13}},"id":{"field":"id","name":"id"},"name":"user","op":{"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /users/{id}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"id","r":true,"t":"`$STRING`","index$":0}]},"k":"http","m":"GET","o":"/users/{id}","q":{"exist":["id"]},"r":{},"s":[{"lit":"users"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"load"},"remove":{"input":"data","name":"remove","points":[{"a":true,"co":{"id":"DELETE /users/{id}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"id","r":true,"t":"`$STRING`","index$":0}]},"k":"http","m":"DELETE","o":"/users/{id}","q":{"exist":["id"]},"r":{},"s":[{"lit":"users"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"remove"}},"relations":{"ancestors":[]},"key$":"user","name__orig":"user","Name":"User","name_":"user","name-":"user","NAME":"USER","index$":20}, {"active":true,"entity":"user","key$":"BasicUserFlow","kind":"basic","name":"BasicUserFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"user_ref01","srcdatavar":"user_ref01_data","suffix":"_dt0"},"m":{"id":"user01"},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-user_ref01"}}],"index$":0}]}, 'User', {"GET /users/{id}":{"protocol":"http","parameters":[{"name":"id","in":"path","description":"The User's unique identifier.","required":true,"schema":{"type":"string"},"index$":0}]},"DELETE /users/{id}":{"protocol":"http","parameters":[{"name":"id","in":"path","description":"The unique identifier of the User to delete.","required":true,"schema":{"type":"string"},"index$":0}]}})
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"client":{"a":true,"h":"Client","n":"client","r":false,"sh":"Reference to the associated Client resource.","t":"`$OBJECT`","key$":"client","index$":0},"created":{"a":true,"fo":"datetime","h":"Created","n":"created","r":false,"sh":"Creation timestamp in ISO 8601 format.","t":"`$STRING`","key$":"created","index$":1},"email":{"a":true,"h":"Email","n":"email","r":false,"sh":"The User's email address.","t":"`$STRING`","key$":"email","index$":2},"firstName":{"a":true,"h":"First Name","n":"firstName","r":false,"sh":"The User's name.","t":"`$STRING`","key$":"firstName","index$":3},"id":{"a":true,"h":"Id","n":"id","r":false,"sh":"This resource's unique identifier.","t":"`$STRING`","key$":"id","index$":4},"isActive":{"a":true,"h":"Is Active","n":"isActive","r":false,"sh":"This property indicates if the User account is active or disabled.","t":"`$BOOLEAN`","key$":"isActive","index$":5},"kif":{"a":true,"h":"Kif","n":"kif","r":false,"sh":"Reference to the associated KIF resource.","t":"`$OBJECT`","key$":"kif","index$":6},"lastName":{"a":true,"h":"Last Name","n":"lastName","r":false,"sh":"The User's Surname.","t":"`$STRING`","key$":"lastName","index$":7},"modified":{"a":true,"fo":"datetime","h":"Modified","n":"modified","r":false,"sh":"Last modified timestamp.","t":"`$STRING`","key$":"modified","index$":8},"partner":{"a":true,"h":"Partner","n":"partner","r":false,"sh":"Reference to the associated Partner.","t":"`$OBJECT`","key$":"partner","index$":9},"phone":{"a":true,"h":"Phone","n":"phone","r":false,"sh":"The User's phone number without dashes, spaces, or brackets.","t":"`$STRING`","key$":"phone","index$":10},"userName":{"a":true,"h":"User Name","n":"userName","r":false,"sh":"The User's unique username.","t":"`$STRING`","key$":"userName","index$":11},"userRole":{"a":true,"h":"User Role","n":"userRole","r":false,"sh":"Reference to the associated User Role.","t":"`$OBJECT`","key$":"userRole","index$":12},"version":{"a":true,"h":"Version","n":"version","r":false,"sh":"The number of times that this resource has been updated.","t":"`$INTEGER`","key$":"version","index$":13}},"id":{"field":"id","name":"id"},"name":"user","op":{"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /users/{id}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"id","r":true,"t":"`$STRING`","index$":0}]},"k":"http","m":"GET","o":"/users/{id}","q":{"exist":["id"]},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"users"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"load"},"remove":{"input":"data","name":"remove","points":[{"a":true,"co":{"id":"DELETE /users/{id}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"id","r":true,"t":"`$STRING`","index$":0}]},"k":"http","m":"DELETE","o":"/users/{id}","q":{"exist":["id"]},"r":{},"s":[{"lit":"users"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"remove"}},"relations":{"ancestors":[]},"key$":"user","name__orig":"user","Name":"User","name_":"user","name-":"user","NAME":"USER","index$":20}, {"active":true,"entity":"user","key$":"BasicUserFlow","kind":"basic","name":"BasicUserFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"user_ref01","srcdatavar":"user_ref01_data","suffix":"_dt0"},"m":{"id":"user01"},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-user_ref01"}}],"index$":0}]}, 'User', {"GET /users/{id}":{"protocol":"http","parameters":[{"name":"id","in":"path","description":"The User's unique identifier.","required":true,"schema":{"type":"string"},"index$":0}]},"DELETE /users/{id}":{"protocol":"http","parameters":[{"name":"id","in":"path","description":"The unique identifier of the User to delete.","required":true,"schema":{"type":"string"},"index$":0}]}}, { strict: LIVE_STRICT, t })
     }
     const client = setup.client
     const struct = setup.struct
@@ -73,6 +85,12 @@ describe('UserEntity', async () => {
 })
 
 
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true
 
 function basicSetup(extra?: any) {
   // TODO: fix test def options

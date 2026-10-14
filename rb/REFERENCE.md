@@ -182,32 +182,48 @@ attestation = client.Attestation
 | `completeDate` | `String` | No | The date and time that the Attestation took place. |
 | `created` | `String` | No | Creation timestamp in ISO 8601 format. |
 | `device` | `Hash` | No | Reference to the associated Device resource. |
+| `devices` | `Array` | Yes |  |
 | `id` | `String` | No | This resource's unique identifier. |
 | `name` | `String` | No | Text describing the attestation. |
 | `notes` | `String` | No | Free form field that allows the Client associate notes with the Attestation. |
+
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `client` | - | - | Yes |
+| `completeDate` | - | - | Yes |
+| `created` | - | - | - |
+| `device` | - | - | - |
+| `devices` | - | - | - |
+| `id` | - | - | - |
+| `name` | - | - | Yes |
+| `notes` | - | - | - |
 
 ### Operations
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.Attestation.create({
+  "devices" => [], # Array
 })
 ```
 
 #### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
 
 ```ruby
-results = client.Attestation.list
+results = client.Attestation.list({ "client" => "example" })
+results.each { |item| puts item.data_get }
 ```
 
 #### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria. Raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
 result = client.Attestation.load({ "id" => "attestation_id" })
@@ -269,15 +285,15 @@ client_ = client.Client
 
 | Field | load | list | create | remove |
 | --- | --- | --- | --- | --- |
-| `contact` | - | Yes | - | - |
+| `contact` | - | Yes | Yes | - |
 | `created` | - | - | - | - |
-| `directPartner` | - | - | - | - |
+| `directPartner` | - | - | Yes | - |
 | `id` | - | - | - | - |
 | `isActive` | - | - | - | - |
 | `location` | - | - | - | - |
 | `mid` | - | - | - | - |
 | `modified` | - | - | - | - |
-| `name` | - | - | - | - |
+| `name` | - | - | Yes | - |
 | `partner` | - | - | - | - |
 | `version` | - | - | - | - |
 
@@ -285,7 +301,7 @@ client_ = client.Client
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.Client.create({
@@ -295,15 +311,16 @@ result = client.Client.create({
 
 #### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
 
 ```ruby
-results = client.Client.list
+results = client.Client.list({ "partner" => "example" })
+results.each { |item| puts item.data_get }
 ```
 
 #### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria. Raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
 result = client.Client.load({ "id" => "client_id" })
@@ -311,7 +328,7 @@ result = client.Client.load({ "id" => "client_id" })
 
 #### `remove(reqmatch, ctrl = nil) -> result`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```ruby
 result = client.Client.remove({ "id" => "client_id" })
@@ -353,16 +370,27 @@ Return the entity name.
 create_result = client.CreateResult
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `completeDate` | `String` | No | The date and time that the Custody change took place. |
+| `custodian` | `Hash` | Yes | Reference to the associated User resource. |
+| `location` | `Hash` | Yes | Reference to the associated Location resource. |
+| `notes` | `String` | No | Free form field that allows the Client associate notes with the Custody Change. |
+
 ### Operations
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.CreateResult.create({
   "device_type" => "example_device_type", # String
   "serial_number" => "example_serial_number", # String
+  "custodian" => {}, # Hash
+  "location" => {}, # Hash
 })
 ```
 
@@ -406,16 +434,27 @@ decryption = client.Decryption
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `cbcVector` | `String` | No | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | `String` | Yes | The device Type. |
+| `encoding` | `String` | No | The payload encoding |
+| `encrypted` | `Array` | Yes |  |
+| `hasCcData` | `String` | No | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | `String` | No | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | `String` | No | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | `String` | Yes | The serial number of the device. |
 | `success` | `Boolean` | No | true if the payload decryption was successful. |
 
 ### Operations
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.Decryption.create({
+  "deviceType" => "example_deviceType", # String
+  "encrypted" => [], # Array
+  "serialNumber" => "example_serialNumber", # String
 })
 ```
 
@@ -488,11 +527,44 @@ device = client.Device
 | `serialNumber` | `String` | No | The Device's serial number. |
 | `version` | `Integer` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `activatedBy` | - | - | - |
+| `activationDate` | - | - | - |
+| `alternateKey` | - | - | - |
+| `auditNextDate` | - | - | - |
+| `auditNotificationDate` | - | - | - |
+| `client` | - | - | - |
+| `created` | - | - | - |
+| `createdBy` | - | - | - |
+| `deviceBuild` | - | - | - |
+| `deviceState` | - | - | - |
+| `deviceType` | - | - | Yes |
+| `errorCounter` | - | - | - |
+| `errorLastDate` | - | - | - |
+| `id` | - | - | - |
+| `initializedBy` | - | - | - |
+| `initializedDate` | - | - | - |
+| `injectKey` | - | - | - |
+| `isVirtual` | - | - | - |
+| `kif` | - | - | Yes |
+| `lastActivityDate` | - | - | - |
+| `location` | - | - | - |
+| `modified` | - | - | - |
+| `modifiedBy` | - | - | - |
+| `name` | - | - | - |
+| `notes` | - | - | - |
+| `partner` | - | - | - |
+| `serialNumber` | - | - | Yes |
+| `version` | - | - | - |
+
 ### Operations
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.Device.create({
@@ -506,15 +578,16 @@ result = client.Device.create({
 
 #### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
 
 ```ruby
 results = client.Device.list
+results.each { |item| puts item.data_get }
 ```
 
 #### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria. Raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
 result = client.Device.load({ "id" => "device_id" })
@@ -580,15 +653,16 @@ device_build = client.DeviceBuild
 
 #### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
 
 ```ruby
 results = client.DeviceBuild.list
+results.each { |item| puts item.data_get }
 ```
 
 #### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria. Raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
 result = client.DeviceBuild.load({ "id" => "device_build_id" })
@@ -652,7 +726,7 @@ device_custody_detail = client.DeviceCustodyDetail
 
 #### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria. Raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
 result = client.DeviceCustodyDetail.load({ "id" => "device_custody_detail_id", "device_type" => "device_type", "serial_number" => "serial_number" })
@@ -716,10 +790,11 @@ device_custody_list_item = client.DeviceCustodyListItem
 
 #### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
 
 ```ruby
-results = client.DeviceCustodyListItem.list
+results = client.DeviceCustodyListItem.list({ "device_type" => "example", "serial_number" => "example" })
+results.each { |item| puts item.data_get }
 ```
 
 ### Common Methods
@@ -762,17 +837,21 @@ device_receive_result = client.DeviceReceiveResult
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `serialNumber` | `String` | Yes | The serial number of the Device that is shipped. |
 | `success` | `Boolean` | Yes | Indicates if the action succeeded. |
+| `tamperLabel` | `String` | Yes | The code that is printed the tamper label of the Device that is shipped. |
 
 ### Operations
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.DeviceReceiveResult.create({
+  "serialNumber" => "example_serialNumber", # String
   "success" => true, # Boolean
+  "tamperLabel" => "example_tamperLabel", # String
 })
 ```
 
@@ -816,16 +895,25 @@ device_rki_activate_result = client.DeviceRkiActivateResult
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `appVersion` | `String` | No | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | `String` | No | The Device Builds's name. |
+| `buildNumber` | `String` | No | The Build Number. |
+| `configFile` | `String` | No | \? |
+| `firmwareVersion` | `String` | No | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `String` | No | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | `String` | Yes | The referenced Device's serial number. |
 | `success` | `Boolean` | Yes | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | `String` | No | \? |
 
 ### Operations
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.DeviceRkiActivateResult.create({
+  "serialNumber" => "example_serialNumber", # String
   "success" => true, # Boolean
 })
 ```
@@ -877,10 +965,11 @@ device_state = client.DeviceState
 
 #### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
 
 ```ruby
 results = client.DeviceState.list
+results.each { |item| puts item.data_get }
 ```
 
 ### Common Methods
@@ -940,15 +1029,16 @@ device_type = client.DeviceType
 
 #### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
 
 ```ruby
 results = client.DeviceType.list
+results.each { |item| puts item.data_get }
 ```
 
 #### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria. Raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
 result = client.DeviceType.load({ "id" => "device_type_id" })
@@ -1007,15 +1097,16 @@ inject_key = client.InjectKey
 
 #### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
 
 ```ruby
 results = client.InjectKey.list
+results.each { |item| puts item.data_get }
 ```
 
 #### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria. Raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
 result = client.InjectKey.load({ "id" => "inject_key_id" })
@@ -1068,10 +1159,11 @@ kif = client.Kif
 
 #### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
 
 ```ruby
 results = client.Kif.list
+results.each { |item| puts item.data_get }
 ```
 
 ### Common Methods
@@ -1118,6 +1210,7 @@ location = client.Location
 | `address2` | `String` | No | The Location's street address. |
 | `billingId` | `String` | No | \? |
 | `city` | `String` | No | The Location's city. |
+| `client` | `Hash` | No | Reference to the associated Client resource. |
 | `country` | `String` | No | The Location's country. |
 | `created` | `String` | No | Creation timestamp in ISO 8601 format. |
 | `customReference` | `String` | No | A Partner specified reference for a location. |
@@ -1138,11 +1231,40 @@ location = client.Location
 | `uniqueId` | `String` | No | Unique Identifier for the Location. |
 | `version` | `Integer` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create | remove |
+| --- | --- | --- | --- | --- |
+| `address1` | - | - | Yes | - |
+| `address2` | - | - | - | - |
+| `billingId` | - | - | - | - |
+| `city` | - | - | Yes | - |
+| `client` | - | - | - | - |
+| `country` | - | - | Yes | - |
+| `created` | - | - | - | - |
+| `customReference` | - | - | - | - |
+| `id` | - | - | - | - |
+| `locationType` | - | - | Yes | - |
+| `mailAddress1` | - | - | - | - |
+| `mailAddress2` | - | - | - | - |
+| `mailCity` | - | - | - | - |
+| `mailCountry` | - | - | - | - |
+| `mailPostalCode` | - | - | - | - |
+| `mailStateProvince` | - | - | - | - |
+| `modified` | - | - | - | - |
+| `name` | - | - | Yes | - |
+| `nameOfBusiness` | - | - | - | - |
+| `notes` | - | - | - | - |
+| `postalCode` | - | - | - | - |
+| `stateProvince` | - | - | - | - |
+| `uniqueId` | - | - | - | - |
+| `version` | - | - | - | - |
+
 ### Operations
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.Location.create({
@@ -1151,15 +1273,16 @@ result = client.Location.create({
 
 #### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
 
 ```ruby
-results = client.Location.list
+results = client.Location.list({ "client" => "example" })
+results.each { |item| puts item.data_get }
 ```
 
 #### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria. Raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
 result = client.Location.load({ "id" => "location_id" })
@@ -1167,7 +1290,7 @@ result = client.Location.load({ "id" => "location_id" })
 
 #### `remove(reqmatch, ctrl = nil) -> result`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```ruby
 result = client.Location.remove({ "id" => "location_id" })
@@ -1234,16 +1357,16 @@ partner = client.Partner
 | --- | --- | --- | --- |
 | `billingId` | - | - | - |
 | `clientCanOrderEquipment` | - | - | - |
-| `contact` | - | Yes | - |
+| `contact` | - | Yes | Yes |
 | `created` | - | - | - |
 | `id` | - | - | - |
 | `isActive` | - | - | - |
 | `location` | - | - | - |
 | `modified` | - | - | - |
-| `name` | - | - | - |
-| `parent` | - | - | - |
+| `name` | - | - | Yes |
+| `parent` | - | - | Yes |
 | `partnerId` | - | - | - |
-| `reference` | - | - | - |
+| `reference` | - | - | Yes |
 | `verificationPhrase` | - | - | - |
 | `version` | - | - | - |
 
@@ -1251,7 +1374,7 @@ partner = client.Partner
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.Partner.create({
@@ -1261,15 +1384,16 @@ result = client.Partner.create({
 
 #### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
 
 ```ruby
 results = client.Partner.list
+results.each { |item| puts item.data_get }
 ```
 
 #### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria. Raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
 result = client.Partner.load({ "id" => "partner_id" })
@@ -1324,34 +1448,57 @@ shipment = client.Shipment
 | `id` | `String` | No | This resource's unique identifier. |
 | `items` | `Array` | No |  |
 | `kif` | `Hash` | No | Reference to the associated KIF resource. |
+| `location` | `Hash` | Yes | Reference to the associated Location resource. |
 | `modified` | `String` | No | Last modified timestamp. |
 | `partner` | `Hash` | No | Reference to the associated Partner. |
 | `shipmentType` | `String` | No | The type of shipment. |
 | `tracking` | `String` | No | The courier's tracking number. |
 | `version` | `Integer` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `carrier` | - | - | Yes |
+| `client` | - | - | Yes |
+| `created` | - | - | - |
+| `dateReceived` | - | - | - |
+| `dateShipped` | - | - | Yes |
+| `dcKif` | - | - | - |
+| `id` | - | - | - |
+| `items` | - | - | Yes |
+| `kif` | - | - | Yes |
+| `location` | - | - | - |
+| `modified` | - | - | - |
+| `partner` | - | - | Yes |
+| `shipmentType` | - | - | - |
+| `tracking` | - | - | Yes |
+| `version` | - | - | - |
+
 ### Operations
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.Shipment.create({
+  "location" => {}, # Hash
 })
 ```
 
 #### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
 
 ```ruby
-results = client.Shipment.list
+results = client.Shipment.list({ "kif" => "example" })
+results.each { |item| puts item.data_get }
 ```
 
 #### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria. Raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
 result = client.Shipment.load({ "id" => "shipment_id" })
@@ -1397,23 +1544,27 @@ success = client.Success
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `devices` | `Array` | Yes | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | `Hash` | Yes | Reference to the associated Partner. |
 | `success` | `Boolean` | No | Indicates if the action was a success. |
 
 ### Operations
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.Success.create({
   "share_partner_to" => "example_share_partner_to", # String
+  "devices" => [], # Array
+  "sharePartnerFrom" => {}, # Hash
 })
 ```
 
 #### `remove(reqmatch, ctrl = nil) -> result`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```ruby
 result = client.Success.remove({ "share_partner_to" => "share_partner_to" })
@@ -1464,6 +1615,7 @@ transaction = client.Transaction
 | `clientRef` | `String` | No | Client Reference property that is included in the decrypt API call. |
 | `created` | `String` | No | Creation timestamp in ISO 8601 format. |
 | `decrypted` | `Integer` | No | A Transcation can process muliple decryptions. |
+| `device` | `Hash` | Yes | Reference to the associated Device resource. |
 | `deviceName` | `String` | No | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | `Hash` | No | Reference to the associated Partner. |
 | `encrypted` | `Integer` | No | A Transcation can process muliple encryptions. |
@@ -1484,29 +1636,61 @@ transaction = client.Transaction
 | `success` | `Boolean` | No | The success indicator. |
 | `transactionSource` | `String` | No | The source of the Transaction. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `alternateKey` | - | - | - |
+| `client` | - | - | Yes |
+| `clientRef` | - | - | - |
+| `created` | - | - | - |
+| `decrypted` | - | - | - |
+| `device` | - | - | - |
+| `deviceName` | - | - | - |
+| `directPartner` | - | - | - |
+| `encrypted` | - | - | - |
+| `endDate` | - | - | - |
+| `errCode` | - | - | - |
+| `errMessage` | - | - | - |
+| `id` | - | - | - |
+| `ipAddress` | - | - | Yes |
+| `isVirtual` | - | - | - |
+| `keyType` | - | - | Yes |
+| `location` | - | - | - |
+| `messageId` | - | - | - |
+| `method` | - | - | Yes |
+| `partner` | - | - | Yes |
+| `reference` | - | - | - |
+| `serialNumber` | - | - | - |
+| `startDate` | - | - | - |
+| `success` | - | - | - |
+| `transactionSource` | - | - | - |
+
 ### Operations
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.Transaction.create({
+  "device" => {}, # Hash
   "location" => {}, # Hash
 })
 ```
 
 #### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
 
 ```ruby
 results = client.Transaction.list
+results.each { |item| puts item.data_get }
 ```
 
 #### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria. Raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
 result = client.Transaction.load({ "id" => "transaction_id" })
@@ -1552,41 +1736,170 @@ update_result = client.UpdateResult
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `address1` | `String` | No | The Location's street address. |
+| `address2` | `String` | No | The Location's street address. |
+| `alternateKey` | `String` | No | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `String` | No | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | `String` | No | \? |
+| `city` | `String` | No | The Location's city. |
 | `client` | `Hash` | No | Reference to the associated Client resource. |
-| `email` | `String` | No | The User's email address. |
-| `firstName` | `String` | No | The User's name. |
+| `clientCanOrderEquipment` | `Boolean` | No | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | `String` | No | Client Reference property that is included in the decrypt API call. |
+| `contact` | `Hash` | Yes | Reference to the associated User resource. |
+| `country` | `Hash` | No | Reference to the associated Country. |
+| `customReference` | `String` | No | A Partner specified reference for a location. |
+| `dateShipped` | `String` | No | The date and time that a package is shipped. |
+| `decrypted` | `Integer` | No | A Transcation can process muliple decryptions. |
+| `device` | `Hash` | No | Reference to the associated Device resource. |
+| `deviceBuild` | `Hash` | No | Reference to the associated Device Build resource. |
+| `deviceType` | `Hash` | No | Reference to the associated Device Type resource. |
+| `directPartner` | `Hash` | No | Reference to the associated Partner. |
+| `email` | `String` | Yes | The User's email address. |
+| `encrypted` | `Integer` | No | A Transcation can process muliple encryptions. |
+| `endDate` | `String` | No | Timestamp from the end of the transaction. |
+| `errCode` | `String` | No | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `String` | No | The error messge that is sent in response to a failed decrypt API call. |
+| `firstName` | `String` | Yes | The User's name. |
 | `id` | `String` | No | ID of newly created resource |
-| `isActive` | `Boolean` | No | This property indicates if the User account is active or disabled. |
+| `injectKey` | `Hash` | No | Reference to the associated Device resource. |
+| `ipAddress` | `String` | No | The IP address of the http client that makes the decrypt API call. |
+| `isActive` | `Boolean` | Yes | This property indicates if the User account is active or disabled. |
+| `items` | `Array` | No |  |
+| `keyType` | `String` | No | The type of cipher used during decrytion. |
 | `kif` | `Hash` | No | Reference to the associated KIF resource. |
-| `lastName` | `String` | No | The User's Surname. |
+| `lastName` | `String` | Yes | The User's Surname. |
+| `location` | `Hash` | Yes | Reference to the associated Location resource. |
+| `locationType` | `String` | No | The Location's clasification. |
+| `mailAddress1` | `String` | No | The Location's street address. |
+| `mailAddress2` | `String` | No | The Location's street address. |
+| `mailCity` | `String` | No | The Location's city. |
+| `mailCountry` | `String` | No | The Location's street address. |
+| `mailPostalCode` | `String` | No | The Location's postal code. |
+| `mailStateProvince` | `String` | No | The Location's street state or province. |
+| `messageId` | `String` | No | Message ID. |
+| `method` | `String` | No | The decryption cypher/method. |
+| `mid` | `String` | No | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | `String` | No | The Client's name. |
+| `nameOfBusiness` | `String` | No | The name of the business at this location. |
+| `notes` | `String` | No | Arbitary note that can be attached to a Device entry. |
+| `parent` | `Hash` | No | Reference to the associated Partner. |
 | `partner` | `Hash` | No | Reference to the associated Partner. |
-| `phone` | `String` | No | The User's phone number without dashes, spaces, or brackets. |
-| `userName` | `String` | No | The User's unique username. |
-| `userRole` | `Hash` | No | Reference to the associated User Role. |
+| `partnerId` | `String` | No | The Partner's id. |
+| `phone` | `String` | Yes | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | `String` | No | The Location's postal code. |
+| `reference` | `String` | No | The Partner's reference string. |
+| `sendWelcomeEmail` | `Boolean` | No | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | `String` | No | The Device's serial number. |
+| `startDate` | `String` | No | Timestamp from the beginning of the transaction. |
+| `stateProvince` | `String` | No | The Location's street state or province. |
+| `success` | `Boolean` | No | The success indicator. |
+| `tracking` | `String` | No | The courier's tracking number. |
+| `uniqueId` | `String` | No | Unique Identifier for the Location. |
+| `userName` | `String` | Yes | The User's unique username. |
+| `userRole` | `Hash` | Yes | Reference to the associated User Role. |
+| `verificationPhrase` | `String` | No | The verification phrase is a message that the Partner creates. |
 | `version` | `Integer` | No | The number of times that this resource has been updated. |
+
+### Field Usage by Operation
+
+| Field | list | create | update |
+| --- | --- | --- | --- |
+| `address1` | - | - | - |
+| `address2` | - | - | - |
+| `alternateKey` | - | - | - |
+| `auditNextDate` | - | - | - |
+| `billingId` | - | - | - |
+| `city` | - | - | - |
+| `client` | - | - | - |
+| `clientCanOrderEquipment` | - | - | - |
+| `clientRef` | - | - | - |
+| `contact` | - | - | - |
+| `country` | - | - | - |
+| `customReference` | - | - | - |
+| `dateShipped` | - | - | - |
+| `decrypted` | - | - | - |
+| `device` | - | - | - |
+| `deviceBuild` | - | - | - |
+| `deviceType` | - | - | - |
+| `directPartner` | - | - | - |
+| `email` | Yes | - | Yes |
+| `encrypted` | - | - | - |
+| `endDate` | - | - | - |
+| `errCode` | - | - | - |
+| `errMessage` | - | - | - |
+| `firstName` | Yes | - | Yes |
+| `id` | - | - | - |
+| `injectKey` | - | - | - |
+| `ipAddress` | - | - | - |
+| `isActive` | Yes | - | Yes |
+| `items` | - | - | - |
+| `keyType` | - | - | - |
+| `kif` | - | - | - |
+| `lastName` | Yes | - | Yes |
+| `location` | - | - | - |
+| `locationType` | - | - | - |
+| `mailAddress1` | - | - | - |
+| `mailAddress2` | - | - | - |
+| `mailCity` | - | - | - |
+| `mailCountry` | - | - | - |
+| `mailPostalCode` | - | - | - |
+| `mailStateProvince` | - | - | - |
+| `messageId` | - | - | - |
+| `method` | - | - | - |
+| `mid` | - | - | - |
+| `name` | - | - | - |
+| `nameOfBusiness` | - | - | - |
+| `notes` | - | - | - |
+| `parent` | - | - | - |
+| `partner` | - | - | - |
+| `partnerId` | - | - | - |
+| `phone` | Yes | - | Yes |
+| `postalCode` | - | - | - |
+| `reference` | - | - | - |
+| `sendWelcomeEmail` | - | - | - |
+| `serialNumber` | - | - | - |
+| `startDate` | - | - | - |
+| `stateProvince` | - | - | - |
+| `success` | - | - | - |
+| `tracking` | - | - | - |
+| `uniqueId` | - | - | - |
+| `userName` | Yes | - | Yes |
+| `userRole` | Yes | - | Yes |
+| `verificationPhrase` | - | - | - |
+| `version` | - | - | - |
 
 ### Operations
 
 #### `create(reqdata, ctrl = nil) -> result`
 
-Create a new entity with the given data. Raises on error.
+Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
 result = client.UpdateResult.create({
+  "contact" => {}, # Hash
+  "email" => "example_email", # String
+  "firstName" => "example_firstName", # String
+  "isActive" => true, # Boolean
+  "lastName" => "example_lastName", # String
+  "location" => {}, # Hash
+  "phone" => "example_phone", # String
+  "userName" => "example_userName", # String
+  "userRole" => {}, # Hash
 })
 ```
 
 #### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
 
 ```ruby
 results = client.UpdateResult.list
+results.each { |item| puts item.data_get }
 ```
 
 #### `update(reqdata, ctrl = nil) -> result`
 
-Update an existing entity. The data must include the entity `id`. Raises on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
 
 ```ruby
 result = client.UpdateResult.update({
@@ -1654,7 +1967,7 @@ user = client.User
 
 #### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria. Raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
 result = client.User.load({ "id" => "user_id" })
@@ -1662,7 +1975,7 @@ result = client.User.load({ "id" => "user_id" })
 
 #### `remove(reqmatch, ctrl = nil) -> result`
 
-Remove the entity matching the given criteria. Raises on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and raises on error.
 
 ```ruby
 result = client.User.remove({ "id" => "user_id" })
@@ -1716,7 +2029,7 @@ virtual_device = client.VirtualDevice
 
 #### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria. Raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
 result = client.VirtualDevice.load({ "id" => "virtual_device_id" })
@@ -2173,6 +2486,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

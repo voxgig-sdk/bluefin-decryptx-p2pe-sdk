@@ -26,7 +26,7 @@ class SuccessEntity extends BluefinDecryptxP2peEntityBase {
   /**
    * @param {SuccessCreateData} [reqdata]
    * @param {Object} [ctrl]
-   * @returns {Promise<Success>}
+   * @returns {Promise<SuccessEntity>}
    */
   async create(reqdata, ctrl) {
 
@@ -126,9 +126,15 @@ class SuccessEntity extends BluefinDecryptxP2peEntityBase {
       return (ctx.result && ctx.result.ok) ? this : out
     }
     catch (err) {
+      // What a hook throws here must not escape the cleaning below.
+      try {
 
-      fres = featureHook(ctx, 'PreUnexpected')
-      if (fres instanceof Promise) { await fres }
+        fres = featureHook(ctx, 'PreUnexpected')
+        if (fres instanceof Promise) { await fres }
+      }
+      catch (hookerr) {
+        err = hookerr
+      }
 
       err = this._unexpected(ctx, err)
 
@@ -144,10 +150,11 @@ class SuccessEntity extends BluefinDecryptxP2peEntityBase {
 
 
 
+
   /**
    * @param {SuccessRemoveMatch} [reqmatch]
    * @param {Object} [ctrl]
-   * @returns {Promise<Success>}
+   * @returns {Promise<SuccessEntity>}
    */
   async remove(reqmatch, ctrl) {
 
@@ -259,9 +266,15 @@ class SuccessEntity extends BluefinDecryptxP2peEntityBase {
       return out
     }
     catch (err) {
+      // What a hook throws here must not escape the cleaning below.
+      try {
 
-      fres = featureHook(ctx, 'PreUnexpected')
-      if (fres instanceof Promise) { await fres }
+        fres = featureHook(ctx, 'PreUnexpected')
+        if (fres instanceof Promise) { await fres }
+      }
+      catch (hookerr) {
+        err = hookerr
+      }
 
       err = this._unexpected(ctx, err)
 

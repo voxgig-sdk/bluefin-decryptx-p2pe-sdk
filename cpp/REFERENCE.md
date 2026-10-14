@@ -179,38 +179,54 @@ auto attestation = client->attestation();
 | `completeDate` | `std::string` | No | The date and time that the Attestation took place. |
 | `created` | `std::string` | No | Creation timestamp in ISO 8601 format. |
 | `device` | `std::map<std::string, Value>` | No | Reference to the associated Device resource. |
+| `devices` | `std::vector<Value>` | Yes |  |
 | `id` | `std::string` | No | This resource's unique identifier. |
 | `name` | `std::string` | No | Text describing the attestation. |
 | `notes` | `std::string` | No | Free form field that allows the Client associate notes with the Attestation. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `client` | - | - | Yes |
+| `completeDate` | - | - | Yes |
+| `created` | - | - | - |
+| `device` | - | - | - |
+| `devices` | - | - | - |
+| `id` | - | - | - |
+| `name` | - | - | Yes |
+| `notes` | - | - | - |
+
 ### Operations
 
-#### `create(reqdata, ctrl) -> Value`
+#### `create(reqdata, ctrl) -> SdkEntityPtr`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```cpp
-Value result = client->attestation()->create(vmap({
+SdkEntityPtr result = client->attestation()->create(vmap({
+    {"devices", vlist()},  // std::vector<Value>
 }), Value::undef());
 ```
 
-#### `list(reqmatch, ctrl) -> Value`
+#### `list(reqmatch, ctrl) -> std::vector<SdkEntityPtr>`
 
-List entities matching the given criteria. The match is optional — pass `Value::undef()` to list all records. Returns a Value list and throws on error.
+List entities matching the given criteria. The match is optional — pass `Value::undef()` to list all records. Returns one entity per record and throws on error.
 
 ```cpp
-Value results = client->attestation()->list(Value::undef(), Value::undef());
-for (const auto& attestation : *results.as_list()) {
-  std::cout << Struct::jsonify(attestation) << std::endl;
+std::vector<SdkEntityPtr> results = client->attestation()->list(vmap({{"client", Value("example")}}), Value::undef());
+for (const auto& attestation : results) {
+  std::cout << Struct::jsonify(attestation->data()) << std::endl;
 }
 ```
 
-#### `load(reqmatch, ctrl) -> Value`
+#### `load(reqmatch, ctrl) -> SdkEntityPtr`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and throws on error.
 
 ```cpp
-Value result = client->attestation()->load(vmap({{"id", Value("attestation_id")}}), Value::undef());
+SdkEntityPtr result = client->attestation()->load(vmap({{"id", Value("attestation_id")}}), Value::undef());
+std::cout << Struct::jsonify(result->data()) << std::endl;
 ```
 
 ### Common Methods
@@ -260,55 +276,57 @@ auto client = client->client();
 
 | Field | load | list | create | remove |
 | --- | --- | --- | --- | --- |
-| `contact` | - | Yes | - | - |
+| `contact` | - | Yes | Yes | - |
 | `created` | - | - | - | - |
-| `directPartner` | - | - | - | - |
+| `directPartner` | - | - | Yes | - |
 | `id` | - | - | - | - |
 | `isActive` | - | - | - | - |
 | `location` | - | - | - | - |
 | `mid` | - | - | - | - |
 | `modified` | - | - | - | - |
-| `name` | - | - | - | - |
+| `name` | - | - | Yes | - |
 | `partner` | - | - | - | - |
 | `version` | - | - | - | - |
 
 ### Operations
 
-#### `create(reqdata, ctrl) -> Value`
+#### `create(reqdata, ctrl) -> SdkEntityPtr`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```cpp
-Value result = client->client()->create(vmap({
+SdkEntityPtr result = client->client()->create(vmap({
     {"location", vmap()},  // std::map<std::string, Value>
 }), Value::undef());
 ```
 
-#### `list(reqmatch, ctrl) -> Value`
+#### `list(reqmatch, ctrl) -> std::vector<SdkEntityPtr>`
 
-List entities matching the given criteria. The match is optional — pass `Value::undef()` to list all records. Returns a Value list and throws on error.
+List entities matching the given criteria. The match is optional — pass `Value::undef()` to list all records. Returns one entity per record and throws on error.
 
 ```cpp
-Value results = client->client()->list(Value::undef(), Value::undef());
-for (const auto& client : *results.as_list()) {
-  std::cout << Struct::jsonify(client) << std::endl;
+std::vector<SdkEntityPtr> results = client->client()->list(vmap({{"partner", Value("example")}}), Value::undef());
+for (const auto& client : results) {
+  std::cout << Struct::jsonify(client->data()) << std::endl;
 }
 ```
 
-#### `load(reqmatch, ctrl) -> Value`
+#### `load(reqmatch, ctrl) -> SdkEntityPtr`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and throws on error.
 
 ```cpp
-Value result = client->client()->load(vmap({{"id", Value("client_id")}}), Value::undef());
+SdkEntityPtr result = client->client()->load(vmap({{"id", Value("client_id")}}), Value::undef());
+std::cout << Struct::jsonify(result->data()) << std::endl;
 ```
 
-#### `remove(reqmatch, ctrl) -> Value`
+#### `remove(reqmatch, ctrl) -> SdkEntityPtr`
 
-Remove the entity matching the given criteria. Throws on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and throws on error.
 
 ```cpp
-Value result = client->client()->remove(vmap({{"id", Value("client_id")}}), Value::undef());
+SdkEntityPtr result = client->client()->remove(vmap({{"id", Value("client_id")}}), Value::undef());
+std::cout << Struct::jsonify(result->data()) << std::endl;
 ```
 
 ### Common Methods
@@ -338,16 +356,27 @@ Return the entity name.
 auto create_result = client->create_result();
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `completeDate` | `std::string` | No | The date and time that the Custody change took place. |
+| `custodian` | `std::map<std::string, Value>` | Yes | Reference to the associated User resource. |
+| `location` | `std::map<std::string, Value>` | Yes | Reference to the associated Location resource. |
+| `notes` | `std::string` | No | Free form field that allows the Client associate notes with the Custody Change. |
+
 ### Operations
 
-#### `create(reqdata, ctrl) -> Value`
+#### `create(reqdata, ctrl) -> SdkEntityPtr`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```cpp
-Value result = client->create_result()->create(vmap({
+SdkEntityPtr result = client->create_result()->create(vmap({
     {"device_type", Value("example_device_type")},  // std::string
     {"serial_number", Value("example_serial_number")},  // std::string
+    {"custodian", vmap()},  // std::map<std::string, Value>
+    {"location", vmap()},  // std::map<std::string, Value>
 }), Value::undef());
 ```
 
@@ -382,16 +411,27 @@ auto decryption = client->decryption();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `cbcVector` | `std::string` | No | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | `std::string` | Yes | The device Type. |
+| `encoding` | `std::string` | No | The payload encoding |
+| `encrypted` | `std::vector<Value>` | Yes |  |
+| `hasCcData` | `std::string` | No | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | `std::string` | No | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | `std::string` | No | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | `std::string` | Yes | The serial number of the device. |
 | `success` | `bool` | No | true if the payload decryption was successful. |
 
 ### Operations
 
-#### `create(reqdata, ctrl) -> Value`
+#### `create(reqdata, ctrl) -> SdkEntityPtr`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```cpp
-Value result = client->decryption()->create(vmap({
+SdkEntityPtr result = client->decryption()->create(vmap({
+    {"deviceType", Value("example_deviceType")},  // std::string
+    {"encrypted", vlist()},  // std::vector<Value>
+    {"serialNumber", Value("example_serialNumber")},  // std::string
 }), Value::undef());
 ```
 
@@ -455,14 +495,47 @@ auto device = client->device();
 | `serialNumber` | `std::string` | No | The Device's serial number. |
 | `version` | `int64_t` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `activatedBy` | - | - | - |
+| `activationDate` | - | - | - |
+| `alternateKey` | - | - | - |
+| `auditNextDate` | - | - | - |
+| `auditNotificationDate` | - | - | - |
+| `client` | - | - | - |
+| `created` | - | - | - |
+| `createdBy` | - | - | - |
+| `deviceBuild` | - | - | - |
+| `deviceState` | - | - | - |
+| `deviceType` | - | - | Yes |
+| `errorCounter` | - | - | - |
+| `errorLastDate` | - | - | - |
+| `id` | - | - | - |
+| `initializedBy` | - | - | - |
+| `initializedDate` | - | - | - |
+| `injectKey` | - | - | - |
+| `isVirtual` | - | - | - |
+| `kif` | - | - | Yes |
+| `lastActivityDate` | - | - | - |
+| `location` | - | - | - |
+| `modified` | - | - | - |
+| `modifiedBy` | - | - | - |
+| `name` | - | - | - |
+| `notes` | - | - | - |
+| `partner` | - | - | - |
+| `serialNumber` | - | - | Yes |
+| `version` | - | - | - |
+
 ### Operations
 
-#### `create(reqdata, ctrl) -> Value`
+#### `create(reqdata, ctrl) -> SdkEntityPtr`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```cpp
-Value result = client->device()->create(vmap({
+SdkEntityPtr result = client->device()->create(vmap({
     {"activatedBy", vmap()},  // std::map<std::string, Value>
     {"createdBy", vmap()},  // std::map<std::string, Value>
     {"initializedBy", vmap()},  // std::map<std::string, Value>
@@ -471,23 +544,24 @@ Value result = client->device()->create(vmap({
 }), Value::undef());
 ```
 
-#### `list(reqmatch, ctrl) -> Value`
+#### `list(reqmatch, ctrl) -> std::vector<SdkEntityPtr>`
 
-List entities matching the given criteria. The match is optional — pass `Value::undef()` to list all records. Returns a Value list and throws on error.
+List entities matching the given criteria. The match is optional — pass `Value::undef()` to list all records. Returns one entity per record and throws on error.
 
 ```cpp
-Value results = client->device()->list(Value::undef(), Value::undef());
-for (const auto& device : *results.as_list()) {
-  std::cout << Struct::jsonify(device) << std::endl;
+std::vector<SdkEntityPtr> results = client->device()->list(Value::undef(), Value::undef());
+for (const auto& device : results) {
+  std::cout << Struct::jsonify(device->data()) << std::endl;
 }
 ```
 
-#### `load(reqmatch, ctrl) -> Value`
+#### `load(reqmatch, ctrl) -> SdkEntityPtr`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and throws on error.
 
 ```cpp
-Value result = client->device()->load(vmap({{"id", Value("device_id")}}), Value::undef());
+SdkEntityPtr result = client->device()->load(vmap({{"id", Value("device_id")}}), Value::undef());
+std::cout << Struct::jsonify(result->data()) << std::endl;
 ```
 
 ### Common Methods
@@ -539,23 +613,24 @@ auto device_build = client->device_build();
 
 ### Operations
 
-#### `list(reqmatch, ctrl) -> Value`
+#### `list(reqmatch, ctrl) -> std::vector<SdkEntityPtr>`
 
-List entities matching the given criteria. The match is optional — pass `Value::undef()` to list all records. Returns a Value list and throws on error.
+List entities matching the given criteria. The match is optional — pass `Value::undef()` to list all records. Returns one entity per record and throws on error.
 
 ```cpp
-Value results = client->device_build()->list(Value::undef(), Value::undef());
-for (const auto& device_build : *results.as_list()) {
-  std::cout << Struct::jsonify(device_build) << std::endl;
+std::vector<SdkEntityPtr> results = client->device_build()->list(Value::undef(), Value::undef());
+for (const auto& device_build : results) {
+  std::cout << Struct::jsonify(device_build->data()) << std::endl;
 }
 ```
 
-#### `load(reqmatch, ctrl) -> Value`
+#### `load(reqmatch, ctrl) -> SdkEntityPtr`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and throws on error.
 
 ```cpp
-Value result = client->device_build()->load(vmap({{"id", Value("device_build_id")}}), Value::undef());
+SdkEntityPtr result = client->device_build()->load(vmap({{"id", Value("device_build_id")}}), Value::undef());
+std::cout << Struct::jsonify(result->data()) << std::endl;
 ```
 
 ### Common Methods
@@ -605,12 +680,13 @@ auto device_custody_detail = client->device_custody_detail();
 
 ### Operations
 
-#### `load(reqmatch, ctrl) -> Value`
+#### `load(reqmatch, ctrl) -> SdkEntityPtr`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and throws on error.
 
 ```cpp
-Value result = client->device_custody_detail()->load(vmap({{"id", Value("device_custody_detail_id")}, {"device_type", Value("device_type")}, {"serial_number", Value("serial_number")}}), Value::undef());
+SdkEntityPtr result = client->device_custody_detail()->load(vmap({{"id", Value("device_custody_detail_id")}, {"device_type", Value("device_type")}, {"serial_number", Value("serial_number")}}), Value::undef());
+std::cout << Struct::jsonify(result->data()) << std::endl;
 ```
 
 ### Common Methods
@@ -660,14 +736,14 @@ auto device_custody_list_item = client->device_custody_list_item();
 
 ### Operations
 
-#### `list(reqmatch, ctrl) -> Value`
+#### `list(reqmatch, ctrl) -> std::vector<SdkEntityPtr>`
 
-List entities matching the given criteria. The match is optional — pass `Value::undef()` to list all records. Returns a Value list and throws on error.
+List entities matching the given criteria. The match is optional — pass `Value::undef()` to list all records. Returns one entity per record and throws on error.
 
 ```cpp
-Value results = client->device_custody_list_item()->list(Value::undef(), Value::undef());
-for (const auto& device_custody_list_item : *results.as_list()) {
-  std::cout << Struct::jsonify(device_custody_list_item) << std::endl;
+std::vector<SdkEntityPtr> results = client->device_custody_list_item()->list(vmap({{"device_type", Value("example")}, {"serial_number", Value("example")}}), Value::undef());
+for (const auto& device_custody_list_item : results) {
+  std::cout << Struct::jsonify(device_custody_list_item->data()) << std::endl;
 }
 ```
 
@@ -702,17 +778,21 @@ auto device_receive_result = client->device_receive_result();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `serialNumber` | `std::string` | Yes | The serial number of the Device that is shipped. |
 | `success` | `bool` | Yes | Indicates if the action succeeded. |
+| `tamperLabel` | `std::string` | Yes | The code that is printed the tamper label of the Device that is shipped. |
 
 ### Operations
 
-#### `create(reqdata, ctrl) -> Value`
+#### `create(reqdata, ctrl) -> SdkEntityPtr`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```cpp
-Value result = client->device_receive_result()->create(vmap({
+SdkEntityPtr result = client->device_receive_result()->create(vmap({
+    {"serialNumber", Value("example_serialNumber")},  // std::string
     {"success", Value(true)},  // bool
+    {"tamperLabel", Value("example_tamperLabel")},  // std::string
 }), Value::undef());
 ```
 
@@ -747,16 +827,25 @@ auto device_rki_activate_result = client->device_rki_activate_result();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `appVersion` | `std::string` | No | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | `std::string` | No | The Device Builds's name. |
+| `buildNumber` | `std::string` | No | The Build Number. |
+| `configFile` | `std::string` | No | \? |
+| `firmwareVersion` | `std::string` | No | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `std::string` | No | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | `std::string` | Yes | The referenced Device's serial number. |
 | `success` | `bool` | Yes | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | `std::string` | No | \? |
 
 ### Operations
 
-#### `create(reqdata, ctrl) -> Value`
+#### `create(reqdata, ctrl) -> SdkEntityPtr`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```cpp
-Value result = client->device_rki_activate_result()->create(vmap({
+SdkEntityPtr result = client->device_rki_activate_result()->create(vmap({
+    {"serialNumber", Value("example_serialNumber")},  // std::string
     {"success", Value(true)},  // bool
 }), Value::undef());
 ```
@@ -797,14 +886,14 @@ auto device_state = client->device_state();
 
 ### Operations
 
-#### `list(reqmatch, ctrl) -> Value`
+#### `list(reqmatch, ctrl) -> std::vector<SdkEntityPtr>`
 
-List entities matching the given criteria. The match is optional — pass `Value::undef()` to list all records. Returns a Value list and throws on error.
+List entities matching the given criteria. The match is optional — pass `Value::undef()` to list all records. Returns one entity per record and throws on error.
 
 ```cpp
-Value results = client->device_state()->list(Value::undef(), Value::undef());
-for (const auto& device_state : *results.as_list()) {
-  std::cout << Struct::jsonify(device_state) << std::endl;
+std::vector<SdkEntityPtr> results = client->device_state()->list(Value::undef(), Value::undef());
+for (const auto& device_state : results) {
+  std::cout << Struct::jsonify(device_state->data()) << std::endl;
 }
 ```
 
@@ -854,23 +943,24 @@ auto device_type = client->device_type();
 
 ### Operations
 
-#### `list(reqmatch, ctrl) -> Value`
+#### `list(reqmatch, ctrl) -> std::vector<SdkEntityPtr>`
 
-List entities matching the given criteria. The match is optional — pass `Value::undef()` to list all records. Returns a Value list and throws on error.
+List entities matching the given criteria. The match is optional — pass `Value::undef()` to list all records. Returns one entity per record and throws on error.
 
 ```cpp
-Value results = client->device_type()->list(Value::undef(), Value::undef());
-for (const auto& device_type : *results.as_list()) {
-  std::cout << Struct::jsonify(device_type) << std::endl;
+std::vector<SdkEntityPtr> results = client->device_type()->list(Value::undef(), Value::undef());
+for (const auto& device_type : results) {
+  std::cout << Struct::jsonify(device_type->data()) << std::endl;
 }
 ```
 
-#### `load(reqmatch, ctrl) -> Value`
+#### `load(reqmatch, ctrl) -> SdkEntityPtr`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and throws on error.
 
 ```cpp
-Value result = client->device_type()->load(vmap({{"id", Value("device_type_id")}}), Value::undef());
+SdkEntityPtr result = client->device_type()->load(vmap({{"id", Value("device_type_id")}}), Value::undef());
+std::cout << Struct::jsonify(result->data()) << std::endl;
 ```
 
 ### Common Methods
@@ -915,23 +1005,24 @@ auto inject_key = client->inject_key();
 
 ### Operations
 
-#### `list(reqmatch, ctrl) -> Value`
+#### `list(reqmatch, ctrl) -> std::vector<SdkEntityPtr>`
 
-List entities matching the given criteria. The match is optional — pass `Value::undef()` to list all records. Returns a Value list and throws on error.
+List entities matching the given criteria. The match is optional — pass `Value::undef()` to list all records. Returns one entity per record and throws on error.
 
 ```cpp
-Value results = client->inject_key()->list(Value::undef(), Value::undef());
-for (const auto& inject_key : *results.as_list()) {
-  std::cout << Struct::jsonify(inject_key) << std::endl;
+std::vector<SdkEntityPtr> results = client->inject_key()->list(Value::undef(), Value::undef());
+for (const auto& inject_key : results) {
+  std::cout << Struct::jsonify(inject_key->data()) << std::endl;
 }
 ```
 
-#### `load(reqmatch, ctrl) -> Value`
+#### `load(reqmatch, ctrl) -> SdkEntityPtr`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and throws on error.
 
 ```cpp
-Value result = client->inject_key()->load(vmap({{"id", Value("inject_key_id")}}), Value::undef());
+SdkEntityPtr result = client->inject_key()->load(vmap({{"id", Value("inject_key_id")}}), Value::undef());
+std::cout << Struct::jsonify(result->data()) << std::endl;
 ```
 
 ### Common Methods
@@ -970,14 +1061,14 @@ auto kif = client->kif();
 
 ### Operations
 
-#### `list(reqmatch, ctrl) -> Value`
+#### `list(reqmatch, ctrl) -> std::vector<SdkEntityPtr>`
 
-List entities matching the given criteria. The match is optional — pass `Value::undef()` to list all records. Returns a Value list and throws on error.
+List entities matching the given criteria. The match is optional — pass `Value::undef()` to list all records. Returns one entity per record and throws on error.
 
 ```cpp
-Value results = client->kif()->list(Value::undef(), Value::undef());
-for (const auto& kif : *results.as_list()) {
-  std::cout << Struct::jsonify(kif) << std::endl;
+std::vector<SdkEntityPtr> results = client->kif()->list(Value::undef(), Value::undef());
+for (const auto& kif : results) {
+  std::cout << Struct::jsonify(kif->data()) << std::endl;
 }
 ```
 
@@ -1016,6 +1107,7 @@ auto location = client->location();
 | `address2` | `std::string` | No | The Location's street address. |
 | `billingId` | `std::string` | No | \? |
 | `city` | `std::string` | No | The Location's city. |
+| `client` | `std::map<std::string, Value>` | No | Reference to the associated Client resource. |
 | `country` | `std::string` | No | The Location's country. |
 | `created` | `std::string` | No | Creation timestamp in ISO 8601 format. |
 | `customReference` | `std::string` | No | A Partner specified reference for a location. |
@@ -1036,42 +1128,73 @@ auto location = client->location();
 | `uniqueId` | `std::string` | No | Unique Identifier for the Location. |
 | `version` | `int64_t` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create | remove |
+| --- | --- | --- | --- | --- |
+| `address1` | - | - | Yes | - |
+| `address2` | - | - | - | - |
+| `billingId` | - | - | - | - |
+| `city` | - | - | Yes | - |
+| `client` | - | - | - | - |
+| `country` | - | - | Yes | - |
+| `created` | - | - | - | - |
+| `customReference` | - | - | - | - |
+| `id` | - | - | - | - |
+| `locationType` | - | - | Yes | - |
+| `mailAddress1` | - | - | - | - |
+| `mailAddress2` | - | - | - | - |
+| `mailCity` | - | - | - | - |
+| `mailCountry` | - | - | - | - |
+| `mailPostalCode` | - | - | - | - |
+| `mailStateProvince` | - | - | - | - |
+| `modified` | - | - | - | - |
+| `name` | - | - | Yes | - |
+| `nameOfBusiness` | - | - | - | - |
+| `notes` | - | - | - | - |
+| `postalCode` | - | - | - | - |
+| `stateProvince` | - | - | - | - |
+| `uniqueId` | - | - | - | - |
+| `version` | - | - | - | - |
+
 ### Operations
 
-#### `create(reqdata, ctrl) -> Value`
+#### `create(reqdata, ctrl) -> SdkEntityPtr`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```cpp
-Value result = client->location()->create(vmap({
+SdkEntityPtr result = client->location()->create(vmap({
 }), Value::undef());
 ```
 
-#### `list(reqmatch, ctrl) -> Value`
+#### `list(reqmatch, ctrl) -> std::vector<SdkEntityPtr>`
 
-List entities matching the given criteria. The match is optional — pass `Value::undef()` to list all records. Returns a Value list and throws on error.
+List entities matching the given criteria. The match is optional — pass `Value::undef()` to list all records. Returns one entity per record and throws on error.
 
 ```cpp
-Value results = client->location()->list(Value::undef(), Value::undef());
-for (const auto& location : *results.as_list()) {
-  std::cout << Struct::jsonify(location) << std::endl;
+std::vector<SdkEntityPtr> results = client->location()->list(vmap({{"client", Value("example")}}), Value::undef());
+for (const auto& location : results) {
+  std::cout << Struct::jsonify(location->data()) << std::endl;
 }
 ```
 
-#### `load(reqmatch, ctrl) -> Value`
+#### `load(reqmatch, ctrl) -> SdkEntityPtr`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and throws on error.
 
 ```cpp
-Value result = client->location()->load(vmap({{"id", Value("location_id")}}), Value::undef());
+SdkEntityPtr result = client->location()->load(vmap({{"id", Value("location_id")}}), Value::undef());
+std::cout << Struct::jsonify(result->data()) << std::endl;
 ```
 
-#### `remove(reqmatch, ctrl) -> Value`
+#### `remove(reqmatch, ctrl) -> SdkEntityPtr`
 
-Remove the entity matching the given criteria. Throws on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and throws on error.
 
 ```cpp
-Value result = client->location()->remove(vmap({{"id", Value("location_id")}}), Value::undef());
+SdkEntityPtr result = client->location()->remove(vmap({{"id", Value("location_id")}}), Value::undef());
+std::cout << Struct::jsonify(result->data()) << std::endl;
 ```
 
 ### Common Methods
@@ -1126,48 +1249,49 @@ auto partner = client->partner();
 | --- | --- | --- | --- |
 | `billingId` | - | - | - |
 | `clientCanOrderEquipment` | - | - | - |
-| `contact` | - | Yes | - |
+| `contact` | - | Yes | Yes |
 | `created` | - | - | - |
 | `id` | - | - | - |
 | `isActive` | - | - | - |
 | `location` | - | - | - |
 | `modified` | - | - | - |
-| `name` | - | - | - |
-| `parent` | - | - | - |
+| `name` | - | - | Yes |
+| `parent` | - | - | Yes |
 | `partnerId` | - | - | - |
-| `reference` | - | - | - |
+| `reference` | - | - | Yes |
 | `verificationPhrase` | - | - | - |
 | `version` | - | - | - |
 
 ### Operations
 
-#### `create(reqdata, ctrl) -> Value`
+#### `create(reqdata, ctrl) -> SdkEntityPtr`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```cpp
-Value result = client->partner()->create(vmap({
+SdkEntityPtr result = client->partner()->create(vmap({
     {"location", vmap()},  // std::map<std::string, Value>
 }), Value::undef());
 ```
 
-#### `list(reqmatch, ctrl) -> Value`
+#### `list(reqmatch, ctrl) -> std::vector<SdkEntityPtr>`
 
-List entities matching the given criteria. The match is optional — pass `Value::undef()` to list all records. Returns a Value list and throws on error.
+List entities matching the given criteria. The match is optional — pass `Value::undef()` to list all records. Returns one entity per record and throws on error.
 
 ```cpp
-Value results = client->partner()->list(Value::undef(), Value::undef());
-for (const auto& partner : *results.as_list()) {
-  std::cout << Struct::jsonify(partner) << std::endl;
+std::vector<SdkEntityPtr> results = client->partner()->list(Value::undef(), Value::undef());
+for (const auto& partner : results) {
+  std::cout << Struct::jsonify(partner->data()) << std::endl;
 }
 ```
 
-#### `load(reqmatch, ctrl) -> Value`
+#### `load(reqmatch, ctrl) -> SdkEntityPtr`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and throws on error.
 
 ```cpp
-Value result = client->partner()->load(vmap({{"id", Value("partner_id")}}), Value::undef());
+SdkEntityPtr result = client->partner()->load(vmap({{"id", Value("partner_id")}}), Value::undef());
+std::cout << Struct::jsonify(result->data()) << std::endl;
 ```
 
 ### Common Methods
@@ -1210,40 +1334,63 @@ auto shipment = client->shipment();
 | `id` | `std::string` | No | This resource's unique identifier. |
 | `items` | `std::vector<Value>` | No |  |
 | `kif` | `std::map<std::string, Value>` | No | Reference to the associated KIF resource. |
+| `location` | `std::map<std::string, Value>` | Yes | Reference to the associated Location resource. |
 | `modified` | `std::string` | No | Last modified timestamp. |
 | `partner` | `std::map<std::string, Value>` | No | Reference to the associated Partner. |
 | `shipmentType` | `std::string` | No | The type of shipment. |
 | `tracking` | `std::string` | No | The courier's tracking number. |
 | `version` | `int64_t` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `carrier` | - | - | Yes |
+| `client` | - | - | Yes |
+| `created` | - | - | - |
+| `dateReceived` | - | - | - |
+| `dateShipped` | - | - | Yes |
+| `dcKif` | - | - | - |
+| `id` | - | - | - |
+| `items` | - | - | Yes |
+| `kif` | - | - | Yes |
+| `location` | - | - | - |
+| `modified` | - | - | - |
+| `partner` | - | - | Yes |
+| `shipmentType` | - | - | - |
+| `tracking` | - | - | Yes |
+| `version` | - | - | - |
+
 ### Operations
 
-#### `create(reqdata, ctrl) -> Value`
+#### `create(reqdata, ctrl) -> SdkEntityPtr`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```cpp
-Value result = client->shipment()->create(vmap({
+SdkEntityPtr result = client->shipment()->create(vmap({
+    {"location", vmap()},  // std::map<std::string, Value>
 }), Value::undef());
 ```
 
-#### `list(reqmatch, ctrl) -> Value`
+#### `list(reqmatch, ctrl) -> std::vector<SdkEntityPtr>`
 
-List entities matching the given criteria. The match is optional — pass `Value::undef()` to list all records. Returns a Value list and throws on error.
+List entities matching the given criteria. The match is optional — pass `Value::undef()` to list all records. Returns one entity per record and throws on error.
 
 ```cpp
-Value results = client->shipment()->list(Value::undef(), Value::undef());
-for (const auto& shipment : *results.as_list()) {
-  std::cout << Struct::jsonify(shipment) << std::endl;
+std::vector<SdkEntityPtr> results = client->shipment()->list(vmap({{"kif", Value("example")}}), Value::undef());
+for (const auto& shipment : results) {
+  std::cout << Struct::jsonify(shipment->data()) << std::endl;
 }
 ```
 
-#### `load(reqmatch, ctrl) -> Value`
+#### `load(reqmatch, ctrl) -> SdkEntityPtr`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and throws on error.
 
 ```cpp
-Value result = client->shipment()->load(vmap({{"id", Value("shipment_id")}}), Value::undef());
+SdkEntityPtr result = client->shipment()->load(vmap({{"id", Value("shipment_id")}}), Value::undef());
+std::cout << Struct::jsonify(result->data()) << std::endl;
 ```
 
 ### Common Methods
@@ -1277,26 +1424,31 @@ auto success = client->success();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `devices` | `std::vector<Value>` | Yes | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | `std::map<std::string, Value>` | Yes | Reference to the associated Partner. |
 | `success` | `bool` | No | Indicates if the action was a success. |
 
 ### Operations
 
-#### `create(reqdata, ctrl) -> Value`
+#### `create(reqdata, ctrl) -> SdkEntityPtr`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```cpp
-Value result = client->success()->create(vmap({
+SdkEntityPtr result = client->success()->create(vmap({
     {"share_partner_to", Value("example_share_partner_to")},  // std::string
+    {"devices", vlist()},  // std::vector<Value>
+    {"sharePartnerFrom", vmap()},  // std::map<std::string, Value>
 }), Value::undef());
 ```
 
-#### `remove(reqmatch, ctrl) -> Value`
+#### `remove(reqmatch, ctrl) -> SdkEntityPtr`
 
-Remove the entity matching the given criteria. Throws on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and throws on error.
 
 ```cpp
-Value result = client->success()->remove(vmap({{"share_partner_to", Value("share_partner_to")}}), Value::undef());
+SdkEntityPtr result = client->success()->remove(vmap({{"share_partner_to", Value("share_partner_to")}}), Value::undef());
+std::cout << Struct::jsonify(result->data()) << std::endl;
 ```
 
 ### Common Methods
@@ -1335,6 +1487,7 @@ auto transaction = client->transaction();
 | `clientRef` | `std::string` | No | Client Reference property that is included in the decrypt API call. |
 | `created` | `std::string` | No | Creation timestamp in ISO 8601 format. |
 | `decrypted` | `int64_t` | No | A Transcation can process muliple decryptions. |
+| `device` | `std::map<std::string, Value>` | Yes | Reference to the associated Device resource. |
 | `deviceName` | `std::string` | No | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | `std::map<std::string, Value>` | No | Reference to the associated Partner. |
 | `encrypted` | `int64_t` | No | A Transcation can process muliple encryptions. |
@@ -1355,35 +1508,67 @@ auto transaction = client->transaction();
 | `success` | `bool` | No | The success indicator. |
 | `transactionSource` | `std::string` | No | The source of the Transaction. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `alternateKey` | - | - | - |
+| `client` | - | - | Yes |
+| `clientRef` | - | - | - |
+| `created` | - | - | - |
+| `decrypted` | - | - | - |
+| `device` | - | - | - |
+| `deviceName` | - | - | - |
+| `directPartner` | - | - | - |
+| `encrypted` | - | - | - |
+| `endDate` | - | - | - |
+| `errCode` | - | - | - |
+| `errMessage` | - | - | - |
+| `id` | - | - | - |
+| `ipAddress` | - | - | Yes |
+| `isVirtual` | - | - | - |
+| `keyType` | - | - | Yes |
+| `location` | - | - | - |
+| `messageId` | - | - | - |
+| `method` | - | - | Yes |
+| `partner` | - | - | Yes |
+| `reference` | - | - | - |
+| `serialNumber` | - | - | - |
+| `startDate` | - | - | - |
+| `success` | - | - | - |
+| `transactionSource` | - | - | - |
+
 ### Operations
 
-#### `create(reqdata, ctrl) -> Value`
+#### `create(reqdata, ctrl) -> SdkEntityPtr`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```cpp
-Value result = client->transaction()->create(vmap({
+SdkEntityPtr result = client->transaction()->create(vmap({
+    {"device", vmap()},  // std::map<std::string, Value>
     {"location", vmap()},  // std::map<std::string, Value>
 }), Value::undef());
 ```
 
-#### `list(reqmatch, ctrl) -> Value`
+#### `list(reqmatch, ctrl) -> std::vector<SdkEntityPtr>`
 
-List entities matching the given criteria. The match is optional — pass `Value::undef()` to list all records. Returns a Value list and throws on error.
+List entities matching the given criteria. The match is optional — pass `Value::undef()` to list all records. Returns one entity per record and throws on error.
 
 ```cpp
-Value results = client->transaction()->list(Value::undef(), Value::undef());
-for (const auto& transaction : *results.as_list()) {
-  std::cout << Struct::jsonify(transaction) << std::endl;
+std::vector<SdkEntityPtr> results = client->transaction()->list(Value::undef(), Value::undef());
+for (const auto& transaction : results) {
+  std::cout << Struct::jsonify(transaction->data()) << std::endl;
 }
 ```
 
-#### `load(reqmatch, ctrl) -> Value`
+#### `load(reqmatch, ctrl) -> SdkEntityPtr`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and throws on error.
 
 ```cpp
-Value result = client->transaction()->load(vmap({{"id", Value("transaction_id")}}), Value::undef());
+SdkEntityPtr result = client->transaction()->load(vmap({{"id", Value("transaction_id")}}), Value::undef());
+std::cout << Struct::jsonify(result->data()) << std::endl;
 ```
 
 ### Common Methods
@@ -1417,47 +1602,175 @@ auto update_result = client->update_result();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `address1` | `std::string` | No | The Location's street address. |
+| `address2` | `std::string` | No | The Location's street address. |
+| `alternateKey` | `std::string` | No | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `std::string` | No | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | `std::string` | No | \? |
+| `city` | `std::string` | No | The Location's city. |
 | `client` | `std::map<std::string, Value>` | No | Reference to the associated Client resource. |
-| `email` | `std::string` | No | The User's email address. |
-| `firstName` | `std::string` | No | The User's name. |
+| `clientCanOrderEquipment` | `bool` | No | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | `std::string` | No | Client Reference property that is included in the decrypt API call. |
+| `contact` | `std::map<std::string, Value>` | Yes | Reference to the associated User resource. |
+| `country` | `std::map<std::string, Value>` | No | Reference to the associated Country. |
+| `customReference` | `std::string` | No | A Partner specified reference for a location. |
+| `dateShipped` | `std::string` | No | The date and time that a package is shipped. |
+| `decrypted` | `int64_t` | No | A Transcation can process muliple decryptions. |
+| `device` | `std::map<std::string, Value>` | No | Reference to the associated Device resource. |
+| `deviceBuild` | `std::map<std::string, Value>` | No | Reference to the associated Device Build resource. |
+| `deviceType` | `std::map<std::string, Value>` | No | Reference to the associated Device Type resource. |
+| `directPartner` | `std::map<std::string, Value>` | No | Reference to the associated Partner. |
+| `email` | `std::string` | Yes | The User's email address. |
+| `encrypted` | `int64_t` | No | A Transcation can process muliple encryptions. |
+| `endDate` | `std::string` | No | Timestamp from the end of the transaction. |
+| `errCode` | `std::string` | No | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `std::string` | No | The error messge that is sent in response to a failed decrypt API call. |
+| `firstName` | `std::string` | Yes | The User's name. |
 | `id` | `std::string` | No | ID of newly created resource |
-| `isActive` | `bool` | No | This property indicates if the User account is active or disabled. |
+| `injectKey` | `std::map<std::string, Value>` | No | Reference to the associated Device resource. |
+| `ipAddress` | `std::string` | No | The IP address of the http client that makes the decrypt API call. |
+| `isActive` | `bool` | Yes | This property indicates if the User account is active or disabled. |
+| `items` | `std::vector<Value>` | No |  |
+| `keyType` | `std::string` | No | The type of cipher used during decrytion. |
 | `kif` | `std::map<std::string, Value>` | No | Reference to the associated KIF resource. |
-| `lastName` | `std::string` | No | The User's Surname. |
+| `lastName` | `std::string` | Yes | The User's Surname. |
+| `location` | `std::map<std::string, Value>` | Yes | Reference to the associated Location resource. |
+| `locationType` | `std::string` | No | The Location's clasification. |
+| `mailAddress1` | `std::string` | No | The Location's street address. |
+| `mailAddress2` | `std::string` | No | The Location's street address. |
+| `mailCity` | `std::string` | No | The Location's city. |
+| `mailCountry` | `std::string` | No | The Location's street address. |
+| `mailPostalCode` | `std::string` | No | The Location's postal code. |
+| `mailStateProvince` | `std::string` | No | The Location's street state or province. |
+| `messageId` | `std::string` | No | Message ID. |
+| `method` | `std::string` | No | The decryption cypher/method. |
+| `mid` | `std::string` | No | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | `std::string` | No | The Client's name. |
+| `nameOfBusiness` | `std::string` | No | The name of the business at this location. |
+| `notes` | `std::string` | No | Arbitary note that can be attached to a Device entry. |
+| `parent` | `std::map<std::string, Value>` | No | Reference to the associated Partner. |
 | `partner` | `std::map<std::string, Value>` | No | Reference to the associated Partner. |
-| `phone` | `std::string` | No | The User's phone number without dashes, spaces, or brackets. |
-| `userName` | `std::string` | No | The User's unique username. |
-| `userRole` | `std::map<std::string, Value>` | No | Reference to the associated User Role. |
+| `partnerId` | `std::string` | No | The Partner's id. |
+| `phone` | `std::string` | Yes | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | `std::string` | No | The Location's postal code. |
+| `reference` | `std::string` | No | The Partner's reference string. |
+| `sendWelcomeEmail` | `bool` | No | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | `std::string` | No | The Device's serial number. |
+| `startDate` | `std::string` | No | Timestamp from the beginning of the transaction. |
+| `stateProvince` | `std::string` | No | The Location's street state or province. |
+| `success` | `bool` | No | The success indicator. |
+| `tracking` | `std::string` | No | The courier's tracking number. |
+| `uniqueId` | `std::string` | No | Unique Identifier for the Location. |
+| `userName` | `std::string` | Yes | The User's unique username. |
+| `userRole` | `std::map<std::string, Value>` | Yes | Reference to the associated User Role. |
+| `verificationPhrase` | `std::string` | No | The verification phrase is a message that the Partner creates. |
 | `version` | `int64_t` | No | The number of times that this resource has been updated. |
+
+### Field Usage by Operation
+
+| Field | list | create | update |
+| --- | --- | --- | --- |
+| `address1` | - | - | - |
+| `address2` | - | - | - |
+| `alternateKey` | - | - | - |
+| `auditNextDate` | - | - | - |
+| `billingId` | - | - | - |
+| `city` | - | - | - |
+| `client` | - | - | - |
+| `clientCanOrderEquipment` | - | - | - |
+| `clientRef` | - | - | - |
+| `contact` | - | - | - |
+| `country` | - | - | - |
+| `customReference` | - | - | - |
+| `dateShipped` | - | - | - |
+| `decrypted` | - | - | - |
+| `device` | - | - | - |
+| `deviceBuild` | - | - | - |
+| `deviceType` | - | - | - |
+| `directPartner` | - | - | - |
+| `email` | Yes | - | Yes |
+| `encrypted` | - | - | - |
+| `endDate` | - | - | - |
+| `errCode` | - | - | - |
+| `errMessage` | - | - | - |
+| `firstName` | Yes | - | Yes |
+| `id` | - | - | - |
+| `injectKey` | - | - | - |
+| `ipAddress` | - | - | - |
+| `isActive` | Yes | - | Yes |
+| `items` | - | - | - |
+| `keyType` | - | - | - |
+| `kif` | - | - | - |
+| `lastName` | Yes | - | Yes |
+| `location` | - | - | - |
+| `locationType` | - | - | - |
+| `mailAddress1` | - | - | - |
+| `mailAddress2` | - | - | - |
+| `mailCity` | - | - | - |
+| `mailCountry` | - | - | - |
+| `mailPostalCode` | - | - | - |
+| `mailStateProvince` | - | - | - |
+| `messageId` | - | - | - |
+| `method` | - | - | - |
+| `mid` | - | - | - |
+| `name` | - | - | - |
+| `nameOfBusiness` | - | - | - |
+| `notes` | - | - | - |
+| `parent` | - | - | - |
+| `partner` | - | - | - |
+| `partnerId` | - | - | - |
+| `phone` | Yes | - | Yes |
+| `postalCode` | - | - | - |
+| `reference` | - | - | - |
+| `sendWelcomeEmail` | - | - | - |
+| `serialNumber` | - | - | - |
+| `startDate` | - | - | - |
+| `stateProvince` | - | - | - |
+| `success` | - | - | - |
+| `tracking` | - | - | - |
+| `uniqueId` | - | - | - |
+| `userName` | Yes | - | Yes |
+| `userRole` | Yes | - | Yes |
+| `verificationPhrase` | - | - | - |
+| `version` | - | - | - |
 
 ### Operations
 
-#### `create(reqdata, ctrl) -> Value`
+#### `create(reqdata, ctrl) -> SdkEntityPtr`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```cpp
-Value result = client->update_result()->create(vmap({
+SdkEntityPtr result = client->update_result()->create(vmap({
+    {"contact", vmap()},  // std::map<std::string, Value>
+    {"email", Value("example_email")},  // std::string
+    {"firstName", Value("example_firstName")},  // std::string
+    {"isActive", Value(true)},  // bool
+    {"lastName", Value("example_lastName")},  // std::string
+    {"location", vmap()},  // std::map<std::string, Value>
+    {"phone", Value("example_phone")},  // std::string
+    {"userName", Value("example_userName")},  // std::string
+    {"userRole", vmap()},  // std::map<std::string, Value>
 }), Value::undef());
 ```
 
-#### `list(reqmatch, ctrl) -> Value`
+#### `list(reqmatch, ctrl) -> std::vector<SdkEntityPtr>`
 
-List entities matching the given criteria. The match is optional — pass `Value::undef()` to list all records. Returns a Value list and throws on error.
+List entities matching the given criteria. The match is optional — pass `Value::undef()` to list all records. Returns one entity per record and throws on error.
 
 ```cpp
-Value results = client->update_result()->list(Value::undef(), Value::undef());
-for (const auto& update_result : *results.as_list()) {
-  std::cout << Struct::jsonify(update_result) << std::endl;
+std::vector<SdkEntityPtr> results = client->update_result()->list(Value::undef(), Value::undef());
+for (const auto& update_result : results) {
+  std::cout << Struct::jsonify(update_result->data()) << std::endl;
 }
 ```
 
-#### `update(reqdata, ctrl) -> Value`
+#### `update(reqdata, ctrl) -> SdkEntityPtr`
 
-Update an existing entity. The data must include the entity `id`. Returns the updated entity data and throws on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and throws on error.
 
 ```cpp
-Value result = client->update_result()->update(vmap({
+SdkEntityPtr result = client->update_result()->update(vmap({
     {"id", Value("id")},
     // Fields to update
 }), Value::undef());
@@ -1511,20 +1824,22 @@ auto user = client->user();
 
 ### Operations
 
-#### `load(reqmatch, ctrl) -> Value`
+#### `load(reqmatch, ctrl) -> SdkEntityPtr`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and throws on error.
 
 ```cpp
-Value result = client->user()->load(vmap({{"id", Value("user_id")}}), Value::undef());
+SdkEntityPtr result = client->user()->load(vmap({{"id", Value("user_id")}}), Value::undef());
+std::cout << Struct::jsonify(result->data()) << std::endl;
 ```
 
-#### `remove(reqmatch, ctrl) -> Value`
+#### `remove(reqmatch, ctrl) -> SdkEntityPtr`
 
-Remove the entity matching the given criteria. Throws on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted, and throws on error.
 
 ```cpp
-Value result = client->user()->remove(vmap({{"id", Value("user_id")}}), Value::undef());
+SdkEntityPtr result = client->user()->remove(vmap({{"id", Value("user_id")}}), Value::undef());
+std::cout << Struct::jsonify(result->data()) << std::endl;
 ```
 
 ### Common Methods
@@ -1564,12 +1879,13 @@ auto virtual_device = client->virtual_device();
 
 ### Operations
 
-#### `load(reqmatch, ctrl) -> Value`
+#### `load(reqmatch, ctrl) -> SdkEntityPtr`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and throws on error.
 
 ```cpp
-Value result = client->virtual_device()->load(vmap({{"id", Value("virtual_device_id")}}), Value::undef());
+SdkEntityPtr result = client->virtual_device()->load(vmap({{"id", Value("virtual_device_id")}}), Value::undef());
+std::cout << Struct::jsonify(result->data()) << std::endl;
 ```
 
 ### Common Methods
@@ -2014,6 +2330,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

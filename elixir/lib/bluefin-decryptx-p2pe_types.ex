@@ -23,6 +23,7 @@ defmodule BluefinDecryptxP2pe.Types do
     * `"completeDate"` — String.t() (optional)
     * `"created"` — String.t() (optional)
     * `"device"` — map() (optional)
+    * `"devices"` — list() (required)
     * `"id"` — String.t() (optional)
     * `"name"` — String.t() (optional)
     * `"notes"` — String.t() (optional)
@@ -55,6 +56,7 @@ defmodule BluefinDecryptxP2pe.Types do
     * `"completeDate"` — String.t() (optional)
     * `"created"` — String.t() (optional)
     * `"device"` — map() (optional)
+    * `"devices"` — list() (required)
     * `"id"` — String.t() (optional)
     * `"name"` — String.t() (optional)
     * `"notes"` — String.t() (optional)
@@ -125,6 +127,12 @@ defmodule BluefinDecryptxP2pe.Types do
 
   @typedoc """
   CreateResult entity data model.
+
+  Members:
+    * `"completeDate"` — String.t() (optional)
+    * `"custodian"` — map() (required)
+    * `"location"` — map() (required)
+    * `"notes"` — String.t() (optional)
   """
   @type create_result :: %{optional(String.t()) => any()}
 
@@ -134,6 +142,10 @@ defmodule BluefinDecryptxP2pe.Types do
   Members:
     * `"device_type"` — String.t() (required)
     * `"serial_number"` — String.t() (required)
+    * `"completeDate"` — String.t() (optional)
+    * `"custodian"` — map() (required)
+    * `"location"` — map() (required)
+    * `"notes"` — String.t() (optional)
   """
   @type create_result_create_data :: %{optional(String.t()) => any()}
 
@@ -141,6 +153,14 @@ defmodule BluefinDecryptxP2pe.Types do
   Decryption entity data model.
 
   Members:
+    * `"cbcVector"` — String.t() (optional)
+    * `"deviceType"` — String.t() (required)
+    * `"encoding"` — String.t() (optional)
+    * `"encrypted"` — list() (required)
+    * `"hasCcData"` — String.t() (optional)
+    * `"reference"` — String.t() (optional)
+    * `"sequenceNumber"` — String.t() (optional)
+    * `"serialNumber"` — String.t() (required)
     * `"success"` — boolean() (optional)
   """
   @type decryption :: %{optional(String.t()) => any()}
@@ -149,6 +169,14 @@ defmodule BluefinDecryptxP2pe.Types do
   Request payload for Decryption create.
 
   Members:
+    * `"cbcVector"` — String.t() (optional)
+    * `"deviceType"` — String.t() (required)
+    * `"encoding"` — String.t() (optional)
+    * `"encrypted"` — list() (required)
+    * `"hasCcData"` — String.t() (optional)
+    * `"reference"` — String.t() (optional)
+    * `"sequenceNumber"` — String.t() (optional)
+    * `"serialNumber"` — String.t() (required)
     * `"success"` — boolean() (optional)
   """
   @type decryption_create_data :: %{optional(String.t()) => any()}
@@ -352,7 +380,9 @@ defmodule BluefinDecryptxP2pe.Types do
   DeviceReceiveResult entity data model.
 
   Members:
+    * `"serialNumber"` — String.t() (required)
     * `"success"` — boolean() (required)
+    * `"tamperLabel"` — String.t() (required)
   """
   @type device_receive_result :: %{optional(String.t()) => any()}
 
@@ -360,7 +390,9 @@ defmodule BluefinDecryptxP2pe.Types do
   Request payload for DeviceReceiveResult create.
 
   Members:
+    * `"serialNumber"` — String.t() (required)
     * `"success"` — boolean() (required)
+    * `"tamperLabel"` — String.t() (required)
   """
   @type device_receive_result_create_data :: %{optional(String.t()) => any()}
 
@@ -368,7 +400,15 @@ defmodule BluefinDecryptxP2pe.Types do
   DeviceRkiActivateResult entity data model.
 
   Members:
+    * `"appVersion"` — String.t() (optional)
+    * `"buildName"` — String.t() (optional)
+    * `"buildNumber"` — String.t() (optional)
+    * `"configFile"` — String.t() (optional)
+    * `"firmwareVersion"` — String.t() (optional)
+    * `"hardwareVersion"` — String.t() (optional)
+    * `"serialNumber"` — String.t() (required)
     * `"success"` — boolean() (required)
+    * `"whiteListingBinRanges"` — String.t() (optional)
   """
   @type device_rki_activate_result :: %{optional(String.t()) => any()}
 
@@ -376,7 +416,15 @@ defmodule BluefinDecryptxP2pe.Types do
   Request payload for DeviceRkiActivateResult create.
 
   Members:
+    * `"appVersion"` — String.t() (optional)
+    * `"buildName"` — String.t() (optional)
+    * `"buildNumber"` — String.t() (optional)
+    * `"configFile"` — String.t() (optional)
+    * `"firmwareVersion"` — String.t() (optional)
+    * `"hardwareVersion"` — String.t() (optional)
+    * `"serialNumber"` — String.t() (required)
     * `"success"` — boolean() (required)
+    * `"whiteListingBinRanges"` — String.t() (optional)
   """
   @type device_rki_activate_result_create_data :: %{optional(String.t()) => any()}
 
@@ -508,6 +556,7 @@ defmodule BluefinDecryptxP2pe.Types do
     * `"address2"` — String.t() (optional)
     * `"billingId"` — String.t() (optional)
     * `"city"` — String.t() (optional)
+    * `"client"` — map() (optional)
     * `"country"` — String.t() (optional)
     * `"created"` — String.t() (optional)
     * `"customReference"` — String.t() (optional)
@@ -556,6 +605,7 @@ defmodule BluefinDecryptxP2pe.Types do
     * `"address2"` — String.t() (optional)
     * `"billingId"` — String.t() (optional)
     * `"city"` — String.t() (optional)
+    * `"client"` — map() (optional)
     * `"country"` — String.t() (optional)
     * `"created"` — String.t() (optional)
     * `"customReference"` — String.t() (optional)
@@ -659,6 +709,7 @@ defmodule BluefinDecryptxP2pe.Types do
     * `"id"` — String.t() (optional)
     * `"items"` — list() (optional)
     * `"kif"` — map() (optional)
+    * `"location"` — map() (required)
     * `"modified"` — String.t() (optional)
     * `"partner"` — map() (optional)
     * `"shipmentType"` — String.t() (optional)
@@ -699,6 +750,7 @@ defmodule BluefinDecryptxP2pe.Types do
     * `"id"` — String.t() (optional)
     * `"items"` — list() (optional)
     * `"kif"` — map() (optional)
+    * `"location"` — map() (required)
     * `"modified"` — String.t() (optional)
     * `"partner"` — map() (optional)
     * `"shipmentType"` — String.t() (optional)
@@ -711,6 +763,8 @@ defmodule BluefinDecryptxP2pe.Types do
   Success entity data model.
 
   Members:
+    * `"devices"` — list() (required)
+    * `"sharePartnerFrom"` — map() (required)
     * `"success"` — boolean() (optional)
   """
   @type success :: %{optional(String.t()) => any()}
@@ -720,6 +774,8 @@ defmodule BluefinDecryptxP2pe.Types do
 
   Members:
     * `"share_partner_to"` — String.t() (required)
+    * `"devices"` — list() (required)
+    * `"sharePartnerFrom"` — map() (required)
     * `"success"` — boolean() (optional)
   """
   @type success_create_data :: %{optional(String.t()) => any()}
@@ -741,6 +797,7 @@ defmodule BluefinDecryptxP2pe.Types do
     * `"clientRef"` — String.t() (optional)
     * `"created"` — String.t() (optional)
     * `"decrypted"` — integer() (optional)
+    * `"device"` — map() (required)
     * `"deviceName"` — String.t() (optional)
     * `"directPartner"` — map() (optional)
     * `"encrypted"` — integer() (optional)
@@ -800,6 +857,7 @@ defmodule BluefinDecryptxP2pe.Types do
     * `"clientRef"` — String.t() (optional)
     * `"created"` — String.t() (optional)
     * `"decrypted"` — integer() (optional)
+    * `"device"` — map() (required)
     * `"deviceName"` — String.t() (optional)
     * `"directPartner"` — map() (optional)
     * `"encrypted"` — integer() (optional)
@@ -826,17 +884,68 @@ defmodule BluefinDecryptxP2pe.Types do
   UpdateResult entity data model.
 
   Members:
+    * `"address1"` — String.t() (optional)
+    * `"address2"` — String.t() (optional)
+    * `"alternateKey"` — String.t() (optional)
+    * `"auditNextDate"` — String.t() (optional)
+    * `"billingId"` — String.t() (optional)
+    * `"city"` — String.t() (optional)
     * `"client"` — map() (optional)
-    * `"email"` — String.t() (optional)
-    * `"firstName"` — String.t() (optional)
+    * `"clientCanOrderEquipment"` — boolean() (optional)
+    * `"clientRef"` — String.t() (optional)
+    * `"contact"` — map() (required)
+    * `"country"` — map() (optional)
+    * `"customReference"` — String.t() (optional)
+    * `"dateShipped"` — String.t() (optional)
+    * `"decrypted"` — integer() (optional)
+    * `"device"` — map() (optional)
+    * `"deviceBuild"` — map() (optional)
+    * `"deviceType"` — map() (optional)
+    * `"directPartner"` — map() (optional)
+    * `"email"` — String.t() (required)
+    * `"encrypted"` — integer() (optional)
+    * `"endDate"` — String.t() (optional)
+    * `"errCode"` — String.t() (optional)
+    * `"errMessage"` — String.t() (optional)
+    * `"firstName"` — String.t() (required)
     * `"id"` — String.t() (optional)
-    * `"isActive"` — boolean() (optional)
+    * `"injectKey"` — map() (optional)
+    * `"ipAddress"` — String.t() (optional)
+    * `"isActive"` — boolean() (required)
+    * `"items"` — list() (optional)
+    * `"keyType"` — String.t() (optional)
     * `"kif"` — map() (optional)
-    * `"lastName"` — String.t() (optional)
+    * `"lastName"` — String.t() (required)
+    * `"location"` — map() (required)
+    * `"locationType"` — String.t() (optional)
+    * `"mailAddress1"` — String.t() (optional)
+    * `"mailAddress2"` — String.t() (optional)
+    * `"mailCity"` — String.t() (optional)
+    * `"mailCountry"` — String.t() (optional)
+    * `"mailPostalCode"` — String.t() (optional)
+    * `"mailStateProvince"` — String.t() (optional)
+    * `"messageId"` — String.t() (optional)
+    * `"method"` — String.t() (optional)
+    * `"mid"` — String.t() (optional)
+    * `"name"` — String.t() (optional)
+    * `"nameOfBusiness"` — String.t() (optional)
+    * `"notes"` — String.t() (optional)
+    * `"parent"` — map() (optional)
     * `"partner"` — map() (optional)
-    * `"phone"` — String.t() (optional)
-    * `"userName"` — String.t() (optional)
-    * `"userRole"` — map() (optional)
+    * `"partnerId"` — String.t() (optional)
+    * `"phone"` — String.t() (required)
+    * `"postalCode"` — String.t() (optional)
+    * `"reference"` — String.t() (optional)
+    * `"sendWelcomeEmail"` — boolean() (optional)
+    * `"serialNumber"` — String.t() (optional)
+    * `"startDate"` — String.t() (optional)
+    * `"stateProvince"` — String.t() (optional)
+    * `"success"` — boolean() (optional)
+    * `"tracking"` — String.t() (optional)
+    * `"uniqueId"` — String.t() (optional)
+    * `"userName"` — String.t() (required)
+    * `"userRole"` — map() (required)
+    * `"verificationPhrase"` — String.t() (optional)
     * `"version"` — integer() (optional)
   """
   @type update_result :: %{optional(String.t()) => any()}
@@ -857,17 +966,68 @@ defmodule BluefinDecryptxP2pe.Types do
   Request payload for UpdateResult create.
 
   Members:
+    * `"address1"` — String.t() (optional)
+    * `"address2"` — String.t() (optional)
+    * `"alternateKey"` — String.t() (optional)
+    * `"auditNextDate"` — String.t() (optional)
+    * `"billingId"` — String.t() (optional)
+    * `"city"` — String.t() (optional)
     * `"client"` — map() (optional)
-    * `"email"` — String.t() (optional)
-    * `"firstName"` — String.t() (optional)
+    * `"clientCanOrderEquipment"` — boolean() (optional)
+    * `"clientRef"` — String.t() (optional)
+    * `"contact"` — map() (required)
+    * `"country"` — map() (optional)
+    * `"customReference"` — String.t() (optional)
+    * `"dateShipped"` — String.t() (optional)
+    * `"decrypted"` — integer() (optional)
+    * `"device"` — map() (optional)
+    * `"deviceBuild"` — map() (optional)
+    * `"deviceType"` — map() (optional)
+    * `"directPartner"` — map() (optional)
+    * `"email"` — String.t() (required)
+    * `"encrypted"` — integer() (optional)
+    * `"endDate"` — String.t() (optional)
+    * `"errCode"` — String.t() (optional)
+    * `"errMessage"` — String.t() (optional)
+    * `"firstName"` — String.t() (required)
     * `"id"` — String.t() (optional)
-    * `"isActive"` — boolean() (optional)
+    * `"injectKey"` — map() (optional)
+    * `"ipAddress"` — String.t() (optional)
+    * `"isActive"` — boolean() (required)
+    * `"items"` — list() (optional)
+    * `"keyType"` — String.t() (optional)
     * `"kif"` — map() (optional)
-    * `"lastName"` — String.t() (optional)
+    * `"lastName"` — String.t() (required)
+    * `"location"` — map() (required)
+    * `"locationType"` — String.t() (optional)
+    * `"mailAddress1"` — String.t() (optional)
+    * `"mailAddress2"` — String.t() (optional)
+    * `"mailCity"` — String.t() (optional)
+    * `"mailCountry"` — String.t() (optional)
+    * `"mailPostalCode"` — String.t() (optional)
+    * `"mailStateProvince"` — String.t() (optional)
+    * `"messageId"` — String.t() (optional)
+    * `"method"` — String.t() (optional)
+    * `"mid"` — String.t() (optional)
+    * `"name"` — String.t() (optional)
+    * `"nameOfBusiness"` — String.t() (optional)
+    * `"notes"` — String.t() (optional)
+    * `"parent"` — map() (optional)
     * `"partner"` — map() (optional)
-    * `"phone"` — String.t() (optional)
-    * `"userName"` — String.t() (optional)
-    * `"userRole"` — map() (optional)
+    * `"partnerId"` — String.t() (optional)
+    * `"phone"` — String.t() (required)
+    * `"postalCode"` — String.t() (optional)
+    * `"reference"` — String.t() (optional)
+    * `"sendWelcomeEmail"` — boolean() (optional)
+    * `"serialNumber"` — String.t() (optional)
+    * `"startDate"` — String.t() (optional)
+    * `"stateProvince"` — String.t() (optional)
+    * `"success"` — boolean() (optional)
+    * `"tracking"` — String.t() (optional)
+    * `"uniqueId"` — String.t() (optional)
+    * `"userName"` — String.t() (required)
+    * `"userRole"` — map() (required)
+    * `"verificationPhrase"` — String.t() (optional)
     * `"version"` — integer() (optional)
   """
   @type update_result_create_data :: %{optional(String.t()) => any()}
@@ -877,16 +1037,67 @@ defmodule BluefinDecryptxP2pe.Types do
 
   Members:
     * `"id"` — String.t() (required)
+    * `"address1"` — String.t() (optional)
+    * `"address2"` — String.t() (optional)
+    * `"alternateKey"` — String.t() (optional)
+    * `"auditNextDate"` — String.t() (optional)
+    * `"billingId"` — String.t() (optional)
+    * `"city"` — String.t() (optional)
     * `"client"` — map() (optional)
+    * `"clientCanOrderEquipment"` — boolean() (optional)
+    * `"clientRef"` — String.t() (optional)
+    * `"contact"` — map() (optional)
+    * `"country"` — map() (optional)
+    * `"customReference"` — String.t() (optional)
+    * `"dateShipped"` — String.t() (optional)
+    * `"decrypted"` — integer() (optional)
+    * `"device"` — map() (optional)
+    * `"deviceBuild"` — map() (optional)
+    * `"deviceType"` — map() (optional)
+    * `"directPartner"` — map() (optional)
     * `"email"` — String.t() (optional)
+    * `"encrypted"` — integer() (optional)
+    * `"endDate"` — String.t() (optional)
+    * `"errCode"` — String.t() (optional)
+    * `"errMessage"` — String.t() (optional)
     * `"firstName"` — String.t() (optional)
+    * `"injectKey"` — map() (optional)
+    * `"ipAddress"` — String.t() (optional)
     * `"isActive"` — boolean() (optional)
+    * `"items"` — list() (optional)
+    * `"keyType"` — String.t() (optional)
     * `"kif"` — map() (optional)
     * `"lastName"` — String.t() (optional)
+    * `"location"` — map() (optional)
+    * `"locationType"` — String.t() (optional)
+    * `"mailAddress1"` — String.t() (optional)
+    * `"mailAddress2"` — String.t() (optional)
+    * `"mailCity"` — String.t() (optional)
+    * `"mailCountry"` — String.t() (optional)
+    * `"mailPostalCode"` — String.t() (optional)
+    * `"mailStateProvince"` — String.t() (optional)
+    * `"messageId"` — String.t() (optional)
+    * `"method"` — String.t() (optional)
+    * `"mid"` — String.t() (optional)
+    * `"name"` — String.t() (optional)
+    * `"nameOfBusiness"` — String.t() (optional)
+    * `"notes"` — String.t() (optional)
+    * `"parent"` — map() (optional)
     * `"partner"` — map() (optional)
+    * `"partnerId"` — String.t() (optional)
     * `"phone"` — String.t() (optional)
+    * `"postalCode"` — String.t() (optional)
+    * `"reference"` — String.t() (optional)
+    * `"sendWelcomeEmail"` — boolean() (optional)
+    * `"serialNumber"` — String.t() (optional)
+    * `"startDate"` — String.t() (optional)
+    * `"stateProvince"` — String.t() (optional)
+    * `"success"` — boolean() (optional)
+    * `"tracking"` — String.t() (optional)
+    * `"uniqueId"` — String.t() (optional)
     * `"userName"` — String.t() (optional)
     * `"userRole"` — map() (optional)
+    * `"verificationPhrase"` — String.t() (optional)
     * `"version"` — integer() (optional)
   """
   @type update_result_update_data :: %{optional(String.t()) => any()}

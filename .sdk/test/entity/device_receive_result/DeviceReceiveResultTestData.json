@@ -2,15 +2,21 @@
   "existing": {
     "device_receive_result": {
       "DEVICE_RECEIVE_RESULT00": {
-        "success": true,
+        "serialNumber": "s1e",
+        "success": false,
+        "tamperLabel": "s20",
         "id": "DEVICE_RECEIVE_RESULT00"
       },
       "DEVICE_RECEIVE_RESULT01": {
-        "success": true,
+        "serialNumber": "s3c",
+        "success": false,
+        "tamperLabel": "s3e",
         "id": "DEVICE_RECEIVE_RESULT01"
       },
       "DEVICE_RECEIVE_RESULT02": {
-        "success": true,
+        "serialNumber": "s5a",
+        "success": false,
+        "tamperLabel": "s5c",
         "id": "DEVICE_RECEIVE_RESULT02"
       }
     }
@@ -18,7 +24,9 @@
   "new": {
     "device_receive_result": {
       "device_receive_result_ref01": {
-        "success": true
+        "serialNumber": "s78",
+        "success": false,
+        "tamperLabel": "s7a"
       }
     }
   },

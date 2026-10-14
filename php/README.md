@@ -12,9 +12,14 @@ The SDK exposes the API as capitalised, semantic **Entities** — for example `$
 
 ## Install
 This package is not yet published to Packagist. Install it from the
-GitHub release tag (`php/vX.Y.Z`):
+GitHub release tag (`php/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags)), or
+from a clone as a Composer path repository:
 
-- Releases: [https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases)
+```bash
+git clone https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk
+composer config repositories.bluefin-decryptx-p2pe-sdk path ./bluefin-decryptx-p2pe-sdk/php
+composer require voxgig-sdk/bluefin-decryptx-p2pe-sdk:@dev
+```
 
 
 ## Tutorial: your first API call
@@ -38,7 +43,7 @@ $client = new BluefinDecryptxP2peSDK([
 ```php
 try {
     // list() returns entity instances; data_get() reads each record.
-    $attestations = $client->Attestation()->list();
+    $attestations = $client->Attestation()->list(["client" => "example"]);
     foreach ($attestations as $record) {
         $item = $record->data_get();
         echo $item["id"] . " " . $item["client"] . "\n";
@@ -66,7 +71,7 @@ try {
 
 ```php
 // create() returns the ENTITY — call data_get() for the created Attestation record.
-$created = $client->Attestation()->create(["client" => [], "completeDate" => "example_completeDate"]);
+$created = $client->Attestation()->create(["devices" => []]);
 
 ```
 
@@ -150,13 +155,13 @@ data via the `entity` option so offline calls resolve without a live server:
 
 ```php
 $client = BluefinDecryptxP2peSDK::test([
-    "entity" => ["shipment" => ["test01" => ["id" => "test01"]]],
+    "entity" => ["device_type" => ["test01" => ["id" => "test01"]]],
 ]);
 
 // list() returns entity instances (throws on error);
 // call data_get() for the mock record.
-$shipment = $client->Shipment()->list();
-print_r(array_map(fn($item) => $item->data_get(), $shipment));
+$devicetype = $client->DeviceType()->list();
+print_r(array_map(fn($item) => $item->data_get(), $devicetype));
 ```
 
 ### Use a custom fetch function
@@ -266,11 +271,11 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `($reqmatch, $ctrl): array` | Load a single entity by match criteria. |
-| `list` | `(?array $reqmatch = null, $ctrl): array` | List entities matching the criteria (call with no argument to list all). |
-| `create` | `($reqdata, $ctrl): array` | Create a new entity. |
-| `update` | `($reqdata, $ctrl): array` | Update an existing entity. |
-| `remove` | `($reqmatch, $ctrl): array` | Remove an entity. |
+| `load` | `($reqmatch, $ctrl): mixed` | Load a single entity by match criteria, and return it. |
+| `list` | `(?array $reqmatch = null, $ctrl): mixed` | List entities matching the criteria (call with no argument to list all), one per record. |
+| `create` | `($reqdata, $ctrl): mixed` | Create a new entity, and return it. |
+| `update` | `($reqdata, $ctrl): mixed` | Update an existing entity, and return it. |
+| `remove` | `($reqmatch, $ctrl): mixed` | Remove an entity, and return it marked as deleted. |
 | `data_get` | `(): array` | Get entity data. |
 | `data_set` | `($data): void` | Set entity data. |
 | `match_get` | `(): array` | Get entity match criteria. |
@@ -280,9 +285,9 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the ENTITY (call data_get() for the record) (an `array` for single-entity
-ops, a `list` for `list`) and throw on error. Wrap calls in
-`try`/`catch` to handle failures.
+Entity operations return the entity, and `list` an `array` of entities, one
+per record; an entity's `data_get()` reads its record (an `array`). They
+throw on error, so wrap calls in `try`/`catch` to handle failures.
 
 The `direct()` escape hatch never throws — it returns a result `array`
 you branch on via `$result["ok"]`:
@@ -306,6 +311,7 @@ On error, `ok` is `false` and `$err` contains the error value.
 | `completeDate` | The date and time that the Attestation took place. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `device` | Reference to the associated Device resource. |
+| `devices` |  |
 | `id` | This resource's unique identifier. |
 | `name` | Text describing the attestation. |
 | `notes` | Free form field that allows the Client associate notes with the Attestation. |
@@ -338,6 +344,10 @@ API path: `/clients`
 
 | Field | Description |
 | --- | --- |
+| `completeDate` | The date and time that the Custody change took place. |
+| `custodian` | Reference to the associated User resource. |
+| `location` | Reference to the associated Location resource. |
+| `notes` | Free form field that allows the Client associate notes with the Custody Change. |
 
 Operations: Create.
 
@@ -347,6 +357,14 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
+| `cbcVector` | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | The device Type. |
+| `encoding` | The payload encoding |
+| `encrypted` |  |
+| `hasCcData` | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | The serial number of the device. |
 | `success` | true if the payload decryption was successful. |
 
 Operations: Create.
@@ -462,7 +480,9 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
+| `serialNumber` | The serial number of the Device that is shipped. |
 | `success` | Indicates if the action succeeded. |
+| `tamperLabel` | The code that is printed the tamper label of the Device that is shipped. |
 
 Operations: Create.
 
@@ -472,7 +492,15 @@ API path: `/devices/receive`
 
 | Field | Description |
 | --- | --- |
+| `appVersion` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | The Device Builds's name. |
+| `buildNumber` | The Build Number. |
+| `configFile` | \? |
+| `firmwareVersion` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | The referenced Device's serial number. |
 | `success` | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | \? |
 
 Operations: Create.
 
@@ -546,6 +574,7 @@ API path: `/kifs`
 | `address2` | The Location's street address. |
 | `billingId` | \? |
 | `city` | The Location's city. |
+| `client` | Reference to the associated Client resource. |
 | `country` | The Location's country. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `customReference` | A Partner specified reference for a location. |
@@ -606,6 +635,7 @@ API path: `/partners`
 | `id` | This resource's unique identifier. |
 | `items` |  |
 | `kif` | Reference to the associated KIF resource. |
+| `location` | Reference to the associated Location resource. |
 | `modified` | Last modified timestamp. |
 | `partner` | Reference to the associated Partner. |
 | `shipmentType` | The type of shipment. |
@@ -620,6 +650,8 @@ API path: `/shipments`
 
 | Field | Description |
 | --- | --- |
+| `devices` | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | Reference to the associated Partner. |
 | `success` | Indicates if the action was a success. |
 
 Operations: Create, Remove.
@@ -635,6 +667,7 @@ API path: `/virtualDevices/{sharePartnerTo}`
 | `clientRef` | Client Reference property that is included in the decrypt API call. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `decrypted` | A Transcation can process muliple decryptions. |
+| `device` | Reference to the associated Device resource. |
 | `deviceName` | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | Reference to the associated Partner. |
 | `encrypted` | A Transcation can process muliple encryptions. |
@@ -663,17 +696,68 @@ API path: `/transactions`
 
 | Field | Description |
 | --- | --- |
+| `address1` | The Location's street address. |
+| `address2` | The Location's street address. |
+| `alternateKey` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | \? |
+| `city` | The Location's city. |
 | `client` | Reference to the associated Client resource. |
+| `clientCanOrderEquipment` | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | Client Reference property that is included in the decrypt API call. |
+| `contact` | Reference to the associated User resource. |
+| `country` | Reference to the associated Country. |
+| `customReference` | A Partner specified reference for a location. |
+| `dateShipped` | The date and time that a package is shipped. |
+| `decrypted` | A Transcation can process muliple decryptions. |
+| `device` | Reference to the associated Device resource. |
+| `deviceBuild` | Reference to the associated Device Build resource. |
+| `deviceType` | Reference to the associated Device Type resource. |
+| `directPartner` | Reference to the associated Partner. |
 | `email` | The User's email address. |
+| `encrypted` | A Transcation can process muliple encryptions. |
+| `endDate` | Timestamp from the end of the transaction. |
+| `errCode` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | The error messge that is sent in response to a failed decrypt API call. |
 | `firstName` | The User's name. |
 | `id` | ID of newly created resource |
+| `injectKey` | Reference to the associated Device resource. |
+| `ipAddress` | The IP address of the http client that makes the decrypt API call. |
 | `isActive` | This property indicates if the User account is active or disabled. |
+| `items` |  |
+| `keyType` | The type of cipher used during decrytion. |
 | `kif` | Reference to the associated KIF resource. |
 | `lastName` | The User's Surname. |
+| `location` | Reference to the associated Location resource. |
+| `locationType` | The Location's clasification. |
+| `mailAddress1` | The Location's street address. |
+| `mailAddress2` | The Location's street address. |
+| `mailCity` | The Location's city. |
+| `mailCountry` | The Location's street address. |
+| `mailPostalCode` | The Location's postal code. |
+| `mailStateProvince` | The Location's street state or province. |
+| `messageId` | Message ID. |
+| `method` | The decryption cypher/method. |
+| `mid` | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | The Client's name. |
+| `nameOfBusiness` | The name of the business at this location. |
+| `notes` | Arbitary note that can be attached to a Device entry. |
+| `parent` | Reference to the associated Partner. |
 | `partner` | Reference to the associated Partner. |
+| `partnerId` | The Partner's id. |
 | `phone` | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | The Location's postal code. |
+| `reference` | The Partner's reference string. |
+| `sendWelcomeEmail` | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | The Device's serial number. |
+| `startDate` | Timestamp from the beginning of the transaction. |
+| `stateProvince` | The Location's street state or province. |
+| `success` | The success indicator. |
+| `tracking` | The courier's tracking number. |
+| `uniqueId` | Unique Identifier for the Location. |
 | `userName` | The User's unique username. |
 | `userRole` | Reference to the associated User Role. |
+| `verificationPhrase` | The verification phrase is a message that the Partner creates. |
 | `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Update.
@@ -740,6 +824,7 @@ Create an instance: `$attestation = $client->Attestation();`
 | `completeDate` | `string` | The date and time that the Attestation took place. |
 | `created` | `string` | Creation timestamp in ISO 8601 format. |
 | `device` | `array` | Reference to the associated Device resource. |
+| `devices` | `array` |  |
 | `id` | `string` | This resource's unique identifier. |
 | `name` | `string` | Text describing the attestation. |
 | `notes` | `string` | Free form field that allows the Client associate notes with the Attestation. |
@@ -754,14 +839,15 @@ $attestation = $client->Attestation()->load(["id" => "attestation_id"]);
 #### Example: List
 
 ```php
-// list() returns an array of Attestation records (throws on error).
-$attestations = $client->Attestation()->list();
+// list() returns an array of Attestation entities, one per record (throws on error).
+$attestations = $client->Attestation()->list(["client" => "example"]);
 ```
 
 #### Example: Create
 
 ```php
 $attestation = $client->Attestation()->create([
+    "devices" => null, // array
 ]);
 ```
 
@@ -805,8 +891,8 @@ $client = $client->Client()->load(["id" => "client_id"]);
 #### Example: List
 
 ```php
-// list() returns an array of Client records (throws on error).
-$clients = $client->Client()->list();
+// list() returns an array of Client entities, one per record (throws on error).
+$clients = $client->Client()->list(["partner" => "example"]);
 ```
 
 #### Example: Create
@@ -828,12 +914,23 @@ Create an instance: `$create_result = $client->CreateResult();`
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `completeDate` | `string` | The date and time that the Custody change took place. |
+| `custodian` | `array` | Reference to the associated User resource. |
+| `location` | `array` | Reference to the associated Location resource. |
+| `notes` | `string` | Free form field that allows the Client associate notes with the Custody Change. |
+
 #### Example: Create
 
 ```php
 $create_result = $client->CreateResult()->create([
     "device_type" => null, // string
     "serial_number" => null, // string
+    "custodian" => null, // array
+    "location" => null, // array
 ]);
 ```
 
@@ -852,12 +949,23 @@ Create an instance: `$decryption = $client->Decryption();`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `cbcVector` | `string` | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | `string` | The device Type. |
+| `encoding` | `string` | The payload encoding |
+| `encrypted` | `array` |  |
+| `hasCcData` | `string` | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | `string` | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | `string` | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | `string` | The serial number of the device. |
 | `success` | `bool` | true if the payload decryption was successful. |
 
 #### Example: Create
 
 ```php
 $decryption = $client->Decryption()->create([
+    "deviceType" => null, // string
+    "encrypted" => null, // array
+    "serialNumber" => null, // string
 ]);
 ```
 
@@ -917,7 +1025,7 @@ $device = $client->Device()->load(["id" => "device_id"]);
 #### Example: List
 
 ```php
-// list() returns an array of Device records (throws on error).
+// list() returns an array of Device entities, one per record (throws on error).
 $devices = $client->Device()->list();
 ```
 
@@ -975,7 +1083,7 @@ $device_build = $client->DeviceBuild()->load(["id" => "device_build_id"]);
 #### Example: List
 
 ```php
-// list() returns an array of DeviceBuild records (throws on error).
+// list() returns an array of DeviceBuild entities, one per record (throws on error).
 $device_builds = $client->DeviceBuild()->list();
 ```
 
@@ -1047,8 +1155,8 @@ Create an instance: `$device_custody_list_item = $client->DeviceCustodyListItem(
 #### Example: List
 
 ```php
-// list() returns an array of DeviceCustodyListItem records (throws on error).
-$device_custody_list_items = $client->DeviceCustodyListItem()->list();
+// list() returns an array of DeviceCustodyListItem entities, one per record (throws on error).
+$device_custody_list_items = $client->DeviceCustodyListItem()->list(["device_type" => "example", "serial_number" => "example"]);
 ```
 
 
@@ -1066,13 +1174,17 @@ Create an instance: `$device_receive_result = $client->DeviceReceiveResult();`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `serialNumber` | `string` | The serial number of the Device that is shipped. |
 | `success` | `bool` | Indicates if the action succeeded. |
+| `tamperLabel` | `string` | The code that is printed the tamper label of the Device that is shipped. |
 
 #### Example: Create
 
 ```php
 $device_receive_result = $client->DeviceReceiveResult()->create([
+    "serialNumber" => null, // string
     "success" => null, // bool
+    "tamperLabel" => null, // string
 ]);
 ```
 
@@ -1091,12 +1203,21 @@ Create an instance: `$device_rki_activate_result = $client->DeviceRkiActivateRes
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `appVersion` | `string` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | `string` | The Device Builds's name. |
+| `buildNumber` | `string` | The Build Number. |
+| `configFile` | `string` | \? |
+| `firmwareVersion` | `string` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `string` | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | `string` | The referenced Device's serial number. |
 | `success` | `bool` | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | `string` | \? |
 
 #### Example: Create
 
 ```php
 $device_rki_activate_result = $client->DeviceRkiActivateResult()->create([
+    "serialNumber" => null, // string
     "success" => null, // bool
 ]);
 ```
@@ -1122,7 +1243,7 @@ Create an instance: `$device_state = $client->DeviceState();`
 #### Example: List
 
 ```php
-// list() returns an array of DeviceState records (throws on error).
+// list() returns an array of DeviceState entities, one per record (throws on error).
 $device_states = $client->DeviceState()->list();
 ```
 
@@ -1165,7 +1286,7 @@ $device_type = $client->DeviceType()->load(["id" => "device_type_id"]);
 #### Example: List
 
 ```php
-// list() returns an array of DeviceType records (throws on error).
+// list() returns an array of DeviceType entities, one per record (throws on error).
 $device_types = $client->DeviceType()->list();
 ```
 
@@ -1204,7 +1325,7 @@ $inject_key = $client->InjectKey()->load(["id" => "inject_key_id"]);
 #### Example: List
 
 ```php
-// list() returns an array of InjectKey records (throws on error).
+// list() returns an array of InjectKey entities, one per record (throws on error).
 $inject_keys = $client->InjectKey()->list();
 ```
 
@@ -1229,7 +1350,7 @@ Create an instance: `$kif = $client->Kif();`
 #### Example: List
 
 ```php
-// list() returns an array of Kif records (throws on error).
+// list() returns an array of Kif entities, one per record (throws on error).
 $kifs = $client->Kif()->list();
 ```
 
@@ -1255,6 +1376,7 @@ Create an instance: `$location = $client->Location();`
 | `address2` | `string` | The Location's street address. |
 | `billingId` | `string` | \? |
 | `city` | `string` | The Location's city. |
+| `client` | `array` | Reference to the associated Client resource. |
 | `country` | `string` | The Location's country. |
 | `created` | `string` | Creation timestamp in ISO 8601 format. |
 | `customReference` | `string` | A Partner specified reference for a location. |
@@ -1285,8 +1407,8 @@ $location = $client->Location()->load(["id" => "location_id"]);
 #### Example: List
 
 ```php
-// list() returns an array of Location records (throws on error).
-$locations = $client->Location()->list();
+// list() returns an array of Location entities, one per record (throws on error).
+$locations = $client->Location()->list(["client" => "example"]);
 ```
 
 #### Example: Create
@@ -1338,7 +1460,7 @@ $partner = $client->Partner()->load(["id" => "partner_id"]);
 #### Example: List
 
 ```php
-// list() returns an array of Partner records (throws on error).
+// list() returns an array of Partner entities, one per record (throws on error).
 $partners = $client->Partner()->list();
 ```
 
@@ -1376,6 +1498,7 @@ Create an instance: `$shipment = $client->Shipment();`
 | `id` | `string` | This resource's unique identifier. |
 | `items` | `array` |  |
 | `kif` | `array` | Reference to the associated KIF resource. |
+| `location` | `array` | Reference to the associated Location resource. |
 | `modified` | `string` | Last modified timestamp. |
 | `partner` | `array` | Reference to the associated Partner. |
 | `shipmentType` | `string` | The type of shipment. |
@@ -1392,14 +1515,15 @@ $shipment = $client->Shipment()->load(["id" => "shipment_id"]);
 #### Example: List
 
 ```php
-// list() returns an array of Shipment records (throws on error).
-$shipments = $client->Shipment()->list();
+// list() returns an array of Shipment entities, one per record (throws on error).
+$shipments = $client->Shipment()->list(["kif" => "example"]);
 ```
 
 #### Example: Create
 
 ```php
 $shipment = $client->Shipment()->create([
+    "location" => null, // array
 ]);
 ```
 
@@ -1419,6 +1543,8 @@ Create an instance: `$success = $client->Success();`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `devices` | `array` | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | `array` | Reference to the associated Partner. |
 | `success` | `bool` | Indicates if the action was a success. |
 
 #### Example: Create
@@ -1426,6 +1552,8 @@ Create an instance: `$success = $client->Success();`
 ```php
 $success = $client->Success()->create([
     "share_partner_to" => null, // string
+    "devices" => null, // array
+    "sharePartnerFrom" => null, // array
 ]);
 ```
 
@@ -1451,6 +1579,7 @@ Create an instance: `$transaction = $client->Transaction();`
 | `clientRef` | `string` | Client Reference property that is included in the decrypt API call. |
 | `created` | `string` | Creation timestamp in ISO 8601 format. |
 | `decrypted` | `int` | A Transcation can process muliple decryptions. |
+| `device` | `array` | Reference to the associated Device resource. |
 | `deviceName` | `string` | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | `array` | Reference to the associated Partner. |
 | `encrypted` | `int` | A Transcation can process muliple encryptions. |
@@ -1481,7 +1610,7 @@ $transaction = $client->Transaction()->load(["id" => "transaction_id"]);
 #### Example: List
 
 ```php
-// list() returns an array of Transaction records (throws on error).
+// list() returns an array of Transaction entities, one per record (throws on error).
 $transactions = $client->Transaction()->list();
 ```
 
@@ -1489,6 +1618,7 @@ $transactions = $client->Transaction()->list();
 
 ```php
 $transaction = $client->Transaction()->create([
+    "device" => null, // array
     "location" => null, // array
 ]);
 ```
@@ -1510,23 +1640,74 @@ Create an instance: `$update_result = $client->UpdateResult();`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `address1` | `string` | The Location's street address. |
+| `address2` | `string` | The Location's street address. |
+| `alternateKey` | `string` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `string` | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | `string` | \? |
+| `city` | `string` | The Location's city. |
 | `client` | `array` | Reference to the associated Client resource. |
+| `clientCanOrderEquipment` | `bool` | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | `string` | Client Reference property that is included in the decrypt API call. |
+| `contact` | `array` | Reference to the associated User resource. |
+| `country` | `array` | Reference to the associated Country. |
+| `customReference` | `string` | A Partner specified reference for a location. |
+| `dateShipped` | `string` | The date and time that a package is shipped. |
+| `decrypted` | `int` | A Transcation can process muliple decryptions. |
+| `device` | `array` | Reference to the associated Device resource. |
+| `deviceBuild` | `array` | Reference to the associated Device Build resource. |
+| `deviceType` | `array` | Reference to the associated Device Type resource. |
+| `directPartner` | `array` | Reference to the associated Partner. |
 | `email` | `string` | The User's email address. |
+| `encrypted` | `int` | A Transcation can process muliple encryptions. |
+| `endDate` | `string` | Timestamp from the end of the transaction. |
+| `errCode` | `string` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `string` | The error messge that is sent in response to a failed decrypt API call. |
 | `firstName` | `string` | The User's name. |
 | `id` | `string` | ID of newly created resource |
+| `injectKey` | `array` | Reference to the associated Device resource. |
+| `ipAddress` | `string` | The IP address of the http client that makes the decrypt API call. |
 | `isActive` | `bool` | This property indicates if the User account is active or disabled. |
+| `items` | `array` |  |
+| `keyType` | `string` | The type of cipher used during decrytion. |
 | `kif` | `array` | Reference to the associated KIF resource. |
 | `lastName` | `string` | The User's Surname. |
+| `location` | `array` | Reference to the associated Location resource. |
+| `locationType` | `string` | The Location's clasification. |
+| `mailAddress1` | `string` | The Location's street address. |
+| `mailAddress2` | `string` | The Location's street address. |
+| `mailCity` | `string` | The Location's city. |
+| `mailCountry` | `string` | The Location's street address. |
+| `mailPostalCode` | `string` | The Location's postal code. |
+| `mailStateProvince` | `string` | The Location's street state or province. |
+| `messageId` | `string` | Message ID. |
+| `method` | `string` | The decryption cypher/method. |
+| `mid` | `string` | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | `string` | The Client's name. |
+| `nameOfBusiness` | `string` | The name of the business at this location. |
+| `notes` | `string` | Arbitary note that can be attached to a Device entry. |
+| `parent` | `array` | Reference to the associated Partner. |
 | `partner` | `array` | Reference to the associated Partner. |
+| `partnerId` | `string` | The Partner's id. |
 | `phone` | `string` | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | `string` | The Location's postal code. |
+| `reference` | `string` | The Partner's reference string. |
+| `sendWelcomeEmail` | `bool` | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | `string` | The Device's serial number. |
+| `startDate` | `string` | Timestamp from the beginning of the transaction. |
+| `stateProvince` | `string` | The Location's street state or province. |
+| `success` | `bool` | The success indicator. |
+| `tracking` | `string` | The courier's tracking number. |
+| `uniqueId` | `string` | Unique Identifier for the Location. |
 | `userName` | `string` | The User's unique username. |
 | `userRole` | `array` | Reference to the associated User Role. |
+| `verificationPhrase` | `string` | The verification phrase is a message that the Partner creates. |
 | `version` | `int` | The number of times that this resource has been updated. |
 
 #### Example: List
 
 ```php
-// list() returns an array of UpdateResult records (throws on error).
+// list() returns an array of UpdateResult entities, one per record (throws on error).
 $update_results = $client->UpdateResult()->list();
 ```
 
@@ -1534,6 +1715,15 @@ $update_results = $client->UpdateResult()->list();
 
 ```php
 $update_result = $client->UpdateResult()->create([
+    "contact" => null, // array
+    "email" => null, // string
+    "firstName" => null, // string
+    "isActive" => null, // bool
+    "lastName" => null, // string
+    "location" => null, // array
+    "phone" => null, // string
+    "userName" => null, // string
+    "userRole" => null, // array
 ]);
 ```
 

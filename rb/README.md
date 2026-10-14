@@ -12,9 +12,18 @@ The SDK exposes the API as capitalised, semantic **Entities** — for example `c
 
 ## Install
 This package is not yet published to RubyGems. Install it from the
-GitHub release tag (`rb/vX.Y.Z`):
+GitHub release tag (`rb/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags)), or
+from a clone:
 
-- Releases: [https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases)
+```bash
+git clone https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk
+```
+
+Then add it to your `Gemfile` by path, and run `bundle install`:
+
+```ruby
+gem "voxgig-sdk-bluefin-decryptx-p2pe-sdk", path: "./bluefin-decryptx-p2pe-sdk/rb"
+```
 
 
 ## Tutorial: your first API call
@@ -36,10 +45,11 @@ client = BluefinDecryptxP2peSDK.new({
 
 ```ruby
 begin
-  # list returns an Array of Attestation records — iterate directly.
-  attestations = client.Attestation.list
+  # list returns an Array of Attestation entities, one per record; data_get reads the record.
+  attestations = client.Attestation.list({ "client" => "example" })
   attestations.each do |item|
-    puts "#{item["id"]} #{item["client"]}"
+    record = item.data_get
+    puts "#{record["id"]} #{record["client"]}"
   end
 rescue => err
   warn "list failed: #{err}"
@@ -54,7 +64,7 @@ DeviceCustodyDetail is nested under device_type, so provide the `device_type`.
 begin
   # load returns the ENTITY — call data_get for the DeviceCustodyDetail record (raises on error).
   devicecustodydetail = client.DeviceCustodyDetail.load({ "device_type" => "example_device_type", "serial_number" => "example_serial_number", "id" => "example_id" })
-  puts devicecustodydetail
+  puts devicecustodydetail.data_get
 rescue => err
   warn "load failed: #{err}"
 end
@@ -64,7 +74,7 @@ end
 
 ```ruby
 # create returns the ENTITY — call data_get for the created Attestation record.
-created = client.Attestation.create({ "client" => {}, "completeDate" => "example_completeDate" })
+created = client.Attestation.create({ "devices" => [] })
 
 ```
 
@@ -143,13 +153,13 @@ data via the `entity` option so offline calls resolve without a live server:
 
 ```ruby
 client = BluefinDecryptxP2peSDK.test({
-  "entity" => { "devicetype" => { "test01" => { "id" => "test01" } } },
+  "entity" => { "device_type" => { "test01" => { "id" => "test01" } } },
 })
 
-# Entity ops return the ENTITY (raises on error);
-# call data_get for the mock record.
-devicetype = client.DeviceType.list()
-puts devicetype
+# list returns an Array of DeviceType entities, one per mock record (raises on
+# error); data_get reads each record.
+devicetypes = client.DeviceType.list()
+devicetypes.each { |item| puts item.data_get }
 ```
 
 ### Use a custom fetch function
@@ -256,11 +266,11 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria. Raises on error. |
-| `list` | `(reqmatch = nil, ctrl) -> Array` | List entities matching the criteria (call with no argument to list all). Raises on error. |
-| `create` | `(reqdata, ctrl) -> any` | Create a new entity. Raises on error. |
-| `update` | `(reqdata, ctrl) -> any` | Update an existing entity. Raises on error. |
-| `remove` | `(reqmatch, ctrl) -> any` | Remove an entity. Raises on error. |
+| `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria, and return it. Raises on error. |
+| `list` | `(reqmatch = nil, ctrl) -> Array` | List entities matching the criteria (call with no argument to list all), one per record. Raises on error. |
+| `create` | `(reqdata, ctrl) -> any` | Create a new entity, and return it. Raises on error. |
+| `update` | `(reqdata, ctrl) -> any` | Update an existing entity, and return it. Raises on error. |
+| `remove` | `(reqmatch, ctrl) -> any` | Remove an entity, and return it marked as deleted. Raises on error. |
 | `data_get` | `() -> Hash` | Get entity data. |
 | `data_set` | `(data)` | Set entity data. |
 | `match_get` | `() -> Hash` | Get entity match criteria. |
@@ -270,9 +280,10 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the result data directly. On failure they
-raise a `BluefinDecryptxP2peError` (a `StandardError` subclass), so wrap
-calls in `begin`/`rescue` where you need to handle errors.
+Entity operations return the entity, and `list` an `Array` of entities, one
+per record; an entity's `data_get` reads its record. On failure they raise a
+`BluefinDecryptxP2peError` (a `StandardError` subclass), so wrap calls in
+`begin`/`rescue` where you need to handle errors.
 
 The `direct` escape hatch is the exception: it never raises and instead
 returns a result `Hash` with these keys:
@@ -295,6 +306,7 @@ returns a result `Hash` with these keys:
 | `completeDate` | The date and time that the Attestation took place. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `device` | Reference to the associated Device resource. |
+| `devices` |  |
 | `id` | This resource's unique identifier. |
 | `name` | Text describing the attestation. |
 | `notes` | Free form field that allows the Client associate notes with the Attestation. |
@@ -327,6 +339,10 @@ API path: `/clients`
 
 | Field | Description |
 | --- | --- |
+| `completeDate` | The date and time that the Custody change took place. |
+| `custodian` | Reference to the associated User resource. |
+| `location` | Reference to the associated Location resource. |
+| `notes` | Free form field that allows the Client associate notes with the Custody Change. |
 
 Operations: Create.
 
@@ -336,6 +352,14 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
+| `cbcVector` | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | The device Type. |
+| `encoding` | The payload encoding |
+| `encrypted` |  |
+| `hasCcData` | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | The serial number of the device. |
 | `success` | true if the payload decryption was successful. |
 
 Operations: Create.
@@ -451,7 +475,9 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
+| `serialNumber` | The serial number of the Device that is shipped. |
 | `success` | Indicates if the action succeeded. |
+| `tamperLabel` | The code that is printed the tamper label of the Device that is shipped. |
 
 Operations: Create.
 
@@ -461,7 +487,15 @@ API path: `/devices/receive`
 
 | Field | Description |
 | --- | --- |
+| `appVersion` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | The Device Builds's name. |
+| `buildNumber` | The Build Number. |
+| `configFile` | \? |
+| `firmwareVersion` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | The referenced Device's serial number. |
 | `success` | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | \? |
 
 Operations: Create.
 
@@ -535,6 +569,7 @@ API path: `/kifs`
 | `address2` | The Location's street address. |
 | `billingId` | \? |
 | `city` | The Location's city. |
+| `client` | Reference to the associated Client resource. |
 | `country` | The Location's country. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `customReference` | A Partner specified reference for a location. |
@@ -595,6 +630,7 @@ API path: `/partners`
 | `id` | This resource's unique identifier. |
 | `items` |  |
 | `kif` | Reference to the associated KIF resource. |
+| `location` | Reference to the associated Location resource. |
 | `modified` | Last modified timestamp. |
 | `partner` | Reference to the associated Partner. |
 | `shipmentType` | The type of shipment. |
@@ -609,6 +645,8 @@ API path: `/shipments`
 
 | Field | Description |
 | --- | --- |
+| `devices` | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | Reference to the associated Partner. |
 | `success` | Indicates if the action was a success. |
 
 Operations: Create, Remove.
@@ -624,6 +662,7 @@ API path: `/virtualDevices/{sharePartnerTo}`
 | `clientRef` | Client Reference property that is included in the decrypt API call. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `decrypted` | A Transcation can process muliple decryptions. |
+| `device` | Reference to the associated Device resource. |
 | `deviceName` | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | Reference to the associated Partner. |
 | `encrypted` | A Transcation can process muliple encryptions. |
@@ -652,17 +691,68 @@ API path: `/transactions`
 
 | Field | Description |
 | --- | --- |
+| `address1` | The Location's street address. |
+| `address2` | The Location's street address. |
+| `alternateKey` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | \? |
+| `city` | The Location's city. |
 | `client` | Reference to the associated Client resource. |
+| `clientCanOrderEquipment` | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | Client Reference property that is included in the decrypt API call. |
+| `contact` | Reference to the associated User resource. |
+| `country` | Reference to the associated Country. |
+| `customReference` | A Partner specified reference for a location. |
+| `dateShipped` | The date and time that a package is shipped. |
+| `decrypted` | A Transcation can process muliple decryptions. |
+| `device` | Reference to the associated Device resource. |
+| `deviceBuild` | Reference to the associated Device Build resource. |
+| `deviceType` | Reference to the associated Device Type resource. |
+| `directPartner` | Reference to the associated Partner. |
 | `email` | The User's email address. |
+| `encrypted` | A Transcation can process muliple encryptions. |
+| `endDate` | Timestamp from the end of the transaction. |
+| `errCode` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | The error messge that is sent in response to a failed decrypt API call. |
 | `firstName` | The User's name. |
 | `id` | ID of newly created resource |
+| `injectKey` | Reference to the associated Device resource. |
+| `ipAddress` | The IP address of the http client that makes the decrypt API call. |
 | `isActive` | This property indicates if the User account is active or disabled. |
+| `items` |  |
+| `keyType` | The type of cipher used during decrytion. |
 | `kif` | Reference to the associated KIF resource. |
 | `lastName` | The User's Surname. |
+| `location` | Reference to the associated Location resource. |
+| `locationType` | The Location's clasification. |
+| `mailAddress1` | The Location's street address. |
+| `mailAddress2` | The Location's street address. |
+| `mailCity` | The Location's city. |
+| `mailCountry` | The Location's street address. |
+| `mailPostalCode` | The Location's postal code. |
+| `mailStateProvince` | The Location's street state or province. |
+| `messageId` | Message ID. |
+| `method` | The decryption cypher/method. |
+| `mid` | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | The Client's name. |
+| `nameOfBusiness` | The name of the business at this location. |
+| `notes` | Arbitary note that can be attached to a Device entry. |
+| `parent` | Reference to the associated Partner. |
 | `partner` | Reference to the associated Partner. |
+| `partnerId` | The Partner's id. |
 | `phone` | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | The Location's postal code. |
+| `reference` | The Partner's reference string. |
+| `sendWelcomeEmail` | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | The Device's serial number. |
+| `startDate` | Timestamp from the beginning of the transaction. |
+| `stateProvince` | The Location's street state or province. |
+| `success` | The success indicator. |
+| `tracking` | The courier's tracking number. |
+| `uniqueId` | Unique Identifier for the Location. |
 | `userName` | The User's unique username. |
 | `userRole` | Reference to the associated User Role. |
+| `verificationPhrase` | The verification phrase is a message that the Partner creates. |
 | `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Update.
@@ -729,6 +819,7 @@ Create an instance: `attestation = client.Attestation`
 | `completeDate` | `String` | The date and time that the Attestation took place. |
 | `created` | `String` | Creation timestamp in ISO 8601 format. |
 | `device` | `Hash` | Reference to the associated Device resource. |
+| `devices` | `Array` |  |
 | `id` | `String` | This resource's unique identifier. |
 | `name` | `String` | Text describing the attestation. |
 | `notes` | `String` | Free form field that allows the Client associate notes with the Attestation. |
@@ -743,14 +834,16 @@ attestation = client.Attestation.load({ "id" => "attestation_id" })
 #### Example: List
 
 ```ruby
-# list returns an Array of Attestation records (raises on error).
-attestations = client.Attestation.list
+# list returns an Array of Attestation entities, one per record (raises on error).
+attestations = client.Attestation.list({ "client" => "example" })
+attestations.each { |item| puts item.data_get }
 ```
 
 #### Example: Create
 
 ```ruby
 attestation = client.Attestation.create({
+  "devices" => [], # Array
 })
 ```
 
@@ -794,8 +887,9 @@ client_ = client.Client.load({ "id" => "client_id" })
 #### Example: List
 
 ```ruby
-# list returns an Array of Client records (raises on error).
-client_s = client.Client.list
+# list returns an Array of Client entities, one per record (raises on error).
+client_s = client.Client.list({ "partner" => "example" })
+client_s.each { |item| puts item.data_get }
 ```
 
 #### Example: Create
@@ -817,12 +911,23 @@ Create an instance: `create_result = client.CreateResult`
 | --- | --- |
 | `create(data)` | Create a new entity with the given data. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `completeDate` | `String` | The date and time that the Custody change took place. |
+| `custodian` | `Hash` | Reference to the associated User resource. |
+| `location` | `Hash` | Reference to the associated Location resource. |
+| `notes` | `String` | Free form field that allows the Client associate notes with the Custody Change. |
+
 #### Example: Create
 
 ```ruby
 create_result = client.CreateResult.create({
   "device_type" => "example_device_type", # String
   "serial_number" => "example_serial_number", # String
+  "custodian" => {}, # Hash
+  "location" => {}, # Hash
 })
 ```
 
@@ -841,12 +946,23 @@ Create an instance: `decryption = client.Decryption`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `cbcVector` | `String` | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | `String` | The device Type. |
+| `encoding` | `String` | The payload encoding |
+| `encrypted` | `Array` |  |
+| `hasCcData` | `String` | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | `String` | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | `String` | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | `String` | The serial number of the device. |
 | `success` | `Boolean` | true if the payload decryption was successful. |
 
 #### Example: Create
 
 ```ruby
 decryption = client.Decryption.create({
+  "deviceType" => "example_deviceType", # String
+  "encrypted" => [], # Array
+  "serialNumber" => "example_serialNumber", # String
 })
 ```
 
@@ -906,8 +1022,9 @@ device = client.Device.load({ "id" => "device_id" })
 #### Example: List
 
 ```ruby
-# list returns an Array of Device records (raises on error).
+# list returns an Array of Device entities, one per record (raises on error).
 devices = client.Device.list
+devices.each { |item| puts item.data_get }
 ```
 
 #### Example: Create
@@ -964,8 +1081,9 @@ device_build = client.DeviceBuild.load({ "id" => "device_build_id" })
 #### Example: List
 
 ```ruby
-# list returns an Array of DeviceBuild records (raises on error).
+# list returns an Array of DeviceBuild entities, one per record (raises on error).
 device_builds = client.DeviceBuild.list
+device_builds.each { |item| puts item.data_get }
 ```
 
 
@@ -1036,8 +1154,9 @@ Create an instance: `device_custody_list_item = client.DeviceCustodyListItem`
 #### Example: List
 
 ```ruby
-# list returns an Array of DeviceCustodyListItem records (raises on error).
-device_custody_list_items = client.DeviceCustodyListItem.list
+# list returns an Array of DeviceCustodyListItem entities, one per record (raises on error).
+device_custody_list_items = client.DeviceCustodyListItem.list({ "device_type" => "example", "serial_number" => "example" })
+device_custody_list_items.each { |item| puts item.data_get }
 ```
 
 
@@ -1055,13 +1174,17 @@ Create an instance: `device_receive_result = client.DeviceReceiveResult`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `serialNumber` | `String` | The serial number of the Device that is shipped. |
 | `success` | `Boolean` | Indicates if the action succeeded. |
+| `tamperLabel` | `String` | The code that is printed the tamper label of the Device that is shipped. |
 
 #### Example: Create
 
 ```ruby
 device_receive_result = client.DeviceReceiveResult.create({
+  "serialNumber" => "example_serialNumber", # String
   "success" => true, # Boolean
+  "tamperLabel" => "example_tamperLabel", # String
 })
 ```
 
@@ -1080,12 +1203,21 @@ Create an instance: `device_rki_activate_result = client.DeviceRkiActivateResult
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `appVersion` | `String` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | `String` | The Device Builds's name. |
+| `buildNumber` | `String` | The Build Number. |
+| `configFile` | `String` | \? |
+| `firmwareVersion` | `String` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `String` | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | `String` | The referenced Device's serial number. |
 | `success` | `Boolean` | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | `String` | \? |
 
 #### Example: Create
 
 ```ruby
 device_rki_activate_result = client.DeviceRkiActivateResult.create({
+  "serialNumber" => "example_serialNumber", # String
   "success" => true, # Boolean
 })
 ```
@@ -1111,8 +1243,9 @@ Create an instance: `device_state = client.DeviceState`
 #### Example: List
 
 ```ruby
-# list returns an Array of DeviceState records (raises on error).
+# list returns an Array of DeviceState entities, one per record (raises on error).
 device_states = client.DeviceState.list
+device_states.each { |item| puts item.data_get }
 ```
 
 
@@ -1154,8 +1287,9 @@ device_type = client.DeviceType.load({ "id" => "device_type_id" })
 #### Example: List
 
 ```ruby
-# list returns an Array of DeviceType records (raises on error).
+# list returns an Array of DeviceType entities, one per record (raises on error).
 device_types = client.DeviceType.list
+device_types.each { |item| puts item.data_get }
 ```
 
 
@@ -1193,8 +1327,9 @@ inject_key = client.InjectKey.load({ "id" => "inject_key_id" })
 #### Example: List
 
 ```ruby
-# list returns an Array of InjectKey records (raises on error).
+# list returns an Array of InjectKey entities, one per record (raises on error).
 inject_keys = client.InjectKey.list
+inject_keys.each { |item| puts item.data_get }
 ```
 
 
@@ -1218,8 +1353,9 @@ Create an instance: `kif = client.Kif`
 #### Example: List
 
 ```ruby
-# list returns an Array of Kif records (raises on error).
+# list returns an Array of Kif entities, one per record (raises on error).
 kifs = client.Kif.list
+kifs.each { |item| puts item.data_get }
 ```
 
 
@@ -1244,6 +1380,7 @@ Create an instance: `location = client.Location`
 | `address2` | `String` | The Location's street address. |
 | `billingId` | `String` | \? |
 | `city` | `String` | The Location's city. |
+| `client` | `Hash` | Reference to the associated Client resource. |
 | `country` | `String` | The Location's country. |
 | `created` | `String` | Creation timestamp in ISO 8601 format. |
 | `customReference` | `String` | A Partner specified reference for a location. |
@@ -1274,8 +1411,9 @@ location = client.Location.load({ "id" => "location_id" })
 #### Example: List
 
 ```ruby
-# list returns an Array of Location records (raises on error).
-locations = client.Location.list
+# list returns an Array of Location entities, one per record (raises on error).
+locations = client.Location.list({ "client" => "example" })
+locations.each { |item| puts item.data_get }
 ```
 
 #### Example: Create
@@ -1327,8 +1465,9 @@ partner = client.Partner.load({ "id" => "partner_id" })
 #### Example: List
 
 ```ruby
-# list returns an Array of Partner records (raises on error).
+# list returns an Array of Partner entities, one per record (raises on error).
 partners = client.Partner.list
+partners.each { |item| puts item.data_get }
 ```
 
 #### Example: Create
@@ -1365,6 +1504,7 @@ Create an instance: `shipment = client.Shipment`
 | `id` | `String` | This resource's unique identifier. |
 | `items` | `Array` |  |
 | `kif` | `Hash` | Reference to the associated KIF resource. |
+| `location` | `Hash` | Reference to the associated Location resource. |
 | `modified` | `String` | Last modified timestamp. |
 | `partner` | `Hash` | Reference to the associated Partner. |
 | `shipmentType` | `String` | The type of shipment. |
@@ -1381,14 +1521,16 @@ shipment = client.Shipment.load({ "id" => "shipment_id" })
 #### Example: List
 
 ```ruby
-# list returns an Array of Shipment records (raises on error).
-shipments = client.Shipment.list
+# list returns an Array of Shipment entities, one per record (raises on error).
+shipments = client.Shipment.list({ "kif" => "example" })
+shipments.each { |item| puts item.data_get }
 ```
 
 #### Example: Create
 
 ```ruby
 shipment = client.Shipment.create({
+  "location" => {}, # Hash
 })
 ```
 
@@ -1408,6 +1550,8 @@ Create an instance: `success = client.Success`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `devices` | `Array` | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | `Hash` | Reference to the associated Partner. |
 | `success` | `Boolean` | Indicates if the action was a success. |
 
 #### Example: Create
@@ -1415,6 +1559,8 @@ Create an instance: `success = client.Success`
 ```ruby
 success = client.Success.create({
   "share_partner_to" => "example_share_partner_to", # String
+  "devices" => [], # Array
+  "sharePartnerFrom" => {}, # Hash
 })
 ```
 
@@ -1440,6 +1586,7 @@ Create an instance: `transaction = client.Transaction`
 | `clientRef` | `String` | Client Reference property that is included in the decrypt API call. |
 | `created` | `String` | Creation timestamp in ISO 8601 format. |
 | `decrypted` | `Integer` | A Transcation can process muliple decryptions. |
+| `device` | `Hash` | Reference to the associated Device resource. |
 | `deviceName` | `String` | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | `Hash` | Reference to the associated Partner. |
 | `encrypted` | `Integer` | A Transcation can process muliple encryptions. |
@@ -1470,14 +1617,16 @@ transaction = client.Transaction.load({ "id" => "transaction_id" })
 #### Example: List
 
 ```ruby
-# list returns an Array of Transaction records (raises on error).
+# list returns an Array of Transaction entities, one per record (raises on error).
 transactions = client.Transaction.list
+transactions.each { |item| puts item.data_get }
 ```
 
 #### Example: Create
 
 ```ruby
 transaction = client.Transaction.create({
+  "device" => {}, # Hash
   "location" => {}, # Hash
 })
 ```
@@ -1499,30 +1648,91 @@ Create an instance: `update_result = client.UpdateResult`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `address1` | `String` | The Location's street address. |
+| `address2` | `String` | The Location's street address. |
+| `alternateKey` | `String` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `String` | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | `String` | \? |
+| `city` | `String` | The Location's city. |
 | `client` | `Hash` | Reference to the associated Client resource. |
+| `clientCanOrderEquipment` | `Boolean` | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | `String` | Client Reference property that is included in the decrypt API call. |
+| `contact` | `Hash` | Reference to the associated User resource. |
+| `country` | `Hash` | Reference to the associated Country. |
+| `customReference` | `String` | A Partner specified reference for a location. |
+| `dateShipped` | `String` | The date and time that a package is shipped. |
+| `decrypted` | `Integer` | A Transcation can process muliple decryptions. |
+| `device` | `Hash` | Reference to the associated Device resource. |
+| `deviceBuild` | `Hash` | Reference to the associated Device Build resource. |
+| `deviceType` | `Hash` | Reference to the associated Device Type resource. |
+| `directPartner` | `Hash` | Reference to the associated Partner. |
 | `email` | `String` | The User's email address. |
+| `encrypted` | `Integer` | A Transcation can process muliple encryptions. |
+| `endDate` | `String` | Timestamp from the end of the transaction. |
+| `errCode` | `String` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `String` | The error messge that is sent in response to a failed decrypt API call. |
 | `firstName` | `String` | The User's name. |
 | `id` | `String` | ID of newly created resource |
+| `injectKey` | `Hash` | Reference to the associated Device resource. |
+| `ipAddress` | `String` | The IP address of the http client that makes the decrypt API call. |
 | `isActive` | `Boolean` | This property indicates if the User account is active or disabled. |
+| `items` | `Array` |  |
+| `keyType` | `String` | The type of cipher used during decrytion. |
 | `kif` | `Hash` | Reference to the associated KIF resource. |
 | `lastName` | `String` | The User's Surname. |
+| `location` | `Hash` | Reference to the associated Location resource. |
+| `locationType` | `String` | The Location's clasification. |
+| `mailAddress1` | `String` | The Location's street address. |
+| `mailAddress2` | `String` | The Location's street address. |
+| `mailCity` | `String` | The Location's city. |
+| `mailCountry` | `String` | The Location's street address. |
+| `mailPostalCode` | `String` | The Location's postal code. |
+| `mailStateProvince` | `String` | The Location's street state or province. |
+| `messageId` | `String` | Message ID. |
+| `method` | `String` | The decryption cypher/method. |
+| `mid` | `String` | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | `String` | The Client's name. |
+| `nameOfBusiness` | `String` | The name of the business at this location. |
+| `notes` | `String` | Arbitary note that can be attached to a Device entry. |
+| `parent` | `Hash` | Reference to the associated Partner. |
 | `partner` | `Hash` | Reference to the associated Partner. |
+| `partnerId` | `String` | The Partner's id. |
 | `phone` | `String` | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | `String` | The Location's postal code. |
+| `reference` | `String` | The Partner's reference string. |
+| `sendWelcomeEmail` | `Boolean` | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | `String` | The Device's serial number. |
+| `startDate` | `String` | Timestamp from the beginning of the transaction. |
+| `stateProvince` | `String` | The Location's street state or province. |
+| `success` | `Boolean` | The success indicator. |
+| `tracking` | `String` | The courier's tracking number. |
+| `uniqueId` | `String` | Unique Identifier for the Location. |
 | `userName` | `String` | The User's unique username. |
 | `userRole` | `Hash` | Reference to the associated User Role. |
+| `verificationPhrase` | `String` | The verification phrase is a message that the Partner creates. |
 | `version` | `Integer` | The number of times that this resource has been updated. |
 
 #### Example: List
 
 ```ruby
-# list returns an Array of UpdateResult records (raises on error).
+# list returns an Array of UpdateResult entities, one per record (raises on error).
 update_results = client.UpdateResult.list
+update_results.each { |item| puts item.data_get }
 ```
 
 #### Example: Create
 
 ```ruby
 update_result = client.UpdateResult.create({
+  "contact" => {}, # Hash
+  "email" => "example_email", # String
+  "firstName" => "example_firstName", # String
+  "isActive" => true, # Boolean
+  "lastName" => "example_lastName", # String
+  "location" => {}, # Hash
+  "phone" => "example_phone", # String
+  "userName" => "example_userName", # String
+  "userRole" => {}, # Hash
 })
 ```
 

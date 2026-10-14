@@ -37,6 +37,8 @@ require_once __DIR__ . '/TransformResponse.php';
 
 BluefinDecryptxP2peUtility::setRegistrar(function (BluefinDecryptxP2peUtility $u): void {
     $u->clean = [BluefinDecryptxP2peClean::class, 'call'];
+    $u->clean_add = [BluefinDecryptxP2peClean::class, 'add'];
+    $u->clean_explain = [BluefinDecryptxP2peDone::class, 'clean_explain'];
     $u->done = [BluefinDecryptxP2peDone::class, 'call'];
     $u->make_error = [BluefinDecryptxP2peMakeError::class, 'call'];
     $u->feature_add = [BluefinDecryptxP2peFeatureAdd::class, 'call'];

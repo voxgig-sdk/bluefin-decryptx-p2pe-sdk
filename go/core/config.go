@@ -193,6 +193,7 @@ func MakeConfig() map[string]any {
 				},
 				"optspec": map[string]any{
 					"clearTimer": "`$FUNCTION`",
+					"now": "`$FUNCTION`",
 					"setTimer": "`$FUNCTION`",
 				},
 				"strict": false,
@@ -203,6 +204,7 @@ func MakeConfig() map[string]any {
 			"base": "https://apis.p2pemanager.com/api/v1",
 			"auth": map[string]any{
 				"prefix": "Basic",
+				"basic": true,
 			},
 			"headers": map[string]any{
 				"content-type": "application/json",
@@ -239,12 +241,24 @@ func MakeConfig() map[string]any {
 						"name": "client",
 						"title": "Client",
 						"type": "`$OBJECT`",
+						"op": map[string]any{
+							"create": map[string]any{
+								"req": true,
+								"type": "`$OBJECT`",
+							},
+						},
 						"short": "Reference to the associated Client resource.",
 					},
 					map[string]any{
 						"name": "completeDate",
 						"title": "Complete Date",
 						"type": "`$STRING`",
+						"op": map[string]any{
+							"create": map[string]any{
+								"req": true,
+								"type": "`$STRING`",
+							},
+						},
 						"short": "The date and time that the Attestation took place.",
 						"format": "datetime",
 					},
@@ -262,6 +276,12 @@ func MakeConfig() map[string]any {
 						"short": "Reference to the associated Device resource.",
 					},
 					map[string]any{
+						"name": "devices",
+						"title": "Devices",
+						"type": "`$ARRAY`",
+						"req": true,
+					},
+					map[string]any{
 						"name": "id",
 						"title": "Id",
 						"type": "`$STRING`",
@@ -271,6 +291,12 @@ func MakeConfig() map[string]any {
 						"name": "name",
 						"title": "Name",
 						"type": "`$STRING`",
+						"op": map[string]any{
+							"create": map[string]any{
+								"req": true,
+								"type": "`$STRING`",
+							},
+						},
 						"short": "Text describing the attestation.",
 					},
 					map[string]any{
@@ -309,6 +335,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -341,6 +371,7 @@ func MakeConfig() map[string]any {
 											"type": "`$STRING`",
 											"kind": "query",
 											"reqd": true,
+											"field": true,
 										},
 										map[string]any{
 											"name": "skip",
@@ -361,9 +392,11 @@ func MakeConfig() map[string]any {
 								"select": map[string]any{
 									"exist": []any{
 										"client",
-										"skip",
-										"take",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -409,6 +442,10 @@ func MakeConfig() map[string]any {
 										"id",
 									},
 								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -424,6 +461,10 @@ func MakeConfig() map[string]any {
 						"title": "Contact",
 						"type": "`$OBJECT`",
 						"op": map[string]any{
+							"create": map[string]any{
+								"req": true,
+								"type": "`$OBJECT`",
+							},
 							"list": map[string]any{
 								"req": true,
 								"type": "`$OBJECT`",
@@ -442,6 +483,12 @@ func MakeConfig() map[string]any {
 						"name": "directPartner",
 						"title": "Direct Partner",
 						"type": "`$OBJECT`",
+						"op": map[string]any{
+							"create": map[string]any{
+								"req": true,
+								"type": "`$OBJECT`",
+							},
+						},
 						"short": "Reference to the associated Partner.",
 					},
 					map[string]any{
@@ -480,6 +527,12 @@ func MakeConfig() map[string]any {
 						"name": "name",
 						"title": "Name",
 						"type": "`$STRING`",
+						"op": map[string]any{
+							"create": map[string]any{
+								"req": true,
+								"type": "`$STRING`",
+							},
+						},
 						"short": "The Client's name.",
 					},
 					map[string]any{
@@ -524,6 +577,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -556,6 +613,7 @@ func MakeConfig() map[string]any {
 											"type": "`$STRING`",
 											"kind": "query",
 											"reqd": true,
+											"field": true,
 										},
 										map[string]any{
 											"name": "skip",
@@ -576,9 +634,11 @@ func MakeConfig() map[string]any {
 								"select": map[string]any{
 									"exist": []any{
 										"partner",
-										"skip",
-										"take",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -623,6 +683,10 @@ func MakeConfig() map[string]any {
 									"exist": []any{
 										"id",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -677,7 +741,35 @@ func MakeConfig() map[string]any {
 				},
 			},
 			"create_result": map[string]any{
-				"fields": []any{},
+				"fields": []any{
+					map[string]any{
+						"name": "completeDate",
+						"title": "Complete Date",
+						"type": "`$STRING`",
+						"short": "The date and time that the Custody change took place.",
+						"format": "date-time",
+					},
+					map[string]any{
+						"name": "custodian",
+						"title": "Custodian",
+						"type": "`$OBJECT`",
+						"req": true,
+						"short": "Reference to the associated User resource.",
+					},
+					map[string]any{
+						"name": "location",
+						"title": "Location",
+						"type": "`$OBJECT`",
+						"req": true,
+						"short": "Reference to the associated Location resource.",
+					},
+					map[string]any{
+						"name": "notes",
+						"title": "Notes",
+						"type": "`$STRING`",
+						"short": "Free form field that allows the Client associate notes with the Custody Change.",
+					},
+				},
 				"name": "create_result",
 				"op": map[string]any{
 					"create": map[string]any{
@@ -722,14 +814,14 @@ func MakeConfig() map[string]any {
 									"params": []any{
 										map[string]any{
 											"name": "device_type",
-											"orig": "device_type",
+											"orig": "deviceType",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
 										},
 										map[string]any{
 											"name": "serial_number",
-											"orig": "serial_number",
+											"orig": "serialNumber",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
@@ -741,6 +833,10 @@ func MakeConfig() map[string]any {
 										"device_type",
 										"serial_number",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -756,6 +852,56 @@ func MakeConfig() map[string]any {
 			},
 			"decryption": map[string]any{
 				"fields": []any{
+					map[string]any{
+						"name": "cbcVector",
+						"title": "Cbc Vector",
+						"type": "`$STRING`",
+						"short": "Base64 or hex encoded initial vector obtained from device.",
+					},
+					map[string]any{
+						"name": "deviceType",
+						"title": "Device Type",
+						"type": "`$STRING`",
+						"req": true,
+						"short": "The device Type.",
+					},
+					map[string]any{
+						"name": "encoding",
+						"title": "Encoding",
+						"type": "`$STRING`",
+						"short": "The payload encoding",
+					},
+					map[string]any{
+						"name": "encrypted",
+						"title": "Encrypted",
+						"type": "`$ARRAY`",
+						"req": true,
+					},
+					map[string]any{
+						"name": "hasCcData",
+						"title": "Has Cc Data",
+						"type": "`$STRING`",
+						"short": "Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers.",
+					},
+					map[string]any{
+						"name": "reference",
+						"title": "Reference",
+						"type": "`$STRING`",
+						"short": "A string (of up to 50 characters) that helps partners identify individual API calls.",
+					},
+					map[string]any{
+						"name": "sequenceNumber",
+						"title": "Sequence Number",
+						"type": "`$STRING`",
+						"short": "Sequence number obtained from device in base 64 or hex encoded format.",
+					},
+					map[string]any{
+						"name": "serialNumber",
+						"title": "Serial Number",
+						"type": "`$STRING`",
+						"req": true,
+						"short": "The serial number of the device.",
+					},
 					map[string]any{
 						"name": "success",
 						"title": "Success",
@@ -788,6 +934,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -868,6 +1018,12 @@ func MakeConfig() map[string]any {
 						"name": "deviceType",
 						"title": "Device Type",
 						"type": "`$OBJECT`",
+						"op": map[string]any{
+							"create": map[string]any{
+								"req": true,
+								"type": "`$OBJECT`",
+							},
+						},
 						"short": "Reference to the associated Device Type resource.",
 					},
 					map[string]any{
@@ -919,6 +1075,12 @@ func MakeConfig() map[string]any {
 						"name": "kif",
 						"title": "Kif",
 						"type": "`$OBJECT`",
+						"op": map[string]any{
+							"create": map[string]any{
+								"req": true,
+								"type": "`$OBJECT`",
+							},
+						},
 						"short": "Reference to the associated KIF resource.",
 					},
 					map[string]any{
@@ -971,6 +1133,12 @@ func MakeConfig() map[string]any {
 						"name": "serialNumber",
 						"title": "Serial Number",
 						"type": "`$STRING`",
+						"op": map[string]any{
+							"create": map[string]any{
+								"req": true,
+								"type": "`$STRING`",
+							},
+						},
 						"short": "The Device's serial number.",
 					},
 					map[string]any{
@@ -1009,6 +1177,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -1040,10 +1212,11 @@ func MakeConfig() map[string]any {
 											"orig": "client",
 											"type": "`$STRING`",
 											"kind": "query",
+											"field": true,
 										},
 										map[string]any{
 											"name": "device_state",
-											"orig": "device_state",
+											"orig": "deviceState",
 											"type": "`$STRING`",
 											"kind": "query",
 										},
@@ -1052,16 +1225,18 @@ func MakeConfig() map[string]any {
 											"orig": "kif",
 											"type": "`$STRING`",
 											"kind": "query",
+											"field": true,
 										},
 										map[string]any{
 											"name": "partner",
 											"orig": "partner",
 											"type": "`$STRING`",
 											"kind": "query",
+											"field": true,
 										},
 										map[string]any{
 											"name": "serial_number",
-											"orig": "serial_number",
+											"orig": "serialNumber",
 											"type": "`$STRING`",
 											"kind": "query",
 										},
@@ -1074,14 +1249,14 @@ func MakeConfig() map[string]any {
 										},
 										map[string]any{
 											"name": "sorting_direction",
-											"orig": "sorting_direction",
+											"orig": "sorting.direction",
 											"type": "`$STRING`",
 											"kind": "query",
 											"example": "asc",
 										},
 										map[string]any{
 											"name": "sorting_field",
-											"orig": "sorting_field",
+											"orig": "sorting.field",
 											"type": "`$STRING`",
 											"kind": "query",
 											"example": "serialnumber",
@@ -1095,18 +1270,10 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"client",
-										"device_state",
-										"kif",
-										"partner",
-										"serial_number",
-										"skip",
-										"sorting_direction",
-										"sorting_field",
-										"take",
-									},
+								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -1149,14 +1316,14 @@ func MakeConfig() map[string]any {
 									"params": []any{
 										map[string]any{
 											"name": "device_type",
-											"orig": "device_type",
+											"orig": "deviceType",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
 										},
 										map[string]any{
 											"name": "serial_number",
-											"orig": "serial_number",
+											"orig": "serialNumber",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
@@ -1168,6 +1335,10 @@ func MakeConfig() map[string]any {
 										"device_type",
 										"serial_number",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 							map[string]any{
@@ -1206,6 +1377,10 @@ func MakeConfig() map[string]any {
 									"exist": []any{
 										"id",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -1342,7 +1517,7 @@ func MakeConfig() map[string]any {
 									"query": []any{
 										map[string]any{
 											"name": "device_type",
-											"orig": "device_type",
+											"orig": "deviceType",
 											"type": "`$STRING`",
 											"kind": "query",
 										},
@@ -1362,12 +1537,10 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"device_type",
-										"skip",
-										"take",
-									},
+								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -1412,6 +1585,10 @@ func MakeConfig() map[string]any {
 									"exist": []any{
 										"id",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -1562,7 +1739,7 @@ func MakeConfig() map[string]any {
 									"params": []any{
 										map[string]any{
 											"name": "device_type",
-											"orig": "device_type",
+											"orig": "deviceType",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
@@ -1576,7 +1753,7 @@ func MakeConfig() map[string]any {
 										},
 										map[string]any{
 											"name": "serial_number",
-											"orig": "serial_number",
+											"orig": "serialNumber",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
@@ -1589,6 +1766,10 @@ func MakeConfig() map[string]any {
 										"id",
 										"serial_number",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -1739,14 +1920,14 @@ func MakeConfig() map[string]any {
 									"params": []any{
 										map[string]any{
 											"name": "device_type",
-											"orig": "device_type",
+											"orig": "deviceType",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
 										},
 										map[string]any{
 											"name": "serial_number",
-											"orig": "serial_number",
+											"orig": "serialNumber",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
@@ -1773,9 +1954,11 @@ func MakeConfig() map[string]any {
 									"exist": []any{
 										"device_type",
 										"serial_number",
-										"skip",
-										"take",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -1792,11 +1975,25 @@ func MakeConfig() map[string]any {
 			"device_receive_result": map[string]any{
 				"fields": []any{
 					map[string]any{
+						"name": "serialNumber",
+						"title": "Serial Number",
+						"type": "`$STRING`",
+						"req": true,
+						"short": "The serial number of the Device that is shipped.",
+					},
+					map[string]any{
 						"name": "success",
 						"title": "Success",
 						"type": "`$BOOLEAN`",
 						"req": true,
 						"short": "Indicates if the action succeeded.",
+					},
+					map[string]any{
+						"name": "tamperLabel",
+						"title": "Tamper Label",
+						"type": "`$STRING`",
+						"req": true,
+						"short": "The code that is printed the tamper label of the Device that is shipped.",
 					},
 				},
 				"name": "device_receive_result",
@@ -1828,6 +2025,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -1839,11 +2040,60 @@ func MakeConfig() map[string]any {
 			"device_rki_activate_result": map[string]any{
 				"fields": []any{
 					map[string]any{
+						"name": "appVersion",
+						"title": "App Version",
+						"type": "`$STRING`",
+						"short": "If a Device Type has more than one Application Code version the supported version is specified here.",
+					},
+					map[string]any{
+						"name": "buildName",
+						"title": "Build Name",
+						"type": "`$STRING`",
+						"short": "The Device Builds's name.",
+					},
+					map[string]any{
+						"name": "buildNumber",
+						"title": "Build Number",
+						"type": "`$STRING`",
+						"short": "The Build Number.",
+					},
+					map[string]any{
+						"name": "configFile",
+						"title": "Config File",
+						"type": "`$STRING`",
+						"short": "\\?",
+					},
+					map[string]any{
+						"name": "firmwareVersion",
+						"title": "Firmware Version",
+						"type": "`$STRING`",
+						"short": "A list of firmware versions that this Device Build covers.",
+					},
+					map[string]any{
+						"name": "hardwareVersion",
+						"title": "Hardware Version",
+						"type": "`$STRING`",
+						"short": "A list of hardware versions that this Device Build covers.",
+					},
+					map[string]any{
+						"name": "serialNumber",
+						"title": "Serial Number",
+						"type": "`$STRING`",
+						"req": true,
+						"short": "The referenced Device's serial number.",
+					},
+					map[string]any{
 						"name": "success",
 						"title": "Success",
 						"type": "`$BOOLEAN`",
 						"req": true,
 						"short": "Indicates if the RKI activation succeeded.",
+					},
+					map[string]any{
+						"name": "whiteListingBinRanges",
+						"title": "White Listing Bin Ranges",
+						"type": "`$STRING`",
+						"short": "\\?",
 					},
 				},
 				"name": "device_rki_activate_result",
@@ -1879,6 +2129,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -1932,6 +2186,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -2045,6 +2303,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -2088,6 +2350,10 @@ func MakeConfig() map[string]any {
 									"exist": []any{
 										"id",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -2179,6 +2445,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -2222,6 +2492,10 @@ func MakeConfig() map[string]any {
 									"exist": []any{
 										"id",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -2276,6 +2550,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -2290,6 +2568,12 @@ func MakeConfig() map[string]any {
 						"name": "address1",
 						"title": "Address1",
 						"type": "`$STRING`",
+						"op": map[string]any{
+							"create": map[string]any{
+								"req": true,
+								"type": "`$STRING`",
+							},
+						},
 						"short": "The Location's street address.",
 					},
 					map[string]any{
@@ -2308,12 +2592,30 @@ func MakeConfig() map[string]any {
 						"name": "city",
 						"title": "City",
 						"type": "`$STRING`",
+						"op": map[string]any{
+							"create": map[string]any{
+								"req": true,
+								"type": "`$STRING`",
+							},
+						},
 						"short": "The Location's city.",
+					},
+					map[string]any{
+						"name": "client",
+						"title": "Client",
+						"type": "`$OBJECT`",
+						"short": "Reference to the associated Client resource.",
 					},
 					map[string]any{
 						"name": "country",
 						"title": "Country",
 						"type": "`$STRING`",
+						"op": map[string]any{
+							"create": map[string]any{
+								"req": true,
+								"type": "`$OBJECT`",
+							},
+						},
 						"short": "The Location's country.",
 					},
 					map[string]any{
@@ -2339,6 +2641,12 @@ func MakeConfig() map[string]any {
 						"name": "locationType",
 						"title": "Location Type",
 						"type": "`$STRING`",
+						"op": map[string]any{
+							"create": map[string]any{
+								"req": true,
+								"type": "`$STRING`",
+							},
+						},
 						"short": "The Location's clasification.",
 					},
 					map[string]any{
@@ -2388,6 +2696,12 @@ func MakeConfig() map[string]any {
 						"name": "name",
 						"title": "Name",
 						"type": "`$STRING`",
+						"op": map[string]any{
+							"create": map[string]any{
+								"req": true,
+								"type": "`$STRING`",
+							},
+						},
 						"short": "The Location's name.",
 					},
 					map[string]any{
@@ -2456,6 +2770,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -2488,6 +2806,7 @@ func MakeConfig() map[string]any {
 											"type": "`$STRING`",
 											"kind": "query",
 											"reqd": true,
+											"field": true,
 										},
 										map[string]any{
 											"name": "skip",
@@ -2508,9 +2827,11 @@ func MakeConfig() map[string]any {
 								"select": map[string]any{
 									"exist": []any{
 										"client",
-										"skip",
-										"take",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -2555,6 +2876,10 @@ func MakeConfig() map[string]any {
 									"exist": []any{
 										"id",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -2627,6 +2952,10 @@ func MakeConfig() map[string]any {
 						"title": "Contact",
 						"type": "`$OBJECT`",
 						"op": map[string]any{
+							"create": map[string]any{
+								"req": true,
+								"type": "`$OBJECT`",
+							},
 							"list": map[string]any{
 								"req": true,
 								"type": "`$OBJECT`",
@@ -2671,12 +3000,24 @@ func MakeConfig() map[string]any {
 						"name": "name",
 						"title": "Name",
 						"type": "`$STRING`",
+						"op": map[string]any{
+							"create": map[string]any{
+								"req": true,
+								"type": "`$STRING`",
+							},
+						},
 						"short": "The Partner's name.",
 					},
 					map[string]any{
 						"name": "parent",
 						"title": "Parent",
 						"type": "`$OBJECT`",
+						"op": map[string]any{
+							"create": map[string]any{
+								"req": true,
+								"type": "`$OBJECT`",
+							},
+						},
 						"short": "Reference to the associated Partner.",
 					},
 					map[string]any{
@@ -2689,6 +3030,12 @@ func MakeConfig() map[string]any {
 						"name": "reference",
 						"title": "Reference",
 						"type": "`$STRING`",
+						"op": map[string]any{
+							"create": map[string]any{
+								"req": true,
+								"type": "`$STRING`",
+							},
+						},
 						"short": "The Partner's reference string.",
 					},
 					map[string]any{
@@ -2733,6 +3080,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -2781,12 +3132,10 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"partner",
-										"skip",
-										"take",
-									},
+								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -2832,6 +3181,10 @@ func MakeConfig() map[string]any {
 										"id",
 									},
 								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -2846,12 +3199,24 @@ func MakeConfig() map[string]any {
 						"name": "carrier",
 						"title": "Carrier",
 						"type": "`$STRING`",
+						"op": map[string]any{
+							"create": map[string]any{
+								"req": true,
+								"type": "`$STRING`",
+							},
+						},
 						"short": "The name of the courier.",
 					},
 					map[string]any{
 						"name": "client",
 						"title": "Client",
 						"type": "`$OBJECT`",
+						"op": map[string]any{
+							"create": map[string]any{
+								"req": true,
+								"type": "`$OBJECT`",
+							},
+						},
 						"short": "Reference to the associated Client resource.",
 					},
 					map[string]any{
@@ -2872,6 +3237,12 @@ func MakeConfig() map[string]any {
 						"name": "dateShipped",
 						"title": "Date Shipped",
 						"type": "`$STRING`",
+						"op": map[string]any{
+							"create": map[string]any{
+								"req": true,
+								"type": "`$STRING`",
+							},
+						},
 						"short": "The date and time that a package is shipped.",
 						"format": "datetime",
 					},
@@ -2891,12 +3262,31 @@ func MakeConfig() map[string]any {
 						"name": "items",
 						"title": "Items",
 						"type": "`$ARRAY`",
+						"op": map[string]any{
+							"create": map[string]any{
+								"req": true,
+								"type": "`$ARRAY`",
+							},
+						},
 					},
 					map[string]any{
 						"name": "kif",
 						"title": "Kif",
 						"type": "`$OBJECT`",
+						"op": map[string]any{
+							"create": map[string]any{
+								"req": true,
+								"type": "`$OBJECT`",
+							},
+						},
 						"short": "Reference to the associated KIF resource.",
+					},
+					map[string]any{
+						"name": "location",
+						"title": "Location",
+						"type": "`$OBJECT`",
+						"req": true,
+						"short": "Reference to the associated Location resource.",
 					},
 					map[string]any{
 						"name": "modified",
@@ -2909,6 +3299,12 @@ func MakeConfig() map[string]any {
 						"name": "partner",
 						"title": "Partner",
 						"type": "`$OBJECT`",
+						"op": map[string]any{
+							"create": map[string]any{
+								"req": true,
+								"type": "`$OBJECT`",
+							},
+						},
 						"short": "Reference to the associated Partner.",
 					},
 					map[string]any{
@@ -2921,6 +3317,12 @@ func MakeConfig() map[string]any {
 						"name": "tracking",
 						"title": "Tracking",
 						"type": "`$STRING`",
+						"op": map[string]any{
+							"create": map[string]any{
+								"req": true,
+								"type": "`$STRING`",
+							},
+						},
 						"short": "The courier's tracking number.",
 					},
 					map[string]any{
@@ -2960,6 +3362,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -2992,6 +3398,7 @@ func MakeConfig() map[string]any {
 											"type": "`$STRING`",
 											"kind": "query",
 											"reqd": true,
+											"field": true,
 										},
 										map[string]any{
 											"name": "mode",
@@ -3018,10 +3425,11 @@ func MakeConfig() map[string]any {
 								"select": map[string]any{
 									"exist": []any{
 										"kif",
-										"mode",
-										"skip",
-										"take",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -3067,6 +3475,10 @@ func MakeConfig() map[string]any {
 										"id",
 									},
 								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -3077,6 +3489,20 @@ func MakeConfig() map[string]any {
 			},
 			"success": map[string]any{
 				"fields": []any{
+					map[string]any{
+						"name": "devices",
+						"title": "Devices",
+						"type": "`$ARRAY`",
+						"req": true,
+						"short": "An array of Device ids to share with partner.",
+					},
+					map[string]any{
+						"name": "sharePartnerFrom",
+						"title": "Share Partner From",
+						"type": "`$OBJECT`",
+						"req": true,
+						"short": "Reference to the associated Partner.",
+					},
 					map[string]any{
 						"name": "success",
 						"title": "Success",
@@ -3119,7 +3545,7 @@ func MakeConfig() map[string]any {
 									"params": []any{
 										map[string]any{
 											"name": "share_partner_to",
-											"orig": "share_partner_to",
+											"orig": "sharePartnerTo",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
@@ -3130,6 +3556,10 @@ func MakeConfig() map[string]any {
 									"exist": []any{
 										"share_partner_to",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -3167,7 +3597,7 @@ func MakeConfig() map[string]any {
 									"params": []any{
 										map[string]any{
 											"name": "share_partner_to",
-											"orig": "share_partner_to",
+											"orig": "sharePartnerTo",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
@@ -3178,6 +3608,10 @@ func MakeConfig() map[string]any {
 									"exist": []any{
 										"share_partner_to",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -3203,6 +3637,12 @@ func MakeConfig() map[string]any {
 						"name": "client",
 						"title": "Client",
 						"type": "`$OBJECT`",
+						"op": map[string]any{
+							"create": map[string]any{
+								"req": true,
+								"type": "`$OBJECT`",
+							},
+						},
 						"short": "Reference to the associated Client resource.",
 					},
 					map[string]any{
@@ -3224,6 +3664,13 @@ func MakeConfig() map[string]any {
 						"type": "`$INTEGER`",
 						"short": "A Transcation can process muliple decryptions.",
 						"format": "int32",
+					},
+					map[string]any{
+						"name": "device",
+						"title": "Device",
+						"type": "`$OBJECT`",
+						"req": true,
+						"short": "Reference to the associated Device resource.",
 					},
 					map[string]any{
 						"name": "deviceName",
@@ -3273,6 +3720,12 @@ func MakeConfig() map[string]any {
 						"name": "ipAddress",
 						"title": "Ip Address",
 						"type": "`$STRING`",
+						"op": map[string]any{
+							"create": map[string]any{
+								"req": true,
+								"type": "`$STRING`",
+							},
+						},
 						"short": "The IP address of the http client that makes the decrypt API call.",
 					},
 					map[string]any{
@@ -3285,6 +3738,12 @@ func MakeConfig() map[string]any {
 						"name": "keyType",
 						"title": "Key Type",
 						"type": "`$STRING`",
+						"op": map[string]any{
+							"create": map[string]any{
+								"req": true,
+								"type": "`$STRING`",
+							},
+						},
 						"short": "The type of cipher used during decrytion.",
 					},
 					map[string]any{
@@ -3304,12 +3763,24 @@ func MakeConfig() map[string]any {
 						"name": "method",
 						"title": "Method",
 						"type": "`$STRING`",
+						"op": map[string]any{
+							"create": map[string]any{
+								"req": true,
+								"type": "`$STRING`",
+							},
+						},
 						"short": "The decryption cypher/method.",
 					},
 					map[string]any{
 						"name": "partner",
 						"title": "Partner",
 						"type": "`$OBJECT`",
+						"op": map[string]any{
+							"create": map[string]any{
+								"req": true,
+								"type": "`$OBJECT`",
+							},
+						},
 						"short": "Reference to the associated Partner.",
 					},
 					map[string]any{
@@ -3373,6 +3844,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -3404,22 +3879,23 @@ func MakeConfig() map[string]any {
 											"orig": "client",
 											"type": "`$STRING`",
 											"kind": "query",
+											"field": true,
 										},
 										map[string]any{
 											"name": "client_ref",
-											"orig": "client_ref",
+											"orig": "clientRef",
 											"type": "`$STRING`",
 											"kind": "query",
 										},
 										map[string]any{
 											"name": "date_from",
-											"orig": "date_from",
+											"orig": "dateFrom",
 											"type": "`$STRING`",
 											"kind": "query",
 										},
 										map[string]any{
 											"name": "date_to",
-											"orig": "date_to",
+											"orig": "dateTo",
 											"type": "`$STRING`",
 											"kind": "query",
 										},
@@ -3428,16 +3904,17 @@ func MakeConfig() map[string]any {
 											"orig": "location",
 											"type": "`$STRING`",
 											"kind": "query",
+											"field": true,
 										},
 										map[string]any{
 											"name": "message_id",
-											"orig": "message_id",
+											"orig": "messageId",
 											"type": "`$STRING`",
 											"kind": "query",
 										},
 										map[string]any{
 											"name": "paging_mode",
-											"orig": "paging_mode",
+											"orig": "paging.mode",
 											"type": "`$STRING`",
 											"kind": "query",
 											"example": "nocount",
@@ -3447,16 +3924,18 @@ func MakeConfig() map[string]any {
 											"orig": "partner",
 											"type": "`$STRING`",
 											"kind": "query",
+											"field": true,
 										},
 										map[string]any{
 											"name": "reference",
 											"orig": "reference",
 											"type": "`$STRING`",
 											"kind": "query",
+											"field": true,
 										},
 										map[string]any{
 											"name": "serial_number",
-											"orig": "serial_number",
+											"orig": "serialNumber",
 											"type": "`$STRING`",
 											"kind": "query",
 										},
@@ -3472,6 +3951,7 @@ func MakeConfig() map[string]any {
 											"orig": "success",
 											"type": "`$BOOLEAN`",
 											"kind": "query",
+											"field": true,
 										},
 										map[string]any{
 											"name": "take",
@@ -3482,22 +3962,10 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"client",
-										"client_ref",
-										"date_from",
-										"date_to",
-										"location",
-										"message_id",
-										"paging_mode",
-										"partner",
-										"reference",
-										"serial_number",
-										"skip",
-										"success",
-										"take",
-									},
+								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -3543,6 +4011,10 @@ func MakeConfig() map[string]any {
 										"id",
 									},
 								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -3554,21 +4026,171 @@ func MakeConfig() map[string]any {
 			"update_result": map[string]any{
 				"fields": []any{
 					map[string]any{
+						"name": "address1",
+						"title": "Address1",
+						"type": "`$STRING`",
+						"short": "The Location's street address.",
+					},
+					map[string]any{
+						"name": "address2",
+						"title": "Address2",
+						"type": "`$STRING`",
+						"short": "The Location's street address.",
+					},
+					map[string]any{
+						"name": "alternateKey",
+						"title": "Alternate Key",
+						"type": "`$STRING`",
+						"short": "The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging.",
+					},
+					map[string]any{
+						"name": "auditNextDate",
+						"title": "Audit Next Date",
+						"type": "`$STRING`",
+						"short": "Date and time that the Device is due its next PCI Audit.",
+						"format": "datetime",
+					},
+					map[string]any{
+						"name": "billingId",
+						"title": "Billing Id",
+						"type": "`$STRING`",
+						"short": "\\?",
+					},
+					map[string]any{
+						"name": "city",
+						"title": "City",
+						"type": "`$STRING`",
+						"short": "The Location's city.",
+					},
+					map[string]any{
 						"name": "client",
 						"title": "Client",
 						"type": "`$OBJECT`",
 						"short": "Reference to the associated Client resource.",
 					},
 					map[string]any{
+						"name": "clientCanOrderEquipment",
+						"title": "Client Can Order Equipment",
+						"type": "`$BOOLEAN`",
+						"short": "This property indicates if the Partner is allowed to order Equipment.",
+					},
+					map[string]any{
+						"name": "clientRef",
+						"title": "Client Ref",
+						"type": "`$STRING`",
+						"short": "Client Reference property that is included in the decrypt API call.",
+					},
+					map[string]any{
+						"name": "contact",
+						"title": "Contact",
+						"type": "`$OBJECT`",
+						"req": true,
+						"short": "Reference to the associated User resource.",
+					},
+					map[string]any{
+						"name": "country",
+						"title": "Country",
+						"type": "`$OBJECT`",
+						"short": "Reference to the associated Country.",
+					},
+					map[string]any{
+						"name": "customReference",
+						"title": "Custom Reference",
+						"type": "`$STRING`",
+						"short": "A Partner specified reference for a location.",
+					},
+					map[string]any{
+						"name": "dateShipped",
+						"title": "Date Shipped",
+						"type": "`$STRING`",
+						"short": "The date and time that a package is shipped.",
+						"format": "datetime",
+					},
+					map[string]any{
+						"name": "decrypted",
+						"title": "Decrypted",
+						"type": "`$INTEGER`",
+						"short": "A Transcation can process muliple decryptions.",
+						"format": "int32",
+					},
+					map[string]any{
+						"name": "device",
+						"title": "Device",
+						"type": "`$OBJECT`",
+						"short": "Reference to the associated Device resource.",
+					},
+					map[string]any{
+						"name": "deviceBuild",
+						"title": "Device Build",
+						"type": "`$OBJECT`",
+						"short": "Reference to the associated Device Build resource.",
+					},
+					map[string]any{
+						"name": "deviceType",
+						"title": "Device Type",
+						"type": "`$OBJECT`",
+						"short": "Reference to the associated Device Type resource.",
+					},
+					map[string]any{
+						"name": "directPartner",
+						"title": "Direct Partner",
+						"type": "`$OBJECT`",
+						"short": "Reference to the associated Partner.",
+					},
+					map[string]any{
 						"name": "email",
 						"title": "Email",
 						"type": "`$STRING`",
+						"req": true,
+						"op": map[string]any{
+							"list": map[string]any{
+								"type": "`$STRING`",
+							},
+							"update": map[string]any{
+								"type": "`$STRING`",
+							},
+						},
 						"short": "The User's email address.",
+					},
+					map[string]any{
+						"name": "encrypted",
+						"title": "Encrypted",
+						"type": "`$INTEGER`",
+						"short": "A Transcation can process muliple encryptions.",
+						"format": "int32",
+					},
+					map[string]any{
+						"name": "endDate",
+						"title": "End Date",
+						"type": "`$STRING`",
+						"short": "Timestamp from the end of the transaction.",
+						"format": "datetime",
+					},
+					map[string]any{
+						"name": "errCode",
+						"title": "Err Code",
+						"type": "`$STRING`",
+						"short": "The error code that is sent in response to a failed decrypt API call.",
+					},
+					map[string]any{
+						"name": "errMessage",
+						"title": "Err Message",
+						"type": "`$STRING`",
+						"short": "The error messge that is sent in response to a failed decrypt API call.",
 					},
 					map[string]any{
 						"name": "firstName",
 						"title": "First Name",
 						"type": "`$STRING`",
+						"req": true,
+						"op": map[string]any{
+							"list": map[string]any{
+								"type": "`$STRING`",
+							},
+							"update": map[string]any{
+								"type": "`$STRING`",
+							},
+						},
 						"short": "The User's name.",
 					},
 					map[string]any{
@@ -3578,10 +4200,42 @@ func MakeConfig() map[string]any {
 						"short": "ID of newly created resource",
 					},
 					map[string]any{
+						"name": "injectKey",
+						"title": "Inject Key",
+						"type": "`$OBJECT`",
+						"short": "Reference to the associated Device resource.",
+					},
+					map[string]any{
+						"name": "ipAddress",
+						"title": "Ip Address",
+						"type": "`$STRING`",
+						"short": "The IP address of the http client that makes the decrypt API call.",
+					},
+					map[string]any{
 						"name": "isActive",
 						"title": "Is Active",
 						"type": "`$BOOLEAN`",
+						"req": true,
+						"op": map[string]any{
+							"list": map[string]any{
+								"type": "`$BOOLEAN`",
+							},
+							"update": map[string]any{
+								"type": "`$BOOLEAN`",
+							},
+						},
 						"short": "This property indicates if the User account is active or disabled.",
+					},
+					map[string]any{
+						"name": "items",
+						"title": "Items",
+						"type": "`$ARRAY`",
+					},
+					map[string]any{
+						"name": "keyType",
+						"title": "Key Type",
+						"type": "`$STRING`",
+						"short": "The type of cipher used during decrytion.",
 					},
 					map[string]any{
 						"name": "kif",
@@ -3593,7 +4247,107 @@ func MakeConfig() map[string]any {
 						"name": "lastName",
 						"title": "Last Name",
 						"type": "`$STRING`",
+						"req": true,
+						"op": map[string]any{
+							"list": map[string]any{
+								"type": "`$STRING`",
+							},
+							"update": map[string]any{
+								"type": "`$STRING`",
+							},
+						},
 						"short": "The User's Surname.",
+					},
+					map[string]any{
+						"name": "location",
+						"title": "Location",
+						"type": "`$OBJECT`",
+						"req": true,
+						"short": "Reference to the associated Location resource.",
+					},
+					map[string]any{
+						"name": "locationType",
+						"title": "Location Type",
+						"type": "`$STRING`",
+						"short": "The Location's clasification.",
+					},
+					map[string]any{
+						"name": "mailAddress1",
+						"title": "Mail Address1",
+						"type": "`$STRING`",
+						"short": "The Location's street address.",
+					},
+					map[string]any{
+						"name": "mailAddress2",
+						"title": "Mail Address2",
+						"type": "`$STRING`",
+						"short": "The Location's street address.",
+					},
+					map[string]any{
+						"name": "mailCity",
+						"title": "Mail City",
+						"type": "`$STRING`",
+						"short": "The Location's city.",
+					},
+					map[string]any{
+						"name": "mailCountry",
+						"title": "Mail Country",
+						"type": "`$STRING`",
+						"short": "The Location's street address.",
+					},
+					map[string]any{
+						"name": "mailPostalCode",
+						"title": "Mail Postal Code",
+						"type": "`$STRING`",
+						"short": "The Location's postal code.",
+					},
+					map[string]any{
+						"name": "mailStateProvince",
+						"title": "Mail State Province",
+						"type": "`$STRING`",
+						"short": "The Location's street state or province.",
+					},
+					map[string]any{
+						"name": "messageId",
+						"title": "Message Id",
+						"type": "`$STRING`",
+						"short": "Message ID.",
+					},
+					map[string]any{
+						"name": "method",
+						"title": "Method",
+						"type": "`$STRING`",
+						"short": "The decryption cypher/method.",
+					},
+					map[string]any{
+						"name": "mid",
+						"title": "Mid",
+						"type": "`$STRING`",
+						"short": "Some Partners will have an merchant ids on their own software offerings.",
+					},
+					map[string]any{
+						"name": "name",
+						"title": "Name",
+						"type": "`$STRING`",
+						"short": "The Client's name.",
+					},
+					map[string]any{
+						"name": "nameOfBusiness",
+						"title": "Name Of Business",
+						"type": "`$STRING`",
+						"short": "The name of the business at this location.",
+					},
+					map[string]any{
+						"name": "notes",
+						"title": "Notes",
+						"type": "`$STRING`",
+						"short": "Arbitary note that can be attached to a Device entry.",
+					},
+					map[string]any{
+						"name": "parent",
+						"title": "Parent",
+						"type": "`$OBJECT`",
+						"short": "Reference to the associated Partner.",
 					},
 					map[string]any{
 						"name": "partner",
@@ -3602,22 +4356,116 @@ func MakeConfig() map[string]any {
 						"short": "Reference to the associated Partner.",
 					},
 					map[string]any{
+						"name": "partnerId",
+						"title": "Partner Id",
+						"type": "`$STRING`",
+						"short": "The Partner's id.",
+					},
+					map[string]any{
 						"name": "phone",
 						"title": "Phone",
 						"type": "`$STRING`",
+						"req": true,
+						"op": map[string]any{
+							"list": map[string]any{
+								"type": "`$STRING`",
+							},
+							"update": map[string]any{
+								"type": "`$STRING`",
+							},
+						},
 						"short": "The User's phone number without dashes, spaces, or brackets.",
+					},
+					map[string]any{
+						"name": "postalCode",
+						"title": "Postal Code",
+						"type": "`$STRING`",
+						"short": "The Location's postal code.",
+					},
+					map[string]any{
+						"name": "reference",
+						"title": "Reference",
+						"type": "`$STRING`",
+						"short": "The Partner's reference string.",
+					},
+					map[string]any{
+						"name": "sendWelcomeEmail",
+						"title": "Send Welcome Email",
+						"type": "`$BOOLEAN`",
+						"short": "If this property is set to '*true*' the newly created user will be sent a welcome email.",
+					},
+					map[string]any{
+						"name": "serialNumber",
+						"title": "Serial Number",
+						"type": "`$STRING`",
+						"short": "The Device's serial number.",
+					},
+					map[string]any{
+						"name": "startDate",
+						"title": "Start Date",
+						"type": "`$STRING`",
+						"short": "Timestamp from the beginning of the transaction.",
+						"format": "datetime",
+					},
+					map[string]any{
+						"name": "stateProvince",
+						"title": "State Province",
+						"type": "`$STRING`",
+						"short": "The Location's street state or province.",
+					},
+					map[string]any{
+						"name": "success",
+						"title": "Success",
+						"type": "`$BOOLEAN`",
+						"short": "The success indicator.",
+					},
+					map[string]any{
+						"name": "tracking",
+						"title": "Tracking",
+						"type": "`$STRING`",
+						"short": "The courier's tracking number.",
+					},
+					map[string]any{
+						"name": "uniqueId",
+						"title": "Unique Id",
+						"type": "`$STRING`",
+						"short": "Unique Identifier for the Location.",
 					},
 					map[string]any{
 						"name": "userName",
 						"title": "User Name",
 						"type": "`$STRING`",
+						"req": true,
+						"op": map[string]any{
+							"list": map[string]any{
+								"type": "`$STRING`",
+							},
+							"update": map[string]any{
+								"type": "`$STRING`",
+							},
+						},
 						"short": "The User's unique username.",
 					},
 					map[string]any{
 						"name": "userRole",
 						"title": "User Role",
 						"type": "`$OBJECT`",
+						"req": true,
+						"op": map[string]any{
+							"list": map[string]any{
+								"type": "`$OBJECT`",
+							},
+							"update": map[string]any{
+								"type": "`$OBJECT`",
+							},
+						},
 						"short": "Reference to the associated User Role.",
+					},
+					map[string]any{
+						"name": "verificationPhrase",
+						"title": "Verification Phrase",
+						"type": "`$STRING`",
+						"short": "The verification phrase is a message that the Partner creates.",
 					},
 					map[string]any{
 						"name": "version",
@@ -3655,6 +4503,10 @@ func MakeConfig() map[string]any {
 								},
 								"args": map[string]any{},
 								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -3686,18 +4538,21 @@ func MakeConfig() map[string]any {
 											"orig": "client",
 											"type": "`$STRING`",
 											"kind": "query",
+											"field": true,
 										},
 										map[string]any{
 											"name": "kif",
 											"orig": "kif",
 											"type": "`$STRING`",
 											"kind": "query",
+											"field": true,
 										},
 										map[string]any{
 											"name": "partner",
 											"orig": "partner",
 											"type": "`$ANY`",
 											"kind": "query",
+											"field": true,
 										},
 										map[string]any{
 											"name": "skip",
@@ -3715,14 +4570,10 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"client",
-										"kif",
-										"partner",
-										"skip",
-										"take",
-									},
+								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -3768,6 +4619,10 @@ func MakeConfig() map[string]any {
 										"id",
 									},
 								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 							map[string]any{
 								"kind": "http",
@@ -3805,6 +4660,10 @@ func MakeConfig() map[string]any {
 									"exist": []any{
 										"id",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 							map[string]any{
@@ -3844,6 +4703,10 @@ func MakeConfig() map[string]any {
 										"id",
 									},
 								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 							map[string]any{
 								"kind": "http",
@@ -3881,6 +4744,10 @@ func MakeConfig() map[string]any {
 									"exist": []any{
 										"id",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 							map[string]any{
@@ -3920,6 +4787,10 @@ func MakeConfig() map[string]any {
 										"id",
 									},
 								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 							map[string]any{
 								"kind": "http",
@@ -3958,6 +4829,10 @@ func MakeConfig() map[string]any {
 										"id",
 									},
 								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 							map[string]any{
 								"kind": "http",
@@ -3995,6 +4870,10 @@ func MakeConfig() map[string]any {
 									"exist": []any{
 										"id",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},
@@ -4140,6 +5019,10 @@ func MakeConfig() map[string]any {
 										"id",
 									},
 								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
 							},
 						},
 					},
@@ -4251,7 +5134,7 @@ func MakeConfig() map[string]any {
 									"params": []any{
 										map[string]any{
 											"name": "id",
-											"orig": "share_partner_to",
+											"orig": "sharePartnerTo",
 											"type": "`$STRING`",
 											"kind": "param",
 											"reqd": true,
@@ -4267,14 +5150,14 @@ func MakeConfig() map[string]any {
 										},
 										map[string]any{
 											"name": "sorting_direction",
-											"orig": "sorting_direction",
+											"orig": "sorting.direction",
 											"type": "`$STRING`",
 											"kind": "query",
 											"example": "asc",
 										},
 										map[string]any{
 											"name": "sorting_field",
-											"orig": "sorting_field",
+											"orig": "sorting.field",
 											"type": "`$STRING`",
 											"kind": "query",
 											"example": "serialnumber",
@@ -4291,11 +5174,11 @@ func MakeConfig() map[string]any {
 								"select": map[string]any{
 									"exist": []any{
 										"id",
-										"skip",
-										"sorting_direction",
-										"sorting_field",
-										"take",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},

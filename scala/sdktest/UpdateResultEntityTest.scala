@@ -5,16 +5,92 @@
 
 import java.util.{ArrayList, LinkedHashMap, List => JList, Map => JMap}
 
-import voxgig.bluefindecryptxp2pesdk.core.{Helpers, SdkEntity, BluefinDecryptxP2peSDK}
+import voxgig.bluefindecryptxp2pesdk.core.{Config, Context, Helpers, SdkEntity, SdkError, BluefinDecryptxP2peSDK}
+import voxgig.bluefindecryptxp2pesdk.feature.BaseFeature
 import voxgig.bluefindecryptxp2pesdk.utility.struct.Struct
 
 object UpdateResultEntityTest {
+
+  import SdkTestSupport.{B, I, jl, om}
+
+  private def hasFeature(name: String): Boolean = {
+    val fm = Helpers.toMapAny(Config.sharedConfig().get("feature"))
+    fm != null && fm.get(name) != null
+  }
+
+  final class FailHook extends BaseFeature("failhook", "0.0.1", true) {
+    var unexpected = 0
+    override def preSpec(ctx: Context): Unit = throw new RuntimeException("update_result hook failed")
+    override def preUnexpected(ctx: Context): Unit = unexpected += 1
+  }
 
   def run(rep: SdkTestReport): Unit = {
     rep.scope("update_result.instance") {
       val testsdk = BluefinDecryptxP2peSDK.testSDK()
       val ent = testsdk.updateResult(null)
       rep.check("update_result.instance", ent != null, "expected non-null update_result entity")
+    }
+
+    rep.scope("update_result.stream.error") {
+      val offline = om("net" -> om("offline" -> B(true)))
+      val err = try {
+        BluefinDecryptxP2peSDK.testSDK(offline, null).updateResult(null).stream("list", null, null).toList
+        null
+      } catch { case e: RuntimeException => e }
+      rep.check("update_result.stream.error", err != null && String.valueOf(err.getMessage).contains("offline"),
+        "expected the transport failure to raise from the stream, got " + err)
+
+      BluefinDecryptxP2peSDK.testSDK(offline, null).updateResult(null)
+        .stream("list", null, om("ctrl" -> om("throw" -> B(false)))).toList
+
+      if (hasFeature("rbac")) {
+        val denied = BluefinDecryptxP2peSDK.testSDK(null,
+          om("feature" -> om("rbac" -> om("active" -> B(true), "deny" -> B(true)))))
+        val denyerr = try {
+          denied.updateResult(null).stream("list", null, null).toList
+          null
+        } catch { case e: SdkError => e }
+        rep.check("update_result.stream.denied", denyerr != null && "rbac_denied" == denyerr.code,
+          "expected the rbac denial to raise from the stream, got " + denyerr)
+      }
+    }
+
+    rep.scope("update_result.stream.ctrl") {
+      val explain = new LinkedHashMap[String, Object]()
+      val ctrl = om("explain" -> explain)
+      BluefinDecryptxP2peSDK.testSDK().updateResult(null).stream("list", null, om("ctrl" -> ctrl)).toList
+      rep.check("update_result.stream.ctrl", 1 == ctrl.size() && (explain eq ctrl.get("explain")),
+        "the stream changed the caller's ctrl")
+      rep.check("update_result.stream.explain", !explain.isEmpty(), "the caller's explain record was not filled")
+    }
+
+    rep.scope("update_result.unexpected") {
+      val hook = new FailHook()
+      val client = new BluefinDecryptxP2peSDK(om("feature" -> om("test" -> om("active" -> B(true))), "extend" -> jl(hook)))
+      val err = try {
+        client.updateResult(null).list(null, null)
+        null
+      } catch { case e: RuntimeException => e }
+      rep.check("update_result.unexpected.raise", err != null && String.valueOf(err.getMessage).contains("hook failed"),
+        "expected the hook's failure, got " + err)
+      rep.check("update_result.unexpected.fired", hook.unexpected > 0, "PreUnexpected did not fire")
+
+      val fired = hook.unexpected
+      client.updateResult(null).list(null, om("throw" -> B(false)))
+      rep.check("update_result.unexpected.nothrow", hook.unexpected > fired,
+        "PreUnexpected did not fire under throw false")
+    }
+
+    rep.scope("update_result.validate") {
+      if (hasFeature("validate")) {
+        val client = BluefinDecryptxP2peSDK.testSDK(null, om("feature" -> om("validate" -> om("active" -> B(true)))))
+        val err = try {
+          client.updateResult(null).list(om("client" -> I(1)), null)
+          null
+        } catch { case e: SdkError => e }
+        rep.check("update_result.validate", err != null && "validate_failed" == err.code,
+          "expected validate_failed, got " + err)
+      }
     }
 
     rep.scope("update_result.basic") {
@@ -51,7 +127,7 @@ object UpdateResultEntityTest {
       // UPDATE
       val updateResultRef01DataUp0Up = new LinkedHashMap[String, Object]()
       updateResultRef01DataUp0Up.put("id", updateResultRef01Data.get("id"))
-      val updateResultRef01MarkdefUp0Name = "email"
+      val updateResultRef01MarkdefUp0Name = "address1"
       val updateResultRef01MarkdefUp0Value = "Mark01-update_result_ref01_" + now
       updateResultRef01DataUp0Up.put(updateResultRef01MarkdefUp0Name, updateResultRef01MarkdefUp0Value)
       val updateResultRef01ResdataUp0Result = updateResultRef01Ent.update(updateResultRef01DataUp0Up, null)

@@ -5,6 +5,20 @@ main: kit: entity: success: {
   alias: field: {}
 
   fields: {
+    devices: {
+      h: "Devices"
+      n: "devices"
+      r: true
+      sh: "An array of Device ids to share with partner."
+      t: "`$ARRAY`"
+    }
+    sharePartnerFrom: {
+      h: "Share Partner From"
+      n: "sharePartnerFrom"
+      r: true
+      sh: "Reference to the associated Partner."
+      t: "`$OBJECT`"
+    }
     success: {
       h: "Success"
       n: "success"
@@ -20,6 +34,10 @@ main: kit: entity: success: {
       name: "create"
       points: [
         {
+          bf: [
+            "devices"
+            "sharePartnerFrom"
+          ]
           co: {
             id: "POST /virtualDevices/{sharePartnerTo}"
             source: "openapi3"
@@ -30,7 +48,7 @@ main: kit: entity: success: {
               {
                 k: "param"
                 n: "share_partner_to"
-                or: "share_partner_to"
+                or: "sharePartnerTo"
                 r: true
                 t: "`$STRING`"
               }
@@ -47,6 +65,10 @@ main: kit: entity: success: {
             param: {
               sharePartnerTo: "share_partner_to"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -67,6 +89,9 @@ main: kit: entity: success: {
       name: "remove"
       points: [
         {
+          bf: [
+            "devices"
+          ]
           co: {
             id: "DELETE /virtualDevices/{sharePartnerTo}"
             source: "openapi3"
@@ -77,7 +102,7 @@ main: kit: entity: success: {
               {
                 k: "param"
                 n: "share_partner_to"
-                or: "share_partner_to"
+                or: "sharePartnerTo"
                 r: true
                 t: "`$STRING`"
               }
@@ -94,6 +119,10 @@ main: kit: entity: success: {
             param: {
               sharePartnerTo: "share_partner_to"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

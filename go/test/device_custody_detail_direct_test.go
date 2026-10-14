@@ -10,6 +10,12 @@ import (
 	"github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/go/core"
 )
 
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const device_custody_detailDirectLiveStrict = true
+
 func TestDeviceCustodyDetailDirect(t *testing.T) {
 	t.Run("direct-load-device_custody_detail", func(t *testing.T) {
 		setup := device_custody_detailDirectSetup(map[string]any{"id": "direct01"})
@@ -25,9 +31,9 @@ func TestDeviceCustodyDetailDirect(t *testing.T) {
 			return
 		}
 		if setup.live {
-			for _, _liveKey := range []string{"device_type01", "id01", "serial_number01"} {
+			for _, _liveKey := range []string{"device_type01", "device_custody_detail01", "serial_number01"} {
 				if v := setup.idmap[_liveKey]; v == nil {
-					t.Skipf("live test needs %s via *_ENTID env var (synthetic IDs only)", _liveKey)
+					liveMiss(t, device_custody_detailDirectLiveStrict, "Live test blocked: needs %s via BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_CUSTODY_DETAIL_ENTID", _liveKey)
 					return
 				}
 			}
@@ -37,6 +43,9 @@ func TestDeviceCustodyDetailDirect(t *testing.T) {
 		params := map[string]any{}
 		query := map[string]any{}
 		if setup.live {
+			params["device_type"] = setup.idmap["device_type01"]
+			params["id"] = setup.idmap["device_custody_detail01"]
+			params["serial_number"] = setup.idmap["serial_number01"]
 		} else {
 			params["device_type"] = "direct01"
 			params["id"] = "direct02"
@@ -50,19 +59,14 @@ func TestDeviceCustodyDetailDirect(t *testing.T) {
 			"query":  query,
 		})
 		if setup.live {
-			// Live mode is lenient: synthetic IDs frequently 4xx. Skip
-			// rather than fail when the load endpoint isn't reachable with
-			// the IDs we can construct from setup.idmap — unless the model
-			// sets main.kit.test.live.strict.
 			if err != nil {
-				t.Fatalf("load call failed (likely synthetic IDs against live API): %v", err)
+				liveMiss(t, device_custody_detailDirectLiveStrict, "Live load failed: %v", err)
 			}
-			if result["ok"] != true {
-				t.Fatalf("load call not ok (likely synthetic IDs against live API): %v", result)
+			if status := core.ToInt(result["status"]); result["ok"] != true || status < 200 || status >= 300 {
+				liveMiss(t, device_custody_detailDirectLiveStrict, "Live load failed: %s", liveDescribe(result))
 			}
-			status := core.ToInt(result["status"])
-			if status < 200 || status >= 300 {
-				t.Fatalf("expected 2xx status, got %v", result["status"])
+			if result["data"] == nil {
+				liveMiss(t, device_custody_detailDirectLiveStrict, "Live load returned no data: %s", liveDescribe(result))
 			}
 		} else {
 			if err != nil {

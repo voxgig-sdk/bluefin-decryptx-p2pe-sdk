@@ -6,7 +6,6 @@ import java.util.Map;
 import voxgig.bluefindecryptxp2pesdk.core.Context;
 import voxgig.bluefindecryptxp2pesdk.core.Result;
 import voxgig.bluefindecryptxp2pesdk.core.Spec;
-import voxgig.bluefindecryptxp2pesdk.utility.struct.Struct;
 
 final class MakeFetchDef {
 
@@ -35,12 +34,7 @@ final class MakeFetchDef {
     fetchdef.put("headers", spec.headers);
 
     if (spec.body != null) {
-      if (spec.body instanceof Map) {
-        fetchdef.put("body", Struct.jsonify(spec.body));
-      }
-      else {
-        fetchdef.put("body", spec.body);
-      }
+      fetchdef.put("body", Media.requestBody(ctx.point, spec.body));
     }
 
     return fetchdef;

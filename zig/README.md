@@ -15,7 +15,7 @@ keeps the cognitive load low.
 
 ## Install
 Zig has no central package registry, so this package is distributed as a
-git tag (`zig/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases)). Add it to
+git tag (`zig/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags)). Add it to
 your `build.zig.zon` dependencies, or build from a source checkout:
 
 ```bash
@@ -54,12 +54,16 @@ const client = sdk.BluefinDecryptxP2peSDK.new(h.jo(&.{
 
 ### 2. List attestation records
 
-`list()` returns an `OpResult` whose `.ok` is a `Value` array —
-`switch` on it.
+`list()`'s `.ok` is a slice of entities, one per record — `switch` on
+it. `asEntity().data(null)` reads an entity's record.
 
 ```zig
-switch (client.attestation(h.vnull()).list(h.vnull(), h.vnull())) {
-    .ok => |attestations| std.debug.print("{s}\n", .{h.stringify(attestations)}),
+switch (client.attestation(h.vnull()).list(h.jo(&.{.{ "client", h.vstr("example") }}), h.vnull())) {
+    .ok => |attestations| {
+        for (attestations) |attestation| {
+            std.debug.print("{s}\n", .{h.stringify(attestation.asEntity().data(null))});
+        }
+    },
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
 }
 ```
@@ -67,11 +71,12 @@ switch (client.attestation(h.vnull()).list(h.vnull(), h.vnull())) {
 ### 3. Load a devicecustodydetail
 
 DeviceCustodyDetail is nested under device_type, so provide the `device_type`.
-`load()`'s `.ok` carries the bare record.
+`load()`'s `.ok` carries the entity; `asEntity().data(null)` reads its
+record.
 
 ```zig
 switch (client.device_custody_detail(h.vnull()).load(h.jo(&.{.{ "device_type", h.vstr("example_device_type") }, .{ "serial_number", h.vstr("example_serial_number") }, .{ "id", h.vstr("example_id") }}), h.vnull())) {
-    .ok => |device_custody_detail| std.debug.print("{s}\n", .{h.stringify(device_custody_detail)}),
+    .ok => |device_custody_detail| std.debug.print("{s}\n", .{h.stringify(device_custody_detail.asEntity().data(null))}),
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
@@ -79,9 +84,9 @@ switch (client.device_custody_detail(h.vnull()).load(h.jo(&.{.{ "device_type", h
 ### 4. Create, update, and remove
 
 ```zig
-// Create — .ok carries the created record
-switch (client.attestation(h.vnull()).create(h.jo(&.{.{ "client", h.omap() }, .{ "completeDate", h.vstr("example_completeDate") }}), h.vnull())) {
-    .ok => |created| std.debug.print("{s}\n", .{h.stringify(created)}),
+// Create — .ok carries the created entity
+switch (client.attestation(h.vnull()).create(h.jo(&.{.{ "devices", h.olist() }}), h.vnull())) {
+    .ok => |created| std.debug.print("{s}\n", .{h.stringify(created.asEntity().data(null))}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
 }
 
@@ -95,14 +100,15 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 ```ts
 try {
   const devicetypes = await client.DeviceType().list()
-  console.log(devicetypes)
+  console.log(devicetypes.map((item) => item.data()))
 } catch (err) {
   console.error('list failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -111,8 +117,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -162,9 +168,13 @@ Create a mock client for unit testing — no server required:
 ```zig
 const client = sdk.test_sdk(h.vnull(), h.vnull());
 
-// Entity ops return an OpResult — .ok carries the record, .err the error.
+// list's .ok is one entity per mock record, .err the error.
 switch (client.device_type(h.vnull()).list(h.vnull(), h.vnull())) {
-    .ok => |device_type| std.debug.print("{s}\n", .{h.stringify(device_type)}), // the mock record
+    .ok => |device_types| {
+        for (device_types) |device_type| {
+            std.debug.print("{s}\n", .{h.stringify(device_type.asEntity().data(null))});
+        }
+    },
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
 }
 ```
@@ -264,21 +274,22 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `(reqmatch: Value, ctrl: Value) OpResult` | Load a single entity by match criteria. |
-| `list` | `(reqmatch: Value, ctrl: Value) OpResult` | List entities matching the criteria (`.ok` is a `Value` array). |
-| `create` | `(reqdata: Value, ctrl: Value) OpResult` | Create a new entity. |
-| `update` | `(reqdata: Value, ctrl: Value) OpResult` | Update an existing entity. |
-| `remove` | `(reqmatch: Value, ctrl: Value) OpResult` | Remove an entity. |
-| `stream` | `(action: []const u8, args: Value, callopts: Value) []Value` | Run an op through the pipeline and materialise its result items. |
+| `load` | `(reqmatch: Value, ctrl: Value) EntResult` | Load a single entity by match criteria. |
+| `list` | `(reqmatch: Value, ctrl: Value) EntListResult` | List entities matching the criteria (`.ok` is a slice of entities, one per record). |
+| `create` | `(reqdata: Value, ctrl: Value) EntResult` | Create a new entity. |
+| `update` | `(reqdata: Value, ctrl: Value) EntResult` | Update an existing entity. |
+| `remove` | `(reqmatch: Value, ctrl: Value) EntResult` | Remove an entity, which is returned marked as deleted. |
+| `stream` | `(action: []const u8, args: Value, callopts: Value) StreamResult` | Run an op through the pipeline: `.ok` with its result items, or `.err` with the error that failed it. |
 | `data` | `(args: ?Value) Value` | Get entity data (pass a map to set). |
 | `matchv` | `(args: ?Value) Value` | Get entity match criteria (pass a map to set). |
 | `get_name` | `() []const u8` | Return the entity name. |
 
 ### Result shape
 
-Entity operations return an `OpResult` union — `switch` on it: `.ok`
-carries the bare result data (a `Value` object for single-entity ops, a
-`Value` array for `list`), `.err` carries the branded error pointer.
+Entity operations return a result union — `switch` on it: `.ok` carries
+the entity (`EntResult`), or for `list` a slice of entities, one per record
+(`EntListResult`), and `asEntity().data(null)` reads an entity's record;
+`.err` carries the branded error pointer.
 
 The `direct()` escape hatch returns a result `Value` map directly (no
 error union) — even on a non-2xx response — that you branch on via
@@ -303,6 +314,7 @@ On error, `ok` is `false` and `err` carries the error message.
 | `completeDate` | The date and time that the Attestation took place. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `device` | Reference to the associated Device resource. |
+| `devices` |  |
 | `id` | This resource's unique identifier. |
 | `name` | Text describing the attestation. |
 | `notes` | Free form field that allows the Client associate notes with the Attestation. |
@@ -335,6 +347,10 @@ API path: `/clients`
 
 | Field | Description |
 | --- | --- |
+| `completeDate` | The date and time that the Custody change took place. |
+| `custodian` | Reference to the associated User resource. |
+| `location` | Reference to the associated Location resource. |
+| `notes` | Free form field that allows the Client associate notes with the Custody Change. |
 
 Operations: Create.
 
@@ -344,6 +360,14 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
+| `cbcVector` | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | The device Type. |
+| `encoding` | The payload encoding |
+| `encrypted` |  |
+| `hasCcData` | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | The serial number of the device. |
 | `success` | true if the payload decryption was successful. |
 
 Operations: Create.
@@ -459,7 +483,9 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
+| `serialNumber` | The serial number of the Device that is shipped. |
 | `success` | Indicates if the action succeeded. |
+| `tamperLabel` | The code that is printed the tamper label of the Device that is shipped. |
 
 Operations: Create.
 
@@ -469,7 +495,15 @@ API path: `/devices/receive`
 
 | Field | Description |
 | --- | --- |
+| `appVersion` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | The Device Builds's name. |
+| `buildNumber` | The Build Number. |
+| `configFile` | \? |
+| `firmwareVersion` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | The referenced Device's serial number. |
 | `success` | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | \? |
 
 Operations: Create.
 
@@ -543,6 +577,7 @@ API path: `/kifs`
 | `address2` | The Location's street address. |
 | `billingId` | \? |
 | `city` | The Location's city. |
+| `client` | Reference to the associated Client resource. |
 | `country` | The Location's country. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `customReference` | A Partner specified reference for a location. |
@@ -603,6 +638,7 @@ API path: `/partners`
 | `id` | This resource's unique identifier. |
 | `items` |  |
 | `kif` | Reference to the associated KIF resource. |
+| `location` | Reference to the associated Location resource. |
 | `modified` | Last modified timestamp. |
 | `partner` | Reference to the associated Partner. |
 | `shipmentType` | The type of shipment. |
@@ -617,6 +653,8 @@ API path: `/shipments`
 
 | Field | Description |
 | --- | --- |
+| `devices` | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | Reference to the associated Partner. |
 | `success` | Indicates if the action was a success. |
 
 Operations: Create, Remove.
@@ -632,6 +670,7 @@ API path: `/virtualDevices/{sharePartnerTo}`
 | `clientRef` | Client Reference property that is included in the decrypt API call. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `decrypted` | A Transcation can process muliple decryptions. |
+| `device` | Reference to the associated Device resource. |
 | `deviceName` | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | Reference to the associated Partner. |
 | `encrypted` | A Transcation can process muliple encryptions. |
@@ -660,17 +699,68 @@ API path: `/transactions`
 
 | Field | Description |
 | --- | --- |
+| `address1` | The Location's street address. |
+| `address2` | The Location's street address. |
+| `alternateKey` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | \? |
+| `city` | The Location's city. |
 | `client` | Reference to the associated Client resource. |
+| `clientCanOrderEquipment` | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | Client Reference property that is included in the decrypt API call. |
+| `contact` | Reference to the associated User resource. |
+| `country` | Reference to the associated Country. |
+| `customReference` | A Partner specified reference for a location. |
+| `dateShipped` | The date and time that a package is shipped. |
+| `decrypted` | A Transcation can process muliple decryptions. |
+| `device` | Reference to the associated Device resource. |
+| `deviceBuild` | Reference to the associated Device Build resource. |
+| `deviceType` | Reference to the associated Device Type resource. |
+| `directPartner` | Reference to the associated Partner. |
 | `email` | The User's email address. |
+| `encrypted` | A Transcation can process muliple encryptions. |
+| `endDate` | Timestamp from the end of the transaction. |
+| `errCode` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | The error messge that is sent in response to a failed decrypt API call. |
 | `firstName` | The User's name. |
 | `id` | ID of newly created resource |
+| `injectKey` | Reference to the associated Device resource. |
+| `ipAddress` | The IP address of the http client that makes the decrypt API call. |
 | `isActive` | This property indicates if the User account is active or disabled. |
+| `items` |  |
+| `keyType` | The type of cipher used during decrytion. |
 | `kif` | Reference to the associated KIF resource. |
 | `lastName` | The User's Surname. |
+| `location` | Reference to the associated Location resource. |
+| `locationType` | The Location's clasification. |
+| `mailAddress1` | The Location's street address. |
+| `mailAddress2` | The Location's street address. |
+| `mailCity` | The Location's city. |
+| `mailCountry` | The Location's street address. |
+| `mailPostalCode` | The Location's postal code. |
+| `mailStateProvince` | The Location's street state or province. |
+| `messageId` | Message ID. |
+| `method` | The decryption cypher/method. |
+| `mid` | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | The Client's name. |
+| `nameOfBusiness` | The name of the business at this location. |
+| `notes` | Arbitary note that can be attached to a Device entry. |
+| `parent` | Reference to the associated Partner. |
 | `partner` | Reference to the associated Partner. |
+| `partnerId` | The Partner's id. |
 | `phone` | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | The Location's postal code. |
+| `reference` | The Partner's reference string. |
+| `sendWelcomeEmail` | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | The Device's serial number. |
+| `startDate` | Timestamp from the beginning of the transaction. |
+| `stateProvince` | The Location's street state or province. |
+| `success` | The success indicator. |
+| `tracking` | The courier's tracking number. |
+| `uniqueId` | Unique Identifier for the Location. |
 | `userName` | The User's unique username. |
 | `userRole` | Reference to the associated User Role. |
+| `verificationPhrase` | The verification phrase is a message that the Partner creates. |
 | `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Update.
@@ -729,8 +819,9 @@ Create an instance: `const attestation = client.attestation(h.vnull());`
 | `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. |
 | `load(reqmatch, ctrl)` | Load a single entity by match criteria. |
 
-Each operation returns an `OpResult` — `switch` on it: `.ok => |data|`
-carries the result `Value`, `.err => |e|` carries the branded error.
+Each operation returns a result union — `switch` on it: `.ok` carries the
+entity (for `list`, a slice of entities, one per record), whose record
+`asEntity().data(null)` reads, and `.err => |e|` the branded error.
 
 #### Fields
 
@@ -740,6 +831,7 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 | `completeDate` | `[]const u8` | The date and time that the Attestation took place. |
 | `created` | `[]const u8` | Creation timestamp in ISO 8601 format. |
 | `device` | `Value (object)` | Reference to the associated Device resource. |
+| `devices` | `Value (array)` |  |
 | `id` | `[]const u8` | This resource's unique identifier. |
 | `name` | `[]const u8` | Text describing the attestation. |
 | `notes` | `[]const u8` | Free form field that allows the Client associate notes with the Attestation. |
@@ -748,7 +840,7 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 ```zig
 switch (client.attestation(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("attestation_id") }}), h.vnull())) {
-    .ok => |attestation| std.debug.print("{s}\n", .{h.stringify(attestation)}),
+    .ok => |attestation| std.debug.print("{s}\n", .{h.stringify(attestation.asEntity().data(null))}),
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
@@ -756,8 +848,12 @@ switch (client.attestation(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("attestation_
 #### Example: List
 
 ```zig
-switch (client.attestation(h.vnull()).list(h.vnull(), h.vnull())) {
-    .ok => |attestations| std.debug.print("{s}\n", .{h.stringify(attestations)}),
+switch (client.attestation(h.vnull()).list(h.jo(&.{.{ "client", h.vstr("example") }}), h.vnull())) {
+    .ok => |attestations| {
+        for (attestations) |attestation| {
+            std.debug.print("{s}\n", .{h.stringify(attestation.asEntity().data(null))});
+        }
+    },
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
 }
 ```
@@ -766,8 +862,9 @@ switch (client.attestation(h.vnull()).list(h.vnull(), h.vnull())) {
 
 ```zig
 switch (client.attestation(h.vnull()).create(h.jo(&.{
+    .{ "devices", h.olist() }, // Value (array)
 }), h.vnull())) {
-    .ok => |attestation| std.debug.print("{s}\n", .{h.stringify(attestation)}),
+    .ok => |attestation| std.debug.print("{s}\n", .{h.stringify(attestation.asEntity().data(null))}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
 }
 ```
@@ -786,8 +883,9 @@ Create an instance: `const client = client.client(h.vnull());`
 | `load(reqmatch, ctrl)` | Load a single entity by match criteria. |
 | `remove(reqmatch, ctrl)` | Remove the matching entity. |
 
-Each operation returns an `OpResult` — `switch` on it: `.ok => |data|`
-carries the result `Value`, `.err => |e|` carries the branded error.
+Each operation returns a result union — `switch` on it: `.ok` carries the
+entity (for `list`, a slice of entities, one per record), whose record
+`asEntity().data(null)` reads, and `.err => |e|` the branded error.
 
 #### Fields
 
@@ -809,7 +907,7 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 ```zig
 switch (client.client(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("client_id") }}), h.vnull())) {
-    .ok => |client| std.debug.print("{s}\n", .{h.stringify(client)}),
+    .ok => |client| std.debug.print("{s}\n", .{h.stringify(client.asEntity().data(null))}),
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
@@ -817,8 +915,12 @@ switch (client.client(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("client_id") }}), 
 #### Example: List
 
 ```zig
-switch (client.client(h.vnull()).list(h.vnull(), h.vnull())) {
-    .ok => |clients| std.debug.print("{s}\n", .{h.stringify(clients)}),
+switch (client.client(h.vnull()).list(h.jo(&.{.{ "partner", h.vstr("example") }}), h.vnull())) {
+    .ok => |clients| {
+        for (clients) |client| {
+            std.debug.print("{s}\n", .{h.stringify(client.asEntity().data(null))});
+        }
+    },
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
 }
 ```
@@ -829,7 +931,7 @@ switch (client.client(h.vnull()).list(h.vnull(), h.vnull())) {
 switch (client.client(h.vnull()).create(h.jo(&.{
     .{ "location", h.omap() }, // Value (object)
 }), h.vnull())) {
-    .ok => |client| std.debug.print("{s}\n", .{h.stringify(client)}),
+    .ok => |client| std.debug.print("{s}\n", .{h.stringify(client.asEntity().data(null))}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
 }
 ```
@@ -845,8 +947,18 @@ Create an instance: `const create_result = client.create_result(h.vnull());`
 | --- | --- |
 | `create(reqdata, ctrl)` | Create a new entity with the given data. |
 
-Each operation returns an `OpResult` — `switch` on it: `.ok => |data|`
-carries the result `Value`, `.err => |e|` carries the branded error.
+Each operation returns a result union — `switch` on it: `.ok` carries the
+entity (for `list`, a slice of entities, one per record), whose record
+`asEntity().data(null)` reads, and `.err => |e|` the branded error.
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `completeDate` | `[]const u8` | The date and time that the Custody change took place. |
+| `custodian` | `Value (object)` | Reference to the associated User resource. |
+| `location` | `Value (object)` | Reference to the associated Location resource. |
+| `notes` | `[]const u8` | Free form field that allows the Client associate notes with the Custody Change. |
 
 #### Example: Create
 
@@ -854,8 +966,10 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 switch (client.create_result(h.vnull()).create(h.jo(&.{
     .{ "device_type", h.vstr("example_device_type") }, // []const u8
     .{ "serial_number", h.vstr("example_serial_number") }, // []const u8
+    .{ "custodian", h.omap() }, // Value (object)
+    .{ "location", h.omap() }, // Value (object)
 }), h.vnull())) {
-    .ok => |create_result| std.debug.print("{s}\n", .{h.stringify(create_result)}),
+    .ok => |create_result| std.debug.print("{s}\n", .{h.stringify(create_result.asEntity().data(null))}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
 }
 ```
@@ -871,21 +985,33 @@ Create an instance: `const decryption = client.decryption(h.vnull());`
 | --- | --- |
 | `create(reqdata, ctrl)` | Create a new entity with the given data. |
 
-Each operation returns an `OpResult` — `switch` on it: `.ok => |data|`
-carries the result `Value`, `.err => |e|` carries the branded error.
+Each operation returns a result union — `switch` on it: `.ok` carries the
+entity (for `list`, a slice of entities, one per record), whose record
+`asEntity().data(null)` reads, and `.err => |e|` the branded error.
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `cbcVector` | `[]const u8` | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | `[]const u8` | The device Type. |
+| `encoding` | `[]const u8` | The payload encoding |
+| `encrypted` | `Value (array)` |  |
+| `hasCcData` | `[]const u8` | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | `[]const u8` | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | `[]const u8` | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | `[]const u8` | The serial number of the device. |
 | `success` | `bool` | true if the payload decryption was successful. |
 
 #### Example: Create
 
 ```zig
 switch (client.decryption(h.vnull()).create(h.jo(&.{
+    .{ "deviceType", h.vstr("example_deviceType") }, // []const u8
+    .{ "encrypted", h.olist() }, // Value (array)
+    .{ "serialNumber", h.vstr("example_serialNumber") }, // []const u8
 }), h.vnull())) {
-    .ok => |decryption| std.debug.print("{s}\n", .{h.stringify(decryption)}),
+    .ok => |decryption| std.debug.print("{s}\n", .{h.stringify(decryption.asEntity().data(null))}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
 }
 ```
@@ -903,8 +1029,9 @@ Create an instance: `const device = client.device(h.vnull());`
 | `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. |
 | `load(reqmatch, ctrl)` | Load a single entity by match criteria. |
 
-Each operation returns an `OpResult` — `switch` on it: `.ok => |data|`
-carries the result `Value`, `.err => |e|` carries the branded error.
+Each operation returns a result union — `switch` on it: `.ok` carries the
+entity (for `list`, a slice of entities, one per record), whose record
+`asEntity().data(null)` reads, and `.err => |e|` the branded error.
 
 #### Fields
 
@@ -943,7 +1070,7 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 ```zig
 switch (client.device(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("device_id") }}), h.vnull())) {
-    .ok => |device| std.debug.print("{s}\n", .{h.stringify(device)}),
+    .ok => |device| std.debug.print("{s}\n", .{h.stringify(device.asEntity().data(null))}),
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
@@ -952,7 +1079,11 @@ switch (client.device(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("device_id") }}), 
 
 ```zig
 switch (client.device(h.vnull()).list(h.vnull(), h.vnull())) {
-    .ok => |devices| std.debug.print("{s}\n", .{h.stringify(devices)}),
+    .ok => |devices| {
+        for (devices) |device| {
+            std.debug.print("{s}\n", .{h.stringify(device.asEntity().data(null))});
+        }
+    },
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
 }
 ```
@@ -967,7 +1098,7 @@ switch (client.device(h.vnull()).create(h.jo(&.{
     .{ "location", h.omap() }, // Value (object)
     .{ "modifiedBy", h.omap() }, // Value (object)
 }), h.vnull())) {
-    .ok => |device| std.debug.print("{s}\n", .{h.stringify(device)}),
+    .ok => |device| std.debug.print("{s}\n", .{h.stringify(device.asEntity().data(null))}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
 }
 ```
@@ -984,8 +1115,9 @@ Create an instance: `const device_build = client.device_build(h.vnull());`
 | `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. |
 | `load(reqmatch, ctrl)` | Load a single entity by match criteria. |
 
-Each operation returns an `OpResult` — `switch` on it: `.ok => |data|`
-carries the result `Value`, `.err => |e|` carries the branded error.
+Each operation returns a result union — `switch` on it: `.ok` carries the
+entity (for `list`, a slice of entities, one per record), whose record
+`asEntity().data(null)` reads, and `.err => |e|` the branded error.
 
 #### Fields
 
@@ -1011,7 +1143,7 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 ```zig
 switch (client.device_build(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("device_build_id") }}), h.vnull())) {
-    .ok => |device_build| std.debug.print("{s}\n", .{h.stringify(device_build)}),
+    .ok => |device_build| std.debug.print("{s}\n", .{h.stringify(device_build.asEntity().data(null))}),
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
@@ -1020,7 +1152,11 @@ switch (client.device_build(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("device_buil
 
 ```zig
 switch (client.device_build(h.vnull()).list(h.vnull(), h.vnull())) {
-    .ok => |device_builds| std.debug.print("{s}\n", .{h.stringify(device_builds)}),
+    .ok => |device_builds| {
+        for (device_builds) |device_build| {
+            std.debug.print("{s}\n", .{h.stringify(device_build.asEntity().data(null))});
+        }
+    },
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
 }
 ```
@@ -1036,8 +1172,9 @@ Create an instance: `const device_custody_detail = client.device_custody_detail(
 | --- | --- |
 | `load(reqmatch, ctrl)` | Load a single entity by match criteria. |
 
-Each operation returns an `OpResult` — `switch` on it: `.ok => |data|`
-carries the result `Value`, `.err => |e|` carries the branded error.
+Each operation returns a result union — `switch` on it: `.ok` carries the
+entity (for `list`, a slice of entities, one per record), whose record
+`asEntity().data(null)` reads, and `.err => |e|` the branded error.
 
 #### Fields
 
@@ -1061,7 +1198,7 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 ```zig
 switch (client.device_custody_detail(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("device_custody_detail_id") }, .{ "device_type", h.vstr("device_type") }, .{ "serial_number", h.vstr("serial_number") }}), h.vnull())) {
-    .ok => |device_custody_detail| std.debug.print("{s}\n", .{h.stringify(device_custody_detail)}),
+    .ok => |device_custody_detail| std.debug.print("{s}\n", .{h.stringify(device_custody_detail.asEntity().data(null))}),
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
@@ -1077,8 +1214,9 @@ Create an instance: `const device_custody_list_item = client.device_custody_list
 | --- | --- |
 | `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. |
 
-Each operation returns an `OpResult` — `switch` on it: `.ok => |data|`
-carries the result `Value`, `.err => |e|` carries the branded error.
+Each operation returns a result union — `switch` on it: `.ok` carries the
+entity (for `list`, a slice of entities, one per record), whose record
+`asEntity().data(null)` reads, and `.err => |e|` the branded error.
 
 #### Fields
 
@@ -1101,8 +1239,12 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 #### Example: List
 
 ```zig
-switch (client.device_custody_list_item(h.vnull()).list(h.vnull(), h.vnull())) {
-    .ok => |device_custody_list_items| std.debug.print("{s}\n", .{h.stringify(device_custody_list_items)}),
+switch (client.device_custody_list_item(h.vnull()).list(h.jo(&.{.{ "device_type", h.vstr("example") }, .{ "serial_number", h.vstr("example") }}), h.vnull())) {
+    .ok => |device_custody_list_items| {
+        for (device_custody_list_items) |device_custody_list_item| {
+            std.debug.print("{s}\n", .{h.stringify(device_custody_list_item.asEntity().data(null))});
+        }
+    },
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
 }
 ```
@@ -1118,22 +1260,27 @@ Create an instance: `const device_receive_result = client.device_receive_result(
 | --- | --- |
 | `create(reqdata, ctrl)` | Create a new entity with the given data. |
 
-Each operation returns an `OpResult` — `switch` on it: `.ok => |data|`
-carries the result `Value`, `.err => |e|` carries the branded error.
+Each operation returns a result union — `switch` on it: `.ok` carries the
+entity (for `list`, a slice of entities, one per record), whose record
+`asEntity().data(null)` reads, and `.err => |e|` the branded error.
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `serialNumber` | `[]const u8` | The serial number of the Device that is shipped. |
 | `success` | `bool` | Indicates if the action succeeded. |
+| `tamperLabel` | `[]const u8` | The code that is printed the tamper label of the Device that is shipped. |
 
 #### Example: Create
 
 ```zig
 switch (client.device_receive_result(h.vnull()).create(h.jo(&.{
+    .{ "serialNumber", h.vstr("example_serialNumber") }, // []const u8
     .{ "success", h.vbool(true) }, // bool
+    .{ "tamperLabel", h.vstr("example_tamperLabel") }, // []const u8
 }), h.vnull())) {
-    .ok => |device_receive_result| std.debug.print("{s}\n", .{h.stringify(device_receive_result)}),
+    .ok => |device_receive_result| std.debug.print("{s}\n", .{h.stringify(device_receive_result.asEntity().data(null))}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
 }
 ```
@@ -1149,22 +1296,32 @@ Create an instance: `const device_rki_activate_result = client.device_rki_activa
 | --- | --- |
 | `create(reqdata, ctrl)` | Create a new entity with the given data. |
 
-Each operation returns an `OpResult` — `switch` on it: `.ok => |data|`
-carries the result `Value`, `.err => |e|` carries the branded error.
+Each operation returns a result union — `switch` on it: `.ok` carries the
+entity (for `list`, a slice of entities, one per record), whose record
+`asEntity().data(null)` reads, and `.err => |e|` the branded error.
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `appVersion` | `[]const u8` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | `[]const u8` | The Device Builds's name. |
+| `buildNumber` | `[]const u8` | The Build Number. |
+| `configFile` | `[]const u8` | \? |
+| `firmwareVersion` | `[]const u8` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `[]const u8` | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | `[]const u8` | The referenced Device's serial number. |
 | `success` | `bool` | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | `[]const u8` | \? |
 
 #### Example: Create
 
 ```zig
 switch (client.device_rki_activate_result(h.vnull()).create(h.jo(&.{
+    .{ "serialNumber", h.vstr("example_serialNumber") }, // []const u8
     .{ "success", h.vbool(true) }, // bool
 }), h.vnull())) {
-    .ok => |device_rki_activate_result| std.debug.print("{s}\n", .{h.stringify(device_rki_activate_result)}),
+    .ok => |device_rki_activate_result| std.debug.print("{s}\n", .{h.stringify(device_rki_activate_result.asEntity().data(null))}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
 }
 ```
@@ -1180,8 +1337,9 @@ Create an instance: `const device_state = client.device_state(h.vnull());`
 | --- | --- |
 | `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. |
 
-Each operation returns an `OpResult` — `switch` on it: `.ok => |data|`
-carries the result `Value`, `.err => |e|` carries the branded error.
+Each operation returns a result union — `switch` on it: `.ok` carries the
+entity (for `list`, a slice of entities, one per record), whose record
+`asEntity().data(null)` reads, and `.err => |e|` the branded error.
 
 #### Fields
 
@@ -1194,7 +1352,11 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 ```zig
 switch (client.device_state(h.vnull()).list(h.vnull(), h.vnull())) {
-    .ok => |device_states| std.debug.print("{s}\n", .{h.stringify(device_states)}),
+    .ok => |device_states| {
+        for (device_states) |device_state| {
+            std.debug.print("{s}\n", .{h.stringify(device_state.asEntity().data(null))});
+        }
+    },
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
 }
 ```
@@ -1211,8 +1373,9 @@ Create an instance: `const device_type = client.device_type(h.vnull());`
 | `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. |
 | `load(reqmatch, ctrl)` | Load a single entity by match criteria. |
 
-Each operation returns an `OpResult` — `switch` on it: `.ok => |data|`
-carries the result `Value`, `.err => |e|` carries the branded error.
+Each operation returns a result union — `switch` on it: `.ok` carries the
+entity (for `list`, a slice of entities, one per record), whose record
+`asEntity().data(null)` reads, and `.err => |e|` the branded error.
 
 #### Fields
 
@@ -1235,7 +1398,7 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 ```zig
 switch (client.device_type(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("device_type_id") }}), h.vnull())) {
-    .ok => |device_type| std.debug.print("{s}\n", .{h.stringify(device_type)}),
+    .ok => |device_type| std.debug.print("{s}\n", .{h.stringify(device_type.asEntity().data(null))}),
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
@@ -1244,7 +1407,11 @@ switch (client.device_type(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("device_type_
 
 ```zig
 switch (client.device_type(h.vnull()).list(h.vnull(), h.vnull())) {
-    .ok => |device_types| std.debug.print("{s}\n", .{h.stringify(device_types)}),
+    .ok => |device_types| {
+        for (device_types) |device_type| {
+            std.debug.print("{s}\n", .{h.stringify(device_type.asEntity().data(null))});
+        }
+    },
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
 }
 ```
@@ -1261,8 +1428,9 @@ Create an instance: `const inject_key = client.inject_key(h.vnull());`
 | `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. |
 | `load(reqmatch, ctrl)` | Load a single entity by match criteria. |
 
-Each operation returns an `OpResult` — `switch` on it: `.ok => |data|`
-carries the result `Value`, `.err => |e|` carries the branded error.
+Each operation returns a result union — `switch` on it: `.ok` carries the
+entity (for `list`, a slice of entities, one per record), whose record
+`asEntity().data(null)` reads, and `.err => |e|` the branded error.
 
 #### Fields
 
@@ -1281,7 +1449,7 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 ```zig
 switch (client.inject_key(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("inject_key_id") }}), h.vnull())) {
-    .ok => |inject_key| std.debug.print("{s}\n", .{h.stringify(inject_key)}),
+    .ok => |inject_key| std.debug.print("{s}\n", .{h.stringify(inject_key.asEntity().data(null))}),
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
@@ -1290,7 +1458,11 @@ switch (client.inject_key(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("inject_key_id
 
 ```zig
 switch (client.inject_key(h.vnull()).list(h.vnull(), h.vnull())) {
-    .ok => |inject_keys| std.debug.print("{s}\n", .{h.stringify(inject_keys)}),
+    .ok => |inject_keys| {
+        for (inject_keys) |inject_key| {
+            std.debug.print("{s}\n", .{h.stringify(inject_key.asEntity().data(null))});
+        }
+    },
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
 }
 ```
@@ -1306,8 +1478,9 @@ Create an instance: `const kif = client.kif(h.vnull());`
 | --- | --- |
 | `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. |
 
-Each operation returns an `OpResult` — `switch` on it: `.ok => |data|`
-carries the result `Value`, `.err => |e|` carries the branded error.
+Each operation returns a result union — `switch` on it: `.ok` carries the
+entity (for `list`, a slice of entities, one per record), whose record
+`asEntity().data(null)` reads, and `.err => |e|` the branded error.
 
 #### Fields
 
@@ -1320,7 +1493,11 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 ```zig
 switch (client.kif(h.vnull()).list(h.vnull(), h.vnull())) {
-    .ok => |kifs| std.debug.print("{s}\n", .{h.stringify(kifs)}),
+    .ok => |kifs| {
+        for (kifs) |kif| {
+            std.debug.print("{s}\n", .{h.stringify(kif.asEntity().data(null))});
+        }
+    },
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
 }
 ```
@@ -1339,8 +1516,9 @@ Create an instance: `const location = client.location(h.vnull());`
 | `load(reqmatch, ctrl)` | Load a single entity by match criteria. |
 | `remove(reqmatch, ctrl)` | Remove the matching entity. |
 
-Each operation returns an `OpResult` — `switch` on it: `.ok => |data|`
-carries the result `Value`, `.err => |e|` carries the branded error.
+Each operation returns a result union — `switch` on it: `.ok` carries the
+entity (for `list`, a slice of entities, one per record), whose record
+`asEntity().data(null)` reads, and `.err => |e|` the branded error.
 
 #### Fields
 
@@ -1350,6 +1528,7 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 | `address2` | `[]const u8` | The Location's street address. |
 | `billingId` | `[]const u8` | \? |
 | `city` | `[]const u8` | The Location's city. |
+| `client` | `Value (object)` | Reference to the associated Client resource. |
 | `country` | `[]const u8` | The Location's country. |
 | `created` | `[]const u8` | Creation timestamp in ISO 8601 format. |
 | `customReference` | `[]const u8` | A Partner specified reference for a location. |
@@ -1374,7 +1553,7 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 ```zig
 switch (client.location(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("location_id") }}), h.vnull())) {
-    .ok => |location| std.debug.print("{s}\n", .{h.stringify(location)}),
+    .ok => |location| std.debug.print("{s}\n", .{h.stringify(location.asEntity().data(null))}),
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
@@ -1382,8 +1561,12 @@ switch (client.location(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("location_id") }
 #### Example: List
 
 ```zig
-switch (client.location(h.vnull()).list(h.vnull(), h.vnull())) {
-    .ok => |locations| std.debug.print("{s}\n", .{h.stringify(locations)}),
+switch (client.location(h.vnull()).list(h.jo(&.{.{ "client", h.vstr("example") }}), h.vnull())) {
+    .ok => |locations| {
+        for (locations) |location| {
+            std.debug.print("{s}\n", .{h.stringify(location.asEntity().data(null))});
+        }
+    },
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
 }
 ```
@@ -1393,7 +1576,7 @@ switch (client.location(h.vnull()).list(h.vnull(), h.vnull())) {
 ```zig
 switch (client.location(h.vnull()).create(h.jo(&.{
 }), h.vnull())) {
-    .ok => |location| std.debug.print("{s}\n", .{h.stringify(location)}),
+    .ok => |location| std.debug.print("{s}\n", .{h.stringify(location.asEntity().data(null))}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
 }
 ```
@@ -1411,8 +1594,9 @@ Create an instance: `const partner = client.partner(h.vnull());`
 | `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. |
 | `load(reqmatch, ctrl)` | Load a single entity by match criteria. |
 
-Each operation returns an `OpResult` — `switch` on it: `.ok => |data|`
-carries the result `Value`, `.err => |e|` carries the branded error.
+Each operation returns a result union — `switch` on it: `.ok` carries the
+entity (for `list`, a slice of entities, one per record), whose record
+`asEntity().data(null)` reads, and `.err => |e|` the branded error.
 
 #### Fields
 
@@ -1437,7 +1621,7 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 ```zig
 switch (client.partner(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("partner_id") }}), h.vnull())) {
-    .ok => |partner| std.debug.print("{s}\n", .{h.stringify(partner)}),
+    .ok => |partner| std.debug.print("{s}\n", .{h.stringify(partner.asEntity().data(null))}),
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
@@ -1446,7 +1630,11 @@ switch (client.partner(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("partner_id") }})
 
 ```zig
 switch (client.partner(h.vnull()).list(h.vnull(), h.vnull())) {
-    .ok => |partners| std.debug.print("{s}\n", .{h.stringify(partners)}),
+    .ok => |partners| {
+        for (partners) |partner| {
+            std.debug.print("{s}\n", .{h.stringify(partner.asEntity().data(null))});
+        }
+    },
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
 }
 ```
@@ -1457,7 +1645,7 @@ switch (client.partner(h.vnull()).list(h.vnull(), h.vnull())) {
 switch (client.partner(h.vnull()).create(h.jo(&.{
     .{ "location", h.omap() }, // Value (object)
 }), h.vnull())) {
-    .ok => |partner| std.debug.print("{s}\n", .{h.stringify(partner)}),
+    .ok => |partner| std.debug.print("{s}\n", .{h.stringify(partner.asEntity().data(null))}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
 }
 ```
@@ -1475,8 +1663,9 @@ Create an instance: `const shipment = client.shipment(h.vnull());`
 | `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. |
 | `load(reqmatch, ctrl)` | Load a single entity by match criteria. |
 
-Each operation returns an `OpResult` — `switch` on it: `.ok => |data|`
-carries the result `Value`, `.err => |e|` carries the branded error.
+Each operation returns a result union — `switch` on it: `.ok` carries the
+entity (for `list`, a slice of entities, one per record), whose record
+`asEntity().data(null)` reads, and `.err => |e|` the branded error.
 
 #### Fields
 
@@ -1491,6 +1680,7 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 | `id` | `[]const u8` | This resource's unique identifier. |
 | `items` | `Value (array)` |  |
 | `kif` | `Value (object)` | Reference to the associated KIF resource. |
+| `location` | `Value (object)` | Reference to the associated Location resource. |
 | `modified` | `[]const u8` | Last modified timestamp. |
 | `partner` | `Value (object)` | Reference to the associated Partner. |
 | `shipmentType` | `[]const u8` | The type of shipment. |
@@ -1501,7 +1691,7 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 ```zig
 switch (client.shipment(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("shipment_id") }}), h.vnull())) {
-    .ok => |shipment| std.debug.print("{s}\n", .{h.stringify(shipment)}),
+    .ok => |shipment| std.debug.print("{s}\n", .{h.stringify(shipment.asEntity().data(null))}),
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
@@ -1509,8 +1699,12 @@ switch (client.shipment(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("shipment_id") }
 #### Example: List
 
 ```zig
-switch (client.shipment(h.vnull()).list(h.vnull(), h.vnull())) {
-    .ok => |shipments| std.debug.print("{s}\n", .{h.stringify(shipments)}),
+switch (client.shipment(h.vnull()).list(h.jo(&.{.{ "kif", h.vstr("example") }}), h.vnull())) {
+    .ok => |shipments| {
+        for (shipments) |shipment| {
+            std.debug.print("{s}\n", .{h.stringify(shipment.asEntity().data(null))});
+        }
+    },
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
 }
 ```
@@ -1519,8 +1713,9 @@ switch (client.shipment(h.vnull()).list(h.vnull(), h.vnull())) {
 
 ```zig
 switch (client.shipment(h.vnull()).create(h.jo(&.{
+    .{ "location", h.omap() }, // Value (object)
 }), h.vnull())) {
-    .ok => |shipment| std.debug.print("{s}\n", .{h.stringify(shipment)}),
+    .ok => |shipment| std.debug.print("{s}\n", .{h.stringify(shipment.asEntity().data(null))}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
 }
 ```
@@ -1537,13 +1732,16 @@ Create an instance: `const success = client.success(h.vnull());`
 | `create(reqdata, ctrl)` | Create a new entity with the given data. |
 | `remove(reqmatch, ctrl)` | Remove the matching entity. |
 
-Each operation returns an `OpResult` — `switch` on it: `.ok => |data|`
-carries the result `Value`, `.err => |e|` carries the branded error.
+Each operation returns a result union — `switch` on it: `.ok` carries the
+entity (for `list`, a slice of entities, one per record), whose record
+`asEntity().data(null)` reads, and `.err => |e|` the branded error.
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `devices` | `Value (array)` | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | `Value (object)` | Reference to the associated Partner. |
 | `success` | `bool` | Indicates if the action was a success. |
 
 #### Example: Create
@@ -1551,8 +1749,10 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 ```zig
 switch (client.success(h.vnull()).create(h.jo(&.{
     .{ "share_partner_to", h.vstr("example_share_partner_to") }, // []const u8
+    .{ "devices", h.olist() }, // Value (array)
+    .{ "sharePartnerFrom", h.omap() }, // Value (object)
 }), h.vnull())) {
-    .ok => |success| std.debug.print("{s}\n", .{h.stringify(success)}),
+    .ok => |success| std.debug.print("{s}\n", .{h.stringify(success.asEntity().data(null))}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
 }
 ```
@@ -1570,8 +1770,9 @@ Create an instance: `const transaction = client.transaction(h.vnull());`
 | `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. |
 | `load(reqmatch, ctrl)` | Load a single entity by match criteria. |
 
-Each operation returns an `OpResult` — `switch` on it: `.ok => |data|`
-carries the result `Value`, `.err => |e|` carries the branded error.
+Each operation returns a result union — `switch` on it: `.ok` carries the
+entity (for `list`, a slice of entities, one per record), whose record
+`asEntity().data(null)` reads, and `.err => |e|` the branded error.
 
 #### Fields
 
@@ -1582,6 +1783,7 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 | `clientRef` | `[]const u8` | Client Reference property that is included in the decrypt API call. |
 | `created` | `[]const u8` | Creation timestamp in ISO 8601 format. |
 | `decrypted` | `i64` | A Transcation can process muliple decryptions. |
+| `device` | `Value (object)` | Reference to the associated Device resource. |
 | `deviceName` | `[]const u8` | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | `Value (object)` | Reference to the associated Partner. |
 | `encrypted` | `i64` | A Transcation can process muliple encryptions. |
@@ -1606,7 +1808,7 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 ```zig
 switch (client.transaction(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("transaction_id") }}), h.vnull())) {
-    .ok => |transaction| std.debug.print("{s}\n", .{h.stringify(transaction)}),
+    .ok => |transaction| std.debug.print("{s}\n", .{h.stringify(transaction.asEntity().data(null))}),
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
@@ -1615,7 +1817,11 @@ switch (client.transaction(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("transaction_
 
 ```zig
 switch (client.transaction(h.vnull()).list(h.vnull(), h.vnull())) {
-    .ok => |transactions| std.debug.print("{s}\n", .{h.stringify(transactions)}),
+    .ok => |transactions| {
+        for (transactions) |transaction| {
+            std.debug.print("{s}\n", .{h.stringify(transaction.asEntity().data(null))});
+        }
+    },
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
 }
 ```
@@ -1624,9 +1830,10 @@ switch (client.transaction(h.vnull()).list(h.vnull(), h.vnull())) {
 
 ```zig
 switch (client.transaction(h.vnull()).create(h.jo(&.{
+    .{ "device", h.omap() }, // Value (object)
     .{ "location", h.omap() }, // Value (object)
 }), h.vnull())) {
-    .ok => |transaction| std.debug.print("{s}\n", .{h.stringify(transaction)}),
+    .ok => |transaction| std.debug.print("{s}\n", .{h.stringify(transaction.asEntity().data(null))}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
 }
 ```
@@ -1644,31 +1851,87 @@ Create an instance: `const update_result = client.update_result(h.vnull());`
 | `list(reqmatch, ctrl)` | List entities, optionally matching the given criteria. |
 | `update(reqdata, ctrl)` | Update an existing entity. |
 
-Each operation returns an `OpResult` — `switch` on it: `.ok => |data|`
-carries the result `Value`, `.err => |e|` carries the branded error.
+Each operation returns a result union — `switch` on it: `.ok` carries the
+entity (for `list`, a slice of entities, one per record), whose record
+`asEntity().data(null)` reads, and `.err => |e|` the branded error.
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `address1` | `[]const u8` | The Location's street address. |
+| `address2` | `[]const u8` | The Location's street address. |
+| `alternateKey` | `[]const u8` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `[]const u8` | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | `[]const u8` | \? |
+| `city` | `[]const u8` | The Location's city. |
 | `client` | `Value (object)` | Reference to the associated Client resource. |
+| `clientCanOrderEquipment` | `bool` | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | `[]const u8` | Client Reference property that is included in the decrypt API call. |
+| `contact` | `Value (object)` | Reference to the associated User resource. |
+| `country` | `Value (object)` | Reference to the associated Country. |
+| `customReference` | `[]const u8` | A Partner specified reference for a location. |
+| `dateShipped` | `[]const u8` | The date and time that a package is shipped. |
+| `decrypted` | `i64` | A Transcation can process muliple decryptions. |
+| `device` | `Value (object)` | Reference to the associated Device resource. |
+| `deviceBuild` | `Value (object)` | Reference to the associated Device Build resource. |
+| `deviceType` | `Value (object)` | Reference to the associated Device Type resource. |
+| `directPartner` | `Value (object)` | Reference to the associated Partner. |
 | `email` | `[]const u8` | The User's email address. |
+| `encrypted` | `i64` | A Transcation can process muliple encryptions. |
+| `endDate` | `[]const u8` | Timestamp from the end of the transaction. |
+| `errCode` | `[]const u8` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `[]const u8` | The error messge that is sent in response to a failed decrypt API call. |
 | `firstName` | `[]const u8` | The User's name. |
 | `id` | `[]const u8` | ID of newly created resource |
+| `injectKey` | `Value (object)` | Reference to the associated Device resource. |
+| `ipAddress` | `[]const u8` | The IP address of the http client that makes the decrypt API call. |
 | `isActive` | `bool` | This property indicates if the User account is active or disabled. |
+| `items` | `Value (array)` |  |
+| `keyType` | `[]const u8` | The type of cipher used during decrytion. |
 | `kif` | `Value (object)` | Reference to the associated KIF resource. |
 | `lastName` | `[]const u8` | The User's Surname. |
+| `location` | `Value (object)` | Reference to the associated Location resource. |
+| `locationType` | `[]const u8` | The Location's clasification. |
+| `mailAddress1` | `[]const u8` | The Location's street address. |
+| `mailAddress2` | `[]const u8` | The Location's street address. |
+| `mailCity` | `[]const u8` | The Location's city. |
+| `mailCountry` | `[]const u8` | The Location's street address. |
+| `mailPostalCode` | `[]const u8` | The Location's postal code. |
+| `mailStateProvince` | `[]const u8` | The Location's street state or province. |
+| `messageId` | `[]const u8` | Message ID. |
+| `method` | `[]const u8` | The decryption cypher/method. |
+| `mid` | `[]const u8` | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | `[]const u8` | The Client's name. |
+| `nameOfBusiness` | `[]const u8` | The name of the business at this location. |
+| `notes` | `[]const u8` | Arbitary note that can be attached to a Device entry. |
+| `parent` | `Value (object)` | Reference to the associated Partner. |
 | `partner` | `Value (object)` | Reference to the associated Partner. |
+| `partnerId` | `[]const u8` | The Partner's id. |
 | `phone` | `[]const u8` | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | `[]const u8` | The Location's postal code. |
+| `reference` | `[]const u8` | The Partner's reference string. |
+| `sendWelcomeEmail` | `bool` | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | `[]const u8` | The Device's serial number. |
+| `startDate` | `[]const u8` | Timestamp from the beginning of the transaction. |
+| `stateProvince` | `[]const u8` | The Location's street state or province. |
+| `success` | `bool` | The success indicator. |
+| `tracking` | `[]const u8` | The courier's tracking number. |
+| `uniqueId` | `[]const u8` | Unique Identifier for the Location. |
 | `userName` | `[]const u8` | The User's unique username. |
 | `userRole` | `Value (object)` | Reference to the associated User Role. |
+| `verificationPhrase` | `[]const u8` | The verification phrase is a message that the Partner creates. |
 | `version` | `i64` | The number of times that this resource has been updated. |
 
 #### Example: List
 
 ```zig
 switch (client.update_result(h.vnull()).list(h.vnull(), h.vnull())) {
-    .ok => |update_results| std.debug.print("{s}\n", .{h.stringify(update_results)}),
+    .ok => |update_results| {
+        for (update_results) |update_result| {
+            std.debug.print("{s}\n", .{h.stringify(update_result.asEntity().data(null))});
+        }
+    },
     .err => |e| std.debug.print("list failed: {s}\n", .{e.msg}),
 }
 ```
@@ -1677,8 +1940,17 @@ switch (client.update_result(h.vnull()).list(h.vnull(), h.vnull())) {
 
 ```zig
 switch (client.update_result(h.vnull()).create(h.jo(&.{
+    .{ "contact", h.omap() }, // Value (object)
+    .{ "email", h.vstr("example_email") }, // []const u8
+    .{ "firstName", h.vstr("example_firstName") }, // []const u8
+    .{ "isActive", h.vbool(true) }, // bool
+    .{ "lastName", h.vstr("example_lastName") }, // []const u8
+    .{ "location", h.omap() }, // Value (object)
+    .{ "phone", h.vstr("example_phone") }, // []const u8
+    .{ "userName", h.vstr("example_userName") }, // []const u8
+    .{ "userRole", h.omap() }, // Value (object)
 }), h.vnull())) {
-    .ok => |update_result| std.debug.print("{s}\n", .{h.stringify(update_result)}),
+    .ok => |update_result| std.debug.print("{s}\n", .{h.stringify(update_result.asEntity().data(null))}),
     .err => |e| std.debug.print("create failed: {s}\n", .{e.msg}),
 }
 ```
@@ -1695,8 +1967,9 @@ Create an instance: `const user = client.user(h.vnull());`
 | `load(reqmatch, ctrl)` | Load a single entity by match criteria. |
 | `remove(reqmatch, ctrl)` | Remove the matching entity. |
 
-Each operation returns an `OpResult` — `switch` on it: `.ok => |data|`
-carries the result `Value`, `.err => |e|` carries the branded error.
+Each operation returns a result union — `switch` on it: `.ok` carries the
+entity (for `list`, a slice of entities, one per record), whose record
+`asEntity().data(null)` reads, and `.err => |e|` the branded error.
 
 #### Fields
 
@@ -1721,7 +1994,7 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 ```zig
 switch (client.user(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("user_id") }}), h.vnull())) {
-    .ok => |user| std.debug.print("{s}\n", .{h.stringify(user)}),
+    .ok => |user| std.debug.print("{s}\n", .{h.stringify(user.asEntity().data(null))}),
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```
@@ -1737,8 +2010,9 @@ Create an instance: `const virtual_device = client.virtual_device(h.vnull());`
 | --- | --- |
 | `load(reqmatch, ctrl)` | Load a single entity by match criteria. |
 
-Each operation returns an `OpResult` — `switch` on it: `.ok => |data|`
-carries the result `Value`, `.err => |e|` carries the branded error.
+Each operation returns a result union — `switch` on it: `.ok` carries the
+entity (for `list`, a slice of entities, one per record), whose record
+`asEntity().data(null)` reads, and `.err => |e|` the branded error.
 
 #### Fields
 
@@ -1752,7 +2026,7 @@ carries the result `Value`, `.err => |e|` carries the branded error.
 
 ```zig
 switch (client.virtual_device(h.vnull()).load(h.jo(&.{.{ "id", h.vstr("virtual_device_id") }}), h.vnull())) {
-    .ok => |virtual_device| std.debug.print("{s}\n", .{h.stringify(virtual_device)}),
+    .ok => |virtual_device| std.debug.print("{s}\n", .{h.stringify(virtual_device.asEntity().data(null))}),
     .err => |e| std.debug.print("load failed: {s}\n", .{e.msg}),
 }
 ```

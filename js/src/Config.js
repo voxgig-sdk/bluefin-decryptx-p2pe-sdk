@@ -252,6 +252,7 @@ class Config {
       },
       "optspec": {
         "clearTimer": "`$FUNCTION`",
+        "now": "`$FUNCTION`",
         "setTimer": "`$FUNCTION`"
       },
       "strict": false,
@@ -266,6 +267,7 @@ class Config {
 
     auth: {
       prefix: 'Basic',
+      basic: true,
     },
 
     headers: {
@@ -351,12 +353,24 @@ class Config {
           "name": "client",
           "title": "Client",
           "type": "`$OBJECT`",
+          "op": {
+            "create": {
+              "req": true,
+              "type": "`$OBJECT`"
+            }
+          },
           "short": "Reference to the associated Client resource."
         },
         {
           "name": "completeDate",
           "title": "Complete Date",
           "type": "`$STRING`",
+          "op": {
+            "create": {
+              "req": true,
+              "type": "`$STRING`"
+            }
+          },
           "short": "The date and time that the Attestation took place.",
           "format": "datetime"
         },
@@ -374,6 +388,12 @@ class Config {
           "short": "Reference to the associated Device resource."
         },
         {
+          "name": "devices",
+          "title": "Devices",
+          "type": "`$ARRAY`",
+          "req": true
+        },
+        {
           "name": "id",
           "title": "Id",
           "type": "`$STRING`",
@@ -383,6 +403,12 @@ class Config {
           "name": "name",
           "title": "Name",
           "type": "`$STRING`",
+          "op": {
+            "create": {
+              "req": true,
+              "type": "`$STRING`"
+            }
+          },
           "short": "Text describing the attestation."
         },
         {
@@ -420,7 +446,11 @@ class Config {
                 "res": "`body`"
               },
               "args": {},
-              "select": {}
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
             }
           ]
         },
@@ -452,7 +482,8 @@ class Config {
                     "orig": "client",
                     "type": "`$STRING`",
                     "kind": "query",
-                    "reqd": true
+                    "reqd": true,
+                    "field": true
                   },
                   {
                     "name": "skip",
@@ -472,10 +503,12 @@ class Config {
               },
               "select": {
                 "exist": [
-                  "client",
-                  "skip",
-                  "take"
+                  "client"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -520,6 +553,10 @@ class Config {
                 "exist": [
                   "id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -536,6 +573,10 @@ class Config {
           "title": "Contact",
           "type": "`$OBJECT`",
           "op": {
+            "create": {
+              "req": true,
+              "type": "`$OBJECT`"
+            },
             "list": {
               "req": true,
               "type": "`$OBJECT`"
@@ -554,6 +595,12 @@ class Config {
           "name": "directPartner",
           "title": "Direct Partner",
           "type": "`$OBJECT`",
+          "op": {
+            "create": {
+              "req": true,
+              "type": "`$OBJECT`"
+            }
+          },
           "short": "Reference to the associated Partner."
         },
         {
@@ -592,6 +639,12 @@ class Config {
           "name": "name",
           "title": "Name",
           "type": "`$STRING`",
+          "op": {
+            "create": {
+              "req": true,
+              "type": "`$STRING`"
+            }
+          },
           "short": "The Client's name."
         },
         {
@@ -635,7 +688,11 @@ class Config {
                 "res": "`body`"
               },
               "args": {},
-              "select": {}
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
             }
           ]
         },
@@ -667,7 +724,8 @@ class Config {
                     "orig": "partner",
                     "type": "`$STRING`",
                     "kind": "query",
-                    "reqd": true
+                    "reqd": true,
+                    "field": true
                   },
                   {
                     "name": "skip",
@@ -687,10 +745,12 @@ class Config {
               },
               "select": {
                 "exist": [
-                  "partner",
-                  "skip",
-                  "take"
+                  "partner"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -735,6 +795,10 @@ class Config {
                 "exist": [
                   "id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -789,7 +853,35 @@ class Config {
       }
     },
     "create_result": {
-      "fields": [],
+      "fields": [
+        {
+          "name": "completeDate",
+          "title": "Complete Date",
+          "type": "`$STRING`",
+          "short": "The date and time that the Custody change took place.",
+          "format": "date-time"
+        },
+        {
+          "name": "custodian",
+          "title": "Custodian",
+          "type": "`$OBJECT`",
+          "req": true,
+          "short": "Reference to the associated User resource."
+        },
+        {
+          "name": "location",
+          "title": "Location",
+          "type": "`$OBJECT`",
+          "req": true,
+          "short": "Reference to the associated Location resource."
+        },
+        {
+          "name": "notes",
+          "title": "Notes",
+          "type": "`$STRING`",
+          "short": "Free form field that allows the Client associate notes with the Custody Change."
+        }
+      ],
       "name": "create_result",
       "op": {
         "create": {
@@ -834,14 +926,14 @@ class Config {
                 "params": [
                   {
                     "name": "device_type",
-                    "orig": "device_type",
+                    "orig": "deviceType",
                     "type": "`$STRING`",
                     "kind": "param",
                     "reqd": true
                   },
                   {
                     "name": "serial_number",
-                    "orig": "serial_number",
+                    "orig": "serialNumber",
                     "type": "`$STRING`",
                     "kind": "param",
                     "reqd": true
@@ -853,6 +945,10 @@ class Config {
                   "device_type",
                   "serial_number"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -868,6 +964,56 @@ class Config {
     },
     "decryption": {
       "fields": [
+        {
+          "name": "cbcVector",
+          "title": "Cbc Vector",
+          "type": "`$STRING`",
+          "short": "Base64 or hex encoded initial vector obtained from device."
+        },
+        {
+          "name": "deviceType",
+          "title": "Device Type",
+          "type": "`$STRING`",
+          "req": true,
+          "short": "The device Type."
+        },
+        {
+          "name": "encoding",
+          "title": "Encoding",
+          "type": "`$STRING`",
+          "short": "The payload encoding"
+        },
+        {
+          "name": "encrypted",
+          "title": "Encrypted",
+          "type": "`$ARRAY`",
+          "req": true
+        },
+        {
+          "name": "hasCcData",
+          "title": "Has Cc Data",
+          "type": "`$STRING`",
+          "short": "Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers."
+        },
+        {
+          "name": "reference",
+          "title": "Reference",
+          "type": "`$STRING`",
+          "short": "A string (of up to 50 characters) that helps partners identify individual API calls."
+        },
+        {
+          "name": "sequenceNumber",
+          "title": "Sequence Number",
+          "type": "`$STRING`",
+          "short": "Sequence number obtained from device in base 64 or hex encoded format."
+        },
+        {
+          "name": "serialNumber",
+          "title": "Serial Number",
+          "type": "`$STRING`",
+          "req": true,
+          "short": "The serial number of the device."
+        },
         {
           "name": "success",
           "title": "Success",
@@ -899,7 +1045,11 @@ class Config {
                 "res": "`body`"
               },
               "args": {},
-              "select": {}
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
             }
           ]
         }
@@ -980,6 +1130,12 @@ class Config {
           "name": "deviceType",
           "title": "Device Type",
           "type": "`$OBJECT`",
+          "op": {
+            "create": {
+              "req": true,
+              "type": "`$OBJECT`"
+            }
+          },
           "short": "Reference to the associated Device Type resource."
         },
         {
@@ -1031,6 +1187,12 @@ class Config {
           "name": "kif",
           "title": "Kif",
           "type": "`$OBJECT`",
+          "op": {
+            "create": {
+              "req": true,
+              "type": "`$OBJECT`"
+            }
+          },
           "short": "Reference to the associated KIF resource."
         },
         {
@@ -1083,6 +1245,12 @@ class Config {
           "name": "serialNumber",
           "title": "Serial Number",
           "type": "`$STRING`",
+          "op": {
+            "create": {
+              "req": true,
+              "type": "`$STRING`"
+            }
+          },
           "short": "The Device's serial number."
         },
         {
@@ -1120,7 +1288,11 @@ class Config {
                 "res": "`body`"
               },
               "args": {},
-              "select": {}
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
             }
           ]
         },
@@ -1151,11 +1323,12 @@ class Config {
                     "name": "client",
                     "orig": "client",
                     "type": "`$STRING`",
-                    "kind": "query"
+                    "kind": "query",
+                    "field": true
                   },
                   {
                     "name": "device_state",
-                    "orig": "device_state",
+                    "orig": "deviceState",
                     "type": "`$STRING`",
                     "kind": "query"
                   },
@@ -1163,17 +1336,19 @@ class Config {
                     "name": "kif",
                     "orig": "kif",
                     "type": "`$STRING`",
-                    "kind": "query"
+                    "kind": "query",
+                    "field": true
                   },
                   {
                     "name": "partner",
                     "orig": "partner",
                     "type": "`$STRING`",
-                    "kind": "query"
+                    "kind": "query",
+                    "field": true
                   },
                   {
                     "name": "serial_number",
-                    "orig": "serial_number",
+                    "orig": "serialNumber",
                     "type": "`$STRING`",
                     "kind": "query"
                   },
@@ -1186,14 +1361,14 @@ class Config {
                   },
                   {
                     "name": "sorting_direction",
-                    "orig": "sorting_direction",
+                    "orig": "sorting.direction",
                     "type": "`$STRING`",
                     "kind": "query",
                     "example": "asc"
                   },
                   {
                     "name": "sorting_field",
-                    "orig": "sorting_field",
+                    "orig": "sorting.field",
                     "type": "`$STRING`",
                     "kind": "query",
                     "example": "serialnumber"
@@ -1207,18 +1382,10 @@ class Config {
                   }
                 ]
               },
-              "select": {
-                "exist": [
-                  "client",
-                  "device_state",
-                  "kif",
-                  "partner",
-                  "serial_number",
-                  "skip",
-                  "sorting_direction",
-                  "sorting_field",
-                  "take"
-                ]
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -1261,14 +1428,14 @@ class Config {
                 "params": [
                   {
                     "name": "device_type",
-                    "orig": "device_type",
+                    "orig": "deviceType",
                     "type": "`$STRING`",
                     "kind": "param",
                     "reqd": true
                   },
                   {
                     "name": "serial_number",
-                    "orig": "serial_number",
+                    "orig": "serialNumber",
                     "type": "`$STRING`",
                     "kind": "param",
                     "reqd": true
@@ -1280,6 +1447,10 @@ class Config {
                   "device_type",
                   "serial_number"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             },
             {
@@ -1318,6 +1489,10 @@ class Config {
                 "exist": [
                   "id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -1454,7 +1629,7 @@ class Config {
                 "query": [
                   {
                     "name": "device_type",
-                    "orig": "device_type",
+                    "orig": "deviceType",
                     "type": "`$STRING`",
                     "kind": "query"
                   },
@@ -1474,12 +1649,10 @@ class Config {
                   }
                 ]
               },
-              "select": {
-                "exist": [
-                  "device_type",
-                  "skip",
-                  "take"
-                ]
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -1524,6 +1697,10 @@ class Config {
                 "exist": [
                   "id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -1674,7 +1851,7 @@ class Config {
                 "params": [
                   {
                     "name": "device_type",
-                    "orig": "device_type",
+                    "orig": "deviceType",
                     "type": "`$STRING`",
                     "kind": "param",
                     "reqd": true
@@ -1688,7 +1865,7 @@ class Config {
                   },
                   {
                     "name": "serial_number",
-                    "orig": "serial_number",
+                    "orig": "serialNumber",
                     "type": "`$STRING`",
                     "kind": "param",
                     "reqd": true
@@ -1701,6 +1878,10 @@ class Config {
                   "id",
                   "serial_number"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -1851,14 +2032,14 @@ class Config {
                 "params": [
                   {
                     "name": "device_type",
-                    "orig": "device_type",
+                    "orig": "deviceType",
                     "type": "`$STRING`",
                     "kind": "param",
                     "reqd": true
                   },
                   {
                     "name": "serial_number",
-                    "orig": "serial_number",
+                    "orig": "serialNumber",
                     "type": "`$STRING`",
                     "kind": "param",
                     "reqd": true
@@ -1884,10 +2065,12 @@ class Config {
               "select": {
                 "exist": [
                   "device_type",
-                  "serial_number",
-                  "skip",
-                  "take"
+                  "serial_number"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -1904,11 +2087,25 @@ class Config {
     "device_receive_result": {
       "fields": [
         {
+          "name": "serialNumber",
+          "title": "Serial Number",
+          "type": "`$STRING`",
+          "req": true,
+          "short": "The serial number of the Device that is shipped."
+        },
+        {
           "name": "success",
           "title": "Success",
           "type": "`$BOOLEAN`",
           "req": true,
           "short": "Indicates if the action succeeded."
+        },
+        {
+          "name": "tamperLabel",
+          "title": "Tamper Label",
+          "type": "`$STRING`",
+          "req": true,
+          "short": "The code that is printed the tamper label of the Device that is shipped."
         }
       ],
       "name": "device_receive_result",
@@ -1939,7 +2136,11 @@ class Config {
                 "res": "`body`"
               },
               "args": {},
-              "select": {}
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
             }
           ]
         }
@@ -1951,11 +2152,60 @@ class Config {
     "device_rki_activate_result": {
       "fields": [
         {
+          "name": "appVersion",
+          "title": "App Version",
+          "type": "`$STRING`",
+          "short": "If a Device Type has more than one Application Code version the supported version is specified here."
+        },
+        {
+          "name": "buildName",
+          "title": "Build Name",
+          "type": "`$STRING`",
+          "short": "The Device Builds's name."
+        },
+        {
+          "name": "buildNumber",
+          "title": "Build Number",
+          "type": "`$STRING`",
+          "short": "The Build Number."
+        },
+        {
+          "name": "configFile",
+          "title": "Config File",
+          "type": "`$STRING`",
+          "short": "\\?"
+        },
+        {
+          "name": "firmwareVersion",
+          "title": "Firmware Version",
+          "type": "`$STRING`",
+          "short": "A list of firmware versions that this Device Build covers."
+        },
+        {
+          "name": "hardwareVersion",
+          "title": "Hardware Version",
+          "type": "`$STRING`",
+          "short": "A list of hardware versions that this Device Build covers."
+        },
+        {
+          "name": "serialNumber",
+          "title": "Serial Number",
+          "type": "`$STRING`",
+          "req": true,
+          "short": "The referenced Device's serial number."
+        },
+        {
           "name": "success",
           "title": "Success",
           "type": "`$BOOLEAN`",
           "req": true,
           "short": "Indicates if the RKI activation succeeded."
+        },
+        {
+          "name": "whiteListingBinRanges",
+          "title": "White Listing Bin Ranges",
+          "type": "`$STRING`",
+          "short": "\\?"
         }
       ],
       "name": "device_rki_activate_result",
@@ -1990,7 +2240,11 @@ class Config {
                 "res": "`body`"
               },
               "args": {},
-              "select": {}
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
             }
           ]
         }
@@ -2043,7 +2297,11 @@ class Config {
                 "res": "`body.data`"
               },
               "args": {},
-              "select": {}
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
             }
           ]
         }
@@ -2156,7 +2414,11 @@ class Config {
                 "res": "`body.data`"
               },
               "args": {},
-              "select": {}
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
             }
           ]
         },
@@ -2200,6 +2462,10 @@ class Config {
                 "exist": [
                   "id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -2290,7 +2556,11 @@ class Config {
                 "res": "`body.data`"
               },
               "args": {},
-              "select": {}
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
             }
           ]
         },
@@ -2334,6 +2604,10 @@ class Config {
                 "exist": [
                   "id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -2387,7 +2661,11 @@ class Config {
                 "res": "`body.data`"
               },
               "args": {},
-              "select": {}
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
             }
           ]
         }
@@ -2402,6 +2680,12 @@ class Config {
           "name": "address1",
           "title": "Address1",
           "type": "`$STRING`",
+          "op": {
+            "create": {
+              "req": true,
+              "type": "`$STRING`"
+            }
+          },
           "short": "The Location's street address."
         },
         {
@@ -2420,12 +2704,30 @@ class Config {
           "name": "city",
           "title": "City",
           "type": "`$STRING`",
+          "op": {
+            "create": {
+              "req": true,
+              "type": "`$STRING`"
+            }
+          },
           "short": "The Location's city."
+        },
+        {
+          "name": "client",
+          "title": "Client",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated Client resource."
         },
         {
           "name": "country",
           "title": "Country",
           "type": "`$STRING`",
+          "op": {
+            "create": {
+              "req": true,
+              "type": "`$OBJECT`"
+            }
+          },
           "short": "The Location's country."
         },
         {
@@ -2451,6 +2753,12 @@ class Config {
           "name": "locationType",
           "title": "Location Type",
           "type": "`$STRING`",
+          "op": {
+            "create": {
+              "req": true,
+              "type": "`$STRING`"
+            }
+          },
           "short": "The Location's clasification."
         },
         {
@@ -2500,6 +2808,12 @@ class Config {
           "name": "name",
           "title": "Name",
           "type": "`$STRING`",
+          "op": {
+            "create": {
+              "req": true,
+              "type": "`$STRING`"
+            }
+          },
           "short": "The Location's name."
         },
         {
@@ -2567,7 +2881,11 @@ class Config {
                 "res": "`body`"
               },
               "args": {},
-              "select": {}
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
             }
           ]
         },
@@ -2599,7 +2917,8 @@ class Config {
                     "orig": "client",
                     "type": "`$STRING`",
                     "kind": "query",
-                    "reqd": true
+                    "reqd": true,
+                    "field": true
                   },
                   {
                     "name": "skip",
@@ -2619,10 +2938,12 @@ class Config {
               },
               "select": {
                 "exist": [
-                  "client",
-                  "skip",
-                  "take"
+                  "client"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -2667,6 +2988,10 @@ class Config {
                 "exist": [
                   "id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -2739,6 +3064,10 @@ class Config {
           "title": "Contact",
           "type": "`$OBJECT`",
           "op": {
+            "create": {
+              "req": true,
+              "type": "`$OBJECT`"
+            },
             "list": {
               "req": true,
               "type": "`$OBJECT`"
@@ -2783,12 +3112,24 @@ class Config {
           "name": "name",
           "title": "Name",
           "type": "`$STRING`",
+          "op": {
+            "create": {
+              "req": true,
+              "type": "`$STRING`"
+            }
+          },
           "short": "The Partner's name."
         },
         {
           "name": "parent",
           "title": "Parent",
           "type": "`$OBJECT`",
+          "op": {
+            "create": {
+              "req": true,
+              "type": "`$OBJECT`"
+            }
+          },
           "short": "Reference to the associated Partner."
         },
         {
@@ -2801,6 +3142,12 @@ class Config {
           "name": "reference",
           "title": "Reference",
           "type": "`$STRING`",
+          "op": {
+            "create": {
+              "req": true,
+              "type": "`$STRING`"
+            }
+          },
           "short": "The Partner's reference string."
         },
         {
@@ -2844,7 +3191,11 @@ class Config {
                 "res": "`body`"
               },
               "args": {},
-              "select": {}
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
             }
           ]
         },
@@ -2893,12 +3244,10 @@ class Config {
                   }
                 ]
               },
-              "select": {
-                "exist": [
-                  "partner",
-                  "skip",
-                  "take"
-                ]
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -2943,6 +3292,10 @@ class Config {
                 "exist": [
                   "id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -2958,12 +3311,24 @@ class Config {
           "name": "carrier",
           "title": "Carrier",
           "type": "`$STRING`",
+          "op": {
+            "create": {
+              "req": true,
+              "type": "`$STRING`"
+            }
+          },
           "short": "The name of the courier."
         },
         {
           "name": "client",
           "title": "Client",
           "type": "`$OBJECT`",
+          "op": {
+            "create": {
+              "req": true,
+              "type": "`$OBJECT`"
+            }
+          },
           "short": "Reference to the associated Client resource."
         },
         {
@@ -2984,6 +3349,12 @@ class Config {
           "name": "dateShipped",
           "title": "Date Shipped",
           "type": "`$STRING`",
+          "op": {
+            "create": {
+              "req": true,
+              "type": "`$STRING`"
+            }
+          },
           "short": "The date and time that a package is shipped.",
           "format": "datetime"
         },
@@ -3002,13 +3373,32 @@ class Config {
         {
           "name": "items",
           "title": "Items",
-          "type": "`$ARRAY`"
+          "type": "`$ARRAY`",
+          "op": {
+            "create": {
+              "req": true,
+              "type": "`$ARRAY`"
+            }
+          }
         },
         {
           "name": "kif",
           "title": "Kif",
           "type": "`$OBJECT`",
+          "op": {
+            "create": {
+              "req": true,
+              "type": "`$OBJECT`"
+            }
+          },
           "short": "Reference to the associated KIF resource."
+        },
+        {
+          "name": "location",
+          "title": "Location",
+          "type": "`$OBJECT`",
+          "req": true,
+          "short": "Reference to the associated Location resource."
         },
         {
           "name": "modified",
@@ -3021,6 +3411,12 @@ class Config {
           "name": "partner",
           "title": "Partner",
           "type": "`$OBJECT`",
+          "op": {
+            "create": {
+              "req": true,
+              "type": "`$OBJECT`"
+            }
+          },
           "short": "Reference to the associated Partner."
         },
         {
@@ -3033,6 +3429,12 @@ class Config {
           "name": "tracking",
           "title": "Tracking",
           "type": "`$STRING`",
+          "op": {
+            "create": {
+              "req": true,
+              "type": "`$STRING`"
+            }
+          },
           "short": "The courier's tracking number."
         },
         {
@@ -3071,7 +3473,11 @@ class Config {
                 "res": "`body`"
               },
               "args": {},
-              "select": {}
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
             }
           ]
         },
@@ -3103,7 +3509,8 @@ class Config {
                     "orig": "kif",
                     "type": "`$STRING`",
                     "kind": "query",
-                    "reqd": true
+                    "reqd": true,
+                    "field": true
                   },
                   {
                     "name": "mode",
@@ -3129,11 +3536,12 @@ class Config {
               },
               "select": {
                 "exist": [
-                  "kif",
-                  "mode",
-                  "skip",
-                  "take"
+                  "kif"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -3178,6 +3586,10 @@ class Config {
                 "exist": [
                   "id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -3189,6 +3601,20 @@ class Config {
     },
     "success": {
       "fields": [
+        {
+          "name": "devices",
+          "title": "Devices",
+          "type": "`$ARRAY`",
+          "req": true,
+          "short": "An array of Device ids to share with partner."
+        },
+        {
+          "name": "sharePartnerFrom",
+          "title": "Share Partner From",
+          "type": "`$OBJECT`",
+          "req": true,
+          "short": "Reference to the associated Partner."
+        },
         {
           "name": "success",
           "title": "Success",
@@ -3231,7 +3657,7 @@ class Config {
                 "params": [
                   {
                     "name": "share_partner_to",
-                    "orig": "share_partner_to",
+                    "orig": "sharePartnerTo",
                     "type": "`$STRING`",
                     "kind": "param",
                     "reqd": true
@@ -3242,6 +3668,10 @@ class Config {
                 "exist": [
                   "share_partner_to"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -3279,7 +3709,7 @@ class Config {
                 "params": [
                   {
                     "name": "share_partner_to",
-                    "orig": "share_partner_to",
+                    "orig": "sharePartnerTo",
                     "type": "`$STRING`",
                     "kind": "param",
                     "reqd": true
@@ -3290,6 +3720,10 @@ class Config {
                 "exist": [
                   "share_partner_to"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -3315,6 +3749,12 @@ class Config {
           "name": "client",
           "title": "Client",
           "type": "`$OBJECT`",
+          "op": {
+            "create": {
+              "req": true,
+              "type": "`$OBJECT`"
+            }
+          },
           "short": "Reference to the associated Client resource."
         },
         {
@@ -3336,6 +3776,13 @@ class Config {
           "type": "`$INTEGER`",
           "short": "A Transcation can process muliple decryptions.",
           "format": "int32"
+        },
+        {
+          "name": "device",
+          "title": "Device",
+          "type": "`$OBJECT`",
+          "req": true,
+          "short": "Reference to the associated Device resource."
         },
         {
           "name": "deviceName",
@@ -3385,6 +3832,12 @@ class Config {
           "name": "ipAddress",
           "title": "Ip Address",
           "type": "`$STRING`",
+          "op": {
+            "create": {
+              "req": true,
+              "type": "`$STRING`"
+            }
+          },
           "short": "The IP address of the http client that makes the decrypt API call."
         },
         {
@@ -3397,6 +3850,12 @@ class Config {
           "name": "keyType",
           "title": "Key Type",
           "type": "`$STRING`",
+          "op": {
+            "create": {
+              "req": true,
+              "type": "`$STRING`"
+            }
+          },
           "short": "The type of cipher used during decrytion."
         },
         {
@@ -3416,12 +3875,24 @@ class Config {
           "name": "method",
           "title": "Method",
           "type": "`$STRING`",
+          "op": {
+            "create": {
+              "req": true,
+              "type": "`$STRING`"
+            }
+          },
           "short": "The decryption cypher/method."
         },
         {
           "name": "partner",
           "title": "Partner",
           "type": "`$OBJECT`",
+          "op": {
+            "create": {
+              "req": true,
+              "type": "`$OBJECT`"
+            }
+          },
           "short": "Reference to the associated Partner."
         },
         {
@@ -3484,7 +3955,11 @@ class Config {
                 "res": "`body`"
               },
               "args": {},
-              "select": {}
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
             }
           ]
         },
@@ -3515,23 +3990,24 @@ class Config {
                     "name": "client",
                     "orig": "client",
                     "type": "`$STRING`",
-                    "kind": "query"
+                    "kind": "query",
+                    "field": true
                   },
                   {
                     "name": "client_ref",
-                    "orig": "client_ref",
+                    "orig": "clientRef",
                     "type": "`$STRING`",
                     "kind": "query"
                   },
                   {
                     "name": "date_from",
-                    "orig": "date_from",
+                    "orig": "dateFrom",
                     "type": "`$STRING`",
                     "kind": "query"
                   },
                   {
                     "name": "date_to",
-                    "orig": "date_to",
+                    "orig": "dateTo",
                     "type": "`$STRING`",
                     "kind": "query"
                   },
@@ -3539,17 +4015,18 @@ class Config {
                     "name": "location",
                     "orig": "location",
                     "type": "`$STRING`",
-                    "kind": "query"
+                    "kind": "query",
+                    "field": true
                   },
                   {
                     "name": "message_id",
-                    "orig": "message_id",
+                    "orig": "messageId",
                     "type": "`$STRING`",
                     "kind": "query"
                   },
                   {
                     "name": "paging_mode",
-                    "orig": "paging_mode",
+                    "orig": "paging.mode",
                     "type": "`$STRING`",
                     "kind": "query",
                     "example": "nocount"
@@ -3558,17 +4035,19 @@ class Config {
                     "name": "partner",
                     "orig": "partner",
                     "type": "`$STRING`",
-                    "kind": "query"
+                    "kind": "query",
+                    "field": true
                   },
                   {
                     "name": "reference",
                     "orig": "reference",
                     "type": "`$STRING`",
-                    "kind": "query"
+                    "kind": "query",
+                    "field": true
                   },
                   {
                     "name": "serial_number",
-                    "orig": "serial_number",
+                    "orig": "serialNumber",
                     "type": "`$STRING`",
                     "kind": "query"
                   },
@@ -3583,7 +4062,8 @@ class Config {
                     "name": "success",
                     "orig": "success",
                     "type": "`$BOOLEAN`",
-                    "kind": "query"
+                    "kind": "query",
+                    "field": true
                   },
                   {
                     "name": "take",
@@ -3594,22 +4074,10 @@ class Config {
                   }
                 ]
               },
-              "select": {
-                "exist": [
-                  "client",
-                  "client_ref",
-                  "date_from",
-                  "date_to",
-                  "location",
-                  "message_id",
-                  "paging_mode",
-                  "partner",
-                  "reference",
-                  "serial_number",
-                  "skip",
-                  "success",
-                  "take"
-                ]
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -3654,6 +4122,10 @@ class Config {
                 "exist": [
                   "id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -3666,21 +4138,171 @@ class Config {
     "update_result": {
       "fields": [
         {
+          "name": "address1",
+          "title": "Address1",
+          "type": "`$STRING`",
+          "short": "The Location's street address."
+        },
+        {
+          "name": "address2",
+          "title": "Address2",
+          "type": "`$STRING`",
+          "short": "The Location's street address."
+        },
+        {
+          "name": "alternateKey",
+          "title": "Alternate Key",
+          "type": "`$STRING`",
+          "short": "The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging."
+        },
+        {
+          "name": "auditNextDate",
+          "title": "Audit Next Date",
+          "type": "`$STRING`",
+          "short": "Date and time that the Device is due its next PCI Audit.",
+          "format": "datetime"
+        },
+        {
+          "name": "billingId",
+          "title": "Billing Id",
+          "type": "`$STRING`",
+          "short": "\\?"
+        },
+        {
+          "name": "city",
+          "title": "City",
+          "type": "`$STRING`",
+          "short": "The Location's city."
+        },
+        {
           "name": "client",
           "title": "Client",
           "type": "`$OBJECT`",
           "short": "Reference to the associated Client resource."
         },
         {
+          "name": "clientCanOrderEquipment",
+          "title": "Client Can Order Equipment",
+          "type": "`$BOOLEAN`",
+          "short": "This property indicates if the Partner is allowed to order Equipment."
+        },
+        {
+          "name": "clientRef",
+          "title": "Client Ref",
+          "type": "`$STRING`",
+          "short": "Client Reference property that is included in the decrypt API call."
+        },
+        {
+          "name": "contact",
+          "title": "Contact",
+          "type": "`$OBJECT`",
+          "req": true,
+          "short": "Reference to the associated User resource."
+        },
+        {
+          "name": "country",
+          "title": "Country",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated Country."
+        },
+        {
+          "name": "customReference",
+          "title": "Custom Reference",
+          "type": "`$STRING`",
+          "short": "A Partner specified reference for a location."
+        },
+        {
+          "name": "dateShipped",
+          "title": "Date Shipped",
+          "type": "`$STRING`",
+          "short": "The date and time that a package is shipped.",
+          "format": "datetime"
+        },
+        {
+          "name": "decrypted",
+          "title": "Decrypted",
+          "type": "`$INTEGER`",
+          "short": "A Transcation can process muliple decryptions.",
+          "format": "int32"
+        },
+        {
+          "name": "device",
+          "title": "Device",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated Device resource."
+        },
+        {
+          "name": "deviceBuild",
+          "title": "Device Build",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated Device Build resource."
+        },
+        {
+          "name": "deviceType",
+          "title": "Device Type",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated Device Type resource."
+        },
+        {
+          "name": "directPartner",
+          "title": "Direct Partner",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated Partner."
+        },
+        {
           "name": "email",
           "title": "Email",
           "type": "`$STRING`",
+          "req": true,
+          "op": {
+            "list": {
+              "type": "`$STRING`"
+            },
+            "update": {
+              "type": "`$STRING`"
+            }
+          },
           "short": "The User's email address."
+        },
+        {
+          "name": "encrypted",
+          "title": "Encrypted",
+          "type": "`$INTEGER`",
+          "short": "A Transcation can process muliple encryptions.",
+          "format": "int32"
+        },
+        {
+          "name": "endDate",
+          "title": "End Date",
+          "type": "`$STRING`",
+          "short": "Timestamp from the end of the transaction.",
+          "format": "datetime"
+        },
+        {
+          "name": "errCode",
+          "title": "Err Code",
+          "type": "`$STRING`",
+          "short": "The error code that is sent in response to a failed decrypt API call."
+        },
+        {
+          "name": "errMessage",
+          "title": "Err Message",
+          "type": "`$STRING`",
+          "short": "The error messge that is sent in response to a failed decrypt API call."
         },
         {
           "name": "firstName",
           "title": "First Name",
           "type": "`$STRING`",
+          "req": true,
+          "op": {
+            "list": {
+              "type": "`$STRING`"
+            },
+            "update": {
+              "type": "`$STRING`"
+            }
+          },
           "short": "The User's name."
         },
         {
@@ -3690,10 +4312,42 @@ class Config {
           "short": "ID of newly created resource"
         },
         {
+          "name": "injectKey",
+          "title": "Inject Key",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated Device resource."
+        },
+        {
+          "name": "ipAddress",
+          "title": "Ip Address",
+          "type": "`$STRING`",
+          "short": "The IP address of the http client that makes the decrypt API call."
+        },
+        {
           "name": "isActive",
           "title": "Is Active",
           "type": "`$BOOLEAN`",
+          "req": true,
+          "op": {
+            "list": {
+              "type": "`$BOOLEAN`"
+            },
+            "update": {
+              "type": "`$BOOLEAN`"
+            }
+          },
           "short": "This property indicates if the User account is active or disabled."
+        },
+        {
+          "name": "items",
+          "title": "Items",
+          "type": "`$ARRAY`"
+        },
+        {
+          "name": "keyType",
+          "title": "Key Type",
+          "type": "`$STRING`",
+          "short": "The type of cipher used during decrytion."
         },
         {
           "name": "kif",
@@ -3705,7 +4359,107 @@ class Config {
           "name": "lastName",
           "title": "Last Name",
           "type": "`$STRING`",
+          "req": true,
+          "op": {
+            "list": {
+              "type": "`$STRING`"
+            },
+            "update": {
+              "type": "`$STRING`"
+            }
+          },
           "short": "The User's Surname."
+        },
+        {
+          "name": "location",
+          "title": "Location",
+          "type": "`$OBJECT`",
+          "req": true,
+          "short": "Reference to the associated Location resource."
+        },
+        {
+          "name": "locationType",
+          "title": "Location Type",
+          "type": "`$STRING`",
+          "short": "The Location's clasification."
+        },
+        {
+          "name": "mailAddress1",
+          "title": "Mail Address1",
+          "type": "`$STRING`",
+          "short": "The Location's street address."
+        },
+        {
+          "name": "mailAddress2",
+          "title": "Mail Address2",
+          "type": "`$STRING`",
+          "short": "The Location's street address."
+        },
+        {
+          "name": "mailCity",
+          "title": "Mail City",
+          "type": "`$STRING`",
+          "short": "The Location's city."
+        },
+        {
+          "name": "mailCountry",
+          "title": "Mail Country",
+          "type": "`$STRING`",
+          "short": "The Location's street address."
+        },
+        {
+          "name": "mailPostalCode",
+          "title": "Mail Postal Code",
+          "type": "`$STRING`",
+          "short": "The Location's postal code."
+        },
+        {
+          "name": "mailStateProvince",
+          "title": "Mail State Province",
+          "type": "`$STRING`",
+          "short": "The Location's street state or province."
+        },
+        {
+          "name": "messageId",
+          "title": "Message Id",
+          "type": "`$STRING`",
+          "short": "Message ID."
+        },
+        {
+          "name": "method",
+          "title": "Method",
+          "type": "`$STRING`",
+          "short": "The decryption cypher/method."
+        },
+        {
+          "name": "mid",
+          "title": "Mid",
+          "type": "`$STRING`",
+          "short": "Some Partners will have an merchant ids on their own software offerings."
+        },
+        {
+          "name": "name",
+          "title": "Name",
+          "type": "`$STRING`",
+          "short": "The Client's name."
+        },
+        {
+          "name": "nameOfBusiness",
+          "title": "Name Of Business",
+          "type": "`$STRING`",
+          "short": "The name of the business at this location."
+        },
+        {
+          "name": "notes",
+          "title": "Notes",
+          "type": "`$STRING`",
+          "short": "Arbitary note that can be attached to a Device entry."
+        },
+        {
+          "name": "parent",
+          "title": "Parent",
+          "type": "`$OBJECT`",
+          "short": "Reference to the associated Partner."
         },
         {
           "name": "partner",
@@ -3714,22 +4468,116 @@ class Config {
           "short": "Reference to the associated Partner."
         },
         {
+          "name": "partnerId",
+          "title": "Partner Id",
+          "type": "`$STRING`",
+          "short": "The Partner's id."
+        },
+        {
           "name": "phone",
           "title": "Phone",
           "type": "`$STRING`",
+          "req": true,
+          "op": {
+            "list": {
+              "type": "`$STRING`"
+            },
+            "update": {
+              "type": "`$STRING`"
+            }
+          },
           "short": "The User's phone number without dashes, spaces, or brackets."
+        },
+        {
+          "name": "postalCode",
+          "title": "Postal Code",
+          "type": "`$STRING`",
+          "short": "The Location's postal code."
+        },
+        {
+          "name": "reference",
+          "title": "Reference",
+          "type": "`$STRING`",
+          "short": "The Partner's reference string."
+        },
+        {
+          "name": "sendWelcomeEmail",
+          "title": "Send Welcome Email",
+          "type": "`$BOOLEAN`",
+          "short": "If this property is set to '*true*' the newly created user will be sent a welcome email."
+        },
+        {
+          "name": "serialNumber",
+          "title": "Serial Number",
+          "type": "`$STRING`",
+          "short": "The Device's serial number."
+        },
+        {
+          "name": "startDate",
+          "title": "Start Date",
+          "type": "`$STRING`",
+          "short": "Timestamp from the beginning of the transaction.",
+          "format": "datetime"
+        },
+        {
+          "name": "stateProvince",
+          "title": "State Province",
+          "type": "`$STRING`",
+          "short": "The Location's street state or province."
+        },
+        {
+          "name": "success",
+          "title": "Success",
+          "type": "`$BOOLEAN`",
+          "short": "The success indicator."
+        },
+        {
+          "name": "tracking",
+          "title": "Tracking",
+          "type": "`$STRING`",
+          "short": "The courier's tracking number."
+        },
+        {
+          "name": "uniqueId",
+          "title": "Unique Id",
+          "type": "`$STRING`",
+          "short": "Unique Identifier for the Location."
         },
         {
           "name": "userName",
           "title": "User Name",
           "type": "`$STRING`",
+          "req": true,
+          "op": {
+            "list": {
+              "type": "`$STRING`"
+            },
+            "update": {
+              "type": "`$STRING`"
+            }
+          },
           "short": "The User's unique username."
         },
         {
           "name": "userRole",
           "title": "User Role",
           "type": "`$OBJECT`",
+          "req": true,
+          "op": {
+            "list": {
+              "type": "`$OBJECT`"
+            },
+            "update": {
+              "type": "`$OBJECT`"
+            }
+          },
           "short": "Reference to the associated User Role."
+        },
+        {
+          "name": "verificationPhrase",
+          "title": "Verification Phrase",
+          "type": "`$STRING`",
+          "short": "The verification phrase is a message that the Partner creates."
         },
         {
           "name": "version",
@@ -3766,7 +4614,11 @@ class Config {
                 "res": "`body`"
               },
               "args": {},
-              "select": {}
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
             }
           ]
         },
@@ -3797,19 +4649,22 @@ class Config {
                     "name": "client",
                     "orig": "client",
                     "type": "`$STRING`",
-                    "kind": "query"
+                    "kind": "query",
+                    "field": true
                   },
                   {
                     "name": "kif",
                     "orig": "kif",
                     "type": "`$STRING`",
-                    "kind": "query"
+                    "kind": "query",
+                    "field": true
                   },
                   {
                     "name": "partner",
                     "orig": "partner",
                     "type": "`$ANY`",
-                    "kind": "query"
+                    "kind": "query",
+                    "field": true
                   },
                   {
                     "name": "skip",
@@ -3827,14 +4682,10 @@ class Config {
                   }
                 ]
               },
-              "select": {
-                "exist": [
-                  "client",
-                  "kif",
-                  "partner",
-                  "skip",
-                  "take"
-                ]
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -3879,6 +4730,10 @@ class Config {
                 "exist": [
                   "id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             },
             {
@@ -3917,6 +4772,10 @@ class Config {
                 "exist": [
                   "id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             },
             {
@@ -3955,6 +4814,10 @@ class Config {
                 "exist": [
                   "id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             },
             {
@@ -3993,6 +4856,10 @@ class Config {
                 "exist": [
                   "id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             },
             {
@@ -4031,6 +4898,10 @@ class Config {
                 "exist": [
                   "id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             },
             {
@@ -4069,6 +4940,10 @@ class Config {
                 "exist": [
                   "id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             },
             {
@@ -4107,6 +4982,10 @@ class Config {
                 "exist": [
                   "id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -4251,6 +5130,10 @@ class Config {
                 "exist": [
                   "id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]
@@ -4363,7 +5246,7 @@ class Config {
                 "params": [
                   {
                     "name": "id",
-                    "orig": "share_partner_to",
+                    "orig": "sharePartnerTo",
                     "type": "`$STRING`",
                     "kind": "param",
                     "reqd": true
@@ -4379,14 +5262,14 @@ class Config {
                   },
                   {
                     "name": "sorting_direction",
-                    "orig": "sorting_direction",
+                    "orig": "sorting.direction",
                     "type": "`$STRING`",
                     "kind": "query",
                     "example": "asc"
                   },
                   {
                     "name": "sorting_field",
-                    "orig": "sorting_field",
+                    "orig": "sorting.field",
                     "type": "`$STRING`",
                     "kind": "query",
                     "example": "serialnumber"
@@ -4402,12 +5285,12 @@ class Config {
               },
               "select": {
                 "exist": [
-                  "id",
-                  "skip",
-                  "sorting_direction",
-                  "sorting_field",
-                  "take"
+                  "id"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]

@@ -3,30 +3,33 @@
     "attestation": {
       "ATTESTATION00": {
         "client": {},
-        "completeDate": "s47",
-        "created": "s48",
+        "completeDate": "s51",
+        "created": "s52",
         "device": {},
+        "devices": [],
         "id": "ATTESTATION00",
-        "name": "s4b",
-        "notes": "s4c"
+        "name": "s56",
+        "notes": "s57"
       },
       "ATTESTATION01": {
         "client": {},
-        "completeDate": "s8d",
-        "created": "s8e",
+        "completeDate": "sa1",
+        "created": "sa2",
         "device": {},
+        "devices": [],
         "id": "ATTESTATION01",
-        "name": "s91",
-        "notes": "s92"
+        "name": "sa6",
+        "notes": "sa7"
       },
       "ATTESTATION02": {
         "client": {},
-        "completeDate": "sd3",
-        "created": "sd4",
+        "completeDate": "sf1",
+        "created": "sf2",
         "device": {},
+        "devices": [],
         "id": "ATTESTATION02",
-        "name": "sd7",
-        "notes": "sd8"
+        "name": "sf6",
+        "notes": "sf7"
       }
     }
   },
@@ -34,11 +37,12 @@
     "attestation": {
       "attestation_ref01": {
         "client": {},
-        "completeDate": "s119",
-        "created": "s11a",
+        "completeDate": "s141",
+        "created": "s142",
         "device": {},
-        "name": "s11d",
-        "notes": "s11e"
+        "devices": [],
+        "name": "s146",
+        "notes": "s147"
       }
     }
   },

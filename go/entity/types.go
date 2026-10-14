@@ -34,6 +34,7 @@ type AttestationCreateData struct {
 	CompleteDate *string `json:"completeDate,omitempty"`
 	Created *string `json:"created,omitempty"`
 	Device *map[string]any `json:"device,omitempty"`
+	Devices []any `json:"devices"`
 	Id *string `json:"id,omitempty"`
 	Name *string `json:"name,omitempty"`
 	Notes *string `json:"notes,omitempty"`
@@ -83,6 +84,10 @@ type CreateResult struct {
 type CreateResultCreateData struct {
 	DeviceType string `json:"device_type"`
 	SerialNumber string `json:"serial_number"`
+	CompleteDate *string `json:"completeDate,omitempty"`
+	Custodian map[string]any `json:"custodian"`
+	Location map[string]any `json:"location"`
+	Notes *string `json:"notes,omitempty"`
 }
 
 // Decryption is the typed data model for the decryption entity.
@@ -91,6 +96,14 @@ type Decryption struct {
 
 // DecryptionCreateData is the typed request payload for Decryption.CreateTyped.
 type DecryptionCreateData struct {
+	CbcVector *string `json:"cbcVector,omitempty"`
+	DeviceType string `json:"deviceType"`
+	Encoding *string `json:"encoding,omitempty"`
+	Encrypted []any `json:"encrypted"`
+	HasCcData *string `json:"hasCcData,omitempty"`
+	Reference *string `json:"reference,omitempty"`
+	SequenceNumber *string `json:"sequenceNumber,omitempty"`
+	SerialNumber string `json:"serialNumber"`
 	Success *bool `json:"success,omitempty"`
 }
 
@@ -193,7 +206,9 @@ type DeviceReceiveResult struct {
 
 // DeviceReceiveResultCreateData is the typed request payload for DeviceReceiveResult.CreateTyped.
 type DeviceReceiveResultCreateData struct {
+	SerialNumber string `json:"serialNumber"`
 	Success bool `json:"success"`
+	TamperLabel string `json:"tamperLabel"`
 }
 
 // DeviceRkiActivateResult is the typed data model for the device_rki_activate_result entity.
@@ -202,7 +217,15 @@ type DeviceRkiActivateResult struct {
 
 // DeviceRkiActivateResultCreateData is the typed request payload for DeviceRkiActivateResult.CreateTyped.
 type DeviceRkiActivateResultCreateData struct {
+	AppVersion *string `json:"appVersion,omitempty"`
+	BuildName *string `json:"buildName,omitempty"`
+	BuildNumber *string `json:"buildNumber,omitempty"`
+	ConfigFile *string `json:"configFile,omitempty"`
+	FirmwareVersion *string `json:"firmwareVersion,omitempty"`
+	HardwareVersion *string `json:"hardwareVersion,omitempty"`
+	SerialNumber string `json:"serialNumber"`
 	Success bool `json:"success"`
+	WhiteListingBinRanges *string `json:"whiteListingBinRanges,omitempty"`
 }
 
 // DeviceState is the typed data model for the device_state entity.
@@ -293,6 +316,7 @@ type LocationCreateData struct {
 	Address2 *string `json:"address2,omitempty"`
 	BillingId *string `json:"billingId,omitempty"`
 	City *string `json:"city,omitempty"`
+	Client *map[string]any `json:"client,omitempty"`
 	Country *string `json:"country,omitempty"`
 	Created *string `json:"created,omitempty"`
 	CustomReference *string `json:"customReference,omitempty"`
@@ -381,6 +405,7 @@ type ShipmentCreateData struct {
 	Id *string `json:"id,omitempty"`
 	Items *[]any `json:"items,omitempty"`
 	Kif *map[string]any `json:"kif,omitempty"`
+	Location map[string]any `json:"location"`
 	Modified *string `json:"modified,omitempty"`
 	Partner *map[string]any `json:"partner,omitempty"`
 	ShipmentType *string `json:"shipmentType,omitempty"`
@@ -395,6 +420,8 @@ type Success struct {
 // SuccessCreateData is the typed request payload for Success.CreateTyped.
 type SuccessCreateData struct {
 	SharePartnerTo string `json:"share_partner_to"`
+	Devices []any `json:"devices"`
+	SharePartnerFrom map[string]any `json:"sharePartnerFrom"`
 	Success *bool `json:"success,omitempty"`
 }
 
@@ -436,6 +463,7 @@ type TransactionCreateData struct {
 	ClientRef *string `json:"clientRef,omitempty"`
 	Created *string `json:"created,omitempty"`
 	Decrypted *int `json:"decrypted,omitempty"`
+	Device map[string]any `json:"device"`
 	DeviceName *string `json:"deviceName,omitempty"`
 	DirectPartner *map[string]any `json:"directPartner,omitempty"`
 	Encrypted *int `json:"encrypted,omitempty"`
@@ -472,33 +500,135 @@ type UpdateResultListMatch struct {
 
 // UpdateResultCreateData is the typed request payload for UpdateResult.CreateTyped.
 type UpdateResultCreateData struct {
+	Address1 *string `json:"address1,omitempty"`
+	Address2 *string `json:"address2,omitempty"`
+	AlternateKey *string `json:"alternateKey,omitempty"`
+	AuditNextDate *string `json:"auditNextDate,omitempty"`
+	BillingId *string `json:"billingId,omitempty"`
+	City *string `json:"city,omitempty"`
 	Client *map[string]any `json:"client,omitempty"`
-	Email *string `json:"email,omitempty"`
-	FirstName *string `json:"firstName,omitempty"`
+	ClientCanOrderEquipment *bool `json:"clientCanOrderEquipment,omitempty"`
+	ClientRef *string `json:"clientRef,omitempty"`
+	Contact map[string]any `json:"contact"`
+	Country *map[string]any `json:"country,omitempty"`
+	CustomReference *string `json:"customReference,omitempty"`
+	DateShipped *string `json:"dateShipped,omitempty"`
+	Decrypted *int `json:"decrypted,omitempty"`
+	Device *map[string]any `json:"device,omitempty"`
+	DeviceBuild *map[string]any `json:"deviceBuild,omitempty"`
+	DeviceType *map[string]any `json:"deviceType,omitempty"`
+	DirectPartner *map[string]any `json:"directPartner,omitempty"`
+	Email string `json:"email"`
+	Encrypted *int `json:"encrypted,omitempty"`
+	EndDate *string `json:"endDate,omitempty"`
+	ErrCode *string `json:"errCode,omitempty"`
+	ErrMessage *string `json:"errMessage,omitempty"`
+	FirstName string `json:"firstName"`
 	Id *string `json:"id,omitempty"`
-	IsActive *bool `json:"isActive,omitempty"`
+	InjectKey *map[string]any `json:"injectKey,omitempty"`
+	IpAddress *string `json:"ipAddress,omitempty"`
+	IsActive bool `json:"isActive"`
+	Items *[]any `json:"items,omitempty"`
+	KeyType *string `json:"keyType,omitempty"`
 	Kif *map[string]any `json:"kif,omitempty"`
-	LastName *string `json:"lastName,omitempty"`
+	LastName string `json:"lastName"`
+	Location map[string]any `json:"location"`
+	LocationType *string `json:"locationType,omitempty"`
+	MailAddress1 *string `json:"mailAddress1,omitempty"`
+	MailAddress2 *string `json:"mailAddress2,omitempty"`
+	MailCity *string `json:"mailCity,omitempty"`
+	MailCountry *string `json:"mailCountry,omitempty"`
+	MailPostalCode *string `json:"mailPostalCode,omitempty"`
+	MailStateProvince *string `json:"mailStateProvince,omitempty"`
+	MessageId *string `json:"messageId,omitempty"`
+	Method *string `json:"method,omitempty"`
+	Mid *string `json:"mid,omitempty"`
+	Name *string `json:"name,omitempty"`
+	NameOfBusiness *string `json:"nameOfBusiness,omitempty"`
+	Notes *string `json:"notes,omitempty"`
+	Parent *map[string]any `json:"parent,omitempty"`
 	Partner *map[string]any `json:"partner,omitempty"`
-	Phone *string `json:"phone,omitempty"`
-	UserName *string `json:"userName,omitempty"`
-	UserRole *map[string]any `json:"userRole,omitempty"`
+	PartnerId *string `json:"partnerId,omitempty"`
+	Phone string `json:"phone"`
+	PostalCode *string `json:"postalCode,omitempty"`
+	Reference *string `json:"reference,omitempty"`
+	SendWelcomeEmail *bool `json:"sendWelcomeEmail,omitempty"`
+	SerialNumber *string `json:"serialNumber,omitempty"`
+	StartDate *string `json:"startDate,omitempty"`
+	StateProvince *string `json:"stateProvince,omitempty"`
+	Success *bool `json:"success,omitempty"`
+	Tracking *string `json:"tracking,omitempty"`
+	UniqueId *string `json:"uniqueId,omitempty"`
+	UserName string `json:"userName"`
+	UserRole map[string]any `json:"userRole"`
+	VerificationPhrase *string `json:"verificationPhrase,omitempty"`
 	Version *int `json:"version,omitempty"`
 }
 
 // UpdateResultUpdateData is the typed request payload for UpdateResult.UpdateTyped.
 type UpdateResultUpdateData struct {
 	Id string `json:"id"`
+	Address1 *string `json:"address1,omitempty"`
+	Address2 *string `json:"address2,omitempty"`
+	AlternateKey *string `json:"alternateKey,omitempty"`
+	AuditNextDate *string `json:"auditNextDate,omitempty"`
+	BillingId *string `json:"billingId,omitempty"`
+	City *string `json:"city,omitempty"`
 	Client *map[string]any `json:"client,omitempty"`
+	ClientCanOrderEquipment *bool `json:"clientCanOrderEquipment,omitempty"`
+	ClientRef *string `json:"clientRef,omitempty"`
+	Contact *map[string]any `json:"contact,omitempty"`
+	Country *map[string]any `json:"country,omitempty"`
+	CustomReference *string `json:"customReference,omitempty"`
+	DateShipped *string `json:"dateShipped,omitempty"`
+	Decrypted *int `json:"decrypted,omitempty"`
+	Device *map[string]any `json:"device,omitempty"`
+	DeviceBuild *map[string]any `json:"deviceBuild,omitempty"`
+	DeviceType *map[string]any `json:"deviceType,omitempty"`
+	DirectPartner *map[string]any `json:"directPartner,omitempty"`
 	Email *string `json:"email,omitempty"`
+	Encrypted *int `json:"encrypted,omitempty"`
+	EndDate *string `json:"endDate,omitempty"`
+	ErrCode *string `json:"errCode,omitempty"`
+	ErrMessage *string `json:"errMessage,omitempty"`
 	FirstName *string `json:"firstName,omitempty"`
+	InjectKey *map[string]any `json:"injectKey,omitempty"`
+	IpAddress *string `json:"ipAddress,omitempty"`
 	IsActive *bool `json:"isActive,omitempty"`
+	Items *[]any `json:"items,omitempty"`
+	KeyType *string `json:"keyType,omitempty"`
 	Kif *map[string]any `json:"kif,omitempty"`
 	LastName *string `json:"lastName,omitempty"`
+	Location *map[string]any `json:"location,omitempty"`
+	LocationType *string `json:"locationType,omitempty"`
+	MailAddress1 *string `json:"mailAddress1,omitempty"`
+	MailAddress2 *string `json:"mailAddress2,omitempty"`
+	MailCity *string `json:"mailCity,omitempty"`
+	MailCountry *string `json:"mailCountry,omitempty"`
+	MailPostalCode *string `json:"mailPostalCode,omitempty"`
+	MailStateProvince *string `json:"mailStateProvince,omitempty"`
+	MessageId *string `json:"messageId,omitempty"`
+	Method *string `json:"method,omitempty"`
+	Mid *string `json:"mid,omitempty"`
+	Name *string `json:"name,omitempty"`
+	NameOfBusiness *string `json:"nameOfBusiness,omitempty"`
+	Notes *string `json:"notes,omitempty"`
+	Parent *map[string]any `json:"parent,omitempty"`
 	Partner *map[string]any `json:"partner,omitempty"`
+	PartnerId *string `json:"partnerId,omitempty"`
 	Phone *string `json:"phone,omitempty"`
+	PostalCode *string `json:"postalCode,omitempty"`
+	Reference *string `json:"reference,omitempty"`
+	SendWelcomeEmail *bool `json:"sendWelcomeEmail,omitempty"`
+	SerialNumber *string `json:"serialNumber,omitempty"`
+	StartDate *string `json:"startDate,omitempty"`
+	StateProvince *string `json:"stateProvince,omitempty"`
+	Success *bool `json:"success,omitempty"`
+	Tracking *string `json:"tracking,omitempty"`
+	UniqueId *string `json:"uniqueId,omitempty"`
 	UserName *string `json:"userName,omitempty"`
 	UserRole *map[string]any `json:"userRole,omitempty"`
+	VerificationPhrase *string `json:"verificationPhrase,omitempty"`
 	Version *int `json:"version,omitempty"`
 }
 

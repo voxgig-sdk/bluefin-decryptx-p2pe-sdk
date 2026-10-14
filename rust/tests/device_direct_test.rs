@@ -12,7 +12,13 @@ use common::*;
 
 use bluefin_decryptx_p2pe_sdk::core::helpers::{getp, ja, jo, json_thunk, setp, to_int, to_map};
 use bluefin_decryptx_p2pe_sdk::utility::voxgigstruct as vs;
-use bluefin_decryptx_p2pe_sdk::{Value, BluefinDecryptxP2peSDK};
+use bluefin_decryptx_p2pe_sdk::{json_parse, Value, BluefinDecryptxP2peSDK};
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT: bool = true;
 
 struct DeviceDirectSetup {
     client: Rc<BluefinDecryptxP2peSDK>,
@@ -111,24 +117,26 @@ fn device_direct_list() {
 
     let params = Value::empty_map();
 
-    let result = client
-        .direct(jo(vec![
-            ("path", Value::str("devices")),
-            ("method", Value::str("GET")),
-            ("params", params.clone()),
-        ]))
-        .expect("direct failed");
-
-    if setup.live {
-        // Live mode is lenient: synthetic IDs frequently 4xx and the
-        // list-response shape varies wildly across public APIs.
-        if getp(&result, "ok") != Value::Bool(true) {
-            eprintln!("skip: list call not ok (likely synthetic IDs against live API)");
+    let result = match client.direct(jo(vec![
+        ("path", Value::str("devices")),
+        ("method", Value::str("GET")),
+        ("params", params.clone()),
+    ])) {
+        Ok(result) => result,
+        Err(err) if setup.live => {
+            live_miss(LIVE_STRICT, &format!("Live list failed: {}", err));
             return;
         }
-        let status = to_int(&getp(&result, "status"));
-        if !(200..300).contains(&status) {
-            eprintln!("skip: expected 2xx status, got {}", status);
+        Err(err) => panic!("direct failed: {}", err),
+    };
+
+    if setup.live {
+        if !live_ok(&result) {
+            live_miss(LIVE_STRICT, &format!("Live list failed: {}", live_describe(&result)));
+            return;
+        }
+        if live_list(&getp(&result, "data")).is_none() {
+            live_miss(LIVE_STRICT, &format!("Live list returned no list: {}", live_describe(&result)));
             return;
         }
     } else {
@@ -163,9 +171,9 @@ fn device_direct_load() {
         return;
     }
     if setup.live {
-        for live_key in ["device_type01", "serial_number01"] {
+        for live_key in ["serial_number01"] {
             if getp(&setup.idmap, live_key).is_noval() {
-                eprintln!("skip: live test needs {} via *_ENTID env var (synthetic IDs only)", live_key);
+                live_miss(LIVE_STRICT, &format!("Live test blocked: needs {} via BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_ENTID", live_key));
                 return;
             }
         }
@@ -174,33 +182,68 @@ fn device_direct_load() {
 
     let params = Value::empty_map();
     if setup.live {
-        setp(&params, "device_type", getp(&setup.idmap, "device_type01"));
-    } else {
-        setp(&params, "device_type", Value::str("direct01"));
-    }
-    if setup.live {
+        let list_result = match client.direct(jo(vec![
+            ("path", Value::str("devices")),
+            ("method", Value::str("GET")),
+            ("params", jo(vec![])),
+        ])) {
+            Ok(list_result) => list_result,
+            Err(err) => {
+                live_miss(LIVE_STRICT, &format!("Live list discovery failed: {}", err));
+                return;
+            }
+        };
+        if !live_ok(&list_result) {
+            live_miss(LIVE_STRICT, &format!("Live list discovery failed: {}", live_describe(&list_result)));
+            return;
+        }
+        let records = match live_list(&getp(&list_result, "data")) {
+            Some(records) => records,
+            None => {
+                live_miss(LIVE_STRICT, &format!("Live list discovery returned no list: {}", live_describe(&list_result)));
+                return;
+            }
+        };
+        let first = vs::get_elem(&records, &Value::Num(0.0), Value::Noval);
+        if first.is_noval() {
+            live_empty("The account has no device record to load");
+            return;
+        }
+        let mut found = getp(&first, "device_type");
+        if found.is_noval() {
+            found = getp(&first, "id");
+        }
+        if found.is_noval() {
+            live_miss(LIVE_STRICT, "Live load blocked: discovery returned no usable identity");
+            return;
+        }
+        setp(&params, "device_type", found);
         setp(&params, "serial_number", getp(&setup.idmap, "serial_number01"));
     } else {
+        setp(&params, "device_type", Value::str("direct01"));
         setp(&params, "serial_number", Value::str("direct02"));
     }
 
-    let result = client
-        .direct(jo(vec![
-            ("path", Value::str("devices/{serial_number}/{device_type}")),
-            ("method", Value::str("GET")),
-            ("params", params.clone()),
-        ]))
-        .expect("direct failed");
-
-    if setup.live {
-        // Live mode is lenient: synthetic IDs frequently 4xx.
-        if getp(&result, "ok") != Value::Bool(true) {
-            eprintln!("skip: load call not ok (likely synthetic IDs against live API)");
+    let result = match client.direct(jo(vec![
+        ("path", Value::str("devices/{serial_number}/{device_type}")),
+        ("method", Value::str("GET")),
+        ("params", params.clone()),
+    ])) {
+        Ok(result) => result,
+        Err(err) if setup.live => {
+            live_miss(LIVE_STRICT, &format!("Live load failed: {}", err));
             return;
         }
-        let status = to_int(&getp(&result, "status"));
-        if !(200..300).contains(&status) {
-            eprintln!("skip: expected 2xx status, got {}", status);
+        Err(err) => panic!("direct failed: {}", err),
+    };
+
+    if setup.live {
+        if !live_ok(&result) {
+            live_miss(LIVE_STRICT, &format!("Live load failed: {}", live_describe(&result)));
+            return;
+        }
+        if getp(&result, "data").is_noval() {
+            live_miss(LIVE_STRICT, &format!("Live load returned no data: {}", live_describe(&result)));
             return;
         }
     } else {

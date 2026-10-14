@@ -2,6 +2,7 @@
 
 using System.Text.Json;
 
+using BluefinDecryptxP2peSdk.Feature;
 using Voxgig.Struct;
 using Xunit;
 
@@ -9,6 +10,12 @@ namespace BluefinDecryptxP2peSdk.Test;
 
 public class DeviceRkiActivateResultEntityTest
 {
+    // main.kit.test.live.strict is true (the default is true): a live
+    // request that fails, or a live test missing an input it needs,
+    // fails the test.
+    // An account with no record for a test to read skips it either way.
+    private const bool LIVE_STRICT = true;
+
     [Fact]
     public void Instance()
     {
@@ -33,13 +40,6 @@ public class DeviceRkiActivateResultEntityTest
                 return; // skipped via sdk-test-control.json
             }
         }
-        // The basic flow consumes synthetic IDs from the fixture. In live
-        // mode without an *_ENTID env override, those IDs hit the live API
-        // and 4xx; set BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_RKI_ACTIVATE_RESULT_ENTID JSON to run live.
-        if (setup.SyntheticOnly)
-        {
-            return;
-        }
         var client = setup.Client;
 
         // CREATE
@@ -52,6 +52,21 @@ public class DeviceRkiActivateResultEntityTest
         deviceRkiActivateResultRef01Data = Helpers.ToMapAny(deviceRkiActivateResultRef01DataResult is IEntity ce ? ce.Data() : deviceRkiActivateResultRef01DataResult);
         Assert.True(deviceRkiActivateResultRef01Data != null, "expected create result to be a map");
 
+    }
+
+    [Fact]
+    public void Validate()
+    {
+        if (!Fh.HasFeature("validate"))
+        {
+            Console.WriteLine("skip: feature not present in this SDK: validate");
+            return;
+        }
+        var client = BluefinDecryptxP2peSDK.TestSDK(null,
+            new Dictionary<string, object?> { ["feature"] = new Dictionary<string, object?> { ["validate"] = new Dictionary<string, object?> { ["active"] = true } } });
+        var err = Assert.ThrowsAny<BluefinDecryptxP2peError>(() => client.DeviceRkiActivateResult().Create(
+            new Dictionary<string, object?> { ["appVersion"] = 1, ["serialNumber"] = "x", ["success"] = true }, null));
+        Assert.Equal("validate_failed", err.Code);
     }
 
     private static EntityTestSetup DeviceRkiActivateResultBasicSetup(
@@ -93,9 +108,8 @@ public class DeviceRkiActivateResultEntityTest
                 },
             });
 
-        // Detect ENTID env override before EnvOverride consumes it. When
-        // live mode is on without a real override, the basic test runs
-        // against synthetic IDs from the fixture and 4xx's.
+        // Whether *_ENTID supplied the idmap, read before EnvOverride consumes
+        // it: without it, the ids a live flow binds are the fixture's synthetic ones.
         var entidEnvRaw = Environment.GetEnvironmentVariable(
             "BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_RKI_ACTIVATE_RESULT_ENTID") ?? "";
         var idmapOverridden = entidEnvRaw != "" &&

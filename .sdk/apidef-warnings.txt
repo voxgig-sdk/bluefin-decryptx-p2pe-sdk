@@ -1,0 +1,16 @@
+{
+  point: "warning"
+  note: "Points PATCH /clients/{id}, PATCH /devices/{id}, PATCH /locations/{id}, PATCH /partners/{id}, PATCH /shipments/{id}, PATCH /transactions/{id} and PATCH /users/{id} on entity=update_result op=update have the same selector (exist: id), so only PATCH /clients/{id} is ever chosen. An action or another entity in guide.aontu tells them apart."
+  entity: "update_result"
+  op: "update"
+  points: [
+    "PATCH /clients/{id}"
+    "PATCH /devices/{id}"
+    "PATCH /locations/{id}"
+    "PATCH /partners/{id}"
+    "PATCH /shipments/{id}"
+    "PATCH /transactions/{id}"
+    "PATCH /users/{id}"
+  ]
+
+}

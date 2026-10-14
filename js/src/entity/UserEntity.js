@@ -24,7 +24,7 @@ class UserEntity extends BluefinDecryptxP2peEntityBase {
   /**
    * @param {UserLoadMatch} [reqmatch]
    * @param {Object} [ctrl]
-   * @returns {Promise<User>}
+   * @returns {Promise<UserEntity>}
    */
   async load(reqmatch, ctrl) {
 
@@ -129,9 +129,15 @@ class UserEntity extends BluefinDecryptxP2peEntityBase {
       return (ctx.result && ctx.result.ok) ? this : out
     }
     catch (err) {
+      // What a hook throws here must not escape the cleaning below.
+      try {
 
-      fres = featureHook(ctx, 'PreUnexpected')
-      if (fres instanceof Promise) { await fres }
+        fres = featureHook(ctx, 'PreUnexpected')
+        if (fres instanceof Promise) { await fres }
+      }
+      catch (hookerr) {
+        err = hookerr
+      }
 
       err = this._unexpected(ctx, err)
 
@@ -149,10 +155,11 @@ class UserEntity extends BluefinDecryptxP2peEntityBase {
 
 
 
+
   /**
    * @param {UserRemoveMatch} [reqmatch]
    * @param {Object} [ctrl]
-   * @returns {Promise<User>}
+   * @returns {Promise<UserEntity>}
    */
   async remove(reqmatch, ctrl) {
 
@@ -264,9 +271,15 @@ class UserEntity extends BluefinDecryptxP2peEntityBase {
       return out
     }
     catch (err) {
+      // What a hook throws here must not escape the cleaning below.
+      try {
 
-      fres = featureHook(ctx, 'PreUnexpected')
-      if (fres instanceof Promise) { await fres }
+        fres = featureHook(ctx, 'PreUnexpected')
+        if (fres instanceof Promise) { await fres }
+      }
+      catch (hookerr) {
+        err = hookerr
+      }
 
       err = this._unexpected(ctx, err)
 

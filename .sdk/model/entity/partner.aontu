@@ -23,6 +23,10 @@ main: kit: entity: partner: {
       h: "Contact"
       n: "contact"
       op: {
+        create: {
+          req: true
+          type: "`$OBJECT`"
+        }
         list: {
           req: true
           type: "`$OBJECT`"
@@ -72,6 +76,12 @@ main: kit: entity: partner: {
     name: {
       h: "Name"
       n: "name"
+      op: {
+        create: {
+          req: true
+          type: "`$STRING`"
+        }
+      }
       r: false
       sh: "The Partner's name."
       t: "`$STRING`"
@@ -79,6 +89,12 @@ main: kit: entity: partner: {
     parent: {
       h: "Parent"
       n: "parent"
+      op: {
+        create: {
+          req: true
+          type: "`$OBJECT`"
+        }
+      }
       r: false
       sh: "Reference to the associated Partner."
       t: "`$OBJECT`"
@@ -93,6 +109,12 @@ main: kit: entity: partner: {
     reference: {
       h: "Reference"
       n: "reference"
+      op: {
+        create: {
+          req: true
+          type: "`$STRING`"
+        }
+      }
       r: false
       sh: "The Partner's reference string."
       t: "`$STRING`"
@@ -124,6 +146,18 @@ main: kit: entity: partner: {
       name: "create"
       points: [
         {
+          bf: [
+            "billingId"
+            "clientCanOrderEquipment"
+            "contact"
+            "isActive"
+            "location"
+            "name"
+            "parent"
+            "partnerId"
+            "reference"
+            "verificationPhrase"
+          ]
           co: {
             id: "POST /partners"
             source: "openapi3"
@@ -131,6 +165,10 @@ main: kit: entity: partner: {
           }
           m: "POST"
           o: "/partners"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "partners"
@@ -181,12 +219,9 @@ main: kit: entity: partner: {
           }
           m: "GET"
           o: "/partners"
-          q: {
-            exist: [
-              "partner"
-              "skip"
-              "take"
-            ]
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -226,6 +261,10 @@ main: kit: entity: partner: {
             exist: [
               "id"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

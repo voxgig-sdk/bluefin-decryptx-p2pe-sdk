@@ -15,8 +15,10 @@ keeps the cognitive load low.
 
 
 ## Install
+The SDK needs perl 5.18 or later.
+
 This package is not yet published to CPAN. Install it from the GitHub
-release tag (`perl/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases)) or
+release tag (`perl/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags)) or
 from a source checkout.
 
 The SDK is pure Perl with zero non-core runtime dependencies, so no build
@@ -46,17 +48,17 @@ my $client = BluefinDecryptxP2peSDK->new({
 
 ### 2. List attestation records
 
-`list()` returns an `arrayref` of records (each a `hashref`) and dies on
-error — iterate it directly.
+`list()` returns an `arrayref` of entities, one per record, and dies on
+error; `data_get` reads each record.
 
 ```perl
-my $attestations = eval { $client->Attestation->list };
+my $attestations = eval { $client->Attestation->list({ 'client' => 'example' }) };
 if (my $err = $@) {
     print "list failed: $err\n";
 }
 else {
     for my $attestation (@$attestations) {
-        print "$attestation->{id}\n";
+        print $attestation->data_get->{id}, "\n";
     }
 }
 ```
@@ -72,7 +74,7 @@ if (my $err = $@) {
     print "load failed: $err\n";
 }
 else {
-    print "$devicecustodydetail->{id}\n";
+    print $devicecustodydetail->data_get->{id}, "\n";
 }
 ```
 
@@ -80,7 +82,7 @@ else {
 
 ```perl
 # Create — returns the ENTITY (call data_get for the record)
-my $created = $client->Attestation->create({ 'client' => {}, 'completeDate' => 'example_completeDate' });
+my $created = $client->Attestation->create({ 'devices' => [] });
 
 ```
 
@@ -92,14 +94,15 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 ```ts
 try {
   const devicetypes = await client.DeviceType().list()
-  console.log(devicetypes)
+  console.log(devicetypes.map((item) => item.data()))
 } catch (err) {
   console.error('list failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -108,8 +111,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -161,10 +164,9 @@ Create a mock client for unit testing — no server required:
 ```perl
 my $client = BluefinDecryptxP2peSDK->test(undef, undef);
 
-# Entity ops return the ENTITY and dies on error;
-# call data_get for the record.
+# Entity ops return the entity, and list one per record; they die on error.
 my $devicetype = $client->DeviceType->list();
-# $devicetype contains the mock response record
+# data_get on an entity reads its mock response record
 ```
 
 ### Use a custom fetch function
@@ -272,11 +274,11 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `($reqmatch, $ctrl) -> hashref` | Load a single entity by match criteria. Dies on error. |
-| `list` | `($reqmatch, $ctrl) -> arrayref` | List entities matching the criteria. Dies on error. |
-| `create` | `($reqdata, $ctrl) -> hashref` | Create a new entity. Dies on error. |
-| `update` | `($reqdata, $ctrl) -> hashref` | Update an existing entity. Dies on error. |
-| `remove` | `($reqmatch, $ctrl) -> hashref` | Remove an entity. Dies on error. |
+| `load` | `($reqmatch, $ctrl) -> entity` | Load a single entity by match criteria, and return it. Dies on error. |
+| `list` | `($reqmatch, $ctrl) -> arrayref` | List entities matching the criteria, one per record. Dies on error. |
+| `create` | `($reqdata, $ctrl) -> entity` | Create a new entity, and return it. Dies on error. |
+| `update` | `($reqdata, $ctrl) -> entity` | Update an existing entity, and return it. Dies on error. |
+| `remove` | `($reqmatch, $ctrl) -> entity` | Remove an entity, and return it marked as deleted. Dies on error. |
 | `data_get` | `() -> hashref` | Get entity data. |
 | `data_set` | `($data)` | Set entity data. |
 | `match_get` | `() -> hashref` | Get entity match criteria. |
@@ -286,9 +288,10 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the ENTITY (call data_get for the record) (a `hashref` for single-entity
-ops, an `arrayref` for `list`) and die on error. Wrap calls in
-`eval { ... }` and inspect `$@` to handle failures.
+Entity operations return the entity, and `list` an `arrayref` of
+entities, one per record; `data_get` reads an entity's record (a
+`hashref`). They die on error, so wrap calls in `eval { ... }` and
+inspect `$@` to handle failures.
 
 The `direct()` escape hatch never dies — it returns a result `hashref`
 you branch on via `$result->{ok}`:
@@ -312,6 +315,7 @@ On error, `ok` is false and `err` contains the error value.
 | `completeDate` | The date and time that the Attestation took place. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `device` | Reference to the associated Device resource. |
+| `devices` |  |
 | `id` | This resource's unique identifier. |
 | `name` | Text describing the attestation. |
 | `notes` | Free form field that allows the Client associate notes with the Attestation. |
@@ -344,6 +348,10 @@ API path: `/clients`
 
 | Field | Description |
 | --- | --- |
+| `completeDate` | The date and time that the Custody change took place. |
+| `custodian` | Reference to the associated User resource. |
+| `location` | Reference to the associated Location resource. |
+| `notes` | Free form field that allows the Client associate notes with the Custody Change. |
 
 Operations: Create.
 
@@ -353,6 +361,14 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
+| `cbcVector` | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | The device Type. |
+| `encoding` | The payload encoding |
+| `encrypted` |  |
+| `hasCcData` | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | The serial number of the device. |
 | `success` | true if the payload decryption was successful. |
 
 Operations: Create.
@@ -468,7 +484,9 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
+| `serialNumber` | The serial number of the Device that is shipped. |
 | `success` | Indicates if the action succeeded. |
+| `tamperLabel` | The code that is printed the tamper label of the Device that is shipped. |
 
 Operations: Create.
 
@@ -478,7 +496,15 @@ API path: `/devices/receive`
 
 | Field | Description |
 | --- | --- |
+| `appVersion` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | The Device Builds's name. |
+| `buildNumber` | The Build Number. |
+| `configFile` | \? |
+| `firmwareVersion` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | The referenced Device's serial number. |
 | `success` | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | \? |
 
 Operations: Create.
 
@@ -552,6 +578,7 @@ API path: `/kifs`
 | `address2` | The Location's street address. |
 | `billingId` | \? |
 | `city` | The Location's city. |
+| `client` | Reference to the associated Client resource. |
 | `country` | The Location's country. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `customReference` | A Partner specified reference for a location. |
@@ -612,6 +639,7 @@ API path: `/partners`
 | `id` | This resource's unique identifier. |
 | `items` |  |
 | `kif` | Reference to the associated KIF resource. |
+| `location` | Reference to the associated Location resource. |
 | `modified` | Last modified timestamp. |
 | `partner` | Reference to the associated Partner. |
 | `shipmentType` | The type of shipment. |
@@ -626,6 +654,8 @@ API path: `/shipments`
 
 | Field | Description |
 | --- | --- |
+| `devices` | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | Reference to the associated Partner. |
 | `success` | Indicates if the action was a success. |
 
 Operations: Create, Remove.
@@ -641,6 +671,7 @@ API path: `/virtualDevices/{sharePartnerTo}`
 | `clientRef` | Client Reference property that is included in the decrypt API call. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `decrypted` | A Transcation can process muliple decryptions. |
+| `device` | Reference to the associated Device resource. |
 | `deviceName` | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | Reference to the associated Partner. |
 | `encrypted` | A Transcation can process muliple encryptions. |
@@ -669,17 +700,68 @@ API path: `/transactions`
 
 | Field | Description |
 | --- | --- |
+| `address1` | The Location's street address. |
+| `address2` | The Location's street address. |
+| `alternateKey` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | \? |
+| `city` | The Location's city. |
 | `client` | Reference to the associated Client resource. |
+| `clientCanOrderEquipment` | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | Client Reference property that is included in the decrypt API call. |
+| `contact` | Reference to the associated User resource. |
+| `country` | Reference to the associated Country. |
+| `customReference` | A Partner specified reference for a location. |
+| `dateShipped` | The date and time that a package is shipped. |
+| `decrypted` | A Transcation can process muliple decryptions. |
+| `device` | Reference to the associated Device resource. |
+| `deviceBuild` | Reference to the associated Device Build resource. |
+| `deviceType` | Reference to the associated Device Type resource. |
+| `directPartner` | Reference to the associated Partner. |
 | `email` | The User's email address. |
+| `encrypted` | A Transcation can process muliple encryptions. |
+| `endDate` | Timestamp from the end of the transaction. |
+| `errCode` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | The error messge that is sent in response to a failed decrypt API call. |
 | `firstName` | The User's name. |
 | `id` | ID of newly created resource |
+| `injectKey` | Reference to the associated Device resource. |
+| `ipAddress` | The IP address of the http client that makes the decrypt API call. |
 | `isActive` | This property indicates if the User account is active or disabled. |
+| `items` |  |
+| `keyType` | The type of cipher used during decrytion. |
 | `kif` | Reference to the associated KIF resource. |
 | `lastName` | The User's Surname. |
+| `location` | Reference to the associated Location resource. |
+| `locationType` | The Location's clasification. |
+| `mailAddress1` | The Location's street address. |
+| `mailAddress2` | The Location's street address. |
+| `mailCity` | The Location's city. |
+| `mailCountry` | The Location's street address. |
+| `mailPostalCode` | The Location's postal code. |
+| `mailStateProvince` | The Location's street state or province. |
+| `messageId` | Message ID. |
+| `method` | The decryption cypher/method. |
+| `mid` | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | The Client's name. |
+| `nameOfBusiness` | The name of the business at this location. |
+| `notes` | Arbitary note that can be attached to a Device entry. |
+| `parent` | Reference to the associated Partner. |
 | `partner` | Reference to the associated Partner. |
+| `partnerId` | The Partner's id. |
 | `phone` | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | The Location's postal code. |
+| `reference` | The Partner's reference string. |
+| `sendWelcomeEmail` | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | The Device's serial number. |
+| `startDate` | Timestamp from the beginning of the transaction. |
+| `stateProvince` | The Location's street state or province. |
+| `success` | The success indicator. |
+| `tracking` | The courier's tracking number. |
+| `uniqueId` | Unique Identifier for the Location. |
 | `userName` | The User's unique username. |
 | `userRole` | Reference to the associated User Role. |
+| `verificationPhrase` | The verification phrase is a message that the Partner creates. |
 | `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Update.
@@ -746,6 +828,7 @@ Create an instance: `my $attestation = $client->Attestation;`
 | `completeDate` | `string` | The date and time that the Attestation took place. |
 | `created` | `string` | Creation timestamp in ISO 8601 format. |
 | `device` | `hashref` | Reference to the associated Device resource. |
+| `devices` | `arrayref` |  |
 | `id` | `string` | This resource's unique identifier. |
 | `name` | `string` | Text describing the attestation. |
 | `notes` | `string` | Free form field that allows the Client associate notes with the Attestation. |
@@ -759,13 +842,16 @@ my $attestation = $client->Attestation->load({ 'id' => 'attestation_id' });
 #### Example: List
 
 ```perl
-my $attestations = $client->Attestation->list;
+# an arrayref of entities, one per record; data_get reads each record
+my $attestations = $client->Attestation->list({ 'client' => 'example' });
+print $_->data_get->{id}, "\n" for @$attestations;
 ```
 
 #### Example: Create
 
 ```perl
 my $attestation = $client->Attestation->create({
+    'devices' => [],  # arrayref
 });
 ```
 
@@ -808,7 +894,9 @@ my $client = $client->Client->load({ 'id' => 'client_id' });
 #### Example: List
 
 ```perl
-my $clients = $client->Client->list;
+# an arrayref of entities, one per record; data_get reads each record
+my $clients = $client->Client->list({ 'partner' => 'example' });
+print $_->data_get->{id}, "\n" for @$clients;
 ```
 
 #### Example: Create
@@ -830,12 +918,23 @@ Create an instance: `my $create_result = $client->CreateResult;`
 | --- | --- |
 | `create($data)` | Create a new entity with the given data. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `completeDate` | `string` | The date and time that the Custody change took place. |
+| `custodian` | `hashref` | Reference to the associated User resource. |
+| `location` | `hashref` | Reference to the associated Location resource. |
+| `notes` | `string` | Free form field that allows the Client associate notes with the Custody Change. |
+
 #### Example: Create
 
 ```perl
 my $create_result = $client->CreateResult->create({
     'device_type' => 'example_device_type',  # string
     'serial_number' => 'example_serial_number',  # string
+    'custodian' => {},  # hashref
+    'location' => {},  # hashref
 });
 ```
 
@@ -854,12 +953,23 @@ Create an instance: `my $decryption = $client->Decryption;`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `cbcVector` | `string` | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | `string` | The device Type. |
+| `encoding` | `string` | The payload encoding |
+| `encrypted` | `arrayref` |  |
+| `hasCcData` | `string` | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | `string` | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | `string` | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | `string` | The serial number of the device. |
 | `success` | `boolean` | true if the payload decryption was successful. |
 
 #### Example: Create
 
 ```perl
 my $decryption = $client->Decryption->create({
+    'deviceType' => 'example_deviceType',  # string
+    'encrypted' => [],  # arrayref
+    'serialNumber' => 'example_serialNumber',  # string
 });
 ```
 
@@ -918,7 +1028,9 @@ my $device = $client->Device->load({ 'id' => 'device_id' });
 #### Example: List
 
 ```perl
+# an arrayref of entities, one per record; data_get reads each record
 my $devices = $client->Device->list;
+print $_->data_get->{id}, "\n" for @$devices;
 ```
 
 #### Example: Create
@@ -974,7 +1086,9 @@ my $device_build = $client->DeviceBuild->load({ 'id' => 'device_build_id' });
 #### Example: List
 
 ```perl
+# an arrayref of entities, one per record; data_get reads each record
 my $device_builds = $client->DeviceBuild->list;
+print $_->data_get->{id}, "\n" for @$device_builds;
 ```
 
 
@@ -1044,7 +1158,9 @@ Create an instance: `my $device_custody_list_item = $client->DeviceCustodyListIt
 #### Example: List
 
 ```perl
-my $device_custody_list_items = $client->DeviceCustodyListItem->list;
+# an arrayref of entities, one per record; data_get reads each record
+my $device_custody_list_items = $client->DeviceCustodyListItem->list({ 'device_type' => 'example', 'serial_number' => 'example' });
+print $_->data_get->{id}, "\n" for @$device_custody_list_items;
 ```
 
 
@@ -1062,13 +1178,17 @@ Create an instance: `my $device_receive_result = $client->DeviceReceiveResult;`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `serialNumber` | `string` | The serial number of the Device that is shipped. |
 | `success` | `boolean` | Indicates if the action succeeded. |
+| `tamperLabel` | `string` | The code that is printed the tamper label of the Device that is shipped. |
 
 #### Example: Create
 
 ```perl
 my $device_receive_result = $client->DeviceReceiveResult->create({
+    'serialNumber' => 'example_serialNumber',  # string
     'success' => 1,  # boolean
+    'tamperLabel' => 'example_tamperLabel',  # string
 });
 ```
 
@@ -1087,12 +1207,21 @@ Create an instance: `my $device_rki_activate_result = $client->DeviceRkiActivate
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `appVersion` | `string` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | `string` | The Device Builds's name. |
+| `buildNumber` | `string` | The Build Number. |
+| `configFile` | `string` | \? |
+| `firmwareVersion` | `string` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `string` | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | `string` | The referenced Device's serial number. |
 | `success` | `boolean` | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | `string` | \? |
 
 #### Example: Create
 
 ```perl
 my $device_rki_activate_result = $client->DeviceRkiActivateResult->create({
+    'serialNumber' => 'example_serialNumber',  # string
     'success' => 1,  # boolean
 });
 ```
@@ -1118,7 +1247,9 @@ Create an instance: `my $device_state = $client->DeviceState;`
 #### Example: List
 
 ```perl
+# an arrayref of entities, one per record; data_get reads each record
 my $device_states = $client->DeviceState->list;
+print $_->data_get->{id}, "\n" for @$device_states;
 ```
 
 
@@ -1159,7 +1290,9 @@ my $device_type = $client->DeviceType->load({ 'id' => 'device_type_id' });
 #### Example: List
 
 ```perl
+# an arrayref of entities, one per record; data_get reads each record
 my $device_types = $client->DeviceType->list;
+print $_->data_get->{id}, "\n" for @$device_types;
 ```
 
 
@@ -1196,7 +1329,9 @@ my $inject_key = $client->InjectKey->load({ 'id' => 'inject_key_id' });
 #### Example: List
 
 ```perl
+# an arrayref of entities, one per record; data_get reads each record
 my $inject_keys = $client->InjectKey->list;
+print $_->data_get->{id}, "\n" for @$inject_keys;
 ```
 
 
@@ -1220,7 +1355,9 @@ Create an instance: `my $kif = $client->Kif;`
 #### Example: List
 
 ```perl
+# an arrayref of entities, one per record; data_get reads each record
 my $kifs = $client->Kif->list;
+print $_->data_get->{id}, "\n" for @$kifs;
 ```
 
 
@@ -1245,6 +1382,7 @@ Create an instance: `my $location = $client->Location;`
 | `address2` | `string` | The Location's street address. |
 | `billingId` | `string` | \? |
 | `city` | `string` | The Location's city. |
+| `client` | `hashref` | Reference to the associated Client resource. |
 | `country` | `string` | The Location's country. |
 | `created` | `string` | Creation timestamp in ISO 8601 format. |
 | `customReference` | `string` | A Partner specified reference for a location. |
@@ -1274,7 +1412,9 @@ my $location = $client->Location->load({ 'id' => 'location_id' });
 #### Example: List
 
 ```perl
-my $locations = $client->Location->list;
+# an arrayref of entities, one per record; data_get reads each record
+my $locations = $client->Location->list({ 'client' => 'example' });
+print $_->data_get->{id}, "\n" for @$locations;
 ```
 
 #### Example: Create
@@ -1325,7 +1465,9 @@ my $partner = $client->Partner->load({ 'id' => 'partner_id' });
 #### Example: List
 
 ```perl
+# an arrayref of entities, one per record; data_get reads each record
 my $partners = $client->Partner->list;
+print $_->data_get->{id}, "\n" for @$partners;
 ```
 
 #### Example: Create
@@ -1362,6 +1504,7 @@ Create an instance: `my $shipment = $client->Shipment;`
 | `id` | `string` | This resource's unique identifier. |
 | `items` | `arrayref` |  |
 | `kif` | `hashref` | Reference to the associated KIF resource. |
+| `location` | `hashref` | Reference to the associated Location resource. |
 | `modified` | `string` | Last modified timestamp. |
 | `partner` | `hashref` | Reference to the associated Partner. |
 | `shipmentType` | `string` | The type of shipment. |
@@ -1377,13 +1520,16 @@ my $shipment = $client->Shipment->load({ 'id' => 'shipment_id' });
 #### Example: List
 
 ```perl
-my $shipments = $client->Shipment->list;
+# an arrayref of entities, one per record; data_get reads each record
+my $shipments = $client->Shipment->list({ 'kif' => 'example' });
+print $_->data_get->{id}, "\n" for @$shipments;
 ```
 
 #### Example: Create
 
 ```perl
 my $shipment = $client->Shipment->create({
+    'location' => {},  # hashref
 });
 ```
 
@@ -1403,6 +1549,8 @@ Create an instance: `my $success = $client->Success;`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `devices` | `arrayref` | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | `hashref` | Reference to the associated Partner. |
 | `success` | `boolean` | Indicates if the action was a success. |
 
 #### Example: Create
@@ -1410,6 +1558,8 @@ Create an instance: `my $success = $client->Success;`
 ```perl
 my $success = $client->Success->create({
     'share_partner_to' => 'example_share_partner_to',  # string
+    'devices' => [],  # arrayref
+    'sharePartnerFrom' => {},  # hashref
 });
 ```
 
@@ -1435,6 +1585,7 @@ Create an instance: `my $transaction = $client->Transaction;`
 | `clientRef` | `string` | Client Reference property that is included in the decrypt API call. |
 | `created` | `string` | Creation timestamp in ISO 8601 format. |
 | `decrypted` | `integer` | A Transcation can process muliple decryptions. |
+| `device` | `hashref` | Reference to the associated Device resource. |
 | `deviceName` | `string` | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | `hashref` | Reference to the associated Partner. |
 | `encrypted` | `integer` | A Transcation can process muliple encryptions. |
@@ -1464,13 +1615,16 @@ my $transaction = $client->Transaction->load({ 'id' => 'transaction_id' });
 #### Example: List
 
 ```perl
+# an arrayref of entities, one per record; data_get reads each record
 my $transactions = $client->Transaction->list;
+print $_->data_get->{id}, "\n" for @$transactions;
 ```
 
 #### Example: Create
 
 ```perl
 my $transaction = $client->Transaction->create({
+    'device' => {},  # hashref
     'location' => {},  # hashref
 });
 ```
@@ -1492,29 +1646,91 @@ Create an instance: `my $update_result = $client->UpdateResult;`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `address1` | `string` | The Location's street address. |
+| `address2` | `string` | The Location's street address. |
+| `alternateKey` | `string` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `string` | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | `string` | \? |
+| `city` | `string` | The Location's city. |
 | `client` | `hashref` | Reference to the associated Client resource. |
+| `clientCanOrderEquipment` | `boolean` | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | `string` | Client Reference property that is included in the decrypt API call. |
+| `contact` | `hashref` | Reference to the associated User resource. |
+| `country` | `hashref` | Reference to the associated Country. |
+| `customReference` | `string` | A Partner specified reference for a location. |
+| `dateShipped` | `string` | The date and time that a package is shipped. |
+| `decrypted` | `integer` | A Transcation can process muliple decryptions. |
+| `device` | `hashref` | Reference to the associated Device resource. |
+| `deviceBuild` | `hashref` | Reference to the associated Device Build resource. |
+| `deviceType` | `hashref` | Reference to the associated Device Type resource. |
+| `directPartner` | `hashref` | Reference to the associated Partner. |
 | `email` | `string` | The User's email address. |
+| `encrypted` | `integer` | A Transcation can process muliple encryptions. |
+| `endDate` | `string` | Timestamp from the end of the transaction. |
+| `errCode` | `string` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `string` | The error messge that is sent in response to a failed decrypt API call. |
 | `firstName` | `string` | The User's name. |
 | `id` | `string` | ID of newly created resource |
+| `injectKey` | `hashref` | Reference to the associated Device resource. |
+| `ipAddress` | `string` | The IP address of the http client that makes the decrypt API call. |
 | `isActive` | `boolean` | This property indicates if the User account is active or disabled. |
+| `items` | `arrayref` |  |
+| `keyType` | `string` | The type of cipher used during decrytion. |
 | `kif` | `hashref` | Reference to the associated KIF resource. |
 | `lastName` | `string` | The User's Surname. |
+| `location` | `hashref` | Reference to the associated Location resource. |
+| `locationType` | `string` | The Location's clasification. |
+| `mailAddress1` | `string` | The Location's street address. |
+| `mailAddress2` | `string` | The Location's street address. |
+| `mailCity` | `string` | The Location's city. |
+| `mailCountry` | `string` | The Location's street address. |
+| `mailPostalCode` | `string` | The Location's postal code. |
+| `mailStateProvince` | `string` | The Location's street state or province. |
+| `messageId` | `string` | Message ID. |
+| `method` | `string` | The decryption cypher/method. |
+| `mid` | `string` | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | `string` | The Client's name. |
+| `nameOfBusiness` | `string` | The name of the business at this location. |
+| `notes` | `string` | Arbitary note that can be attached to a Device entry. |
+| `parent` | `hashref` | Reference to the associated Partner. |
 | `partner` | `hashref` | Reference to the associated Partner. |
+| `partnerId` | `string` | The Partner's id. |
 | `phone` | `string` | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | `string` | The Location's postal code. |
+| `reference` | `string` | The Partner's reference string. |
+| `sendWelcomeEmail` | `boolean` | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | `string` | The Device's serial number. |
+| `startDate` | `string` | Timestamp from the beginning of the transaction. |
+| `stateProvince` | `string` | The Location's street state or province. |
+| `success` | `boolean` | The success indicator. |
+| `tracking` | `string` | The courier's tracking number. |
+| `uniqueId` | `string` | Unique Identifier for the Location. |
 | `userName` | `string` | The User's unique username. |
 | `userRole` | `hashref` | Reference to the associated User Role. |
+| `verificationPhrase` | `string` | The verification phrase is a message that the Partner creates. |
 | `version` | `integer` | The number of times that this resource has been updated. |
 
 #### Example: List
 
 ```perl
+# an arrayref of entities, one per record; data_get reads each record
 my $update_results = $client->UpdateResult->list;
+print $_->data_get->{id}, "\n" for @$update_results;
 ```
 
 #### Example: Create
 
 ```perl
 my $update_result = $client->UpdateResult->create({
+    'contact' => {},  # hashref
+    'email' => 'example_email',  # string
+    'firstName' => 'example_firstName',  # string
+    'isActive' => 1,  # boolean
+    'lastName' => 'example_lastName',  # string
+    'location' => {},  # hashref
+    'phone' => 'example_phone',  # string
+    'userName' => 'example_userName',  # string
+    'userRole' => {},  # hashref
 });
 ```
 

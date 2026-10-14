@@ -78,9 +78,15 @@ class DeviceCustodyListItemEntity extends BluefinDecryptxP2peEntityBase_1.Bluefi
             return done(ctx);
         }
         catch (err) {
-            fres = featureHook(ctx, 'PreUnexpected');
-            if (fres instanceof Promise) {
-                await fres;
+            // What a hook throws here must not escape the cleaning below.
+            try {
+                fres = featureHook(ctx, 'PreUnexpected');
+                if (fres instanceof Promise) {
+                    await fres;
+                }
+            }
+            catch (hookerr) {
+                err = hookerr;
             }
             err = this._unexpected(ctx, err);
             if (err) {
@@ -88,7 +94,7 @@ class DeviceCustodyListItemEntity extends BluefinDecryptxP2peEntityBase_1.Bluefi
             }
             else {
                 // Off-happy-path (throw disabled): typed as any so the method's
-                // Promise<DeviceCustodyListItem[]> return stays clean under strict null checks.
+                // Promise<DeviceCustodyListItemEntity[]> return stays clean under strict null checks.
                 return undefined;
             }
         }

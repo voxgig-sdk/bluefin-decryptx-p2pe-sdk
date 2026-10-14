@@ -40,6 +40,10 @@ main: kit: entity: device_state: {
           }
           m: "GET"
           o: "/deviceStates"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "deviceStates"

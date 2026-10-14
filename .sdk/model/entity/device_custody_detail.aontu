@@ -123,7 +123,7 @@ main: kit: entity: device_custody_detail: {
               {
                 k: "param"
                 n: "device_type"
-                or: "device_type"
+                or: "deviceType"
                 r: true
                 t: "`$STRING`"
               }
@@ -137,7 +137,7 @@ main: kit: entity: device_custody_detail: {
               {
                 k: "param"
                 n: "serial_number"
-                or: "serial_number"
+                or: "serialNumber"
                 r: true
                 t: "`$STRING`"
               }
@@ -157,6 +157,10 @@ main: kit: entity: device_custody_detail: {
               deviceType: "device_type"
               serialNumber: "serial_number"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

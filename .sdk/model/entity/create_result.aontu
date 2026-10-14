@@ -4,12 +4,50 @@ main: kit: entity: create_result: {
 
   alias: field: {}
 
+  fields: {
+    completeDate: {
+      fo: "date-time"
+      h: "Complete Date"
+      n: "completeDate"
+      r: false
+      sh: "The date and time that the Custody change took place."
+      t: "`$STRING`"
+    }
+    custodian: {
+      h: "Custodian"
+      n: "custodian"
+      r: true
+      sh: "Reference to the associated User resource."
+      t: "`$OBJECT`"
+    }
+    location: {
+      h: "Location"
+      n: "location"
+      r: true
+      sh: "Reference to the associated Location resource."
+      t: "`$OBJECT`"
+    }
+    notes: {
+      h: "Notes"
+      n: "notes"
+      r: false
+      sh: "Free form field that allows the Client associate notes with the Custody Change."
+      t: "`$STRING`"
+    }
+  }
+
   name: "create_result"
   op: {
     create: {
       name: "create"
       points: [
         {
+          bf: [
+            "completeDate"
+            "custodian"
+            "location"
+            "notes"
+          ]
           co: {
             id: "POST /devices/{serialNumber}/{deviceType}/custody"
             source: "openapi3"
@@ -20,14 +58,14 @@ main: kit: entity: create_result: {
               {
                 k: "param"
                 n: "device_type"
-                or: "device_type"
+                or: "deviceType"
                 r: true
                 t: "`$STRING`"
               }
               {
                 k: "param"
                 n: "serial_number"
-                or: "serial_number"
+                or: "serialNumber"
                 r: true
                 t: "`$STRING`"
               }
@@ -46,6 +84,10 @@ main: kit: entity: create_result: {
               deviceType: "device_type"
               serialNumber: "serial_number"
             }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {
@@ -68,9 +110,6 @@ main: kit: entity: create_result: {
         }
       ]
     }
-  }
-
-  fields: {
   }
 
 

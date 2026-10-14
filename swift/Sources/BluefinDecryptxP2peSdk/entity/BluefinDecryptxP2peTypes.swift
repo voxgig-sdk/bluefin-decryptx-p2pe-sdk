@@ -16,6 +16,7 @@ public struct Attestation {
   public var completeDate: String?
   public var created: String?
   public var device: VMap?
+  public var devices: [Value]
   public var id: String?
   public var name: String?
   public var notes: String?
@@ -39,6 +40,7 @@ public struct AttestationCreateData {
   public var completeDate: String?
   public var created: String?
   public var device: VMap?
+  public var devices: [Value]
   public var id: String?
   public var name: String?
   public var notes: String?
@@ -93,21 +95,45 @@ public struct ClientRemoveMatch {
 
 /// CreateResult is the typed data model for the create_result entity.
 public struct CreateResult {
+  public var completeDate: String?
+  public var custodian: VMap
+  public var location: VMap
+  public var notes: String?
 }
 
 /// CreateResultCreateData is the typed request payload for CreateResult.create.
 public struct CreateResultCreateData {
   public var deviceType: String
   public var serialNumber: String
+  public var completeDate: String?
+  public var custodian: VMap
+  public var location: VMap
+  public var notes: String?
 }
 
 /// Decryption is the typed data model for the decryption entity.
 public struct Decryption {
+  public var cbcVector: String?
+  public var deviceType: String
+  public var encoding: String?
+  public var encrypted: [Value]
+  public var hasCcData: String?
+  public var reference: String?
+  public var sequenceNumber: String?
+  public var serialNumber: String
   public var success: Bool?
 }
 
 /// DecryptionCreateData is the typed request payload for Decryption.create.
 public struct DecryptionCreateData {
+  public var cbcVector: String?
+  public var deviceType: String
+  public var encoding: String?
+  public var encrypted: [Value]
+  public var hasCcData: String?
+  public var reference: String?
+  public var sequenceNumber: String?
+  public var serialNumber: String
   public var success: Bool?
 }
 
@@ -275,22 +301,42 @@ public struct DeviceCustodyListItemListMatch {
 
 /// DeviceReceiveResult is the typed data model for the device_receive_result entity.
 public struct DeviceReceiveResult {
+  public var serialNumber: String
   public var success: Bool
+  public var tamperLabel: String
 }
 
 /// DeviceReceiveResultCreateData is the typed request payload for DeviceReceiveResult.create.
 public struct DeviceReceiveResultCreateData {
+  public var serialNumber: String
   public var success: Bool
+  public var tamperLabel: String
 }
 
 /// DeviceRkiActivateResult is the typed data model for the device_rki_activate_result entity.
 public struct DeviceRkiActivateResult {
+  public var appVersion: String?
+  public var buildName: String?
+  public var buildNumber: String?
+  public var configFile: String?
+  public var firmwareVersion: String?
+  public var hardwareVersion: String?
+  public var serialNumber: String
   public var success: Bool
+  public var whiteListingBinRanges: String?
 }
 
 /// DeviceRkiActivateResultCreateData is the typed request payload for DeviceRkiActivateResult.create.
 public struct DeviceRkiActivateResultCreateData {
+  public var appVersion: String?
+  public var buildName: String?
+  public var buildNumber: String?
+  public var configFile: String?
+  public var firmwareVersion: String?
+  public var hardwareVersion: String?
+  public var serialNumber: String
   public var success: Bool
+  public var whiteListingBinRanges: String?
 }
 
 /// DeviceState is the typed data model for the device_state entity.
@@ -389,6 +435,7 @@ public struct Location {
   public var address2: String?
   public var billingId: String?
   public var city: String?
+  public var client: VMap?
   public var country: String?
   public var created: String?
   public var customReference: String?
@@ -428,6 +475,7 @@ public struct LocationCreateData {
   public var address2: String?
   public var billingId: String?
   public var city: String?
+  public var client: VMap?
   public var country: String?
   public var created: String?
   public var customReference: String?
@@ -513,6 +561,7 @@ public struct Shipment {
   public var id: String?
   public var items: [Value]?
   public var kif: VMap?
+  public var location: VMap
   public var modified: String?
   public var partner: VMap?
   public var shipmentType: String?
@@ -544,6 +593,7 @@ public struct ShipmentCreateData {
   public var id: String?
   public var items: [Value]?
   public var kif: VMap?
+  public var location: VMap
   public var modified: String?
   public var partner: VMap?
   public var shipmentType: String?
@@ -553,12 +603,16 @@ public struct ShipmentCreateData {
 
 /// Success is the typed data model for the success entity.
 public struct Success {
+  public var devices: [Value]
+  public var sharePartnerFrom: VMap
   public var success: Bool?
 }
 
 /// SuccessCreateData is the typed request payload for Success.create.
 public struct SuccessCreateData {
   public var sharePartnerTo: String
+  public var devices: [Value]
+  public var sharePartnerFrom: VMap
   public var success: Bool?
 }
 
@@ -574,6 +628,7 @@ public struct Transaction {
   public var clientRef: String?
   public var created: String?
   public var decrypted: Int?
+  public var device: VMap
   public var deviceName: String?
   public var directPartner: VMap?
   public var encrypted: Int?
@@ -624,6 +679,7 @@ public struct TransactionCreateData {
   public var clientRef: String?
   public var created: String?
   public var decrypted: Int?
+  public var device: VMap
   public var deviceName: String?
   public var directPartner: VMap?
   public var encrypted: Int?
@@ -647,17 +703,68 @@ public struct TransactionCreateData {
 
 /// UpdateResult is the typed data model for the update_result entity.
 public struct UpdateResult {
+  public var address1: String?
+  public var address2: String?
+  public var alternateKey: String?
+  public var auditNextDate: String?
+  public var billingId: String?
+  public var city: String?
   public var client: VMap?
-  public var email: String?
-  public var firstName: String?
+  public var clientCanOrderEquipment: Bool?
+  public var clientRef: String?
+  public var contact: VMap
+  public var country: VMap?
+  public var customReference: String?
+  public var dateShipped: String?
+  public var decrypted: Int?
+  public var device: VMap?
+  public var deviceBuild: VMap?
+  public var deviceType: VMap?
+  public var directPartner: VMap?
+  public var email: String
+  public var encrypted: Int?
+  public var endDate: String?
+  public var errCode: String?
+  public var errMessage: String?
+  public var firstName: String
   public var id: String?
-  public var isActive: Bool?
+  public var injectKey: VMap?
+  public var ipAddress: String?
+  public var isActive: Bool
+  public var items: [Value]?
+  public var keyType: String?
   public var kif: VMap?
-  public var lastName: String?
+  public var lastName: String
+  public var location: VMap
+  public var locationType: String?
+  public var mailAddress1: String?
+  public var mailAddress2: String?
+  public var mailCity: String?
+  public var mailCountry: String?
+  public var mailPostalCode: String?
+  public var mailStateProvince: String?
+  public var messageId: String?
+  public var method: String?
+  public var mid: String?
+  public var name: String?
+  public var nameOfBusiness: String?
+  public var notes: String?
+  public var parent: VMap?
   public var partner: VMap?
-  public var phone: String?
-  public var userName: String?
-  public var userRole: VMap?
+  public var partnerId: String?
+  public var phone: String
+  public var postalCode: String?
+  public var reference: String?
+  public var sendWelcomeEmail: Bool?
+  public var serialNumber: String?
+  public var startDate: String?
+  public var stateProvince: String?
+  public var success: Bool?
+  public var tracking: String?
+  public var uniqueId: String?
+  public var userName: String
+  public var userRole: VMap
+  public var verificationPhrase: String?
   public var version: Int?
 }
 
@@ -672,33 +779,135 @@ public struct UpdateResultListMatch {
 
 /// UpdateResultCreateData is the typed request payload for UpdateResult.create.
 public struct UpdateResultCreateData {
+  public var address1: String?
+  public var address2: String?
+  public var alternateKey: String?
+  public var auditNextDate: String?
+  public var billingId: String?
+  public var city: String?
   public var client: VMap?
-  public var email: String?
-  public var firstName: String?
+  public var clientCanOrderEquipment: Bool?
+  public var clientRef: String?
+  public var contact: VMap
+  public var country: VMap?
+  public var customReference: String?
+  public var dateShipped: String?
+  public var decrypted: Int?
+  public var device: VMap?
+  public var deviceBuild: VMap?
+  public var deviceType: VMap?
+  public var directPartner: VMap?
+  public var email: String
+  public var encrypted: Int?
+  public var endDate: String?
+  public var errCode: String?
+  public var errMessage: String?
+  public var firstName: String
   public var id: String?
-  public var isActive: Bool?
+  public var injectKey: VMap?
+  public var ipAddress: String?
+  public var isActive: Bool
+  public var items: [Value]?
+  public var keyType: String?
   public var kif: VMap?
-  public var lastName: String?
+  public var lastName: String
+  public var location: VMap
+  public var locationType: String?
+  public var mailAddress1: String?
+  public var mailAddress2: String?
+  public var mailCity: String?
+  public var mailCountry: String?
+  public var mailPostalCode: String?
+  public var mailStateProvince: String?
+  public var messageId: String?
+  public var method: String?
+  public var mid: String?
+  public var name: String?
+  public var nameOfBusiness: String?
+  public var notes: String?
+  public var parent: VMap?
   public var partner: VMap?
-  public var phone: String?
-  public var userName: String?
-  public var userRole: VMap?
+  public var partnerId: String?
+  public var phone: String
+  public var postalCode: String?
+  public var reference: String?
+  public var sendWelcomeEmail: Bool?
+  public var serialNumber: String?
+  public var startDate: String?
+  public var stateProvince: String?
+  public var success: Bool?
+  public var tracking: String?
+  public var uniqueId: String?
+  public var userName: String
+  public var userRole: VMap
+  public var verificationPhrase: String?
   public var version: Int?
 }
 
 /// UpdateResultUpdateData is the typed request payload for UpdateResult.update.
 public struct UpdateResultUpdateData {
   public var id: String
+  public var address1: String?
+  public var address2: String?
+  public var alternateKey: String?
+  public var auditNextDate: String?
+  public var billingId: String?
+  public var city: String?
   public var client: VMap?
+  public var clientCanOrderEquipment: Bool?
+  public var clientRef: String?
+  public var contact: VMap?
+  public var country: VMap?
+  public var customReference: String?
+  public var dateShipped: String?
+  public var decrypted: Int?
+  public var device: VMap?
+  public var deviceBuild: VMap?
+  public var deviceType: VMap?
+  public var directPartner: VMap?
   public var email: String?
+  public var encrypted: Int?
+  public var endDate: String?
+  public var errCode: String?
+  public var errMessage: String?
   public var firstName: String?
+  public var injectKey: VMap?
+  public var ipAddress: String?
   public var isActive: Bool?
+  public var items: [Value]?
+  public var keyType: String?
   public var kif: VMap?
   public var lastName: String?
+  public var location: VMap?
+  public var locationType: String?
+  public var mailAddress1: String?
+  public var mailAddress2: String?
+  public var mailCity: String?
+  public var mailCountry: String?
+  public var mailPostalCode: String?
+  public var mailStateProvince: String?
+  public var messageId: String?
+  public var method: String?
+  public var mid: String?
+  public var name: String?
+  public var nameOfBusiness: String?
+  public var notes: String?
+  public var parent: VMap?
   public var partner: VMap?
+  public var partnerId: String?
   public var phone: String?
+  public var postalCode: String?
+  public var reference: String?
+  public var sendWelcomeEmail: Bool?
+  public var serialNumber: String?
+  public var startDate: String?
+  public var stateProvince: String?
+  public var success: Bool?
+  public var tracking: String?
+  public var uniqueId: String?
   public var userName: String?
   public var userRole: VMap?
+  public var verificationPhrase: String?
   public var version: Int?
 }
 

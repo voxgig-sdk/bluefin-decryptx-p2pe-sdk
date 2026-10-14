@@ -175,24 +175,39 @@ final attestation = client.Attestation();
 | `completeDate` | `String` | No | The date and time that the Attestation took place. |
 | `created` | `String` | No | Creation timestamp in ISO 8601 format. |
 | `device` | `Map<String, dynamic>` | No | Reference to the associated Device resource. |
+| `devices` | `List<dynamic>` | Yes |  |
 | `id` | `String` | No | This resource's unique identifier. |
 | `name` | `String` | No | Text describing the attestation. |
 | `notes` | `String` | No | Free form field that allows the Client associate notes with the Attestation. |
+
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `client` | - | - | Yes |
+| `completeDate` | - | - | Yes |
+| `created` | - | - | - |
+| `device` | - | - | - |
+| `devices` | - | - | - |
+| `id` | - | - | - |
+| `name` | - | - | Yes |
+| `notes` | - | - | - |
 
 ### Operations
 
 #### `create(reqdata, [ctrl]) -> Future<dynamic>`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```dart
 final result = await client.Attestation().create({
+  'devices': <dynamic>[],  // List<dynamic>
 });
 ```
 
 #### `list([reqmatch, ctrl]) -> Future<List>`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entity instances and throws on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and throws on error.
 
 ```dart
 final results = await client.Attestation().list({ client: "example" });
@@ -203,7 +218,7 @@ for (final attestation in results) {
 
 #### `load(reqmatch, [ctrl]) -> Future<dynamic>`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and throws on error.
 
 ```dart
 final result = await client.Attestation().load({'id': 'attestation_id'});
@@ -256,15 +271,15 @@ final client_ = client.Client();
 
 | Field | load | list | create | remove |
 | --- | --- | --- | --- | --- |
-| `contact` | - | Yes | - | - |
+| `contact` | - | Yes | Yes | - |
 | `created` | - | - | - | - |
-| `directPartner` | - | - | - | - |
+| `directPartner` | - | - | Yes | - |
 | `id` | - | - | - | - |
 | `isActive` | - | - | - | - |
 | `location` | - | - | - | - |
 | `mid` | - | - | - | - |
 | `modified` | - | - | - | - |
-| `name` | - | - | - | - |
+| `name` | - | - | Yes | - |
 | `partner` | - | - | - | - |
 | `version` | - | - | - | - |
 
@@ -272,7 +287,7 @@ final client_ = client.Client();
 
 #### `create(reqdata, [ctrl]) -> Future<dynamic>`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```dart
 final result = await client.Client().create({
@@ -282,7 +297,7 @@ final result = await client.Client().create({
 
 #### `list([reqmatch, ctrl]) -> Future<List>`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entity instances and throws on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and throws on error.
 
 ```dart
 final results = await client.Client().list({ partner: "example" });
@@ -293,7 +308,7 @@ for (final client_ in results) {
 
 #### `load(reqmatch, [ctrl]) -> Future<dynamic>`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and throws on error.
 
 ```dart
 final result = await client.Client().load({'id': 'client_id'});
@@ -301,7 +316,7 @@ final result = await client.Client().load({'id': 'client_id'});
 
 #### `remove(reqmatch, [ctrl]) -> Future<dynamic>`
 
-Remove the entity matching the given criteria. Throws on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted (`deleted()`); it keeps the data it held. Throws on error.
 
 ```dart
 final result = await client.Client().remove({'id': 'client_id'});
@@ -334,16 +349,27 @@ Return the entity options.
 final create_result = client.CreateResult();
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `completeDate` | `String` | No | The date and time that the Custody change took place. |
+| `custodian` | `Map<String, dynamic>` | Yes | Reference to the associated User resource. |
+| `location` | `Map<String, dynamic>` | Yes | Reference to the associated Location resource. |
+| `notes` | `String` | No | Free form field that allows the Client associate notes with the Custody Change. |
+
 ### Operations
 
 #### `create(reqdata, [ctrl]) -> Future<dynamic>`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```dart
 final result = await client.CreateResult().create({
   'device_type': 'example_device_type',  // String
   'serial_number': 'example_serial_number',  // String
+  'custodian': <String, dynamic>{},  // Map<String, dynamic>
+  'location': <String, dynamic>{},  // Map<String, dynamic>
 });
 ```
 
@@ -378,16 +404,27 @@ final decryption = client.Decryption();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `cbcVector` | `String` | No | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | `String` | Yes | The device Type. |
+| `encoding` | `String` | No | The payload encoding |
+| `encrypted` | `List<dynamic>` | Yes |  |
+| `hasCcData` | `String` | No | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | `String` | No | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | `String` | No | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | `String` | Yes | The serial number of the device. |
 | `success` | `bool` | No | true if the payload decryption was successful. |
 
 ### Operations
 
 #### `create(reqdata, [ctrl]) -> Future<dynamic>`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```dart
 final result = await client.Decryption().create({
+  'deviceType': 'example_deviceType',  // String
+  'encrypted': <dynamic>[],  // List<dynamic>
+  'serialNumber': 'example_serialNumber',  // String
 });
 ```
 
@@ -451,11 +488,44 @@ final device = client.Device();
 | `serialNumber` | `String` | No | The Device's serial number. |
 | `version` | `int` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `activatedBy` | - | - | - |
+| `activationDate` | - | - | - |
+| `alternateKey` | - | - | - |
+| `auditNextDate` | - | - | - |
+| `auditNotificationDate` | - | - | - |
+| `client` | - | - | - |
+| `created` | - | - | - |
+| `createdBy` | - | - | - |
+| `deviceBuild` | - | - | - |
+| `deviceState` | - | - | - |
+| `deviceType` | - | - | Yes |
+| `errorCounter` | - | - | - |
+| `errorLastDate` | - | - | - |
+| `id` | - | - | - |
+| `initializedBy` | - | - | - |
+| `initializedDate` | - | - | - |
+| `injectKey` | - | - | - |
+| `isVirtual` | - | - | - |
+| `kif` | - | - | Yes |
+| `lastActivityDate` | - | - | - |
+| `location` | - | - | - |
+| `modified` | - | - | - |
+| `modifiedBy` | - | - | - |
+| `name` | - | - | - |
+| `notes` | - | - | - |
+| `partner` | - | - | - |
+| `serialNumber` | - | - | Yes |
+| `version` | - | - | - |
+
 ### Operations
 
 #### `create(reqdata, [ctrl]) -> Future<dynamic>`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```dart
 final result = await client.Device().create({
@@ -469,7 +539,7 @@ final result = await client.Device().create({
 
 #### `list([reqmatch, ctrl]) -> Future<List>`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entity instances and throws on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and throws on error.
 
 ```dart
 final results = await client.Device().list();
@@ -480,7 +550,7 @@ for (final device in results) {
 
 #### `load(reqmatch, [ctrl]) -> Future<dynamic>`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and throws on error.
 
 ```dart
 final result = await client.Device().load({'id': 'device_id'});
@@ -537,7 +607,7 @@ final device_build = client.DeviceBuild();
 
 #### `list([reqmatch, ctrl]) -> Future<List>`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entity instances and throws on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and throws on error.
 
 ```dart
 final results = await client.DeviceBuild().list();
@@ -548,7 +618,7 @@ for (final device_build in results) {
 
 #### `load(reqmatch, [ctrl]) -> Future<dynamic>`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and throws on error.
 
 ```dart
 final result = await client.DeviceBuild().load({'id': 'device_build_id'});
@@ -603,7 +673,7 @@ final device_custody_detail = client.DeviceCustodyDetail();
 
 #### `load(reqmatch, [ctrl]) -> Future<dynamic>`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and throws on error.
 
 ```dart
 final result = await client.DeviceCustodyDetail().load({'id': 'device_custody_detail_id', 'device_type': 'device_type', 'serial_number': 'serial_number'});
@@ -658,7 +728,7 @@ final device_custody_list_item = client.DeviceCustodyListItem();
 
 #### `list([reqmatch, ctrl]) -> Future<List>`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entity instances and throws on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and throws on error.
 
 ```dart
 final results = await client.DeviceCustodyListItem().list({ device_type: "example", serial_number: "example" });
@@ -698,17 +768,21 @@ final device_receive_result = client.DeviceReceiveResult();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `serialNumber` | `String` | Yes | The serial number of the Device that is shipped. |
 | `success` | `bool` | Yes | Indicates if the action succeeded. |
+| `tamperLabel` | `String` | Yes | The code that is printed the tamper label of the Device that is shipped. |
 
 ### Operations
 
 #### `create(reqdata, [ctrl]) -> Future<dynamic>`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```dart
 final result = await client.DeviceReceiveResult().create({
+  'serialNumber': 'example_serialNumber',  // String
   'success': true,  // bool
+  'tamperLabel': 'example_tamperLabel',  // String
 });
 ```
 
@@ -743,16 +817,25 @@ final device_rki_activate_result = client.DeviceRkiActivateResult();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `appVersion` | `String` | No | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | `String` | No | The Device Builds's name. |
+| `buildNumber` | `String` | No | The Build Number. |
+| `configFile` | `String` | No | \? |
+| `firmwareVersion` | `String` | No | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `String` | No | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | `String` | Yes | The referenced Device's serial number. |
 | `success` | `bool` | Yes | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | `String` | No | \? |
 
 ### Operations
 
 #### `create(reqdata, [ctrl]) -> Future<dynamic>`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```dart
 final result = await client.DeviceRkiActivateResult().create({
+  'serialNumber': 'example_serialNumber',  // String
   'success': true,  // bool
 });
 ```
@@ -795,7 +878,7 @@ final device_state = client.DeviceState();
 
 #### `list([reqmatch, ctrl]) -> Future<List>`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entity instances and throws on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and throws on error.
 
 ```dart
 final results = await client.DeviceState().list();
@@ -852,7 +935,7 @@ final device_type = client.DeviceType();
 
 #### `list([reqmatch, ctrl]) -> Future<List>`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entity instances and throws on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and throws on error.
 
 ```dart
 final results = await client.DeviceType().list();
@@ -863,7 +946,7 @@ for (final device_type in results) {
 
 #### `load(reqmatch, [ctrl]) -> Future<dynamic>`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and throws on error.
 
 ```dart
 final result = await client.DeviceType().load({'id': 'device_type_id'});
@@ -913,7 +996,7 @@ final inject_key = client.InjectKey();
 
 #### `list([reqmatch, ctrl]) -> Future<List>`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entity instances and throws on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and throws on error.
 
 ```dart
 final results = await client.InjectKey().list();
@@ -924,7 +1007,7 @@ for (final inject_key in results) {
 
 #### `load(reqmatch, [ctrl]) -> Future<dynamic>`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and throws on error.
 
 ```dart
 final result = await client.InjectKey().load({'id': 'inject_key_id'});
@@ -968,7 +1051,7 @@ final kif = client.Kif();
 
 #### `list([reqmatch, ctrl]) -> Future<List>`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entity instances and throws on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and throws on error.
 
 ```dart
 final results = await client.Kif().list();
@@ -1012,6 +1095,7 @@ final location = client.Location();
 | `address2` | `String` | No | The Location's street address. |
 | `billingId` | `String` | No | \? |
 | `city` | `String` | No | The Location's city. |
+| `client` | `Map<String, dynamic>` | No | Reference to the associated Client resource. |
 | `country` | `String` | No | The Location's country. |
 | `created` | `String` | No | Creation timestamp in ISO 8601 format. |
 | `customReference` | `String` | No | A Partner specified reference for a location. |
@@ -1032,11 +1116,40 @@ final location = client.Location();
 | `uniqueId` | `String` | No | Unique Identifier for the Location. |
 | `version` | `int` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create | remove |
+| --- | --- | --- | --- | --- |
+| `address1` | - | - | Yes | - |
+| `address2` | - | - | - | - |
+| `billingId` | - | - | - | - |
+| `city` | - | - | Yes | - |
+| `client` | - | - | - | - |
+| `country` | - | - | Yes | - |
+| `created` | - | - | - | - |
+| `customReference` | - | - | - | - |
+| `id` | - | - | - | - |
+| `locationType` | - | - | Yes | - |
+| `mailAddress1` | - | - | - | - |
+| `mailAddress2` | - | - | - | - |
+| `mailCity` | - | - | - | - |
+| `mailCountry` | - | - | - | - |
+| `mailPostalCode` | - | - | - | - |
+| `mailStateProvince` | - | - | - | - |
+| `modified` | - | - | - | - |
+| `name` | - | - | Yes | - |
+| `nameOfBusiness` | - | - | - | - |
+| `notes` | - | - | - | - |
+| `postalCode` | - | - | - | - |
+| `stateProvince` | - | - | - | - |
+| `uniqueId` | - | - | - | - |
+| `version` | - | - | - | - |
+
 ### Operations
 
 #### `create(reqdata, [ctrl]) -> Future<dynamic>`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```dart
 final result = await client.Location().create({
@@ -1045,7 +1158,7 @@ final result = await client.Location().create({
 
 #### `list([reqmatch, ctrl]) -> Future<List>`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entity instances and throws on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and throws on error.
 
 ```dart
 final results = await client.Location().list({ client: "example" });
@@ -1056,7 +1169,7 @@ for (final location in results) {
 
 #### `load(reqmatch, [ctrl]) -> Future<dynamic>`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and throws on error.
 
 ```dart
 final result = await client.Location().load({'id': 'location_id'});
@@ -1064,7 +1177,7 @@ final result = await client.Location().load({'id': 'location_id'});
 
 #### `remove(reqmatch, [ctrl]) -> Future<dynamic>`
 
-Remove the entity matching the given criteria. Throws on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted (`deleted()`); it keeps the data it held. Throws on error.
 
 ```dart
 final result = await client.Location().remove({'id': 'location_id'});
@@ -1122,16 +1235,16 @@ final partner = client.Partner();
 | --- | --- | --- | --- |
 | `billingId` | - | - | - |
 | `clientCanOrderEquipment` | - | - | - |
-| `contact` | - | Yes | - |
+| `contact` | - | Yes | Yes |
 | `created` | - | - | - |
 | `id` | - | - | - |
 | `isActive` | - | - | - |
 | `location` | - | - | - |
 | `modified` | - | - | - |
-| `name` | - | - | - |
-| `parent` | - | - | - |
+| `name` | - | - | Yes |
+| `parent` | - | - | Yes |
 | `partnerId` | - | - | - |
-| `reference` | - | - | - |
+| `reference` | - | - | Yes |
 | `verificationPhrase` | - | - | - |
 | `version` | - | - | - |
 
@@ -1139,7 +1252,7 @@ final partner = client.Partner();
 
 #### `create(reqdata, [ctrl]) -> Future<dynamic>`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```dart
 final result = await client.Partner().create({
@@ -1149,7 +1262,7 @@ final result = await client.Partner().create({
 
 #### `list([reqmatch, ctrl]) -> Future<List>`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entity instances and throws on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and throws on error.
 
 ```dart
 final results = await client.Partner().list();
@@ -1160,7 +1273,7 @@ for (final partner in results) {
 
 #### `load(reqmatch, [ctrl]) -> Future<dynamic>`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and throws on error.
 
 ```dart
 final result = await client.Partner().load({'id': 'partner_id'});
@@ -1206,26 +1319,48 @@ final shipment = client.Shipment();
 | `id` | `String` | No | This resource's unique identifier. |
 | `items` | `List<dynamic>` | No |  |
 | `kif` | `Map<String, dynamic>` | No | Reference to the associated KIF resource. |
+| `location` | `Map<String, dynamic>` | Yes | Reference to the associated Location resource. |
 | `modified` | `String` | No | Last modified timestamp. |
 | `partner` | `Map<String, dynamic>` | No | Reference to the associated Partner. |
 | `shipmentType` | `String` | No | The type of shipment. |
 | `tracking` | `String` | No | The courier's tracking number. |
 | `version` | `int` | No | The number of times that this resource has been updated. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `carrier` | - | - | Yes |
+| `client` | - | - | Yes |
+| `created` | - | - | - |
+| `dateReceived` | - | - | - |
+| `dateShipped` | - | - | Yes |
+| `dcKif` | - | - | - |
+| `id` | - | - | - |
+| `items` | - | - | Yes |
+| `kif` | - | - | Yes |
+| `location` | - | - | - |
+| `modified` | - | - | - |
+| `partner` | - | - | Yes |
+| `shipmentType` | - | - | - |
+| `tracking` | - | - | Yes |
+| `version` | - | - | - |
+
 ### Operations
 
 #### `create(reqdata, [ctrl]) -> Future<dynamic>`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```dart
 final result = await client.Shipment().create({
+  'location': <String, dynamic>{},  // Map<String, dynamic>
 });
 ```
 
 #### `list([reqmatch, ctrl]) -> Future<List>`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entity instances and throws on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and throws on error.
 
 ```dart
 final results = await client.Shipment().list({ kif: "example" });
@@ -1236,7 +1371,7 @@ for (final shipment in results) {
 
 #### `load(reqmatch, [ctrl]) -> Future<dynamic>`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and throws on error.
 
 ```dart
 final result = await client.Shipment().load({'id': 'shipment_id'});
@@ -1273,23 +1408,27 @@ final success = client.Success();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `devices` | `List<dynamic>` | Yes | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | `Map<String, dynamic>` | Yes | Reference to the associated Partner. |
 | `success` | `bool` | No | Indicates if the action was a success. |
 
 ### Operations
 
 #### `create(reqdata, [ctrl]) -> Future<dynamic>`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```dart
 final result = await client.Success().create({
   'share_partner_to': 'example_share_partner_to',  // String
+  'devices': <dynamic>[],  // List<dynamic>
+  'sharePartnerFrom': <String, dynamic>{},  // Map<String, dynamic>
 });
 ```
 
 #### `remove(reqmatch, [ctrl]) -> Future<dynamic>`
 
-Remove the entity matching the given criteria. Throws on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted (`deleted()`); it keeps the data it held. Throws on error.
 
 ```dart
 final result = await client.Success().remove({'share_partner_to': 'share_partner_to'});
@@ -1331,6 +1470,7 @@ final transaction = client.Transaction();
 | `clientRef` | `String` | No | Client Reference property that is included in the decrypt API call. |
 | `created` | `String` | No | Creation timestamp in ISO 8601 format. |
 | `decrypted` | `int` | No | A Transcation can process muliple decryptions. |
+| `device` | `Map<String, dynamic>` | Yes | Reference to the associated Device resource. |
 | `deviceName` | `String` | No | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | `Map<String, dynamic>` | No | Reference to the associated Partner. |
 | `encrypted` | `int` | No | A Transcation can process muliple encryptions. |
@@ -1351,21 +1491,52 @@ final transaction = client.Transaction();
 | `success` | `bool` | No | The success indicator. |
 | `transactionSource` | `String` | No | The source of the Transaction. |
 
+### Field Usage by Operation
+
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `alternateKey` | - | - | - |
+| `client` | - | - | Yes |
+| `clientRef` | - | - | - |
+| `created` | - | - | - |
+| `decrypted` | - | - | - |
+| `device` | - | - | - |
+| `deviceName` | - | - | - |
+| `directPartner` | - | - | - |
+| `encrypted` | - | - | - |
+| `endDate` | - | - | - |
+| `errCode` | - | - | - |
+| `errMessage` | - | - | - |
+| `id` | - | - | - |
+| `ipAddress` | - | - | Yes |
+| `isVirtual` | - | - | - |
+| `keyType` | - | - | Yes |
+| `location` | - | - | - |
+| `messageId` | - | - | - |
+| `method` | - | - | Yes |
+| `partner` | - | - | Yes |
+| `reference` | - | - | - |
+| `serialNumber` | - | - | - |
+| `startDate` | - | - | - |
+| `success` | - | - | - |
+| `transactionSource` | - | - | - |
+
 ### Operations
 
 #### `create(reqdata, [ctrl]) -> Future<dynamic>`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```dart
 final result = await client.Transaction().create({
+  'device': <String, dynamic>{},  // Map<String, dynamic>
   'location': <String, dynamic>{},  // Map<String, dynamic>
 });
 ```
 
 #### `list([reqmatch, ctrl]) -> Future<List>`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entity instances and throws on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and throws on error.
 
 ```dart
 final results = await client.Transaction().list();
@@ -1376,7 +1547,7 @@ for (final transaction in results) {
 
 #### `load(reqmatch, [ctrl]) -> Future<dynamic>`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and throws on error.
 
 ```dart
 final result = await client.Transaction().load({'id': 'transaction_id'});
@@ -1413,33 +1584,161 @@ final update_result = client.UpdateResult();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `address1` | `String` | No | The Location's street address. |
+| `address2` | `String` | No | The Location's street address. |
+| `alternateKey` | `String` | No | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `String` | No | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | `String` | No | \? |
+| `city` | `String` | No | The Location's city. |
 | `client` | `Map<String, dynamic>` | No | Reference to the associated Client resource. |
-| `email` | `String` | No | The User's email address. |
-| `firstName` | `String` | No | The User's name. |
+| `clientCanOrderEquipment` | `bool` | No | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | `String` | No | Client Reference property that is included in the decrypt API call. |
+| `contact` | `Map<String, dynamic>` | Yes | Reference to the associated User resource. |
+| `country` | `Map<String, dynamic>` | No | Reference to the associated Country. |
+| `customReference` | `String` | No | A Partner specified reference for a location. |
+| `dateShipped` | `String` | No | The date and time that a package is shipped. |
+| `decrypted` | `int` | No | A Transcation can process muliple decryptions. |
+| `device` | `Map<String, dynamic>` | No | Reference to the associated Device resource. |
+| `deviceBuild` | `Map<String, dynamic>` | No | Reference to the associated Device Build resource. |
+| `deviceType` | `Map<String, dynamic>` | No | Reference to the associated Device Type resource. |
+| `directPartner` | `Map<String, dynamic>` | No | Reference to the associated Partner. |
+| `email` | `String` | Yes | The User's email address. |
+| `encrypted` | `int` | No | A Transcation can process muliple encryptions. |
+| `endDate` | `String` | No | Timestamp from the end of the transaction. |
+| `errCode` | `String` | No | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `String` | No | The error messge that is sent in response to a failed decrypt API call. |
+| `firstName` | `String` | Yes | The User's name. |
 | `id` | `String` | No | ID of newly created resource |
-| `isActive` | `bool` | No | This property indicates if the User account is active or disabled. |
+| `injectKey` | `Map<String, dynamic>` | No | Reference to the associated Device resource. |
+| `ipAddress` | `String` | No | The IP address of the http client that makes the decrypt API call. |
+| `isActive` | `bool` | Yes | This property indicates if the User account is active or disabled. |
+| `items` | `List<dynamic>` | No |  |
+| `keyType` | `String` | No | The type of cipher used during decrytion. |
 | `kif` | `Map<String, dynamic>` | No | Reference to the associated KIF resource. |
-| `lastName` | `String` | No | The User's Surname. |
+| `lastName` | `String` | Yes | The User's Surname. |
+| `location` | `Map<String, dynamic>` | Yes | Reference to the associated Location resource. |
+| `locationType` | `String` | No | The Location's clasification. |
+| `mailAddress1` | `String` | No | The Location's street address. |
+| `mailAddress2` | `String` | No | The Location's street address. |
+| `mailCity` | `String` | No | The Location's city. |
+| `mailCountry` | `String` | No | The Location's street address. |
+| `mailPostalCode` | `String` | No | The Location's postal code. |
+| `mailStateProvince` | `String` | No | The Location's street state or province. |
+| `messageId` | `String` | No | Message ID. |
+| `method` | `String` | No | The decryption cypher/method. |
+| `mid` | `String` | No | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | `String` | No | The Client's name. |
+| `nameOfBusiness` | `String` | No | The name of the business at this location. |
+| `notes` | `String` | No | Arbitary note that can be attached to a Device entry. |
+| `parent` | `Map<String, dynamic>` | No | Reference to the associated Partner. |
 | `partner` | `Map<String, dynamic>` | No | Reference to the associated Partner. |
-| `phone` | `String` | No | The User's phone number without dashes, spaces, or brackets. |
-| `userName` | `String` | No | The User's unique username. |
-| `userRole` | `Map<String, dynamic>` | No | Reference to the associated User Role. |
+| `partnerId` | `String` | No | The Partner's id. |
+| `phone` | `String` | Yes | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | `String` | No | The Location's postal code. |
+| `reference` | `String` | No | The Partner's reference string. |
+| `sendWelcomeEmail` | `bool` | No | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | `String` | No | The Device's serial number. |
+| `startDate` | `String` | No | Timestamp from the beginning of the transaction. |
+| `stateProvince` | `String` | No | The Location's street state or province. |
+| `success` | `bool` | No | The success indicator. |
+| `tracking` | `String` | No | The courier's tracking number. |
+| `uniqueId` | `String` | No | Unique Identifier for the Location. |
+| `userName` | `String` | Yes | The User's unique username. |
+| `userRole` | `Map<String, dynamic>` | Yes | Reference to the associated User Role. |
+| `verificationPhrase` | `String` | No | The verification phrase is a message that the Partner creates. |
 | `version` | `int` | No | The number of times that this resource has been updated. |
+
+### Field Usage by Operation
+
+| Field | list | create | update |
+| --- | --- | --- | --- |
+| `address1` | - | - | - |
+| `address2` | - | - | - |
+| `alternateKey` | - | - | - |
+| `auditNextDate` | - | - | - |
+| `billingId` | - | - | - |
+| `city` | - | - | - |
+| `client` | - | - | - |
+| `clientCanOrderEquipment` | - | - | - |
+| `clientRef` | - | - | - |
+| `contact` | - | - | - |
+| `country` | - | - | - |
+| `customReference` | - | - | - |
+| `dateShipped` | - | - | - |
+| `decrypted` | - | - | - |
+| `device` | - | - | - |
+| `deviceBuild` | - | - | - |
+| `deviceType` | - | - | - |
+| `directPartner` | - | - | - |
+| `email` | Yes | - | Yes |
+| `encrypted` | - | - | - |
+| `endDate` | - | - | - |
+| `errCode` | - | - | - |
+| `errMessage` | - | - | - |
+| `firstName` | Yes | - | Yes |
+| `id` | - | - | - |
+| `injectKey` | - | - | - |
+| `ipAddress` | - | - | - |
+| `isActive` | Yes | - | Yes |
+| `items` | - | - | - |
+| `keyType` | - | - | - |
+| `kif` | - | - | - |
+| `lastName` | Yes | - | Yes |
+| `location` | - | - | - |
+| `locationType` | - | - | - |
+| `mailAddress1` | - | - | - |
+| `mailAddress2` | - | - | - |
+| `mailCity` | - | - | - |
+| `mailCountry` | - | - | - |
+| `mailPostalCode` | - | - | - |
+| `mailStateProvince` | - | - | - |
+| `messageId` | - | - | - |
+| `method` | - | - | - |
+| `mid` | - | - | - |
+| `name` | - | - | - |
+| `nameOfBusiness` | - | - | - |
+| `notes` | - | - | - |
+| `parent` | - | - | - |
+| `partner` | - | - | - |
+| `partnerId` | - | - | - |
+| `phone` | Yes | - | Yes |
+| `postalCode` | - | - | - |
+| `reference` | - | - | - |
+| `sendWelcomeEmail` | - | - | - |
+| `serialNumber` | - | - | - |
+| `startDate` | - | - | - |
+| `stateProvince` | - | - | - |
+| `success` | - | - | - |
+| `tracking` | - | - | - |
+| `uniqueId` | - | - | - |
+| `userName` | Yes | - | Yes |
+| `userRole` | Yes | - | Yes |
+| `verificationPhrase` | - | - | - |
+| `version` | - | - | - |
 
 ### Operations
 
 #### `create(reqdata, [ctrl]) -> Future<dynamic>`
 
-Create a new entity with the given data. Returns the created entity data and throws on error.
+Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```dart
 final result = await client.UpdateResult().create({
+  'contact': <String, dynamic>{},  // Map<String, dynamic>
+  'email': 'example_email',  // String
+  'firstName': 'example_firstName',  // String
+  'isActive': true,  // bool
+  'lastName': 'example_lastName',  // String
+  'location': <String, dynamic>{},  // Map<String, dynamic>
+  'phone': 'example_phone',  // String
+  'userName': 'example_userName',  // String
+  'userRole': <String, dynamic>{},  // Map<String, dynamic>
 });
 ```
 
 #### `list([reqmatch, ctrl]) -> Future<List>`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entity instances and throws on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and throws on error.
 
 ```dart
 final results = await client.UpdateResult().list();
@@ -1450,7 +1749,7 @@ for (final update_result in results) {
 
 #### `update(reqdata, [ctrl]) -> Future<dynamic>`
 
-Update an existing entity. The data must include the entity `id`. Returns the updated entity data and throws on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and throws on error.
 
 ```dart
 final result = await client.UpdateResult().update({
@@ -1509,7 +1808,7 @@ final user = client.User();
 
 #### `load(reqmatch, [ctrl]) -> Future<dynamic>`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and throws on error.
 
 ```dart
 final result = await client.User().load({'id': 'user_id'});
@@ -1517,7 +1816,7 @@ final result = await client.User().load({'id': 'user_id'});
 
 #### `remove(reqmatch, [ctrl]) -> Future<dynamic>`
 
-Remove the entity matching the given criteria. Throws on error.
+Remove the entity matching the given criteria. Returns the entity, marked as deleted (`deleted()`); it keeps the data it held. Throws on error.
 
 ```dart
 final result = await client.User().remove({'id': 'user_id'});
@@ -1562,7 +1861,7 @@ final virtual_device = client.VirtualDevice();
 
 #### `load(reqmatch, [ctrl]) -> Future<dynamic>`
 
-Load a single entity matching the given criteria. Returns the entity data and throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data()` reads, and throws on error.
 
 ```dart
 final result = await client.VirtualDevice().load({'id': 'virtual_device_id'});
@@ -2010,6 +2309,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

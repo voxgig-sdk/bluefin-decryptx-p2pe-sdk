@@ -19,6 +19,8 @@ void tests() {
 
 
 
+
+
     test('basic', (t) async {
 
       final live = 'TRUE' == Platform.environment['BLUEFIN_DECRYPTX_P2PE_TEST_LIVE'];
@@ -49,6 +51,8 @@ void tests() {
       final device_custody_detail_ref01_ent = client.DeviceCustodyDetail();
       final device_custody_detail_ref01_match_dt0 = <String, dynamic>{};
       device_custody_detail_ref01_match_dt0['id'] = device_custody_detail_ref01_data['id'];
+      device_custody_detail_ref01_match_dt0['device_type'] = setup['idmap']['device_type'] ?? setup['idmap']['device_type01'];
+      device_custody_detail_ref01_match_dt0['serial_number'] = setup['idmap']['serial_number'] ?? setup['idmap']['serial_number01'];
       final device_custody_detail_ref01_data_dt0 = (await device_custody_detail_ref01_ent.load(device_custody_detail_ref01_match_dt0)).data();
       ok(device_custody_detail_ref01_data_dt0['id'] == device_custody_detail_ref01_data['id']);
 

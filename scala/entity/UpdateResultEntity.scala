@@ -80,6 +80,10 @@ class UpdateResultEntity(client0: SdkClient, entopts0: JMap[String, Object]) ext
 
 
 
+  override def patch(req: java.util.Map[String, Object], ctrl: java.util.Map[String, Object]): Object =
+    throw Helpers.unsupportedOp("patch", this.name)
+
+
   override def remove(req: java.util.Map[String, Object], ctrl: java.util.Map[String, Object]): Object =
     throw Helpers.unsupportedOp("remove", this.name)
 

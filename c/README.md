@@ -15,7 +15,7 @@ keeps the cognitive load low.
 
 ## Install
 C has no central package registry — a release is the git tag
-(`c/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/releases)). Build from a
+(`c/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/bluefin-decryptx-p2pe-sdk/tags)). Build from a
 source checkout with the bundled `Makefile`; the voxgig struct library is
 vendored under `utility/struct`, so there are no external dependencies to
 fetch:
@@ -50,17 +50,18 @@ PNError* err = NULL;
 
 ### 2. List attestation records
 
-`list()` returns a List of records and sets `*err` on failure — check
-`err` after the call.
+`list()` returns a `NULL`-terminated array of entities, one per record,
+and sets `*err` on failure — check `err` after the call. `vt->data`
+reads an entity's record.
 
 ```c
 Entity* attestation = bluefindecryptxp2pe_attestation(client, NULL);
-voxgig_value* attestations = attestation->vt->list(attestation, NULL, NULL, &err);
+Entity** attestations = attestation->vt->list(attestation, cmap(1, "client", v_str("example")), NULL, &err);
 if (err) {
     fprintf(stderr, "list failed: %s\n", err->msg);
 } else {
-    for (size_t i = 0; i < (size_t)voxgig_size(attestations); i++) {
-        printf("%s\n", voxgig_to_json(voxgig_getelem(attestations, v_int(i), NULL)));
+    for (size_t i = 0; attestations[i]; i++) {
+        printf("%s\n", voxgig_to_json(attestations[i]->vt->data(attestations[i], NULL)));
     }
 }
 ```
@@ -68,23 +69,24 @@ if (err) {
 ### 3. Load a devicecustodydetail
 
 DeviceCustodyDetail is nested under device_type, so provide the `device_type`.
-`load()` returns the bare record and sets `*err` on failure.
+`load()` returns the entity and sets `*err` on failure; `vt->data` reads
+its record.
 
 ```c
 Entity* device_custody_detail = bluefindecryptxp2pe_device_custody_detail(client, NULL);
-voxgig_value* device_custody_detail_rec = device_custody_detail->vt->load(device_custody_detail, cmap(3, "device_type", v_str("example_device_type"), "serial_number", v_str("example_serial_number"), "id", v_str("example_id")), NULL, &err);
+Entity* loaded = device_custody_detail->vt->load(device_custody_detail, cmap(3, "device_type", v_str("example_device_type"), "serial_number", v_str("example_serial_number"), "id", v_str("example_id")), NULL, &err);
 if (err) {
     fprintf(stderr, "load failed: %s\n", err->msg);
 } else {
-    printf("%s\n", voxgig_to_json(device_custody_detail_rec));
+    printf("%s\n", voxgig_to_json(loaded->vt->data(loaded, NULL)));
 }
 ```
 
 ### 4. Create, update, and remove
 
 ```c
-// Create — returns the bare created record
-voxgig_value* created = attestation->vt->create(attestation, cmap(2, "client", v_map(), "completeDate", v_str("example_completeDate")), NULL, &err);
+// Create — returns the created entity, or NULL with *err set
+Entity* created = attestation->vt->create(attestation, cmap(1, "devices", v_list()), NULL, &err);
 
 ```
 
@@ -96,14 +98,15 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 ```ts
 try {
   const devicetypes = await client.DeviceType().list()
-  console.log(devicetypes)
+  console.log(devicetypes.map((item) => item.data()))
 } catch (err) {
   console.error('list failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -112,8 +115,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -166,10 +169,10 @@ Create a mock client for unit testing — no server required:
 BluefinDecryptxP2peSDK* client = test_sdk(NULL, NULL);
 PNError* err = NULL;
 
-// Entity ops return the bare record and set *err on failure.
+// list returns one entity per mock record, and sets *err on failure.
 Entity* device_type = bluefindecryptxp2pe_device_type(client, NULL);
-voxgig_value* device_type_rec = device_type->vt->list(device_type, NULL, NULL, &err);
-// device_type_rec contains the mock response record
+Entity** device_types = device_type->vt->list(device_type, NULL, NULL, &err);
+// device_types[i]->vt->data(device_types[i], NULL) is a mock record
 ```
 
 ### Use a custom fetch function
@@ -283,11 +286,11 @@ All entities share the same `EntityVT` vtable, reached via `e->vt->...`.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `(Entity*, reqmatch, ctrl, PNError**) -> voxgig_value*` | Load a single entity by match criteria. |
-| `list` | `(Entity*, reqmatch, ctrl, PNError**) -> voxgig_value*` | List entities matching the criteria (a List). |
-| `create` | `(Entity*, reqdata, ctrl, PNError**) -> voxgig_value*` | Create a new entity. |
-| `update` | `(Entity*, reqdata, ctrl, PNError**) -> voxgig_value*` | Update an existing entity. |
-| `remove` | `(Entity*, reqmatch, ctrl, PNError**) -> voxgig_value*` | Remove an entity. |
+| `load` | `(Entity*, reqmatch, ctrl, PNError**) -> Entity*` | Load a single entity by match criteria. |
+| `list` | `(Entity*, reqmatch, ctrl, PNError**) -> Entity**` | List entities matching the criteria: a `NULL`-terminated array, one per record. |
+| `create` | `(Entity*, reqdata, ctrl, PNError**) -> Entity*` | Create a new entity. |
+| `update` | `(Entity*, reqdata, ctrl, PNError**) -> Entity*` | Update an existing entity. |
+| `remove` | `(Entity*, reqmatch, ctrl, PNError**) -> Entity*` | Remove an entity, which is returned marked as deleted. |
 | `data` | `(Entity*, args) -> voxgig_value*` | Get entity data (pass a map to set). |
 | `matchv` | `(Entity*, args) -> voxgig_value*` | Get entity match criteria (pass a map to set). |
 | `make` | `(Entity*) -> Entity*` | Create a new instance with the same options. |
@@ -295,10 +298,10 @@ All entities share the same `EntityVT` vtable, reached via `e->vt->...`.
 
 ### Result shape
 
-Entity operations return the bare result data (a `voxgig_value` map for
-single-entity ops, a List for `list`) and set `*err` to a `PNError*` on
-failure. Always initialise `PNError* err = NULL;` and check it after the
-call.
+Entity operations return the entity, and `list` a `NULL`-terminated array
+of entities, one per record; `vt->data` reads an entity's record. On
+failure they return `NULL` and set `*err` to a `PNError*`. Always
+initialise `PNError* err = NULL;` and check it after the call.
 
 The `sdk_direct()` escape hatch never sets `*err` for a non-2xx response —
 it returns a result map you branch on via `getp(result, "ok")`:
@@ -322,6 +325,7 @@ On error, `ok` is `false` and `err` carries the error value.
 | `completeDate` | The date and time that the Attestation took place. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `device` | Reference to the associated Device resource. |
+| `devices` |  |
 | `id` | This resource's unique identifier. |
 | `name` | Text describing the attestation. |
 | `notes` | Free form field that allows the Client associate notes with the Attestation. |
@@ -354,6 +358,10 @@ API path: `/clients`
 
 | Field | Description |
 | --- | --- |
+| `completeDate` | The date and time that the Custody change took place. |
+| `custodian` | Reference to the associated User resource. |
+| `location` | Reference to the associated Location resource. |
+| `notes` | Free form field that allows the Client associate notes with the Custody Change. |
 
 Operations: Create.
 
@@ -363,6 +371,14 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
+| `cbcVector` | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | The device Type. |
+| `encoding` | The payload encoding |
+| `encrypted` |  |
+| `hasCcData` | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | The serial number of the device. |
 | `success` | true if the payload decryption was successful. |
 
 Operations: Create.
@@ -478,7 +494,9 @@ API path: `/devices/{serialNumber}/{deviceType}/custody`
 
 | Field | Description |
 | --- | --- |
+| `serialNumber` | The serial number of the Device that is shipped. |
 | `success` | Indicates if the action succeeded. |
+| `tamperLabel` | The code that is printed the tamper label of the Device that is shipped. |
 
 Operations: Create.
 
@@ -488,7 +506,15 @@ API path: `/devices/receive`
 
 | Field | Description |
 | --- | --- |
+| `appVersion` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | The Device Builds's name. |
+| `buildNumber` | The Build Number. |
+| `configFile` | \? |
+| `firmwareVersion` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | The referenced Device's serial number. |
 | `success` | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | \? |
 
 Operations: Create.
 
@@ -562,6 +588,7 @@ API path: `/kifs`
 | `address2` | The Location's street address. |
 | `billingId` | \? |
 | `city` | The Location's city. |
+| `client` | Reference to the associated Client resource. |
 | `country` | The Location's country. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `customReference` | A Partner specified reference for a location. |
@@ -622,6 +649,7 @@ API path: `/partners`
 | `id` | This resource's unique identifier. |
 | `items` |  |
 | `kif` | Reference to the associated KIF resource. |
+| `location` | Reference to the associated Location resource. |
 | `modified` | Last modified timestamp. |
 | `partner` | Reference to the associated Partner. |
 | `shipmentType` | The type of shipment. |
@@ -636,6 +664,8 @@ API path: `/shipments`
 
 | Field | Description |
 | --- | --- |
+| `devices` | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | Reference to the associated Partner. |
 | `success` | Indicates if the action was a success. |
 
 Operations: Create, Remove.
@@ -651,6 +681,7 @@ API path: `/virtualDevices/{sharePartnerTo}`
 | `clientRef` | Client Reference property that is included in the decrypt API call. |
 | `created` | Creation timestamp in ISO 8601 format. |
 | `decrypted` | A Transcation can process muliple decryptions. |
+| `device` | Reference to the associated Device resource. |
 | `deviceName` | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | Reference to the associated Partner. |
 | `encrypted` | A Transcation can process muliple encryptions. |
@@ -679,17 +710,68 @@ API path: `/transactions`
 
 | Field | Description |
 | --- | --- |
+| `address1` | The Location's street address. |
+| `address2` | The Location's street address. |
+| `alternateKey` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | \? |
+| `city` | The Location's city. |
 | `client` | Reference to the associated Client resource. |
+| `clientCanOrderEquipment` | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | Client Reference property that is included in the decrypt API call. |
+| `contact` | Reference to the associated User resource. |
+| `country` | Reference to the associated Country. |
+| `customReference` | A Partner specified reference for a location. |
+| `dateShipped` | The date and time that a package is shipped. |
+| `decrypted` | A Transcation can process muliple decryptions. |
+| `device` | Reference to the associated Device resource. |
+| `deviceBuild` | Reference to the associated Device Build resource. |
+| `deviceType` | Reference to the associated Device Type resource. |
+| `directPartner` | Reference to the associated Partner. |
 | `email` | The User's email address. |
+| `encrypted` | A Transcation can process muliple encryptions. |
+| `endDate` | Timestamp from the end of the transaction. |
+| `errCode` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | The error messge that is sent in response to a failed decrypt API call. |
 | `firstName` | The User's name. |
 | `id` | ID of newly created resource |
+| `injectKey` | Reference to the associated Device resource. |
+| `ipAddress` | The IP address of the http client that makes the decrypt API call. |
 | `isActive` | This property indicates if the User account is active or disabled. |
+| `items` |  |
+| `keyType` | The type of cipher used during decrytion. |
 | `kif` | Reference to the associated KIF resource. |
 | `lastName` | The User's Surname. |
+| `location` | Reference to the associated Location resource. |
+| `locationType` | The Location's clasification. |
+| `mailAddress1` | The Location's street address. |
+| `mailAddress2` | The Location's street address. |
+| `mailCity` | The Location's city. |
+| `mailCountry` | The Location's street address. |
+| `mailPostalCode` | The Location's postal code. |
+| `mailStateProvince` | The Location's street state or province. |
+| `messageId` | Message ID. |
+| `method` | The decryption cypher/method. |
+| `mid` | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | The Client's name. |
+| `nameOfBusiness` | The name of the business at this location. |
+| `notes` | Arbitary note that can be attached to a Device entry. |
+| `parent` | Reference to the associated Partner. |
 | `partner` | Reference to the associated Partner. |
+| `partnerId` | The Partner's id. |
 | `phone` | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | The Location's postal code. |
+| `reference` | The Partner's reference string. |
+| `sendWelcomeEmail` | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | The Device's serial number. |
+| `startDate` | Timestamp from the beginning of the transaction. |
+| `stateProvince` | The Location's street state or province. |
+| `success` | The success indicator. |
+| `tracking` | The courier's tracking number. |
+| `uniqueId` | Unique Identifier for the Location. |
 | `userName` | The User's unique username. |
 | `userRole` | Reference to the associated User Role. |
+| `verificationPhrase` | The verification phrase is a message that the Partner creates. |
 | `version` | The number of times that this resource has been updated. |
 
 Operations: Create, List, Update.
@@ -744,9 +826,9 @@ Create an instance: `Entity* attestation = bluefindecryptxp2pe_attestation(clien
 
 | Method | Description |
 | --- | --- |
-| `vt->create(e, reqdata, ctrl, &err)` | Create a new entity with the given data. |
-| `vt->list(e, reqmatch, ctrl, &err)` | List entities, optionally matching the given criteria. |
-| `vt->load(e, reqmatch, ctrl, &err)` | Load a single entity by match criteria. |
+| `Entity* vt->create(e, reqdata, ctrl, &err)` | Create a new entity with the given data. |
+| `Entity** vt->list(e, reqmatch, ctrl, &err)` | List entities, optionally matching the given criteria: a `NULL`-terminated array, one per record. |
+| `Entity* vt->load(e, reqmatch, ctrl, &err)` | Load a single entity by match criteria. |
 
 #### Fields
 
@@ -756,6 +838,7 @@ Create an instance: `Entity* attestation = bluefindecryptxp2pe_attestation(clien
 | `completeDate` | `char*` | The date and time that the Attestation took place. |
 | `created` | `char*` | Creation timestamp in ISO 8601 format. |
 | `device` | `voxgig_value* (map)` | Reference to the associated Device resource. |
+| `devices` | `voxgig_value* (list)` |  |
 | `id` | `char*` | This resource's unique identifier. |
 | `name` | `char*` | Text describing the attestation. |
 | `notes` | `char*` | Free form field that allows the Client associate notes with the Attestation. |
@@ -764,21 +847,29 @@ Create an instance: `Entity* attestation = bluefindecryptxp2pe_attestation(clien
 
 ```c
 Entity* attestation = bluefindecryptxp2pe_attestation(client, NULL);
-voxgig_value* attestation_rec = attestation->vt->load(attestation, cmap(1, "id", v_str("attestation_id")), NULL, &err);
+Entity* loaded = attestation->vt->load(attestation, cmap(1, "id", v_str("attestation_id")), NULL, &err);
+if (loaded) {
+    printf("%s\n", voxgig_to_json(loaded->vt->data(loaded, NULL)));
+}
 ```
 
 #### Example: List
 
 ```c
 Entity* attestation = bluefindecryptxp2pe_attestation(client, NULL);
-voxgig_value* attestations = attestation->vt->list(attestation, NULL, NULL, &err);
+Entity** attestations = attestation->vt->list(attestation, cmap(1, "client", v_str("example")), NULL, &err);
+for (size_t i = 0; attestations && attestations[i]; i++) {
+    printf("%s\n", voxgig_to_json(attestations[i]->vt->data(attestations[i], NULL)));
+}
 ```
 
 #### Example: Create
 
 ```c
 Entity* attestation = bluefindecryptxp2pe_attestation(client, NULL);
-voxgig_value* attestation_rec = attestation->vt->create(attestation, NULL, NULL, &err);
+Entity* created = attestation->vt->create(attestation, cmap(1,
+    "devices", v_list())  // voxgig_value* (list)
+, NULL, &err);
 ```
 
 
@@ -790,10 +881,10 @@ Create an instance: `Entity* client = bluefindecryptxp2pe_client(client, NULL);`
 
 | Method | Description |
 | --- | --- |
-| `vt->create(e, reqdata, ctrl, &err)` | Create a new entity with the given data. |
-| `vt->list(e, reqmatch, ctrl, &err)` | List entities, optionally matching the given criteria. |
-| `vt->load(e, reqmatch, ctrl, &err)` | Load a single entity by match criteria. |
-| `vt->remove(e, reqmatch, ctrl, &err)` | Remove the matching entity. |
+| `Entity* vt->create(e, reqdata, ctrl, &err)` | Create a new entity with the given data. |
+| `Entity** vt->list(e, reqmatch, ctrl, &err)` | List entities, optionally matching the given criteria: a `NULL`-terminated array, one per record. |
+| `Entity* vt->load(e, reqmatch, ctrl, &err)` | Load a single entity by match criteria. |
+| `Entity* vt->remove(e, reqmatch, ctrl, &err)` | Remove the matching entity, which is returned marked as deleted. |
 
 #### Fields
 
@@ -815,21 +906,27 @@ Create an instance: `Entity* client = bluefindecryptxp2pe_client(client, NULL);`
 
 ```c
 Entity* client = bluefindecryptxp2pe_client(client, NULL);
-voxgig_value* client_rec = client->vt->load(client, cmap(1, "id", v_str("client_id")), NULL, &err);
+Entity* loaded = client->vt->load(client, cmap(1, "id", v_str("client_id")), NULL, &err);
+if (loaded) {
+    printf("%s\n", voxgig_to_json(loaded->vt->data(loaded, NULL)));
+}
 ```
 
 #### Example: List
 
 ```c
 Entity* client = bluefindecryptxp2pe_client(client, NULL);
-voxgig_value* clients = client->vt->list(client, NULL, NULL, &err);
+Entity** clients = client->vt->list(client, cmap(1, "partner", v_str("example")), NULL, &err);
+for (size_t i = 0; clients && clients[i]; i++) {
+    printf("%s\n", voxgig_to_json(clients[i]->vt->data(clients[i], NULL)));
+}
 ```
 
 #### Example: Create
 
 ```c
 Entity* client = bluefindecryptxp2pe_client(client, NULL);
-voxgig_value* client_rec = client->vt->create(client, cmap(1,
+Entity* created = client->vt->create(client, cmap(1,
     "location", v_map())  // voxgig_value* (map)
 , NULL, &err);
 ```
@@ -843,15 +940,26 @@ Create an instance: `Entity* create_result = bluefindecryptxp2pe_create_result(c
 
 | Method | Description |
 | --- | --- |
-| `vt->create(e, reqdata, ctrl, &err)` | Create a new entity with the given data. |
+| `Entity* vt->create(e, reqdata, ctrl, &err)` | Create a new entity with the given data. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `completeDate` | `char*` | The date and time that the Custody change took place. |
+| `custodian` | `voxgig_value* (map)` | Reference to the associated User resource. |
+| `location` | `voxgig_value* (map)` | Reference to the associated Location resource. |
+| `notes` | `char*` | Free form field that allows the Client associate notes with the Custody Change. |
 
 #### Example: Create
 
 ```c
 Entity* create_result = bluefindecryptxp2pe_create_result(client, NULL);
-voxgig_value* create_result_rec = create_result->vt->create(create_result, cmap(2,
+Entity* created = create_result->vt->create(create_result, cmap(4,
     "device_type", v_str("example_device_type"),  // char*
-    "serial_number", v_str("example_serial_number"))  // char*
+    "serial_number", v_str("example_serial_number"),  // char*
+    "custodian", v_map(),  // voxgig_value* (map)
+    "location", v_map())  // voxgig_value* (map)
 , NULL, &err);
 ```
 
@@ -864,19 +972,31 @@ Create an instance: `Entity* decryption = bluefindecryptxp2pe_decryption(client,
 
 | Method | Description |
 | --- | --- |
-| `vt->create(e, reqdata, ctrl, &err)` | Create a new entity with the given data. |
+| `Entity* vt->create(e, reqdata, ctrl, &err)` | Create a new entity with the given data. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `cbcVector` | `char*` | Base64 or hex encoded initial vector obtained from device. |
+| `deviceType` | `char*` | The device Type. |
+| `encoding` | `char*` | The payload encoding |
+| `encrypted` | `voxgig_value* (list)` |  |
+| `hasCcData` | `char*` | Validation flag that indicates whether inbound and outbound data should be checked for credit card numbers. |
+| `reference` | `char*` | A string (of up to 50 characters) that helps partners identify individual API calls. |
+| `sequenceNumber` | `char*` | Sequence number obtained from device in base 64 or hex encoded format. |
+| `serialNumber` | `char*` | The serial number of the device. |
 | `success` | `bool` | true if the payload decryption was successful. |
 
 #### Example: Create
 
 ```c
 Entity* decryption = bluefindecryptxp2pe_decryption(client, NULL);
-voxgig_value* decryption_rec = decryption->vt->create(decryption, NULL, NULL, &err);
+Entity* created = decryption->vt->create(decryption, cmap(3,
+    "deviceType", v_str("example_deviceType"),  // char*
+    "encrypted", v_list(),  // voxgig_value* (list)
+    "serialNumber", v_str("example_serialNumber"))  // char*
+, NULL, &err);
 ```
 
 
@@ -888,9 +1008,9 @@ Create an instance: `Entity* device = bluefindecryptxp2pe_device(client, NULL);`
 
 | Method | Description |
 | --- | --- |
-| `vt->create(e, reqdata, ctrl, &err)` | Create a new entity with the given data. |
-| `vt->list(e, reqmatch, ctrl, &err)` | List entities, optionally matching the given criteria. |
-| `vt->load(e, reqmatch, ctrl, &err)` | Load a single entity by match criteria. |
+| `Entity* vt->create(e, reqdata, ctrl, &err)` | Create a new entity with the given data. |
+| `Entity** vt->list(e, reqmatch, ctrl, &err)` | List entities, optionally matching the given criteria: a `NULL`-terminated array, one per record. |
+| `Entity* vt->load(e, reqmatch, ctrl, &err)` | Load a single entity by match criteria. |
 
 #### Fields
 
@@ -929,21 +1049,27 @@ Create an instance: `Entity* device = bluefindecryptxp2pe_device(client, NULL);`
 
 ```c
 Entity* device = bluefindecryptxp2pe_device(client, NULL);
-voxgig_value* device_rec = device->vt->load(device, cmap(1, "id", v_str("device_id")), NULL, &err);
+Entity* loaded = device->vt->load(device, cmap(1, "id", v_str("device_id")), NULL, &err);
+if (loaded) {
+    printf("%s\n", voxgig_to_json(loaded->vt->data(loaded, NULL)));
+}
 ```
 
 #### Example: List
 
 ```c
 Entity* device = bluefindecryptxp2pe_device(client, NULL);
-voxgig_value* devices = device->vt->list(device, NULL, NULL, &err);
+Entity** devices = device->vt->list(device, NULL, NULL, &err);
+for (size_t i = 0; devices && devices[i]; i++) {
+    printf("%s\n", voxgig_to_json(devices[i]->vt->data(devices[i], NULL)));
+}
 ```
 
 #### Example: Create
 
 ```c
 Entity* device = bluefindecryptxp2pe_device(client, NULL);
-voxgig_value* device_rec = device->vt->create(device, cmap(5,
+Entity* created = device->vt->create(device, cmap(5,
     "activatedBy", v_map(),  // voxgig_value* (map)
     "createdBy", v_map(),  // voxgig_value* (map)
     "initializedBy", v_map(),  // voxgig_value* (map)
@@ -961,8 +1087,8 @@ Create an instance: `Entity* device_build = bluefindecryptxp2pe_device_build(cli
 
 | Method | Description |
 | --- | --- |
-| `vt->list(e, reqmatch, ctrl, &err)` | List entities, optionally matching the given criteria. |
-| `vt->load(e, reqmatch, ctrl, &err)` | Load a single entity by match criteria. |
+| `Entity** vt->list(e, reqmatch, ctrl, &err)` | List entities, optionally matching the given criteria: a `NULL`-terminated array, one per record. |
+| `Entity* vt->load(e, reqmatch, ctrl, &err)` | Load a single entity by match criteria. |
 
 #### Fields
 
@@ -988,14 +1114,20 @@ Create an instance: `Entity* device_build = bluefindecryptxp2pe_device_build(cli
 
 ```c
 Entity* device_build = bluefindecryptxp2pe_device_build(client, NULL);
-voxgig_value* device_build_rec = device_build->vt->load(device_build, cmap(1, "id", v_str("device_build_id")), NULL, &err);
+Entity* loaded = device_build->vt->load(device_build, cmap(1, "id", v_str("device_build_id")), NULL, &err);
+if (loaded) {
+    printf("%s\n", voxgig_to_json(loaded->vt->data(loaded, NULL)));
+}
 ```
 
 #### Example: List
 
 ```c
 Entity* device_build = bluefindecryptxp2pe_device_build(client, NULL);
-voxgig_value* device_builds = device_build->vt->list(device_build, NULL, NULL, &err);
+Entity** device_builds = device_build->vt->list(device_build, NULL, NULL, &err);
+for (size_t i = 0; device_builds && device_builds[i]; i++) {
+    printf("%s\n", voxgig_to_json(device_builds[i]->vt->data(device_builds[i], NULL)));
+}
 ```
 
 
@@ -1007,7 +1139,7 @@ Create an instance: `Entity* device_custody_detail = bluefindecryptxp2pe_device_
 
 | Method | Description |
 | --- | --- |
-| `vt->load(e, reqmatch, ctrl, &err)` | Load a single entity by match criteria. |
+| `Entity* vt->load(e, reqmatch, ctrl, &err)` | Load a single entity by match criteria. |
 
 #### Fields
 
@@ -1031,7 +1163,10 @@ Create an instance: `Entity* device_custody_detail = bluefindecryptxp2pe_device_
 
 ```c
 Entity* device_custody_detail = bluefindecryptxp2pe_device_custody_detail(client, NULL);
-voxgig_value* device_custody_detail_rec = device_custody_detail->vt->load(device_custody_detail, cmap(3, "id", v_str("device_custody_detail_id"), "device_type", v_str("device_type"), "serial_number", v_str("serial_number")), NULL, &err);
+Entity* loaded = device_custody_detail->vt->load(device_custody_detail, cmap(3, "id", v_str("device_custody_detail_id"), "device_type", v_str("device_type"), "serial_number", v_str("serial_number")), NULL, &err);
+if (loaded) {
+    printf("%s\n", voxgig_to_json(loaded->vt->data(loaded, NULL)));
+}
 ```
 
 
@@ -1043,7 +1178,7 @@ Create an instance: `Entity* device_custody_list_item = bluefindecryptxp2pe_devi
 
 | Method | Description |
 | --- | --- |
-| `vt->list(e, reqmatch, ctrl, &err)` | List entities, optionally matching the given criteria. |
+| `Entity** vt->list(e, reqmatch, ctrl, &err)` | List entities, optionally matching the given criteria: a `NULL`-terminated array, one per record. |
 
 #### Fields
 
@@ -1067,7 +1202,10 @@ Create an instance: `Entity* device_custody_list_item = bluefindecryptxp2pe_devi
 
 ```c
 Entity* device_custody_list_item = bluefindecryptxp2pe_device_custody_list_item(client, NULL);
-voxgig_value* device_custody_list_items = device_custody_list_item->vt->list(device_custody_list_item, NULL, NULL, &err);
+Entity** device_custody_list_items = device_custody_list_item->vt->list(device_custody_list_item, cmap(2, "device_type", v_str("example"), "serial_number", v_str("example")), NULL, &err);
+for (size_t i = 0; device_custody_list_items && device_custody_list_items[i]; i++) {
+    printf("%s\n", voxgig_to_json(device_custody_list_items[i]->vt->data(device_custody_list_items[i], NULL)));
+}
 ```
 
 
@@ -1079,20 +1217,24 @@ Create an instance: `Entity* device_receive_result = bluefindecryptxp2pe_device_
 
 | Method | Description |
 | --- | --- |
-| `vt->create(e, reqdata, ctrl, &err)` | Create a new entity with the given data. |
+| `Entity* vt->create(e, reqdata, ctrl, &err)` | Create a new entity with the given data. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `serialNumber` | `char*` | The serial number of the Device that is shipped. |
 | `success` | `bool` | Indicates if the action succeeded. |
+| `tamperLabel` | `char*` | The code that is printed the tamper label of the Device that is shipped. |
 
 #### Example: Create
 
 ```c
 Entity* device_receive_result = bluefindecryptxp2pe_device_receive_result(client, NULL);
-voxgig_value* device_receive_result_rec = device_receive_result->vt->create(device_receive_result, cmap(1,
-    "success", v_bool(true))  // bool
+Entity* created = device_receive_result->vt->create(device_receive_result, cmap(3,
+    "serialNumber", v_str("example_serialNumber"),  // char*
+    "success", v_bool(true),  // bool
+    "tamperLabel", v_str("example_tamperLabel"))  // char*
 , NULL, &err);
 ```
 
@@ -1105,19 +1247,28 @@ Create an instance: `Entity* device_rki_activate_result = bluefindecryptxp2pe_de
 
 | Method | Description |
 | --- | --- |
-| `vt->create(e, reqdata, ctrl, &err)` | Create a new entity with the given data. |
+| `Entity* vt->create(e, reqdata, ctrl, &err)` | Create a new entity with the given data. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `appVersion` | `char*` | If a Device Type has more than one Application Code version the supported version is specified here. |
+| `buildName` | `char*` | The Device Builds's name. |
+| `buildNumber` | `char*` | The Build Number. |
+| `configFile` | `char*` | \? |
+| `firmwareVersion` | `char*` | A list of firmware versions that this Device Build covers. |
+| `hardwareVersion` | `char*` | A list of hardware versions that this Device Build covers. |
+| `serialNumber` | `char*` | The referenced Device's serial number. |
 | `success` | `bool` | Indicates if the RKI activation succeeded. |
+| `whiteListingBinRanges` | `char*` | \? |
 
 #### Example: Create
 
 ```c
 Entity* device_rki_activate_result = bluefindecryptxp2pe_device_rki_activate_result(client, NULL);
-voxgig_value* device_rki_activate_result_rec = device_rki_activate_result->vt->create(device_rki_activate_result, cmap(1,
+Entity* created = device_rki_activate_result->vt->create(device_rki_activate_result, cmap(2,
+    "serialNumber", v_str("example_serialNumber"),  // char*
     "success", v_bool(true))  // bool
 , NULL, &err);
 ```
@@ -1131,7 +1282,7 @@ Create an instance: `Entity* device_state = bluefindecryptxp2pe_device_state(cli
 
 | Method | Description |
 | --- | --- |
-| `vt->list(e, reqmatch, ctrl, &err)` | List entities, optionally matching the given criteria. |
+| `Entity** vt->list(e, reqmatch, ctrl, &err)` | List entities, optionally matching the given criteria: a `NULL`-terminated array, one per record. |
 
 #### Fields
 
@@ -1144,7 +1295,10 @@ Create an instance: `Entity* device_state = bluefindecryptxp2pe_device_state(cli
 
 ```c
 Entity* device_state = bluefindecryptxp2pe_device_state(client, NULL);
-voxgig_value* device_states = device_state->vt->list(device_state, NULL, NULL, &err);
+Entity** device_states = device_state->vt->list(device_state, NULL, NULL, &err);
+for (size_t i = 0; device_states && device_states[i]; i++) {
+    printf("%s\n", voxgig_to_json(device_states[i]->vt->data(device_states[i], NULL)));
+}
 ```
 
 
@@ -1156,8 +1310,8 @@ Create an instance: `Entity* device_type = bluefindecryptxp2pe_device_type(clien
 
 | Method | Description |
 | --- | --- |
-| `vt->list(e, reqmatch, ctrl, &err)` | List entities, optionally matching the given criteria. |
-| `vt->load(e, reqmatch, ctrl, &err)` | Load a single entity by match criteria. |
+| `Entity** vt->list(e, reqmatch, ctrl, &err)` | List entities, optionally matching the given criteria: a `NULL`-terminated array, one per record. |
+| `Entity* vt->load(e, reqmatch, ctrl, &err)` | Load a single entity by match criteria. |
 
 #### Fields
 
@@ -1180,14 +1334,20 @@ Create an instance: `Entity* device_type = bluefindecryptxp2pe_device_type(clien
 
 ```c
 Entity* device_type = bluefindecryptxp2pe_device_type(client, NULL);
-voxgig_value* device_type_rec = device_type->vt->load(device_type, cmap(1, "id", v_str("device_type_id")), NULL, &err);
+Entity* loaded = device_type->vt->load(device_type, cmap(1, "id", v_str("device_type_id")), NULL, &err);
+if (loaded) {
+    printf("%s\n", voxgig_to_json(loaded->vt->data(loaded, NULL)));
+}
 ```
 
 #### Example: List
 
 ```c
 Entity* device_type = bluefindecryptxp2pe_device_type(client, NULL);
-voxgig_value* device_types = device_type->vt->list(device_type, NULL, NULL, &err);
+Entity** device_types = device_type->vt->list(device_type, NULL, NULL, &err);
+for (size_t i = 0; device_types && device_types[i]; i++) {
+    printf("%s\n", voxgig_to_json(device_types[i]->vt->data(device_types[i], NULL)));
+}
 ```
 
 
@@ -1199,8 +1359,8 @@ Create an instance: `Entity* inject_key = bluefindecryptxp2pe_inject_key(client,
 
 | Method | Description |
 | --- | --- |
-| `vt->list(e, reqmatch, ctrl, &err)` | List entities, optionally matching the given criteria. |
-| `vt->load(e, reqmatch, ctrl, &err)` | Load a single entity by match criteria. |
+| `Entity** vt->list(e, reqmatch, ctrl, &err)` | List entities, optionally matching the given criteria: a `NULL`-terminated array, one per record. |
+| `Entity* vt->load(e, reqmatch, ctrl, &err)` | Load a single entity by match criteria. |
 
 #### Fields
 
@@ -1219,14 +1379,20 @@ Create an instance: `Entity* inject_key = bluefindecryptxp2pe_inject_key(client,
 
 ```c
 Entity* inject_key = bluefindecryptxp2pe_inject_key(client, NULL);
-voxgig_value* inject_key_rec = inject_key->vt->load(inject_key, cmap(1, "id", v_str("inject_key_id")), NULL, &err);
+Entity* loaded = inject_key->vt->load(inject_key, cmap(1, "id", v_str("inject_key_id")), NULL, &err);
+if (loaded) {
+    printf("%s\n", voxgig_to_json(loaded->vt->data(loaded, NULL)));
+}
 ```
 
 #### Example: List
 
 ```c
 Entity* inject_key = bluefindecryptxp2pe_inject_key(client, NULL);
-voxgig_value* inject_keys = inject_key->vt->list(inject_key, NULL, NULL, &err);
+Entity** inject_keys = inject_key->vt->list(inject_key, NULL, NULL, &err);
+for (size_t i = 0; inject_keys && inject_keys[i]; i++) {
+    printf("%s\n", voxgig_to_json(inject_keys[i]->vt->data(inject_keys[i], NULL)));
+}
 ```
 
 
@@ -1238,7 +1404,7 @@ Create an instance: `Entity* kif = bluefindecryptxp2pe_kif(client, NULL);`
 
 | Method | Description |
 | --- | --- |
-| `vt->list(e, reqmatch, ctrl, &err)` | List entities, optionally matching the given criteria. |
+| `Entity** vt->list(e, reqmatch, ctrl, &err)` | List entities, optionally matching the given criteria: a `NULL`-terminated array, one per record. |
 
 #### Fields
 
@@ -1251,7 +1417,10 @@ Create an instance: `Entity* kif = bluefindecryptxp2pe_kif(client, NULL);`
 
 ```c
 Entity* kif = bluefindecryptxp2pe_kif(client, NULL);
-voxgig_value* kifs = kif->vt->list(kif, NULL, NULL, &err);
+Entity** kifs = kif->vt->list(kif, NULL, NULL, &err);
+for (size_t i = 0; kifs && kifs[i]; i++) {
+    printf("%s\n", voxgig_to_json(kifs[i]->vt->data(kifs[i], NULL)));
+}
 ```
 
 
@@ -1263,10 +1432,10 @@ Create an instance: `Entity* location = bluefindecryptxp2pe_location(client, NUL
 
 | Method | Description |
 | --- | --- |
-| `vt->create(e, reqdata, ctrl, &err)` | Create a new entity with the given data. |
-| `vt->list(e, reqmatch, ctrl, &err)` | List entities, optionally matching the given criteria. |
-| `vt->load(e, reqmatch, ctrl, &err)` | Load a single entity by match criteria. |
-| `vt->remove(e, reqmatch, ctrl, &err)` | Remove the matching entity. |
+| `Entity* vt->create(e, reqdata, ctrl, &err)` | Create a new entity with the given data. |
+| `Entity** vt->list(e, reqmatch, ctrl, &err)` | List entities, optionally matching the given criteria: a `NULL`-terminated array, one per record. |
+| `Entity* vt->load(e, reqmatch, ctrl, &err)` | Load a single entity by match criteria. |
+| `Entity* vt->remove(e, reqmatch, ctrl, &err)` | Remove the matching entity, which is returned marked as deleted. |
 
 #### Fields
 
@@ -1276,6 +1445,7 @@ Create an instance: `Entity* location = bluefindecryptxp2pe_location(client, NUL
 | `address2` | `char*` | The Location's street address. |
 | `billingId` | `char*` | \? |
 | `city` | `char*` | The Location's city. |
+| `client` | `voxgig_value* (map)` | Reference to the associated Client resource. |
 | `country` | `char*` | The Location's country. |
 | `created` | `char*` | Creation timestamp in ISO 8601 format. |
 | `customReference` | `char*` | A Partner specified reference for a location. |
@@ -1300,21 +1470,27 @@ Create an instance: `Entity* location = bluefindecryptxp2pe_location(client, NUL
 
 ```c
 Entity* location = bluefindecryptxp2pe_location(client, NULL);
-voxgig_value* location_rec = location->vt->load(location, cmap(1, "id", v_str("location_id")), NULL, &err);
+Entity* loaded = location->vt->load(location, cmap(1, "id", v_str("location_id")), NULL, &err);
+if (loaded) {
+    printf("%s\n", voxgig_to_json(loaded->vt->data(loaded, NULL)));
+}
 ```
 
 #### Example: List
 
 ```c
 Entity* location = bluefindecryptxp2pe_location(client, NULL);
-voxgig_value* locations = location->vt->list(location, NULL, NULL, &err);
+Entity** locations = location->vt->list(location, cmap(1, "client", v_str("example")), NULL, &err);
+for (size_t i = 0; locations && locations[i]; i++) {
+    printf("%s\n", voxgig_to_json(locations[i]->vt->data(locations[i], NULL)));
+}
 ```
 
 #### Example: Create
 
 ```c
 Entity* location = bluefindecryptxp2pe_location(client, NULL);
-voxgig_value* location_rec = location->vt->create(location, NULL, NULL, &err);
+Entity* created = location->vt->create(location, NULL, NULL, &err);
 ```
 
 
@@ -1326,9 +1502,9 @@ Create an instance: `Entity* partner = bluefindecryptxp2pe_partner(client, NULL)
 
 | Method | Description |
 | --- | --- |
-| `vt->create(e, reqdata, ctrl, &err)` | Create a new entity with the given data. |
-| `vt->list(e, reqmatch, ctrl, &err)` | List entities, optionally matching the given criteria. |
-| `vt->load(e, reqmatch, ctrl, &err)` | Load a single entity by match criteria. |
+| `Entity* vt->create(e, reqdata, ctrl, &err)` | Create a new entity with the given data. |
+| `Entity** vt->list(e, reqmatch, ctrl, &err)` | List entities, optionally matching the given criteria: a `NULL`-terminated array, one per record. |
+| `Entity* vt->load(e, reqmatch, ctrl, &err)` | Load a single entity by match criteria. |
 
 #### Fields
 
@@ -1353,21 +1529,27 @@ Create an instance: `Entity* partner = bluefindecryptxp2pe_partner(client, NULL)
 
 ```c
 Entity* partner = bluefindecryptxp2pe_partner(client, NULL);
-voxgig_value* partner_rec = partner->vt->load(partner, cmap(1, "id", v_str("partner_id")), NULL, &err);
+Entity* loaded = partner->vt->load(partner, cmap(1, "id", v_str("partner_id")), NULL, &err);
+if (loaded) {
+    printf("%s\n", voxgig_to_json(loaded->vt->data(loaded, NULL)));
+}
 ```
 
 #### Example: List
 
 ```c
 Entity* partner = bluefindecryptxp2pe_partner(client, NULL);
-voxgig_value* partners = partner->vt->list(partner, NULL, NULL, &err);
+Entity** partners = partner->vt->list(partner, NULL, NULL, &err);
+for (size_t i = 0; partners && partners[i]; i++) {
+    printf("%s\n", voxgig_to_json(partners[i]->vt->data(partners[i], NULL)));
+}
 ```
 
 #### Example: Create
 
 ```c
 Entity* partner = bluefindecryptxp2pe_partner(client, NULL);
-voxgig_value* partner_rec = partner->vt->create(partner, cmap(1,
+Entity* created = partner->vt->create(partner, cmap(1,
     "location", v_map())  // voxgig_value* (map)
 , NULL, &err);
 ```
@@ -1381,9 +1563,9 @@ Create an instance: `Entity* shipment = bluefindecryptxp2pe_shipment(client, NUL
 
 | Method | Description |
 | --- | --- |
-| `vt->create(e, reqdata, ctrl, &err)` | Create a new entity with the given data. |
-| `vt->list(e, reqmatch, ctrl, &err)` | List entities, optionally matching the given criteria. |
-| `vt->load(e, reqmatch, ctrl, &err)` | Load a single entity by match criteria. |
+| `Entity* vt->create(e, reqdata, ctrl, &err)` | Create a new entity with the given data. |
+| `Entity** vt->list(e, reqmatch, ctrl, &err)` | List entities, optionally matching the given criteria: a `NULL`-terminated array, one per record. |
+| `Entity* vt->load(e, reqmatch, ctrl, &err)` | Load a single entity by match criteria. |
 
 #### Fields
 
@@ -1398,6 +1580,7 @@ Create an instance: `Entity* shipment = bluefindecryptxp2pe_shipment(client, NUL
 | `id` | `char*` | This resource's unique identifier. |
 | `items` | `voxgig_value* (list)` |  |
 | `kif` | `voxgig_value* (map)` | Reference to the associated KIF resource. |
+| `location` | `voxgig_value* (map)` | Reference to the associated Location resource. |
 | `modified` | `char*` | Last modified timestamp. |
 | `partner` | `voxgig_value* (map)` | Reference to the associated Partner. |
 | `shipmentType` | `char*` | The type of shipment. |
@@ -1408,21 +1591,29 @@ Create an instance: `Entity* shipment = bluefindecryptxp2pe_shipment(client, NUL
 
 ```c
 Entity* shipment = bluefindecryptxp2pe_shipment(client, NULL);
-voxgig_value* shipment_rec = shipment->vt->load(shipment, cmap(1, "id", v_str("shipment_id")), NULL, &err);
+Entity* loaded = shipment->vt->load(shipment, cmap(1, "id", v_str("shipment_id")), NULL, &err);
+if (loaded) {
+    printf("%s\n", voxgig_to_json(loaded->vt->data(loaded, NULL)));
+}
 ```
 
 #### Example: List
 
 ```c
 Entity* shipment = bluefindecryptxp2pe_shipment(client, NULL);
-voxgig_value* shipments = shipment->vt->list(shipment, NULL, NULL, &err);
+Entity** shipments = shipment->vt->list(shipment, cmap(1, "kif", v_str("example")), NULL, &err);
+for (size_t i = 0; shipments && shipments[i]; i++) {
+    printf("%s\n", voxgig_to_json(shipments[i]->vt->data(shipments[i], NULL)));
+}
 ```
 
 #### Example: Create
 
 ```c
 Entity* shipment = bluefindecryptxp2pe_shipment(client, NULL);
-voxgig_value* shipment_rec = shipment->vt->create(shipment, NULL, NULL, &err);
+Entity* created = shipment->vt->create(shipment, cmap(1,
+    "location", v_map())  // voxgig_value* (map)
+, NULL, &err);
 ```
 
 
@@ -1434,21 +1625,25 @@ Create an instance: `Entity* success = bluefindecryptxp2pe_success(client, NULL)
 
 | Method | Description |
 | --- | --- |
-| `vt->create(e, reqdata, ctrl, &err)` | Create a new entity with the given data. |
-| `vt->remove(e, reqmatch, ctrl, &err)` | Remove the matching entity. |
+| `Entity* vt->create(e, reqdata, ctrl, &err)` | Create a new entity with the given data. |
+| `Entity* vt->remove(e, reqmatch, ctrl, &err)` | Remove the matching entity, which is returned marked as deleted. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `devices` | `voxgig_value* (list)` | An array of Device ids to share with partner. |
+| `sharePartnerFrom` | `voxgig_value* (map)` | Reference to the associated Partner. |
 | `success` | `bool` | Indicates if the action was a success. |
 
 #### Example: Create
 
 ```c
 Entity* success = bluefindecryptxp2pe_success(client, NULL);
-voxgig_value* success_rec = success->vt->create(success, cmap(1,
-    "share_partner_to", v_str("example_share_partner_to"))  // char*
+Entity* created = success->vt->create(success, cmap(3,
+    "share_partner_to", v_str("example_share_partner_to"),  // char*
+    "devices", v_list(),  // voxgig_value* (list)
+    "sharePartnerFrom", v_map())  // voxgig_value* (map)
 , NULL, &err);
 ```
 
@@ -1461,9 +1656,9 @@ Create an instance: `Entity* transaction = bluefindecryptxp2pe_transaction(clien
 
 | Method | Description |
 | --- | --- |
-| `vt->create(e, reqdata, ctrl, &err)` | Create a new entity with the given data. |
-| `vt->list(e, reqmatch, ctrl, &err)` | List entities, optionally matching the given criteria. |
-| `vt->load(e, reqmatch, ctrl, &err)` | Load a single entity by match criteria. |
+| `Entity* vt->create(e, reqdata, ctrl, &err)` | Create a new entity with the given data. |
+| `Entity** vt->list(e, reqmatch, ctrl, &err)` | List entities, optionally matching the given criteria: a `NULL`-terminated array, one per record. |
+| `Entity* vt->load(e, reqmatch, ctrl, &err)` | Load a single entity by match criteria. |
 
 #### Fields
 
@@ -1474,6 +1669,7 @@ Create an instance: `Entity* transaction = bluefindecryptxp2pe_transaction(clien
 | `clientRef` | `char*` | Client Reference property that is included in the decrypt API call. |
 | `created` | `char*` | Creation timestamp in ISO 8601 format. |
 | `decrypted` | `int64_t` | A Transcation can process muliple decryptions. |
+| `device` | `voxgig_value* (map)` | Reference to the associated Device resource. |
 | `deviceName` | `char*` | The name of the Device that generated the payload to decrypt. |
 | `directPartner` | `voxgig_value* (map)` | Reference to the associated Partner. |
 | `encrypted` | `int64_t` | A Transcation can process muliple encryptions. |
@@ -1498,21 +1694,28 @@ Create an instance: `Entity* transaction = bluefindecryptxp2pe_transaction(clien
 
 ```c
 Entity* transaction = bluefindecryptxp2pe_transaction(client, NULL);
-voxgig_value* transaction_rec = transaction->vt->load(transaction, cmap(1, "id", v_str("transaction_id")), NULL, &err);
+Entity* loaded = transaction->vt->load(transaction, cmap(1, "id", v_str("transaction_id")), NULL, &err);
+if (loaded) {
+    printf("%s\n", voxgig_to_json(loaded->vt->data(loaded, NULL)));
+}
 ```
 
 #### Example: List
 
 ```c
 Entity* transaction = bluefindecryptxp2pe_transaction(client, NULL);
-voxgig_value* transactions = transaction->vt->list(transaction, NULL, NULL, &err);
+Entity** transactions = transaction->vt->list(transaction, NULL, NULL, &err);
+for (size_t i = 0; transactions && transactions[i]; i++) {
+    printf("%s\n", voxgig_to_json(transactions[i]->vt->data(transactions[i], NULL)));
+}
 ```
 
 #### Example: Create
 
 ```c
 Entity* transaction = bluefindecryptxp2pe_transaction(client, NULL);
-voxgig_value* transaction_rec = transaction->vt->create(transaction, cmap(1,
+Entity* created = transaction->vt->create(transaction, cmap(2,
+    "device", v_map(),  // voxgig_value* (map)
     "location", v_map())  // voxgig_value* (map)
 , NULL, &err);
 ```
@@ -1526,39 +1729,103 @@ Create an instance: `Entity* update_result = bluefindecryptxp2pe_update_result(c
 
 | Method | Description |
 | --- | --- |
-| `vt->create(e, reqdata, ctrl, &err)` | Create a new entity with the given data. |
-| `vt->list(e, reqmatch, ctrl, &err)` | List entities, optionally matching the given criteria. |
-| `vt->update(e, reqdata, ctrl, &err)` | Update an existing entity. |
+| `Entity* vt->create(e, reqdata, ctrl, &err)` | Create a new entity with the given data. |
+| `Entity** vt->list(e, reqmatch, ctrl, &err)` | List entities, optionally matching the given criteria: a `NULL`-terminated array, one per record. |
+| `Entity* vt->update(e, reqdata, ctrl, &err)` | Update an existing entity. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `address1` | `char*` | The Location's street address. |
+| `address2` | `char*` | The Location's street address. |
+| `alternateKey` | `char*` | The alternative key is used when a Device outputs a different serial number from its firmware/software when compared to the serial number that is printed on the Device's casing or its packaging. |
+| `auditNextDate` | `char*` | Date and time that the Device is due its next PCI Audit. |
+| `billingId` | `char*` | \? |
+| `city` | `char*` | The Location's city. |
 | `client` | `voxgig_value* (map)` | Reference to the associated Client resource. |
+| `clientCanOrderEquipment` | `bool` | This property indicates if the Partner is allowed to order Equipment. |
+| `clientRef` | `char*` | Client Reference property that is included in the decrypt API call. |
+| `contact` | `voxgig_value* (map)` | Reference to the associated User resource. |
+| `country` | `voxgig_value* (map)` | Reference to the associated Country. |
+| `customReference` | `char*` | A Partner specified reference for a location. |
+| `dateShipped` | `char*` | The date and time that a package is shipped. |
+| `decrypted` | `int64_t` | A Transcation can process muliple decryptions. |
+| `device` | `voxgig_value* (map)` | Reference to the associated Device resource. |
+| `deviceBuild` | `voxgig_value* (map)` | Reference to the associated Device Build resource. |
+| `deviceType` | `voxgig_value* (map)` | Reference to the associated Device Type resource. |
+| `directPartner` | `voxgig_value* (map)` | Reference to the associated Partner. |
 | `email` | `char*` | The User's email address. |
+| `encrypted` | `int64_t` | A Transcation can process muliple encryptions. |
+| `endDate` | `char*` | Timestamp from the end of the transaction. |
+| `errCode` | `char*` | The error code that is sent in response to a failed decrypt API call. |
+| `errMessage` | `char*` | The error messge that is sent in response to a failed decrypt API call. |
 | `firstName` | `char*` | The User's name. |
 | `id` | `char*` | ID of newly created resource |
+| `injectKey` | `voxgig_value* (map)` | Reference to the associated Device resource. |
+| `ipAddress` | `char*` | The IP address of the http client that makes the decrypt API call. |
 | `isActive` | `bool` | This property indicates if the User account is active or disabled. |
+| `items` | `voxgig_value* (list)` |  |
+| `keyType` | `char*` | The type of cipher used during decrytion. |
 | `kif` | `voxgig_value* (map)` | Reference to the associated KIF resource. |
 | `lastName` | `char*` | The User's Surname. |
+| `location` | `voxgig_value* (map)` | Reference to the associated Location resource. |
+| `locationType` | `char*` | The Location's clasification. |
+| `mailAddress1` | `char*` | The Location's street address. |
+| `mailAddress2` | `char*` | The Location's street address. |
+| `mailCity` | `char*` | The Location's city. |
+| `mailCountry` | `char*` | The Location's street address. |
+| `mailPostalCode` | `char*` | The Location's postal code. |
+| `mailStateProvince` | `char*` | The Location's street state or province. |
+| `messageId` | `char*` | Message ID. |
+| `method` | `char*` | The decryption cypher/method. |
+| `mid` | `char*` | Some Partners will have an merchant ids on their own software offerings. |
+| `name` | `char*` | The Client's name. |
+| `nameOfBusiness` | `char*` | The name of the business at this location. |
+| `notes` | `char*` | Arbitary note that can be attached to a Device entry. |
+| `parent` | `voxgig_value* (map)` | Reference to the associated Partner. |
 | `partner` | `voxgig_value* (map)` | Reference to the associated Partner. |
+| `partnerId` | `char*` | The Partner's id. |
 | `phone` | `char*` | The User's phone number without dashes, spaces, or brackets. |
+| `postalCode` | `char*` | The Location's postal code. |
+| `reference` | `char*` | The Partner's reference string. |
+| `sendWelcomeEmail` | `bool` | If this property is set to '*true*' the newly created user will be sent a welcome email. |
+| `serialNumber` | `char*` | The Device's serial number. |
+| `startDate` | `char*` | Timestamp from the beginning of the transaction. |
+| `stateProvince` | `char*` | The Location's street state or province. |
+| `success` | `bool` | The success indicator. |
+| `tracking` | `char*` | The courier's tracking number. |
+| `uniqueId` | `char*` | Unique Identifier for the Location. |
 | `userName` | `char*` | The User's unique username. |
 | `userRole` | `voxgig_value* (map)` | Reference to the associated User Role. |
+| `verificationPhrase` | `char*` | The verification phrase is a message that the Partner creates. |
 | `version` | `int64_t` | The number of times that this resource has been updated. |
 
 #### Example: List
 
 ```c
 Entity* update_result = bluefindecryptxp2pe_update_result(client, NULL);
-voxgig_value* update_results = update_result->vt->list(update_result, NULL, NULL, &err);
+Entity** update_results = update_result->vt->list(update_result, NULL, NULL, &err);
+for (size_t i = 0; update_results && update_results[i]; i++) {
+    printf("%s\n", voxgig_to_json(update_results[i]->vt->data(update_results[i], NULL)));
+}
 ```
 
 #### Example: Create
 
 ```c
 Entity* update_result = bluefindecryptxp2pe_update_result(client, NULL);
-voxgig_value* update_result_rec = update_result->vt->create(update_result, NULL, NULL, &err);
+Entity* created = update_result->vt->create(update_result, cmap(9,
+    "contact", v_map(),  // voxgig_value* (map)
+    "email", v_str("example_email"),  // char*
+    "firstName", v_str("example_firstName"),  // char*
+    "isActive", v_bool(true),  // bool
+    "lastName", v_str("example_lastName"),  // char*
+    "location", v_map(),  // voxgig_value* (map)
+    "phone", v_str("example_phone"),  // char*
+    "userName", v_str("example_userName"),  // char*
+    "userRole", v_map())  // voxgig_value* (map)
+, NULL, &err);
 ```
 
 
@@ -1570,8 +1837,8 @@ Create an instance: `Entity* user = bluefindecryptxp2pe_user(client, NULL);`
 
 | Method | Description |
 | --- | --- |
-| `vt->load(e, reqmatch, ctrl, &err)` | Load a single entity by match criteria. |
-| `vt->remove(e, reqmatch, ctrl, &err)` | Remove the matching entity. |
+| `Entity* vt->load(e, reqmatch, ctrl, &err)` | Load a single entity by match criteria. |
+| `Entity* vt->remove(e, reqmatch, ctrl, &err)` | Remove the matching entity, which is returned marked as deleted. |
 
 #### Fields
 
@@ -1596,7 +1863,10 @@ Create an instance: `Entity* user = bluefindecryptxp2pe_user(client, NULL);`
 
 ```c
 Entity* user = bluefindecryptxp2pe_user(client, NULL);
-voxgig_value* user_rec = user->vt->load(user, cmap(1, "id", v_str("user_id")), NULL, &err);
+Entity* loaded = user->vt->load(user, cmap(1, "id", v_str("user_id")), NULL, &err);
+if (loaded) {
+    printf("%s\n", voxgig_to_json(loaded->vt->data(loaded, NULL)));
+}
 ```
 
 
@@ -1608,7 +1878,7 @@ Create an instance: `Entity* virtual_device = bluefindecryptxp2pe_virtual_device
 
 | Method | Description |
 | --- | --- |
-| `vt->load(e, reqmatch, ctrl, &err)` | Load a single entity by match criteria. |
+| `Entity* vt->load(e, reqmatch, ctrl, &err)` | Load a single entity by match criteria. |
 
 #### Fields
 
@@ -1622,7 +1892,10 @@ Create an instance: `Entity* virtual_device = bluefindecryptxp2pe_virtual_device
 
 ```c
 Entity* virtual_device = bluefindecryptxp2pe_virtual_device(client, NULL);
-voxgig_value* virtual_device_rec = virtual_device->vt->load(virtual_device, cmap(1, "id", v_str("virtual_device_id")), NULL, &err);
+Entity* loaded = virtual_device->vt->load(virtual_device, cmap(1, "id", v_str("virtual_device_id")), NULL, &err);
+if (loaded) {
+    printf("%s\n", voxgig_to_json(loaded->vt->data(loaded, NULL)));
+}
 ```
 
 ## Features

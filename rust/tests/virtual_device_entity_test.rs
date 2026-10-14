@@ -13,11 +13,34 @@ use bluefin_decryptx_p2pe_sdk::core::helpers::{getp, getpath, ja, jo, now_ms, se
 use bluefin_decryptx_p2pe_sdk::utility::voxgigstruct as vs;
 use bluefin_decryptx_p2pe_sdk::{test_sdk, Entity, BluefinDecryptxP2peEntity, BluefinDecryptxP2peSDK, Value};
 
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT: bool = true;
+
 #[test]
 fn virtual_device_entity_instance() {
     let testsdk = test_sdk(Value::Noval, Value::Noval);
     let ent = testsdk.virtual_device(Value::Noval);
     assert_eq!(ent.get_name(), "virtual_device");
+}
+
+#[test]
+fn virtual_device_entity_validate() {
+    if getp(&getp(&bluefin_decryptx_p2pe_sdk::make_config(), "feature"), "validate").is_noval() {
+        return;
+    }
+    let client = test_sdk(Value::Noval, jo(vec![(
+        "feature",
+        jo(vec![("validate", jo(vec![("active", Value::Bool(true))]))]),
+    )]));
+    let err = client
+        .virtual_device(Value::Noval)
+        .load(jo(vec![("id", Value::Num(1.0))]), Value::Noval)
+        .err()
+        .expect("an invalid request should fail");
+    assert_eq!(err.code, "validate_failed");
 }
 
 #[test]
@@ -38,10 +61,8 @@ fn virtual_device_entity_basic() {
             return;
         }
     }
-    // The basic flow consumes synthetic IDs from the fixture. In live mode
-    // without an *_ENTID env override, those IDs hit the live API and 4xx.
-    if setup.synthetic_only {
-        eprintln!("skip: live entity test uses synthetic IDs from fixture — set BLUEFIN_DECRYPTX_P2PE_TEST_VIRTUAL_DEVICE_ENTID JSON to run live");
+    if setup.live {
+        live_miss(LIVE_STRICT, "Live entity test blocked: the flow loads a virtual_device record it has no list to find");
         return;
     }
     let client = setup.client.clone();
@@ -113,9 +134,8 @@ fn virtual_device_basic_setup(extra: Value) -> EntityTestSetup {
     )
     .unwrap_or_else(|_| Value::empty_map());
 
-    // Detect ENTID env override before env_override consumes it. When live
-    // mode is on without a real override, the basic test runs against
-    // synthetic IDs from the fixture and 4xx's.
+    // Whether *_ENTID supplied the idmap, read before env_override consumes
+    // it: without it, the ids a live flow binds are the fixture's synthetic ones.
     let entid_env_raw = std::env::var("BLUEFIN_DECRYPTX_P2PE_TEST_VIRTUAL_DEVICE_ENTID").unwrap_or_default();
     let idmap_overridden =
         !entid_env_raw.trim().is_empty() && entid_env_raw.trim().starts_with('{');

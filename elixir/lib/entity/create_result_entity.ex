@@ -1,7 +1,7 @@
 # BluefinDecryptxP2pe SDK CreateResult entity
 #
 # Per-entity module. Generic construction/data/match operations delegate to
-# EntityBase; each active op (load/list/create/update/remove) builds a ctx
+# EntityBase; each active op (load/list/create/update/patch/remove) builds a ctx
 # and drives it through BluefinDecryptxP2pe.Pipeline.run_op.
 
 defmodule BluefinDecryptxP2pe.Entity.CreateResult do
@@ -30,9 +30,10 @@ defmodule BluefinDecryptxP2pe.Entity.CreateResult do
   
 
   
-  # Returns the created create_result entity map (BluefinDecryptxP2pe.Types.create_result/0)
-  # on success; pipeline errors surface as the error value built by
-  # Utility.make_error (shape is utility-configurable), hence term().
+  # Returns the created create_result entity, whose data_get/1 reads its record
+  # (BluefinDecryptxP2pe.Types.create_result/0), on success; pipeline errors surface as
+  # the error value built by Utility.make_error (shape is
+  # utility-configurable), hence term().
   @spec create(map(), BluefinDecryptxP2pe.Types.create_result_create_data() | nil, map() | nil) :: term()
   def create(ent, reqdata, ctrl \\ nil) do
     ctx =
@@ -61,6 +62,8 @@ defmodule BluefinDecryptxP2pe.Entity.CreateResult do
   end
 
 
+
+  
 
   
 

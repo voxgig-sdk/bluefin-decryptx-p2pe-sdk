@@ -38,12 +38,73 @@ describe('AttestationEntity', async () => {
   })
 
 
+  class FailHook extends BaseFeature {
+    constructor() {
+      super()
+      this.name = 'failhook'
+      this.version = '0.0.1'
+      this.active = true
+      this.unexpected = 0
+    }
+    init() { }
+    PreSpec() { throw new Error('attestation hook failed') }
+    PreUnexpected() { this.unexpected++ }
+  }
+
+  test('stream-error', async () => {
+    const offline = { net: { offline: true } }
+    await assert.rejects(async () => {
+      for await (const _item of BluefinDecryptxP2peSDK.test(offline).Attestation().stream('list')) { }
+    }, /offline/)
+
+    for await (const _item of BluefinDecryptxP2peSDK.test(offline).Attestation()
+      .stream('list', undefined, { ctrl: { throw: false } })) { }
+
+    if (null != config.feature?.rbac) {
+      const denied = BluefinDecryptxP2peSDK.test(undefined, { feature: { rbac: { active: true, deny: true } } })
+      await assert.rejects(async () => {
+        for await (const _item of denied.Attestation().stream('list')) { }
+      }, (err) => 'rbac_denied' === err.code)
+    }
+  })
+
+  test('stream-ctrl', async () => {
+    const explain = {}
+    const ctrl = { explain }
+    for await (const _item of BluefinDecryptxP2peSDK.test().Attestation().stream('list', undefined, { ctrl })) { }
+    assert.deepStrictEqual(Object.keys(ctrl), ['explain'])
+    assert(explain === ctrl.explain && 0 < Object.keys(explain).length)
+  })
+
+  test('unexpected', async () => {
+    const hook = new FailHook()
+    const client = new BluefinDecryptxP2peSDK({ feature: { test: { active: true } }, extend: [hook] })
+    await assert.rejects(client.Attestation().list(), /hook failed/)
+    assert(0 < hook.unexpected)
+
+    const fired = hook.unexpected
+    assert.strictEqual(await client.Attestation().list(undefined, { throw: false }), undefined)
+    assert(fired < hook.unexpected)
+  })
+
+  test('validate', async (t) => {
+    if (null == config.feature?.validate) {
+      t.skip('feature not present in this SDK: validate')
+      return
+    }
+    const client = BluefinDecryptxP2peSDK.test(undefined, { feature: { validate: { active: true } } })
+    await assert.rejects(client.Attestation().list({"client":1}),
+      (err) => 'validate_failed' === err.code)
+  })
+
+
+
   test('basic', async (t) => {
 
     
     const setup = basicSetup()
     if (setup.live) {
-      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"client":{"a":true,"h":"Client","n":"client","r":false,"sh":"Reference to the associated Client resource.","t":"`$OBJECT`","key$":"client","index$":0},"completeDate":{"a":true,"fo":"datetime","h":"Complete Date","n":"completeDate","r":false,"sh":"The date and time that the Attestation took place.","t":"`$STRING`","key$":"completeDate","index$":1},"created":{"a":true,"fo":"datetime","h":"Created","n":"created","r":false,"sh":"Creation timestamp in ISO 8601 format.","t":"`$STRING`","key$":"created","index$":2},"device":{"a":true,"h":"Device","n":"device","r":false,"sh":"Reference to the associated Device resource.","t":"`$OBJECT`","key$":"device","index$":3},"id":{"a":true,"h":"Id","n":"id","r":false,"sh":"This resource's unique identifier.","t":"`$STRING`","key$":"id","index$":4},"name":{"a":true,"h":"Name","n":"name","r":false,"sh":"Text describing the attestation.","t":"`$STRING`","key$":"name","index$":5},"notes":{"a":true,"h":"Notes","n":"notes","r":false,"sh":"Free form field that allows the Client associate notes with the Attestation.","t":"`$STRING`","key$":"notes","index$":6}},"id":{"field":"id","name":"id"},"name":"attestation","op":{"create":{"input":"data","name":"create","points":[{"a":true,"co":{"id":"POST /attestations","source":"openapi3","version":2},"g":{},"k":"http","m":"POST","o":"/attestations","q":{},"r":{},"s":[{"lit":"attestations"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"create"},"list":{"input":"data","name":"list","points":[{"a":true,"co":{"id":"GET /attestations","source":"openapi3","version":2},"g":{"query":[{"a":true,"k":"query","n":"client","or":"client","r":true,"t":"`$STRING`","index$":0},{"a":true,"ex":0,"k":"query","n":"skip","or":"skip","r":false,"t":"`$INTEGER`","index$":1},{"a":true,"ex":10,"k":"query","n":"take","or":"take","r":false,"t":"`$INTEGER`","index$":2}]},"k":"http","m":"GET","o":"/attestations","q":{"exist":["client","skip","take"]},"r":{},"s":[{"lit":"attestations"}],"t":{"req":"`reqdata`","res":"`body.data`"},"index$":0}],"key$":"list"},"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /attestations/{id}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"id","r":true,"t":"`$STRING`","index$":0}]},"k":"http","m":"GET","o":"/attestations/{id}","q":{"exist":["id"]},"r":{},"s":[{"lit":"attestations"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"load"}},"relations":{"ancestors":[]},"key$":"attestation","name__orig":"attestation","Name":"Attestation","name_":"attestation","name-":"attestation","NAME":"ATTESTATION","index$":0}, {"active":true,"entity":"attestation","key$":"BasicAttestationFlow","kind":"basic","name":"BasicAttestationFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"attestation_ref01"},"m":{},"o":"create","s":[],"v":[],"index$":0},{"a":true,"d":{},"i":{},"m":{},"o":"list","s":[],"v":[{"apply":"ItemExists","def":{"ref":"attestation_ref01"}}],"index$":1},{"a":true,"d":{},"i":{"ref":"attestation_ref01","srcdatavar":"attestation_ref01_data","suffix":"_dt0"},"m":{"id":"attestation01"},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-attestation_ref01"}}],"index$":2}]}, 'Attestation', {"POST /attestations":{"protocol":"http","requestBody":{"description":"Attestation to be created.","content":{"*/*":{"schema":{"required":["client","completeDate","devices","name"],"type":"object","properties":{"name":{"maxLength":255,"type":"string","description":"Text describing the attestation.","example":"2015 Attestation Atlanta Shop (Terminal 85000711)"},"completeDate":{"type":"string","description":"The date and time that the Attestation took place.","format":"datetime","example":"2017-02-08T20:14:45.000Z"},"client":{"type":"object","properties":{"id":{"description":"The referenced Client's ID.","example":"4684","type":"string"},"name":{"description":"The referenced Client's name.","example":"The Tired Window","type":"string"}},"description":"Reference to the associated Client resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.","x-ref":"#/components/schemas/ClientReference"},"devices":{"type":"array","items":{"required":["serialNumber"],"type":"object","properties":{"serialNumber":{"maxLength":255,"type":"string","description":"The serial number of Device undergoing Attestation.","example":"85000711"}},"x-ref":"#/components/schemas/AttestationDeviceCreate"}},"notes":{"type":"string","description":"Free form field that allows the Client associate notes with the Attestation.","example":"Terminal 85000711 meets all the attestation requirements."}},"x-ref":"#/components/schemas/AttestationCreate"}}},"required":true},"parameters":[]},"GET /attestations":{"protocol":"http","parameters":[{"name":"client","in":"query","description":"Filter the list by Client. The parameter value can be either a Client ID or Name.","required":true,"schema":{"type":"string"},"index$":0},{"name":"take","in":"query","description":"The number of entries to include in the list.","schema":{"type":"integer","format":"int32","default":10},"index$":1},{"name":"skip","in":"query","description":"The number of results to skip before listing entries.","schema":{"type":"integer","format":"int32","default":0},"index$":2}]},"GET /attestations/{id}":{"protocol":"http","parameters":[{"name":"id","in":"path","description":"The Attestation's unique identifier.","required":true,"schema":{"type":"string"},"index$":0}]}})
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"client":{"a":true,"h":"Client","n":"client","op":{"create":{"req":true,"type":"`$OBJECT`"}},"r":false,"sh":"Reference to the associated Client resource.","t":"`$OBJECT`","key$":"client","index$":0},"completeDate":{"a":true,"fo":"datetime","h":"Complete Date","n":"completeDate","op":{"create":{"req":true,"type":"`$STRING`"}},"r":false,"sh":"The date and time that the Attestation took place.","t":"`$STRING`","key$":"completeDate","index$":1},"created":{"a":true,"fo":"datetime","h":"Created","n":"created","r":false,"sh":"Creation timestamp in ISO 8601 format.","t":"`$STRING`","key$":"created","index$":2},"device":{"a":true,"h":"Device","n":"device","r":false,"sh":"Reference to the associated Device resource.","t":"`$OBJECT`","key$":"device","index$":3},"devices":{"a":true,"h":"Devices","n":"devices","r":true,"t":"`$ARRAY`","key$":"devices","index$":4},"id":{"a":true,"h":"Id","n":"id","r":false,"sh":"This resource's unique identifier.","t":"`$STRING`","key$":"id","index$":5},"name":{"a":true,"h":"Name","n":"name","op":{"create":{"req":true,"type":"`$STRING`"}},"r":false,"sh":"Text describing the attestation.","t":"`$STRING`","key$":"name","index$":6},"notes":{"a":true,"h":"Notes","n":"notes","r":false,"sh":"Free form field that allows the Client associate notes with the Attestation.","t":"`$STRING`","key$":"notes","index$":7}},"id":{"field":"id","name":"id"},"name":"attestation","op":{"create":{"input":"data","name":"create","points":[{"a":true,"bf":["client","completeDate","devices","name","notes"],"co":{"id":"POST /attestations","source":"openapi3","version":2},"g":{},"k":"http","m":"POST","o":"/attestations","q":{},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"attestations"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"create"},"list":{"input":"data","name":"list","points":[{"a":true,"co":{"id":"GET /attestations","source":"openapi3","version":2},"g":{"query":[{"a":true,"k":"query","n":"client","or":"client","r":true,"t":"`$STRING`","index$":0},{"a":true,"ex":0,"k":"query","n":"skip","or":"skip","r":false,"t":"`$INTEGER`","index$":1},{"a":true,"ex":10,"k":"query","n":"take","or":"take","r":false,"t":"`$INTEGER`","index$":2}]},"k":"http","m":"GET","o":"/attestations","q":{"exist":["client"]},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"attestations"}],"t":{"req":"`reqdata`","res":"`body.data`"},"index$":0}],"key$":"list"},"load":{"input":"data","name":"load","points":[{"a":true,"co":{"id":"GET /attestations/{id}","source":"openapi3","version":2},"g":{"params":[{"a":true,"k":"param","n":"id","or":"id","r":true,"t":"`$STRING`","index$":0}]},"k":"http","m":"GET","o":"/attestations/{id}","q":{"exist":["id"]},"r":{},"rs":{"kind":"json","media":"application/json"},"s":[{"lit":"attestations"},{"var":"id"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"load"}},"relations":{"ancestors":[]},"key$":"attestation","name__orig":"attestation","Name":"Attestation","name_":"attestation","name-":"attestation","NAME":"ATTESTATION","index$":0}, {"active":true,"entity":"attestation","key$":"BasicAttestationFlow","kind":"basic","name":"BasicAttestationFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"attestation_ref01"},"m":{},"o":"create","s":[],"v":[],"index$":0},{"a":true,"d":{},"i":{},"m":{},"o":"list","s":[],"v":[{"apply":"ItemExists","def":{"ref":"attestation_ref01"}}],"index$":1},{"a":true,"d":{},"i":{"ref":"attestation_ref01","srcdatavar":"attestation_ref01_data","suffix":"_dt0"},"m":{"id":"attestation01"},"o":"load","s":[],"v":[{"apply":"TextFieldMark","def":{"mark":"Mark01-attestation_ref01"}}],"index$":2}]}, 'Attestation', {"POST /attestations":{"protocol":"http","requestBody":{"description":"Attestation to be created.","content":{"*/*":{"schema":{"required":["client","completeDate","devices","name"],"type":"object","properties":{"name":{"maxLength":255,"type":"string","description":"Text describing the attestation.","example":"2015 Attestation Atlanta Shop (Terminal 85000711)","key$":"name"},"completeDate":{"type":"string","description":"The date and time that the Attestation took place.","format":"datetime","example":"2017-02-08T20:14:45.000Z","key$":"completeDate"},"client":{"type":"object","properties":{"id":{"type":"string","description":"The referenced Client's ID.","example":"4684"},"name":{"type":"string","description":"The referenced Client's name.","example":"The Tired Window"}},"description":"Reference to the associated Client resource. When used for POST and PATCH API calls, the reference can contain either the ID or Name. With GET API calls, both properties are populated.","x-ref":"#/components/schemas/ClientReference","key$":"client"},"devices":{"type":"array","items":{"required":["serialNumber"],"type":"object","properties":{"serialNumber":{"maxLength":255,"type":"string","description":"The serial number of Device undergoing Attestation.","example":"85000711"}},"x-ref":"#/components/schemas/AttestationDeviceCreate"},"key$":"devices"},"notes":{"type":"string","description":"Free form field that allows the Client associate notes with the Attestation.","example":"Terminal 85000711 meets all the attestation requirements.","key$":"notes"}},"x-ref":"#/components/schemas/AttestationCreate","index$":1}}},"required":true},"parameters":[]},"GET /attestations":{"protocol":"http","parameters":[{"name":"client","in":"query","description":"Filter the list by Client. The parameter value can be either a Client ID or Name.","required":true,"schema":{"type":"string"},"index$":0},{"name":"take","in":"query","description":"The number of entries to include in the list.","schema":{"type":"integer","format":"int32","default":10},"index$":1},{"name":"skip","in":"query","description":"The number of results to skip before listing entries.","schema":{"type":"integer","format":"int32","default":0},"index$":2}]},"GET /attestations/{id}":{"protocol":"http","parameters":[{"name":"id","in":"path","description":"The Attestation's unique identifier.","required":true,"schema":{"type":"string"},"index$":0}]}}, { strict: LIVE_STRICT, t })
     }
     const client = setup.client
     const struct = setup.struct
@@ -79,6 +140,12 @@ describe('AttestationEntity', async () => {
 })
 
 
+
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true
 
 function basicSetup(extra) {
   // TODO: fix test def options

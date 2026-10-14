@@ -20,13 +20,13 @@ public final class BluefinDecryptxP2peTypes {
 
   private BluefinDecryptxP2peTypes() {}
 
-  public record Attestation(Map<String, Object> client, String completeDate, String created, Map<String, Object> device, String id, String name, String notes) {}
+  public record Attestation(Map<String, Object> client, String completeDate, String created, Map<String, Object> device, List<Object> devices, String id, String name, String notes) {}
 
   public record AttestationLoadMatch(String id) {}
 
   public record AttestationListMatch(String client, Long skip, Long take) {}
 
-  public record AttestationCreateData(Map<String, Object> client, String completeDate, String created, Map<String, Object> device, String id, String name, String notes) {}
+  public record AttestationCreateData(Map<String, Object> client, String completeDate, String created, Map<String, Object> device, List<Object> devices, String id, String name, String notes) {}
 
   public record Client(Map<String, Object> contact, String created, Map<String, Object> directPartner, String id, Boolean isActive, Map<String, Object> location, String mid, String modified, String name, Map<String, Object> partner, Long version) {}
 
@@ -38,13 +38,13 @@ public final class BluefinDecryptxP2peTypes {
 
   public record ClientRemoveMatch(String id) {}
 
-  public record CreateResult() {}
+  public record CreateResult(String completeDate, Map<String, Object> custodian, Map<String, Object> location, String notes) {}
 
-  public record CreateResultCreateData(String device_type, String serial_number) {}
+  public record CreateResultCreateData(String device_type, String serial_number, String completeDate, Map<String, Object> custodian, Map<String, Object> location, String notes) {}
 
-  public record Decryption(Boolean success) {}
+  public record Decryption(String cbcVector, String deviceType, String encoding, List<Object> encrypted, String hasCcData, String reference, String sequenceNumber, String serialNumber, Boolean success) {}
 
-  public record DecryptionCreateData(Boolean success) {}
+  public record DecryptionCreateData(String cbcVector, String deviceType, String encoding, List<Object> encrypted, String hasCcData, String reference, String sequenceNumber, String serialNumber, Boolean success) {}
 
   public record Device(Map<String, Object> activatedBy, String activationDate, String alternateKey, String auditNextDate, String auditNotificationDate, Map<String, Object> client, String created, Map<String, Object> createdBy, Map<String, Object> deviceBuild, Map<String, Object> deviceState, Map<String, Object> deviceType, Long errorCounter, String errorLastDate, String id, Map<String, Object> initializedBy, String initializedDate, Map<String, Object> injectKey, Boolean isVirtual, Map<String, Object> kif, String lastActivityDate, Map<String, Object> location, String modified, Map<String, Object> modifiedBy, String name, String notes, Map<String, Object> partner, String serialNumber, Long version) {}
 
@@ -68,13 +68,13 @@ public final class BluefinDecryptxP2peTypes {
 
   public record DeviceCustodyListItemListMatch(String device_type, String serial_number, Long skip, Long take) {}
 
-  public record DeviceReceiveResult(Boolean success) {}
+  public record DeviceReceiveResult(String serialNumber, Boolean success, String tamperLabel) {}
 
-  public record DeviceReceiveResultCreateData(Boolean success) {}
+  public record DeviceReceiveResultCreateData(String serialNumber, Boolean success, String tamperLabel) {}
 
-  public record DeviceRkiActivateResult(Boolean success) {}
+  public record DeviceRkiActivateResult(String appVersion, String buildName, String buildNumber, String configFile, String firmwareVersion, String hardwareVersion, String serialNumber, Boolean success, String whiteListingBinRanges) {}
 
-  public record DeviceRkiActivateResultCreateData(Boolean success) {}
+  public record DeviceRkiActivateResultCreateData(String appVersion, String buildName, String buildNumber, String configFile, String firmwareVersion, String hardwareVersion, String serialNumber, Boolean success, String whiteListingBinRanges) {}
 
   public record DeviceState(Long id, String name) {}
 
@@ -96,13 +96,13 @@ public final class BluefinDecryptxP2peTypes {
 
   public record KifListMatch(Long id, String name) {}
 
-  public record Location(String address1, String address2, String billingId, String city, String country, String created, String customReference, String id, String locationType, String mailAddress1, String mailAddress2, String mailCity, String mailCountry, String mailPostalCode, String mailStateProvince, String modified, String name, String nameOfBusiness, String notes, String postalCode, String stateProvince, String uniqueId, Long version) {}
+  public record Location(String address1, String address2, String billingId, String city, Map<String, Object> client, String country, String created, String customReference, String id, String locationType, String mailAddress1, String mailAddress2, String mailCity, String mailCountry, String mailPostalCode, String mailStateProvince, String modified, String name, String nameOfBusiness, String notes, String postalCode, String stateProvince, String uniqueId, Long version) {}
 
   public record LocationLoadMatch(String id) {}
 
   public record LocationListMatch(String client, Long skip, Long take) {}
 
-  public record LocationCreateData(String address1, String address2, String billingId, String city, String country, String created, String customReference, String id, String locationType, String mailAddress1, String mailAddress2, String mailCity, String mailCountry, String mailPostalCode, String mailStateProvince, String modified, String name, String nameOfBusiness, String notes, String postalCode, String stateProvince, String uniqueId, Long version) {}
+  public record LocationCreateData(String address1, String address2, String billingId, String city, Map<String, Object> client, String country, String created, String customReference, String id, String locationType, String mailAddress1, String mailAddress2, String mailCity, String mailCountry, String mailPostalCode, String mailStateProvince, String modified, String name, String nameOfBusiness, String notes, String postalCode, String stateProvince, String uniqueId, Long version) {}
 
   public record LocationRemoveMatch(String id) {}
 
@@ -114,35 +114,35 @@ public final class BluefinDecryptxP2peTypes {
 
   public record PartnerCreateData(String billingId, Boolean clientCanOrderEquipment, Map<String, Object> contact, String created, String id, Boolean isActive, Map<String, Object> location, String modified, String name, Map<String, Object> parent, String partnerId, String reference, String verificationPhrase, Long version) {}
 
-  public record Shipment(String carrier, Map<String, Object> client, String created, String dateReceived, String dateShipped, Map<String, Object> dcKif, String id, List<Object> items, Map<String, Object> kif, String modified, Map<String, Object> partner, String shipmentType, String tracking, Long version) {}
+  public record Shipment(String carrier, Map<String, Object> client, String created, String dateReceived, String dateShipped, Map<String, Object> dcKif, String id, List<Object> items, Map<String, Object> kif, Map<String, Object> location, String modified, Map<String, Object> partner, String shipmentType, String tracking, Long version) {}
 
   public record ShipmentLoadMatch(String id) {}
 
   public record ShipmentListMatch(String kif, String mode, Long skip, Long take) {}
 
-  public record ShipmentCreateData(String carrier, Map<String, Object> client, String created, String dateReceived, String dateShipped, Map<String, Object> dcKif, String id, List<Object> items, Map<String, Object> kif, String modified, Map<String, Object> partner, String shipmentType, String tracking, Long version) {}
+  public record ShipmentCreateData(String carrier, Map<String, Object> client, String created, String dateReceived, String dateShipped, Map<String, Object> dcKif, String id, List<Object> items, Map<String, Object> kif, Map<String, Object> location, String modified, Map<String, Object> partner, String shipmentType, String tracking, Long version) {}
 
-  public record Success(Boolean success) {}
+  public record Success(List<Object> devices, Map<String, Object> sharePartnerFrom, Boolean success) {}
 
-  public record SuccessCreateData(String share_partner_to, Boolean success) {}
+  public record SuccessCreateData(String share_partner_to, List<Object> devices, Map<String, Object> sharePartnerFrom, Boolean success) {}
 
   public record SuccessRemoveMatch(String share_partner_to) {}
 
-  public record Transaction(String alternateKey, Map<String, Object> client, String clientRef, String created, Long decrypted, String deviceName, Map<String, Object> directPartner, Long encrypted, String endDate, String errCode, String errMessage, String id, String ipAddress, Boolean isVirtual, String keyType, Map<String, Object> location, String messageId, String method, Map<String, Object> partner, String reference, String serialNumber, String startDate, Boolean success, String transactionSource) {}
+  public record Transaction(String alternateKey, Map<String, Object> client, String clientRef, String created, Long decrypted, Map<String, Object> device, String deviceName, Map<String, Object> directPartner, Long encrypted, String endDate, String errCode, String errMessage, String id, String ipAddress, Boolean isVirtual, String keyType, Map<String, Object> location, String messageId, String method, Map<String, Object> partner, String reference, String serialNumber, String startDate, Boolean success, String transactionSource) {}
 
   public record TransactionLoadMatch(String id) {}
 
   public record TransactionListMatch(String client, String client_ref, String date_from, String date_to, String location, String message_id, String paging_mode, String partner, String reference, String serial_number, Long skip, Boolean success, Long take) {}
 
-  public record TransactionCreateData(String alternateKey, Map<String, Object> client, String clientRef, String created, Long decrypted, String deviceName, Map<String, Object> directPartner, Long encrypted, String endDate, String errCode, String errMessage, String id, String ipAddress, Boolean isVirtual, String keyType, Map<String, Object> location, String messageId, String method, Map<String, Object> partner, String reference, String serialNumber, String startDate, Boolean success, String transactionSource) {}
+  public record TransactionCreateData(String alternateKey, Map<String, Object> client, String clientRef, String created, Long decrypted, Map<String, Object> device, String deviceName, Map<String, Object> directPartner, Long encrypted, String endDate, String errCode, String errMessage, String id, String ipAddress, Boolean isVirtual, String keyType, Map<String, Object> location, String messageId, String method, Map<String, Object> partner, String reference, String serialNumber, String startDate, Boolean success, String transactionSource) {}
 
-  public record UpdateResult(Map<String, Object> client, String email, String firstName, String id, Boolean isActive, Map<String, Object> kif, String lastName, Map<String, Object> partner, String phone, String userName, Map<String, Object> userRole, Long version) {}
+  public record UpdateResult(String address1, String address2, String alternateKey, String auditNextDate, String billingId, String city, Map<String, Object> client, Boolean clientCanOrderEquipment, String clientRef, Map<String, Object> contact, Map<String, Object> country, String customReference, String dateShipped, Long decrypted, Map<String, Object> device, Map<String, Object> deviceBuild, Map<String, Object> deviceType, Map<String, Object> directPartner, String email, Long encrypted, String endDate, String errCode, String errMessage, String firstName, String id, Map<String, Object> injectKey, String ipAddress, Boolean isActive, List<Object> items, String keyType, Map<String, Object> kif, String lastName, Map<String, Object> location, String locationType, String mailAddress1, String mailAddress2, String mailCity, String mailCountry, String mailPostalCode, String mailStateProvince, String messageId, String method, String mid, String name, String nameOfBusiness, String notes, Map<String, Object> parent, Map<String, Object> partner, String partnerId, String phone, String postalCode, String reference, Boolean sendWelcomeEmail, String serialNumber, String startDate, String stateProvince, Boolean success, String tracking, String uniqueId, String userName, Map<String, Object> userRole, String verificationPhrase, Long version) {}
 
   public record UpdateResultListMatch(String client, String kif, Object partner, Long skip, Long take) {}
 
-  public record UpdateResultCreateData(Map<String, Object> client, String email, String firstName, String id, Boolean isActive, Map<String, Object> kif, String lastName, Map<String, Object> partner, String phone, String userName, Map<String, Object> userRole, Long version) {}
+  public record UpdateResultCreateData(String address1, String address2, String alternateKey, String auditNextDate, String billingId, String city, Map<String, Object> client, Boolean clientCanOrderEquipment, String clientRef, Map<String, Object> contact, Map<String, Object> country, String customReference, String dateShipped, Long decrypted, Map<String, Object> device, Map<String, Object> deviceBuild, Map<String, Object> deviceType, Map<String, Object> directPartner, String email, Long encrypted, String endDate, String errCode, String errMessage, String firstName, String id, Map<String, Object> injectKey, String ipAddress, Boolean isActive, List<Object> items, String keyType, Map<String, Object> kif, String lastName, Map<String, Object> location, String locationType, String mailAddress1, String mailAddress2, String mailCity, String mailCountry, String mailPostalCode, String mailStateProvince, String messageId, String method, String mid, String name, String nameOfBusiness, String notes, Map<String, Object> parent, Map<String, Object> partner, String partnerId, String phone, String postalCode, String reference, Boolean sendWelcomeEmail, String serialNumber, String startDate, String stateProvince, Boolean success, String tracking, String uniqueId, String userName, Map<String, Object> userRole, String verificationPhrase, Long version) {}
 
-  public record UpdateResultUpdateData(String id, Map<String, Object> client, String email, String firstName, Boolean isActive, Map<String, Object> kif, String lastName, Map<String, Object> partner, String phone, String userName, Map<String, Object> userRole, Long version) {}
+  public record UpdateResultUpdateData(String id, String address1, String address2, String alternateKey, String auditNextDate, String billingId, String city, Map<String, Object> client, Boolean clientCanOrderEquipment, String clientRef, Map<String, Object> contact, Map<String, Object> country, String customReference, String dateShipped, Long decrypted, Map<String, Object> device, Map<String, Object> deviceBuild, Map<String, Object> deviceType, Map<String, Object> directPartner, String email, Long encrypted, String endDate, String errCode, String errMessage, String firstName, Map<String, Object> injectKey, String ipAddress, Boolean isActive, List<Object> items, String keyType, Map<String, Object> kif, String lastName, Map<String, Object> location, String locationType, String mailAddress1, String mailAddress2, String mailCity, String mailCountry, String mailPostalCode, String mailStateProvince, String messageId, String method, String mid, String name, String nameOfBusiness, String notes, Map<String, Object> parent, Map<String, Object> partner, String partnerId, String phone, String postalCode, String reference, Boolean sendWelcomeEmail, String serialNumber, String startDate, String stateProvince, Boolean success, String tracking, String uniqueId, String userName, Map<String, Object> userRole, String verificationPhrase, Long version) {}
 
   public record User(Map<String, Object> client, String created, String email, String firstName, String id, Boolean isActive, Map<String, Object> kif, String lastName, String modified, Map<String, Object> partner, String phone, String userName, Map<String, Object> userRole, Long version) {}
 

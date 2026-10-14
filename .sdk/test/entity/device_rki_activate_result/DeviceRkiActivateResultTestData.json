@@ -2,15 +2,39 @@
   "existing": {
     "device_rki_activate_result": {
       "DEVICE_RKI_ACTIVATE_RESULT00": {
-        "success": true,
+        "appVersion": "s5a",
+        "buildName": "s5b",
+        "buildNumber": "s5c",
+        "configFile": "s5d",
+        "firmwareVersion": "s5e",
+        "hardwareVersion": "s5f",
+        "serialNumber": "s60",
+        "success": false,
+        "whiteListingBinRanges": "s62",
         "id": "DEVICE_RKI_ACTIVATE_RESULT00"
       },
       "DEVICE_RKI_ACTIVATE_RESULT01": {
-        "success": true,
+        "appVersion": "sb4",
+        "buildName": "sb5",
+        "buildNumber": "sb6",
+        "configFile": "sb7",
+        "firmwareVersion": "sb8",
+        "hardwareVersion": "sb9",
+        "serialNumber": "sba",
+        "success": false,
+        "whiteListingBinRanges": "sbc",
         "id": "DEVICE_RKI_ACTIVATE_RESULT01"
       },
       "DEVICE_RKI_ACTIVATE_RESULT02": {
-        "success": true,
+        "appVersion": "s10e",
+        "buildName": "s10f",
+        "buildNumber": "s110",
+        "configFile": "s111",
+        "firmwareVersion": "s112",
+        "hardwareVersion": "s113",
+        "serialNumber": "s114",
+        "success": false,
+        "whiteListingBinRanges": "s116",
         "id": "DEVICE_RKI_ACTIVATE_RESULT02"
       }
     }
@@ -18,7 +42,15 @@
   "new": {
     "device_rki_activate_result": {
       "device_rki_activate_result_ref01": {
-        "success": true
+        "appVersion": "s168",
+        "buildName": "s169",
+        "buildNumber": "s16a",
+        "configFile": "s16b",
+        "firmwareVersion": "s16c",
+        "hardwareVersion": "s16d",
+        "serialNumber": "s16e",
+        "success": false,
+        "whiteListingBinRanges": "s170"
       }
     }
   },

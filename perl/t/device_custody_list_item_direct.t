@@ -11,6 +11,18 @@ use Cwd ();
 use BluefinDecryptxP2peSDK;
 require(Cwd::abs_path("$FindBin::Bin/runner.pm"));
 
+# main.kit.test.live.strict is true (the default is true): a live
+# request that fails, or a live test missing an input it needs,
+# fails the test.
+# An account with no record for a test to read skips it either way.
+use constant LIVE_STRICT => 1;
+
+sub live_ok {
+  my ($result) = @_;
+  my $status = BluefinDecryptxP2peHelpers::to_int($result->{status});
+  return !defined $result->{err} && $result->{ok} && $status >= 200 && $status < 300;
+}
+
 DIRECT_LIST: {
   my $setup = device_custody_list_item_direct_setup([
     { 'id' => 'direct01' },
@@ -24,29 +36,17 @@ DIRECT_LIST: {
     last DIRECT_LIST;
   }
   if ($setup->{live}) {
-    for my $_live_key ('device_type01', 'serial_number01') {
-      if (!defined $setup->{idmap}{$_live_key}) {
-        note("live test needs $_live_key via *_ENTID env var (synthetic IDs only)");
-        pass('direct-list-device_custody_list_item: skipped');
-        last DIRECT_LIST;
-      }
+    my @missing = grep { !defined $setup->{idmap}{$_} } ('device_type01', 'serial_number01');
+    if (@missing) {
+      BluefinDecryptxP2peTestRunner::live_miss(LIVE_STRICT, 'direct-list-device_custody_list_item', 'Live test blocked: needs ' . join(', ', @missing) . ' via BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_CUSTODY_LIST_ITEM_ENTID');
+      last DIRECT_LIST;
     }
   }
   my $client = $setup->{client};
 
   my $params = {};
-  if ($setup->{live}) {
-    $params->{'device_type'} = $setup->{idmap}{'device_type01'};
-  }
-  else {
-    $params->{'device_type'} = 'direct01';
-  }
-  if ($setup->{live}) {
-    $params->{'serial_number'} = $setup->{idmap}{'serial_number01'};
-  }
-  else {
-    $params->{'serial_number'} = 'direct01';
-  }
+  $params->{'device_type'} = $setup->{live} ? $setup->{idmap}{'device_type01'} : 'direct01';
+  $params->{'serial_number'} = $setup->{live} ? $setup->{idmap}{'serial_number01'} : 'direct02';
 
   my $result = $client->direct({
     'path' => 'devices/{serial_number}/{device_type}/custody',
@@ -54,23 +54,12 @@ DIRECT_LIST: {
     'params' => $params,
   });
   if ($setup->{live}) {
-    # Live mode is lenient: synthetic IDs frequently 4xx and the list-
-    # response shape varies wildly across public APIs. Skip rather than
-    # fail when the call doesn't return a usable list.
-    if (defined $result->{err}) {
-      note("list call failed (likely synthetic IDs against live API): $result->{err}");
-      pass('direct-list-device_custody_list_item: skipped (live)');
+    if (!live_ok($result)) {
+      BluefinDecryptxP2peTestRunner::live_miss(LIVE_STRICT, 'direct-list-device_custody_list_item', 'Live list failed: ' . BluefinDecryptxP2peTestRunner::live_describe($result));
       last DIRECT_LIST;
     }
-    unless ($result->{ok}) {
-      note('list call not ok (likely synthetic IDs against live API)');
-      pass('direct-list-device_custody_list_item: skipped (live)');
-      last DIRECT_LIST;
-    }
-    my $status = BluefinDecryptxP2peHelpers::to_int($result->{status});
-    if ($status < 200 || $status >= 300) {
-      note("expected 2xx status, got $status");
-      pass('direct-list-device_custody_list_item: skipped (live)');
+    if (!defined BluefinDecryptxP2peTestRunner::live_list($result->{data})) {
+      BluefinDecryptxP2peTestRunner::live_miss(LIVE_STRICT, 'direct-list-device_custody_list_item', 'Live list returned no list: ' . BluefinDecryptxP2peTestRunner::live_describe($result));
       last DIRECT_LIST;
     }
     pass('direct-list-device_custody_list_item: live ok');
@@ -108,11 +97,12 @@ sub device_custody_list_item_direct_setup {
       %{ BluefinDecryptxP2peTestRunner::live_client_options() },
       'apikey' => $env->{'BLUEFIN_DECRYPTX_P2PE_APIKEY'},
     });
+    my $idmap = $env->{'BLUEFIN_DECRYPTX_P2PE_TEST_DEVICE_CUSTODY_LIST_ITEM_ENTID'};
     return {
       'client' => $client,
       'calls' => $calls,
       'live' => 1,
-      'idmap' => {},
+      'idmap' => ref $idmap eq 'HASH' ? $idmap : {},
     };
   }
 
