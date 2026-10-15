@@ -404,6 +404,10 @@ create_resultBasicTest c = do
     sdk <- C.testSdk opts VNoval
     ent <- C.create_result sdk VNoval
     d <- newRefData fixture "create_result"
+    entmap <- getp existing "create_result"
+    rec0 <- keysof entmap >>= \ids -> case ids of { (i : _) -> getp entmap i; [] -> emptyMap }
+    setp d "device_type" =<< getp rec0 "device_type"
+    setp d "serial_number" =<< getp rec0 "serial_number"
     ctrl <- emptyMap
     created <- eCreate ent d ctrl
     cd <- eDataGet created
@@ -1751,6 +1755,9 @@ successBasicTest c = do
     sdk <- C.testSdk opts VNoval
     ent <- C.success sdk VNoval
     d <- newRefData fixture "success"
+    entmap <- getp existing "success"
+    rec0 <- keysof entmap >>= \ids -> case ids of { (i : _) -> getp entmap i; [] -> emptyMap }
+    setp d "share_partner_to" =<< getp rec0 "share_partner_to"
     ctrl <- emptyMap
     created <- eCreate ent d ctrl
     cd <- eDataGet created
@@ -1765,6 +1772,9 @@ successBasicTest c = do
     sdk <- C.testSdk opts VNoval
     ent <- C.success sdk VNoval
     d <- newRefData fixture "success"
+    entmap <- getp existing "success"
+    rec0 <- keysof entmap >>= \ids -> case ids of { (i : _) -> getp entmap i; [] -> emptyMap }
+    setp d "share_partner_to" =<< getp rec0 "share_partner_to"
     ctrl <- emptyMap
     created <- eCreate ent d ctrl
     cd <- eDataGet created

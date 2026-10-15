@@ -445,7 +445,8 @@ def main : IO UInt32 := do
           if gid == wid then pass s!"client.load offline (id={wid})"
           else fail s!"client.load offline: got {gid}, want {wid}"
         -- create -> load back -> remove, all in the store
-        let created ← Client.create tclient (← newRefData seed "client") (← emptyMap)
+        let cd ← newRefData seed "client"
+        let created ← Client.create tclient cd (← emptyMap)
         let cid ← SdkRuntime.gpS created "id"
         if cid == "" then fail "client.create offline returned no id" else do
           let m2 ← newMap #[("id", Value.str cid)]
@@ -664,7 +665,8 @@ def main : IO UInt32 := do
           if gid == wid then pass s!"location.load offline (id={wid})"
           else fail s!"location.load offline: got {gid}, want {wid}"
         -- create -> load back -> remove, all in the store
-        let created ← Location.create tclient (← newRefData seed "location") (← emptyMap)
+        let cd ← newRefData seed "location"
+        let created ← Location.create tclient cd (← emptyMap)
         let cid ← SdkRuntime.gpS created "id"
         if cid == "" then fail "location.create offline returned no id" else do
           let m2 ← newMap #[("id", Value.str cid)]
